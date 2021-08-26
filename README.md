@@ -20,6 +20,7 @@ Enabling users to:
 - Manage and monitor their positions on the Aave Safety module.
 - Participate on the Aave Governance.
 
+##[The latest deployment](https://cloudflare-ipfs.com/ipfs/QmahzorVP5U52HxB528KFeiEcLrNtuogSEyXtFo3nDMHef)
 
 ## Contribution
 For instructions on local deployment and configurations, see [Contributing](./CONTRIBUTING.md)

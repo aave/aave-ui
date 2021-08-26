@@ -21,7 +21,7 @@ REACT_APP_DEFAULT_ETHEREUM_NETWORK - network selected in the app on the first en
 
 REACT_APP_SUPPORTED_ETHEREUM_NETWORKS - list of supported ethereum networks, comma separated
 
-REACT_APP_ENABLE_CACHING_BACKEND - enable [aave-caching-server](https://) support, default value: false
+REACT_APP_ENABLE_CACHING_BACKEND - enable [aave-caching-server](https://github.com/aave/aave-ui-caching-server) support, default value: false
 REACT_APP_RATES_HISTORY_ENDPOINT - enable rates history endpoint support, optional
 
 REACT_APP_PERMISSIONS_API - enable a permissions api with any type of validations on actions, optional
