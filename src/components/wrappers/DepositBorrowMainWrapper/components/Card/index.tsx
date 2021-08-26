@@ -1,0 +1,61 @@
+import React from 'react';
+import { useThemeContext, TokenIcon } from '@aave/aave-ui-kit';
+
+import Link from '../../../../basic/Link';
+import Value from '../../../../basic/Value';
+import Row from '../../../../basic/Row';
+import { getAssetInfo } from '../../../../../helpers/markets/markets-data';
+
+import staticStyles from './style';
+
+interface CardProps {
+  link: string;
+  symbol: string;
+  id: string;
+  value: string;
+}
+
+export default function Card({ link, symbol, id, value }: CardProps) {
+  const { currentTheme, xl, sm } = useThemeContext();
+
+  const asset = getAssetInfo(symbol);
+
+  const iconSize = xl && !sm ? 20 : sm ? 24 : 25;
+
+  return (
+    <Link className="Card ButtonLink" to={link} color="dark">
+      <Row className="Card__content">
+        <TokenIcon
+          tokenSymbol={symbol}
+          height={iconSize}
+          width={iconSize}
+          tokenFullName={asset.formattedName}
+        />
+        <Value
+          value={value}
+          maximumValueDecimals={6}
+          tooltipId={`${symbol}-${id}`}
+          maximumSubValueDecimals={2}
+        />
+      </Row>
+
+      <style jsx={true} global={true}>
+        {staticStyles}
+      </style>
+      <style jsx={true} global={true}>{`
+        .Card {
+          &:hover {
+            .TokenIcon .TokenIcon__name {
+              b {
+                color: ${currentTheme.primary.hex};
+              }
+            }
+          }
+          &__content {
+            border-bottom: 1px solid ${currentTheme.mainBg.hex};
+          }
+        }
+      `}</style>
+    </Link>
+  );
+}

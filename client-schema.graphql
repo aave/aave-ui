@@ -1,0 +1,13 @@
+directive @client on FIELD
+
+enum AuthStatus {
+  "init" init
+  "loggedOut" loggedOut
+  "loggedIn" loggedIn
+}
+extend type Query {
+  authStatus: AuthStatus,
+  isDisconnected: Boolean,
+  isWsError: Boolean,
+  wsErrorCount: Int,
+}

@@ -1,0 +1,92 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+  query: Query
+  subscription: Subscription
+}
+
+type PriceData {
+  priceInEth: String!
+}
+
+type ProtocolData {
+  emissionEndTimestamp: Float!
+  reserves: [ReserveData!]!
+  usdPriceEth: String!
+}
+
+type Query {
+  protocolData(poolAddress: String!): ProtocolData!
+  userData(poolAddress: String!, userAddress: String!): UserData!
+}
+
+type ReserveData {
+  aEmissionPerSecond: String!
+  aIncentivesLastUpdateTimestamp: Float!
+  aTokenAddress: String!
+  aTokenIncentivesIndex: String!
+  availableLiquidity: String!
+  averageStableRate: String!
+  baseLTVasCollateral: String!
+  baseVariableBorrowRate: String!
+  borrowingEnabled: Boolean!
+  decimals: Float!
+  id: String!
+  isActive: Boolean!
+  isFrozen: Boolean!
+  lastUpdateTimestamp: Float!
+  liquidityIndex: String!
+  liquidityRate: String!
+  name: String!
+  optimalUtilisationRate: String!
+  price: PriceData!
+  reserveFactor: String!
+  reserveLiquidationBonus: String!
+  reserveLiquidationThreshold: String!
+  sEmissionPerSecond: String!
+  sIncentivesLastUpdateTimestamp: Float!
+  sTokenIncentivesIndex: String!
+  stableBorrowRate: String!
+  stableBorrowRateEnabled: Boolean!
+  stableDebtLastUpdateTimestamp: Float!
+  stableDebtTokenAddress: String!
+  stableRateSlope1: String!
+  stableRateSlope2: String!
+  symbol: String!
+  totalPrincipalStableDebt: String!
+  totalScaledVariableDebt: String!
+  underlyingAsset: String!
+  usageAsCollateralEnabled: Boolean!
+  vEmissionPerSecond: String!
+  vIncentivesLastUpdateTimestamp: Float!
+  vTokenIncentivesIndex: String!
+  variableBorrowIndex: String!
+  variableBorrowRate: String!
+  variableDebtTokenAddress: String!
+  variableRateSlope1: String!
+  variableRateSlope2: String!
+}
+
+type Subscription {
+  protocolDataUpdate(poolAddress: String!): ProtocolData!
+  userDataUpdate(poolAddress: String!, userAddress: String!): UserData!
+}
+
+type UserData {
+  userReserves: [UserReserveData!]!
+  userUnclaimedRewards: String!
+}
+
+type UserReserveData {
+  aTokenincentivesUserIndex: String!
+  principalStableDebt: String!
+  sTokenincentivesUserIndex: String!
+  scaledATokenBalance: String!
+  scaledVariableDebt: String!
+  stableBorrowLastUpdateTimestamp: Float!
+  stableBorrowRate: String!
+  underlyingAsset: String!
+  usageAsCollateralEnabledOnUser: Boolean!
+  vTokenincentivesUserIndex: String!
+  variableBorrowIndex: String!
+}

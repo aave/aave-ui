@@ -1,0 +1,68 @@
+import React from 'react';
+import { useIntl } from 'react-intl';
+import classNames from 'classnames';
+import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
+import { getAssetColor } from '@aave/aave-ui-kit';
+
+import { useDynamicPoolDataContext } from '../../../libs/pool-data-provider';
+import Row from '../../basic/Row';
+import CompositionBar from '../CompositionBar';
+import { getAssetInfo } from '../../../helpers/markets/markets-data';
+
+import messages from './messages';
+import staticStyles from './style';
+
+interface CollateralCompositionBarProps {
+  className?: string;
+  isColumn?: boolean;
+}
+
+export default function CollateralCompositionBar({
+  className,
+  isColumn,
+}: CollateralCompositionBarProps) {
+  const { user, reserves } = useDynamicPoolDataContext();
+  const intl = useIntl();
+  if (!user) {
+    return null;
+  }
+
+  const { reservesData, totalCollateralETH } = user;
+
+  const collateralComposition = reservesData
+    .filter((userReserve) => {
+      const poolReserve = reserves.find((res) => res.symbol === userReserve.reserve.symbol);
+      return (
+        userReserve.usageAsCollateralEnabledOnUser &&
+        poolReserve &&
+        poolReserve.usageAsCollateralEnabled &&
+        userReserve.underlyingBalance !== '0'
+      );
+    })
+    .map((userReserve) => ({
+      title: getAssetInfo(userReserve.reserve.symbol).formattedName || '',
+      color: getAssetColor(userReserve.reserve.symbol),
+      value: userReserve.underlyingBalance,
+      percentage: valueToBigNumber(userReserve.underlyingBalanceETH)
+        .div(totalCollateralETH)
+        .multipliedBy(100)
+        .precision(20, BigNumber.ROUND_UP)
+        .toNumber(),
+    }));
+
+  return (
+    <Row
+      className={classNames('CollateralCompositionBar', className)}
+      title={intl.formatMessage(messages.collateralComposition)}
+      color="white"
+      weight="light"
+      isColumn={isColumn}
+    >
+      <CompositionBar dataset={collateralComposition} isCollateral={true} />
+
+      <style jsx={true} global={true}>
+        {staticStyles}
+      </style>
+    </Row>
+  );
+}

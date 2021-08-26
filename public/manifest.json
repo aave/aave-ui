@@ -1,0 +1,17 @@
+{
+  "short_name": "Aave v2",
+  "name": "Aave v2",
+  "description": "Non-custodial liquidity protocol to earn interest on deposits and borrow",
+  "iconPath": "aave.svg",
+  "icons": [
+    {
+      "src": "favicon32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

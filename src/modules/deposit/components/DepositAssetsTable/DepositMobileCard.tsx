@@ -1,0 +1,70 @@
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { useIntl } from 'react-intl';
+import { isAssetStable } from '@aave/aave-ui-kit';
+
+import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
+import Row from '../../../../components/basic/Row';
+import NoData from '../../../../components/basic/NoData';
+import Value from '../../../../components/basic/Value';
+import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+
+import messages from './messages';
+
+import { DepositTableItem } from './types';
+
+export default function DepositMobileCard({
+  id,
+  symbol,
+  walletBalance,
+  walletBalanceInUSD,
+  liquidityRate,
+  avg30DaysLiquidityRate,
+  userId,
+  borrowingEnabled,
+  isFreezed,
+  aIncentivesAPY,
+}: DepositTableItem) {
+  const intl = useIntl();
+  const history = useHistory();
+
+  const url = `/deposit/${symbol}-${id}`;
+
+  return (
+    <MobileCardWrapper
+      onClick={() => history.push(url)}
+      symbol={symbol}
+      withGoToTop={true}
+      disabled={isFreezed}
+    >
+      <Row title={intl.formatMessage(messages.yourWalletBalance)} withMargin={true}>
+        {!userId || Number(walletBalance) <= 0 ? (
+          <NoData color="dark" />
+        ) : (
+          <Value
+            value={Number(walletBalance)}
+            subValue={walletBalanceInUSD}
+            maximumSubValueDecimals={2}
+            subSymbol="USD"
+            maximumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+            minimumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+          />
+        )}
+      </Row>
+
+      {!isFreezed && (
+        <Row title={intl.formatMessage(messages.APY)} withMargin={true}>
+          {borrowingEnabled ? (
+            <LiquidityMiningCard
+              value={liquidityRate}
+              thirtyDaysValue={avg30DaysLiquidityRate}
+              liquidityMiningValue={aIncentivesAPY}
+            />
+          ) : (
+            <NoData color="dark" />
+          )}
+        </Row>
+      )}
+    </MobileCardWrapper>
+  );
+}

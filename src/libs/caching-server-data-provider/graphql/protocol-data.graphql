@@ -1,0 +1,64 @@
+fragment ProtocolDataFragment on ProtocolData {
+  reserves {
+    id
+    underlyingAsset
+    name
+    symbol
+    decimals
+    isActive
+    isFrozen
+    usageAsCollateralEnabled
+    aTokenAddress
+    stableDebtTokenAddress
+    variableDebtTokenAddress
+    borrowingEnabled
+    stableBorrowRateEnabled
+    reserveFactor
+    baseLTVasCollateral
+    optimalUtilisationRate
+    stableRateSlope1
+    stableRateSlope2
+    averageStableRate
+    stableDebtLastUpdateTimestamp
+    baseVariableBorrowRate
+    variableRateSlope1
+    variableRateSlope2
+    liquidityIndex
+    reserveLiquidationThreshold
+    reserveLiquidationBonus
+    variableBorrowIndex
+    variableBorrowRate
+    availableLiquidity
+    stableBorrowRate
+    liquidityRate
+    totalPrincipalStableDebt
+    totalScaledVariableDebt
+    lastUpdateTimestamp
+    aEmissionPerSecond
+    vEmissionPerSecond
+    sEmissionPerSecond
+    aIncentivesLastUpdateTimestamp
+    vIncentivesLastUpdateTimestamp
+    sIncentivesLastUpdateTimestamp
+    aTokenIncentivesIndex
+    vTokenIncentivesIndex
+    sTokenIncentivesIndex
+    price {
+      priceInEth
+    }
+  }
+  usdPriceEth
+  emissionEndTimestamp
+}
+
+query C_ProtocolData($poolAddress: String!) {
+  protocolData(poolAddress: $poolAddress) {
+    ...ProtocolDataFragment
+  }
+}
+
+subscription C_ProtocolDataUpdate($poolAddress: String!) {
+  protocolDataUpdate(poolAddress: $poolAddress) {
+    ...ProtocolDataFragment
+  }
+}

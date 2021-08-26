@@ -1,0 +1,15 @@
+{
+  "possibleTypes": {
+    "UserTransaction": [
+      "Borrow",
+      "Deposit",
+      "LiquidationCall",
+      "OriginationFeeLiquidation",
+      "RebalanceStableBorrowRate",
+      "RedeemUnderlying",
+      "Repay",
+      "Swap",
+      "UsageAsCollateral"
+    ]
+  }
+}

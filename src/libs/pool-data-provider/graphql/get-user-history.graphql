@@ -1,0 +1,256 @@
+fragment ReserveData on Reserve {
+  id
+  underlyingAsset
+  name
+  symbol
+  decimals
+  isActive
+  isFrozen
+  usageAsCollateralEnabled
+  borrowingEnabled
+  stableBorrowRateEnabled
+  baseLTVasCollateral
+  optimalUtilisationRate
+  averageStableRate
+  stableRateSlope1
+  stableRateSlope2
+  baseVariableBorrowRate
+  variableRateSlope1
+  variableRateSlope2
+  liquidityIndex
+  reserveLiquidationThreshold
+  variableBorrowIndex
+  aToken {
+    id
+  }
+  vToken {
+    id
+  }
+  sToken {
+    id
+  }
+  availableLiquidity
+  stableBorrowRate
+  liquidityRate
+  totalPrincipalStableDebt
+  totalScaledVariableDebt
+  totalLiquidity
+  utilizationRate
+  reserveLiquidationBonus
+  variableBorrowRate
+  price {
+    priceInEth
+  }
+  lastUpdateTimestamp
+  stableDebtLastUpdateTimestamp
+  reserveFactor
+  aEmissionPerSecond
+  vEmissionPerSecond
+  sEmissionPerSecond
+  aTokenIncentivesIndex
+  vTokenIncentivesIndex
+  sTokenIncentivesIndex
+  aIncentivesLastUpdateTimestamp
+  vIncentivesLastUpdateTimestamp
+  sIncentivesLastUpdateTimestamp
+}
+
+fragment ReserveRatesHistoryData on ReserveParamsHistoryItem {
+  variableBorrowRate
+  stableBorrowRate
+  liquidityRate
+  utilizationRate
+  timestamp
+}
+
+fragment UserReserveData on UserReserve {
+  scaledATokenBalance
+  reserve {
+    id
+    underlyingAsset
+    name
+    symbol
+    decimals
+    liquidityRate
+    reserveLiquidationBonus
+    lastUpdateTimestamp
+    aToken {
+      id
+    }
+  }
+  usageAsCollateralEnabledOnUser
+  stableBorrowRate
+  stableBorrowLastUpdateTimestamp
+  principalStableDebt
+  scaledVariableDebt
+  variableBorrowIndex
+  lastUpdateTimestamp
+  aTokenincentivesUserIndex
+  vTokenincentivesUserIndex
+  sTokenincentivesUserIndex
+  user {
+    unclaimedRewards
+  }
+}
+
+fragment RewardsData on IncentivesController {
+  emissionEndTimestamp
+}
+
+query UserHistory($id: String!, $pool: String, $first: Int, $skip: Int) {
+  userTransactions(
+    first: $first
+    skip: $skip
+    where: { user: $id, pool: $pool }
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    id
+    timestamp
+    ... on Deposit {
+      amount
+      reserve {
+        symbol
+        decimals
+      }
+    }
+    ... on RedeemUnderlying {
+      amount
+      reserve {
+        symbol
+        decimals
+      }
+    }
+    ... on Borrow {
+      amount
+      borrowRateMode
+      borrowRate
+      stableTokenDebt
+      variableTokenDebt
+      reserve {
+        symbol
+        decimals
+      }
+    }
+    ... on UsageAsCollateral {
+      fromState
+      toState
+      reserve {
+        symbol
+      }
+    }
+    ... on Repay {
+      amount
+      reserve {
+        symbol
+        decimals
+      }
+    }
+    ... on Swap {
+      borrowRateModeFrom
+      borrowRateModeTo
+      variableBorrowRate
+      stableBorrowRate
+      reserve {
+        symbol
+        decimals
+      }
+    }
+    ... on LiquidationCall {
+      collateralAmount
+      collateralReserve {
+        symbol
+        decimals
+      }
+      principalAmount
+      principalReserve {
+        symbol
+        decimals
+      }
+    }
+  }
+}
+
+query ReservesRates30DaysAgoQuery($timestamp: Int, $pool: String) {
+  reserves(where: { pool: $pool }) {
+    id
+    symbol
+    paramsHistory(
+      where: { timestamp_lte: $timestamp }
+      first: 1
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      variableBorrowIndex
+      liquidityIndex
+      timestamp
+    }
+  }
+}
+
+query ReserveRatesHistoryUpdateQuery($reserveAddress: String!) {
+  reserveParamsHistoryItems(
+    where: { reserve: $reserveAddress }
+    first: 500
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    ...ReserveRatesHistoryData
+  }
+}
+
+query ConnectionStatus {
+  isDisconnected @client
+}
+
+subscription ReserveRatesHistoryUpdate($reserveAddress: String!) {
+  reserveParamsHistoryItems(
+    where: { reserve: $reserveAddress }
+    first: 500
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    ...ReserveRatesHistoryData
+  }
+}
+
+subscription ReservesRates30DaysAgo($timestamp: Int, $pool: String) {
+  reserves(where: { pool: $pool }) {
+    id
+    symbol
+    paramsHistory(
+      where: { timestamp_lte: $timestamp }
+      first: 1
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      variableBorrowIndex
+      liquidityIndex
+      timestamp
+    }
+  }
+}
+
+subscription ReserveUpdateSubscription($pool: String) {
+  reserves(where: { pool: $pool }) {
+    ...ReserveData
+  }
+}
+
+subscription UsdPriceEth {
+  priceOracle(id: "1") {
+    usdPriceEth
+  }
+}
+
+subscription UserPositionUpdateSubscription($userAddress: String!, $pool: String) {
+  userReserves(where: { user: $userAddress, pool: $pool }) {
+    ...UserReserveData
+  }
+}
+
+subscription RewardsSubscription {
+  incentivesControllers {
+    ...RewardsData
+  }
+}

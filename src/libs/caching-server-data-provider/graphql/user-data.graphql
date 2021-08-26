@@ -1,0 +1,27 @@
+fragment UserDataFragment on UserData {
+  userReserves {
+    underlyingAsset
+    scaledATokenBalance
+    usageAsCollateralEnabledOnUser
+    scaledVariableDebt
+    variableBorrowIndex
+    stableBorrowRate
+    principalStableDebt
+    stableBorrowLastUpdateTimestamp
+    aTokenincentivesUserIndex
+    vTokenincentivesUserIndex
+    sTokenincentivesUserIndex
+  }
+  userUnclaimedRewards
+}
+
+query C_UserData($userAddress: String!, $poolAddress: String!) {
+  userData(userAddress: $userAddress, poolAddress: $poolAddress) {
+    ...UserDataFragment
+  }
+}
+subscription C_UserDataUpdate($userAddress: String!, $poolAddress: String!) {
+  userDataUpdate(userAddress: $userAddress, poolAddress: $poolAddress) {
+    ...UserDataFragment
+  }
+}

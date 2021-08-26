@@ -1,0 +1,74 @@
+subscription GovernanceProposals {
+  proposals {
+    id
+    state
+    ipfsHash
+    creator
+    aipNumber
+    totalVotingSupply
+    totalPropositionSupply
+    executor {
+      id
+      authorized
+      propositionThreshold
+      votingDuration
+      voteDifferential
+      minimumQuorum
+      gracePeriod
+      executionDelay
+      admin
+      authorizationBlock
+      authorizationTimestamp
+      pendingAdmin
+    }
+    totalCurrentVoters
+    targets
+    values
+    signatures
+    calldatas
+    withDelegatecalls
+    startBlock
+    endBlock
+    governanceStrategy
+    currentYesVote
+    currentNoVote
+    winner
+    createdTimestamp
+    executionTime
+    initiatorQueueing
+    initiatorExecution
+    lastUpdateTimestamp
+    lastUpdateBlock
+    title
+    shortDescription
+    createdBlockNumber
+  }
+}
+
+query GetVoteByUser($id: ID!) {
+  vote(id: $id) {
+    voter
+    id
+    proposal {
+      id
+    }
+    support
+    votingPower
+    timestamp
+  }
+}
+
+subscription GetTopVoters($proposalId: String!, $first: Int!, $support: Boolean!) {
+  votes(
+    first: $first
+    where: { proposal: $proposalId, support: $support }
+    orderBy: votingPower
+    orderDirection: desc
+  ) {
+    voter
+    support
+    votingPower
+    id
+    timestamp
+  }
+}

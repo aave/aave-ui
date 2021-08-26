@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  frontend:
+    image: node:13
+    command: npm run start
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      REACT_APP_SUPPORTED_ETHEREUM_NETWORKS: "polygon,mainnet"
+      #REACT_APP_SUPPORTED_ETHEREUM_NETWORKS: "polygon,mumbai,mainnet,kovan,fuji,arbitrum_rinkeby"
+      REACT_APP_DEFAULT_ETHEREUM_NETWORK: "mainnet"
+      REACT_APP_ENABLE_CACHING_BACKEND: "true"
+      REACT_APP_RATES_HISTORY_ENDPOINT: "https://aave-api-v2.aave.com/data/rates-history"
+      REACT_APP_ENABLE_NASH: ${ENABLE_NASH}
+      REACT_APP_FORTMATIC_KEY_MAINNET: ${FORTMATIC_KEY_MAINNET}
+      REACT_APP_FORTMATIC_KEY_TESTNET: ${FORTMATIC_KEY_TESTNET}
+      REACT_APP_TRANSAK_API_KEY: ${TRANSAK_API_KEY}
+      REACT_APP_ONRAMP_API_KEY: ${ONRAMP_API_KEY}
+      REACT_APP_PORTIS_DAPP_ID: ${PORTIS_DAPP_ID}
+      PINATA_SECRET_KEY: ${PINATA_SECRET_KEY}
+      PINATA_API_KEY: ${PINATA_API_KEY}
+    ports:
+      - "19006:3000"

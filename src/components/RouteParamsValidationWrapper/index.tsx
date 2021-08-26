@@ -1,0 +1,128 @@
+import React from 'react';
+import { Redirect, RouteComponentProps } from 'react-router-dom';
+import queryString from 'query-string';
+import { useIntl } from 'react-intl';
+import {
+  ComputedUserReserve,
+  UserSummaryData,
+  ComputedReserveData,
+  BigNumber,
+  valueToBigNumber,
+} from '@aave/protocol-js';
+
+import { useDynamicPoolDataContext, useStaticPoolDataContext } from '../../libs/pool-data-provider';
+import { CurrencyRouteParamsInterface } from '../../helpers/router-types';
+import Preloader from '../basic/Preloader';
+import ErrorPage from '../ErrorPage';
+
+import messages from './messages';
+import { useWalletBalanceProviderContext } from '../../libs/wallet-balance-provider/WalletBalanceProvider';
+
+export interface ValidationWrapperComponentProps
+  extends Pick<RouteComponentProps, 'history' | 'location'> {
+  currencySymbol: string;
+  amount?: BigNumber;
+  walletBalance: BigNumber;
+  walletBalanceUSD: BigNumber;
+  isWalletBalanceEnough: boolean;
+  user?: UserSummaryData;
+  poolReserve: ComputedReserveData;
+  userReserve?: ComputedUserReserve;
+}
+
+interface RouteParamValidationWrapperProps {
+  withUserReserve?: boolean;
+  withWalletBalance?: boolean;
+  withAmount?: boolean;
+  allowLimitAmount?: boolean; // -1 for sending everything
+}
+
+export default function routeParamValidationHOC({
+  withUserReserve,
+  withWalletBalance,
+  withAmount,
+  allowLimitAmount,
+}: RouteParamValidationWrapperProps) {
+  return (ChildComponent: React.ComponentType<ValidationWrapperComponentProps>) =>
+    ({ match, location, history }: RouteComponentProps<CurrencyRouteParamsInterface>) => {
+      const intl = useIntl();
+      const currencySymbol = match.params.currencySymbol.toUpperCase();
+      const reserveId = match.params.id;
+
+      const { usdPriceEth } = useStaticPoolDataContext();
+      const { reserves, user } = useDynamicPoolDataContext();
+
+      const poolReserve = reserves.find((res) =>
+        reserveId ? res.id === reserveId : res.symbol === currencySymbol
+      );
+      const userReserve = user
+        ? user.reservesData.find((userReserve) =>
+            reserveId
+              ? userReserve.reserve.id === reserveId
+              : userReserve.reserve.symbol === currencySymbol
+          )
+        : undefined;
+
+      const { walletData } = useWalletBalanceProviderContext({
+        skip: !withWalletBalance || !poolReserve || (withUserReserve && !userReserve),
+      });
+      if (!walletData) {
+        return <Preloader withText={true} />;
+      }
+
+      if (!poolReserve) {
+        // TODO: 404
+        return <Redirect to="/" />;
+      }
+      if (!userReserve && withUserReserve) {
+        return <Redirect to="/" />;
+        // TODO: 404 || redirect || ?
+      }
+
+      const walletBalance = valueToBigNumber(
+        walletData[poolReserve.underlyingAsset] || '0'
+      ).dividedBy(valueToBigNumber(10).pow(poolReserve.decimals));
+      let isWalletBalanceEnough = true;
+
+      let amount = undefined;
+      if (withAmount) {
+        const query = queryString.parse(location.search);
+        if (typeof query.amount === 'string') {
+          amount = valueToBigNumber(query.amount);
+        }
+        if (
+          !amount ||
+          amount.isNaN() ||
+          !((allowLimitAmount && amount.eq('-1')) || amount.isPositive())
+        ) {
+          // TODO: amount invalid
+          return <ErrorPage description={intl.formatMessage(messages.error)} buttonType="back" />;
+        }
+        if (
+          withWalletBalance &&
+          (walletBalance.eq(0) || (!amount.eq('-1') && amount.gt(walletBalance)))
+        ) {
+          // TODO: wallet balance is too low
+          isWalletBalanceEnough = false;
+        }
+      }
+
+      const walletBalanceUSD = valueToBigNumber(walletBalance)
+        .multipliedBy(poolReserve.price.priceInEth)
+        .dividedBy(usdPriceEth);
+
+      const props = {
+        poolReserve,
+        userReserve,
+        amount,
+        user,
+        walletBalance,
+        walletBalanceUSD,
+        isWalletBalanceEnough,
+        currencySymbol,
+        history,
+        location,
+      };
+      return <ChildComponent {...props} />;
+    };
+}

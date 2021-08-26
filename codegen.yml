@@ -1,0 +1,46 @@
+overwrite: true
+hooks:
+  afterAllFileWrite:
+    - prettier --single-quote --write
+schema: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-kovan'
+watch: true
+config:
+  withHOC: false
+  withComponent: false
+  withMutationFn: false
+  withHooks: true
+  reactApolloVersion: 3
+  apolloReactHooksImportFrom: '@apollo/client'
+  apolloReactCommonImportFrom: '@apollo/client'
+generates:
+  src/libs/pool-data-provider/graphql/fragmentTypes.json:
+    plugins:
+      - fragment-matcher
+  src/libs/pool-data-provider/graphql/index.tsx:
+    schema:
+      - https://api.thegraph.com/subgraphs/name/aave/aave-v2-matic
+      - ./client-schema.graphql
+    documents:
+      - ./src/libs/pool-data-provider/graphql/*.graphql
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+  src/libs/governance-provider/graphql/index.tsx:
+    schema:
+      - https://api.thegraph.com/subgraphs/name/aave/governance-v2-kovan
+    documents:
+      - ./src/libs/governance-provider/graphql/*.graphql
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+  src/libs/caching-server-data-provider/graphql/index.tsx:
+    schema:
+      - https://cache-api-mainnet.aave.com/graphql
+    documents:
+      - ./src/libs/caching-server-data-provider/graphql/*.graphql
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
