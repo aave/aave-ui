@@ -1,7 +1,7 @@
 FROM node:12 as build-deps
 WORKDIR /app
 
-ADD package.json package-lock.json .npmrc /app/
+ADD package.json package-lock.json /app/
 RUN npm ci
 
 # general ETH config
