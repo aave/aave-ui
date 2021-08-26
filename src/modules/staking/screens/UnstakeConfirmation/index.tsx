@@ -27,7 +27,8 @@ export default function UnstakeConfirmation() {
 
   const timeNowInSeconds = Math.floor(Date.now() / 1000);
   if (
-    selectedStakeData.userCooldown + selectedStakeData.stakeUnstakeWindow < timeNowInSeconds ||
+    selectedStakeData.userCooldownEndTime + selectedStakeData.stakeUnstakeWindow <
+      timeNowInSeconds ||
     cooldownStep < 2
   ) {
     return <Redirect to="/staking" />;
