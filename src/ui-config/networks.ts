@@ -56,8 +56,7 @@ const polygon_config: BaseNetworkConfig = {
 
 export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
   [Network.kovan]: {
-    publicJsonRPCUrl: 'https://kovan.infura.io',
-    publicJsonRPCWSUrl: 'wss://kovan.infura.io',
+    publicJsonRPCUrl: 'https://kovan.poa.network ',
     walletBalanceProvider: '0x07DC923859b68e9399d787bf52c4Aa9eBe3490aF',
     batchV2PoolDataProviderAddress: '0x04110Dc40B04b99B94840E53B2a33bE45E45A8Ed',
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-kovan',
