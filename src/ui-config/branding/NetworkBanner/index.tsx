@@ -1,5 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import Link from '../../../components/basic/Link';
 import whiteLinkIcon from '../../../images/whiteLinkIcon.svg';
 import { NetworkBannerConfig } from '../../banners';
 import messages from './messages';
@@ -26,7 +27,9 @@ export default function NetworkBanner({
         &nbsp;
         {intl.formatMessage(messages.visit)}
         &nbsp;
-        <strong>{bridgeName}</strong>
+        <Link to={bridgeUrl} inNewWindow={true} absolute={true} color="white" bold={true}>
+          {bridgeName}
+        </Link>
       </div>
       <div className="NetworkBanner__link">
         <a href={bridgeUrl} target="_blank">
