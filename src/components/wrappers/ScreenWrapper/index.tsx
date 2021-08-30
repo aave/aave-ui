@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import React, { ReactNode, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useLanguageContext } from '../../../libs/language-provider';
+import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import { DISPLAY_BANNER_PAGES, networkBannerConfigs } from '../../../ui-config';
 import NetworkBanner from '../../../ui-config/branding/NetworkBanner';
 import DesktopPageTitle from '../../DesktopPageTitle';
@@ -32,6 +33,7 @@ export default function ScreenWrapper({
 }: ScreenWrapperProps) {
   const { currentLangSlug } = useLanguageContext();
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
+  const { currentMarket } = useProtocolDataContext();
   const location = useLocation();
   const { setTitle } = useHeaderTitle();
   const { setTopPanelSmall } = useWithDesktopTitle();
@@ -65,10 +67,10 @@ export default function ScreenWrapper({
       )}
       {subTitle && <div className="ScreenWrapper__mobileSubTitle">{subTitle}</div>}
 
-      {DISPLAY_BANNER_PAGES.includes(location.pathname) && (
+      {DISPLAY_BANNER_PAGES.includes(location.pathname) && networkBannerConfigs[currentMarket] && (
         <>
           <div className="ScreenWrapper__bannerWrapper">
-            <NetworkBanner {...networkBannerConfigs['avalanche']} />
+            <NetworkBanner {...networkBannerConfigs[currentMarket]} />
           </div>
           <div className="ScreenWrapper__bannerSpacer" />
         </>
