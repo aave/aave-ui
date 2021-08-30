@@ -70,6 +70,24 @@ const staticStyles = css.global`
         line-height: 50px;
       }
     }
+
+    &__bannerWrapper {
+      padding: 4px 0px 12px 0px;
+      @include respond-to(sm) {
+        position: absolute;
+        top: -4px;
+        left: 0;
+        right: 0;
+      }
+    }
+
+    &__bannerSpacer {
+      display: none;
+      @include respond-to(sm) {
+        display: block;
+        margin-bottom: 95px;
+      }
+    }
   }
 `;
 

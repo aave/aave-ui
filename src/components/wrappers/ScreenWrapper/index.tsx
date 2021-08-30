@@ -1,12 +1,12 @@
+import { useThemeContext } from '@aave/aave-ui-kit';
+import classNames from 'classnames';
 import React, { ReactNode, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import classNames from 'classnames';
-
 import { useLanguageContext } from '../../../libs/language-provider';
-import { useThemeContext } from '@aave/aave-ui-kit';
-import { useHeaderTitle, useWithDesktopTitle } from '../ScreensWrapper';
+import { DISPLAY_BANNER_PAGES, networkBannerConfigs } from '../../../ui-config';
+import NetworkBanner from '../../../ui-config/branding/NetworkBanner';
 import DesktopPageTitle from '../../DesktopPageTitle';
-
+import { useHeaderTitle, useWithDesktopTitle } from '../ScreensWrapper';
 import staticStyles from './style';
 
 interface ScreenWrapperProps {
@@ -64,6 +64,15 @@ export default function ScreenWrapper({
         />
       )}
       {subTitle && <div className="ScreenWrapper__mobileSubTitle">{subTitle}</div>}
+
+      {DISPLAY_BANNER_PAGES.includes(location.pathname) && (
+        <>
+          <div className="ScreenWrapper__bannerWrapper">
+            <NetworkBanner {...networkBannerConfigs['avalanche']} />
+          </div>
+          <div className="ScreenWrapper__bannerSpacer" />
+        </>
+      )}
 
       {children}
 

@@ -1,5 +1,6 @@
 export * from './menu-items';
 export * from './branding';
+export * from './banners';
 
 export * from './markets';
 export * from './governance';
