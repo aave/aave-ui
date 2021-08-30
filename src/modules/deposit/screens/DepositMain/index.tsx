@@ -118,24 +118,6 @@ export default function DepositsMain() {
   return (
     <ScreenWrapper
       pageTitle={intl.formatMessage(defaultMessages.deposit)}
-      subTitle={
-        networkConfig.bridgeUrl
-          ? intl.formatMessage(messages.subTitle, {
-              bridge: (
-                <Link
-                  to={networkConfig.bridgeUrl}
-                  inNewWindow={true}
-                  absolute={true}
-                  color="secondary"
-                  bold={true}
-                >
-                  <strong>{intl.formatMessage(messages.bridge)}</strong>
-                  <img src={linkIcon} alt="" />
-                </Link>
-              ),
-            })
-          : ''
-      }
       isTitleOnDesktop={true}
       withMobileGrayBg={true}
     >
