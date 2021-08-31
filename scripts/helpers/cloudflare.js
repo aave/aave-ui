@@ -1,11 +1,13 @@
 const axios = require('axios');
 
-const cfClient = axios.create({
-  headers: { Authorization: `Bearer ${process.env.CF_API_TOKEN}` },
-  baseURL: `https://api.cloudflare.com/client/v4/zones/${process.env.CF_ZONE_ID}/dns_records`,
-});
-
 const updateOrCreateRecord = async (name, type, _payload) => {
+  if (!process.env.CF_API_TOKEN || !process.env.CF_ZONE_ID) {
+    throw new Error('CF_API_TOKEN or CF_ZONE_ID were not specified');
+  }
+  const cfClient = axios.create({
+    headers: { Authorization: `Bearer ${process.env.CF_API_TOKEN}` },
+    baseURL: `https://api.cloudflare.com/client/v4/zones/${process.env.CF_ZONE_ID}/dns_records`,
+  });
   const { data: zoneData } = await cfClient.get('/', {
     params: { name, type },
   });
