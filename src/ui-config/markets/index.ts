@@ -14,7 +14,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     activeLogo: logos.centLogoActive,
     aTokenPrefix: 'A',
     enabledFeatures: {
-      faucet: true,
+      faucet: false,
       governance: false,
       staking: false,
       collateralRepay: false,

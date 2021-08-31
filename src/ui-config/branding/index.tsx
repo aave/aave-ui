@@ -15,11 +15,11 @@ export const LOGO = logo;
 
 export const socialIcons: SocialIcon[] = [
   {
-    url: 'https://github.com/aave/aave-ui',
+    url: 'https://github.com/centrifuge/aave-ui',
     type: SocialType.Github,
   },
   {
-    url: 'https://discord.gg/7kHKnkDEUf',
+    url: 'http://centrifuge.io/discord',
     type: SocialType.Discord,
   },
 ];
