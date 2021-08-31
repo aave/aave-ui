@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { MessageDescriptor, useIntl } from 'react-intl';
 import dayjs from 'dayjs';
-import { rgba, useThemeContext, TokenIcon, BasicModal } from '@aave/aave-ui-kit';
+import { rgba, useThemeContext, BasicModal } from '@aave/aave-ui-kit';
 
 import Caption from '../../../../components/basic/Caption';
 import Row from '../../../../components/basic/Row';
@@ -10,13 +10,13 @@ import Value from '../../../../components/basic/Value';
 import BorrowContent from './BorrowContent';
 import StateChangesContent from './StateChangesContent';
 import LiquidationContent from './LiquidationContent';
+import { getAssetInfo, TokenIcon } from '../../../../helpers/markets/assets';
 import { HistoryItemTypes } from '../../types';
 
 import messages from './messages';
 import staticStyles from './style';
 
 import linkIcon from '../../../../images/linkIcon.svg';
-import { getAssetInfo } from '../../../../helpers/markets/markets-data';
 
 interface HistoryModalProps {
   data: HistoryItemTypes;

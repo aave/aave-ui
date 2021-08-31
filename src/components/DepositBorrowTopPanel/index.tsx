@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { valueToBigNumber } from '@aave/protocol-js';
 
-import { useThemeContext, getAssetColor } from '@aave/aave-ui-kit';
+import { useThemeContext } from '@aave/aave-ui-kit';
 import { useDynamicPoolDataContext } from '../../libs/pool-data-provider';
 import toggleLocalStorageClick from '../../helpers/toggle-local-storage-click';
 import GradientLine from '../basic/GradientLine';
@@ -21,10 +21,10 @@ import CircleCompositionBar, {
 import CircleCollateralCompositionBar from '../compositionBars/CircleCollateralCompositionBar';
 import LTVInfoModal from '../LTVInfoModal';
 import ApproximateBalanceHelpModal from '../HelpModal/ApproximateBalanceHelpModal';
-import { getAssetInfo } from '../../helpers/markets/markets-data';
 
 import messages from './messages';
 import staticStyles from './style';
+import { getAssetInfo, getAssetColor } from '../../helpers/markets/assets';
 
 export default function DepositBorrowTopPanel() {
   const intl = useIntl();

@@ -1,12 +1,10 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { valueToBigNumber } from '@aave/protocol-js';
-import { getAssetColor } from '@aave/aave-ui-kit';
 
 import { useDynamicPoolDataContext } from '../../../libs/pool-data-provider';
 import CircleCompositionBar from '../CircleCompositionBar';
-
-import { getAssetInfo } from '../../../helpers/markets/markets-data';
+import { getAssetInfo, getAssetColor } from '../../../helpers/markets/assets';
 
 import messages from './messages';
 

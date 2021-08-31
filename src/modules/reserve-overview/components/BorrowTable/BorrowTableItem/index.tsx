@@ -7,7 +7,7 @@ import {
   valueToBigNumber,
   InterestRate,
 } from '@aave/protocol-js';
-import { useThemeContext, TokenIcon } from '@aave/aave-ui-kit';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { BorrowRateMode } from '../../../../../libs/pool-data-provider/graphql';
 import { loanActionLinkComposer } from '../../../../../helpers/loan-action-link-composer';
@@ -16,7 +16,7 @@ import Value from '../../../../../components/basic/Value';
 import Link from '../../../../../components/basic/Link';
 import DefaultButton from '../../../../../components/basic/DefaultButton';
 import CustomSwitch from '../../../../../components/basic/CustomSwitch';
-import { getAssetInfo } from '../../../../../helpers/markets/markets-data';
+import { getAssetInfo, TokenIcon } from '../../../../../helpers/markets/assets';
 
 import defaultMessages from '../../../../../defaultMessages';
 import messages from './messages';

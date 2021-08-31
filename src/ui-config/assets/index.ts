@@ -1,5 +1,4 @@
-import { Asset } from '@aave/aave-ui-kit';
-import cfimg from './images/cfdrp.svg';
+import { Asset, STABLE_ASSETS as stableAssetsFromKit } from '@aave/aave-ui-kit';
 
 export const assetsList: Asset[] = [
   {
@@ -20,8 +19,8 @@ export const assetsList: Asset[] = [
     name: 'CF4DRP',
     symbol: 'CF4DRP',
     color: '#f7b14a',
-    icon: cfimg,
-    aIcon: cfimg,
+    icon: 'https://storage.googleapis.com/tinlake/pool-media/consolfreight-4/drop.svg',
+    aIcon: 'https://storage.googleapis.com/tinlake/pool-media/consolfreight-4/drop.svg',
   },
   {
     name: 'FF1DRP',
@@ -31,3 +30,6 @@ export const assetsList: Asset[] = [
     aIcon: 'https://storage.googleapis.com/tinlake/pool-media/fortunafi/drop.svg',
   },
 ];
+
+export const assetsOrder: string[] = [];
+export const stableAssets: string[] = stableAssetsFromKit;

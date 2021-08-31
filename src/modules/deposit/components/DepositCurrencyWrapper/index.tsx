@@ -12,7 +12,7 @@ import messages from './messages';
 import { ValidationWrapperComponentProps } from '../../../../components/RouteParamsValidationWrapper';
 import { GraphPoint, InterestRateSeries } from '../../../../components/graphs/types';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-import { getAssetInfo } from '../../../../helpers/markets/markets-data';
+import { getAssetInfo } from '../../../../helpers/markets/assets';
 
 interface DepositCurrencyWrapperProps
   extends Pick<

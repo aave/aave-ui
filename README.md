@@ -21,7 +21,7 @@ Enabling users to:
 - Participate on the Aave Governance.
 
 ## IPFS deployment
-https://cloudflare-ipfs.com/ipfs/QmahzorVP5U52HxB528KFeiEcLrNtuogSEyXtFo3nDMHef
+https://cloudflare-ipfs.com/ipfs/QmUGvvcpvnWX3bWhNrixNt3ojEu9TmR3gwAj52myAjwQ1U
 
 ## Contribution
 For instructions on local deployment and configurations, see [Contributing](./CONTRIBUTING.md)

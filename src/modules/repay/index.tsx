@@ -16,9 +16,10 @@ import RepayAmount from './screens/RepayAmount';
 import RepayConfirmation from './screens/RepayConfirmation';
 import RepayAmountWithSelect from './screens/RepayAmountWithSelect';
 import RepayWithCollateralConfirmation from './screens/RepayWithCollateralConfirmation';
+import { isFeatureEnabled } from '../../helpers/markets/markets-data';
+import { getAssetInfo } from '../../helpers/markets/assets';
 
 import messages from './messages';
-import { getAssetInfo, isFeatureEnabled } from '../../helpers/markets/markets-data';
 
 function Repay({
   user,

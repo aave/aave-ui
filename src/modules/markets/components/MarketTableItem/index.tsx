@@ -1,7 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useWindowWidth } from '@react-hook/window-size';
-import { TokenIcon } from '@aave/aave-ui-kit';
 
 import TableItemWrapper from '../../../../components/BasicTable/TableItemWrapper';
 import TableColumn from '../../../../components/BasicTable/TableColumn';
@@ -9,7 +8,7 @@ import Value from '../../../../components/basic/Value';
 import FreezedWarning from '../../../../components/FreezedWarning';
 import NoData from '../../../../components/basic/NoData';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
-import { getAssetInfo } from '../../../../helpers/markets/markets-data';
+import { getAssetInfo, TokenIcon } from '../../../../helpers/markets/assets';
 
 import staticStyles from './style';
 

@@ -2,8 +2,6 @@ import { Network } from '@aave/protocol-js';
 import { ethers } from 'ethers';
 
 import { networkConfigs } from '../../ui-config';
-import { getAssetInfoFactory } from '@aave/aave-ui-kit';
-import { assetsList } from '../../ui-config/assets';
 
 type ExplorerLinkBuilderProps = {
   tx?: string;
@@ -118,5 +116,3 @@ export const getProvider = (network: Network): ethers.providers.Provider => {
   }
   return providers[network];
 };
-
-export const getAssetInfo = getAssetInfoFactory(assetsList);

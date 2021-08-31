@@ -3,7 +3,7 @@ import { MessageDescriptor, useIntl } from 'react-intl';
 import { ethers } from 'ethers';
 import { useLocation, useHistory } from 'react-router-dom';
 import queryString from 'query-string';
-import { useThemeContext, canBeEnsAddress, TokenIcon } from '@aave/aave-ui-kit';
+import { useThemeContext, canBeEnsAddress } from '@aave/aave-ui-kit';
 
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import DefaultButton from '../../../../components/basic/DefaultButton';
@@ -16,6 +16,7 @@ import TextField from '../../../../components/fields/TextField';
 import DelegationFieldInner from './components/DelegationFieldInner';
 import { useAaveTokensProviderContext } from '../../../../libs/aave-tokens-balance-provider/AaveTokensBalanceProvider';
 import { useGovernanceDataContext } from '../../../../libs/governance-provider';
+import { TokenIcon } from '../../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';

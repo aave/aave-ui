@@ -5,7 +5,6 @@ import {
   valueToBigNumber,
   BigNumber,
 } from '@aave/protocol-js';
-import { isAssetStable } from '@aave/aave-ui-kit';
 
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
@@ -17,6 +16,7 @@ import HealthFactor from '../../../../components/HealthFactor';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
+import { isAssetStable } from '../../../../helpers/markets/assets';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';

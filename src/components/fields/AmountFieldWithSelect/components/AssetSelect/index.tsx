@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import {
-  rgba,
-  useThemeContext,
-  TokenIcon,
-  AnimationArrow,
-  DropdownWrapper,
-} from '@aave/aave-ui-kit';
+import { rgba, useThemeContext, AnimationArrow, DropdownWrapper } from '@aave/aave-ui-kit';
 
 import CustomScroll from '../../../../basic/CustomScroll';
 import BasicField from '../../../BasicField';
 import ValuePercent from '../../../../basic/ValuePercent';
+import { TokenIcon } from '../../../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';

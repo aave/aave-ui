@@ -1,11 +1,11 @@
 import React from 'react';
-import { isAssetStable } from '@aave/aave-ui-kit';
 
 import TableItem from '../../../../components/BasicAssetsTable/TableItem';
 import TableColumn from '../../../../components/BasicTable/TableColumn';
 import Value from '../../../../components/basic/Value';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
 import NoData from '../../../../components/basic/NoData';
+import { isAssetStable } from '../../../../helpers/markets/assets';
 
 import { BorrowTableItem } from './types';
 

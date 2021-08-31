@@ -20,12 +20,12 @@ import BorrowAPR from '../../components/Graphs/BorrowAPR';
 import DepositAPY from '../../components/Graphs/DepositAPY';
 import UtilisationRate from '../../components/Graphs/UtilisationRate';
 import Link from '../../../../components/basic/Link';
-import { getAssetInfo } from '../../../../helpers/markets/markets-data';
 
 import messages from './messages';
 import staticStyles from './style';
 
 import linkIcon from '../../../../images/blueLinkIcon.svg';
+import { getAssetInfo } from '../../../../helpers/markets/assets';
 
 function ReserveOverview({
   poolReserve,

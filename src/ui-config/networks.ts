@@ -34,8 +34,8 @@ const mainnet_config: BaseNetworkConfig = {
 } as const;
 
 const polygon_config: BaseNetworkConfig = {
-  publicJsonRPCUrl: 'https://rpc-mainnet.matic.network',
-  publicJsonRPCWSUrl: 'wss://rpc-mainnet.matic.network',
+  publicJsonRPCUrl: 'https://polygon-rpc.com',
+  publicJsonRPCWSUrl: 'wss://polygon-rpc.com',
   walletBalanceProvider: '0x34aa032bC416Cf2CdC45c0C8f065b1F19463D43e',
   batchV2PoolDataProviderAddress: '0x3b4108475a8092967225564C05a1E74e9F7A45D6',
   cachingServerUrl: 'https://cache-api-polygon.aave.com/graphql',

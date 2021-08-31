@@ -5,7 +5,7 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@0x/subproviders": "^6.5.4",
-    "@aave/aave-ui-kit": "^0.1.5",
+    "@aave/aave-ui-kit": "^0.1.6",
     "@aave/protocol-js": "^4.0.1",
     "@apollo/client": "^3.4.8",
     "@apollo/react-common": "^3.1.4",

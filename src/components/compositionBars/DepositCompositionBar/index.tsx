@@ -2,11 +2,10 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { UserSummaryData, valueToBigNumber } from '@aave/protocol-js';
 import { BigNumber } from 'bignumber.js';
-import { getAssetColor } from '@aave/aave-ui-kit';
 
 import Row from '../../basic/Row';
 import CompositionBar from '../CompositionBar';
-import { getAssetInfo } from '../../../helpers/markets/markets-data';
+import { getAssetInfo, getAssetColor } from '../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';

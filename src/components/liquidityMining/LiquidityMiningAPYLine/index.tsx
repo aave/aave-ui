@@ -1,14 +1,15 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import ReactTooltip from 'react-tooltip';
-import { rgba, TokenIcon, useThemeContext } from '@aave/aave-ui-kit';
+import { rgba, useThemeContext } from '@aave/aave-ui-kit';
+import classNames from 'classnames';
 
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import ValuePercent from '../../basic/ValuePercent';
+import { TokenIcon } from '../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';
-import classNames from 'classnames';
 
 interface LiquidityMiningAPYLineProps {
   value: string | number;

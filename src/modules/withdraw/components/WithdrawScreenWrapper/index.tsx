@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { useThemeContext, isAssetStable } from '@aave/aave-ui-kit';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import Row from '../../../../components/basic/Row';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
@@ -11,6 +11,7 @@ import MaxLTVHelpModal from '../../../../components/HelpModal/MaxLTVHelpModal';
 import ValuePercent from '../../../../components/basic/ValuePercent';
 import RepayWithdrawWrapper from '../../../../components/wrappers/RepayWithdrawWrapper';
 import CollateralCompositionBar from '../../../../components/compositionBars/CollateralCompositionBar';
+import { isAssetStable } from '../../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';

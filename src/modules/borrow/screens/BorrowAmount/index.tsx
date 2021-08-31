@@ -16,7 +16,7 @@ import messages from './messages';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
-import { getAssetInfo } from '../../../../helpers/markets/markets-data';
+import { getAssetInfo } from '../../../../helpers/markets/assets';
 
 enum BorrowStep {
   AmountForm,
