@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { ComputedReserveData, valueToBigNumber } from '@aave/protocol-js';
-import { isAssetStable, useThemeContext } from '@aave/aave-ui-kit';
+import { useThemeContext } from '@aave/aave-ui-kit';
 import {
   useDynamicPoolDataContext,
   useStaticPoolDataContext,
@@ -20,6 +20,7 @@ import messages from './messages';
 
 import { DepositTableItem } from '../../components/DepositAssetsTable/types';
 import { useWalletBalanceProviderContext } from '../../../../libs/wallet-balance-provider/WalletBalanceProvider';
+import { isAssetStable } from '../../../../helpers/markets/assets';
 
 export default function DepositsMain() {
   const intl = useIntl();

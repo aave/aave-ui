@@ -7,7 +7,6 @@ import {
   BigNumber,
   InterestRate,
 } from '@aave/protocol-js';
-import { isAssetStable } from '@aave/aave-ui-kit';
 
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
@@ -21,7 +20,7 @@ import NotHaveEnoughFundsToRepayHelpModal from '../../../../components/HelpModal
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
-import { getAssetInfo } from '../../../../helpers/markets/markets-data';
+import { getAssetInfo, isAssetStable } from '../../../../helpers/markets/assets';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';

@@ -2,13 +2,7 @@ import React from 'react';
 import BigNumber from 'bignumber.js';
 import { useIntl } from 'react-intl';
 import { valueToBigNumber } from '@aave/protocol-js';
-import {
-  useThemeContext,
-  getAssetColor,
-  isAssetStable,
-  TokenIcon,
-  BasicModal,
-} from '@aave/aave-ui-kit';
+import { useThemeContext, BasicModal } from '@aave/aave-ui-kit';
 
 import { useDynamicPoolDataContext, useStaticPoolDataContext } from '../../libs/pool-data-provider';
 import Row from '../basic/Row';
@@ -16,6 +10,7 @@ import Value from '../basic/Value';
 import ValuePercent from '../basic/ValuePercent';
 import MaxLTVHelpModal from '../HelpModal/MaxLTVHelpModal';
 import Caption from '../basic/Caption';
+import { getAssetColor, isAssetStable, TokenIcon } from '../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';

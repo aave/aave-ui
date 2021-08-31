@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { rgba, useThemeContext, TokenIcon } from '@aave/aave-ui-kit';
+import { rgba, useThemeContext } from '@aave/aave-ui-kit';
 
 import Row from '../../basic/Row';
 import BasicField from '../BasicField';
 import Value from '../../basic/Value';
 import Preloader from '../../basic/Preloader';
+import { TokenIcon } from '../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';

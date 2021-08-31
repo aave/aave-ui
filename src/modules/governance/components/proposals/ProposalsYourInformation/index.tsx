@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useWeb3React } from '@web3-react/core';
-import { useThemeContext, textCenterEllipsis, TokenIcon } from '@aave/aave-ui-kit';
+import { useThemeContext, textCenterEllipsis } from '@aave/aave-ui-kit';
 
 import { useStaticPoolDataContext } from '../../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../../libs/protocol-data-provider';
@@ -15,6 +15,7 @@ import Link from '../../../../../components/basic/Link';
 import DefaultButton from '../../../../../components/basic/DefaultButton';
 import VoteBalance from '../../VoteBalance';
 import { useGovernanceDataContext } from '../../../../../libs/governance-provider';
+import { TokenIcon } from '../../../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';

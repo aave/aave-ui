@@ -24,7 +24,8 @@ import routeParamValidationHOC, {
 import messages from './messages';
 
 import linkIcon from '../../../../images/whiteLinkIcon.svg';
-import { getAssetInfo, isFeatureEnabled } from '../../../../helpers/markets/markets-data';
+import { isFeatureEnabled } from '../../../../helpers/markets/markets-data';
+import { getAssetInfo } from '../../../../helpers/markets/assets';
 
 interface DepositAmountProps
   extends Pick<

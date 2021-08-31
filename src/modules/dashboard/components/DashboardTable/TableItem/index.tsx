@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import { useThemeContext, TokenIcon } from '@aave/aave-ui-kit';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import TableCol from '../TableCol';
 import AMPLWarning from '../../../../../components/AMPLWarning';
-import { getAssetInfo } from '../../../../../helpers/markets/markets-data';
+import { getAssetInfo, TokenIcon } from '../../../../../helpers/markets/assets';
 
 import staticStyles from './style';
 

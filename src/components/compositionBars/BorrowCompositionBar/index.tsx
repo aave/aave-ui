@@ -1,13 +1,12 @@
 import React from 'react';
 import BigNumber from 'bignumber.js';
 import { useIntl } from 'react-intl';
-import { getAssetColor } from '@aave/aave-ui-kit';
 
 import { useDynamicPoolDataContext } from '../../../libs/pool-data-provider';
 import Row from '../../basic/Row';
 import CompositionBar from '../CompositionBar';
 
-import { getAssetInfo } from '../../../helpers/markets/markets-data';
+import { getAssetColor, getAssetInfo } from '../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';

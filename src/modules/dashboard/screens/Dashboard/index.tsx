@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
-import { getAssetColor, useThemeContext } from '@aave/aave-ui-kit';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
@@ -36,6 +36,7 @@ import { DashboardLeftTopLine } from '../../../../ui-config';
 
 import messages from './messages';
 import staticStyles from './style';
+import { getAssetColor } from '../../../../helpers/markets/assets';
 
 export default function Dashboard() {
   const intl = useIntl();

@@ -1,7 +1,9 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import Chart from 'react-apexcharts';
-import { useThemeContext, TokenIcon } from '@aave/aave-ui-kit';
+import { useThemeContext } from '@aave/aave-ui-kit';
+
+import { TokenIcon } from '../../../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';

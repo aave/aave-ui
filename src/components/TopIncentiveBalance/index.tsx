@@ -1,12 +1,13 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { TokenIcon, useThemeContext } from '@aave/aave-ui-kit';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useDynamicPoolDataContext, useStaticPoolDataContext } from '../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../libs/protocol-data-provider';
 import Value from '../basic/Value';
 import Link from '../basic/Link';
 import DefaultButton from '../basic/DefaultButton';
+import { TokenIcon } from '../../helpers/markets/assets';
 
 import defaultMessages from '../../defaultMessages';
 import messages from './messages';

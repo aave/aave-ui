@@ -3,10 +3,10 @@ import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 
 import Link from '../basic/Link';
-import { getAssetInfo } from '../../helpers/markets/markets-data';
 
 import messages from './messages';
 import staticStyles from './style';
+import { getAssetInfo } from '../../helpers/markets/assets';
 
 interface FreezedWarningProps {
   symbol: string;

@@ -8,7 +8,6 @@ import {
   API_ETH_MOCK_ADDRESS,
   Network,
 } from '@aave/protocol-js';
-import { isAssetStable } from '@aave/aave-ui-kit';
 
 import {
   useDynamicPoolDataContext,
@@ -26,6 +25,7 @@ import { calculateHFAfterRepay } from '../../helpers';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
+import { isAssetStable } from '../../../../helpers/markets/assets';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
