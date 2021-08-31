@@ -1,4 +1,4 @@
-import { Network, Stake } from '@aave/protocol-js';
+import { Network } from '@aave/protocol-js';
 
 export interface StakeConfig {
   network: Network;
@@ -12,7 +12,7 @@ export interface StakeConfig {
   };
 }
 
-export const stakeConfig: StakeConfig | undefined = undefined
+export const stakeConfig: StakeConfig | undefined = undefined;
 
 // kovan config
 // export const stakeConfig: StakeConfig | undefined = {
