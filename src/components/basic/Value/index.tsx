@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import ReactTooltip from 'react-tooltip';
-import { useThemeContext, TokenIcon } from '@aave/aave-ui-kit';
-
-import { getAssetInfo } from '../../../helpers/markets/markets-data';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { CompactNumber } from '../CompactNumber';
 import SubValue from './SubValue';
 import ValueWithSmallDecimals from './ValueWithSmallDecimals';
+import { getAssetInfo, TokenIcon } from '../../../helpers/markets/assets';
 
 import staticStyles from './style';
 

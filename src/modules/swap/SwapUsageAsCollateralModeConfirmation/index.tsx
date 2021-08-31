@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import queryString from 'query-string';
 import { useIntl } from 'react-intl';
 import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/protocol-js';
-import { useThemeContext, TokenIcon } from '@aave/aave-ui-kit';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../libs/tx-provider';
@@ -15,7 +15,7 @@ import HealthFactor from '../../../components/HealthFactor';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../components/RouteParamsValidationWrapper';
-import { getAssetInfo } from '../../../helpers/markets/markets-data';
+import { getAssetInfo, TokenIcon } from '../../../helpers/markets/assets';
 
 import messages from './messages';
 

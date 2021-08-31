@@ -1,13 +1,11 @@
 import React, { ReactNode } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
-import { TokenIcon } from '@aave/aave-ui-kit';
-
-import { getAssetInfo } from '../../../helpers/markets/markets-data';
 
 import TableItemWrapper from '../../BasicTable/TableItemWrapper';
 import TableColumn from '../../BasicTable/TableColumn';
 import FreezedWarning from '../../FreezedWarning';
+import { getAssetInfo, TokenIcon } from '../../../helpers/markets/assets';
 
 import staticStyles from './style';
 

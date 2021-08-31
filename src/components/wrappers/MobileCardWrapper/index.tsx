@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import { TokenIcon, useThemeContext } from '@aave/aave-ui-kit';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import goToTop from '../../../helpers/goToTop';
-import { getAssetInfo } from '../../../helpers/markets/markets-data';
+import { getAssetInfo, TokenIcon } from '../../../helpers/markets/assets';
 
 import staticStyles from './style';
 

@@ -6,7 +6,6 @@ import {
   ReserveData,
   UserReserveData,
 } from '@aave/protocol-js';
-import { assetsOrder } from '@aave/aave-ui-kit';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useProtocolDataWithRpc } from '../hooks/use-v2-protocol-data-with-rpc';
 import { useUserWalletDataContext } from '../../web3-data-provider';
@@ -14,6 +13,7 @@ import { NetworkConfig } from '../../../helpers/markets/markets-data';
 import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/use-cached-protocol-data';
 import { useApolloConfigContext } from '../../apollo-config';
 import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
+import { assetsOrder } from '../../../ui-config/assets';
 
 /**
  * removes the marketPrefix from a symbol

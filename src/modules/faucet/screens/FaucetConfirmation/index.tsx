@@ -10,7 +10,7 @@ import routeParamValidationHOC, {
 } from '../../../../components/RouteParamsValidationWrapper';
 import Row from '../../../../components/basic/Row';
 import NoDataPanel from '../../../../components/NoDataPanel';
-import { getAssetInfo } from '../../../../helpers/markets/markets-data';
+import { getAssetInfo } from '../../../../helpers/markets/assets';
 
 import messages from './messages';
 

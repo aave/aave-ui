@@ -3,9 +3,8 @@ import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { getAssetInfo } from '../../../../helpers/markets/markets-data';
-
 import staticStyles from './style';
+import { getAssetInfo } from '../../../../helpers/markets/assets';
 
 interface SubValueProps {
   symbol?: string;

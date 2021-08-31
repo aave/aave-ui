@@ -1,17 +1,17 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { valueToBigNumber } from '@aave/protocol-js';
-import { useThemeContext, isAssetStable } from '@aave/aave-ui-kit';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import Row from '../../../basic/Row';
 import Value from '../../../basic/Value';
 import ValuePercent from '../../../basic/ValuePercent';
 import HealthFactor from '../../../HealthFactor';
+import { ValidationWrapperComponentProps } from '../../../RouteParamsValidationWrapper';
+import { isAssetStable } from '../../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';
-
-import { ValidationWrapperComponentProps } from '../../../RouteParamsValidationWrapper';
 
 interface TopInfoPanelProps
   extends Pick<

@@ -1,10 +1,10 @@
 import React from 'react';
-import { useThemeContext, TokenIcon } from '@aave/aave-ui-kit';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import Link from '../../../../basic/Link';
 import Value from '../../../../basic/Value';
 import Row from '../../../../basic/Row';
-import { getAssetInfo } from '../../../../../helpers/markets/markets-data';
+import { getAssetInfo, TokenIcon } from '../../../../../helpers/markets/assets';
 
 import staticStyles from './style';
 
