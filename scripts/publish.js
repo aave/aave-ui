@@ -1,62 +1,17 @@
-const pinataSDK = require('@pinata/sdk');
+const updateCloudFlareRecord = require('./helpers/cloudflare');
+const cleanupAndPin = require('./helpers/pinata');
 
-const PIN_ALIAS = process.env.PIN_ALIAS || 'AaveIPFSFrontend';
+async function pinAndPublish() {
+  const hash = await cleanupAndPin();
+  console.log(`Pinning was done successfully: https://cloudflare-ipfs.com/ipfs/${hash}`);
 
-const BUILD_LOCATION = process.env.BUILD_LOCATION || './build';
-
-const PINATA_API_KEY = process.env.PINATA_API_KEY;
-const PINATA_SECRET_KEY = process.env.PINATA_SECRET_KEY;
-
-if (!PINATA_SECRET_KEY || !PINATA_API_KEY) {
-  console.log('PINATA_SECRET_KEY and PINATA_API_KEY should be specified');
-  process.exit(1);
-}
-
-async function cleanupAndPin() {
-  const pinata = pinataSDK(PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
-  try {
-    await pinata.testAuthentication();
-    console.log('Auth successful');
-
-    console.log('Cleaning up the previous pins');
-    try {
-      const previousPins = await pinata.pinList({
-        metadata: { name: PIN_ALIAS },
-        status: 'pinned',
-      });
-      if (previousPins.count) {
-        for (let pin of previousPins.rows) {
-          try {
-            await pinata.unpin(pin.ipfs_pin_hash);
-            console.log(`${pin.ipfs_pin_hash} - deleted`);
-          } catch (e) {
-            console.log(`Failed to unpin ${pin.ipfs_pin_hash} with error`, e);
-            process.exit(1);
-          }
-        }
-      }
-    } catch (e) {
-      console.log('Failed to get a list of existing pins with error', e);
-      process.exit(1);
-    }
-
-    console.log('Uploading the latest build');
-    try {
-      const result = await pinata.pinFromFS(BUILD_LOCATION, {
-        pinataMetadata: {
-          name: PIN_ALIAS,
-        },
-      });
-      console.log('Pinning was done successfully', result);
-      process.exit(0);
-    } catch (e) {
-      console.log('Pinning was failed with error', e);
-      process.exit(1);
-    }
-  } catch (e) {
-    console.log('Pinata auth was failed with error', e);
-    process.exit(1);
+  const domain = process.env.CF_DEPLOYMENT_DOMAIN;
+  if (domain) {
+    await updateCloudFlareRecord(hash, domain);
+  } else {
+    console.log('no cloudflare domain specified, skipping DNS update');
   }
+  process.exit(0);
 }
 
-cleanupAndPin();
+pinAndPublish();
