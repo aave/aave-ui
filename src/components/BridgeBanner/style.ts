@@ -5,7 +5,7 @@ const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
 
-  .NetworkBanner {
+  .BridgeBanner {
     width: 100%;
     display: flex;
     border-radius: 50px;

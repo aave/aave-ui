@@ -2,13 +2,17 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 import classNames from 'classnames';
 import React, { ReactNode, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+
 import { useLanguageContext } from '../../../libs/language-provider';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
-import { DISPLAY_BANNER_PAGES, networkBannerConfigs } from '../../../ui-config';
-import NetworkBanner from '../../../ui-config/branding/NetworkBanner';
+import BridgeBanner from '../../BridgeBanner';
 import DesktopPageTitle from '../../DesktopPageTitle';
 import { useHeaderTitle, useWithDesktopTitle } from '../ScreensWrapper';
+
 import staticStyles from './style';
+
+// Pages where the banners should be displayed
+export const DISPLAY_BRIDGE_BANNER_PAGES = ['/deposit', '/repay'];
 
 interface ScreenWrapperProps {
   pageTitle?: string;
@@ -33,7 +37,10 @@ export default function ScreenWrapper({
 }: ScreenWrapperProps) {
   const { currentLangSlug } = useLanguageContext();
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
-  const { currentMarket } = useProtocolDataContext();
+  const {
+    networkConfig: { bridge },
+    network,
+  } = useProtocolDataContext();
   const location = useLocation();
   const { setTitle } = useHeaderTitle();
   const { setTopPanelSmall } = useWithDesktopTitle();
@@ -67,10 +74,10 @@ export default function ScreenWrapper({
       )}
       {subTitle && <div className="ScreenWrapper__mobileSubTitle">{subTitle}</div>}
 
-      {DISPLAY_BANNER_PAGES.includes(location.pathname) && networkBannerConfigs[currentMarket] && (
+      {DISPLAY_BRIDGE_BANNER_PAGES.includes(location.pathname) && bridge && (
         <>
           <div className="ScreenWrapper__bannerWrapper">
-            <NetworkBanner {...networkBannerConfigs[currentMarket]} />
+            <BridgeBanner networkName={network} {...bridge} />
           </div>
           <div className="ScreenWrapper__bannerSpacer" />
         </>
