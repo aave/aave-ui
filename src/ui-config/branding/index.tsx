@@ -9,7 +9,7 @@ import LegalBanner from './LegalBanner';
 import { DashboardLeftTopLine as DashboardLeftTopLineUI } from './DashboardLeftTopLine';
 import { UnlockWalletExtraText as UnlockWalletExtraTextUI } from './UnlockWalletExtraText';
 
-import logo from './images/centLogo.svg';
+import logo from './images/aaveLogo.svg';
 
 export const LOGO = logo;
 
