@@ -5,8 +5,8 @@ export const assetsList: Asset[] = [
     name: 'DAI',
     symbol: 'DAI',
     color: '#f7b14a',
-    icon: 'https://storage.googleapis.com/tinlake/pool-media/dai.svg',
-    aIcon: 'https://storage.googleapis.com/tinlake/pool-media/adai.svg',
+    icon: 'https://storage.googleapis.com/tinlake/aave/dai.svg',
+    aIcon: 'https://storage.googleapis.com/tinlake/aave/adai.svg',
   },
   {
     name: 'NS2DRP',
@@ -26,8 +26,8 @@ export const assetsList: Asset[] = [
     name: 'FF1DRP',
     symbol: 'FF1DRP',
     color: '#f7b14a',
-    icon: 'https://storage.googleapis.com/tinlake/pool-media/fortunafi/drop.svg',
-    aIcon: 'https://storage.googleapis.com/tinlake/pool-media/fortunafi/drop.svg',
+    icon: 'https://storage.googleapis.com/tinlake/pool-media/fortunafi-1/drop.svg',
+    aIcon: 'https://storage.googleapis.com/tinlake/pool-media/fortunafi-1/drop.svg',
   },
 ];
 
