@@ -14,7 +14,6 @@ import DepositAssetsTable from '../../components/DepositAssetsTable';
 import DepositMobileCard from '../../components/DepositAssetsTable/DepositMobileCard';
 import DepositBorrowMainWrapper from '../../../../components/wrappers/DepositBorrowMainWrapper';
 import Card from '../../../../components/wrappers/DepositBorrowMainWrapper/components/Card';
-import Link from '../../../../components/basic/Link';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -22,14 +21,10 @@ import messages from './messages';
 import { DepositTableItem } from '../../components/DepositAssetsTable/types';
 import { useWalletBalanceProviderContext } from '../../../../libs/wallet-balance-provider/WalletBalanceProvider';
 
-import linkIcon from '../../../../images/blueLinkIcon.svg';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-
 export default function DepositsMain() {
   const intl = useIntl();
   const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
-  const { networkConfig } = useProtocolDataContext();
   const { sm } = useThemeContext();
 
   const [searchValue, setSearchValue] = useState('');
