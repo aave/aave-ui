@@ -18,7 +18,7 @@ export default function NetworkBanner({
   return (
     <div className="NetworkBanner" style={{ backgroundColor: brandColor }}>
       <div className="NetoworkBanner__logo">
-        <img src={bridgeLogo} />
+        <img src={bridgeLogo} alt={bridgeName} />
       </div>
       <div className="NetworkBanner__title">
         {intl.formatMessage(messages.title, {
@@ -32,9 +32,9 @@ export default function NetworkBanner({
         </Link>
       </div>
       <div className="NetworkBanner__link">
-        <a href={bridgeUrl} target="_blank">
-          <img src={whiteLinkIcon} />
-        </a>
+        <Link to={bridgeUrl} inNewWindow={true} absolute={true}>
+          <img src={whiteLinkIcon} alt="" />
+        </Link>
       </div>
       <style jsx={true}>{staticStyles}</style>
     </div>
