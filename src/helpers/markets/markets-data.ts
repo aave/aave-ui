@@ -41,7 +41,6 @@ export type NetworkConfig = {
   rewardTokenDecimals: number;
   incentivePrecision: number;
   usdMarket?: boolean;
-  bridgeUrl?: string;
   // function returning a link to etherscan et al
   explorerLink: string;
   explorerLinkBuilder: (props: ExplorerLinkBuilderProps) => string;
@@ -49,6 +48,12 @@ export type NetworkConfig = {
   addresses?: {
     INCENTIVES_CONTROLLER: string;
     INCENTIVES_CONTROLLER_REWARD_TOKEN: string;
+  };
+  bridge?: {
+    brandColor: string;
+    name: string;
+    url: string;
+    logo: string;
   };
 };
 

@@ -14,7 +14,6 @@ import DepositAssetsTable from '../../components/DepositAssetsTable';
 import DepositMobileCard from '../../components/DepositAssetsTable/DepositMobileCard';
 import DepositBorrowMainWrapper from '../../../../components/wrappers/DepositBorrowMainWrapper';
 import Card from '../../../../components/wrappers/DepositBorrowMainWrapper/components/Card';
-import Link from '../../../../components/basic/Link';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -22,14 +21,10 @@ import messages from './messages';
 import { DepositTableItem } from '../../components/DepositAssetsTable/types';
 import { useWalletBalanceProviderContext } from '../../../../libs/wallet-balance-provider/WalletBalanceProvider';
 
-import linkIcon from '../../../../images/blueLinkIcon.svg';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-
 export default function DepositsMain() {
   const intl = useIntl();
   const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
-  const { networkConfig } = useProtocolDataContext();
   const { sm } = useThemeContext();
 
   const [searchValue, setSearchValue] = useState('');
@@ -118,24 +113,6 @@ export default function DepositsMain() {
   return (
     <ScreenWrapper
       pageTitle={intl.formatMessage(defaultMessages.deposit)}
-      subTitle={
-        networkConfig.bridgeUrl
-          ? intl.formatMessage(messages.subTitle, {
-              bridge: (
-                <Link
-                  to={networkConfig.bridgeUrl}
-                  inNewWindow={true}
-                  absolute={true}
-                  color="secondary"
-                  bold={true}
-                >
-                  <strong>{intl.formatMessage(messages.bridge)}</strong>
-                  <img src={linkIcon} alt="" />
-                </Link>
-              ),
-            })
-          : ''
-      }
       isTitleOnDesktop={true}
       withMobileGrayBg={true}
     >

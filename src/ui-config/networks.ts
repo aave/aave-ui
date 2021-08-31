@@ -7,6 +7,8 @@ import {
   POLYGON_FORK_WS_RPC_URL,
 } from '../config';
 import { BaseNetworkConfig } from '../helpers/markets/markets-data';
+import polygonBridgeLogo from './branding/images/polygonLogo.svg';
+import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
 
 const mainnet_config: BaseNetworkConfig = {
   publicJsonRPCUrl: 'https://cloudflare-eth.com',
@@ -51,7 +53,12 @@ const polygon_config: BaseNetworkConfig = {
     INCENTIVES_CONTROLLER: '0x357d51124f59836ded84c8a1730d72b749d8bc23',
     INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
   },
-  bridgeUrl: 'https://wallet.matic.network/bridge/',
+  bridge: {
+    brandColor: '#8247E5',
+    name: 'Polygon PoS Bridge',
+    url: 'https://wallet.matic.network/bridge/',
+    logo: polygonBridgeLogo,
+  },
 } as const;
 
 export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
@@ -115,7 +122,12 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
       INCENTIVES_CONTROLLER: '0xa1EF206fb9a8D8186157FC817fCddcC47727ED55',
       INCENTIVES_CONTROLLER_REWARD_TOKEN: '0xd00ae08403b9bbb9124bb305c09058e32c39a48c',
     },
-    bridgeUrl: 'https://bridge.avax.network/',
+    bridge: {
+      brandColor: '#E84142',
+      name: 'Avalanche Bridge',
+      url: 'https://bridge.avax.network/',
+      logo: avalancheBridgeLogo,
+    },
   },
   [Network.fork]: {
     ...mainnet_config,
