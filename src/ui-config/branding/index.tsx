@@ -9,6 +9,8 @@ import LegalBanner from './LegalBanner';
 import { DashboardLeftTopLine as DashboardLeftTopLineUI } from './DashboardLeftTopLine';
 import { UnlockWalletExtraText as UnlockWalletExtraTextUI } from './UnlockWalletExtraText';
 
+import './style.css';
+
 import logo from './images/aaveLogo.svg';
 
 export const LOGO = logo;
