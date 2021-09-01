@@ -11,8 +11,8 @@ import polygonBridgeLogo from './branding/images/polygonLogo.svg';
 import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
 
 const mainnet_config: BaseNetworkConfig = {
-  publicJsonRPCUrl: 'https://cloudflare-eth.com',
-  publicJsonRPCWSUrl: 'wss://cloudflare-eth.com',
+  publicJsonRPCUrl: 'https://eth-mainnet.alchemyapi.io/v2/demo',
+  publicJsonRPCWSUrl: 'wss://eth-mainnet.alchemyapi.io/v2/demo',
   walletBalanceProvider: '0x8E8dAd5409E0263a51C0aB5055dA66Be28cFF922',
   batchV2PoolDataProviderAddress: '0xf49670C78794b6a604f3B49393d8eE951713339F',
   cachingServerUrl: 'https://cache-api-mainnet.aave.com/graphql',
