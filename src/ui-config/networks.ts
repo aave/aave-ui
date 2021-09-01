@@ -65,7 +65,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
   [Network.kovan]: {
     publicJsonRPCUrl: 'https://kovan.poa.network ',
     walletBalanceProvider: '0x07DC923859b68e9399d787bf52c4Aa9eBe3490aF',
-    uiPoolDataProvider: '0x7F9fEF2c144C7D120E27E7Fe9798D4C7b714F0dD',
+    uiPoolDataProvider: '0x04110Dc40B04b99B94840E53B2a33bE45E45A8Ed',
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-kovan',
     baseUniswapAdapter: '0xf86Be05f535EC2d217E4c6116B3fa147ee5C05A1',
     baseAsset: 'ETH',
