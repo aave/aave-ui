@@ -19,7 +19,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
       staking: false,
       collateralRepay: false,
       incentives: false,
-      permissions: false,
+      permissions: true,
     },
     addresses: {
       LENDING_POOL_ADDRESS_PROVIDER: '0xA9251111878BFA6b4cA83e6059e8C661d87b6ec2'.toLowerCase(),
