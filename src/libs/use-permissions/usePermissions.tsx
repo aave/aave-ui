@@ -5,7 +5,7 @@ import { useProtocolDataContext } from '../protocol-data-provider';
 import { useUserWalletDataContext } from '../web3-data-provider';
 import Preloader from '../../components/basic/Preloader';
 import { useStaticPoolDataContext } from '../pool-data-provider';
-import PermissionWarning from '../../components/PermissionWarning';
+import PermissionWarning from '../../ui-config/branding/PermissionWarning';
 import { isFeatureEnabled } from '../../helpers/markets/markets-data';
 
 export enum PERMISSION {
