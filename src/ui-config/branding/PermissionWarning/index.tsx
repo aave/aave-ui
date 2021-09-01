@@ -1,6 +1,5 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Button } from '@aave/aave-ui-kit';
 import { PERMISSION } from '../../../libs/use-permissions/usePermissions';
 import ScreenWrapper from '../../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../../components/wrappers/ContentWrapper';
@@ -8,6 +7,7 @@ import Caption from '../../../components/basic/Caption';
 
 import messages from './messages';
 import staticStyles from './style';
+import DefaultButton from '../../../components/basic/DefaultButton';
 
 interface PermissionWarningProps {
   requiredPermission: PERMISSION;
@@ -28,17 +28,16 @@ export default function PermissionWarning({ requiredPermission }: PermissionWarn
       <ContentWrapper withBackButton={true} withFullHeight={true}>
         {requiredPermission === PERMISSION.DEPOSITOR ? (
           <Caption
-            title={intl.formatMessage(messages.caption)}
+            title="Onboarding required"
             description={
               <>
                 To participate in the Aave Centrifuge market, you will need to complete KYC and sign
-                a Subscription Agreement with the issuer, END_Bridge LLC.
-                <br />
-                <br />
-                <div style={{ display: 'inline-block' }}>
-                  <Button
+                a Subscription Agreement with the issuer, END_Bridge LLC. <br />
+                <div style={{ display: 'inline-block', marginTop: '30px' }}>
+                  <DefaultButton
                     onClick={() => window.open(ONBOARDING_URL, '_blank')}
                     title="Start onboarding"
+                    size="big"
                   />
                 </div>
               </>
