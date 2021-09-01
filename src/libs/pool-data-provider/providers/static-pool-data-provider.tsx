@@ -78,7 +78,7 @@ export function StaticPoolDataProvider({
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     currentAccount,
     network,
-    networkConfig.batchV2PoolDataProviderAddress,
+    networkConfig.uiPoolDataProvider,
     !isRPCActive // TODO: think one more time
   );
 
