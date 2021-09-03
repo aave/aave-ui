@@ -10,8 +10,8 @@ export enum CustomMarket {
 export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType } = {
   [CustomMarket.centrifuge_kovan]: {
     network: Network.kovan,
-    logo: logos.centLogo,
-    activeLogo: logos.centLogoActive,
+    logo: logos.rwaLogo,
+    activeLogo: logos.rwaLogoActive,
     aTokenPrefix: 'A',
     enabledFeatures: {
       faucet: false,
