@@ -132,13 +132,33 @@ export default function DepositMobileCard({
             <Link
               to={`/asset-swap?asset=${underlyingAsset}`}
               className="ButtonLink"
-              disabled={!isActive || isFrozen || symbol.toUpperCase() === 'XSUSHI'}
+              disabled={
+                !isActive ||
+                isFrozen ||
+                symbol.toUpperCase() === 'XSUSHI' ||
+                symbol.toUpperCase() === 'GUSD' ||
+                symbol.toUpperCase() === 'BUSD' ||
+                symbol.toUpperCase() === 'SUSD' ||
+                symbol.toUpperCase() === 'BAL' ||
+                symbol.toUpperCase() === 'KNC' ||
+                symbol.toUpperCase() === 'ZRX'
+              }
             >
               <DefaultButton
                 title={intl.formatMessage(defaultMessages.swap)}
                 color="dark"
                 transparent={true}
-                disabled={!isActive || isFrozen || symbol.toUpperCase() === 'XSUSHI'}
+                disabled={
+                  !isActive ||
+                  isFrozen ||
+                  symbol.toUpperCase() === 'XSUSHI' ||
+                  symbol.toUpperCase() === 'GUSD' ||
+                  symbol.toUpperCase() === 'BUSD' ||
+                  symbol.toUpperCase() === 'SUSD' ||
+                  symbol.toUpperCase() === 'BAL' ||
+                  symbol.toUpperCase() === 'KNC' ||
+                  symbol.toUpperCase() === 'ZRX'
+                }
               />
             </Link>
           </Row>
