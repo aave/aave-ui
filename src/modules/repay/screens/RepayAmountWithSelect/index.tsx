@@ -75,7 +75,15 @@ export function RepayAmountWithSelect({
     toAssetUserData[query.debtType === InterestRate.Stable ? 'stableBorrows' : 'variableBorrows'];
 
   const availableDeposits = user.reservesData.filter(
-    (res) => res.underlyingBalance !== '0' && res.reserve.symbol !== 'XSUSHI'
+    (res) =>
+      res.underlyingBalance !== '0' &&
+      res.reserve.symbol.toUpperCase() !== 'XSUSHI' &&
+      res.reserve.symbol.toUpperCase() !== 'GUSD' &&
+      res.reserve.symbol.toUpperCase() !== 'BUSD' &&
+      res.reserve.symbol.toUpperCase() !== 'SUSD' &&
+      res.reserve.symbol.toUpperCase() !== 'BAL' &&
+      res.reserve.symbol.toUpperCase() !== 'KNC' &&
+      res.reserve.symbol.toUpperCase() !== 'ZRX'
   );
 
   const availableDepositsOptions = availableDeposits.map((res) => ({

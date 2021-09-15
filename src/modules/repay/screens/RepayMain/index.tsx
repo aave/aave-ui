@@ -30,7 +30,13 @@ export default function RepayMain() {
   }
 
   const buttons = [
-    ...(!/XSUSHI/.test(history.location.pathname)
+    ...(!/XSUSHI/.test(history.location.pathname) &&
+    !/GUSD/.test(history.location.pathname) &&
+    !/BUSD/.test(history.location.pathname) &&
+    !/SUSD/.test(history.location.pathname) &&
+    !/BAL/.test(history.location.pathname) &&
+    !/KNC/.test(history.location.pathname) &&
+    !/ZRX/.test(history.location.pathname)
       ? [
           {
             title: messages.withYourCurrentCollateral,
