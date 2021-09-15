@@ -101,32 +101,11 @@ export function StaticPoolDataProvider({
     userId,
   } = activeData;
 
-  const A_TOKENS_WITH_BROKEN_INCENTIVES = [
-    '0x6c5024cd4f8a59110119c56f8933403a539555eb', //aSUSD
-    '0x101cc05f4a51c0319f570d5e146a8c625198e636', //aTUSD
-    '0x272f97b7a56a387ae942350bbc7df5700f8a4576', //aBAL
-    '0xa06bc25b5805d5f8d82847d191cb4af5a3e873e0', //aLINK
-    '0xc713e5e149d5d0715dcd1c156a020976e7e56b88', //aMKR
-    '0x2e8f4bdbe3d47d7d7de490437aea9915d930f1a3', //aPAX
-    '0xc9bc48c72154ef3e5425641a3c747242112a46af', //aRAI
-    '0xb9d7cb55f463405cdfbe4e90a6d2df01c2b92bf1', //aUNI
-    '0xf256cc7847e919fac9b808cc216cac87ccf2f47a', //aXSUSHI
-    '0x5165d24277cd063f5ac44efd447b27025e888f37', //aYFI
-  ];
-
   const reserves = activeData.reserves
-    .map((reserve) => {
-      const reserveWithFix = {
-        ...reserve,
-        symbol: unPrefixSymbol(reserve.symbol, currentMarketData.aTokenPrefix),
-      };
-      if (A_TOKENS_WITH_BROKEN_INCENTIVES.includes(reserveWithFix.aTokenAddress)) {
-        reserveWithFix.aEmissionPerSecond = '0';
-        reserveWithFix.vEmissionPerSecond = '0';
-        reserveWithFix.sEmissionPerSecond = '0';
-      }
-      return reserveWithFix;
-    })
+    .map((reserve) => ({
+      ...reserve,
+      symbol: unPrefixSymbol(reserve.symbol, currentMarketData.aTokenPrefix),
+    }))
     .sort(
       ({ symbol: a }, { symbol: b }) =>
         assetsOrder.indexOf(a.toUpperCase()) - assetsOrder.indexOf(b.toUpperCase())
