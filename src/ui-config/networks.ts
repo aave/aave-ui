@@ -54,7 +54,7 @@ const polygon_config: BaseNetworkConfig = {
     INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
   },
   bridge: {
-    brandColor: '#8247E5',
+    brandColor: '130, 71, 229',
     name: 'Polygon PoS Bridge',
     url: 'https://wallet.matic.network/bridge/',
     logo: polygonBridgeLogo,
@@ -123,7 +123,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
       INCENTIVES_CONTROLLER_REWARD_TOKEN: '0xd00ae08403b9bbb9124bb305c09058e32c39a48c',
     },
     bridge: {
-      brandColor: '#E84142',
+      brandColor: '232, 65, 66',
       name: 'Avalanche Bridge',
       url: 'https://bridge.avax.network/',
       logo: avalancheBridgeLogo,
