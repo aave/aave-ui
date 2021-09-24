@@ -12,13 +12,13 @@ const staticStyles = css.global`
     padding: 8px 24px;
     color: white;
     justify-content: space-between;
-    box-shadow: $boxShadow;
     position: relative;
 
     &__logo {
       display: flex;
       align-items: center;
     }
+
     &__title {
       position: absolute;
       left: 0;
@@ -31,6 +31,7 @@ const staticStyles = css.global`
         max-width: 343px;
       }
     }
+
     &__link {
       display: flex;
       align-items: center;
@@ -44,7 +45,7 @@ const staticStyles = css.global`
     @include respond-to(md) {
       flex-direction: column;
       align-items: center;
-      border-radius: 0px;
+      border-radius: 0;
       div {
         padding: 4px;
       }
