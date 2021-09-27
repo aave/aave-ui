@@ -113,7 +113,8 @@ export default function AssetSwapMain() {
   );
   const toAssetUserData = user.reservesData.find((res) => res.reserve.underlyingAsset === toAsset);
 
-  const maxAmountToSwap = fromAssetUserData?.underlyingBalance || '0';
+  const availableFromAmount = fromAssetUserData?.underlyingBalance || '0';
+  const availableToAmount = toAssetUserData?.underlyingBalance || '0';
 
   const usdValueSlippage = +fromAmountInUSD
     ? valueToBigNumber(fromAmountInUSD)
@@ -171,10 +172,12 @@ export default function AssetSwapMain() {
         fromAsset,
         toAsset,
         fromAmount,
-        toAmount: toAmountWithSlippage.toString(10),
+        toAmount: toAmount,
+        toAmountInUSD: toAmountInUSD,
         maxSlippage,
         fromAmountInUSD,
-        toAmountInUSD: toAmountInUSDWithSlippage.toString(10),
+        toAmountAfterSlippage: toAmountWithSlippage.toString(10),
+        toAmountInUSDAfterSlippage: toAmountInUSDWithSlippage.toString(10),
         swapAll: isMaxSelected,
         totalFees,
       });
@@ -229,7 +232,7 @@ export default function AssetSwapMain() {
               amount={fromAmount}
               onChangeAmount={setAmountFrom}
               setMaxSelected={setIsMaxSelected}
-              maxAmount={maxAmountToSwap}
+              maxAmount={availableFromAmount}
               amountInUsd={fromAmountInUSD}
               amountTitle={intl.formatMessage(messages.available)}
               disabled={!fromAsset}
@@ -245,10 +248,10 @@ export default function AssetSwapMain() {
               setAsset={setAssetTo}
               options={availableDestinationsSymbols}
               selectTitle={intl.formatMessage(messages.toTitle)}
-              amount={toAmountWithSlippage.toString(10)}
+              amount={toAmount}
               onChangeAmount={() => {}}
-              amountInUsd={toAmountInUSDWithSlippage.toString(10)}
-              percentDifference={(+usdValueSlippage - +maxSlippage).toString()}
+              amountInUsd={toAmountInUSD}
+              percentDifference={(+usdValueSlippage).toString()}
               selectReverseTitle={!md}
               disabled={true}
               loading={loading}

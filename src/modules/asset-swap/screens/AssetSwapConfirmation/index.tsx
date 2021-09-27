@@ -27,9 +27,11 @@ interface QueryParams {
   fromAsset?: string;
   toAsset?: string;
   fromAmount?: string;
-  toAmount?: string;
   fromAmountInUSD?: string;
+  toAmount?: string;
   toAmountInUSD?: string;
+  toAmountAfterSlippage?: string;
+  toAmountInUSDAfterSlippage?: string;
   maxSlippage?: string;
   isReverse?: string;
   swapAll?: string;
@@ -52,10 +54,14 @@ export default function AssetSwapConfirmation() {
   const toAsset = query.toAsset;
 
   const fromAmountQuery = valueToBigNumber(query.fromAmount || 0);
-  const toAmountQuery = valueToBigNumber(query.toAmount || 0);
-
   const fromAmountUsdQuery = valueToBigNumber(query.fromAmountInUSD || 0);
+
+  const toAmountQuery = valueToBigNumber(query.toAmount || 0);
   const toAmountUsdQuery = valueToBigNumber(query.toAmountInUSD || 0);
+
+  // TODO: display as separate line as minimum received
+  const toAmountAfterSlippageQuery = valueToBigNumber(query.toAmountAfterSlippage || 0);
+  const toAmountUsdAfterSlippageQuery = valueToBigNumber(query.toAmountInUSDAfterSlippage || 0);
 
   const maxSlippage = valueToBigNumber(query.maxSlippage || 0);
   const totalFees = valueToBigNumber(query.totalFees || 0);
@@ -105,7 +111,7 @@ export default function AssetSwapConfirmation() {
     !fromAsset ||
     !toAsset ||
     !fromAmountQuery.gt(0) ||
-    !toAmountQuery.gt(0) ||
+    !toAmountAfterSlippageQuery.gt(0) ||
     !maxSlippage.gte(0) ||
     !fromPoolReserve ||
     !toPoolReserve
@@ -117,7 +123,7 @@ export default function AssetSwapConfirmation() {
     fromAmountQuery,
     fromPoolReserve,
     fromUserReserve,
-    toAmountQuery,
+    toAmountAfterSlippageQuery,
     toPoolReserve,
     toUserReserve,
     user,
@@ -152,7 +158,7 @@ export default function AssetSwapConfirmation() {
       swapAll,
       fromAToken: fromPoolReserve.aTokenAddress,
       fromAmount: inputAmount.toString(),
-      minToAmount: toAmountQuery.toString(),
+      minToAmount: toAmountAfterSlippageQuery.toString(),
       user: user.id,
       flash:
         user.healthFactor !== '-1' &&
@@ -162,8 +168,8 @@ export default function AssetSwapConfirmation() {
     });
   };
 
-  const currentSlippage = calcToAmount.lt(toAmountQuery)
-    ? toAmountQuery.minus(calcToAmount).div(toAmountQuery)
+  const currentSlippage = calcToAmount.lt(toAmountAfterSlippageQuery)
+    ? toAmountAfterSlippageQuery.minus(calcToAmount).div(toAmountAfterSlippageQuery)
     : valueToBigNumber('0');
 
   if (currentSlippage.gt(maxSlippage)) {
@@ -215,6 +221,16 @@ export default function AssetSwapConfirmation() {
         <Value
           value={toAmountQuery.toNumber()}
           subValue={toAmountUsdQuery.toString()}
+          symbol={toPoolReserve.symbol}
+          subSymbol="USD"
+          tokenIcon={true}
+          tooltipId={toPoolReserve.symbol}
+        />
+      </Row>
+      <Row title={intl.formatMessage(messages.minReceivedTitle)} withMargin={true}>
+        <Value
+          value={toAmountAfterSlippageQuery.toNumber()}
+          subValue={toAmountUsdAfterSlippageQuery.toString()}
           symbol={toPoolReserve.symbol}
           subSymbol="USD"
           tokenIcon={true}

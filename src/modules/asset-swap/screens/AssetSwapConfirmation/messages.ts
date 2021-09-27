@@ -10,10 +10,11 @@ export default defineMessages({
 
   fromTitle: 'From asset',
   toTitle: 'To asset',
+  minReceivedTitle: 'Minimum received',
   currentHealthFactor: 'Current health factor',
   newHealthFactor: 'New health factor',
   maximumSlippage: 'Maximum slippage',
-  fees: 'Fees',
+  fees: 'Flashloan fee',
 
   balanceNotEnough: 'Your balance in the pool is not enough',
   healthDropBellow: 'Health factor can drop bellow one after swap',
