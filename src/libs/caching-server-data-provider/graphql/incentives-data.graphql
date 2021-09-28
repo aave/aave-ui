@@ -1,0 +1,43 @@
+fragment IncentivesDataFragment on IncentivesData {
+  emissionPerSecond
+  incentivesLastUpdateTimestamp
+  tokenIncentivesIndex
+  emissionEndTimestamp
+  tokenAddress
+  rewardTokenAddress
+  rewardTokenDecimals
+  incentiveControllerAddress
+  precision
+}
+
+query C_ReservesIncentives($lendingPoolAddressProvider: String!) {
+  reservesIncentives(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
+    id
+    underlyingAsset
+    aIncentiveData {
+      ...IncentivesDataFragment
+    }
+    vIncentiveData {
+      ...IncentivesDataFragment
+    }
+    sIncentiveData {
+      ...IncentivesDataFragment
+    }
+  }
+}
+
+subscription C_PoolIncentivesDataUpdate($lendingPoolAddressProvider: String!) {
+  poolIncentivesDataUpdate(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
+    id
+    underlyingAsset
+    aIncentiveData {
+      ...IncentivesDataFragment
+    }
+    vIncentiveData {
+      ...IncentivesDataFragment
+    }
+    sIncentiveData {
+      ...IncentivesDataFragment
+    }
+  }
+}
