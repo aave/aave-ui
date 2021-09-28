@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { rgba, useThemeContext, AnimationArrow, DropdownWrapper } from '@aave/aave-ui-kit';
+import { rgba, useThemeContext, DropdownWrapper } from '@aave/aave-ui-kit';
 
 import CustomScroll from '../../../../basic/CustomScroll';
 import BasicField from '../../../BasicField';
@@ -10,6 +10,9 @@ import { TokenIcon } from '../../../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';
+
+import arrow from './images/arrow.svg';
+import arrowBlack from './images/arrowBlack.svg';
 
 type Option = {
   label: string;
@@ -23,7 +26,6 @@ interface AssetSelectProps {
   setAsset: (value: string, decimals: number) => void;
   options: Option[];
   title: string;
-  reverseTitle?: boolean;
   queryAsset?: string;
 }
 
@@ -32,7 +34,6 @@ export default function AssetSelect({
   setAsset,
   options,
   title,
-  reverseTitle,
   queryAsset,
 }: AssetSelectProps) {
   const intl = useIntl();
@@ -95,7 +96,6 @@ export default function AssetSelect({
   return (
     <div
       className={classNames('AssetSelect', {
-        AssetSelect__reverse: reverseTitle,
         AssetSelect__active: visible,
       })}
     >
@@ -130,14 +130,10 @@ export default function AssetSelect({
             )}
 
             {options.length > 1 && (
-              <AnimationArrow
-                active={visible}
-                width={14}
-                height={8}
-                arrowTopPosition={4}
-                arrowWidth={8}
-                arrowHeight={1}
-                color={sm ? currentTheme.whiteElement.hex : currentTheme.white.hex}
+              <img
+                className={classNames('AssetSelect__arrow', { AssetSelect__arrowActive: visible })}
+                src={sm && isCurrentThemeDark ? arrowBlack : arrow}
+                alt=""
               />
             )}
           </button>

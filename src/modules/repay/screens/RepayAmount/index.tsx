@@ -7,6 +7,8 @@ import BasicForm from '../../../../components/forms/BasicForm';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import RepayContentWrapper from '../../components/RepayContentWrapper';
 import InfoWrapper from '../../../../components/wrappers/InfoWrapper';
 import InfoPanel from '../../../../components/InfoPanel';
 import RepayInfoPanel from '../../components/RepayInfoPanel';
@@ -14,7 +16,6 @@ import RepayInfoPanel from '../../components/RepayInfoPanel';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
 function RepayAmount({
   currencySymbol,
@@ -57,7 +58,7 @@ function RepayAmount({
       interestRateMode: debtType as InterestRate,
     });
   return (
-    <>
+    <RepayContentWrapper>
       <BasicForm
         title={intl.formatMessage(defaultMessages.repay)}
         description={intl.formatMessage(messages.formDescription)}
@@ -80,7 +81,7 @@ function RepayAmount({
           </InfoPanel>
         )}
       </InfoWrapper>
-    </>
+    </RepayContentWrapper>
   );
 }
 

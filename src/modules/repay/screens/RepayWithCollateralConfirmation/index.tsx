@@ -21,6 +21,7 @@ import Value from '../../../../components/basic/Value';
 import HealthFactor from '../../../../components/HealthFactor';
 import ValuePercent from '../../../../components/basic/ValuePercent';
 import { calculateHFAfterRepay } from '../../helpers';
+import RepayContentWrapper from '../../components/RepayContentWrapper';
 
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
@@ -175,90 +176,92 @@ function RepayWithCollateralConfirmation({
       : '';
 
   return (
-    <PoolTxConfirmationView
-      mainTxName={intl.formatMessage(defaultMessages.repay)}
-      caption={intl.formatMessage(messages.caption)}
-      boxTitle={intl.formatMessage(defaultMessages.repay)}
-      boxDescription={intl.formatMessage(messages.boxDescription)}
-      approveDescription={intl.formatMessage(messages.approveDescription)}
-      getTransactionsData={handleGetTransactions}
-      onMainTxExecuted={handleMainTxExecuted}
-      blockingError={blockingError}
-      goToAfterSuccess="/dashboard/borrowings"
-      warningMessage={warningMessage}
-      dangerousMessage={intl.formatMessage(messages.dangerousMessage)}
-      allowedNetworks={[Network.mainnet, Network.fork, Network.kovan]}
-    >
-      <Row title={intl.formatMessage(messages.rowTitle)} withMargin={true}>
-        <Value
-          symbol={fromAssetData?.symbol}
-          value={fromAmountQuery.toString()}
-          tokenIcon={true}
-          subValue={fromAmountUsdQuery.toString()}
-          subSymbol="USD"
-          maximumValueDecimals={isAssetStable(fromAssetData?.symbol || '') ? 4 : 12}
-          maximumSubValueDecimals={4}
-          updateCondition={isTxExecuted}
-          tooltipId={fromAssetData?.symbol}
-        />
-      </Row>
-
-      <Row
-        title={intl.formatMessage(messages.rowTitle)}
-        subTitle={intl.formatMessage(messages.inBorrowCurrency)}
-        withMargin={true}
+    <RepayContentWrapper>
+      <PoolTxConfirmationView
+        mainTxName={intl.formatMessage(defaultMessages.repay)}
+        caption={intl.formatMessage(messages.caption)}
+        boxTitle={intl.formatMessage(defaultMessages.repay)}
+        boxDescription={intl.formatMessage(messages.boxDescription)}
+        approveDescription={intl.formatMessage(messages.approveDescription)}
+        getTransactionsData={handleGetTransactions}
+        onMainTxExecuted={handleMainTxExecuted}
+        blockingError={blockingError}
+        goToAfterSuccess="/dashboard/borrowings"
+        warningMessage={warningMessage}
+        dangerousMessage={intl.formatMessage(messages.dangerousMessage)}
+        allowedNetworks={[Network.mainnet, Network.fork, Network.kovan]}
       >
-        <Value
-          symbol={currencySymbol}
-          value={displayAmountToRepay.toString()}
-          tokenIcon={true}
-          subValue={displayAmountToRepayInUsd.toString()}
-          subSymbol="USD"
-          maximumValueDecimals={isAssetStable(currencySymbol) ? 4 : 12}
-          maximumSubValueDecimals={4}
+        <Row title={intl.formatMessage(messages.rowTitle)} withMargin={true}>
+          <Value
+            symbol={fromAssetData?.symbol}
+            value={fromAmountQuery.toString()}
+            tokenIcon={true}
+            subValue={fromAmountUsdQuery.toString()}
+            subSymbol="USD"
+            maximumValueDecimals={isAssetStable(fromAssetData?.symbol || '') ? 4 : 12}
+            maximumSubValueDecimals={4}
+            updateCondition={isTxExecuted}
+            tooltipId={fromAssetData?.symbol}
+          />
+        </Row>
+
+        <Row
+          title={intl.formatMessage(messages.rowTitle)}
+          subTitle={intl.formatMessage(messages.inBorrowCurrency)}
+          withMargin={true}
+        >
+          <Value
+            symbol={currencySymbol}
+            value={displayAmountToRepay.toString()}
+            tokenIcon={true}
+            subValue={displayAmountToRepayInUsd.toString()}
+            subSymbol="USD"
+            maximumValueDecimals={isAssetStable(currencySymbol) ? 4 : 12}
+            maximumSubValueDecimals={4}
+            updateCondition={isTxExecuted}
+            tooltipId={currencySymbol}
+          />
+        </Row>
+
+        <Row title={intl.formatMessage(messages.secondRowTitle)} withMargin={true}>
+          <Value
+            symbol={currencySymbol}
+            value={Number(displayAmountAfterRepay) > 0 ? Number(displayAmountAfterRepay) : 0}
+            subValue={
+              Number(displayAmountAfterRepayInUsd) > 0 ? Number(displayAmountAfterRepayInUsd) : 0
+            }
+            subSymbol="USD"
+            maximumSubValueDecimals={4}
+            tokenIcon={true}
+            maximumValueDecimals={18}
+            updateCondition={isTxExecuted}
+            tooltipId={poolReserve.id}
+          />
+        </Row>
+
+        <HealthFactor
+          title={intl.formatMessage(messages.currentHealthFactor)}
+          value={user.healthFactor}
           updateCondition={isTxExecuted}
-          tooltipId={currencySymbol}
+          titleColor="dark"
         />
-      </Row>
 
-      <Row title={intl.formatMessage(messages.secondRowTitle)} withMargin={true}>
-        <Value
-          symbol={currencySymbol}
-          value={Number(displayAmountAfterRepay) > 0 ? Number(displayAmountAfterRepay) : 0}
-          subValue={
-            Number(displayAmountAfterRepayInUsd) > 0 ? Number(displayAmountAfterRepayInUsd) : 0
-          }
-          subSymbol="USD"
-          maximumSubValueDecimals={4}
-          tokenIcon={true}
-          maximumValueDecimals={18}
+        <HealthFactor
+          value={hfAfterSwap.toString()}
+          title={intl.formatMessage(messages.nextHealthFactor)}
+          withoutModal={true}
           updateCondition={isTxExecuted}
-          tooltipId={poolReserve.id}
+          titleColor="dark"
         />
-      </Row>
 
-      <HealthFactor
-        title={intl.formatMessage(messages.currentHealthFactor)}
-        value={user.healthFactor}
-        updateCondition={isTxExecuted}
-        titleColor="dark"
-      />
-
-      <HealthFactor
-        value={hfAfterSwap.toString()}
-        title={intl.formatMessage(messages.nextHealthFactor)}
-        withoutModal={true}
-        updateCondition={isTxExecuted}
-        titleColor="dark"
-      />
-
-      <Row title={intl.formatMessage(messages.maximumSlippage)} withMargin={true}>
-        <ValuePercent value={maxSlippage.toNumber() / 100} />
-      </Row>
-      <Row title={intl.formatMessage(messages.fees)}>
-        <ValuePercent value={totalFees.toNumber() / 100} />
-      </Row>
-    </PoolTxConfirmationView>
+        <Row title={intl.formatMessage(messages.maximumSlippage)} withMargin={true}>
+          <ValuePercent value={maxSlippage.toNumber() / 100} />
+        </Row>
+        <Row title={intl.formatMessage(messages.fees)}>
+          <ValuePercent value={totalFees.toNumber() / 100} />
+        </Row>
+      </PoolTxConfirmationView>
+    </RepayContentWrapper>
   );
 }
 

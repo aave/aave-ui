@@ -9,16 +9,20 @@ import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import NoDataPanel from '../../../../components/NoDataPanel';
 import MarketNotSupported from '../../../../components/MarketNotSupported';
-import SwapForm, { DEFAULT_MAX_SLIPPAGE } from '../../../../components/forms/SwapForm';
+import SwapForm from '../../../../components/forms/SwapForm';
 import AmountFieldWithSelect from '../../../../components/fields/AmountFieldWithSelect';
 import Link from '../../../../components/basic/Link';
+import SwapDetailsWrapper, {
+  DEFAULT_MAX_SLIPPAGE,
+} from '../../../../components/wrappers/SwapDetailsWrapper';
+import AssetSwapContentWrapper from '../../components/AssetSwapContentWrapper';
 import AssetSwapNoDeposits from '../../components/AssetSwapNoDeposits';
 import { calculateHFAfterSwap } from '../../helpers';
 import { useSwap } from '../../../../libs/use-asset-swap/useSwap';
+import { isFeatureEnabled } from '../../../../helpers/markets/markets-data';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
-import { isFeatureEnabled } from '../../../../helpers/markets/markets-data';
 
 const applySlippage = (amount: string, slippagePercent: number | string) => {
   return valueToBigNumber(amount || '0').multipliedBy(1 - +slippagePercent / 100);
@@ -28,7 +32,7 @@ export default function AssetSwapMain() {
   const intl = useIntl();
   const history = useHistory();
   const location = useLocation();
-  const { currentTheme, md } = useThemeContext();
+  const { currentTheme } = useThemeContext();
   const { user, reserves } = useDynamicPoolDataContext();
   const { currentMarketData, chainId } = useProtocolDataContext();
   const [fromAmount, setAmountFrom] = useState<string>('');
@@ -87,7 +91,6 @@ export default function AssetSwapMain() {
     label: res.reserve.symbol,
     value: res.reserve.underlyingAsset,
     decimals: res.reserve.decimals,
-    apy: res.reserve.liquidityRate,
   }));
 
   const availableDestinations = reserves.filter(
@@ -98,7 +101,6 @@ export default function AssetSwapMain() {
     label: res.symbol,
     value: res.underlyingAsset,
     decimals: res.decimals,
-    apy: res.liquidityRate,
   }));
 
   const fromAPY = availableDeposits.find(
@@ -189,19 +191,39 @@ export default function AssetSwapMain() {
   const queryFromAsset = queryString.parse(location.search).asset?.toString() || undefined;
 
   return (
-    <>
+    <AssetSwapContentWrapper
+      rightPanel={
+        availableDeposits.length >= 1 && (
+          <SwapDetailsWrapper
+            title={intl.formatMessage(messages.rightPanelTitle)}
+            priceImpact={(+usdValueSlippage).toString()}
+            withMinimumReceived={true}
+            minimumReceivedValue={toAmountWithSlippage.toString(10)}
+            minimumReceivedValueInUSD={toAmountInUSDWithSlippage.toString(10)}
+            minimumReceivedSymbol={toAssetData?.symbol}
+            withAPY={true}
+            fromAPY={fromAPY}
+            toAPY={toAPY}
+            healthFactor={user.healthFactor}
+            hfAfterSwap={hfAfterSwap.toString()}
+            maxSlippage={maxSlippage}
+            setMaxSlippage={setMaxSlippage}
+            withFees={true}
+            flashloanFees={flashloanFees}
+          />
+        )
+      }
+    >
       {availableDeposits.length >= 1 ? (
         <SwapForm
           onSubmit={handleSubmit}
           isSubmitButtonDisabled={isSubmitButtonDisabled}
-          maxSlippage={maxSlippage}
-          setMaxSlippage={setMaxSlippage}
           caption={intl.formatMessage(defaultMessages.swap)}
           description={intl.formatMessage(messages.description, {
             deposited: (
-              <strong style={{ color: `${currentTheme.primary.hex}` }}>
+              <span style={{ color: `${currentTheme.primary.hex}` }}>
                 {intl.formatMessage(messages.deposited)}
-              </strong>
+              </span>
             ),
             faq: (
               <Link
@@ -210,20 +232,12 @@ export default function AssetSwapMain() {
                 inNewWindow={true}
                 title={intl.formatMessage(messages.faq)}
                 color="secondary"
-                bold={true}
               />
             ),
           })}
           error={error || fromAmountNotEnoughError}
-          healthFactor={user.healthFactor}
-          hfAfterSwap={hfAfterSwap.toString()}
           buttonTitle={intl.formatMessage(messages.continue)}
-          withAPY={true}
-          fromAPY={fromAPY}
-          toAPY={toAPY}
-          withFees={true}
-          flashloanFees={flashloanFees}
-          leftField={
+          fromField={
             <AmountFieldWithSelect
               asset={fromAsset}
               setAsset={setAssetFrom}
@@ -242,7 +256,7 @@ export default function AssetSwapMain() {
               queryAsset={queryFromAsset}
             />
           }
-          rightField={
+          toField={
             <AmountFieldWithSelect
               asset={toAsset}
               setAsset={setAssetTo}
@@ -251,8 +265,9 @@ export default function AssetSwapMain() {
               amount={toAmount}
               onChangeAmount={() => {}}
               amountInUsd={toAmountInUSD}
+              maxAmount={availableToAmount}
+              amountTitle={intl.formatMessage(messages.available)}
               percentDifference={(+usdValueSlippage).toString()}
-              selectReverseTitle={!md}
               disabled={true}
               loading={loading}
               maxDecimals={toAssetData?.decimals}
@@ -262,6 +277,6 @@ export default function AssetSwapMain() {
       ) : (
         <AssetSwapNoDeposits numberOfDepositedAssets={availableDeposits.length} />
       )}
-    </>
+    </AssetSwapContentWrapper>
   );
 }

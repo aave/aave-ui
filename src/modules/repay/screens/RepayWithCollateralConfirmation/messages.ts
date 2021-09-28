@@ -21,5 +21,5 @@ export default defineMessages({
 
   connectWallet: 'Please connect a wallet',
   connectWalletDescription: 'We couldn’t detect a wallet. Connect a wallet to repay.',
-  fees: 'Fees',
+  fees: 'Flashloan fee',
 });
