@@ -116,7 +116,7 @@ export default function AssetSwapMain() {
   const toAssetUserData = user.reservesData.find((res) => res.reserve.underlyingAsset === toAsset);
 
   const availableFromAmount = fromAssetUserData?.underlyingBalance || '0';
-  // const availableToAmount = toAssetUserData?.underlyingBalance || '0';
+  const availableToAmount = toAssetUserData?.underlyingBalance || '0';
 
   const usdValueSlippage = +fromAmountInUSD
     ? valueToBigNumber(fromAmountInUSD)
@@ -196,11 +196,11 @@ export default function AssetSwapMain() {
         availableDeposits.length >= 1 && (
           <SwapDetailsWrapper
             title={intl.formatMessage(messages.rightPanelTitle)}
-            priceImpact={(+usdValueSlippage).toString()} // TODO: need take a look
+            priceImpact={(+usdValueSlippage).toString()}
             withMinimumReceived={true}
-            minimumReceivedValue={toAmountWithSlippage.toString(10)} // TODO: need take a look
-            minimumReceivedValueInUSD={toAmountInUSDWithSlippage.toString(10)} // TODO: need take a look
-            minimumReceivedSymbol={toAssetData?.symbol} // TODO: need take a look
+            minimumReceivedValue={toAmountWithSlippage.toString(10)}
+            minimumReceivedValueInUSD={toAmountInUSDWithSlippage.toString(10)}
+            minimumReceivedSymbol={toAssetData?.symbol}
             withAPY={true}
             fromAPY={fromAPY}
             toAPY={toAPY}
@@ -265,6 +265,8 @@ export default function AssetSwapMain() {
               amount={toAmount}
               onChangeAmount={() => {}}
               amountInUsd={toAmountInUSD}
+              maxAmount={availableToAmount}
+              amountTitle={intl.formatMessage(messages.available)}
               percentDifference={(+usdValueSlippage).toString()}
               disabled={true}
               loading={loading}

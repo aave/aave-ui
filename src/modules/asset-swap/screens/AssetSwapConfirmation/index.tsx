@@ -60,7 +60,6 @@ export default function AssetSwapConfirmation() {
   const toAmountQuery = valueToBigNumber(query.toAmount || 0);
   const toAmountUsdQuery = valueToBigNumber(query.toAmountInUSD || 0);
 
-  // TODO: display as separate line as minimum received
   const toAmountAfterSlippageQuery = valueToBigNumber(query.toAmountAfterSlippage || 0);
   const toAmountUsdAfterSlippageQuery = valueToBigNumber(query.toAmountInUSDAfterSlippage || 0);
 
@@ -257,9 +256,11 @@ export default function AssetSwapConfirmation() {
         <Row title={intl.formatMessage(messages.maximumSlippage)} withMargin={true}>
           <ValuePercent value={maxSlippage.toNumber() / 100} />
         </Row>
-        <Row title={intl.formatMessage(messages.fees)}>
-          <ValuePercent value={totalFees.toNumber() / 100} />
-        </Row>
+        {!totalFees.eq('0') && (
+          <Row title={intl.formatMessage(messages.fees)}>
+            <ValuePercent value={totalFees.toNumber() / 100} />
+          </Row>
+        )}
       </PoolTxConfirmationView>
     </AssetSwapContentWrapper>
   );
