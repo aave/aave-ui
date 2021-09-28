@@ -35,6 +35,7 @@ export type NetworkConfig = {
    * In the upcoming version this will no longer be needed.
    */
   uiPoolDataProvider: string;
+  uiIncentiveDataProvider: string;
   protocolDataUrl: string;
   cachingServerUrl?: string;
   cachingWSServerUrl?: string;
