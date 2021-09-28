@@ -31,7 +31,6 @@ interface SwapDetailsWrapperProps {
   hfAfterSwap: string;
   maxSlippage: string;
   setMaxSlippage: (value: string) => void;
-  withFees?: boolean;
   flashloanFees?: string | number;
 }
 
@@ -49,7 +48,6 @@ export default function SwapDetailsWrapper({
   hfAfterSwap,
   maxSlippage,
   setMaxSlippage,
-  withFees,
   flashloanFees,
 }: SwapDetailsWrapperProps) {
   const intl = useIntl();
@@ -102,7 +100,7 @@ export default function SwapDetailsWrapper({
 
       <SlippageForm maxSlippage={maxSlippage} setMaxSlippage={setMaxSlippage} />
 
-      {withFees && (
+      {totalFees !== '0' && (
         <Row className="SwapDetailsWrapper__row" title={intl.formatMessage(messages.flashloanFee)}>
           <ValuePercent value={totalFees} color="secondary" />
         </Row>

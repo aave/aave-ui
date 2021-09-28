@@ -208,7 +208,6 @@ export default function AssetSwapMain() {
             hfAfterSwap={hfAfterSwap.toString()}
             maxSlippage={maxSlippage}
             setMaxSlippage={setMaxSlippage}
-            withFees={true}
             flashloanFees={flashloanFees}
           />
         )

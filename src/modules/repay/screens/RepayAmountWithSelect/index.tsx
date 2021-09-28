@@ -169,8 +169,7 @@ export function RepayAmountWithSelect({
     ? 0.0009
     : undefined;
 
-  const totalFees = valueToBigNumber(uniswapFees || '0')
-    .plus(flashloanFees || '0')
+  const flashFees = valueToBigNumber(flashloanFees || '0')
     .multipliedBy(100)
     .toString();
 
@@ -193,7 +192,7 @@ export function RepayAmountWithSelect({
         repayAll: isMaxDebtSelected && isReverse,
         debtType: queryString.parse(location.search).debtType,
         useEthPath: path.length > 2,
-        totalFees,
+        flashFees,
       });
 
       history.push(`${history.location.pathname}confirmation?${query}`);
@@ -205,12 +204,11 @@ export function RepayAmountWithSelect({
       rightPanel={
         <SwapDetailsWrapper
           title={intl.formatMessage(messages.rightPanelTitle)}
-          priceImpact={(+usdValueSlippage - +maxSlippage).toString()} // TODO: need take a look
+          priceImpact={(+usdValueSlippage).toString()}
           healthFactor={user.healthFactor}
           hfAfterSwap={hfAfterSwap.toString()}
           maxSlippage={maxSlippage}
           setMaxSlippage={setMaxSlippage}
-          withFees={true}
           flashloanFees={flashloanFees}
         />
       }
@@ -241,7 +239,7 @@ export function RepayAmountWithSelect({
             maxAmount={maxDebtToRepay.toString()}
             amountInUsd={toAmountInUSD}
             amountTitle={intl.formatMessage(messages.availableToRepay)}
-            percentDifference={(+usdValueSlippage - +maxSlippage).toString()}
+            percentDifference={(+usdValueSlippage).toString()}
             disabled={loading}
             loading={loading}
             maxDecimals={toAssetData?.decimals}
@@ -253,11 +251,11 @@ export function RepayAmountWithSelect({
             setAsset={onSetFromAsset}
             options={availableDepositsOptions}
             selectTitle={intl.formatMessage(messages.fromTitle)}
-            amount={fromAmountWithSlippage.toString(10)}
+            amount={fromAmount.toString()}
             // setMaxSelected={setIsMaxDepositSelected}
             onChangeAmount={onSetFromAmount}
             maxAmount={maxAmountToSwap}
-            amountInUsd={fromAmountInUSDWithSlippage.toString(10)}
+            amountInUsd={fromAmountInUSD.toString()}
             amountTitle={intl.formatMessage(messages.available)}
             disabled={true}
             loading={loading}

@@ -42,7 +42,7 @@ interface QueryParams {
   repayAll?: string;
   debtType?: string;
   useEthPath?: string;
-  totalFees?: string;
+  flashFees?: string;
 }
 
 function RepayWithCollateralConfirmation({
@@ -77,7 +77,7 @@ function RepayWithCollateralConfirmation({
   const maxSlippage = valueToBigNumber(query.maxSlippage || 0);
 
   const debtType = query.debtType ? (query.debtType as InterestRate) : InterestRate.Variable;
-  const totalFees = valueToBigNumber(query.totalFees || 0);
+  const flashFees = valueToBigNumber(query.flashFees || 0);
 
   if (!user) {
     return (
@@ -258,7 +258,7 @@ function RepayWithCollateralConfirmation({
           <ValuePercent value={maxSlippage.toNumber() / 100} />
         </Row>
         <Row title={intl.formatMessage(messages.fees)}>
-          <ValuePercent value={totalFees.toNumber() / 100} />
+          <ValuePercent value={flashFees.toNumber() / 100} />
         </Row>
       </PoolTxConfirmationView>
     </RepayContentWrapper>
