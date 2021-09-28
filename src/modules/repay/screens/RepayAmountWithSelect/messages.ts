@@ -2,6 +2,7 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   description: 'Select an asset and amount to repay',
+  rightPanelTitle: 'Repay with collateral details',
 
   fromTitle: 'Select collateral',
   toTitle: 'Borrowed asset',

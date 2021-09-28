@@ -9,22 +9,7 @@ const staticStyles = css.global`
     display: flex;
     align-items: flex-end;
     flex-direction: row;
-    margin-right: 25px;
-    @include respond-to(lg) {
-      margin-right: 20px;
-    }
-    @include respond-to(md) {
-      margin: 0 0 40px !important;
-    }
-
-    &__reverse {
-      flex-direction: row-reverse;
-      margin-right: 0;
-      margin-left: 25px;
-      @include respond-to(lg) {
-        margin-left: 20px;
-      }
-    }
+    margin-bottom: 30px;
 
     &__field-inner {
       position: relative;
@@ -46,10 +31,7 @@ const staticStyles = css.global`
 
     .AmountFieldWithSelect__field {
       padding-bottom: 0;
-      width: 240px;
-      @include respond-to(md) {
-        width: 335px;
-      }
+      width: 300px;
       @include respond-to(sm) {
         width: 215px;
       }

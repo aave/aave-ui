@@ -17,11 +17,12 @@ import ValuePercent from '../../../../components/basic/ValuePercent';
 import Preloader from '../../../../components/basic/Preloader';
 import { getSwapCallData, useSwap } from '../../../../libs/use-asset-swap/useSwap';
 import { calculateHFAfterSwap } from '../../helpers';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
+import AssetSwapContentWrapper from '../../components/AssetSwapContentWrapper';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 
 interface QueryParams {
   fromAsset?: string;
@@ -194,70 +195,72 @@ export default function AssetSwapConfirmation() {
   });
 
   return (
-    <PoolTxConfirmationView
-      caption={intl.formatMessage(messages.title)}
-      description={intl.formatMessage(messages.description)}
-      getTransactionsData={handleGetTransactions}
-      boxTitle={intl.formatMessage(defaultMessages.swap)}
-      boxDescription={intl.formatMessage(messages.boxDescription)}
-      approveDescription={intl.formatMessage(messages.approveDescription)}
-      mainTxName={intl.formatMessage(defaultMessages.swap)}
-      blockingError={error || blockingError}
-      allowedNetworks={[Network.mainnet, Network.fork, Network.polygon, Network.polygon_fork]}
-      aTokenData={aTokenData}
-      warningMessage={intl.formatMessage(messages.warningMessage)}
-    >
-      <Row title={intl.formatMessage(messages.fromTitle)} withMargin={true}>
-        <Value
-          value={fromAmountQuery.toNumber()}
-          subValue={fromAmountUsdQuery.toString()}
-          symbol={fromPoolReserve.symbol}
-          subSymbol="USD"
-          tokenIcon={true}
-          tooltipId={fromPoolReserve.symbol}
-        />
-      </Row>
-      <Row title={intl.formatMessage(messages.toTitle)} withMargin={true}>
-        <Value
-          value={toAmountQuery.toNumber()}
-          subValue={toAmountUsdQuery.toString()}
-          symbol={toPoolReserve.symbol}
-          subSymbol="USD"
-          tokenIcon={true}
-          tooltipId={toPoolReserve.symbol}
-        />
-      </Row>
-      <Row title={intl.formatMessage(messages.minReceivedTitle)} withMargin={true}>
-        <Value
-          value={toAmountAfterSlippageQuery.toNumber()}
-          subValue={toAmountUsdAfterSlippageQuery.toString()}
-          symbol={toPoolReserve.symbol}
-          subSymbol="USD"
-          tokenIcon={true}
-          tooltipId={toPoolReserve.symbol}
-        />
-      </Row>
-
-      {+user.healthFactor > 0 && (
-        <>
-          <HealthFactor
-            title={intl.formatMessage(messages.currentHealthFactor)}
-            value={user.healthFactor}
+    <AssetSwapContentWrapper>
+      <PoolTxConfirmationView
+        caption={intl.formatMessage(messages.title)}
+        description={intl.formatMessage(messages.description)}
+        getTransactionsData={handleGetTransactions}
+        boxTitle={intl.formatMessage(defaultMessages.swap)}
+        boxDescription={intl.formatMessage(messages.boxDescription)}
+        approveDescription={intl.formatMessage(messages.approveDescription)}
+        mainTxName={intl.formatMessage(defaultMessages.swap)}
+        blockingError={error || blockingError}
+        allowedNetworks={[Network.mainnet, Network.fork, Network.polygon, Network.polygon_fork]}
+        aTokenData={aTokenData}
+        warningMessage={intl.formatMessage(messages.warningMessage)}
+      >
+        <Row title={intl.formatMessage(messages.fromTitle)} withMargin={true}>
+          <Value
+            value={fromAmountQuery.toNumber()}
+            subValue={fromAmountUsdQuery.toString()}
+            symbol={fromPoolReserve.symbol}
+            subSymbol="USD"
+            tokenIcon={true}
+            tooltipId={fromPoolReserve.symbol}
           />
-          <HealthFactor
-            title={intl.formatMessage(messages.newHealthFactor)}
-            value={hfAfterSwap.toString()}
-            withoutModal={true}
+        </Row>
+        <Row title={intl.formatMessage(messages.toTitle)} withMargin={true}>
+          <Value
+            value={toAmountQuery.toNumber()}
+            subValue={toAmountUsdQuery.toString()}
+            symbol={toPoolReserve.symbol}
+            subSymbol="USD"
+            tokenIcon={true}
+            tooltipId={toPoolReserve.symbol}
           />
-        </>
-      )}
+        </Row>
+        <Row title={intl.formatMessage(messages.minReceivedTitle)} withMargin={true}>
+          <Value
+            value={toAmountAfterSlippageQuery.toNumber()}
+            subValue={toAmountUsdAfterSlippageQuery.toString()}
+            symbol={toPoolReserve.symbol}
+            subSymbol="USD"
+            tokenIcon={true}
+            tooltipId={toPoolReserve.symbol}
+          />
+        </Row>
 
-      <Row title={intl.formatMessage(messages.maximumSlippage)} withMargin={true}>
-        <ValuePercent value={maxSlippage.toNumber() / 100} />
-      </Row>
-      <Row title={intl.formatMessage(messages.fees)}>
-        <ValuePercent value={totalFees.toNumber() / 100} />
-      </Row>
-    </PoolTxConfirmationView>
+        {+user.healthFactor > 0 && (
+          <>
+            <HealthFactor
+              title={intl.formatMessage(messages.currentHealthFactor)}
+              value={user.healthFactor}
+            />
+            <HealthFactor
+              title={intl.formatMessage(messages.newHealthFactor)}
+              value={hfAfterSwap.toString()}
+              withoutModal={true}
+            />
+          </>
+        )}
+
+        <Row title={intl.formatMessage(messages.maximumSlippage)} withMargin={true}>
+          <ValuePercent value={maxSlippage.toNumber() / 100} />
+        </Row>
+        <Row title={intl.formatMessage(messages.fees)}>
+          <ValuePercent value={totalFees.toNumber() / 100} />
+        </Row>
+      </PoolTxConfirmationView>
+    </AssetSwapContentWrapper>
   );
 }

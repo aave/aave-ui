@@ -1,7 +1,7 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  title: 'Swap overview',
+  title: 'Transaction overview',
   description:
     'These are your transaction details. Make sure to check if this is correct before submitting.',
 

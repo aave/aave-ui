@@ -5,10 +5,14 @@ const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
 
-  .AssetSwapWrapper__content {
-    overflow: hidden;
-    @include respond-to(sm) {
-      overflow: unset;
+  .MinimumReceivedHelpModal {
+    &__content {
+      p {
+        margin-bottom: 20px;
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
     }
   }
 `;
