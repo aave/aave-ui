@@ -6,6 +6,9 @@ import {
 import { BigNumber } from '@aave/protocol-js';
 import { ethers } from 'ethers';
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import { useApolloConfigContext } from '../../apollo-config';
+import { useCachedIncentivesData } from '../../caching-server-data-provider/hooks/use-cached-incentives-data';
+import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useDynamicPoolDataContext } from '../providers/dynamic-pool-data-provider';
 import { useStaticPoolDataContext } from '../providers/static-pool-data-provider';
@@ -49,15 +52,20 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const { userId } = useStaticPoolDataContext();
   const { user, reserves } = useDynamicPoolDataContext();
   const { network, networkConfig, currentMarketData } = useProtocolDataContext();
+  const { network: apolloClientNetwork } = useApolloConfigContext();
+  const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const [reserveIncentives, setReserveIncentives] = useState<ReserveIncentiveEmissions[]>();
   const [userTotalRewards, setUserTotalRewards] = useState<string | undefined>(undefined);
 
-  const isRPCActive = true;
-
   const currentAccount = userId ? userId.toLowerCase() : ethers.constants.AddressZero;
 
   // TO-DO: add use-cached-incentives-data
+  const { loading, data, error } = useCachedIncentivesData(
+    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+    currentAccount,
+    preferredConnectionMode === ConnectionMode.rpc || network !== apolloClientNetwork
+  );
 
   const { reserveIncentiveData, userIncentiveData } = useIncentivesData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,

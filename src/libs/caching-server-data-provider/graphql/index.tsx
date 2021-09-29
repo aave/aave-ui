@@ -870,6 +870,19 @@ export enum IncentivesController_OrderBy {
   ClaimIncentives = 'claimIncentives',
 }
 
+export type IncentivesData = {
+  __typename?: 'IncentivesData';
+  emissionPerSecond: Scalars['String'];
+  incentivesLastUpdateTimestamp: Scalars['Float'];
+  tokenIncentivesIndex: Scalars['String'];
+  emissionEndTimestamp: Scalars['Float'];
+  tokenAddress: Scalars['String'];
+  rewardTokenAddress: Scalars['String'];
+  rewardTokenDecimals: Scalars['Float'];
+  incentiveControllerAddress: Scalars['String'];
+  precision: Scalars['Float'];
+};
+
 export type IncentivizedAction = {
   __typename?: 'IncentivizedAction';
   /** txHash */
@@ -2064,6 +2077,7 @@ export type Query = {
   reserveParamsHistoryItem?: Maybe<ReserveParamsHistoryItem>;
   reserveParamsHistoryItems: Array<ReserveParamsHistoryItem>;
   reserves: Array<Reserve>;
+  reservesIncentives: Array<ReserveIncentivesData>;
   stableDebtToken?: Maybe<StableDebtToken>;
   stableDebtTokens: Array<StableDebtToken>;
   stableTokenDelegatedAllowance?: Maybe<StableTokenDelegatedAllowance>;
@@ -2084,6 +2098,7 @@ export type Query = {
   usdEthPriceHistoryItems: Array<UsdEthPriceHistoryItem>;
   user?: Maybe<User>;
   userData: UserData;
+  userIncentives: Array<UserIncentivesData>;
   userReserve?: Maybe<UserReserve>;
   userReserves: Array<UserReserve>;
   userTransaction?: Maybe<UserTransaction>;
@@ -2487,6 +2502,10 @@ export type QueryReservesArgs = {
   block?: Maybe<Block_Height>;
 };
 
+export type QueryReservesIncentivesArgs = {
+  lendingPoolAddressProvider: Scalars['String'];
+};
+
 export type QueryStableDebtTokenArgs = {
   id: Scalars['ID'];
   block?: Maybe<Block_Height>;
@@ -2610,6 +2629,11 @@ export type QueryUserArgs = {
 
 export type QueryUserDataArgs = {
   poolAddress: Scalars['String'];
+  userAddress: Scalars['String'];
+};
+
+export type QueryUserIncentivesArgs = {
+  lendingPoolAddressProvider: Scalars['String'];
   userAddress: Scalars['String'];
 };
 
@@ -3473,6 +3497,15 @@ export type ReserveData = {
   vTokenIncentivesIndex: Scalars['String'];
   sTokenIncentivesIndex: Scalars['String'];
   price: PriceData;
+};
+
+export type ReserveIncentivesData = {
+  __typename?: 'ReserveIncentivesData';
+  id: Scalars['String'];
+  underlyingAsset: Scalars['String'];
+  aIncentiveData: IncentivesData;
+  vIncentiveData: IncentivesData;
+  sIncentiveData: IncentivesData;
 };
 
 export type ReserveParamsHistoryItem = {
@@ -4760,6 +4793,7 @@ export type Subscription = {
   pool?: Maybe<Pool>;
   poolConfigurationHistoryItem?: Maybe<PoolConfigurationHistoryItem>;
   poolConfigurationHistoryItems: Array<PoolConfigurationHistoryItem>;
+  poolIncentivesDataUpdate: Array<ReserveIncentivesData>;
   pools: Array<Pool>;
   priceHistoryItem?: Maybe<PriceHistoryItem>;
   priceHistoryItems: Array<PriceHistoryItem>;
@@ -4804,6 +4838,7 @@ export type Subscription = {
   usdEthPriceHistoryItems: Array<UsdEthPriceHistoryItem>;
   user?: Maybe<User>;
   userDataUpdate: UserData;
+  userPoolIncentivesDataUpdate: Array<UserIncentivesData>;
   userReserve?: Maybe<UserReserve>;
   userReserves: Array<UserReserve>;
   userTransaction?: Maybe<UserTransaction>;
@@ -5038,6 +5073,10 @@ export type SubscriptionPoolConfigurationHistoryItemsArgs = {
   orderDirection?: Maybe<OrderDirection>;
   where?: Maybe<PoolConfigurationHistoryItem_Filter>;
   block?: Maybe<Block_Height>;
+};
+
+export type SubscriptionPoolIncentivesDataUpdateArgs = {
+  lendingPoolAddressProvider: Scalars['String'];
 };
 
 export type SubscriptionPoolsArgs = {
@@ -5330,6 +5369,11 @@ export type SubscriptionUserArgs = {
 
 export type SubscriptionUserDataUpdateArgs = {
   poolAddress: Scalars['String'];
+  userAddress: Scalars['String'];
+};
+
+export type SubscriptionUserPoolIncentivesDataUpdateArgs = {
+  lendingPoolAddressProvider: Scalars['String'];
   userAddress: Scalars['String'];
 };
 
@@ -5652,6 +5696,16 @@ export enum Swap_OrderBy {
   Timestamp = 'timestamp',
 }
 
+export type TokenIncentivesUserData = {
+  __typename?: 'TokenIncentivesUserData';
+  tokenIncentivesUserIndex: Scalars['String'];
+  userUnclaimedRewards: Scalars['String'];
+  tokenAddress: Scalars['String'];
+  rewardTokenAddress: Scalars['String'];
+  rewardTokenDecimals: Scalars['Float'];
+  incentiveControllerAddress: Scalars['String'];
+};
+
 export type UsageAsCollateral = UserTransaction & {
   __typename?: 'UsageAsCollateral';
   /** tx hash */
@@ -5937,6 +5991,15 @@ export type UserData = {
   __typename?: 'UserData';
   userReserves: Array<UserReserveData>;
   userUnclaimedRewards: Scalars['String'];
+};
+
+export type UserIncentivesData = {
+  __typename?: 'UserIncentivesData';
+  id: Scalars['String'];
+  underlyingAsset: Scalars['String'];
+  aTokenIncentivesUserData: TokenIncentivesUserData;
+  vTokenIncentivesUserData: TokenIncentivesUserData;
+  sTokenIncentivesUserData: TokenIncentivesUserData;
 };
 
 export type UserReserve = {
@@ -6880,6 +6943,53 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny',
 }
 
+export type IncentivesDataFragmentFragment = { __typename?: 'IncentivesData' } & Pick<
+  IncentivesData,
+  | 'emissionPerSecond'
+  | 'incentivesLastUpdateTimestamp'
+  | 'tokenIncentivesIndex'
+  | 'emissionEndTimestamp'
+  | 'tokenAddress'
+  | 'rewardTokenAddress'
+  | 'rewardTokenDecimals'
+  | 'incentiveControllerAddress'
+  | 'precision'
+>;
+
+export type C_ReservesIncentivesQueryVariables = Exact<{
+  lendingPoolAddressProvider: Scalars['String'];
+}>;
+
+export type C_ReservesIncentivesQuery = { __typename?: 'Query' } & {
+  reservesIncentives: Array<
+    { __typename?: 'ReserveIncentivesData' } & Pick<
+      ReserveIncentivesData,
+      'id' | 'underlyingAsset'
+    > & {
+        aIncentiveData: { __typename?: 'IncentivesData' } & IncentivesDataFragmentFragment;
+        vIncentiveData: { __typename?: 'IncentivesData' } & IncentivesDataFragmentFragment;
+        sIncentiveData: { __typename?: 'IncentivesData' } & IncentivesDataFragmentFragment;
+      }
+  >;
+};
+
+export type C_PoolIncentivesDataUpdateSubscriptionVariables = Exact<{
+  lendingPoolAddressProvider: Scalars['String'];
+}>;
+
+export type C_PoolIncentivesDataUpdateSubscription = { __typename?: 'Subscription' } & {
+  poolIncentivesDataUpdate: Array<
+    { __typename?: 'ReserveIncentivesData' } & Pick<
+      ReserveIncentivesData,
+      'id' | 'underlyingAsset'
+    > & {
+        aIncentiveData: { __typename?: 'IncentivesData' } & IncentivesDataFragmentFragment;
+        vIncentiveData: { __typename?: 'IncentivesData' } & IncentivesDataFragmentFragment;
+        sIncentiveData: { __typename?: 'IncentivesData' } & IncentivesDataFragmentFragment;
+      }
+  >;
+};
+
 export type ProtocolDataFragmentFragment = { __typename?: 'ProtocolData' } & Pick<
   ProtocolData,
   'usdPriceEth' | 'emissionEndTimestamp'
@@ -7070,6 +7180,73 @@ export type C_UserDataUpdateSubscription = { __typename?: 'Subscription' } & {
   userDataUpdate: { __typename?: 'UserData' } & UserDataFragmentFragment;
 };
 
+export type TokenIncentivesUserDataFragmentFragment = {
+  __typename?: 'TokenIncentivesUserData';
+} & Pick<
+  TokenIncentivesUserData,
+  | 'tokenIncentivesUserIndex'
+  | 'userUnclaimedRewards'
+  | 'tokenAddress'
+  | 'rewardTokenAddress'
+  | 'rewardTokenDecimals'
+  | 'incentiveControllerAddress'
+>;
+
+export type C_UserIncentivesQueryVariables = Exact<{
+  userAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
+}>;
+
+export type C_UserIncentivesQuery = { __typename?: 'Query' } & {
+  userIncentives: Array<
+    { __typename?: 'UserIncentivesData' } & Pick<UserIncentivesData, 'id' | 'underlyingAsset'> & {
+        aTokenIncentivesUserData: {
+          __typename?: 'TokenIncentivesUserData';
+        } & TokenIncentivesUserDataFragmentFragment;
+        vTokenIncentivesUserData: {
+          __typename?: 'TokenIncentivesUserData';
+        } & TokenIncentivesUserDataFragmentFragment;
+        sTokenIncentivesUserData: {
+          __typename?: 'TokenIncentivesUserData';
+        } & TokenIncentivesUserDataFragmentFragment;
+      }
+  >;
+};
+
+export type C_UserPoolIncentivesDataUpdateSubscriptionVariables = Exact<{
+  userAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
+}>;
+
+export type C_UserPoolIncentivesDataUpdateSubscription = { __typename?: 'Subscription' } & {
+  userPoolIncentivesDataUpdate: Array<
+    { __typename?: 'UserIncentivesData' } & Pick<UserIncentivesData, 'id' | 'underlyingAsset'> & {
+        aTokenIncentivesUserData: {
+          __typename?: 'TokenIncentivesUserData';
+        } & TokenIncentivesUserDataFragmentFragment;
+        vTokenIncentivesUserData: {
+          __typename?: 'TokenIncentivesUserData';
+        } & TokenIncentivesUserDataFragmentFragment;
+        sTokenIncentivesUserData: {
+          __typename?: 'TokenIncentivesUserData';
+        } & TokenIncentivesUserDataFragmentFragment;
+      }
+  >;
+};
+
+export const IncentivesDataFragmentFragmentDoc = gql`
+  fragment IncentivesDataFragment on IncentivesData {
+    emissionPerSecond
+    incentivesLastUpdateTimestamp
+    tokenIncentivesIndex
+    emissionEndTimestamp
+    tokenAddress
+    rewardTokenAddress
+    rewardTokenDecimals
+    incentiveControllerAddress
+    precision
+  }
+`;
 export const ProtocolDataFragmentFragmentDoc = gql`
   fragment ProtocolDataFragment on ProtocolData {
     reserves {
@@ -7186,6 +7363,135 @@ export const UserDataFragmentFragmentDoc = gql`
     userUnclaimedRewards
   }
 `;
+export const TokenIncentivesUserDataFragmentFragmentDoc = gql`
+  fragment TokenIncentivesUserDataFragment on TokenIncentivesUserData {
+    tokenIncentivesUserIndex
+    userUnclaimedRewards
+    tokenAddress
+    rewardTokenAddress
+    rewardTokenDecimals
+    incentiveControllerAddress
+  }
+`;
+export const C_ReservesIncentivesDocument = gql`
+  query C_ReservesIncentives($lendingPoolAddressProvider: String!) {
+    reservesIncentives(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
+      id
+      underlyingAsset
+      aIncentiveData {
+        ...IncentivesDataFragment
+      }
+      vIncentiveData {
+        ...IncentivesDataFragment
+      }
+      sIncentiveData {
+        ...IncentivesDataFragment
+      }
+    }
+  }
+  ${IncentivesDataFragmentFragmentDoc}
+`;
+
+/**
+ * __useC_ReservesIncentivesQuery__
+ *
+ * To run a query within a React component, call `useC_ReservesIncentivesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useC_ReservesIncentivesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useC_ReservesIncentivesQuery({
+ *   variables: {
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *   },
+ * });
+ */
+export function useC_ReservesIncentivesQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    C_ReservesIncentivesQuery,
+    C_ReservesIncentivesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<C_ReservesIncentivesQuery, C_ReservesIncentivesQueryVariables>(
+    C_ReservesIncentivesDocument,
+    options
+  );
+}
+export function useC_ReservesIncentivesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    C_ReservesIncentivesQuery,
+    C_ReservesIncentivesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<
+    C_ReservesIncentivesQuery,
+    C_ReservesIncentivesQueryVariables
+  >(C_ReservesIncentivesDocument, options);
+}
+export type C_ReservesIncentivesQueryHookResult = ReturnType<typeof useC_ReservesIncentivesQuery>;
+export type C_ReservesIncentivesLazyQueryHookResult = ReturnType<
+  typeof useC_ReservesIncentivesLazyQuery
+>;
+export type C_ReservesIncentivesQueryResult = ApolloReactCommon.QueryResult<
+  C_ReservesIncentivesQuery,
+  C_ReservesIncentivesQueryVariables
+>;
+export const C_PoolIncentivesDataUpdateDocument = gql`
+  subscription C_PoolIncentivesDataUpdate($lendingPoolAddressProvider: String!) {
+    poolIncentivesDataUpdate(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
+      id
+      underlyingAsset
+      aIncentiveData {
+        ...IncentivesDataFragment
+      }
+      vIncentiveData {
+        ...IncentivesDataFragment
+      }
+      sIncentiveData {
+        ...IncentivesDataFragment
+      }
+    }
+  }
+  ${IncentivesDataFragmentFragmentDoc}
+`;
+
+/**
+ * __useC_PoolIncentivesDataUpdateSubscription__
+ *
+ * To run a query within a React component, call `useC_PoolIncentivesDataUpdateSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useC_PoolIncentivesDataUpdateSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useC_PoolIncentivesDataUpdateSubscription({
+ *   variables: {
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *   },
+ * });
+ */
+export function useC_PoolIncentivesDataUpdateSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    C_PoolIncentivesDataUpdateSubscription,
+    C_PoolIncentivesDataUpdateSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    C_PoolIncentivesDataUpdateSubscription,
+    C_PoolIncentivesDataUpdateSubscriptionVariables
+  >(C_PoolIncentivesDataUpdateDocument, options);
+}
+export type C_PoolIncentivesDataUpdateSubscriptionHookResult = ReturnType<
+  typeof useC_PoolIncentivesDataUpdateSubscription
+>;
+export type C_PoolIncentivesDataUpdateSubscriptionResult =
+  ApolloReactCommon.SubscriptionResult<C_PoolIncentivesDataUpdateSubscription>;
 export const C_ProtocolDataDocument = gql`
   query C_ProtocolData($poolAddress: String!) {
     protocolData(poolAddress: $poolAddress) {
@@ -7567,3 +7873,131 @@ export type C_UserDataUpdateSubscriptionHookResult = ReturnType<
 >;
 export type C_UserDataUpdateSubscriptionResult =
   ApolloReactCommon.SubscriptionResult<C_UserDataUpdateSubscription>;
+export const C_UserIncentivesDocument = gql`
+  query C_UserIncentives($userAddress: String!, $lendingPoolAddressProvider: String!) {
+    userIncentives(
+      userAddress: $userAddress
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+    ) {
+      id
+      underlyingAsset
+      aTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+      vTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+      sTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+    }
+  }
+  ${TokenIncentivesUserDataFragmentFragmentDoc}
+`;
+
+/**
+ * __useC_UserIncentivesQuery__
+ *
+ * To run a query within a React component, call `useC_UserIncentivesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useC_UserIncentivesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useC_UserIncentivesQuery({
+ *   variables: {
+ *      userAddress: // value for 'userAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *   },
+ * });
+ */
+export function useC_UserIncentivesQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    C_UserIncentivesQuery,
+    C_UserIncentivesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<C_UserIncentivesQuery, C_UserIncentivesQueryVariables>(
+    C_UserIncentivesDocument,
+    options
+  );
+}
+export function useC_UserIncentivesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    C_UserIncentivesQuery,
+    C_UserIncentivesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<C_UserIncentivesQuery, C_UserIncentivesQueryVariables>(
+    C_UserIncentivesDocument,
+    options
+  );
+}
+export type C_UserIncentivesQueryHookResult = ReturnType<typeof useC_UserIncentivesQuery>;
+export type C_UserIncentivesLazyQueryHookResult = ReturnType<typeof useC_UserIncentivesLazyQuery>;
+export type C_UserIncentivesQueryResult = ApolloReactCommon.QueryResult<
+  C_UserIncentivesQuery,
+  C_UserIncentivesQueryVariables
+>;
+export const C_UserPoolIncentivesDataUpdateDocument = gql`
+  subscription C_UserPoolIncentivesDataUpdate(
+    $userAddress: String!
+    $lendingPoolAddressProvider: String!
+  ) {
+    userPoolIncentivesDataUpdate(
+      userAddress: $userAddress
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+    ) {
+      id
+      underlyingAsset
+      aTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+      vTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+      sTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+    }
+  }
+  ${TokenIncentivesUserDataFragmentFragmentDoc}
+`;
+
+/**
+ * __useC_UserPoolIncentivesDataUpdateSubscription__
+ *
+ * To run a query within a React component, call `useC_UserPoolIncentivesDataUpdateSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useC_UserPoolIncentivesDataUpdateSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useC_UserPoolIncentivesDataUpdateSubscription({
+ *   variables: {
+ *      userAddress: // value for 'userAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *   },
+ * });
+ */
+export function useC_UserPoolIncentivesDataUpdateSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    C_UserPoolIncentivesDataUpdateSubscription,
+    C_UserPoolIncentivesDataUpdateSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    C_UserPoolIncentivesDataUpdateSubscription,
+    C_UserPoolIncentivesDataUpdateSubscriptionVariables
+  >(C_UserPoolIncentivesDataUpdateDocument, options);
+}
+export type C_UserPoolIncentivesDataUpdateSubscriptionHookResult = ReturnType<
+  typeof useC_UserPoolIncentivesDataUpdateSubscription
+>;
+export type C_UserPoolIncentivesDataUpdateSubscriptionResult =
+  ApolloReactCommon.SubscriptionResult<C_UserPoolIncentivesDataUpdateSubscription>;
