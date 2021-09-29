@@ -89,6 +89,7 @@ export type MarketDataType = {
     SWAP_COLLATERAL_ADAPTER?: string;
     REPAY_WITH_COLLATERAL_ADAPTER?: string;
     FAUCET?: string;
+    PERMISSION_MANAGER?: string;
   };
 };
 

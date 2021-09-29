@@ -24,10 +24,6 @@ REACT_APP_SUPPORTED_ETHEREUM_NETWORKS - list of supported ethereum networks, com
 REACT_APP_ENABLE_CACHING_BACKEND - enable [aave-caching-server](https://github.com/aave/aave-ui-caching-server) support, default value: false
 REACT_APP_RATES_HISTORY_ENDPOINT - enable rates history endpoint support, optional
 
-REACT_APP_PERMISSIONS_API - enable a permissions api with any type of validations on actions, optional
-
-REACT_APP_PERMISSIONS_API - enable a permissions api with any type of validations on actions, optional
-
 ### Fiat onboard
 This interface includes libraries to connect with fiat on-ramp services. They are disabled by default and it is the sole responsibility of the users running the interface to provide credentials in order the run them.
 

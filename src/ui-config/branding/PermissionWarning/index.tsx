@@ -39,7 +39,6 @@ const PermissionWarning: React.FC<
     return children;
   }
 
-  console.log(requiredPermission, match.params);
   return (
     <ScreenWrapper isTopLineSmall={true} className="PermissionWarning">
       <ContentWrapper withBackButton={true} withFullHeight={true}>
