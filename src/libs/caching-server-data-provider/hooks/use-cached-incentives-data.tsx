@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import BigNumber from 'bignumber.js';
-import { ReserveIncentiveDataResponse } from '@aave/contract-helpers';
 import {
   C_PoolIncentivesDataUpdateDocument,
   C_PoolIncentivesDataUpdateSubscription,
@@ -8,11 +7,17 @@ import {
   C_UserPoolIncentivesDataUpdateDocument,
   C_UserPoolIncentivesDataUpdateSubscription,
   C_UserPoolIncentivesDataUpdateSubscriptionVariables,
+  ReserveIncentivesData,
   useC_ReservesIncentivesQuery,
   useC_UserIncentivesQuery,
+  UserIncentivesData,
 } from '../graphql';
 
-type IncentivesData = {};
+type IncentivesData = {
+  userId?: string;
+  incentives: ReserveIncentivesData[];
+  userIncentives: 
+};
 interface PoolIncentivesWithCache {
   loading: boolean;
   data?: IncentivesData;
@@ -88,13 +93,16 @@ export function useCachedIncentivesData(
 
   // logic
   const loading = (userId && userIncentivesDataLoading) || incentivesDataLoading;
-  const incentives = incentivesData?.reservesIncentives || [];
-  const userIncentives = 
+  const incentives: ReserveIncentivesData[] = incentivesData?.reservesIncentives || [];
+  const userIncentives: UserIncentivesData[] = userIncentivesData?.userIncentives || [];
 
   return {
     loading,
-    data,
-    error
+    data: {
+      userId,
+      incentives,
+      userIncentives,
+    }
   }
 
 }
