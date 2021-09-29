@@ -16,7 +16,7 @@ import {
 type IncentivesData = {
   userId?: string;
   incentives: ReserveIncentivesData[];
-  userIncentives: 
+  userIncentives: UserIncentivesData[];
 };
 interface PoolIncentivesWithCache {
   loading: boolean;
@@ -102,7 +102,6 @@ export function useCachedIncentivesData(
       userId,
       incentives,
       userIncentives,
-    }
-  }
-
+    },
+  };
 }
