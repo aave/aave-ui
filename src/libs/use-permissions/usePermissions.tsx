@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { PermissionManager } from '@aave/contract-helpers';
+import { PermissionManager, PERMISSION } from '@aave/contract-helpers';
 
 import { useProtocolDataContext } from '../protocol-data-provider';
 import { useUserWalletDataContext } from '../web3-data-provider';
@@ -7,14 +7,6 @@ import Preloader from '../../components/basic/Preloader';
 import { useStaticPoolDataContext } from '../pool-data-provider';
 import PermissionWarning from '../../ui-config/branding/PermissionWarning';
 import { getProvider, isFeatureEnabled } from '../../helpers/markets/markets-data';
-
-// TODO: should be exported from the lib instead
-export enum PERMISSION {
-  DEPOSITOR = 'DEPOSITOR',
-  BORROWER = 'BORROWER',
-  LIQUIDATOR = 'LIQUIDATOR',
-  STABLE_RATE_MANAGER = 'STABLE_RATE_MANAGER',
-}
 
 type PermissionsContext = {
   permissions: PERMISSION[];
@@ -51,7 +43,7 @@ export const PermissionProvider: React.FC = ({ children }) => {
     } else {
       setIsPermissionsLoading(false);
     }
-  }, [walletAddress]);
+  }, [walletAddress, currentMarketData.addresses.PERMISSION_MANAGER]);
 
   if (isPermissionsLoading) {
     return <Preloader />;
