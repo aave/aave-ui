@@ -134,13 +134,15 @@ export function useIncentivesData(
     const provider = getProvider(network);
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
       incentiveDataProviderAddress,
-      lendingPoolAddressProvider,
       provider,
     });
 
     try {
       const result: FullReservesIncentiveDataResponse =
-        await incentiveDataProviderContract.getAllIncentives(userAddress);
+        await incentiveDataProviderContract.getAllIncentives(
+          userAddress,
+          lendingPoolAddressProvider
+        );
       const { 0: rawReserveIncentiveData, 1: rawUserIncentiveData } = result;
       const formattedReserveIncentiveData: ReserveIncentiveData[] = rawReserveIncentiveData.map(
         (reserveIncentive) => {
