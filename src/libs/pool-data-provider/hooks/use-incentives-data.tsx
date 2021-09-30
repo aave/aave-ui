@@ -12,6 +12,7 @@ const RECOVER_INTERVAL = 10 * 1000;
 
 // From UiIncentiveDataProvider
 export interface ReserveIncentiveData {
+  id: string;
   underlyingAsset: string;
   aIncentiveData: ReserveTokenIncentives;
   vIncentiveData: ReserveTokenIncentives;
@@ -20,6 +21,7 @@ export interface ReserveIncentiveData {
 
 // From UiIncentiveDataProvider
 export interface UserReserveIncentiveData {
+  id: string;
   underlyingAsset: string;
   aTokenIncentivesUserData: UserTokenIncentives;
   vTokenIncentivesUserData: UserTokenIncentives;
@@ -28,9 +30,9 @@ export interface UserReserveIncentiveData {
 
 interface ReserveTokenIncentives {
   emissionPerSecond: string;
-  incentivesLastUpdateTimestamp: string;
+  incentivesLastUpdateTimestamp: number;
   tokenIncentivesIndex: string;
-  emissionEndTimestamp: string;
+  emissionEndTimestamp: number;
   tokenAddress: string;
   rewardTokenAddress: string;
   incentiveControllerAddress: string;
@@ -46,10 +48,12 @@ interface UserTokenIncentives {
   incentiveControllerAddress: string;
   rewardTokenDecimals: number;
 }
-interface IncentiveDataResponse {
+export interface IncentiveDataResponse {
   loading: boolean;
-  reserveIncentiveData?: ReserveIncentiveData[];
-  userIncentiveData?: UserReserveIncentiveData[];
+  data: {
+    reserveIncentiveData?: ReserveIncentiveData[];
+    userIncentiveData?: UserReserveIncentiveData[];
+  };
   error?: string;
   refresh: () => Promise<void>;
 }
@@ -69,9 +73,9 @@ function formatIncentiveData(incentive: any): ReserveTokenIncentives {
   } = incentive;
   const formattedIncentiveData: ReserveTokenIncentives = {
     emissionPerSecond: emissionPerSecond.toString(),
-    incentivesLastUpdateTimestamp: incentivesLastUpdateTimestamp.toString(),
+    incentivesLastUpdateTimestamp,
     tokenIncentivesIndex: tokenIncentivesIndex.toString(),
-    emissionEndTimestamp: emissionEndTimestamp.toString(),
+    emissionEndTimestamp,
     tokenAddress,
     rewardTokenAddress,
     incentiveControllerAddress,
@@ -148,6 +152,7 @@ export function useIncentivesData(
           } = reserveIncentive;
 
           const formattedReserveIncentive: ReserveIncentiveData = {
+            id: (underlyingAsset + lendingPoolAddressProvider).toLowerCase(),
             underlyingAsset,
             aIncentiveData: formatIncentiveData(aIncentiveData),
             vIncentiveData: formatIncentiveData(vIncentiveData),
@@ -165,6 +170,7 @@ export function useIncentivesData(
             3: sTokenIncentivesUserData,
           } = userIncentive;
           const formattedUserIncentive: UserReserveIncentiveData = {
+            id: (underlyingAsset + lendingPoolAddressProvider).toLowerCase(),
             underlyingAsset,
             aTokenIncentivesUserData: formatUserIncentiveData(aTokenIncentivesUserData),
             vTokenIncentivesUserData: formatUserIncentiveData(vTokenIncentivesUserData),
@@ -210,8 +216,7 @@ export function useIncentivesData(
 
   return {
     loading,
-    reserveIncentiveData,
-    userIncentiveData,
+    data: { reserveIncentiveData, userIncentiveData },
     error,
     refresh: () =>
       fetchData(currentAccount, network, lendingPoolAddressProvider, incentiveDataProviderAddress),

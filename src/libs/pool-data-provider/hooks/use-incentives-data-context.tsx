@@ -6,14 +6,24 @@ import {
 import { BigNumber } from '@aave/protocol-js';
 import { ethers } from 'ethers';
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import Preloader from '../../../components/basic/Preloader';
+import ErrorPage from '../../../components/ErrorPage';
 import { useApolloConfigContext } from '../../apollo-config';
-import { useCachedIncentivesData } from '../../caching-server-data-provider/hooks/use-cached-incentives-data';
+import {
+  PoolIncentivesWithCache,
+  useCachedIncentivesData,
+} from '../../caching-server-data-provider/hooks/use-cached-incentives-data';
 import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useDynamicPoolDataContext } from '../providers/dynamic-pool-data-provider';
 import { useStaticPoolDataContext } from '../providers/static-pool-data-provider';
 import { useCurrentTimestamp } from './use-current-timestamp';
-import { useIncentivesData } from './use-incentives-data';
+import {
+  IncentiveDataResponse,
+  ReserveIncentiveData,
+  useIncentivesData,
+  UserReserveIncentiveData,
+} from './use-incentives-data';
 
 // Reserve incentives response type
 interface ReserveIncentiveEmissions {
@@ -61,19 +71,44 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const currentAccount = userId ? userId.toLowerCase() : ethers.constants.AddressZero;
 
   // TO-DO: add use-cached-incentives-data
-  const { loading, data, error } = useCachedIncentivesData(
+  const {
+    loading: cachedDataLoading,
+    data: cachedData,
+    error: cachedDataError,
+  }: PoolIncentivesWithCache = useCachedIncentivesData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     currentAccount,
     preferredConnectionMode === ConnectionMode.rpc || network !== apolloClientNetwork
   );
 
-  const { reserveIncentiveData, userIncentiveData } = useIncentivesData(
+  const {
+    data: rpcData,
+    loading: rpcDataLoading,
+    error: rpcDataError,
+  }: IncentiveDataResponse = useIncentivesData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     network,
     networkConfig.uiIncentiveDataProvider,
     !isRPCActive,
     currentAccount
   );
+
+  if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
+    return <Preloader withText={true} />;
+  }
+
+  const activeData = isRPCActive && rpcData ? rpcData : cachedData;
+
+  if (!activeData || (isRPCActive && rpcDataError) || (!isRPCActive && cachedDataError)) {
+    return <ErrorPage />;
+  }
+
+  const userIncentiveData: UserReserveIncentiveData[] = activeData.userIncentiveData
+    ? activeData.userIncentiveData
+    : [];
+  const reserveIncentiveData: ReserveIncentiveData[] = activeData.reserveIncentiveData
+    ? activeData.reserveIncentiveData
+    : [];
 
   // Calculate and update userTotalRewards
   useEffect(() => {
