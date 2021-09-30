@@ -2,6 +2,7 @@ import {
   calculateTotalUserIncentives,
   calculateReserveIncentives,
   CalculateReserveIncentivesResponse,
+  UserReserveData,
 } from '@aave/math-utils';
 import { BigNumber } from '@aave/protocol-js';
 import { ethers } from 'ethers';
@@ -34,16 +35,7 @@ interface ReserveIncentiveEmissions {
 }
 
 // User incentives input
-interface UserReserveData {
-  underlyingAsset: string;
-  totalLiquidity: string;
-  liquidityIndex: string;
-  totalScaledVariableDebt: string;
-  totalPrincipalStableDebt: string;
-  scaledATokenBalance: string;
-  scaledVariableDebt: string;
-  principalStableDebt: string;
-}
+
 
 export interface IncentivesDataContextData {
   reserveIncentives?: ReserveIncentiveEmissions[];
@@ -141,6 +133,9 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
             scaledATokenBalance: formatBNInput(userReserve.scaledATokenBalance, reserve.decimals),
             scaledVariableDebt: userReserve.scaledVariableDebt,
             principalStableDebt: formatBNInput(userReserve.principalStableDebt, reserve.decimals),
+            aTokenAddress: reserve.aTokenAddress,
+            variableDebtTokenAddress: reserve.variableDebtTokenAddress,
+            stableDebtTokenAddress: reserve.stableDebtTokenAddress,
           });
         }
       });
@@ -150,7 +145,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
       const totalRewards = calculateTotalUserIncentives({
         reserveIncentives: reserveIncentiveData,
         userReserveIncentives: userIncentiveData,
-        userUnclaimedRewards: '43921819137644870', // TO-DO: There will be a seperate userUnclaimedRewards per IncentivesController, this parameter will be removed and calculated using reserveIncentiveData
+        // userUnclaimedRewards: '43921819137644870', // TO-DO: There will be a seperate userUnclaimedRewards per IncentivesController, this parameter will be removed and calculated using reserveIncentiveData
         userReserves,
         currentTimestamp,
       });
