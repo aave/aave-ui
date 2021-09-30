@@ -35,8 +35,6 @@ interface ReserveIncentiveEmissions {
 }
 
 // User incentives input
-
-
 export interface IncentivesDataContextData {
   reserveIncentives?: ReserveIncentiveEmissions[];
   userTotalRewards: string | undefined;
@@ -182,10 +180,6 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
           if (rewardTokenReserveData) {
             const apys = calculateReserveIncentives({
               reserveIncentiveData: incentiveData,
-              rewardTokenPriceInMarketReferenceCurrency: formatBNInput(
-                rewardTokenReserveData.price.priceInEth,
-                18
-              ),
 
               totalLiquidity: formatBNInput(reserve.totalLiquidity, reserve.decimals),
               liquidityIndex: formatBNInput(reserve.liquidityIndex, 27),
@@ -199,6 +193,19 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
               ),
               tokenPriceInMarketReferenceCurrency: formatBNInput(reserve.price.priceInEth, 18),
               decimals: reserve.decimals,
+
+              aRewardTokenPriceInMarketReferenceCurrency: formatBNInput(
+                rewardTokenReserveData.price.priceInEth,
+                18
+              ),
+              vRewardTokenPriceInMarketReferenceCurrency: formatBNInput(
+                rewardTokenReserveData.price.priceInEth,
+                18
+              ),
+              sRewardTokenPriceInMarketReferenceCurrency: formatBNInput(
+                rewardTokenReserveData.price.priceInEth,
+                18
+              ),
             });
             reserveIncentiveAPY.push(apys);
           }
