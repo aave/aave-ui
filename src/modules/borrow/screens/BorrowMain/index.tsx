@@ -20,11 +20,13 @@ import messages from './messages';
 
 import { BorrowTableItem } from '../../components/BorrowAssetTable/types';
 import { isAssetStable } from '../../../../helpers/markets/assets';
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 
 export default function BorrowMain() {
   const intl = useIntl();
   const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
+  const { reserveIncentives } = useIncentivesDataContext();
   const { sm } = useThemeContext();
 
   const [searchValue, setSearchValue] = useState('');
@@ -59,7 +61,10 @@ export default function BorrowMain() {
           .multipliedBy(reserve.price.priceInEth)
           .dividedBy(marketRefPriceInUsd)
           .toString();
-
+        const reserveIncentiveData = reserveIncentives.find(
+          (incentive) =>
+            incentive.underlyingAsset.toLowerCase() === reserve.underlyingAsset.toLowerCase()
+        );
         return {
           ...reserve,
           currentBorrows:
@@ -77,9 +82,15 @@ export default function BorrowMain() {
           variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowRate) : -1,
           avg30DaysVariableRate: Number(reserve.avg30DaysVariableBorrowRate),
           interestHistory: [],
-          aIncentivesAPY: reserve.aIncentivesAPY,
-          vIncentivesAPY: reserve.vIncentivesAPY,
-          sIncentivesAPY: reserve.sIncentivesAPY,
+          aIncentivesAPY: reserveIncentiveData
+            ? reserveIncentiveData.aIncentivesData.incentiveAPY
+            : '0',
+          vIncentivesAPY: reserveIncentiveData
+            ? reserveIncentiveData.vIncentivesData.incentiveAPY
+            : '0',
+          sIncentivesAPY: reserveIncentiveData
+            ? reserveIncentiveData.sIncentivesData.incentiveAPY
+            : '0',
         };
       });
 

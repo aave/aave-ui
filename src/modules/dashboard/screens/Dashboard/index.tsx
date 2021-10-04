@@ -37,12 +37,14 @@ import { DashboardLeftTopLine } from '../../../../ui-config';
 import messages from './messages';
 import staticStyles from './style';
 import { getAssetColor } from '../../../../helpers/markets/assets';
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 
 export default function Dashboard() {
   const intl = useIntl();
   const history = useHistory();
   const { network } = useProtocolDataContext();
   const { user, reserves } = useDynamicPoolDataContext();
+  const { reserveIncentives } = useIncentivesDataContext();
   const { currentTheme, sm } = useThemeContext();
 
   const [isLTVModalVisible, setLTVModalVisible] = useState(false);
@@ -68,10 +70,13 @@ export default function Dashboard() {
 
   user?.reservesData.forEach((userReserve) => {
     const poolReserve = reserves.find((res) => res.symbol === userReserve.reserve.symbol);
-
     if (!poolReserve) {
       throw new Error('data is inconsistent pool reserve is not available');
     }
+    const reserveIncentiveData = reserveIncentives.find(
+      (incentive) =>
+        incentive.underlyingAsset.toLowerCase() === poolReserve.underlyingAsset.toLowerCase()
+    );
     if (userReserve.underlyingBalance !== '0' || userReserve.totalBorrows !== '0') {
       const baseListData = {
         uiColor: getAssetColor(userReserve.reserve.symbol),
@@ -89,7 +94,9 @@ export default function Dashboard() {
           usageAsCollateralEnabledOnUser: userReserve.usageAsCollateralEnabledOnUser,
           underlyingBalance: userReserve.underlyingBalance,
           underlyingBalanceUSD: userReserve.underlyingBalanceUSD,
-          aIncentivesAPY: poolReserve.aIncentivesAPY,
+          aIncentivesAPY: reserveIncentiveData
+            ? reserveIncentiveData.aIncentivesData.incentiveAPY
+            : '0',
           onToggleSwitch: () =>
             toggleUseAsCollateral(
               history,
@@ -108,8 +115,12 @@ export default function Dashboard() {
           currentBorrowsUSD: userReserve.variableBorrowsUSD,
           borrowRateMode: InterestRate.Variable,
           borrowRate: poolReserve.variableBorrowRate,
-          vIncentivesAPY: poolReserve.vIncentivesAPY,
-          sIncentivesAPY: poolReserve.sIncentivesAPY,
+          vIncentivesAPY: reserveIncentiveData
+            ? reserveIncentiveData.vIncentivesData.incentiveAPY
+            : '0',
+          sIncentivesAPY: reserveIncentiveData
+            ? reserveIncentiveData.sIncentivesData.incentiveAPY
+            : '0',
           avg30DaysVariableRate: poolReserve.avg30DaysVariableBorrowRate,
           repayLink: loanActionLinkComposer(
             'repay',
@@ -140,8 +151,12 @@ export default function Dashboard() {
           currentBorrowsUSD: userReserve.stableBorrowsUSD,
           borrowRateMode: InterestRate.Stable,
           borrowRate: userReserve.stableBorrowRate,
-          vIncentivesAPY: poolReserve.vIncentivesAPY,
-          sIncentivesAPY: poolReserve.sIncentivesAPY,
+          vIncentivesAPY: reserveIncentiveData
+            ? reserveIncentiveData.vIncentivesData.incentiveAPY
+            : '0',
+          sIncentivesAPY: reserveIncentiveData
+            ? reserveIncentiveData.sIncentivesData.incentiveAPY
+            : '0',
           repayLink: loanActionLinkComposer(
             'repay',
             poolReserve.symbol,
