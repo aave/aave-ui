@@ -41,7 +41,7 @@ interface UserIncentiveData {
 
 export interface IncentivesDataContextData {
   reserveIncentives: CalculateReserveIncentivesResponse[];
-  userIncentives: UserIncentiveDict | undefined;
+  userIncentives: UserIncentiveDict;
 }
 
 const IncentivesDataContext = React.createContext({} as IncentivesDataContextData);
@@ -59,7 +59,7 @@ function calculateRewardTokenPrice(reserves: ComputedReserveData[], address: str
   }
   const rewardReserve = reserves.find((reserve) => reserve.underlyingAsset === address);
   if (rewardReserve) {
-    return formatBNInput(rewardReserve.price.priceInEth, rewardReserve.decimals);
+    return formatBNInput(rewardReserve.price.priceInEth, Number(rewardReserve.decimals));
   } else {
     return '0'; // Will be replaced with fallback call to ChainLink registry
   }
@@ -75,7 +75,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const [reserveIncentives, setReserveIncentives] = useState<CalculateReserveIncentivesResponse[]>(
     []
   );
-  const [userIncentives, setUserIncentives] = useState<UserIncentiveDict | undefined>(undefined);
+  const [userReserves, setUserReserves] = useState<UserReserveData[]>([]);
 
   const currentAccount = userId ? userId.toLowerCase() : ethers.constants.AddressZero;
   const ETH_DECIMALS: number = 18;
@@ -127,33 +127,29 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
           // Construct UserReserveData object from reserve and userReserve fields
           userReserves.push({
             underlyingAsset: reserve.underlyingAsset.toLowerCase(),
-            totalLiquidity: formatBNInput(reserve.totalLiquidity, reserve.decimals),
+            totalLiquidity: formatBNInput(reserve.totalLiquidity, Number(reserve.decimals)),
             liquidityIndex: formatBNInput(reserve.liquidityIndex, RAY_DECIMALS),
             totalScaledVariableDebt: formatBNInput(
               reserve.totalScaledVariableDebt,
-              reserve.decimals
+              Number(reserve.decimals)
             ),
             totalPrincipalStableDebt: formatBNInput(
               reserve.totalPrincipalStableDebt,
-              reserve.decimals
+              Number(reserve.decimals)
             ),
-            scaledATokenBalance: formatBNInput(userReserve.scaledATokenBalance, reserve.decimals),
+            scaledATokenBalance: formatBNInput(
+              userReserve.scaledATokenBalance,
+              Number(reserve.decimals)
+            ),
             scaledVariableDebt: userReserve.scaledVariableDebt,
-            principalStableDebt: formatBNInput(userReserve.principalStableDebt, reserve.decimals),
+            principalStableDebt: formatBNInput(
+              userReserve.principalStableDebt,
+              Number(reserve.decimals)
+            ),
           });
         }
       });
-
-      // Compute the total claimable rewards for a user
-      // Once aave-utilities is updated to support multiple incentives controller this will return and array of {underlyingAsset, claimableReward}
-      const totalIncentives = calculateTotalUserIncentives({
-        reserveIncentives: reserveIncentiveData,
-        userReserveIncentives: userIncentiveData,
-        // userUnclaimedRewards: '43921819137644870', // TO-DO: There will be a seperate userUnclaimedRewards per IncentivesController, this parameter will be removed and calculated using reserveIncentiveData
-        userReserves,
-        currentTimestamp,
-      });
-      setUserIncentives(totalIncentives);
+      setUserReserves(userReserves);
     }
   }, [user, reserves, reserveIncentiveData, userIncentiveData]);
 
@@ -174,21 +170,21 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
           const calculatedReserveIncentives: CalculateReserveIncentivesResponse =
             calculateReserveIncentives({
               reserveIncentiveData: incentiveData,
-              totalLiquidity: formatBNInput(reserve.totalLiquidity, reserve.decimals),
+              totalLiquidity: formatBNInput(reserve.totalLiquidity, Number(reserve.decimals)),
               liquidityIndex: formatBNInput(reserve.liquidityIndex, RAY_DECIMALS),
               totalScaledVariableDebt: formatBNInput(
                 reserve.totalScaledVariableDebt,
-                reserve.decimals
+                Number(reserve.decimals)
               ),
               totalPrincipalStableDebt: formatBNInput(
                 reserve.totalPrincipalStableDebt,
-                reserve.decimals
+                Number(reserve.decimals)
               ),
               tokenPriceInMarketReferenceCurrency: formatBNInput(
                 reserve.price.priceInEth,
                 ETH_DECIMALS
               ), // Will be replaced with marketReferencePrice/Decimals
-              decimals: reserve.decimals,
+              decimals: Number(reserve.decimals),
 
               aRewardTokenPriceInMarketReferenceCurrency: calculateRewardTokenPrice(
                 reserves,
@@ -218,11 +214,19 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     return <ErrorPage />;
   }
 
+  // Compute the total claimable rewards for a user, returned as dictionary indexed by incentivesController
+  const userIncentives = calculateTotalUserIncentives({
+    reserveIncentives: reserveIncentiveData,
+    userReserveIncentives: userIncentiveData,
+    userReserves,
+    currentTimestamp,
+  });
+
   return (
     <IncentivesDataContext.Provider
       value={{
         reserveIncentives,
-        userIncentives,
+        userIncentives: userIncentives ? userIncentives : {},
       }}
     >
       {children}
