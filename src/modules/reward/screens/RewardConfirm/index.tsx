@@ -1,6 +1,5 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
-import { ComputedReserveData, valueToBigNumber } from '@aave/protocol-js';
+import { ComputedReserveData, normalize, valueToBigNumber } from '@aave/protocol-js';
 
 import {
   useDynamicPoolDataContext,
@@ -14,6 +13,7 @@ import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import Row from '../../../../components/basic/Row';
 import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationView';
 import Value from '../../../../components/basic/Value';
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 
 import messages from './messages';
 
@@ -22,6 +22,7 @@ export function RewardConfirm() {
   const { incentiveService } = useTxBuilderContext();
   const { userUnclaimedRewards } = useStaticPoolDataContext();
   const { user, reserves } = useDynamicPoolDataContext();
+  const { userIncentives } = useIncentivesDataContext();
   const { networkConfig } = useProtocolDataContext();
 
   const aTokenData = getAtokenInfo({
@@ -37,6 +38,15 @@ export function RewardConfirm() {
   if ((amount.lt(0) && !amount.eq(-1)) || !user) {
     return null;
   }
+
+  for (var key in userIncentives) {
+    console.log('NEW');
+    console.log(key);
+    console.log(normalize(userIncentives[key].claimableRewards, 18));
+  }
+
+  console.log('OLD');
+  console.log(amount.toString());
 
   let blockingError = '';
   if (amount.eq('0')) {
