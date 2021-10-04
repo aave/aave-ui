@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import BigNumber from 'bignumber.js';
 import {
   C_PoolIncentivesDataUpdateDocument,
   C_PoolIncentivesDataUpdateSubscription,
@@ -15,10 +14,10 @@ import {
 
 type IncentivesData = {
   userId?: string;
-  incentives: ReserveIncentivesData[];
-  userIncentives: UserIncentivesData[];
+  reserveIncentiveData: ReserveIncentivesData[];
+  userIncentiveData: UserIncentivesData[];
 };
-interface PoolIncentivesWithCache {
+export interface PoolIncentivesWithCache {
   loading: boolean;
   data?: IncentivesData;
   error?: string;
@@ -93,15 +92,15 @@ export function useCachedIncentivesData(
 
   // logic
   const loading = (userId && userIncentivesDataLoading) || incentivesDataLoading;
-  const incentives: ReserveIncentivesData[] = incentivesData?.reservesIncentives || [];
-  const userIncentives: UserIncentivesData[] = userIncentivesData?.userIncentives || [];
+  const reserveIncentiveData: ReserveIncentivesData[] = incentivesData?.reservesIncentives || [];
+  const userIncentiveData: UserIncentivesData[] = userIncentivesData?.userIncentives || [];
 
   return {
     loading,
     data: {
       userId,
-      incentives,
-      userIncentives,
+      reserveIncentiveData,
+      userIncentiveData,
     },
   };
 }
