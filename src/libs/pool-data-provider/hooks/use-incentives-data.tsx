@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
-import { ethers, providers } from 'ethers';
+import { ethers } from 'ethers';
 import { Network } from '@aave/protocol-js';
 
 import { getProvider } from '../../../helpers/markets/markets-data';
-import { FullReservesIncentiveDataResponse, UiIncentiveDataProvider } from '@aave/contract-helpers';
+import {
+  UserReserveIncentiveDataResponse,
+  ReserveIncentiveDataResponse,
+  UiIncentiveDataProvider,
+} from '@aave/contract-helpers';
 
 // interval in which the rpc data is refreshed
 const POOLING_INTERVAL = 30 * 1000;
@@ -50,11 +54,11 @@ interface UserTokenIncentives {
 }
 export interface IncentiveDataResponse {
   loading: boolean;
+  error: boolean;
   data: {
     reserveIncentiveData?: ReserveIncentiveData[];
     userIncentiveData?: UserReserveIncentiveData[];
   };
-  error?: string;
   refresh: () => Promise<void>;
 }
 
@@ -112,12 +116,13 @@ export function useIncentivesData(
   network: Network,
   incentiveDataProviderAddress: string,
   skip: boolean,
-  userAddress?: string,
-  injectedProvider?: providers.Web3Provider
+  userAddress?: string
 ): IncentiveDataResponse {
-  const currentAccount = userAddress ? userAddress.toLowerCase() : ethers.constants.AddressZero;
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | undefined>(undefined);
+  const currentAccount: string | undefined = userAddress ? userAddress.toLowerCase() : undefined;
+  const [loadingReserveIncentives, setLoadingReserveIncentives] = useState<boolean>(true);
+  const [errorReserveIncentives, setErrorReserveIncentives] = useState<boolean>(false);
+  const [loadingUserIncentives, setLoadingUserIncentives] = useState<boolean>(true);
+  const [errorUserIncentives, setErrorUserIncentives] = useState<boolean>(false);
   const [reserveIncentiveData, setReserveIncentiveData] = useState<
     ReserveIncentiveData[] | undefined
   >(undefined);
@@ -125,9 +130,26 @@ export function useIncentivesData(
     UserReserveIncentiveData[] | undefined
   >(undefined);
 
+  // Fetch reserve incentive data and user incentive data only if currentAccount is set
   const fetchData = async (
-    userAddress: string,
-    network: Network,
+    currentAccount: string | undefined,
+    lendingPoolAddressProvider: string,
+    incentiveDataProviderAddress: string
+  ) => {
+    fetchReserveIncentiveData(lendingPoolAddressProvider, incentiveDataProviderAddress);
+    if (currentAccount && currentAccount !== ethers.constants.AddressZero) {
+      fetchUserIncentiveData(
+        currentAccount,
+        lendingPoolAddressProvider,
+        incentiveDataProviderAddress
+      );
+    } else {
+      setLoadingUserIncentives(false);
+    }
+  };
+
+  // Fetch and format reserve incentive data from UiIncentiveDataProvider contract
+  const fetchReserveIncentiveData = async (
     lendingPoolAddressProvider: string,
     incentiveDataProviderAddress: string
   ) => {
@@ -138,12 +160,8 @@ export function useIncentivesData(
     });
 
     try {
-      const result: FullReservesIncentiveDataResponse =
-        await incentiveDataProviderContract.getAllIncentives(
-          userAddress,
-          lendingPoolAddressProvider
-        );
-      const { 0: rawReserveIncentiveData, 1: rawUserIncentiveData } = result;
+      const rawReserveIncentiveData: ReserveIncentiveDataResponse[] =
+        await incentiveDataProviderContract.getReservesIncentives(lendingPoolAddressProvider);
       const formattedReserveIncentiveData: ReserveIncentiveData[] = rawReserveIncentiveData.map(
         (reserveIncentive) => {
           const {
@@ -163,6 +181,33 @@ export function useIncentivesData(
           return formattedReserveIncentive;
         }
       );
+      setReserveIncentiveData(formattedReserveIncentiveData);
+      setErrorReserveIncentives(false);
+    } catch (e) {
+      console.log('e', e);
+      setErrorReserveIncentives(e.message);
+    }
+    setLoadingReserveIncentives(false);
+  };
+
+  // Fetch and format user incentive data from UiIncentiveDataProvider
+  const fetchUserIncentiveData = async (
+    currentAccount: string,
+    lendingPoolAddressProvider: string,
+    incentiveDataProviderAddress: string
+  ) => {
+    const provider = getProvider(network);
+    const incentiveDataProviderContract = new UiIncentiveDataProvider({
+      incentiveDataProviderAddress,
+      provider,
+    });
+
+    try {
+      const rawUserIncentiveData: UserReserveIncentiveDataResponse[] =
+        await incentiveDataProviderContract.getUserReservesIncentives(
+          currentAccount,
+          lendingPoolAddressProvider
+        );
       const formattedUserIncentiveData: UserReserveIncentiveData[] = rawUserIncentiveData.map(
         (userIncentive) => {
           const {
@@ -182,45 +227,40 @@ export function useIncentivesData(
         }
       );
       setUserIncentiveData(formattedUserIncentiveData);
-      setReserveIncentiveData(formattedReserveIncentiveData);
-      setError(undefined);
+      setErrorUserIncentives(false);
     } catch (e) {
       console.log('e', e);
-      setError(e.message);
+      setErrorUserIncentives(e.message);
     }
-    setLoading(false);
+    setLoadingUserIncentives(false);
   };
 
   useEffect(() => {
-    // if cached data is being used - clean the storage to prevent using outdated data
-    if (skip) {
-      setReserveIncentiveData(undefined);
-      setUserIncentiveData(undefined);
-      setLoading(true);
-      return;
+    setLoadingReserveIncentives(true);
+    setLoadingUserIncentives(true);
+
+    if (!skip) {
+      fetchData(currentAccount, lendingPoolAddressProvider, incentiveDataProviderAddress);
+      const intervalID = setInterval(
+        () => fetchData(currentAccount, lendingPoolAddressProvider, incentiveDataProviderAddress),
+        errorReserveIncentives || errorUserIncentives ? RECOVER_INTERVAL : POOLING_INTERVAL
+      );
+      return () => clearInterval(intervalID);
+    } else {
+      setLoadingReserveIncentives(false);
+      setLoadingUserIncentives(false);
     }
-
-    fetchData(currentAccount, network, lendingPoolAddressProvider, incentiveDataProviderAddress);
-
-    const intervalID = setInterval(
-      () =>
-        fetchData(
-          currentAccount,
-          network,
-          lendingPoolAddressProvider,
-          incentiveDataProviderAddress
-        ),
-      error ? RECOVER_INTERVAL : POOLING_INTERVAL
-    );
-    return () => clearInterval(intervalID);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentAccount, injectedProvider, lendingPoolAddressProvider, skip, error]);
+  }, [currentAccount, lendingPoolAddressProvider, skip]);
+
+  const loading = loadingReserveIncentives || loadingUserIncentives;
+  const error = errorReserveIncentives || errorUserIncentives;
 
   return {
     loading,
-    data: { reserveIncentiveData, userIncentiveData },
     error,
+    data: { reserveIncentiveData, userIncentiveData },
     refresh: () =>
-      fetchData(currentAccount, network, lendingPoolAddressProvider, incentiveDataProviderAddress),
+      fetchData(currentAccount, lendingPoolAddressProvider, incentiveDataProviderAddress),
   };
 }
