@@ -52,7 +52,7 @@ export default function DepositItem({
         thirtyDaysAverage={avg30DaysLiquidityRate}
         liquidityMiningValue={aIncentivesAPY}
         symbol={symbol}
-        type="deposit-apy"
+        type="deposit"
       />
 
       <TableCol maxWidth={125}>

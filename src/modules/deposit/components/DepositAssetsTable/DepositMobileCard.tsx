@@ -56,9 +56,11 @@ export default function DepositMobileCard({
         <Row title={intl.formatMessage(messages.APY)} withMargin={true}>
           {borrowingEnabled ? (
             <LiquidityMiningCard
+              symbol={symbol}
               value={liquidityRate}
               thirtyDaysValue={avg30DaysLiquidityRate}
               liquidityMiningValue={aIncentivesAPY}
+              type="deposit"
             />
           ) : (
             <NoData color="dark" />

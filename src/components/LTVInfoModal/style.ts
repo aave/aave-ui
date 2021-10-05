@@ -29,9 +29,17 @@ const staticStyles = css.global`
       display: flex;
       align-items: center;
       .TokenIcon {
-        img {
+        &__image {
           margin-left: 3px;
           margin-right: 0;
+        }
+      }
+      .MultipleIcons {
+        margin-right: 0;
+        margin-left: 3px;
+        .TokenIcon__image {
+          margin-right: 0 !important;
+          margin-left: 0 !important;
         }
       }
     }

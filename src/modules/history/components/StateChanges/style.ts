@@ -74,7 +74,7 @@ const staticStyles = css.global`
           margin-right: 5px !important;
         }
       }
-      .DoubleIcon {
+      .MultipleIcons {
         margin-right: 5px !important;
       }
       span {
@@ -84,9 +84,6 @@ const staticStyles = css.global`
         top: 1px;
         @include respond-to(lg) {
           font-size: $medium;
-        }
-        @include respond-to(md) {
-          font-size: $regular;
         }
       }
     }

@@ -1,7 +1,7 @@
 import css from 'styled-jsx/css';
 
 /*language=SCSS*/
-const staticStyles = css`
+const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
 
@@ -63,6 +63,14 @@ const staticStyles = css`
   .TextWithModal__lightWeight {
     .TextWithModal__text {
       font-weight: 300;
+    }
+  }
+
+  .TextWithModal__modal {
+    padding: 32px 48px !important;
+    max-width: 506px !important ;
+    @include respond-to(sm) {
+      padding: 24px !important;
     }
   }
 `;

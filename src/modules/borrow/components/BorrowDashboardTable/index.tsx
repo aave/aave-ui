@@ -20,7 +20,7 @@ interface BorrowDashboardTableProps {
 export default function BorrowDashboardTable({ listData }: BorrowDashboardTableProps) {
   const intl = useIntl();
   const { currentLangSlug } = useLanguageContext();
-  const { sm } = useThemeContext();
+  const { lg, sm } = useThemeContext();
 
   const head = [
     intl.formatMessage(messages.yourBorrows),
@@ -28,7 +28,7 @@ export default function BorrowDashboardTable({ listData }: BorrowDashboardTableP
     intl.formatMessage(messages.apyRowTitle),
     intl.formatMessage(messages.fourthTableColumnTitle),
   ];
-  const colWidth = [160, '100%', '100%', 180];
+  const colWidth = [lg ? 250 : 160, '100%', '100%', 180];
 
   const Header = useCallback(() => {
     return <TableHeader head={head} colWidth={colWidth} />;

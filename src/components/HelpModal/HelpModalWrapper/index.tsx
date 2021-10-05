@@ -15,6 +15,7 @@ export interface HelpModalWrapperProps {
   modalClassName?: string;
   clickOnText?: boolean;
   withGrayIcon?: boolean;
+  captionColor?: 'primary' | 'secondary' | 'dark';
 }
 
 export default function HelpModalWrapper({
@@ -29,6 +30,7 @@ export default function HelpModalWrapper({
   modalClassName,
   clickOnText,
   withGrayIcon,
+  captionColor,
 }: HelpModalWrapperProps) {
   return (
     <TextWithModal
@@ -42,7 +44,12 @@ export default function HelpModalWrapper({
       clickOnText={clickOnText}
       withGrayIcon={withGrayIcon}
     >
-      <HelpItem caption={caption} description={description} onWhiteBackground={onWhiteBackground} />
+      <HelpItem
+        caption={caption}
+        description={description}
+        onWhiteBackground={onWhiteBackground}
+        captionColor={captionColor}
+      />
     </TextWithModal>
   );
 }

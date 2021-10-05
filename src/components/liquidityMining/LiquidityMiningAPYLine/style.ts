@@ -22,6 +22,31 @@ const staticStyles = css.global`
       cursor: pointer;
     }
 
+    &__tribe {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      strong {
+        margin: 0 3px;
+        @include respond-to(lg) {
+          position: relative;
+          top: 1px;
+        }
+        @include respond-to(md) {
+          top: 0;
+        }
+      }
+      img {
+        width: 12px;
+        height: 12px;
+        position: relative;
+        @include respond-to(xl) {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+
     .ValuePercent .ValuePercent__value,
     &__title {
       font-size: $medium;
@@ -41,7 +66,7 @@ const staticStyles = css.global`
     }
 
     .TokenIcon {
-      img {
+      &__image {
         margin-right: 0;
       }
     }

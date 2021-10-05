@@ -57,9 +57,11 @@ export default function BorrowMobileCard({
       {!isFreezed && (
         <Row title={intl.formatMessage(messages.variableAPY)} withMargin={true}>
           <LiquidityMiningCard
+            symbol={symbol}
             value={variableBorrowRate}
             thirtyDaysValue={avg30DaysVariableRate}
             liquidityMiningValue={vIncentivesAPY}
+            type="borrow-variable"
           />
         </Row>
       )}
@@ -67,7 +69,12 @@ export default function BorrowMobileCard({
       {!isFreezed && (
         <Row title={intl.formatMessage(messages.stableAPY)} withMargin={true}>
           {stableBorrowRateEnabled ? (
-            <LiquidityMiningCard value={stableBorrowRate} liquidityMiningValue={sIncentivesAPY} />
+            <LiquidityMiningCard
+              symbol={symbol}
+              value={stableBorrowRate}
+              liquidityMiningValue={sIncentivesAPY}
+              type="borrow-stable"
+            />
           ) : (
             <NoData color="dark" />
           )}

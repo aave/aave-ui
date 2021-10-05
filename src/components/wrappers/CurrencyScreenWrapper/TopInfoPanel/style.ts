@@ -19,7 +19,8 @@ const staticStyles = css.global`
       margin-right: 30px;
       @include respond-to(sm) {
         margin-right: 0;
-        width: 50%;
+        min-width: 50%;
+        max-width: 80%;
         padding: 10px;
         .Row__title-inner {
           align-items: center;
