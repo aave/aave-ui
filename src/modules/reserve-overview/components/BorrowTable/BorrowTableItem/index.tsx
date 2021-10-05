@@ -16,7 +16,7 @@ import Value from '../../../../../components/basic/Value';
 import Link from '../../../../../components/basic/Link';
 import DefaultButton from '../../../../../components/basic/DefaultButton';
 import CustomSwitch from '../../../../../components/basic/CustomSwitch';
-import { getAssetInfo, TokenIcon } from '../../../../../helpers/markets/assets';
+import { TokenIcon } from '../../../../../helpers/markets/assets';
 
 import defaultMessages from '../../../../../defaultMessages';
 import messages from './messages';
@@ -40,7 +40,6 @@ export default function BorrowTableItem({
   const intl = useIntl();
   const history = useHistory();
   const { currentTheme, xl, isCurrentThemeDark } = useThemeContext();
-  const asset = getAssetInfo(symbol);
 
   const borrows =
     type === 'stable'
@@ -72,12 +71,7 @@ export default function BorrowTableItem({
   return (
     <div className="BorrowTableItem">
       <div className="BorrowTableItem__column">
-        <TokenIcon
-          tokenSymbol={symbol}
-          height={25}
-          width={25}
-          tokenFullName={asset.formattedName}
-        />
+        <TokenIcon tokenSymbol={symbol} height={25} width={25} />
       </div>
 
       <div className="BorrowTableItem__column">

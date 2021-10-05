@@ -82,7 +82,7 @@ const staticStyles = css.global`
             width: 85px;
             max-height: 16px;
             @include respond-to(sm) {
-              width: 110px;
+              width: 105px;
               max-height: 25px;
             }
           }

@@ -56,12 +56,16 @@ export default function BorrowMobileCard({
         <Row title={intl.formatMessage(messages.apyRowTitle)} withMargin={true}>
           {borrowingEnabled ? (
             <LiquidityMiningCard
+              symbol={symbol}
               value={Number(borrowRate)}
               thirtyDaysValue={
                 borrowRateMode === BorrowRateMode.Variable ? avg30DaysVariableRate : ''
               }
               liquidityMiningValue={
                 borrowRateMode === BorrowRateMode.Variable ? vIncentivesAPY : sIncentivesAPY
+              }
+              type={
+                borrowRateMode === BorrowRateMode.Variable ? 'borrow-variable' : 'borrow-stable'
               }
             />
           ) : (

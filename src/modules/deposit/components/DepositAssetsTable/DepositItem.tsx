@@ -47,7 +47,7 @@ export default function DepositItem({
             thirtyDaysValue={avg30DaysLiquidityRate}
             liquidityMiningValue={aIncentivesAPY}
             symbol={symbol}
-            type="deposit-apy"
+            type="deposit"
           />
         </TableColumn>
       )}

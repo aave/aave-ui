@@ -38,7 +38,13 @@ export default function MarketSelectButton({
   const { currentTheme } = useThemeContext();
 
   const hoverColor = rgba(`${currentTheme.primary.rgb}, 0.7`);
-  const testnetMark = [Network.kovan, Network.mumbai, Network.fork, Network.fuji].includes(network)
+  const testnetMark = [
+    Network.kovan,
+    Network.mumbai,
+    Network.fork,
+    Network.fuji,
+    Network.avalanche_fork,
+  ].includes(network)
     ? network.charAt(0)
     : undefined;
   const gradientBorder = gradient(

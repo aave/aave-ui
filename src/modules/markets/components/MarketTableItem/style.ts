@@ -21,7 +21,7 @@ const staticStyles = css.global`
       &:first-child {
         align-items: flex-start;
         justify-content: flex-start;
-        min-width: 200px;
+        min-width: 270px;
         @media only screen and (max-width: 850px) {
           min-width: 80px;
         }
@@ -41,42 +41,6 @@ const staticStyles = css.global`
         @include respond-to(sm) {
           display: none;
         }
-      }
-    }
-
-    .MarketTableItem__token {
-      img {
-        @include respond-to(sm) {
-          width: 30px;
-          height: 30px;
-        }
-      }
-      img,
-      .DoubleIcon {
-        @include respond-to(sm) {
-          margin-right: 4px !important;
-        }
-      }
-      .DoubleIcon {
-        min-width: 35px !important;
-        @include respond-to(sm) {
-          min-width: 30px !important;
-          width: 30px !important;
-          height: 30px !important;
-        }
-      }
-      p {
-        @media only screen and (max-width: 400px) {
-          display: none;
-        }
-      }
-      b {
-        @include respond-to(sm) {
-          font-size: $extraSmall;
-        }
-      }
-      span {
-        font-size: $small;
       }
     }
 

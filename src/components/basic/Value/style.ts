@@ -41,9 +41,6 @@ const staticStyles = css.global`
     }
 
     &__token-icon {
-      img {
-        margin-right: 5px !important;
-      }
       .TokenIcon__dollar {
         margin-right: 5px !important;
         font-size: $large;

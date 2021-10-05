@@ -68,6 +68,9 @@ const staticStyles = css.global`
         }
       }
     }
+    &__mobileMigrateWithoutContent {
+      height: 30px;
+    }
 
     .Row.Row__column {
       .Row__title-inner {

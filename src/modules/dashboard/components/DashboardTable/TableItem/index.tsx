@@ -15,20 +15,25 @@ interface TableItemProps {
 }
 
 export default function TableItem({ tokenSymbol, color, children }: TableItemProps) {
-  const { currentTheme } = useThemeContext();
+  const { currentTheme, lg } = useThemeContext();
   const asset = getAssetInfo(tokenSymbol);
 
   return (
-    <div className={classNames('TableItem', { TableItem__AMPL: tokenSymbol === 'AMPL' })}>
+    <div
+      className={classNames('TableItem', {
+        TableItem__withInfo: tokenSymbol === 'AMPL',
+      })}
+    >
       <span className="TableItem__assetColor" style={{ backgroundColor: color }} />
 
-      <TableCol className="TableItem__inner" maxWidth={160}>
+      <TableCol className="TableItem__inner" maxWidth={lg ? 250 : 160}>
         <TokenIcon
           tokenSymbol={tokenSymbol}
-          tokenFullName={asset.formattedName}
-          height={30}
-          width={30}
+          tokenFullName={asset.shortSymbol || asset.formattedName}
+          height={26}
+          width={26}
           className="TableItem__token"
+          tooltipId={tokenSymbol}
         />
       </TableCol>
 

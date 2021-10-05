@@ -12,6 +12,9 @@ const staticStyles = css.global`
     position: relative;
     cursor: default;
     z-index: 10;
+    &:hover {
+      z-index: 12;
+    }
   }
 
   .CompositionBar__wrapper {

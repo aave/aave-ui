@@ -29,7 +29,7 @@ export default function Card({ link, symbol, id, value }: CardProps) {
           tokenSymbol={symbol}
           height={iconSize}
           width={iconSize}
-          tokenFullName={asset.formattedName}
+          tokenFullName={asset.shortSymbol || asset.formattedName}
         />
         <Value
           value={value}

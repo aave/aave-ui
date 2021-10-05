@@ -22,7 +22,7 @@ const staticStyles = css.global`
       min-height: 55px;
     }
 
-    &__AMPL {
+    &__withInfo {
       position: relative;
       margin-bottom: 35px;
     }
@@ -41,14 +41,17 @@ const staticStyles = css.global`
 
     .TableItem__token {
       .TokenIcon__name {
-        font-size: $large;
-        @include respond-to(xl) {
-          font-size: $medium;
+        font-size: $medium;
+      }
+      .TokenIcon__image {
+        margin-right: 5px;
+      }
+      .MultipleIcons {
+        margin-right: 5px;
+        .TokenIcon__image {
+          margin-right: 0;
         }
       }
-    }
-    .DoubleIcon {
-      min-width: 30px;
     }
 
     .TableCol {

@@ -12,9 +12,9 @@ const staticStyles = css.global`
     .TableColumn {
       &:first-of-type {
         align-items: flex-start;
-        max-width: 200px;
+        max-width: 240px;
         @include respond-to(lg) {
-          max-width: 150px;
+          max-width: 200px;
         }
         @include respond-to(sm) {
           max-width: 80px;

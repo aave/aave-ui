@@ -66,7 +66,7 @@ const staticStyles = css.global`
       }
 
       .TokenIcon {
-        img {
+        &__image {
           margin-right: 5px !important;
         }
         .TokenIcon__name {
@@ -80,6 +80,12 @@ const staticStyles = css.global`
           b {
             font-weight: 400 !important;
           }
+        }
+      }
+      .MultipleIcons {
+        margin-right: 5px !important;
+        .TokenIcon__image {
+          margin-right: 0 !important;
         }
       }
     }
