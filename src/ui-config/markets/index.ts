@@ -6,6 +6,8 @@ import * as logos from './images';
 export enum CustomMarket {
   proto_kovan = 'proto_kovan',
   proto_mainnet = 'proto_mainnet',
+  proto_avalanche = 'proto_avalanche',
+  avalanche_fork = 'avalanche_fork',
   proto_matic = 'proto_matic',
   proto_mumbai = 'proto_mumbai',
   proto_fork = 'proto_fork',
@@ -190,6 +192,30 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
       LENDING_POOL: '0x76cc67FF2CC77821A70ED14321111Ce381C2594D',
       WETH_GATEWAY: '0x1648C14DbB6ccdd5846969cE23DeEC4C66a03335',
       FAUCET: '0x90E5BAc5A98fff59617080848959f44eACB4Cd7B',
+    },
+  },
+  [CustomMarket.proto_avalanche]: {
+    network: Network.avalanche,
+    logo: logos.aaveLogo,
+    activeLogo: logos.aaveActiveLogo,
+    subLogo: logos.avalanche,
+    aTokenPrefix: 'AV',
+    addresses: {
+      LENDING_POOL_ADDRESS_PROVIDER: '0xb6A86025F0FE1862B372cb0ca18CE3EDe02A318f'.toLowerCase(),
+      LENDING_POOL: '0x4F01AeD16D97E3aB5ab2B501154DC9bb0F1A5A2C',
+      WETH_GATEWAY: '0x8a47F74d1eE0e2edEB4F3A7e64EF3bD8e11D27C8',
+    },
+  },
+  [CustomMarket.avalanche_fork]: {
+    network: Network.avalanche_fork,
+    logo: logos.aaveLogo,
+    activeLogo: logos.aaveActiveLogo,
+    subLogo: logos.avalanche,
+    aTokenPrefix: 'AV',
+    addresses: {
+      LENDING_POOL_ADDRESS_PROVIDER: '0xb6A86025F0FE1862B372cb0ca18CE3EDe02A318f'.toLowerCase(),
+      LENDING_POOL: '0x4F01AeD16D97E3aB5ab2B501154DC9bb0F1A5A2C',
+      WETH_GATEWAY: '0x8a47F74d1eE0e2edEB4F3A7e64EF3bD8e11D27C8',
     },
   },
 } as const;
