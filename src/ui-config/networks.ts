@@ -67,7 +67,7 @@ const avalanche_config: BaseNetworkConfig = {
   publicJsonRPCUrl: 'https://api.avax.network/ext/bc/C/rpc',
   publicJsonRPCWSUrl: 'wss://api.avax.network/ext/bc/C/rpc',
   walletBalanceProvider: '0x73e4898a1Bfa9f710B6A6AB516403A6299e01fc6',
-  uiPoolDataProvider: '0x2dB63Ca358aB41264A5359BF77175D488a22a7Aa',
+  uiPoolDataProvider: '0x7d9d970CaE574912221d25107A6728f0d17Cb901',
   protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-avalanche',
   cachingServerUrl: 'https://cache-api-avalanche.aave.com/graphql',
   cachingWSServerUrl: 'wss://cache-api-avalanche.aave.com/graphql',
