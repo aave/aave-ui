@@ -16,6 +16,7 @@ import { DepositTableItem } from './types';
 export default function DepositMobileCard({
   id,
   symbol,
+  underlyingAsset,
   walletBalance,
   walletBalanceInUSD,
   liquidityRate,
@@ -28,7 +29,7 @@ export default function DepositMobileCard({
   const intl = useIntl();
   const history = useHistory();
 
-  const url = `/deposit/${symbol}-${id}`;
+  const url = `/deposit/${underlyingAsset}-${id}`;
 
   return (
     <MobileCardWrapper

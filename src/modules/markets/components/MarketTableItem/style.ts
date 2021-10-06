@@ -65,6 +65,7 @@ const staticStyles = css.global`
     &__isFreezed-inner {
       position: relative;
       flex: 3;
+      text-align: center;
     }
 
     .TokenIcon__dollar {

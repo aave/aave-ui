@@ -16,6 +16,7 @@ import { BorrowTableItem } from './types';
 export default function BorrowMobileCard({
   id,
   symbol,
+  underlyingAsset,
   availableBorrows,
   availableBorrowsInUSD,
   stableBorrowRate,
@@ -30,7 +31,7 @@ export default function BorrowMobileCard({
   const intl = useIntl();
   const history = useHistory();
 
-  const url = `/borrow/${symbol}-${id}`;
+  const url = `/borrow/${underlyingAsset}-${id}`;
 
   return (
     <MobileCardWrapper

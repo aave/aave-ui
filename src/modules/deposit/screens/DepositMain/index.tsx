@@ -135,10 +135,11 @@ export default function DepositsMain() {
           <React.Fragment key={index}>
             {item.underlyingBalance.toString() > '0' && (
               <Card
-                link={`/deposit/${item.symbol}-${item.id}`}
+                link={`/deposit/${item.underlyingAsset}-${item.id}`}
                 symbol={item.symbol}
                 id={item.id}
                 value={item.underlyingBalance.toString()}
+                underlyingAsset={item.underlyingAsset}
               />
             )}
           </React.Fragment>

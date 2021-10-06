@@ -94,9 +94,9 @@ export default function Dashboard() {
           onToggleSwitch: () =>
             toggleUseAsCollateral(
               history,
-              poolReserve.symbol,
               poolReserve.id,
-              !userReserve.usageAsCollateralEnabledOnUser
+              !userReserve.usageAsCollateralEnabledOnUser,
+              poolReserve.underlyingAsset
             ),
         });
       }
@@ -114,22 +114,22 @@ export default function Dashboard() {
           avg30DaysVariableRate: poolReserve.avg30DaysVariableBorrowRate,
           repayLink: loanActionLinkComposer(
             'repay',
-            poolReserve.symbol,
             poolReserve.id,
-            InterestRate.Variable
+            InterestRate.Variable,
+            poolReserve.underlyingAsset
           ),
           borrowLink: loanActionLinkComposer(
             'borrow',
-            poolReserve.symbol,
             poolReserve.id,
-            InterestRate.Variable
+            InterestRate.Variable,
+            poolReserve.underlyingAsset
           ),
           onSwitchToggle: () =>
             toggleBorrowRateMode(
               history,
-              poolReserve.symbol,
               poolReserve.id,
-              InterestRate.Variable
+              InterestRate.Variable,
+              poolReserve.underlyingAsset
             ),
         });
       }
@@ -145,18 +145,23 @@ export default function Dashboard() {
           sIncentivesAPY: poolReserve.sIncentivesAPY,
           repayLink: loanActionLinkComposer(
             'repay',
-            poolReserve.symbol,
             poolReserve.id,
-            InterestRate.Stable
+            InterestRate.Stable,
+            poolReserve.underlyingAsset
           ),
           borrowLink: loanActionLinkComposer(
             'borrow',
-            poolReserve.symbol,
             poolReserve.id,
-            InterestRate.Stable
+            InterestRate.Stable,
+            poolReserve.underlyingAsset
           ),
           onSwitchToggle: () =>
-            toggleBorrowRateMode(history, poolReserve.symbol, poolReserve.id, InterestRate.Stable),
+            toggleBorrowRateMode(
+              history,
+              poolReserve.id,
+              InterestRate.Stable,
+              poolReserve.underlyingAsset
+            ),
         });
       }
     }

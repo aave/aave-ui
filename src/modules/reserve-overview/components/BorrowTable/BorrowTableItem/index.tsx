@@ -52,15 +52,15 @@ export default function BorrowTableItem({
 
   const repayLink = loanActionLinkComposer(
     'repay',
-    poolReserve.symbol,
     poolReserve.id,
-    type === 'stable' ? InterestRate.Stable : InterestRate.Variable
+    type === 'stable' ? InterestRate.Stable : InterestRate.Variable,
+    poolReserve.underlyingAsset
   );
   const borrowLink = loanActionLinkComposer(
     'borrow',
-    poolReserve.symbol,
     poolReserve.id,
-    type === 'stable' ? InterestRate.Stable : InterestRate.Variable
+    type === 'stable' ? InterestRate.Stable : InterestRate.Variable,
+    poolReserve.underlyingAsset
   );
 
   const borrowRateMode = type === 'stable' ? InterestRate.Stable : InterestRate.Variable;
@@ -90,9 +90,9 @@ export default function BorrowTableItem({
           onSwitch={() =>
             toggleBorrowRateMode(
               history,
-              poolReserve.symbol,
               poolReserve.id,
-              type === 'stable' ? InterestRate.Stable : InterestRate.Variable
+              type === 'stable' ? InterestRate.Stable : InterestRate.Variable,
+              poolReserve.underlyingAsset
             )
           }
           // @ts-ignore
