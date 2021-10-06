@@ -28,8 +28,8 @@ jobs:
         with:
           script: |
             github.rest.issues.createComment({
-              issue_number: github.event.number,
+              issue_number: context.payload.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Preview link: ${{github.event.number}}'
+              body: 'Preview link: ${{context.payload.number}}'
             })
