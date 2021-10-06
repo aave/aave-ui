@@ -19,7 +19,22 @@ jobs:
         run: npm ci
 
       - name: Build and pinata upload
+        id: deploy
         env:
           PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
           PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
         run: npm run pinata:ipfs-publish
+
+      - uses: actions/github-script@v4
+        if: |
+          github.event.pull_request.head.repo.full_name == github.repository &&
+          !contains(github.head_ref, 'dependabot') &&
+          github.ref != 'refs/heads/master'
+        with:
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Preview link: ${{steps.deploy.outputs.uri}}'
+            })
