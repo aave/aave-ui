@@ -97,7 +97,7 @@ export default function DepositMobileCard({
             className="Row__center"
           >
             <Link
-              to={`/deposit/${symbol}-${id}`}
+              to={`/deposit/${underlyingAsset}-${id}`}
               className="ButtonLink"
               disabled={!isActive || isFrozen}
             >
@@ -116,7 +116,7 @@ export default function DepositMobileCard({
           className="Row__center"
         >
           <Link
-            to={`/withdraw/${symbol}-${id}`}
+            to={`/withdraw/${underlyingAsset}-${id}`}
             className="ButtonLink"
             disabled={!isActive || isFrozen}
           >

@@ -122,10 +122,11 @@ export default function BorrowMain() {
           <React.Fragment key={index}>
             {item.currentBorrows.toString() > '0' && (
               <Card
-                link={`/borrow/${item.symbol}-${item.id}`}
+                link={`/borrow/${item.underlyingAsset}-${item.id}`}
                 symbol={item.symbol}
                 id={item.id}
                 value={item.currentBorrows.toString()}
+                underlyingAsset={item.underlyingAsset}
               />
             )}
           </React.Fragment>

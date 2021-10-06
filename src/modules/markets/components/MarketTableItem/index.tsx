@@ -35,6 +35,7 @@ export interface MarketTableItemProps {
 
 export default function MarketTableItem({
   id,
+  underlyingAsset,
   currencySymbol,
   totalLiquidity,
   totalLiquidityInUSD,
@@ -58,7 +59,7 @@ export default function MarketTableItem({
   const asset = getAssetInfo(currencySymbol);
 
   const handleClick = () => {
-    history.push(`/reserve-overview/${currencySymbol}-${id}`);
+    history.push(`/reserve-overview/${underlyingAsset}-${id}`);
   };
 
   return (

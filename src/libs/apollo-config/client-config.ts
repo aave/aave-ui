@@ -194,34 +194,27 @@ export function getApolloClient({
   protocolDataUrl,
 }: NetworkConfig): { client: ApolloClient<NormalizedCacheObject>; wsClients: any[] } {
   const poolTheGraphLink = new HttpLink({ uri: protocolDataUrl });
-  const governanceDataLink = governanceConfig
-    ? split(
-        ({ query }) => {
-          const definition = getMainDefinition(query);
-          return (
-            definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
-          );
-        },
-        createWsLink(governanceConfig.wsGovernanceDataUrl),
-        new HttpLink({ uri: governanceConfig.queryGovernanceDataUrl })
-      )
-    : undefined;
+  const governanceDataLink = split(
+    ({ query }) => {
+      const definition = getMainDefinition(query);
+      return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+    },
+    createWsLink(governanceConfig!.wsGovernanceDataUrl),
+    new HttpLink({ uri: governanceConfig!.queryGovernanceDataUrl })
+  );
 
-  const thegraphDataLink =
-    governanceDataLink === undefined
-      ? poolTheGraphLink
-      : split(
-          ({ query }) => {
-            const definition = getMainDefinition(query);
-            return (
-              definition.kind === 'OperationDefinition' &&
-              definition.operation === 'query' &&
-              definition.name?.value === 'UserHistory'
-            );
-          },
-          poolTheGraphLink,
-          governanceDataLink
-        );
+  const thegraphDataLink = split(
+    ({ query }) => {
+      const definition = getMainDefinition(query);
+      return (
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'query' &&
+        definition.name?.value === 'UserHistory'
+      );
+    },
+    poolTheGraphLink,
+    governanceDataLink
+  );
 
   const cachedServerDataLink = getCachedServerLink(cachingServerUrl, cachingWSServerUrl);
   const generalLink =

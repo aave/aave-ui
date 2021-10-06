@@ -9,6 +9,9 @@ const FORK_NETWORK_ID = Number(localStorage.getItem('forkNetworkId') || ChainId.
 const POLYGON_FORK_NETWORK_ID = Number(
   localStorage.getItem('polygonForkNetworkId') || ChainId.polygon_fork
 );
+const AVALANCHE_FORK_NETWORK_ID = Number(
+  localStorage.getItem('avalancheForkNetworkId') || ChainId.avalanche_fork
+);
 
 export function mapChainIdToName(id: number): ExtendedSupportedNetworks {
   switch (id) {
@@ -30,6 +33,8 @@ export function mapChainIdToName(id: number): ExtendedSupportedNetworks {
       return Network.arbitrum_one;
     case ChainId.avalanche:
       return Network.avalanche;
+    case AVALANCHE_FORK_NETWORK_ID:
+      return Network.avalanche_fork;
     case FORK_NETWORK_ID:
       return Network.fork;
     case POLYGON_FORK_NETWORK_ID:
@@ -63,6 +68,8 @@ export function mapNameToChainID(chain?: ExtendedSupportedNetworks): number {
       return ChainId.arbitrum_one;
     case Network.avalanche:
       return ChainId.avalanche;
+    case Network.avalanche_fork:
+      return AVALANCHE_FORK_NETWORK_ID;
     default:
       return 0;
   }

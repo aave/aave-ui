@@ -18,6 +18,7 @@ import { MarketTableItemProps } from '../MarketTableItem';
 export default function MarketMobileCard({
   id,
   currencySymbol,
+  underlyingAsset,
   totalLiquidityInUSD,
   totalBorrowsInUSD,
   depositAPY,
@@ -65,7 +66,7 @@ export default function MarketMobileCard({
   ];
 
   const handleClick = () => {
-    history.push(`/reserve-overview/${currencySymbol}-${id}`);
+    history.push(`/reserve-overview/${underlyingAsset}-${id}`);
   };
 
   return (
