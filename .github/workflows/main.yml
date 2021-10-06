@@ -27,11 +27,11 @@ jobs:
           PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
         run: npm run pinata:ipfs-publish
 
-      - uses: actions/github-script@v4
+      - uses: actions/github-script@v5
         with:
           script: |
-            github.issues.createComment({
-              issue_number: context.issue.number,
+            github.rest.issues.createComment({
+              issue_number: github.event.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: 'Preview link: ${{steps.deploy.outputs.uri}}'
