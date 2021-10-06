@@ -17,12 +17,12 @@ jobs:
       - name: install
         run: npm ci
 
-      #- name: Build and pinata upload
-      #  id: deploy
-      #  env:
-      #    PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
-      #    PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
-      #  run: npm run pinata:ipfs-publish
+      - name: Build and pinata upload
+        id: deploy
+        env:
+          PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
+          PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
+        run: npm run pinata:ipfs-publish
 
       - uses: actions/github-script@v5
         with:
@@ -31,5 +31,5 @@ jobs:
               issue_number: context.payload.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Preview link: ${context.payload.number}`
+              body: 'Preview link: ${{steps.deploy.outputs.uri}}'
             })
