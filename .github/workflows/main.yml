@@ -2,18 +2,23 @@ name: CI
 
 on:
   push:
-    branches: [ ipfs-upload ]
+    branches: [ipfs-upload]
   workflow_dispatch:
 
 jobs:
   deploy_ipfs:
-    runs-on: node:13
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: NPM
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+
+      - name: install
         run: npm ci
+
       - name: Build and pinata upload
         env:
           PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
         run: npm run pinata:ipfs-publish
-
