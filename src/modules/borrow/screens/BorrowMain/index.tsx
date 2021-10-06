@@ -20,6 +20,8 @@ import messages from './messages';
 
 import { BorrowTableItem } from '../../components/BorrowAssetTable/types';
 import { isAssetStable } from '../../../../helpers/markets/assets';
+import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
+import { PERMISSION } from '../../../../libs/use-permissions/usePermissions';
 
 export default function BorrowMain() {
   const intl = useIntl();
@@ -99,69 +101,71 @@ export default function BorrowMain() {
   const isShowRightPanel = listData(false).some((item) => item.currentBorrows.toString() > '0');
 
   return (
-    <ScreenWrapper
-      pageTitle={intl.formatMessage(defaultMessages.borrow)}
-      isTitleOnDesktop={true}
-      withMobileGrayBg={true}
-    >
-      {sm && (
-        <AssetsFilterPanel
-          optionTitleLeft={intl.formatMessage(messages.optionTitleLeft)}
-          optionTitleRight={intl.formatMessage(messages.optionTitleRight)}
-          switchOnToggle={setShowOnlyStableCoins}
-          switchValue={showOnlyStableCoins}
-          searchValue={searchValue}
-          searchOnChange={setSearchValue}
-        />
-      )}
-
-      <DepositBorrowMainWrapper
-        contentTitle={intl.formatMessage(messages.availableToBorrow)}
-        itemsTitle={intl.formatMessage(messages.myBorrows)}
-        items={listData(false).map((item, index) => (
-          <React.Fragment key={index}>
-            {item.currentBorrows.toString() > '0' && (
-              <Card
-                link={`/borrow/${item.underlyingAsset}-${item.id}`}
-                symbol={item.symbol}
-                id={item.id}
-                value={item.currentBorrows.toString()}
-                underlyingAsset={item.underlyingAsset}
-              />
-            )}
-          </React.Fragment>
-        ))}
-        isShowRightPanel={isShowRightPanel}
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-        showOnlyStableCoins={showOnlyStableCoins}
-        setShowOnlyStableCoins={setShowOnlyStableCoins}
-        withSwitchMarket={true}
-        totalValue={listData(false).reduce((a, b) => a + (+b['currentBorrowsInUSD'] || 0), 0)}
+    <PermissionWarning requiredPermission={PERMISSION.BORROWER}>
+      <ScreenWrapper
+        pageTitle={intl.formatMessage(defaultMessages.borrow)}
+        isTitleOnDesktop={true}
+        withMobileGrayBg={true}
       >
-        {!!listData(true).length ? (
-          <>
-            {!sm ? (
-              <BorrowAssetTable
-                listData={listData(true)}
-                userId={user?.id}
-                sortName={sortName}
-                setSortName={setSortName}
-                sortDesc={sortDesc}
-                setSortDesc={setSortDesc}
-              />
-            ) : (
-              <>
-                {listData(true).map((item, index) => (
-                  <BorrowMobileCard userId={user?.id} {...item} key={index} />
-                ))}
-              </>
-            )}
-          </>
-        ) : (
-          <NoDataPanel title={intl.formatMessage(messages.noDataText)} />
+        {sm && (
+          <AssetsFilterPanel
+            optionTitleLeft={intl.formatMessage(messages.optionTitleLeft)}
+            optionTitleRight={intl.formatMessage(messages.optionTitleRight)}
+            switchOnToggle={setShowOnlyStableCoins}
+            switchValue={showOnlyStableCoins}
+            searchValue={searchValue}
+            searchOnChange={setSearchValue}
+          />
         )}
-      </DepositBorrowMainWrapper>
-    </ScreenWrapper>
+
+        <DepositBorrowMainWrapper
+          contentTitle={intl.formatMessage(messages.availableToBorrow)}
+          itemsTitle={intl.formatMessage(messages.myBorrows)}
+          items={listData(false).map((item, index) => (
+            <React.Fragment key={index}>
+              {item.currentBorrows.toString() > '0' && (
+                <Card
+                  link={`/borrow/${item.underlyingAsset}-${item.id}`}
+                  symbol={item.symbol}
+                  id={item.id}
+                  value={item.currentBorrows.toString()}
+                  underlyingAsset={item.underlyingAsset}
+                />
+              )}
+            </React.Fragment>
+          ))}
+          isShowRightPanel={isShowRightPanel}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          showOnlyStableCoins={showOnlyStableCoins}
+          setShowOnlyStableCoins={setShowOnlyStableCoins}
+          withSwitchMarket={true}
+          totalValue={listData(false).reduce((a, b) => a + (+b['currentBorrowsInUSD'] || 0), 0)}
+        >
+          {!!listData(true).length ? (
+            <>
+              {!sm ? (
+                <BorrowAssetTable
+                  listData={listData(true)}
+                  userId={user?.id}
+                  sortName={sortName}
+                  setSortName={setSortName}
+                  sortDesc={sortDesc}
+                  setSortDesc={setSortDesc}
+                />
+              ) : (
+                <>
+                  {listData(true).map((item, index) => (
+                    <BorrowMobileCard userId={user?.id} {...item} key={index} />
+                  ))}
+                </>
+              )}
+            </>
+          ) : (
+            <NoDataPanel title={intl.formatMessage(messages.noDataText)} />
+          )}
+        </DepositBorrowMainWrapper>
+      </ScreenWrapper>
+    </PermissionWarning>
   );
 }
