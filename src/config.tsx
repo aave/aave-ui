@@ -49,7 +49,6 @@ export const availableMarkets = Object.keys(marketsData).filter((key) =>
 
 export const IPFS_MODE = process.env.REACT_APP_IPFS_MODE === 'true';
 export const ENABLE_CACHING_BACKEND = process.env.REACT_APP_ENABLE_CACHING_BACKEND === 'true';
-export const PERMISSIONS_API = process.env.REACT_APP_PERMISSIONS_API;
 export const RATES_HISTORY_ENDPOINT = process.env.REACT_APP_RATES_HISTORY_ENDPOINT;
 
 // fiat on rump services setup

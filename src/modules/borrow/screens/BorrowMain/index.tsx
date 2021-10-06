@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { valueToBigNumber, BigNumber, ComputedReserveData } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { PERMISSION } from '@aave/contract-helpers';
 
 import {
   useDynamicPoolDataContext,
@@ -21,7 +22,6 @@ import messages from './messages';
 import { BorrowTableItem } from '../../components/BorrowAssetTable/types';
 import { isAssetStable } from '../../../../helpers/markets/assets';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
-import { PERMISSION } from '../../../../libs/use-permissions/usePermissions';
 
 export default function BorrowMain() {
   const intl = useIntl();

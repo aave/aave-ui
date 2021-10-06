@@ -1,7 +1,8 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { PERMISSION } from '@aave/contract-helpers';
 
-import { PERMISSION, usePermissions } from '../../../libs/use-permissions/usePermissions';
+import { usePermissions } from '../../../libs/use-permissions/usePermissions';
 import ScreenWrapper from '../../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../../components/wrappers/ContentWrapper';
 import Caption from '../../../components/basic/Caption';
@@ -39,7 +40,6 @@ const PermissionWarning: React.FC<
     return children;
   }
 
-  console.log(requiredPermission, match.params);
   return (
     <ScreenWrapper isTopLineSmall={true} className="PermissionWarning">
       <ContentWrapper withBackButton={true} withFullHeight={true}>
