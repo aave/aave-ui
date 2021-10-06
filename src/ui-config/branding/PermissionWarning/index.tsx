@@ -24,7 +24,7 @@ interface PermissionWarningProps {
  * @returns
  */
 const PermissionWarning: React.FC<
-  RouteComponentProps<{ id?: string; currencySymbol?: string }> & PermissionWarningProps
+  RouteComponentProps<{ id?: string; underlyingAsset?: string }> & PermissionWarningProps
 > = ({ children, requiredPermission, match }) => {
   const intl = useIntl();
   const { currentMarketData } = useProtocolDataContext();
