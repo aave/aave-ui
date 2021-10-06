@@ -1,16 +1,21 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { PERMISSION } from '../../../libs/use-permissions/usePermissions';
+import { PERMISSION, usePermissions } from '../../../libs/use-permissions/usePermissions';
 import ScreenWrapper from '../../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../../components/wrappers/ContentWrapper';
 import Caption from '../../../components/basic/Caption';
 
 import messages from './messages';
 import staticStyles from './style';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
+import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
+import { isFeatureEnabled } from '../../../helpers/markets/markets-data';
 
 interface PermissionWarningProps {
   requiredPermission: PERMISSION;
+  children: React.ReactElement;
 }
 
 /**
@@ -18,9 +23,23 @@ interface PermissionWarningProps {
  * @param requiredPermission holds the permission currently needed
  * @returns
  */
-export default function PermissionWarning({ requiredPermission }: PermissionWarningProps) {
+const PermissionWarning: React.FC<
+  RouteComponentProps<{ id?: string; underlyingAsset?: string }> & PermissionWarningProps
+> = ({ children, requiredPermission, match }) => {
   const intl = useIntl();
+  const { currentMarketData } = useProtocolDataContext();
+  const { userId } = useStaticPoolDataContext();
+  const { permissions } = usePermissions();
 
+  if (
+    !isFeatureEnabled.permissions(currentMarketData) ||
+    !userId ||
+    permissions.includes(requiredPermission)
+  ) {
+    return children;
+  }
+
+  console.log(requiredPermission, match.params);
   return (
     <ScreenWrapper isTopLineSmall={true} className="PermissionWarning">
       <ContentWrapper withBackButton={true} withFullHeight={true}>
@@ -35,4 +54,6 @@ export default function PermissionWarning({ requiredPermission }: PermissionWarn
       </style>
     </ScreenWrapper>
   );
-}
+};
+
+export default withRouter(PermissionWarning);

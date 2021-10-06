@@ -76,22 +76,3 @@ export const PermissionProvider: React.FC = ({ children }) => {
 };
 
 export const usePermissions = () => useContext(Context);
-
-export const RequiredPermissionsWrapper: React.FC<{ requiredPermission: PERMISSION }> = ({
-  children,
-  requiredPermission,
-}) => {
-  const { currentMarketData } = useProtocolDataContext();
-  const { userId } = useStaticPoolDataContext();
-  const { permissions } = usePermissions();
-
-  if (
-    userId &&
-    isFeatureEnabled.permissions(currentMarketData) &&
-    !permissions.includes(requiredPermission)
-  ) {
-    return <PermissionWarning requiredPermission={requiredPermission} />;
-  }
-
-  return <>{children}</>;
-};
