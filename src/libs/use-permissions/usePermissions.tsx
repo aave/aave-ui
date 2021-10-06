@@ -4,8 +4,6 @@ import { PermissionManager, PERMISSION } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../protocol-data-provider';
 import { useUserWalletDataContext } from '../web3-data-provider';
 import Preloader from '../../components/basic/Preloader';
-import { useStaticPoolDataContext } from '../pool-data-provider';
-import PermissionWarning from '../../ui-config/branding/PermissionWarning';
 import { getProvider, isFeatureEnabled } from '../../helpers/markets/markets-data';
 
 type PermissionsContext = {
@@ -38,7 +36,11 @@ export const PermissionProvider: React.FC = ({ children }) => {
   }
 
   useEffect(() => {
-    if (walletAddress && currentMarketData.addresses.PERMISSION_MANAGER) {
+    if (
+      isFeatureEnabled.permissions(currentMarketData) &&
+      walletAddress &&
+      currentMarketData.addresses.PERMISSION_MANAGER
+    ) {
       getPermissionData(currentMarketData.addresses.PERMISSION_MANAGER);
     } else {
       setIsPermissionsLoading(false);
