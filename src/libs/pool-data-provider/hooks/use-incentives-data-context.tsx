@@ -102,7 +102,8 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     currentAccount
   );
 
-  const activeData = isRPCActive && rpcData ? rpcData : cachedData;
+  //const activeData = isRPCActive && rpcData ? rpcData : cachedData;
+  const activeData = rpcData; // temporarily until cache is updated with price feeds
 
   const userIncentiveData: UserReserveIncentiveData[] =
     activeData && activeData.userIncentiveData ? activeData.userIncentiveData : [];
@@ -180,10 +181,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
                 reserve.totalPrincipalStableDebt,
                 Number(reserve.decimals)
               ),
-              tokenPriceInMarketReferenceCurrency: formatBNInput(
-                reserve.price.priceInEth,
-                ETH_DECIMALS
-              ), // Will be replaced with marketReferencePrice/Decimals
+              priceInMarketReferenceCurrency: formatBNInput(reserve.price.priceInEth, ETH_DECIMALS), // Will be replaced with marketReferencePrice/Decimals
               decimals: Number(reserve.decimals),
 
               aRewardTokenPriceInMarketReferenceCurrency: calculateRewardTokenPrice(

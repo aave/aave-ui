@@ -4,9 +4,11 @@ import { Network } from '@aave/protocol-js';
 
 import { getProvider } from '../../../helpers/markets/markets-data';
 import {
-  UserReserveIncentiveDataResponse,
-  ReserveIncentiveDataResponse,
   UiIncentiveDataProvider,
+  ReserveIncentiveWithFeedsResponse,
+  IncentivesWithFeeds,
+  UserReserveIncentiveDataHumanizedResponse,
+  IncentiveUserDataHumanized,
 } from '@aave/contract-helpers';
 
 // interval in which the rpc data is refreshed
@@ -42,6 +44,9 @@ interface ReserveTokenIncentives {
   incentiveControllerAddress: string;
   rewardTokenDecimals: number;
   precision: number;
+  priceFeed: string;
+  priceFeedTimestamp: number;
+  priceFeedDecimals: number;
 }
 
 interface UserTokenIncentives {
@@ -63,49 +68,33 @@ export interface IncentiveDataResponse {
 }
 
 // Format reserve incentive contract data into object with BigNumber fields converted to string
-function formatIncentiveData(incentive: any): ReserveTokenIncentives {
-  const {
-    0: emissionPerSecond,
-    1: incentivesLastUpdateTimestamp,
-    2: tokenIncentivesIndex,
-    3: emissionEndTimestamp,
-    4: tokenAddress,
-    5: rewardTokenAddress,
-    6: incentiveControllerAddress,
-    7: rewardTokenDecimals,
-    8: precision,
-  } = incentive;
+function formatIncentiveData(incentive: IncentivesWithFeeds): ReserveTokenIncentives {
   const formattedIncentiveData: ReserveTokenIncentives = {
-    emissionPerSecond: emissionPerSecond.toString(),
-    incentivesLastUpdateTimestamp,
-    tokenIncentivesIndex: tokenIncentivesIndex.toString(),
-    emissionEndTimestamp,
-    tokenAddress,
-    rewardTokenAddress,
-    incentiveControllerAddress,
-    rewardTokenDecimals,
-    precision,
+    emissionPerSecond: incentive.emissionPerSecond.toString(),
+    incentivesLastUpdateTimestamp: incentive.incentivesLastUpdateTimestamp,
+    tokenIncentivesIndex: incentive.tokenIncentivesIndex.toString(),
+    emissionEndTimestamp: incentive.emissionEndTimestamp,
+    tokenAddress: incentive.tokenAddress,
+    rewardTokenAddress: incentive.rewardTokenAddress,
+    incentiveControllerAddress: incentive.incentiveControllerAddress,
+    rewardTokenDecimals: incentive.rewardTokenDecimals,
+    precision: incentive.precision,
+    priceFeed: incentive.priceFeed,
+    priceFeedDecimals: incentive.priceFeedDecimals,
+    priceFeedTimestamp: incentive.priceFeedTimestamp,
   };
   return formattedIncentiveData;
 }
 
 // Format user incentive contract data  into object with BigNumber fields converted to string
-function formatUserIncentiveData(incentive: any): UserTokenIncentives {
-  const {
-    0: tokenIncentivesUserIndex,
-    1: userUnclaimedRewards,
-    2: tokenAddress,
-    3: rewardTokenAddress,
-    4: incentiveControllerAddress,
-    5: rewardTokenDecimals,
-  } = incentive;
+function formatUserIncentiveData(incentive: IncentiveUserDataHumanized): UserTokenIncentives {
   const formattedIncentiveData: UserTokenIncentives = {
-    tokenIncentivesUserIndex: tokenIncentivesUserIndex.toString(),
-    userUnclaimedRewards: userUnclaimedRewards.toString(),
-    tokenAddress,
-    rewardTokenAddress,
-    incentiveControllerAddress,
-    rewardTokenDecimals,
+    tokenIncentivesUserIndex: incentive.tokenincentivesUserIndex.toString(),
+    userUnclaimedRewards: incentive.userUnclaimedRewards.toString(),
+    tokenAddress: incentive.tokenAddress,
+    rewardTokenAddress: incentive.rewardTokenAddress,
+    incentiveControllerAddress: incentive.incentiveControllerAddress,
+    rewardTokenDecimals: incentive.rewardTokenDecimals,
   };
   return formattedIncentiveData;
 }
@@ -160,23 +149,18 @@ export function useIncentivesData(
     });
 
     try {
-      const rawReserveIncentiveData: ReserveIncentiveDataResponse[] =
-        await incentiveDataProviderContract.getReservesIncentives(lendingPoolAddressProvider);
+      const rawReserveIncentiveData: ReserveIncentiveWithFeedsResponse[] =
+        await incentiveDataProviderContract.getIncentivesDataWithPrice({
+          lendingPoolAddressProvider,
+        });
       const formattedReserveIncentiveData: ReserveIncentiveData[] = rawReserveIncentiveData.map(
         (reserveIncentive) => {
-          const {
-            0: underlyingAsset,
-            1: aIncentiveData,
-            2: vIncentiveData,
-            3: sIncentiveData,
-          } = reserveIncentive;
-
           const formattedReserveIncentive: ReserveIncentiveData = {
-            id: (underlyingAsset + lendingPoolAddressProvider).toLowerCase(),
-            underlyingAsset,
-            aIncentiveData: formatIncentiveData(aIncentiveData),
-            vIncentiveData: formatIncentiveData(vIncentiveData),
-            sIncentiveData: formatIncentiveData(sIncentiveData),
+            id: (reserveIncentive.underlyingAsset + lendingPoolAddressProvider).toLowerCase(),
+            underlyingAsset: reserveIncentive.underlyingAsset,
+            aIncentiveData: formatIncentiveData(reserveIncentive.aIncentiveData),
+            vIncentiveData: formatIncentiveData(reserveIncentive.vIncentiveData),
+            sIncentiveData: formatIncentiveData(reserveIncentive.sIncentiveData),
           };
           return formattedReserveIncentive;
         }
@@ -203,25 +187,25 @@ export function useIncentivesData(
     });
 
     try {
-      const rawUserIncentiveData: UserReserveIncentiveDataResponse[] =
-        await incentiveDataProviderContract.getUserReservesIncentives(
+      const rawUserIncentiveData: UserReserveIncentiveDataHumanizedResponse[] =
+        await incentiveDataProviderContract.getUserReservesIncentivesDataHumanized(
           currentAccount,
           lendingPoolAddressProvider
         );
       const formattedUserIncentiveData: UserReserveIncentiveData[] = rawUserIncentiveData.map(
         (userIncentive) => {
-          const {
-            0: underlyingAsset,
-            1: aTokenIncentivesUserData,
-            2: vTokenIncentivesUserData,
-            3: sTokenIncentivesUserData,
-          } = userIncentive;
           const formattedUserIncentive: UserReserveIncentiveData = {
-            id: (underlyingAsset + lendingPoolAddressProvider).toLowerCase(),
-            underlyingAsset,
-            aTokenIncentivesUserData: formatUserIncentiveData(aTokenIncentivesUserData),
-            vTokenIncentivesUserData: formatUserIncentiveData(vTokenIncentivesUserData),
-            sTokenIncentivesUserData: formatUserIncentiveData(sTokenIncentivesUserData),
+            id: (userIncentive.underlyingAsset + lendingPoolAddressProvider).toLowerCase(),
+            underlyingAsset: userIncentive.underlyingAsset,
+            aTokenIncentivesUserData: formatUserIncentiveData(
+              userIncentive.aTokenIncentivesUserData
+            ),
+            vTokenIncentivesUserData: formatUserIncentiveData(
+              userIncentive.vTokenIncentivesUserData
+            ),
+            sTokenIncentivesUserData: formatUserIncentiveData(
+              userIncentive.sTokenIncentivesUserData
+            ),
           };
           return formattedUserIncentive;
         }
