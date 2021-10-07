@@ -36,6 +36,7 @@ export type NetworkConfig = {
    */
   uiPoolDataProvider: string;
   uiIncentiveDataProvider: string;
+  chainlinkFeedRegistry?: string;
   protocolDataUrl: string;
   cachingServerUrl?: string;
   cachingWSServerUrl?: string;
