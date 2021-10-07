@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 
 import Link from '../basic/Link';
 import whiteLinkIcon from '../../images/whiteLinkIcon.svg';
+
 import messages from './messages';
 import staticStyles from './style';
 
@@ -25,7 +26,13 @@ export default function BridgeBanner({
   const intl = useIntl();
 
   return (
-    <div className="BridgeBanner" style={{ backgroundColor: brandColor }}>
+    <div
+      className="BridgeBanner"
+      style={{
+        backgroundColor: `rgb(${brandColor})`,
+        boxShadow: `0px 2px 4px rgba(${brandColor}, 0.6)`,
+      }}
+    >
       <div className="BridgeBanner__logo">
         <img src={logo} alt={name} />
       </div>

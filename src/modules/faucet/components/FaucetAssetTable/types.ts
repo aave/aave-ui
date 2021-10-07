@@ -5,4 +5,5 @@ export type FaucetTableItem = {
   symbol: string;
   walletBalance: BigNumber;
   userId?: string;
+  underlyingAsset: string;
 };

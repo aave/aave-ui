@@ -9,26 +9,30 @@ const staticStyles = css.global`
     width: 100%;
     &__content {
       width: 100%;
-      padding: 10px 15px;
+      padding: 5px 15px 10px;
       @include respond-to(xl) {
-        padding: 10px;
+        padding: 5px 10px 10px;
       }
       @include respond-to(sm) {
-        padding: 15px 20px;
+        padding: 10px 20px 15px;
       }
 
       .Row__content {
         justify-content: space-between;
+        flex-wrap: wrap;
       }
     }
 
     .TokenIcon {
-      img {
+      &__image {
         margin-right: 5px !important;
       }
     }
-    .DoubleIcon {
+    .MultipleIcons {
       margin-right: 5px !important;
+      .TokenIcon__image {
+        margin-right: 0 !important;
+      }
     }
 
     .TokenIcon .TokenIcon__name,
@@ -43,12 +47,22 @@ const staticStyles = css.global`
       @include respond-to(md) {
         font-size: $medium;
       }
-      @include respond-to(sm) {
-        font-size: $regular;
-      }
+    }
+
+    .TokenIcon,
+    .Value {
+      margin-top: 5px;
+    }
+
+    .Value {
+      flex: 1;
     }
 
     .TokenIcon .TokenIcon__name {
+      @include respond-to(md) {
+        max-width: 120px;
+      }
+
       b {
         font-weight: 400;
         transition: $transition;

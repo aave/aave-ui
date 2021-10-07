@@ -79,10 +79,10 @@ const staticStyles = css.global`
         }
         &__logo-inner {
           img {
-            width: 85px;
+            width: 84px;
             max-height: 16px;
             @include respond-to(sm) {
-              width: 110px;
+              width: 105px;
               max-height: 25px;
             }
           }

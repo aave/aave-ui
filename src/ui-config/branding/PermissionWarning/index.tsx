@@ -1,16 +1,21 @@
+import { PERMISSION } from '@aave/contract-helpers';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { PERMISSION } from '../../../libs/use-permissions/usePermissions';
-import ScreenWrapper from '../../../components/wrappers/ScreenWrapper';
-import ContentWrapper from '../../../components/wrappers/ContentWrapper';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import Caption from '../../../components/basic/Caption';
-
+import DefaultButton from '../../../components/basic/DefaultButton';
+import ContentWrapper from '../../../components/wrappers/ContentWrapper';
+import ScreenWrapper from '../../../components/wrappers/ScreenWrapper';
+import { isFeatureEnabled } from '../../../helpers/markets/markets-data';
+import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
+import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
+import { usePermissions } from '../../../libs/use-permissions/usePermissions';
 import messages from './messages';
 import staticStyles from './style';
-import DefaultButton from '../../../components/basic/DefaultButton';
 
 interface PermissionWarningProps {
   requiredPermission: PERMISSION;
+  children: React.ReactElement;
 }
 
 const ONBOARDING_URL = process.env.REACT_APP_CENTRIFUGE_ONBOARDING_URL;
@@ -20,8 +25,21 @@ const ONBOARDING_URL = process.env.REACT_APP_CENTRIFUGE_ONBOARDING_URL;
  * @param requiredPermission holds the permission currently needed
  * @returns
  */
-export default function PermissionWarning({ requiredPermission }: PermissionWarningProps) {
+const PermissionWarning: React.FC<
+  RouteComponentProps<{ id?: string; underlyingAsset?: string }> & PermissionWarningProps
+> = ({ children, requiredPermission, match }) => {
   const intl = useIntl();
+  const { currentMarketData } = useProtocolDataContext();
+  const { userId } = useStaticPoolDataContext();
+  const { permissions } = usePermissions();
+
+  if (
+    !isFeatureEnabled.permissions(currentMarketData) ||
+    !userId ||
+    permissions.includes(requiredPermission)
+  ) {
+    return children;
+  }
 
   return (
     <ScreenWrapper isTopLineSmall={true} className="PermissionWarning">
@@ -70,4 +88,6 @@ export default function PermissionWarning({ requiredPermission }: PermissionWarn
       </style>
     </ScreenWrapper>
   );
-}
+};
+
+export default withRouter(PermissionWarning);

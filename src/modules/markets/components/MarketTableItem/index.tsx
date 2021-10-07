@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useWindowWidth } from '@react-hook/window-size';
 
 import TableItemWrapper from '../../../../components/BasicTable/TableItemWrapper';
 import TableColumn from '../../../../components/BasicTable/TableColumn';
@@ -36,6 +35,7 @@ export interface MarketTableItemProps {
 
 export default function MarketTableItem({
   id,
+  underlyingAsset,
   currencySymbol,
   totalLiquidity,
   totalLiquidityInUSD,
@@ -58,11 +58,8 @@ export default function MarketTableItem({
 
   const asset = getAssetInfo(currencySymbol);
 
-  const width = useWindowWidth();
-  const mobileTokenTitle = width < 860;
-
   const handleClick = () => {
-    history.push(`/reserve-overview/${currencySymbol}-${id}`);
+    history.push(`/reserve-overview/${underlyingAsset}-${id}`);
   };
 
   return (
@@ -72,14 +69,7 @@ export default function MarketTableItem({
           tokenSymbol={currencySymbol}
           height={35}
           width={35}
-          tokenFullName={
-            asset && mobileTokenTitle
-              ? !!asset.formattedSymbol
-                ? asset.formattedSymbol
-                : asset.symbol
-              : asset.name
-          }
-          withTokenSymbol={!mobileTokenTitle}
+          tokenFullName={asset.name}
           className="MarketTableItem__token"
         />
       </TableColumn>

@@ -1,6 +1,7 @@
 export type BorrowTableItem = {
   id: string;
   symbol: string;
+  underlyingAsset: string;
   currentBorrows: number | string;
   currentBorrowsInUSD: number | string;
   stableBorrowRate: number | string;

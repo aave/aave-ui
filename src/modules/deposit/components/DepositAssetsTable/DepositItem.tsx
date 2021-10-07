@@ -12,6 +12,7 @@ import { DepositTableItem } from './types';
 export default function DepositItem({
   id,
   symbol,
+  underlyingAsset,
   walletBalance,
   walletBalanceInUSD,
   liquidityRate,
@@ -21,7 +22,7 @@ export default function DepositItem({
   isFreezed,
   aIncentivesAPY,
 }: DepositTableItem) {
-  const url = `/deposit/${symbol}-${id}`;
+  const url = `/deposit/${underlyingAsset}-${id}`;
 
   return (
     <TableItem symbol={symbol} url={url} isFreezed={isFreezed} darkOnDarkMode={true}>
@@ -47,7 +48,7 @@ export default function DepositItem({
             thirtyDaysValue={avg30DaysLiquidityRate}
             liquidityMiningValue={aIncentivesAPY}
             symbol={symbol}
-            type="deposit-apy"
+            type="deposit"
           />
         </TableColumn>
       )}

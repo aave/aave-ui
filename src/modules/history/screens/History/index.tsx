@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { ETH_DECIMALS, normalize, valueToBigNumber } from '@aave/protocol-js';
 import queryString from 'query-string';
 
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { unPrefixSymbol, useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import {
   BorrowRateMode,
   UserHistoryQuery,
@@ -146,7 +146,7 @@ export default function History() {
           date: historyItem.timestamp,
           amount,
           amountInUsd: amount && amountInUsd && amountInUsd.toNumber(),
-          symbol,
+          symbol: unPrefixSymbol(symbol, currentMarketData.aTokenPrefix),
           borrowRate,
           borrowRateMode,
           condition,

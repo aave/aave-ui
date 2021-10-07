@@ -5,6 +5,8 @@ import {
   FORK_WS_RPC_URL,
   POLYGON_FORK_RPC_URL,
   POLYGON_FORK_WS_RPC_URL,
+  AVALANCHE_FORK_RPC_URL,
+  AVALANCHE_FORK_WS_RPC_URL,
 } from '../config';
 import { BaseNetworkConfig } from '../helpers/markets/markets-data';
 import polygonBridgeLogo from './branding/images/polygonLogo.svg';
@@ -54,12 +56,42 @@ const polygon_config: BaseNetworkConfig = {
     INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
   },
   bridge: {
-    brandColor: '#8247E5',
+    brandColor: '130, 71, 229',
     name: 'Polygon PoS Bridge',
     url: 'https://wallet.matic.network/bridge/',
     logo: polygonBridgeLogo,
   },
 } as const;
+
+const avalanche_config: BaseNetworkConfig = {
+  publicJsonRPCUrl: 'https://api.avax.network/ext/bc/C/rpc',
+  publicJsonRPCWSUrl: 'wss://api.avax.network/ext/bc/C/rpc',
+  walletBalanceProvider: '0x73e4898a1Bfa9f710B6A6AB516403A6299e01fc6',
+  uiPoolDataProvider: '0x7d9d970CaE574912221d25107A6728f0d17Cb901',
+  protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-avalanche',
+  cachingServerUrl: 'https://cache-api-avalanche.aave.com/graphql',
+  cachingWSServerUrl: 'wss://cache-api-avalanche.aave.com/graphql',
+  baseUniswapAdapter: '0x0',
+  baseAsset: 'AVAX',
+  // incentives hardcoded information
+  rewardTokenSymbol: 'WAVAX',
+  rewardTokenAddress: API_ETH_MOCK_ADDRESS,
+  rewardTokenDecimals: 18,
+  incentivePrecision: 18,
+  explorerLink: 'https://cchain.explorer.avax.network',
+  rpcOnly: !ENABLE_CACHING_BACKEND,
+  usdMarket: true,
+  addresses: {
+    INCENTIVES_CONTROLLER: '0x01d83fe6a10d2f2b7af17034343746188272cac9',
+    INCENTIVES_CONTROLLER_REWARD_TOKEN: '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7',
+  },
+  bridge: {
+    brandColor: '232, 65, 66',
+    name: 'Avalanche Bridge',
+    url: 'https://bridge.avax.network/',
+    logo: avalancheBridgeLogo,
+  },
+};
 
 export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
   [Network.kovan]: {
@@ -119,11 +151,11 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     rpcOnly: true,
     usdMarket: true,
     addresses: {
-      INCENTIVES_CONTROLLER: '0xa1EF206fb9a8D8186157FC817fCddcC47727ED55',
+      INCENTIVES_CONTROLLER: '0xd4eCF34187a52E755D44fca4d37aBe0b50724De2',
       INCENTIVES_CONTROLLER_REWARD_TOKEN: '0xd00ae08403b9bbb9124bb305c09058e32c39a48c',
     },
     bridge: {
-      brandColor: '#E84142',
+      brandColor: '232, 65, 66',
       name: 'Avalanche Bridge',
       url: 'https://bridge.avax.network/',
       logo: avalancheBridgeLogo,
@@ -139,6 +171,15 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     ...polygon_config,
     privateJsonRPCUrl: POLYGON_FORK_RPC_URL,
     privateJsonRPCWSUrl: POLYGON_FORK_WS_RPC_URL,
+    rpcOnly: true,
+  },
+  [Network.avalanche]: {
+    ...avalanche_config,
+  },
+  [Network.avalanche_fork]: {
+    ...avalanche_config,
+    privateJsonRPCUrl: AVALANCHE_FORK_RPC_URL,
+    privateJsonRPCWSUrl: AVALANCHE_FORK_WS_RPC_URL,
     rpcOnly: true,
   },
 } as const;

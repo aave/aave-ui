@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
-import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
+import { valueToBigNumber, InterestRate, Network } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import classNames from 'classnames';
 
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
@@ -33,10 +34,10 @@ import DashboardNoData from '../../components/DashboardNoData';
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
 import { DashboardLeftTopLine } from '../../../../ui-config';
+import { getAssetColor } from '../../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';
-import { getAssetColor } from '../../../../helpers/markets/assets';
 
 export default function Dashboard() {
   const intl = useIntl();
@@ -93,9 +94,9 @@ export default function Dashboard() {
           onToggleSwitch: () =>
             toggleUseAsCollateral(
               history,
-              poolReserve.symbol,
               poolReserve.id,
-              !userReserve.usageAsCollateralEnabledOnUser
+              !userReserve.usageAsCollateralEnabledOnUser,
+              poolReserve.underlyingAsset
             ),
         });
       }
@@ -113,22 +114,22 @@ export default function Dashboard() {
           avg30DaysVariableRate: poolReserve.avg30DaysVariableBorrowRate,
           repayLink: loanActionLinkComposer(
             'repay',
-            poolReserve.symbol,
             poolReserve.id,
-            InterestRate.Variable
+            InterestRate.Variable,
+            poolReserve.underlyingAsset
           ),
           borrowLink: loanActionLinkComposer(
             'borrow',
-            poolReserve.symbol,
             poolReserve.id,
-            InterestRate.Variable
+            InterestRate.Variable,
+            poolReserve.underlyingAsset
           ),
           onSwitchToggle: () =>
             toggleBorrowRateMode(
               history,
-              poolReserve.symbol,
               poolReserve.id,
-              InterestRate.Variable
+              InterestRate.Variable,
+              poolReserve.underlyingAsset
             ),
         });
       }
@@ -144,18 +145,23 @@ export default function Dashboard() {
           sIncentivesAPY: poolReserve.sIncentivesAPY,
           repayLink: loanActionLinkComposer(
             'repay',
-            poolReserve.symbol,
             poolReserve.id,
-            InterestRate.Stable
+            InterestRate.Stable,
+            poolReserve.underlyingAsset
           ),
           borrowLink: loanActionLinkComposer(
             'borrow',
-            poolReserve.symbol,
             poolReserve.id,
-            InterestRate.Stable
+            InterestRate.Stable,
+            poolReserve.underlyingAsset
           ),
           onSwitchToggle: () =>
-            toggleBorrowRateMode(history, poolReserve.symbol, poolReserve.id, InterestRate.Stable),
+            toggleBorrowRateMode(
+              history,
+              poolReserve.id,
+              InterestRate.Stable,
+              poolReserve.underlyingAsset
+            ),
         });
       }
     }
@@ -163,7 +169,12 @@ export default function Dashboard() {
 
   return (
     <div className="Dashboard">
-      <div className="Dashboard__mobileMigrate--inner">
+      <div
+        className={classNames('Dashboard__mobileMigrate--inner', {
+          Dashboard__mobileMigrateWithoutContent:
+            network !== Network.mainnet && !depositedPositions.length,
+        })}
+      >
         <DashboardLeftTopLine intl={intl} network={network} onMobile={true} />
       </div>
 
@@ -377,6 +388,9 @@ export default function Dashboard() {
         .Dashboard {
           &__mobileMigrate--inner {
             background: ${currentTheme.whiteElement.hex};
+          }
+          &__mobileMigrateWithoutContent {
+            background: ${currentTheme.mainBg.hex};
           }
 
           &__changeMarket--button {

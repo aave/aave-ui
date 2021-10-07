@@ -82,8 +82,8 @@ export default function NetworkMismatch({
   //   !isMetaMaskForMatic && ['browser', 'wallet-connect'].includes(currentProviderName);
   const isManualNetworkUpdateNeeded = ['torus', 'portis'].includes(currentProviderName);
   const isNeededNetworkNotSupported =
-    neededNetworkName !== Network.mainnet &&
-    ['authereum', 'fortmatic', 'mew-wallet', 'ledger', 'gnosis-safe'].includes(currentProviderName);
+    neededNetworkName === Network.polygon &&
+    ['authereum', 'fortmatic', 'mew-wallet', 'ledger'].includes(currentProviderName);
 
   return (
     <div className="NetworkMismatch">

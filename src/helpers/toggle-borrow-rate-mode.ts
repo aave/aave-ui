@@ -3,11 +3,11 @@ import { InterestRate } from '@aave/protocol-js';
 
 export const toggleBorrowRateMode = (
   history: History,
-  symbol: string,
   reserveID: string,
-  borrowRateMode: InterestRate
+  borrowRateMode: InterestRate,
+  underlyingAsset: string
 ) => {
   history.push(
-    `/interest-swap/${symbol}-${reserveID}/confirmation?borrowRateMode=${borrowRateMode}`
+    `/interest-swap/${underlyingAsset}-${reserveID}/confirmation?borrowRateMode=${borrowRateMode}`
   );
 };

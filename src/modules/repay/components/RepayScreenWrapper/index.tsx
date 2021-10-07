@@ -13,6 +13,7 @@ import { isAssetStable } from '../../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
 interface RepayScreenWrapperProps {
   title: string;
@@ -42,6 +43,7 @@ export default function RepayScreenWrapper({
   children,
 }: RepayScreenWrapperProps) {
   const intl = useIntl();
+  const { networkConfig } = useProtocolDataContext();
 
   return (
     <>
@@ -80,7 +82,7 @@ export default function RepayScreenWrapper({
           <Row title={intl.formatMessage(messages.yourCollateral)} color="white" weight="light">
             <Value
               value={Number(totalCollateralUSD)}
-              subValue={Number(totalCollateralETH)}
+              subValue={!networkConfig.usdMarket ? Number(totalCollateralETH) : undefined}
               color="white"
               symbol="USD"
               subSymbol="ETH"

@@ -165,7 +165,10 @@ export function StaticPoolDataProvider({
         networkConfig,
         refresh: isRPCActive ? refresh : async () => {},
         WrappedBaseNetworkAssetAddress,
-        isTestnet: network !== Network.mainnet && network !== Network.polygon,
+        isTestnet:
+          network !== Network.mainnet &&
+          network !== Network.polygon &&
+          network !== Network.avalanche,
         rawReserves: reservesWithFixedUnderlying,
         rawUserReserves: userReservesWithFixedUnderlying,
         isUserHasDeposits,

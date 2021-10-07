@@ -25,7 +25,7 @@ export default function SelectPreferredNetwork({
   const formattedNetwork = (network: Network) =>
     network === Network.mainnet ? 'Ethereum' : network;
   const isTestnet = (network: Network) =>
-    network !== Network.mainnet && network !== Network.polygon;
+    network !== Network.mainnet && network !== Network.polygon && network !== Network.avalanche;
 
   return (
     <div className="SelectPreferredNetwork">

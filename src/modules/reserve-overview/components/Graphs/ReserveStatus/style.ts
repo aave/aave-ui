@@ -97,42 +97,10 @@ const staticStyles = css.global`
       transform: translate(-50%, -50%);
       img {
         margin-right: 0 !important;
-        @include respond-to(xl) {
-          width: 79px;
-          height: 79px;
-        }
-        @include respond-to(lg) {
-          width: 60px;
-          height: 60px;
-        }
-        @include respond-to(md) {
-          width: 79px;
-          height: 79px;
-        }
-        @include respond-to(sm) {
-          width: 100px;
-          height: 100px;
-        }
       }
 
-      .DoubleIcon {
+      .MultipleIcons {
         margin-right: 0 !important;
-        @include respond-to(xl) {
-          width: 79px !important;
-          height: 79px !important;
-        }
-        @include respond-to(lg) {
-          width: 60px !important;
-          height: 60px !important;
-        }
-        @include respond-to(md) {
-          width: 79px !important;
-          height: 79px !important;
-        }
-        @include respond-to(sm) {
-          width: 100px !important;
-          height: 100px !important;
-        }
       }
     }
   }

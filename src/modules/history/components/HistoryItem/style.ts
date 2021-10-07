@@ -6,9 +6,18 @@ const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
 
   .HistoryItem {
+    @include respond-to(sm) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding-top: 0 !important;
+    }
     &__right-inner {
       display: flex;
       align-items: center;
+      @include respond-to(sm) {
+        margin-top: 5px;
+      }
     }
 
     &__image {
@@ -50,6 +59,9 @@ const staticStyles = css.global`
 
     &__left-inner {
       padding-left: 5px;
+      @include respond-to(sm) {
+        margin-top: 5px;
+      }
     }
   }
 `;

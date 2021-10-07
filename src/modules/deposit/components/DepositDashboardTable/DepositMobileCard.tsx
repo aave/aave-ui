@@ -56,9 +56,11 @@ export default function DepositMobileCard({
         <Row title={intl.formatMessage(messages.apyRowTitle)} withMargin={true}>
           {borrowingEnabled || aIncentivesAPY !== '0' ? (
             <LiquidityMiningCard
+              symbol={symbol}
               value={borrowingEnabled ? Number(liquidityRate) : 0}
               thirtyDaysValue={avg30DaysLiquidityRate}
               liquidityMiningValue={aIncentivesAPY}
+              type="deposit"
             />
           ) : (
             <NoData color="dark" />
@@ -95,7 +97,7 @@ export default function DepositMobileCard({
             className="Row__center"
           >
             <Link
-              to={`/deposit/${symbol}-${id}`}
+              to={`/deposit/${underlyingAsset}-${id}`}
               className="ButtonLink"
               disabled={!isActive || isFrozen}
             >
@@ -114,7 +116,7 @@ export default function DepositMobileCard({
           className="Row__center"
         >
           <Link
-            to={`/withdraw/${symbol}-${id}`}
+            to={`/withdraw/${underlyingAsset}-${id}`}
             className="ButtonLink"
             disabled={!isActive || isFrozen}
           >
@@ -132,13 +134,33 @@ export default function DepositMobileCard({
             <Link
               to={`/asset-swap?asset=${underlyingAsset}`}
               className="ButtonLink"
-              disabled={!isActive || isFrozen || symbol.toUpperCase() === 'XSUSHI'}
+              disabled={
+                !isActive ||
+                isFrozen ||
+                symbol.toUpperCase() === 'XSUSHI' ||
+                symbol.toUpperCase() === 'GUSD' ||
+                symbol.toUpperCase() === 'BUSD' ||
+                symbol.toUpperCase() === 'SUSD' ||
+                symbol.toUpperCase() === 'BAL' ||
+                symbol.toUpperCase() === 'KNC' ||
+                symbol.toUpperCase() === 'ZRX'
+              }
             >
               <DefaultButton
                 title={intl.formatMessage(defaultMessages.swap)}
                 color="dark"
                 transparent={true}
-                disabled={!isActive || isFrozen || symbol.toUpperCase() === 'XSUSHI'}
+                disabled={
+                  !isActive ||
+                  isFrozen ||
+                  symbol.toUpperCase() === 'XSUSHI' ||
+                  symbol.toUpperCase() === 'GUSD' ||
+                  symbol.toUpperCase() === 'BUSD' ||
+                  symbol.toUpperCase() === 'SUSD' ||
+                  symbol.toUpperCase() === 'BAL' ||
+                  symbol.toUpperCase() === 'KNC' ||
+                  symbol.toUpperCase() === 'ZRX'
+                }
               />
             </Link>
           </Row>

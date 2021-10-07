@@ -12,6 +12,7 @@ import { BorrowTableItem } from './types';
 export default function BorrowItem({
   id,
   symbol,
+  underlyingAsset,
   availableBorrows,
   availableBorrowsInUSD,
   stableBorrowRate,
@@ -23,7 +24,7 @@ export default function BorrowItem({
   vIncentivesAPY,
   sIncentivesAPY,
 }: BorrowTableItem) {
-  const url = `/borrow/${symbol}-${id}`;
+  const url = `/borrow/${underlyingAsset}-${id}`;
 
   return (
     <TableItem

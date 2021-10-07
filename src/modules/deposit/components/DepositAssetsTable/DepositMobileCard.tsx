@@ -16,6 +16,7 @@ import { DepositTableItem } from './types';
 export default function DepositMobileCard({
   id,
   symbol,
+  underlyingAsset,
   walletBalance,
   walletBalanceInUSD,
   liquidityRate,
@@ -28,7 +29,7 @@ export default function DepositMobileCard({
   const intl = useIntl();
   const history = useHistory();
 
-  const url = `/deposit/${symbol}-${id}`;
+  const url = `/deposit/${underlyingAsset}-${id}`;
 
   return (
     <MobileCardWrapper
@@ -56,9 +57,11 @@ export default function DepositMobileCard({
         <Row title={intl.formatMessage(messages.APY)} withMargin={true}>
           {borrowingEnabled ? (
             <LiquidityMiningCard
+              symbol={symbol}
               value={liquidityRate}
               thirtyDaysValue={avg30DaysLiquidityRate}
               liquidityMiningValue={aIncentivesAPY}
+              type="deposit"
             />
           ) : (
             <NoData color="dark" />

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { ComputedReserveData, valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { PERMISSION } from '@aave/contract-helpers';
+
 import {
   useDynamicPoolDataContext,
   useStaticPoolDataContext,
@@ -21,6 +23,7 @@ import messages from './messages';
 import { DepositTableItem } from '../../components/DepositAssetsTable/types';
 import { useWalletBalanceProviderContext } from '../../../../libs/wallet-balance-provider/WalletBalanceProvider';
 import { isAssetStable } from '../../../../helpers/markets/assets';
+import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 
 export default function DepositsMain() {
   const intl = useIntl();
@@ -112,68 +115,71 @@ export default function DepositsMain() {
   const isShowRightPanel = listData(false).some((item) => item.underlyingBalance.toString() > '0');
 
   return (
-    <ScreenWrapper
-      pageTitle={intl.formatMessage(defaultMessages.deposit)}
-      isTitleOnDesktop={true}
-      withMobileGrayBg={true}
-    >
-      {sm && (
-        <AssetsFilterPanel
-          optionTitleLeft={intl.formatMessage(messages.optionTitleLeft)}
-          optionTitleRight={intl.formatMessage(messages.optionTitleRight)}
-          switchValue={showOnlyStableCoins}
-          switchOnToggle={setShowOnlyStableCoins}
-          searchValue={searchValue}
-          searchOnChange={setSearchValue}
-        />
-      )}
-
-      <DepositBorrowMainWrapper
-        contentTitle={intl.formatMessage(messages.availableToDeposit)}
-        itemsTitle={intl.formatMessage(messages.myDeposits)}
-        items={listData(false).map((item, index) => (
-          <React.Fragment key={index}>
-            {item.underlyingBalance.toString() > '0' && (
-              <Card
-                link={`/deposit/${item.symbol}-${item.id}`}
-                symbol={item.symbol}
-                id={item.id}
-                value={item.underlyingBalance.toString()}
-              />
-            )}
-          </React.Fragment>
-        ))}
-        isShowRightPanel={isShowRightPanel}
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-        showOnlyStableCoins={showOnlyStableCoins}
-        setShowOnlyStableCoins={setShowOnlyStableCoins}
-        withSwitchMarket={true}
-        totalValue={listData(false).reduce((a, b) => a + (+b['underlyingBalanceInUSD'] || 0), 0)}
+    <PermissionWarning requiredPermission={PERMISSION.DEPOSITOR}>
+      <ScreenWrapper
+        pageTitle={intl.formatMessage(defaultMessages.deposit)}
+        isTitleOnDesktop={true}
+        withMobileGrayBg={true}
       >
-        {!!listData(true).length ? (
-          <>
-            {!sm ? (
-              <DepositAssetsTable
-                listData={listData(true)}
-                userId={user?.id}
-                sortName={sortName}
-                setSortName={setSortName}
-                sortDesc={sortDesc}
-                setSortDesc={setSortDesc}
-              />
-            ) : (
-              <>
-                {listData(true).map((item, index) => (
-                  <DepositMobileCard userId={user?.id} {...item} key={index} />
-                ))}
-              </>
-            )}
-          </>
-        ) : (
-          <NoDataPanel title={intl.formatMessage(messages.noDataTitle)} />
+        {sm && (
+          <AssetsFilterPanel
+            optionTitleLeft={intl.formatMessage(messages.optionTitleLeft)}
+            optionTitleRight={intl.formatMessage(messages.optionTitleRight)}
+            switchValue={showOnlyStableCoins}
+            switchOnToggle={setShowOnlyStableCoins}
+            searchValue={searchValue}
+            searchOnChange={setSearchValue}
+          />
         )}
-      </DepositBorrowMainWrapper>
-    </ScreenWrapper>
+
+        <DepositBorrowMainWrapper
+          contentTitle={intl.formatMessage(messages.availableToDeposit)}
+          itemsTitle={intl.formatMessage(messages.myDeposits)}
+          items={listData(false).map((item, index) => (
+            <React.Fragment key={index}>
+              {item.underlyingBalance.toString() > '0' && (
+                <Card
+                  link={`/deposit/${item.underlyingAsset}-${item.id}`}
+                  symbol={item.symbol}
+                  id={item.id}
+                  value={item.underlyingBalance.toString()}
+                  underlyingAsset={item.underlyingAsset}
+                />
+              )}
+            </React.Fragment>
+          ))}
+          isShowRightPanel={isShowRightPanel}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          showOnlyStableCoins={showOnlyStableCoins}
+          setShowOnlyStableCoins={setShowOnlyStableCoins}
+          withSwitchMarket={true}
+          totalValue={listData(false).reduce((a, b) => a + (+b['underlyingBalanceInUSD'] || 0), 0)}
+        >
+          {!!listData(true).length ? (
+            <>
+              {!sm ? (
+                <DepositAssetsTable
+                  listData={listData(true)}
+                  userId={user?.id}
+                  sortName={sortName}
+                  setSortName={setSortName}
+                  sortDesc={sortDesc}
+                  setSortDesc={setSortDesc}
+                />
+              ) : (
+                <>
+                  {listData(true).map((item, index) => (
+                    <DepositMobileCard userId={user?.id} {...item} key={index} />
+                  ))}
+                </>
+              )}
+            </>
+          ) : (
+            <NoDataPanel title={intl.formatMessage(messages.noDataTitle)} />
+          )}
+        </DepositBorrowMainWrapper>
+      </ScreenWrapper>
+    </PermissionWarning>
   );
 }

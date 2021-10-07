@@ -90,7 +90,7 @@ export default function TextWithModal({
         isVisible={visible}
         onBackdropPress={() => setVisible(false)}
         withCloseButton={withCloseButton}
-        className={modalClassName}
+        className={classNames('TextWithModal__modal', modalClassName)}
       >
         <div className="TextWithModal__modal-inner">
           {children}
@@ -108,8 +108,10 @@ export default function TextWithModal({
         </div>
       </BasicModal>
 
-      <style jsx={true}>{staticStyles}</style>
-      <style jsx={true}>{`
+      <style jsx={true} global={true}>
+        {staticStyles}
+      </style>
+      <style jsx={true} global={true}>{`
         .TextWithModal {
           &__dark {
             .TextWithModal__text {

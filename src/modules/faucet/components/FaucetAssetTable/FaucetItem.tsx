@@ -6,8 +6,14 @@ import Value from '../../../../components/basic/Value';
 
 import { FaucetTableItem } from './types';
 
-export default function FaucetItem({ symbol, id, userId, walletBalance }: FaucetTableItem) {
-  const url = `/faucet/${symbol}-${id}`;
+export default function FaucetItem({
+  symbol,
+  id,
+  userId,
+  walletBalance,
+  underlyingAsset,
+}: FaucetTableItem) {
+  const url = `/faucet/${underlyingAsset}-${id}`;
 
   return (
     <TableItem symbol={symbol} url={url}>

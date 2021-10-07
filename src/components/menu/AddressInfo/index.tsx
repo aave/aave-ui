@@ -37,14 +37,14 @@ export default function AddressInfo() {
     networkColor = '#65c970';
   }
   let networkMessage: MessageDescriptor = messages.networkName;
-  if (networkName === Network.polygon) {
+  if (networkName === Network.polygon || networkName === Network.avalanche) {
     networkMessage = messages.networkShortName;
   } else {
     networkMessage = messages.networkName;
   }
 
   const formattedNetworkName =
-    networkName === Network.polygon
+    networkName === Network.polygon || networkName === Network.avalanche
       ? networkName
       : networkName === Network.mainnet || networkName === Network.fork
       ? `Ethereum Mainnet`

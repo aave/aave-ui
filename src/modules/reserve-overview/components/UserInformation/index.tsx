@@ -94,7 +94,7 @@ export default function UserInformation({
               <span>{intl.formatMessage(messages.deposits)}</span>{' '}
               <div className="UserInformation__caption-buttons">
                 <Link
-                  to={`/deposit/${symbol}-${poolReserve.id}`}
+                  to={`/deposit/${poolReserve.underlyingAsset}-${poolReserve.id}`}
                   className="ButtonLink"
                   disabled={poolReserve.isFrozen}
                 >
@@ -109,7 +109,7 @@ export default function UserInformation({
                   className={classNames({
                     UserInformation__buttonNoBorderDisabled: !underlyingBalance,
                   })}
-                  to={`/withdraw/${symbol}-${poolReserve.id}`}
+                  to={`/withdraw/${poolReserve.underlyingAsset}-${poolReserve.id}`}
                   disabled={!underlyingBalance}
                 >
                   <span className="UserInformation__button UserInformation__button-noBorder">
@@ -168,9 +168,9 @@ export default function UserInformation({
                     onSwitch={() =>
                       toggleUseAsCollateral(
                         history,
-                        poolReserve.symbol,
                         poolReserve.id,
-                        !userReserve?.usageAsCollateralEnabledOnUser
+                        !userReserve?.usageAsCollateralEnabledOnUser,
+                        poolReserve.underlyingAsset
                       )
                     }
                     disabled={!poolReserve.usageAsCollateralEnabled}
@@ -189,7 +189,7 @@ export default function UserInformation({
               {!totalBorrows && (
                 <div className="UserInformation__caption-buttons">
                   <Link
-                    to={`/borrow/${symbol}-${poolReserve.id}`}
+                    to={`/borrow/${poolReserve.underlyingAsset}-${poolReserve.id}`}
                     className="ButtonLink"
                     disabled={
                       !availableBorrows || !poolReserve.borrowingEnabled || poolReserve.isFrozen

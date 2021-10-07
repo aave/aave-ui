@@ -13,9 +13,10 @@ interface CardProps {
   symbol: string;
   id: string;
   value: string;
+  underlyingAsset: string;
 }
 
-export default function Card({ link, symbol, id, value }: CardProps) {
+export default function Card({ link, symbol, id, value, underlyingAsset }: CardProps) {
   const { currentTheme, xl, sm } = useThemeContext();
 
   const asset = getAssetInfo(symbol);
@@ -29,12 +30,12 @@ export default function Card({ link, symbol, id, value }: CardProps) {
           tokenSymbol={symbol}
           height={iconSize}
           width={iconSize}
-          tokenFullName={asset.formattedName}
+          tokenFullName={asset.shortSymbol || asset.formattedName}
         />
         <Value
           value={value}
           maximumValueDecimals={6}
-          tooltipId={`${symbol}-${id}`}
+          tooltipId={`${underlyingAsset}-${id}`}
           maximumSubValueDecimals={2}
         />
       </Row>
