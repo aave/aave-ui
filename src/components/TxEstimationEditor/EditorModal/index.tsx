@@ -3,7 +3,7 @@ import { MessageDescriptor, useIntl } from 'react-intl';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { useThemeContext, BasicModal, rgba } from '@aave/aave-ui-kit';
-import { valueToBigNumber, normalize, GasType } from '@aave/protocol-js';
+import { valueToBigNumber, normalize } from '@aave/protocol-js';
 
 import Row from '../../basic/Row';
 import Value from '../../basic/Value';
