@@ -6,12 +6,9 @@ on:
 jobs:
   deploy_ipfs:
     runs-on: ubuntu-latest
+    container: node:14
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'npm'
 
       - name: install
         run: npm ci
@@ -21,6 +18,7 @@ jobs:
         env:
           PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
           PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
+          PIN_ALIAS: "${{ format('pull_request_{0}', github.head_ref) }}"
         run: npm run pinata:ipfs-publish
 
       - uses: actions/github-script@v5
