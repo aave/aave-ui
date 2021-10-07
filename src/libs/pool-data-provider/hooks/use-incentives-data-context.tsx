@@ -52,7 +52,12 @@ function formatBNInput(input: string, decimals: number): string {
   return inputBN.toString();
 }
 
-function calculateRewardTokenPrice(reserves: ComputedReserveData[], address: string): string {
+function calculateRewardTokenPrice(
+  reserves: ComputedReserveData[],
+  address: string,
+  priceFeed: string,
+  priceFeedDecimals: number
+): string {
   // For stkAave incentives, use Aave price oracle
   if (address === '0x4da27a545c0c5b758a6ba100e3a049001de870f5') {
     address = '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9';
@@ -61,7 +66,7 @@ function calculateRewardTokenPrice(reserves: ComputedReserveData[], address: str
   if (rewardReserve) {
     return formatBNInput(rewardReserve.price.priceInEth, Number(rewardReserve.decimals));
   } else {
-    return '0'; // Will be replaced with fallback call to ChainLink registry
+    return formatBNInput(priceFeed, priceFeedDecimals);
   }
 }
 
@@ -98,10 +103,9 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     network,
     networkConfig.uiIncentiveDataProvider,
-    !isRPCActive,
+    false, // will re-enable isRPCActive when cache service updated
     currentAccount
   );
-
   //const activeData = isRPCActive && rpcData ? rpcData : cachedData;
   const activeData = rpcData; // temporarily until cache is updated with price feeds
 
@@ -186,15 +190,22 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
 
               aRewardTokenPriceInMarketReferenceCurrency: calculateRewardTokenPrice(
                 reserves,
-                incentiveData.aIncentiveData.rewardTokenAddress.toLowerCase()
+                incentiveData.aIncentiveData.rewardTokenAddress.toLowerCase(),
+                incentiveData.aIncentiveData.priceFeed,
+                incentiveData.aIncentiveData.priceFeedDecimals
               ),
+
               vRewardTokenPriceInMarketReferenceCurrency: calculateRewardTokenPrice(
                 reserves,
-                incentiveData.vIncentiveData.rewardTokenAddress.toLowerCase()
+                incentiveData.vIncentiveData.rewardTokenAddress.toLowerCase(),
+                incentiveData.vIncentiveData.priceFeed,
+                incentiveData.vIncentiveData.priceFeedDecimals
               ),
               sRewardTokenPriceInMarketReferenceCurrency: calculateRewardTokenPrice(
                 reserves,
-                incentiveData.sIncentiveData.rewardTokenAddress.toLowerCase()
+                incentiveData.sIncentiveData.rewardTokenAddress.toLowerCase(),
+                incentiveData.sIncentiveData.priceFeed,
+                incentiveData.sIncentiveData.priceFeedDecimals
               ),
             });
           allReserveIncentives.push(calculatedReserveIncentives);

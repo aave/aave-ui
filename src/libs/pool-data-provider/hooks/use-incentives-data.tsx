@@ -9,7 +9,9 @@ import {
   IncentivesWithFeeds,
   UserReserveIncentiveDataHumanizedResponse,
   IncentiveUserDataHumanized,
+  Denominations,
 } from '@aave/contract-helpers';
+import { useProtocolDataContext } from '../../protocol-data-provider';
 
 // interval in which the rpc data is refreshed
 const POOLING_INTERVAL = 30 * 1000;
@@ -107,6 +109,7 @@ export function useIncentivesData(
   skip: boolean,
   userAddress?: string
 ): IncentiveDataResponse {
+  const { networkConfig } = useProtocolDataContext();
   const currentAccount: string | undefined = userAddress ? userAddress.toLowerCase() : undefined;
   const [loadingReserveIncentives, setLoadingReserveIncentives] = useState<boolean>(true);
   const [errorReserveIncentives, setErrorReserveIncentives] = useState<boolean>(false);
@@ -149,10 +152,20 @@ export function useIncentivesData(
     });
 
     try {
-      const rawReserveIncentiveData: ReserveIncentiveWithFeedsResponse[] =
-        await incentiveDataProviderContract.getIncentivesDataWithPrice({
+      let rawReserveIncentiveData: ReserveIncentiveWithFeedsResponse[];
+      if (networkConfig.chainlinkFeedRegistry) {
+        rawReserveIncentiveData = await incentiveDataProviderContract.getIncentivesDataWithPrice({
           lendingPoolAddressProvider,
+          quote: networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
+          chainlinkFeedsRegistry: networkConfig.chainlinkFeedRegistry,
         });
+      } else {
+        rawReserveIncentiveData = await incentiveDataProviderContract.getIncentivesDataWithPrice({
+          lendingPoolAddressProvider,
+          quote: networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
+          chainlinkFeedsRegistry: networkConfig.chainlinkFeedRegistry,
+        });
+      }
       const formattedReserveIncentiveData: ReserveIncentiveData[] = rawReserveIncentiveData.map(
         (reserveIncentive) => {
           const formattedReserveIncentive: ReserveIncentiveData = {
@@ -239,7 +252,6 @@ export function useIncentivesData(
 
   const loading = loadingReserveIncentives || loadingUserIncentives;
   const error = errorReserveIncentives || errorUserIncentives;
-
   return {
     loading,
     error,
