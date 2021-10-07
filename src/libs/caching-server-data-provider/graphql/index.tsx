@@ -881,6 +881,9 @@ export type IncentivesData = {
   rewardTokenDecimals: Scalars['Float'];
   incentiveControllerAddress: Scalars['String'];
   precision: Scalars['Float'];
+  priceFeed: Scalars['String'];
+  priceFeedTimestamp: Scalars['Float'];
+  priceFeedDecimals: Scalars['Float'];
 };
 
 export type IncentivizedAction = {
@@ -2504,6 +2507,8 @@ export type QueryReservesArgs = {
 
 export type QueryReservesIncentivesArgs = {
   lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
 };
 
 export type QueryStableDebtTokenArgs = {
@@ -2634,6 +2639,8 @@ export type QueryUserDataArgs = {
 
 export type QueryUserIncentivesArgs = {
   lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
   userAddress: Scalars['String'];
 };
 
@@ -3501,7 +3508,6 @@ export type ReserveData = {
 
 export type ReserveIncentivesData = {
   __typename?: 'ReserveIncentivesData';
-  id: Scalars['String'];
   underlyingAsset: Scalars['String'];
   aIncentiveData: IncentivesData;
   vIncentiveData: IncentivesData;
@@ -5077,6 +5083,8 @@ export type SubscriptionPoolConfigurationHistoryItemsArgs = {
 
 export type SubscriptionPoolIncentivesDataUpdateArgs = {
   lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
 };
 
 export type SubscriptionPoolsArgs = {
@@ -5374,6 +5382,8 @@ export type SubscriptionUserDataUpdateArgs = {
 
 export type SubscriptionUserPoolIncentivesDataUpdateArgs = {
   lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
   userAddress: Scalars['String'];
 };
 
@@ -5995,7 +6005,6 @@ export type UserData = {
 
 export type UserIncentivesData = {
   __typename?: 'UserIncentivesData';
-  id: Scalars['String'];
   underlyingAsset: Scalars['String'];
   aTokenIncentivesUserData: TokenIncentivesUserData;
   vTokenIncentivesUserData: TokenIncentivesUserData;
@@ -6954,18 +6963,20 @@ export type IncentivesDataFragmentFragment = { __typename?: 'IncentivesData' } &
   | 'rewardTokenDecimals'
   | 'incentiveControllerAddress'
   | 'precision'
+  | 'priceFeed'
+  | 'priceFeedDecimals'
+  | 'priceFeedTimestamp'
 >;
 
 export type C_ReservesIncentivesQueryVariables = Exact<{
   lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
 }>;
 
 export type C_ReservesIncentivesQuery = { __typename?: 'Query' } & {
   reservesIncentives: Array<
-    { __typename?: 'ReserveIncentivesData' } & Pick<
-      ReserveIncentivesData,
-      'id' | 'underlyingAsset'
-    > & {
+    { __typename?: 'ReserveIncentivesData' } & Pick<ReserveIncentivesData, 'underlyingAsset'> & {
         aIncentiveData: { __typename?: 'IncentivesData' } & IncentivesDataFragmentFragment;
         vIncentiveData: { __typename?: 'IncentivesData' } & IncentivesDataFragmentFragment;
         sIncentiveData: { __typename?: 'IncentivesData' } & IncentivesDataFragmentFragment;
@@ -6975,14 +6986,13 @@ export type C_ReservesIncentivesQuery = { __typename?: 'Query' } & {
 
 export type C_PoolIncentivesDataUpdateSubscriptionVariables = Exact<{
   lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
 }>;
 
 export type C_PoolIncentivesDataUpdateSubscription = { __typename?: 'Subscription' } & {
   poolIncentivesDataUpdate: Array<
-    { __typename?: 'ReserveIncentivesData' } & Pick<
-      ReserveIncentivesData,
-      'id' | 'underlyingAsset'
-    > & {
+    { __typename?: 'ReserveIncentivesData' } & Pick<ReserveIncentivesData, 'underlyingAsset'> & {
         aIncentiveData: { __typename?: 'IncentivesData' } & IncentivesDataFragmentFragment;
         vIncentiveData: { __typename?: 'IncentivesData' } & IncentivesDataFragmentFragment;
         sIncentiveData: { __typename?: 'IncentivesData' } & IncentivesDataFragmentFragment;
@@ -7195,11 +7205,13 @@ export type TokenIncentivesUserDataFragmentFragment = {
 export type C_UserIncentivesQueryVariables = Exact<{
   userAddress: Scalars['String'];
   lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
 }>;
 
 export type C_UserIncentivesQuery = { __typename?: 'Query' } & {
   userIncentives: Array<
-    { __typename?: 'UserIncentivesData' } & Pick<UserIncentivesData, 'id' | 'underlyingAsset'> & {
+    { __typename?: 'UserIncentivesData' } & Pick<UserIncentivesData, 'underlyingAsset'> & {
         aTokenIncentivesUserData: {
           __typename?: 'TokenIncentivesUserData';
         } & TokenIncentivesUserDataFragmentFragment;
@@ -7216,11 +7228,13 @@ export type C_UserIncentivesQuery = { __typename?: 'Query' } & {
 export type C_UserPoolIncentivesDataUpdateSubscriptionVariables = Exact<{
   userAddress: Scalars['String'];
   lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
 }>;
 
 export type C_UserPoolIncentivesDataUpdateSubscription = { __typename?: 'Subscription' } & {
   userPoolIncentivesDataUpdate: Array<
-    { __typename?: 'UserIncentivesData' } & Pick<UserIncentivesData, 'id' | 'underlyingAsset'> & {
+    { __typename?: 'UserIncentivesData' } & Pick<UserIncentivesData, 'underlyingAsset'> & {
         aTokenIncentivesUserData: {
           __typename?: 'TokenIncentivesUserData';
         } & TokenIncentivesUserDataFragmentFragment;
@@ -7245,6 +7259,9 @@ export const IncentivesDataFragmentFragmentDoc = gql`
     rewardTokenDecimals
     incentiveControllerAddress
     precision
+    priceFeed
+    priceFeedDecimals
+    priceFeedTimestamp
   }
 `;
 export const ProtocolDataFragmentFragmentDoc = gql`
@@ -7374,9 +7391,16 @@ export const TokenIncentivesUserDataFragmentFragmentDoc = gql`
   }
 `;
 export const C_ReservesIncentivesDocument = gql`
-  query C_ReservesIncentives($lendingPoolAddressProvider: String!) {
-    reservesIncentives(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
-      id
+  query C_ReservesIncentives(
+    $lendingPoolAddressProvider: String!
+    $chainlinkFeedsRegistry: String!
+    $quote: String!
+  ) {
+    reservesIncentives(
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+      chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+      quote: $quote
+    ) {
       underlyingAsset
       aIncentiveData {
         ...IncentivesDataFragment
@@ -7405,6 +7429,8 @@ export const C_ReservesIncentivesDocument = gql`
  * const { data, loading, error } = useC_ReservesIncentivesQuery({
  *   variables: {
  *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *      chainlinkFeedsRegistry: // value for 'chainlinkFeedsRegistry'
+ *      quote: // value for 'quote'
  *   },
  * });
  */
@@ -7441,9 +7467,16 @@ export type C_ReservesIncentivesQueryResult = ApolloReactCommon.QueryResult<
   C_ReservesIncentivesQueryVariables
 >;
 export const C_PoolIncentivesDataUpdateDocument = gql`
-  subscription C_PoolIncentivesDataUpdate($lendingPoolAddressProvider: String!) {
-    poolIncentivesDataUpdate(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
-      id
+  subscription C_PoolIncentivesDataUpdate(
+    $lendingPoolAddressProvider: String!
+    $chainlinkFeedsRegistry: String!
+    $quote: String!
+  ) {
+    poolIncentivesDataUpdate(
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+      chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+      quote: $quote
+    ) {
       underlyingAsset
       aIncentiveData {
         ...IncentivesDataFragment
@@ -7472,6 +7505,8 @@ export const C_PoolIncentivesDataUpdateDocument = gql`
  * const { data, loading, error } = useC_PoolIncentivesDataUpdateSubscription({
  *   variables: {
  *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *      chainlinkFeedsRegistry: // value for 'chainlinkFeedsRegistry'
+ *      quote: // value for 'quote'
  *   },
  * });
  */
@@ -7874,12 +7909,18 @@ export type C_UserDataUpdateSubscriptionHookResult = ReturnType<
 export type C_UserDataUpdateSubscriptionResult =
   ApolloReactCommon.SubscriptionResult<C_UserDataUpdateSubscription>;
 export const C_UserIncentivesDocument = gql`
-  query C_UserIncentives($userAddress: String!, $lendingPoolAddressProvider: String!) {
+  query C_UserIncentives(
+    $userAddress: String!
+    $lendingPoolAddressProvider: String!
+    $chainlinkFeedsRegistry: String!
+    $quote: String!
+  ) {
     userIncentives(
       userAddress: $userAddress
       lendingPoolAddressProvider: $lendingPoolAddressProvider
+      chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+      quote: $quote
     ) {
-      id
       underlyingAsset
       aTokenIncentivesUserData {
         ...TokenIncentivesUserDataFragment
@@ -7909,6 +7950,8 @@ export const C_UserIncentivesDocument = gql`
  *   variables: {
  *      userAddress: // value for 'userAddress'
  *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *      chainlinkFeedsRegistry: // value for 'chainlinkFeedsRegistry'
+ *      quote: // value for 'quote'
  *   },
  * });
  */
@@ -7946,12 +7989,15 @@ export const C_UserPoolIncentivesDataUpdateDocument = gql`
   subscription C_UserPoolIncentivesDataUpdate(
     $userAddress: String!
     $lendingPoolAddressProvider: String!
+    $chainlinkFeedsRegistry: String!
+    $quote: String!
   ) {
     userPoolIncentivesDataUpdate(
       userAddress: $userAddress
       lendingPoolAddressProvider: $lendingPoolAddressProvider
+      chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+      quote: $quote
     ) {
-      id
       underlyingAsset
       aTokenIncentivesUserData {
         ...TokenIncentivesUserDataFragment
@@ -7981,6 +8027,8 @@ export const C_UserPoolIncentivesDataUpdateDocument = gql`
  *   variables: {
  *      userAddress: // value for 'userAddress'
  *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *      chainlinkFeedsRegistry: // value for 'chainlinkFeedsRegistry'
+ *      quote: // value for 'quote'
  *   },
  * });
  */

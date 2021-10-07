@@ -8,11 +8,21 @@ fragment IncentivesDataFragment on IncentivesData {
   rewardTokenDecimals
   incentiveControllerAddress
   precision
+  priceFeed
+  priceFeedDecimals
+  priceFeedTimestamp
 }
 
-query C_ReservesIncentives($lendingPoolAddressProvider: String!) {
-  reservesIncentives(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
-    id
+query C_ReservesIncentives(
+  $lendingPoolAddressProvider: String!
+  $chainlinkFeedsRegistry: String!
+  $quote: String!
+) {
+  reservesIncentives(
+    lendingPoolAddressProvider: $lendingPoolAddressProvider
+    chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+    quote: $quote
+  ) {
     underlyingAsset
     aIncentiveData {
       ...IncentivesDataFragment
@@ -26,9 +36,16 @@ query C_ReservesIncentives($lendingPoolAddressProvider: String!) {
   }
 }
 
-subscription C_PoolIncentivesDataUpdate($lendingPoolAddressProvider: String!) {
-  poolIncentivesDataUpdate(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
-    id
+subscription C_PoolIncentivesDataUpdate(
+  $lendingPoolAddressProvider: String!
+  $chainlinkFeedsRegistry: String!
+  $quote: String!
+) {
+  poolIncentivesDataUpdate(
+    lendingPoolAddressProvider: $lendingPoolAddressProvider
+    chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+    quote: $quote
+  ) {
     underlyingAsset
     aIncentiveData {
       ...IncentivesDataFragment

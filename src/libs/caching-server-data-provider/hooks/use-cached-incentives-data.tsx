@@ -26,6 +26,8 @@ export interface PoolIncentivesWithCache {
 export function useCachedIncentivesData(
   lendingPoolAddressProvider: string,
   currentAccount?: string,
+  chainlinkFeedsRegistry?: string,
+  quote?: string,
   skip = false
 ): PoolIncentivesWithCache {
   const userId = currentAccount?.toLowerCase() || undefined;
@@ -33,7 +35,14 @@ export function useCachedIncentivesData(
     loading: incentivesDataLoading,
     data: incentivesData,
     subscribeToMore: subscribeToIncentivesData,
-  } = useC_ReservesIncentivesQuery({ variables: { lendingPoolAddressProvider }, skip });
+  } = useC_ReservesIncentivesQuery({
+    variables: {
+      lendingPoolAddressProvider,
+      chainlinkFeedsRegistry: chainlinkFeedsRegistry || '',
+      quote: quote || '',
+    },
+    skip,
+  });
 
   // Reserve incentives
   useEffect(() => {
@@ -43,7 +52,11 @@ export function useCachedIncentivesData(
         C_PoolIncentivesDataUpdateSubscriptionVariables
       >({
         document: C_PoolIncentivesDataUpdateDocument,
-        variables: { lendingPoolAddressProvider },
+        variables: {
+          lendingPoolAddressProvider,
+          chainlinkFeedsRegistry: chainlinkFeedsRegistry || '',
+          quote: quote || '',
+        },
         updateQuery: (previousQueryResult, { subscriptionData }) => {
           const poolIncentivesDataUpdate = subscriptionData.data?.poolIncentivesDataUpdate;
 
@@ -65,7 +78,12 @@ export function useCachedIncentivesData(
     data: userIncentivesData,
     subscribeToMore: subscribeToUserIncentivesData,
   } = useC_UserIncentivesQuery({
-    variables: { lendingPoolAddressProvider, userAddress: userId || '' },
+    variables: {
+      lendingPoolAddressProvider,
+      userAddress: userId || '',
+      chainlinkFeedsRegistry: chainlinkFeedsRegistry || '',
+      quote: quote || '',
+    },
     skip: !userId || skip,
   });
 
@@ -76,7 +94,12 @@ export function useCachedIncentivesData(
         C_UserPoolIncentivesDataUpdateSubscriptionVariables
       >({
         document: C_UserPoolIncentivesDataUpdateDocument,
-        variables: { lendingPoolAddressProvider, userAddress: userId || '' },
+        variables: {
+          lendingPoolAddressProvider,
+          userAddress: userId || '',
+          chainlinkFeedsRegistry: chainlinkFeedsRegistry || '',
+          quote: quote || '',
+        },
         updateQuery: (previousQueryResult, { subscriptionData }) => {
           const userData = subscriptionData.data?.userPoolIncentivesDataUpdate;
           if (!userData) {

@@ -20,7 +20,6 @@ const RECOVER_INTERVAL = 10 * 1000;
 
 // From UiIncentiveDataProvider
 export interface ReserveIncentiveData {
-  id: string;
   underlyingAsset: string;
   aIncentiveData: ReserveTokenIncentives;
   vIncentiveData: ReserveTokenIncentives;
@@ -29,7 +28,6 @@ export interface ReserveIncentiveData {
 
 // From UiIncentiveDataProvider
 export interface UserReserveIncentiveData {
-  id: string;
   underlyingAsset: string;
   aTokenIncentivesUserData: UserTokenIncentives;
   vTokenIncentivesUserData: UserTokenIncentives;
@@ -91,7 +89,7 @@ function formatIncentiveData(incentive: IncentivesWithFeeds): ReserveTokenIncent
 // Format user incentive contract data  into object with BigNumber fields converted to string
 function formatUserIncentiveData(incentive: IncentiveUserDataHumanized): UserTokenIncentives {
   const formattedIncentiveData: UserTokenIncentives = {
-    tokenIncentivesUserIndex: incentive.tokenincentivesUserIndex.toString(),
+    tokenIncentivesUserIndex: incentive.tokenIncentivesUserIndex.toString(),
     userUnclaimedRewards: incentive.userUnclaimedRewards.toString(),
     tokenAddress: incentive.tokenAddress,
     rewardTokenAddress: incentive.rewardTokenAddress,
@@ -153,23 +151,14 @@ export function useIncentivesData(
 
     try {
       let rawReserveIncentiveData: ReserveIncentiveWithFeedsResponse[];
-      if (networkConfig.chainlinkFeedRegistry) {
-        rawReserveIncentiveData = await incentiveDataProviderContract.getIncentivesDataWithPrice({
-          lendingPoolAddressProvider,
-          quote: networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
-          chainlinkFeedsRegistry: networkConfig.chainlinkFeedRegistry,
-        });
-      } else {
-        rawReserveIncentiveData = await incentiveDataProviderContract.getIncentivesDataWithPrice({
-          lendingPoolAddressProvider,
-          quote: networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
-          chainlinkFeedsRegistry: networkConfig.chainlinkFeedRegistry,
-        });
-      }
+      rawReserveIncentiveData = await incentiveDataProviderContract.getIncentivesDataWithPrice({
+        lendingPoolAddressProvider,
+        quote: networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
+        chainlinkFeedsRegistry: networkConfig.chainlinkFeedRegistry,
+      });
       const formattedReserveIncentiveData: ReserveIncentiveData[] = rawReserveIncentiveData.map(
         (reserveIncentive) => {
           const formattedReserveIncentive: ReserveIncentiveData = {
-            id: (reserveIncentive.underlyingAsset + lendingPoolAddressProvider).toLowerCase(),
             underlyingAsset: reserveIncentive.underlyingAsset,
             aIncentiveData: formatIncentiveData(reserveIncentive.aIncentiveData),
             vIncentiveData: formatIncentiveData(reserveIncentive.vIncentiveData),
@@ -208,7 +197,6 @@ export function useIncentivesData(
       const formattedUserIncentiveData: UserReserveIncentiveData[] = rawUserIncentiveData.map(
         (userIncentive) => {
           const formattedUserIncentive: UserReserveIncentiveData = {
-            id: (userIncentive.underlyingAsset + lendingPoolAddressProvider).toLowerCase(),
             underlyingAsset: userIncentive.underlyingAsset,
             aTokenIncentivesUserData: formatUserIncentiveData(
               userIncentive.aTokenIncentivesUserData

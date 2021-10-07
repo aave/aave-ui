@@ -1,3 +1,4 @@
+import { Denominations } from '@aave/contract-helpers';
 import {
   calculateTotalUserIncentives,
   calculateReserveIncentives,
@@ -92,6 +93,8 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   }: PoolIncentivesWithCache = useCachedIncentivesData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     currentAccount,
+    networkConfig.chainlinkFeedRegistry,
+    networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
     preferredConnectionMode === ConnectionMode.rpc || network !== apolloClientNetwork
   );
 
@@ -103,11 +106,11 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     network,
     networkConfig.uiIncentiveDataProvider,
-    false, // will re-enable isRPCActive when cache service updated
+    !isRPCActive,
     currentAccount
   );
-  //const activeData = isRPCActive && rpcData ? rpcData : cachedData;
-  const activeData = rpcData; // temporarily until cache is updated with price feeds
+
+  const activeData = isRPCActive && rpcData ? rpcData : cachedData;
 
   const userIncentiveData: UserReserveIncentiveData[] =
     activeData && activeData.userIncentiveData ? activeData.userIncentiveData : [];
