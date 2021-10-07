@@ -7,6 +7,14 @@ jobs:
   deploy_ipfs:
     runs-on: ubuntu-latest
     container: node:14
+    env:
+      REACT_APP_SUPPORTED_ETHEREUM_NETWORKS: 'mumbai,kovan,mainnet,polygon,fuji,avalanche'
+      REACT_APP_DEFAULT_ETHEREUM_NETWORK: 'mainnet'
+      REACT_APP_ENABLE_CACHING_BACKEND: 'true'
+      REACT_APP_RATES_HISTORY_ENDPOINT: 'https://aave-api-v2.aave.com/data/rates-history'
+      REACT_APP_PERMISSIONS_API: 'https://aave-api-v2.aave.com'
+      NGINX_MODE: 'staging'
+      REACT_APP_ENABLE_NASH: 'true'
     steps:
       - uses: actions/checkout@v2
 
