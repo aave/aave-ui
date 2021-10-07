@@ -26,9 +26,6 @@ const staticStyles = css.global`
       &:first-of-type {
         justify-content: flex-start;
         max-width: 100px;
-        .DoubleIcon {
-          min-width: 25px;
-        }
       }
       &:nth-of-type(2) {
         @include respond-to(lg) {

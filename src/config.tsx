@@ -30,6 +30,9 @@ export function getSupportedNetworks(): Network[] {
   if (localStorage.getItem('polygon_fork_enabled') === 'true') {
     supportedNetworks.push(Network.polygon_fork);
   }
+  if (localStorage.getItem('avalanche_fork_enabled') === 'true') {
+    supportedNetworks.push(Network.avalanche_fork);
+  }
   return supportedNetworks;
 }
 
@@ -46,7 +49,6 @@ export const availableMarkets = Object.keys(marketsData).filter((key) =>
 
 export const IPFS_MODE = process.env.REACT_APP_IPFS_MODE === 'true';
 export const ENABLE_CACHING_BACKEND = process.env.REACT_APP_ENABLE_CACHING_BACKEND === 'true';
-export const PERMISSIONS_API = process.env.REACT_APP_PERMISSIONS_API;
 export const RATES_HISTORY_ENDPOINT = process.env.REACT_APP_RATES_HISTORY_ENDPOINT;
 
 // fiat on rump services setup
@@ -75,3 +77,8 @@ export const POLYGON_FORK_RPC_URL =
   localStorage.getItem('polygonForkRPCUrl') || 'http://127.0.0.1:8545';
 export const POLYGON_FORK_WS_RPC_URL =
   localStorage.getItem('polygonForkWsRPCUrl') || 'ws://127.0.0.1:8545';
+// Avalanche Fork
+export const AVALANCHE_FORK_RPC_URL =
+  localStorage.getItem('avalancheForkRPCUrl') || 'http://127.0.0.1:8545';
+export const AVALANCHE_FORK_WS_RPC_URL =
+  localStorage.getItem('avalancheForkWsRPCUrl') || 'ws://127.0.0.1:8545';

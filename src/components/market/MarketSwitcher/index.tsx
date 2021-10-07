@@ -19,7 +19,11 @@ interface MarketSwitcherProps {
 }
 
 const getTestnetMark = (network: Network) =>
-  [Network.kovan, Network.mumbai, Network.fork].includes(network) ? network.charAt(0) : undefined;
+  [Network.kovan, Network.mumbai, Network.fork, Network.fuji, Network.avalanche_fork].includes(
+    network
+  )
+    ? network.charAt(0)
+    : undefined;
 
 export default function MarketSwitcher({ toTop, className, textButton }: MarketSwitcherProps) {
   const intl = useIntl();

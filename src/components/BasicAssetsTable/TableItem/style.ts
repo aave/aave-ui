@@ -21,33 +21,22 @@ const staticStyles = css.global`
 
     .TableItem__token-inner {
       align-items: flex-start;
-      max-width: 200px;
+      max-width: 240px;
       @include respond-to(lg) {
-        max-width: 150px;
+        max-width: 200px;
       }
       @include respond-to(sm) {
         max-width: 80px;
       }
     }
     .TableItem__tokenIcon {
-      img {
-        @include respond-to(sm) {
-          width: 30px;
-          height: 30px;
-        }
-      }
-      img,
-      .DoubleIcon {
+      &__image,
+      .MultipleIcons {
         @include respond-to(sm) {
           margin-right: 4px !important;
         }
-      }
-      .DoubleIcon {
-        min-width: 35px !important;
-        @include respond-to(sm) {
-          min-width: 30px !important;
-          width: 30px !important;
-          height: 30px !important;
+        .TokenIcon__image {
+          margin-right: 0 !important;
         }
       }
     }

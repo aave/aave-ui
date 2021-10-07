@@ -72,10 +72,10 @@ const staticStyles = css.global`
     }
 
     &__bannerWrapper {
-      padding: 4px 0px 12px 0px;
+      margin-bottom: 12px;
       @include respond-to(sm) {
         position: absolute;
-        top: -4px;
+        top: 0;
         left: 0;
         right: 0;
       }

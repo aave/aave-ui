@@ -51,12 +51,6 @@ const staticStyles = css.global`
       width: 100%;
     }
 
-    .TokenIcon.TokenIcon {
-      img {
-        margin-right: 5px;
-      }
-    }
-
     .TokenIcon.TokenIcon .TokenIcon__name {
       font-size: $large;
       @include respond-to(xl) {

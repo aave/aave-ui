@@ -52,7 +52,7 @@ export default function DepositItem({
         thirtyDaysAverage={avg30DaysLiquidityRate}
         liquidityMiningValue={aIncentivesAPY}
         symbol={symbol}
-        type="deposit-apy"
+        type="deposit"
       />
 
       <TableCol maxWidth={125}>
@@ -74,14 +74,14 @@ export default function DepositItem({
           <TableButtonCol
             disabled={!isActive || isFrozen}
             title={intl.formatMessage(defaultMessages.deposit)}
-            linkTo={`/deposit/${symbol}-${id}`}
+            linkTo={`/deposit/${underlyingAsset}-${id}`}
           />
         )}
 
         <TableButtonCol
           disabled={!isActive || isFrozen}
           title={intl.formatMessage(defaultMessages.withdraw)}
-          linkTo={`/withdraw/${symbol}-${id}`}
+          linkTo={`/withdraw/${underlyingAsset}-${id}`}
           withoutBorder={!isSwapButton}
         />
 

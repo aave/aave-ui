@@ -46,22 +46,26 @@ export default function routeParamValidationHOC({
   return (ChildComponent: React.ComponentType<ValidationWrapperComponentProps>) =>
     ({ match, location, history }: RouteComponentProps<CurrencyRouteParamsInterface>) => {
       const intl = useIntl();
-      const currencySymbol = match.params.currencySymbol.toUpperCase();
+      const underlyingAsset = match.params.underlyingAsset.toUpperCase();
       const reserveId = match.params.id;
 
       const { usdPriceEth } = useStaticPoolDataContext();
       const { reserves, user } = useDynamicPoolDataContext();
 
       const poolReserve = reserves.find((res) =>
-        reserveId ? res.id === reserveId : res.symbol === currencySymbol
+        reserveId
+          ? res.id === reserveId
+          : res.underlyingAsset.toLowerCase() === underlyingAsset.toLowerCase()
       );
       const userReserve = user
         ? user.reservesData.find((userReserve) =>
             reserveId
               ? userReserve.reserve.id === reserveId
-              : userReserve.reserve.symbol === currencySymbol
+              : userReserve.reserve.underlyingAsset.toLowerCase() === underlyingAsset.toLowerCase()
           )
         : undefined;
+
+      const currencySymbol = poolReserve?.symbol || '';
 
       const { walletData } = useWalletBalanceProviderContext({
         skip: !withWalletBalance || !poolReserve || (withUserReserve && !userReserve),
@@ -120,6 +124,7 @@ export default function routeParamValidationHOC({
         walletBalanceUSD,
         isWalletBalanceEnough,
         currencySymbol,
+        underlyingAsset,
         history,
         location,
       };

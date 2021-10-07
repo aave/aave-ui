@@ -45,7 +45,7 @@ export default function TableItem({
           tokenSymbol={symbol}
           height={35}
           width={35}
-          tokenFullName={asset.formattedName}
+          tokenFullName={asset.shortSymbol || asset.name}
           className="TableItem__tokenIcon"
         />
       </TableColumn>

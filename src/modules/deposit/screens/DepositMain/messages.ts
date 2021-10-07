@@ -5,8 +5,6 @@ export default defineMessages({
   optionTitleRight: 'Stable Coins',
   noDataTitle: 'There are no currencies matching the parameters',
 
-  bridge: 'Supported Bridge',
-
   availableToDeposit: 'Available to deposit',
   myDeposits: 'My deposits',
 });

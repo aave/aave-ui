@@ -16,6 +16,7 @@ import { BorrowTableItem } from './types';
 export default function BorrowMobileCard({
   id,
   symbol,
+  underlyingAsset,
   availableBorrows,
   availableBorrowsInUSD,
   stableBorrowRate,
@@ -30,7 +31,7 @@ export default function BorrowMobileCard({
   const intl = useIntl();
   const history = useHistory();
 
-  const url = `/borrow/${symbol}-${id}`;
+  const url = `/borrow/${underlyingAsset}-${id}`;
 
   return (
     <MobileCardWrapper
@@ -57,9 +58,11 @@ export default function BorrowMobileCard({
       {!isFreezed && (
         <Row title={intl.formatMessage(messages.variableAPY)} withMargin={true}>
           <LiquidityMiningCard
+            symbol={symbol}
             value={variableBorrowRate}
             thirtyDaysValue={avg30DaysVariableRate}
             liquidityMiningValue={vIncentivesAPY}
+            type="borrow-variable"
           />
         </Row>
       )}
@@ -67,7 +70,12 @@ export default function BorrowMobileCard({
       {!isFreezed && (
         <Row title={intl.formatMessage(messages.stableAPY)} withMargin={true}>
           {stableBorrowRateEnabled ? (
-            <LiquidityMiningCard value={stableBorrowRate} liquidityMiningValue={sIncentivesAPY} />
+            <LiquidityMiningCard
+              symbol={symbol}
+              value={stableBorrowRate}
+              liquidityMiningValue={sIncentivesAPY}
+              type="borrow-stable"
+            />
           ) : (
             <NoData color="dark" />
           )}

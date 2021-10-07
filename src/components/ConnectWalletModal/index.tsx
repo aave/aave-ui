@@ -73,13 +73,13 @@ export default function ConnectWalletModal({
       title: 'Portis',
       providerName: 'portis',
       icon: icons.portisIcon,
-      notSupported: !PORTIS_DAPP_ID,
+      notSupported: !PORTIS_DAPP_ID || preferredNetwork === Network.avalanche,
     },
     {
       title: 'Ledger',
       providerName: 'ledger',
       icon: icons.ledgerIcon,
-      notSupported: preferredNetwork === Network.polygon,
+      notSupported: preferredNetwork === Network.polygon || preferredNetwork === Network.avalanche,
     },
     {
       title: 'MEW wallet',
@@ -91,6 +91,7 @@ export default function ConnectWalletModal({
       title: 'Coinbase',
       providerName: 'wallet-link',
       icon: icons.coinbaseIcon,
+      notSupported: preferredNetwork === Network.avalanche,
     },
     {
       title: 'Authereum',
@@ -107,19 +108,23 @@ export default function ConnectWalletModal({
       title: 'Torus',
       providerName: 'torus',
       icon: icons.torusIcon,
+      notSupported: preferredNetwork === Network.avalanche,
     },
     {
       title: 'Fortmatic',
       providerName: 'fortmatic',
       icon: icons.formaticIcon,
       notSupported:
-        !getFortmaticKeyByNetwork(preferredNetwork) || preferredNetwork === Network.polygon,
+        !getFortmaticKeyByNetwork(preferredNetwork) ||
+        preferredNetwork === Network.polygon ||
+        preferredNetwork === Network.avalanche,
     },
     {
       title: 'imToken',
       providerName: 'wallet-connect',
       icon: icons.imToken,
-      notSupported: isImToken || preferredNetwork === Network.polygon,
+      notSupported:
+        isImToken || preferredNetwork === Network.polygon || preferredNetwork === Network.avalanche,
     },
   ];
 

@@ -18,7 +18,7 @@ const staticStyles = css.global`
       &:first-of-type {
         align-items: flex-start;
         justify-content: flex-start;
-        min-width: 200px;
+        min-width: 270px;
         @media only screen and (max-width: 850px) {
           min-width: 80px;
         }

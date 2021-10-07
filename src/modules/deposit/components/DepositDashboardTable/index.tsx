@@ -20,7 +20,7 @@ interface DepositDashboardTableProps {
 export default function DepositDashboardTable({ listData }: DepositDashboardTableProps) {
   const intl = useIntl();
   const { currentLangSlug } = useLanguageContext();
-  const { sm } = useThemeContext();
+  const { lg, sm } = useThemeContext();
 
   const head = [
     intl.formatMessage(messages.yourDeposits),
@@ -28,7 +28,7 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
     intl.formatMessage(messages.apyRowTitle),
     intl.formatMessage(messages.collateral),
   ];
-  const colWidth = [160, '100%', '100%', 180];
+  const colWidth = [lg ? 250 : 160, '100%', '100%', 180];
 
   const Header = useCallback(() => {
     return <TableHeader head={head} colWidth={colWidth} isDeposit={true} />;
