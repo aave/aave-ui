@@ -18,7 +18,7 @@ const cleanupAndPin = async () => {
     await pinata.testAuthentication();
     console.log('Auth successful');
 
-    console.log('Cleaning up the previous pins');
+    console.log(`Cleaning up the previous pins for ${PIN_ALIAS}`);
     try {
       const previousPins = await pinata.pinList({
         metadata: { name: PIN_ALIAS },
