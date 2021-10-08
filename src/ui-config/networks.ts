@@ -31,10 +31,10 @@ const mainnet_config: BaseNetworkConfig = {
   incentivePrecision: 18,
   explorerLink: 'https://etherscan.com',
   rpcOnly: !ENABLE_CACHING_BACKEND,
-  addresses: {
-    INCENTIVES_CONTROLLER: '0xd784927Ff2f95ba542BfC824c8a8a98F3495f6b5',
-    INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x4da27a545c0c5b758a6ba100e3a049001de870f5',
-  },
+  // addresses: {
+  //   INCENTIVES_CONTROLLER: '0xd784927Ff2f95ba542BfC824c8a8a98F3495f6b5',
+  //   INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x4da27a545c0c5b758a6ba100e3a049001de870f5',
+  // },
 } as const;
 
 const polygon_config: BaseNetworkConfig = {
@@ -54,10 +54,10 @@ const polygon_config: BaseNetworkConfig = {
   incentivePrecision: 18,
   explorerLink: 'https://polygonscan.com',
   rpcOnly: !ENABLE_CACHING_BACKEND,
-  addresses: {
-    INCENTIVES_CONTROLLER: '0x357d51124f59836ded84c8a1730d72b749d8bc23',
-    INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
-  },
+  // addresses: {
+  //   INCENTIVES_CONTROLLER: '0x357d51124f59836ded84c8a1730d72b749d8bc23',
+  //   INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
+  // },
   bridge: {
     brandColor: '130, 71, 229',
     name: 'Polygon PoS Bridge',
@@ -71,7 +71,7 @@ const avalanche_config: BaseNetworkConfig = {
   publicJsonRPCWSUrl: 'wss://api.avax.network/ext/bc/C/rpc',
   walletBalanceProvider: '0x73e4898a1Bfa9f710B6A6AB516403A6299e01fc6',
   uiPoolDataProvider: '0x7d9d970CaE574912221d25107A6728f0d17Cb901',
-  uiIncentiveDataProvider: '',
+  uiIncentiveDataProvider: '0x16Dea0fCBca21E848714B2e96f26ddF6BCe505C9',
   protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-avalanche',
   cachingServerUrl: 'https://cache-api-avalanche.aave.com/graphql',
   cachingWSServerUrl: 'wss://cache-api-avalanche.aave.com/graphql',
@@ -85,10 +85,10 @@ const avalanche_config: BaseNetworkConfig = {
   explorerLink: 'https://cchain.explorer.avax.network',
   rpcOnly: !ENABLE_CACHING_BACKEND,
   usdMarket: true,
-  addresses: {
-    INCENTIVES_CONTROLLER: '0x01d83fe6a10d2f2b7af17034343746188272cac9',
-    INCENTIVES_CONTROLLER_REWARD_TOKEN: '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7',
-  },
+  // addresses: {
+  //   INCENTIVES_CONTROLLER: '0x01d83fe6a10d2f2b7af17034343746188272cac9',
+  //   INCENTIVES_CONTROLLER_REWARD_TOKEN: '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7',
+  // },
   bridge: {
     brandColor: '232, 65, 66',
     name: 'Avalanche Bridge',
@@ -136,18 +136,18 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     incentivePrecision: 18,
     explorerLink: 'https://explorer-mumbai.maticvigil.com',
     rpcOnly: true,
-    addresses: {
-      INCENTIVES_CONTROLLER: '0xd41aE58e803Edf4304334acCE4DC4Ec34a63C644',
-      INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x9c3c9283d3e44854697cd22d3faa240cfb032889',
-    },
+    // addresses: {
+    //   INCENTIVES_CONTROLLER: '0xd41aE58e803Edf4304334acCE4DC4Ec34a63C644',
+    //   INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x9c3c9283d3e44854697cd22d3faa240cfb032889',
+    // },
   },
   [Network.fuji]: {
     publicJsonRPCUrl: 'https://api.avax-test.network/ext/bc/C/rpc',
     publicJsonRPCWSUrl: 'wss://api.avax-test.network/ext/bc/C/rpc',
     walletBalanceProvider: '0x3f5A507B33260a3869878B31FB90F04F451d28e3',
     uiPoolDataProvider: '0x41b6b18DfF735dbaEda5F5FB5393F57E420D5CB8',
-    uiIncentiveDataProvider: '',
-    protocolDataUrl: '', // TODO: fill when subgraph deployed
+    uiIncentiveDataProvider: '0x2c911e6FaD423C00205eda22BBAc3e7F82c38007',
+    protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-fuji',
     baseUniswapAdapter: '0x0',
     baseAsset: 'AVAX',
     // incentives hardcoded information
@@ -158,10 +158,10 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     explorerLink: 'https://cchain.explorer.avax-test.network',
     rpcOnly: true,
     usdMarket: true,
-    addresses: {
-      INCENTIVES_CONTROLLER: '0xd4eCF34187a52E755D44fca4d37aBe0b50724De2',
-      INCENTIVES_CONTROLLER_REWARD_TOKEN: '0xd00ae08403b9bbb9124bb305c09058e32c39a48c',
-    },
+    // addresses: {
+    //   INCENTIVES_CONTROLLER: '0xd4eCF34187a52E755D44fca4d37aBe0b50724De2',
+    //   INCENTIVES_CONTROLLER_REWARD_TOKEN: '0xd00ae08403b9bbb9124bb305c09058e32c39a48c',
+    // },
     bridge: {
       brandColor: '232, 65, 66',
       name: 'Avalanche Bridge',
