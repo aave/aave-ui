@@ -1,5 +1,6 @@
-import { ParaSwap, APIError, OptimalRatesWithPartnerFees, Transaction } from 'paraswap';
+import { ParaSwap, APIError, Transaction } from 'paraswap';
 import { ContractMethod, SwapSide } from 'paraswap/build/constants';
+import { OptimalRate } from 'paraswap-core';
 import { useCallback, useEffect, useState } from 'react';
 import {
   ComputedReserveData,
@@ -8,6 +9,7 @@ import {
   API_ETH_MOCK_ADDRESS,
   ChainId,
   Network,
+  BigNumberZD,
 } from '@aave/protocol-js';
 
 import { useDynamicPoolDataContext, useStaticPoolDataContext } from '../pool-data-provider';
@@ -15,12 +17,15 @@ import { mapChainIdToName } from '../web3-data-provider';
 
 const mainnetParaswap = new ParaSwap(ChainId.mainnet);
 const polygonParaswap = new ParaSwap(ChainId.polygon);
+const avalancheParaswap = new ParaSwap(ChainId.avalanche);
 
 const getParaswap = (chainId: ChainId) => {
   if ([Network.fork, Network.mainnet].includes(mapChainIdToName(chainId) as Network))
     return mainnetParaswap;
   if ([Network.polygon, Network.polygon_fork].includes(mapChainIdToName(chainId) as Network))
     return polygonParaswap;
+  if ([Network.avalanche, Network.avalanche_fork].includes(mapChainIdToName(chainId) as Network))
+    return avalancheParaswap;
   throw new Error('chain not supported');
 };
 
@@ -54,9 +59,7 @@ export const useSwap = ({ swapIn, swapOut, variant, userId, max, chainId }: UseS
   const paraSwap = getParaswap(chainId);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [priceRoute, setPriceRoute] = useState<
-    (OptimalRatesWithPartnerFees & { priceWithSlippage: string }) | null
-  >(null);
+  const [priceRoute, setPriceRoute] = useState<OptimalRate | null>(null);
   const { WrappedBaseNetworkAssetAddress } = useStaticPoolDataContext();
   const { reserves } = useDynamicPoolDataContext();
 
@@ -80,13 +83,12 @@ export const useSwap = ({ swapIn, swapOut, variant, userId, max, chainId }: UseS
         reserveIn.address,
         reserveOut.address,
         amount.toFixed(0),
+        userId,
         variant === 'exactIn' ? SwapSide.SELL : SwapSide.BUY,
         {
-          referrer: 'aave',
+          partner: 'aave',
           ...(max
             ? {
-                excludeDEXS: 'Balancer,ParaSwapPool4',
-                excludeMPDEXS: 'Balancer',
                 excludeContractMethods: [ContractMethod.simpleSwap],
               }
             : {}),
@@ -96,7 +98,7 @@ export const useSwap = ({ swapIn, swapOut, variant, userId, max, chainId }: UseS
       );
       if ((response as APIError).message) throw new Error((response as APIError).message);
       setError('');
-      setPriceRoute(response as OptimalRatesWithPartnerFees & { priceWithSlippage: string });
+      setPriceRoute(response as OptimalRate);
     } catch (e) {
       console.log(e);
       const message = (MESSAGE_MAP as { [key: string]: string })[e.message];
@@ -123,9 +125,9 @@ export const useSwap = ({ swapIn, swapOut, variant, userId, max, chainId }: UseS
       // full object needed for building the tx
       priceRoute: priceRoute,
       outputAmount: normalize(priceRoute.destAmount ?? '0', reserveOut.decimals),
-      outputAmountUSD: priceRoute.toUSD ?? '0',
+      outputAmountUSD: priceRoute.destUSD ?? '0',
       inputAmount: normalize(priceRoute.srcAmount ?? '0', reserveIn.decimals),
-      inputAmountUSD: priceRoute.fromUSD ?? '0',
+      inputAmountUSD: priceRoute.srcUSD ?? '0',
       loading: loading,
       error: error,
       reserveIn,
@@ -151,8 +153,9 @@ type GetSwapCallDataProps = {
   srcDecimals: number;
   destToken: string;
   destDecimals: number;
+  maxSlippage: number;
   user: string;
-  route: OptimalRatesWithPartnerFees & { priceWithSlippage: string };
+  route: OptimalRate;
   max?: boolean;
   chainId: ChainId;
 };
@@ -162,19 +165,26 @@ export const getSwapCallData = async ({
   srcDecimals,
   destToken,
   destDecimals,
+  maxSlippage,
   user,
   route,
   chainId,
 }: GetSwapCallDataProps) => {
   const paraSwap = getParaswap(chainId);
+  const destAmountWithSlippage = new BigNumberZD(route.destAmount)
+    .multipliedBy(100 - maxSlippage)
+    .dividedBy(100)
+    .toString();
   const params = await paraSwap.buildTx(
     srcToken,
     destToken,
     route.srcAmount,
-    route.priceWithSlippage,
+    destAmountWithSlippage,
     route,
     user,
     'aave',
+    undefined,
+    undefined,
     undefined,
     { ignoreChecks: true },
     srcDecimals,

@@ -140,6 +140,7 @@ export default function AssetSwapConfirmation() {
       destDecimals: reserveOut.decimals,
       user: user?.id,
       route: priceRoute,
+      maxSlippage: maxSlippage.toNumber(),
       chainId,
     });
     return lendingPool.swapCollateral({
