@@ -59,9 +59,13 @@ function calculateRewardTokenPrice(
   priceFeed: string,
   priceFeedDecimals: number
 ): string {
-  // For stkAave incentives, use Aave price oracle
+  // For stkAave incentives, use Aave reserve data
   if (address === '0x4da27a545c0c5b758a6ba100e3a049001de870f5') {
     address = '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9';
+  }
+  // For WMATIC incentives, use MATIC reserve data
+  if (address === '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270') {
+    address = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
   }
   const rewardReserve = reserves.find((reserve) => reserve.underlyingAsset === address);
   if (rewardReserve) {
@@ -125,7 +129,11 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
         // Account for ETH underlyingReserveAddress not matching incentives
         let reserveUnderlyingAddress = userReserve.reserve.underlyingAsset.toLowerCase();
         if (reserveUnderlyingAddress === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
-          reserveUnderlyingAddress = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
+          if (userReserve.reserve.symbol === 'MATIC') {
+            reserveUnderlyingAddress = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
+          } else if (userReserve.reserve.symbol === 'ETH') {
+            reserveUnderlyingAddress = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
+          }
         }
         // Find the underlying reserve data for each userReserve
         const reserve = reserves.find(
@@ -168,7 +176,11 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
       reserves.forEach((reserve) => {
         let reserveUnderlyingAddress = reserve.underlyingAsset.toLowerCase();
         if (reserveUnderlyingAddress === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
-          reserveUnderlyingAddress = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
+          if (reserve.symbol === 'MATIC') {
+            reserveUnderlyingAddress = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
+          } else if (reserve.symbol === 'ETH') {
+            reserveUnderlyingAddress = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
+          }
         }
         // Find the corresponding incentive data for each reserve
         const incentiveData = reserveIncentiveData.find(

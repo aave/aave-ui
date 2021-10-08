@@ -5,7 +5,6 @@ import { Network } from '@aave/protocol-js';
 import { getProvider } from '../../../helpers/markets/markets-data';
 import {
   UiIncentiveDataProvider,
-  ReserveIncentiveWithFeedsResponse,
   IncentivesWithFeeds,
   UserReserveIncentiveDataHumanizedResponse,
   IncentiveUserDataHumanized,
@@ -150,12 +149,12 @@ export function useIncentivesData(
     });
 
     try {
-      let rawReserveIncentiveData: ReserveIncentiveWithFeedsResponse[];
-      rawReserveIncentiveData = await incentiveDataProviderContract.getIncentivesDataWithPrice({
-        lendingPoolAddressProvider,
-        quote: networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
-        chainlinkFeedsRegistry: networkConfig.chainlinkFeedRegistry,
-      });
+      const rawReserveIncentiveData =
+        await incentiveDataProviderContract.getIncentivesDataWithPrice({
+          lendingPoolAddressProvider,
+          quote: networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
+          chainlinkFeedsRegistry: networkConfig.chainlinkFeedRegistry,
+        });
       const formattedReserveIncentiveData: ReserveIncentiveData[] = rawReserveIncentiveData.map(
         (reserveIncentive) => {
           const formattedReserveIncentive: ReserveIncentiveData = {
