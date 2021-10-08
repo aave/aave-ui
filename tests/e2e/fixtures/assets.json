@@ -1,0 +1,110 @@
+{
+  "avalancheMarket": {
+    "AVAX": {
+      "fullName": "Avalanche",
+      "shortName": "AVAX"
+    },
+    "DAI": {
+      "fullName": "DAI (DAI.e)",
+      "shortName": "DAI.e"
+    },
+    "USDC": {
+      "fullName": "USD Coin (USDC.e)",
+      "shortName": "USDC.e"
+    },
+    "USDT": {
+      "fullName": "USDT Coin (USDT.e)",
+      "shortName": "USDT.e"
+    },
+    "WBTC": {
+      "fullName": "WBTC Coin (WBTC.e)",
+      "shortName": "WBTC.e"
+    },
+    "WETH": {
+      "fullName": "Wrapped ETH (WETH.e)",
+      "shortName": "WETH.e"
+    }
+  },
+  "polygonMarket": {
+    "MATIC": {
+      "fullName": "Matic",
+      "shortName": "MATIC"
+    },
+    "DAI": {
+      "fullName": "DAI",
+      "shortName": "DAI"
+    },
+    "USDC": {
+      "fullName": "USD Coin",
+      "shortName": "USDC"
+    },
+    "USDT": {
+      "fullName": "USDT Coin",
+      "shortName": "USDT"
+    },
+    "WBTC": {
+      "fullName": "WBTC Coin",
+      "shortName": "WBTC"
+    },
+    "WETH": {
+      "fullName": "Wrapped ETH",
+      "shortName": "WETH"
+    }
+  },
+  "ammMarket": {
+    "DAI": {
+      "fullName": "DAI",
+      "shortName": "DAI"
+    },
+    "ETH": {
+      "fullName": "Ethereum",
+      "shortName": "ETH"
+    },
+    "USDT": {
+      "fullName": "USDT Coin",
+      "shortName": "USDT"
+    },
+    "USDC": {
+      "fullName": "USD Coin",
+      "shortName": "USDC"
+    }
+  },
+  "aaveMarket": {
+    "DAI": {
+      "fullName": "DAI",
+      "shortName": "DAI"
+    },
+    "ETH": {
+      "fullName": "Ethereum",
+      "shortName": "ETH"
+    },
+    "USDT": {
+      "fullName": "USDT Coin",
+      "shortName": "USDT"
+    },
+    "USDC": {
+      "fullName": "USD Coin",
+      "shortName": "USDC"
+    },
+    "BAT": {
+      "fullName": "Basic Attention Token",
+      "shortName": "BAT"
+    },
+    "MANA": {
+      "fullName": "Decentraland",
+      "shortName": "MANA"
+    },
+    "MKR": {
+      "fullName": "Maker",
+      "shortName": "MKR"
+    },
+    "REN": {
+      "fullName": "REN",
+      "shortName": "REN"
+    },
+    "TUSD": {
+      "fullName": "TrueUSD",
+      "shortName": "TUSD"
+    }
+  }
+}
