@@ -63,8 +63,11 @@ function calculateRewardTokenPrice(
   if (address === '0x4da27a545c0c5b758a6ba100e3a049001de870f5') {
     address = '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9';
   }
-  // For WMATIC incentives, use MATIC reserve data
-  if (address === '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270') {
+  // For WMATIC/WAVAX incentives, use MATIC/AVAX reserve data
+  if (
+    address === '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270' ||
+    address === '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7'
+  ) {
     address = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
   }
   const rewardReserve = reserves.find((reserve) => reserve.underlyingAsset === address);
@@ -126,13 +129,15 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     if (user && userIncentiveData && reserveIncentiveData && reserves) {
       const userReserves: UserReserveData[] = [];
       user.reservesData.forEach((userReserve) => {
-        // Account for ETH underlyingReserveAddress not matching incentives
+        // Account for underlyingReserveAddress of network base assets not matching wrapped incentives
         let reserveUnderlyingAddress = userReserve.reserve.underlyingAsset.toLowerCase();
         if (reserveUnderlyingAddress === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
           if (userReserve.reserve.symbol === 'MATIC') {
             reserveUnderlyingAddress = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
           } else if (userReserve.reserve.symbol === 'ETH') {
             reserveUnderlyingAddress = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
+          } else if (userReserve.reserve.symbol === 'AVAX') {
+            reserveUnderlyingAddress = '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7';
           }
         }
         // Find the underlying reserve data for each userReserve
@@ -174,12 +179,17 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     if (reserves && reserveIncentiveData) {
       const allReserveIncentives: CalculateReserveIncentivesResponse[] = [];
       reserves.forEach((reserve) => {
+        // Account for underlyingReserveAddress of network base assets not matching wrapped incentives
         let reserveUnderlyingAddress = reserve.underlyingAsset.toLowerCase();
+        let isBaseAsset = false;
         if (reserveUnderlyingAddress === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
+          isBaseAsset = true;
           if (reserve.symbol === 'MATIC') {
             reserveUnderlyingAddress = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
           } else if (reserve.symbol === 'ETH') {
             reserveUnderlyingAddress = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
+          } else if (reserve.symbol === 'AVAX') {
+            reserveUnderlyingAddress = '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7';
           }
         }
         // Find the corresponding incentive data for each reserve
@@ -223,6 +233,9 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
                 incentiveData.sIncentiveData.priceFeedDecimals
               ),
             });
+          calculatedReserveIncentives.underlyingAsset = isBaseAsset
+            ? '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+            : calculatedReserveIncentives.underlyingAsset; // ETH, MATIC, and AVAX all use reserve address of '0xee...'
           allReserveIncentives.push(calculatedReserveIncentives);
         }
       });

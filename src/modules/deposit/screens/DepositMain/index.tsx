@@ -76,16 +76,9 @@ export default function DepositsMain() {
           .multipliedBy(reserve.price.priceInEth)
           .dividedBy(marketRefPriceInUsd)
           .toString();
-        let reserveUnderlyingAddress = reserve.underlyingAsset.toLowerCase();
-        if (reserveUnderlyingAddress === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
-          if (reserve.symbol === 'MATIC') {
-            reserveUnderlyingAddress = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
-          } else if (reserve.symbol === 'ETH') {
-            reserveUnderlyingAddress = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
-          }
-        }
         const reserveIncentiveData = reserveIncentives.find(
-          (incentive) => incentive.underlyingAsset.toLowerCase() === reserveUnderlyingAddress
+          (incentive) =>
+            incentive.underlyingAsset.toLowerCase() === reserve.underlyingAsset.toLowerCase()
         );
         return {
           ...reserve,
