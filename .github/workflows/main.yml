@@ -42,11 +42,15 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: deploy_ipfs
-    using: 'docker'
-    image: 'tests/Dockerfile'
+    container: "wolphin/e2e-image"
     env:
       DOMAIN: "${{ needs.deploy_ipfs.outputs.url }}"
       BUILD: "${{ env.GITHUB_JOB }}"
     steps:
+      - uses: actions/checkout@v2
+
+      - name: install
+        run: cd tests && npm ci
+      
       - name: Main
-        run: cd /app/ && npm run lambdaTest
+        run: npm run lambdaTest
