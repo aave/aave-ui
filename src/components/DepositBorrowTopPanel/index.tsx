@@ -61,7 +61,7 @@ export default function DepositBorrowTopPanel() {
     if (userReserve.underlyingBalance !== '0' || userReserve.totalBorrows !== '0') {
       if (userReserve.underlyingBalance !== '0') {
         depositCompositionData.push({
-          title: `${getAssetInfo(userReserve.reserve.symbol).formattedName}  ${intl.formatNumber(
+          label: `${getAssetInfo(userReserve.reserve.symbol).formattedName}  ${intl.formatNumber(
             valueToBigNumber(userReserve.underlyingBalanceETH)
               .dividedBy(user?.totalLiquidityETH)
               .multipliedBy(100)
@@ -74,7 +74,7 @@ export default function DepositBorrowTopPanel() {
       }
       if (userReserve.totalBorrows !== '0') {
         borrowCompositionData.push({
-          title: `${getAssetInfo(userReserve.reserve.symbol).formattedName}  ${intl.formatNumber(
+          label: `${getAssetInfo(userReserve.reserve.symbol).formattedName}  ${intl.formatNumber(
             valueToBigNumber(userReserve.totalBorrowsETH)
               .dividedBy(maxBorrowAmount)
               .multipliedBy(100)
