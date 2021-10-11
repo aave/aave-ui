@@ -1,20 +1,24 @@
 import { useIntl } from 'react-intl';
+import { useLocation } from 'react-router-dom';
 import { normalize } from '@aave/protocol-js';
+
+import { getRewardTokenSymbol } from '../../../../components/wrappers/IncentiveWrapper';
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
+import {
+  useIncentivesDataContext,
+  UserIncentiveData,
+} from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
+
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import Row from '../../../../components/basic/Row';
 import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationView';
 import Value from '../../../../components/basic/Value';
-import {
-  useIncentivesDataContext,
-  UserIncentiveData,
-} from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import Link from '../../../../components/basic/Link';
+
 import messages from './messages';
-import { useLocation } from 'react-router-dom';
-import { getRewardTokenSymbol } from '../../../../components/TopIncentiveBalance';
 
 export function RewardConfirm() {
   const intl = useIntl();
@@ -71,6 +75,35 @@ export function RewardConfirm() {
           blockingError={blockingError}
           goToAfterSuccess="/dashboard"
           aTokenData={aTokenData}
+          dangerousMessage={
+            rewardTokenSymbol === 'TRIBE' ? (
+              <div>
+                <p>
+                  {intl.formatMessage(messages.tribeWarningFirst, {
+                    proposal: (
+                      <Link
+                        to="https://www.withtally.com/governance/fei/proposal/20"
+                        inNewWindow={true}
+                        absolute={true}
+                        color="secondary"
+                        title={intl.formatMessage(messages.proposal)}
+                      />
+                    ),
+                    link: (
+                      <Link
+                        to="https://app.fei.money/farm"
+                        inNewWindow={true}
+                        absolute={true}
+                        color="secondary"
+                        title={intl.formatMessage(messages.feiMessage)}
+                      />
+                    ),
+                  })}
+                </p>
+                <p style={{ marginTop: 15 }}>{intl.formatMessage(messages.tribeWarningSecond)}</p>
+              </div>
+            ) : undefined
+          }
         >
           <Row title={intl.formatMessage(messages.claim)}>
             <Value

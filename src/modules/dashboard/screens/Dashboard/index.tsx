@@ -5,6 +5,7 @@ import { valueToBigNumber, InterestRate, Network } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import classNames from 'classnames';
 
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import { loanActionLinkComposer } from '../../../../helpers/loan-action-link-composer';
@@ -28,7 +29,7 @@ import MainDashboardTable from '../../components/MainDashboardTable';
 import MobileTopPanelWrapper from '../../components/MobileTopPanelWrapper';
 import DepositBorrowTopPanel from '../../../../components/DepositBorrowTopPanel';
 import ApproximateBalanceHelpModal from '../../../../components/HelpModal/ApproximateBalanceHelpModal';
-import TopIncentiveBalance from '../../../../components/TopIncentiveBalance';
+import IncentiveWrapper from '../../../../components/wrappers/IncentiveWrapper';
 import DashboardNoData from '../../components/DashboardNoData';
 
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
@@ -38,7 +39,6 @@ import { getAssetColor } from '../../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';
-import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 
 export default function Dashboard() {
   const intl = useIntl();
@@ -215,7 +215,7 @@ export default function Dashboard() {
         <div className="ButtonLink">
           <DashboardLeftTopLine intl={intl} network={network} />
         </div>
-        <TopIncentiveBalance />
+        <IncentiveWrapper />
       </div>
 
       <DepositBorrowTopPanel />
@@ -370,7 +370,7 @@ export default function Dashboard() {
         </MobileTopPanelWrapper>
       )}
 
-      {sm && <TopIncentiveBalance />}
+      {sm && <IncentiveWrapper />}
 
       {user ? (
         <>
