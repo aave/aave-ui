@@ -34,8 +34,9 @@ interface UserIncentiveDict {
   [incentiveControllerAddress: string]: UserIncentiveData;
 }
 
-interface UserIncentiveData {
+export interface UserIncentiveData {
   rewardTokenAddress: string;
+  rewardTokenDecimals: number;
   claimableRewards: BigNumber;
   assets: string[];
 }
@@ -53,6 +54,7 @@ function formatBNInput(input: string, decimals: number): string {
   return inputBN.toString();
 }
 
+// Calculate incentive token price from reserves data or priceFeed from UiIncentiveDataProvider
 function calculateRewardTokenPrice(
   reserves: ComputedReserveData[],
   address: string,
@@ -252,12 +254,26 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   }
 
   // Compute the total claimable rewards for a user, returned as dictionary indexed by incentivesController
-  const userIncentives = calculateTotalUserIncentives({
+  let userIncentives = calculateTotalUserIncentives({
     reserveIncentives: reserveIncentiveData,
     userReserveIncentives: userIncentiveData,
     userReserves,
     currentTimestamp,
   });
+  userIncentives = Object.fromEntries(
+    Object.entries(userIncentives).filter(
+      (incentive) =>
+        incentive[1].rewardTokenAddress !== '0x0000000000000000000000000000000000000000'
+    )
+  );
+
+  // TO-DO: Remove this, just a test to display multiple claimable rewards
+  userIncentives['0x0000000000000000000000000000000000000001'] = {
+    rewardTokenAddress: '0xc7283b66eb1eb5fb86327f08e1b5816b0720212b',
+    rewardTokenDecimals: 18,
+    claimableRewards: new BigNumber('1100000000000000000'),
+    assets: [],
+  };
 
   return (
     <IncentivesDataContext.Provider
