@@ -45,6 +45,11 @@ jobs:
     container: "wolphin/e2e-image"
     env:
       DOMAIN: "${{ needs.deploy_ipfs.outputs.url }}"
+      LAMBDATEST_ACCOUNT: ${{ secrets.LAMBDATEST_ACCOUNT }}
+      LAMBDATEST_KEY: ${{ secrets.LAMBDATEST_KEY }}
+      TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
+      TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
+      TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
     steps:
       - uses: actions/checkout@v2
 
