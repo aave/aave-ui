@@ -45,7 +45,6 @@ jobs:
     container: "wolphin/e2e-image"
     env:
       DOMAIN: "${{ needs.deploy_ipfs.outputs.url }}"
-      BUILD: "${{ env.GITHUB_JOB }}"
     steps:
       - uses: actions/checkout@v2
 
@@ -53,4 +52,4 @@ jobs:
         run: cd tests && npm ci
       
       - name: Main
-        run: npm run lambdaTest
+        run: BUILD=$GITHUB_JOB npm run lambdaTest
