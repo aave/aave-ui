@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { Group } from '@visx/group';
 import { Arc, Pie } from '@visx/shape';
