@@ -1,71 +1,56 @@
 import { useIntl } from 'react-intl';
-import { ComputedReserveData, normalize, valueToBigNumber } from '@aave/protocol-js';
-
-import {
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../../../../libs/pool-data-provider';
+import { normalize } from '@aave/protocol-js';
+import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import Row from '../../../../components/basic/Row';
 import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationView';
 import Value from '../../../../components/basic/Value';
-import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
-
+import {
+  useIncentivesDataContext,
+  UserIncentiveData,
+} from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import messages from './messages';
+import { useLocation } from 'react-router-dom';
+import { getRewardTokenSymbol } from '../../../../components/TopIncentiveBalance';
 
 export function RewardConfirm() {
   const intl = useIntl();
+  const location = useLocation();
+
+  // TO-DO: need to refactor to allow custom incentiveController
   const { incentiveService } = useTxBuilderContext();
-  const { userUnclaimedRewards } = useStaticPoolDataContext();
+
   const { user, reserves } = useDynamicPoolDataContext();
   const { userIncentives } = useIncentivesDataContext();
-  const { networkConfig } = useProtocolDataContext();
+  const incentiveControllerAddress = location.pathname.split('/')[3];
+  const incentiveData: UserIncentiveData = userIncentives[incentiveControllerAddress];
+  const rewardTokenSymbol = getRewardTokenSymbol(reserves, incentiveData.rewardTokenAddress);
 
   const aTokenData = getAtokenInfo({
-    address: incentiveService.incentivesControllerRewardTokenAddress,
-    symbol: networkConfig.rewardTokenSymbol, // TODO: maybe need change in the future
-    decimals: 18,
+    address: incentiveData.rewardTokenAddress,
+    symbol: rewardTokenSymbol,
+    decimals: incentiveData.rewardTokenDecimals,
     withFormattedSymbol: true,
   });
 
-  if (!user) return null;
-
-  const amount = valueToBigNumber(user.totalRewards).plus(userUnclaimedRewards);
-  if ((amount.lt(0) && !amount.eq(-1)) || !user) {
+  if ((incentiveData.claimableRewards.lt(0) && !incentiveData.claimableRewards.eq(-1)) || !user) {
     return null;
   }
 
-  for (var key in userIncentives) {
-    console.log('NEW');
-    console.log(key);
-    console.log(normalize(userIncentives[key].claimableRewards, 18));
-  }
-
-  console.log('OLD');
-  console.log(amount.toString());
-
   let blockingError = '';
-  if (amount.eq('0')) {
+  if (incentiveData.claimableRewards.eq('0')) {
     blockingError = intl.formatMessage(messages.notEnoughBalance);
   }
 
-  const formattedAmount = amount.toString();
+  const formattedAmount = normalize(
+    incentiveData.claimableRewards,
+    incentiveData.rewardTokenDecimals
+  );
 
-  const assets = user.reservesData.reduce((acc, userReserve) => {
-    const reserve = reserves.find(
-      (reserve) =>
-        reserve.underlyingAsset.toLowerCase() === userReserve.reserve.underlyingAsset.toLowerCase()
-    ) as ComputedReserveData;
-    if (userReserve.aTokenRewards !== '0') acc.push(reserve.aTokenAddress);
-    if (userReserve.vTokenRewards !== '0') acc.push(reserve.variableDebtTokenAddress);
-    if (userReserve.sTokenRewards !== '0') acc.push(reserve.stableDebtTokenAddress);
-    return acc;
-  }, [] as string[]);
-
+  const assets = incentiveData.assets;
   const handleGetTransactions = async () =>
     incentiveService.claimRewards({ user: user.id, assets, to: user.id });
 
@@ -89,10 +74,10 @@ export function RewardConfirm() {
         >
           <Row title={intl.formatMessage(messages.claim)}>
             <Value
-              symbol={networkConfig.rewardTokenSymbol}
+              symbol={rewardTokenSymbol}
               value={formattedAmount}
               tokenIcon={true}
-              tooltipId={networkConfig.rewardTokenSymbol}
+              tooltipId={rewardTokenSymbol}
             />
           </Row>
         </PoolTxConfirmationView>

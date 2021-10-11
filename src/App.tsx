@@ -87,7 +87,7 @@ function ModulesWithMenu() {
         {!!stakeConfig && [<Route path="/staking" component={Staking} key="Staking" />]}
 
         <Route path="/asset-swap" component={AssetSwap} key="AssetSwap" />
-        <Route path="/rewards/confirm" component={RewardConfirm} key="Reward confirm" />
+        <Route path="/rewards/confirm/:controller" component={RewardConfirm} key="Reward confirm" />
 
         {userId && [<Route exact={true} path="/history" component={History} key="History" />]}
 
