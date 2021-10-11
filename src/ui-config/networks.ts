@@ -116,8 +116,8 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     ...polygon_config,
   },
   [Network.mumbai]: {
-    publicJsonRPCUrl: 'https://rpc-mumbai.matic.today',
-    publicJsonRPCWSUrl: 'wss://rpc-mumbai.matic.today',
+    publicJsonRPCUrl: 'https://rpc-mumbai.maticvigil.com',
+    publicJsonRPCWSUrl: 'wss://rpc-mumbai.maticvigil.com',
     walletBalanceProvider: '0xEe7c0172c200e12AFEa3C34837052ec52F3f367A',
     uiPoolDataProvider: '0x589390E0AaEB95be573A87Ca828989d8e3e77C04',
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/aave-v2-polygon-mumbai',
