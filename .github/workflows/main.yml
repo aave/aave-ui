@@ -7,6 +7,8 @@ jobs:
   deploy_ipfs:
     runs-on: ubuntu-latest
     container: node:14
+    outputs:
+      url: ${{ steps.deploy.outputs.url }}
     env:
       REACT_APP_SUPPORTED_ETHEREUM_NETWORKS: 'kovan,mumbai,fuji,mainnet,polygon,avalanche'
       REACT_APP_DEFAULT_ETHEREUM_NETWORK: 'mainnet'
@@ -36,3 +38,15 @@ jobs:
               repo: context.repo.repo,
               body: 'Preview link: ${{steps.deploy.outputs.uri}}'
             })
+
+  test:
+    runs-on: ubuntu-latest
+    needs: deploy_ipfs
+    using: 'docker'
+    image: 'tests/Dockerfile'
+    env:
+      DOMAIN: "${{ needs.deploy_ipfs.outputs.url }}"
+      BUILD: "${{ env.GITHUB_JOB }}"
+    steps:
+      - name: Main
+        run: cd /app/ && npm run lambdaTest
