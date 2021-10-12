@@ -13,11 +13,7 @@ import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import { moreNavigation } from '../navigation';
 import { socialIcons } from '../../../ui-config';
 
-interface MoreButtonProps {
-  isTestnet?: boolean | number;
-}
-
-export default function MoreButton({ isTestnet }: MoreButtonProps) {
+export default function MoreButton() {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { currentAccount } = useUserWalletDataContext();

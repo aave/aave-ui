@@ -42,7 +42,7 @@ function DepositAmount({
   walletBalance,
 }: DepositAmountProps) {
   const intl = useIntl();
-  const { isTestnet, networkConfig, currentMarketData } = useProtocolDataContext();
+  const { networkConfig, currentMarketData } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
   const { payments, isPaymentNashNotOnMainMarket } = usePayments();
   const { sm } = useThemeContext();
@@ -122,11 +122,13 @@ function DepositAmount({
                   currencySymbol: asset.formattedName,
                 })
           }
-          linkTo={!user ? undefined : isTestnet ? `/faucet/${currencySymbol}` : undefined}
+          linkTo={
+            !user ? undefined : networkConfig.isTestnet ? `/faucet/${currencySymbol}` : undefined
+          }
           buttonTitle={
             !user
               ? undefined
-              : isTestnet
+              : networkConfig.isTestnet
               ? intl.formatMessage(messages.noDataButtonTitle)
               : undefined
           }
