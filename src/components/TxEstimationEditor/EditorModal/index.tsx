@@ -237,8 +237,8 @@ export default function EditorModal({
             {intl.formatMessage(messages.readMore, {
               link: (
                 <Link
-                  to="http://gasnow.org/"
-                  title="gasnow.org"
+                  to="https://apiv5.paraswap.io/prices/gas/1?eip1559=true"
+                  title="apiv5.paraswap.io"
                   color="secondary"
                   absolute={true}
                   inNewWindow={true}
