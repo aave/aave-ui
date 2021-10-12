@@ -17,7 +17,6 @@ export interface ProtocolContextData {
   currentMarket: CustomMarket;
   setCurrentMarket: (market: CustomMarket) => void;
   currentMarketData: MarketDataType;
-  isTestnet: boolean;
   // currently selected one
   chainId: number;
   network: Network;
@@ -34,7 +33,6 @@ export function ProtocolDataProvider({ children }: PropsWithChildren<{}>) {
 
   const currentMarketData = marketsData[currentMarket];
   const network = currentMarketData.network;
-  const isTestnet = ![Network.mainnet, Network.polygon, Network.avalanche].includes(network);
 
   const handleSetMarket = (market: CustomMarket) => {
     localStorage.setItem(LS_KEY, market);
@@ -44,7 +42,6 @@ export function ProtocolDataProvider({ children }: PropsWithChildren<{}>) {
   return (
     <PoolDataContext.Provider
       value={{
-        isTestnet,
         network,
         currentMarket,
         chainId: mapNameToChainID(marketsData[currentMarket].network),

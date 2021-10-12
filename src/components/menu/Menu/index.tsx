@@ -31,7 +31,7 @@ export default function Menu({ title }: MenuProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { currentAccount } = useUserWalletDataContext();
-  const { isTestnet, currentMarketData } = useProtocolDataContext();
+  const { currentMarketData } = useProtocolDataContext();
 
   const isActive = (url: string) => {
     return `/${url.split('/')[1]}` === `/${location.pathname.split('/')[1]}`;
@@ -77,17 +77,13 @@ export default function Menu({ title }: MenuProps) {
               </li>
             ))}
             <li className="Menu__link-inner">
-              <MoreButton isTestnet={isTestnet} />
+              <MoreButton />
             </li>
           </ul>
         </nav>
 
         <div className="Menu__burger-inner">
-          <MobileContent
-            isTestnet={isTestnet}
-            isActive={isActive}
-            currentAccount={currentAccount}
-          />
+          <MobileContent isActive={isActive} currentAccount={currentAccount} />
         </div>
 
         <div className="Menu__buttons-inner">

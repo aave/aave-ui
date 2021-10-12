@@ -108,6 +108,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     incentivePrecision: 18,
     explorerLink: 'https://kovan.etherscan.com',
     rpcOnly: true,
+    isTestnet: true,
   },
   [Network.mainnet]: {
     ...mainnet_config,
@@ -129,6 +130,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     incentivePrecision: 18,
     explorerLink: 'https://explorer-mumbai.maticvigil.com',
     rpcOnly: true,
+    isTestnet: true,
     addresses: {
       INCENTIVES_CONTROLLER: '0xd41aE58e803Edf4304334acCE4DC4Ec34a63C644',
       INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x9c3c9283d3e44854697cd22d3faa240cfb032889',
@@ -150,6 +152,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     explorerLink: 'https://cchain.explorer.avax-test.network',
     rpcOnly: true,
     usdMarket: true,
+    isTestnet: true,
     addresses: {
       INCENTIVES_CONTROLLER: '0xd4eCF34187a52E755D44fca4d37aBe0b50724De2',
       INCENTIVES_CONTROLLER_REWARD_TOKEN: '0xd00ae08403b9bbb9124bb305c09058e32c39a48c',
