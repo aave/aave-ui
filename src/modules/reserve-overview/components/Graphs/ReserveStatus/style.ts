@@ -14,39 +14,6 @@ const staticStyles = css.global`
     @include respond-to(sm) {
       order: 0;
     }
-    &:after {
-      content: '';
-      position: absolute;
-      width: 195px;
-      height: 195px;
-      left: 50%;
-      top: 49%;
-      transform: translate(-50%, -50%);
-      border-width: 20px;
-      border-style: solid;
-      border-radius: 50%;
-      @include respond-to(xl) {
-        width: 152px;
-        height: 152px;
-        border-width: 15px;
-      }
-      @include respond-to(lg) {
-        width: 120px;
-        height: 120px;
-        border-width: 14px;
-      }
-      @include respond-to(md) {
-        width: 152px;
-        height: 152px;
-        border-width: 15px;
-      }
-      @include respond-to(sm) {
-        width: 195px;
-        height: 195px;
-        border-width: 20px;
-        top: 47%;
-      }
-    }
 
     &__inner {
       position: relative;

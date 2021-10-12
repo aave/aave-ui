@@ -53,24 +53,6 @@ const staticStyles = css.global`
         }
       }
     }
-
-    .apexcharts-canvas {
-      top: 5px;
-      @include respond-to(lg) {
-        top: 4px;
-      }
-      @include respond-to(md) {
-        top: 5px;
-      }
-    }
-
-    .apexcharts-tooltip-y-group {
-      span {
-        &:last-of-type {
-          display: none;
-        }
-      }
-    }
   }
 `;
 
