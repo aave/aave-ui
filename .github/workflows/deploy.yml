@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - feat/real-ipfs
+      - master
 
 jobs:
   deploy_ipfs:
@@ -14,6 +14,7 @@ jobs:
       REACT_APP_DEFAULT_ETHEREUM_NETWORK: 'mainnet'
       REACT_APP_ENABLE_CACHING_BACKEND: 'true'
       REACT_APP_RATES_HISTORY_ENDPOINT: 'https://aave-api-v2.aave.com/data/rates-history'
+      REACT_APP_ENABLE_NASH: 'true'
     steps:
       - uses: actions/checkout@v2
 
