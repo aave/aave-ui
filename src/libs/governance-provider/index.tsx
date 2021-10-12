@@ -59,7 +59,8 @@ export function GovernanceDataProvider({
     averageNetworkBlockTime: governanceConfig.averageNetworkBlockTime,
   });
 
-  const skipRPC = !(RPC_ONLY_MODE || !!error);
+  //const skipRPC = !(RPC_ONLY_MODE || !!error);
+  const skipRPC = false; // TO-DO: Replace with line above when subgraph is resynced with correct titles from IPFS
 
   const { proposals: propRPC, loading: loadingRPC } = useGetProposalsRPC({
     skip: skipRPC,
@@ -78,6 +79,12 @@ export function GovernanceDataProvider({
   proposals.forEach((proposal) => {
     if (proposal.id === 25) {
       proposal.title = 'Dynamic Risk Parameters';
+    }
+    if (proposal.title === 'Na') {
+      const proposalRPC = propRPC.find((prop) => prop.id === proposal.id);
+      if (proposalRPC) {
+        proposal.title = proposalRPC.title;
+      }
     }
   });
 
