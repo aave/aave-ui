@@ -32,8 +32,8 @@ exports.config = {
   ],
   exclude: [
     './e2e/specs/mainMarket/assets/eth.test.js',
-    './e2e/specs/mainMarket/assets/usdc.test.js',
-    './e2e/specs/mainMarket/assets/dai.test.js',
+    // './e2e/specs/mainMarket/assets/usdc.test.js',
+    // './e2e/specs/mainMarket/assets/dai.test.js',
     './e2e/specs/mainMarket/assets/bat.test.js',
     './e2e/specs/mainMarket/assets/usdt.test.js',
     './e2e/specs/mainMarket/assets/tusd.test.js',
