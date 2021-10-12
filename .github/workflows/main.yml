@@ -57,4 +57,4 @@ jobs:
         run: cd tests && npm ci
       
       - name: Main
-        run: cd tests && BUILD=$GITHUB_JOB npm run lambdaTest
+        run: cd tests && BUILD="${GITHUB_REF}_${GITHUB_SHA}" npm run lambdaTest
