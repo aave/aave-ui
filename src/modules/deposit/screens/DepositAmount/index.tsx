@@ -123,12 +123,16 @@ function DepositAmount({
                 })
           }
           linkTo={
-            !user ? undefined : networkConfig.isTestnet ? `/faucet/${currencySymbol}` : undefined
+            !user
+              ? undefined
+              : isFeatureEnabled.faucet(currentMarketData)
+              ? `/faucet/${currencySymbol}`
+              : undefined
           }
           buttonTitle={
             !user
               ? undefined
-              : networkConfig.isTestnet
+              : isFeatureEnabled.faucet(currentMarketData)
               ? intl.formatMessage(messages.noDataButtonTitle)
               : undefined
           }
