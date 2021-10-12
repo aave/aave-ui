@@ -157,6 +157,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
       INCENTIVES_CONTROLLER: '0xd4eCF34187a52E755D44fca4d37aBe0b50724De2',
       INCENTIVES_CONTROLLER_REWARD_TOKEN: '0xd00ae08403b9bbb9124bb305c09058e32c39a48c',
     },
+    //test
     bridge: {
       brandColor: '232, 65, 66',
       name: 'Avalanche Bridge',
