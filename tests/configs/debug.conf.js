@@ -66,7 +66,7 @@ exports.config = {
 
     './e2e/specs/mainMarket/stake.kovan.test.js',
   ],
-  maxInstances: 1,then
+  maxInstances: 1,
   capabilities: [{
     maxInstances: 1,
     browserName: 'chrome',
