@@ -34,6 +34,7 @@ const staticStyles = css.global`
   .App {
     display: flex;
     flex-direction: column;
+    color: #eee;
     flex: auto;
     overflow: hidden;
     height: 1px;
