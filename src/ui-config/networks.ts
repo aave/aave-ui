@@ -1,16 +1,16 @@
 import { API_ETH_MOCK_ADDRESS, Network } from '@aave/protocol-js';
 import {
+  AVALANCHE_FORK_RPC_URL,
+  AVALANCHE_FORK_WS_RPC_URL,
   ENABLE_CACHING_BACKEND,
   FORK_RPC_URL,
   FORK_WS_RPC_URL,
   POLYGON_FORK_RPC_URL,
   POLYGON_FORK_WS_RPC_URL,
-  AVALANCHE_FORK_RPC_URL,
-  AVALANCHE_FORK_WS_RPC_URL,
 } from '../config';
 import { BaseNetworkConfig } from '../helpers/markets/markets-data';
-import polygonBridgeLogo from './branding/images/polygonLogo.svg';
 import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
+import polygonBridgeLogo from './branding/images/polygonLogo.svg';
 
 const mainnet_config: BaseNetworkConfig = {
   publicJsonRPCUrl: 'https://eth-mainnet.alchemyapi.io/v2/demo',

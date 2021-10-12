@@ -2,6 +2,7 @@ import { PERMISSION } from '@aave/contract-helpers';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { ExtendedMarketDataType } from '../..';
 import Caption from '../../../components/basic/Caption';
 import DefaultButton from '../../../components/basic/DefaultButton';
 import ContentWrapper from '../../../components/wrappers/ContentWrapper';
@@ -29,14 +30,20 @@ const PermissionWarning: React.FC<
   RouteComponentProps<{ id?: string; underlyingAsset?: string }> & PermissionWarningProps
 > = ({ children, requiredPermission, match }) => {
   const intl = useIntl();
-  const { currentMarketData } = useProtocolDataContext();
+  const currentMarketData = useProtocolDataContext().currentMarketData as ExtendedMarketDataType;
   const { userId } = useStaticPoolDataContext();
   const { permissions } = usePermissions();
 
+  const isDAI = match.params.underlyingAsset === currentMarketData.DAIAddress;
+  const canDepositAndBorrow = [PERMISSION.DEPOSITOR, PERMISSION.BORROWER].every((p) =>
+    permissions.includes(p)
+  );
+
   if (
-    !isFeatureEnabled.permissions(currentMarketData) ||
-    !userId ||
-    permissions.includes(requiredPermission)
+    (!isFeatureEnabled.permissions(currentMarketData) ||
+      !userId ||
+      permissions.includes(requiredPermission)) &&
+    (requiredPermission !== PERMISSION.DEPOSITOR || isDAI || canDepositAndBorrow)
   ) {
     return children;
   }
@@ -44,19 +51,24 @@ const PermissionWarning: React.FC<
   return (
     <ScreenWrapper isTopLineSmall={true} className="PermissionWarning">
       <ContentWrapper withBackButton={true} withFullHeight={true}>
-        {requiredPermission === PERMISSION.DEPOSITOR ? (
+        {requiredPermission === PERMISSION.DEPOSITOR && !isDAI && !canDepositAndBorrow ? (
+          <Caption title="NOT DAI" description={<>Not DAI</>} />
+        ) : requiredPermission === PERMISSION.DEPOSITOR ? (
           <Caption
             title="Onboarding required"
             description={
               <>
-                To participate in the Aave Centrifuge market, you will need to complete KYC and sign
-                a Subscription Agreement with the issuer, END_Bridge LLC. <br />
+                To participate in the RWA Market you will need to complete KYC and sign a
+                Subscription Agreement with the Issuer, RWA Market LLC.
+                <br />
                 <div style={{ display: 'inline-block', marginTop: '30px' }}>
-                  <DefaultButton
-                    onClick={() => window.open(ONBOARDING_URL, '_blank')}
-                    title="Start onboarding"
-                    size="big"
-                  />
+                  {isDAI && (
+                    <DefaultButton
+                      onClick={() => window.open(ONBOARDING_URL, '_blank')}
+                      title="Start onboarding"
+                      size="big"
+                    />
+                  )}
                 </div>
               </>
             }

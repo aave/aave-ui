@@ -6,7 +6,11 @@ export enum CustomMarket {
   centrifuge_kovan = 'centrifuge_kovan',
 }
 
-export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType } = {
+export interface ExtendedMarketDataType extends MarketDataType {
+  DAIAddress: string;
+}
+
+export const marketsData: { [key in keyof typeof CustomMarket]: ExtendedMarketDataType } = {
   [CustomMarket.centrifuge_kovan]: {
     network: Network.kovan,
     logo: logos.rwaLogo,
@@ -20,6 +24,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
       incentives: false,
       permissions: true,
     },
+    DAIAddress: '0xff795577d9ac8bd7d90ee22b6c1703490b6512fd',
     addresses: {
       LENDING_POOL_ADDRESS_PROVIDER: '0xA9251111878BFA6b4cA83e6059e8C661d87b6ec2'.toLowerCase(),
       LENDING_POOL: '0xFa23272D6cD7Eb8413De7740D6b5017Ff93FD45e',

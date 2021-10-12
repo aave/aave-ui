@@ -1,17 +1,14 @@
-import React from 'react';
-import { IntlShape } from 'react-intl/src/types';
 import { SocialIcon, SocialType } from '@aave/aave-ui-kit';
 import { Network } from '@aave/protocol-js';
-
-import FormattedTxErrorTextUI from './FormattedTxErrorText';
-import TopDisclaimerUI from './TopDisclaimer';
-import LegalBanner from './LegalBanner';
+import React from 'react';
+import { IntlShape } from 'react-intl/src/types';
 import { DashboardLeftTopLine as DashboardLeftTopLineUI } from './DashboardLeftTopLine';
-import { UnlockWalletExtraText as UnlockWalletExtraTextUI } from './UnlockWalletExtraText';
-
+import FormattedTxErrorTextUI from './FormattedTxErrorText';
+import logo from './images/aaveCentLogo.svg';
+import LegalBanner from './LegalBanner';
 import './style.css';
-
-import logo from './images/aaveLogo.svg';
+import TopDisclaimerUI from './TopDisclaimer';
+import { UnlockWalletExtraText as UnlockWalletExtraTextUI } from './UnlockWalletExtraText';
 
 export const LOGO = logo;
 
