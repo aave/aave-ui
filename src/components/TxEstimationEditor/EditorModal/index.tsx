@@ -10,7 +10,7 @@ import Value from '../../basic/Value';
 import Caption from '../../basic/Caption';
 import DefaultButton from '../../basic/DefaultButton';
 import Link from '../../../components/basic/Link';
-import useGetGasPrices from '../../../libs/hooks/use-get-gas-prices';
+import useGetGasPrices, { ResponseGasPrice } from '../../../libs/hooks/use-get-gas-prices';
 import { gasPriceFormat } from '../index';
 
 import messages from './messages';
@@ -45,9 +45,10 @@ interface EditorModalProps {
 }
 
 export enum GasKeys {
-  standard = 'standard',
-  rapid = 'rapid',
+  safeLow = 'safeLow',
+  average = 'average',
   fast = 'fast',
+  fastest = 'fastest',
   manual = 'manual',
 }
 
@@ -110,14 +111,14 @@ export default function EditorModal({
 
   const hoverBackground = rgba(`${currentTheme.primary.rgb}, 0.1`);
 
-  const txEstimationModalInput = (time: number, key: GasKeys) => {
+  const txEstimationModalInput = (time: number, key: keyof ResponseGasPrice) => {
     let message: MessageDescriptor = { id: '', defaultMessage: '' };
 
-    if (key === GasKeys.standard) {
+    if (key === GasKeys.average) {
       message = messages.standard;
     } else if (key === GasKeys.fast) {
       message = messages.fast;
-    } else if (key === GasKeys.rapid) {
+    } else if (key === GasKeys.fastest) {
       message = messages.instant;
     }
 
@@ -127,11 +128,11 @@ export default function EditorModal({
           TxEstimationModal__inputSelected: selected === key,
         })}
         onClick={() => {
-          handleSelectOption(key, apiGasPrice[key] || currentTheme.textDarkBlue.hex);
+          handleSelectOption(key as GasKeys, apiGasPrice[key].legacyGasPrice);
         }}
       >
         <div className="TxEstimationModal__inputValue">
-          {gasPriceFormat(apiGasPrice[key]) || currentTheme.textDarkBlue.hex}
+          {gasPriceFormat(apiGasPrice[key].legacyGasPrice)}
         </div>
 
         <div className="TxEstimationModal__inputDescription">
@@ -204,9 +205,9 @@ export default function EditorModal({
           <p>{intl.formatMessage(messages.optionsTitle)}</p>
         </div>
         <div className="TxEstimationModal__options">
-          {txEstimationModalInput(5, GasKeys.standard)}
+          {txEstimationModalInput(5, GasKeys.average)}
           {txEstimationModalInput(2, GasKeys.fast)}
-          {txEstimationModalInput(0, GasKeys.rapid)}
+          {txEstimationModalInput(0, GasKeys.fastest)}
 
           <div className="TxEstimationModal__input">
             <div className="TxEstimationModal__inputValue">
@@ -235,8 +236,8 @@ export default function EditorModal({
             {intl.formatMessage(messages.readMore, {
               link: (
                 <Link
-                  to="http://gasnow.org/"
-                  title="gasnow.org"
+                  to="https://apiv5.paraswap.io/prices/gas/1?eip1559=true"
+                  title="apiv5.paraswap.io"
                   color="secondary"
                   absolute={true}
                   inNewWindow={true}
