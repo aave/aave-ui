@@ -121,7 +121,6 @@ export default function EditorModal({
     } else if (key === GasKeys.fastest) {
       message = messages.instant;
     }
-    console.log(apiGasPrice, key);
 
     return (
       <button
