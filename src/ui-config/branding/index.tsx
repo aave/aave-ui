@@ -4,7 +4,7 @@ import React from 'react';
 import { IntlShape } from 'react-intl/src/types';
 import { DashboardLeftTopLine as DashboardLeftTopLineUI } from './DashboardLeftTopLine';
 import FormattedTxErrorTextUI from './FormattedTxErrorText';
-import logo from './images/aaveCentLogo.svg';
+import logo from './images/rwaLogo.svg';
 import LegalBanner from './LegalBanner';
 import './style.css';
 import TopDisclaimerUI from './TopDisclaimer';

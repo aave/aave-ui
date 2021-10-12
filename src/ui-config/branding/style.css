@@ -1,3 +1,8 @@
 .MarketTable .TokenIcon__name span {
   display: block;
 }
+
+.Menu__logo-link.Menu__logo-link img {
+  height: 36px;
+  width: auto;
+}
