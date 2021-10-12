@@ -51,8 +51,8 @@ export function PieChart({
           <g key={`arc-bg`}>
             {!disableBackground && (
               <Arc
-                outerRadius={radius + radius * 0.02}
-                innerRadius={radius * 0.85 - radius * 0.02}
+                outerRadius={radius + radius * 0.04}
+                innerRadius={radius * 0.85 - radius * 0.04}
                 startAngle={0}
                 endAngle={360}
               >
@@ -77,7 +77,6 @@ export function PieChart({
             pieSortValues={pieSortValues}
             outerRadius={radius}
             innerRadius={radius * 0.85}
-            padAngle={0.04}
           >
             {(pie) => {
               return pie.arcs.map((arc, index) => {

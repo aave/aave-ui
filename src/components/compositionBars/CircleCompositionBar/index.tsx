@@ -3,6 +3,10 @@ import ParentSize from '@visx/responsive/lib/components/ParentSizeModern';
 
 import staticStyles from './style';
 import { PieChart } from '../PieChart';
+import BigNumber from 'bignumber.js';
+import { useIntl } from 'react-intl';
+
+import messages from './messages';
 
 export interface CircleCompositionBarItem {
   color: string;
@@ -18,6 +22,10 @@ interface CircleCompositionBarProps {
 
 export default function CircleCompositionBar({ title, data }: CircleCompositionBarProps) {
   const { currentTheme } = useThemeContext();
+  const intl = useIntl();
+  const availableBorrowPower = data
+    .reduce((acc, slice) => acc.minus(slice.value), new BigNumber(100))
+    .toNumber();
   return (
     <div className="CircleCompositionBar">
       <ParentSize>
@@ -25,7 +33,18 @@ export default function CircleCompositionBar({ title, data }: CircleCompositionB
           <PieChart
             width={parent.width}
             height={parent.height}
-            slices={data}
+            slices={[
+              ...data,
+              {
+                value: availableBorrowPower,
+                label: `${intl.formatMessage(
+                  messages.borrowingPowerAvailable
+                )}: ${intl.formatNumber(availableBorrowPower, {
+                  maximumFractionDigits: 2,
+                })}%`,
+                color: currentTheme.white.hex,
+              },
+            ]}
             centerText={title}
             disableBackground
           />
