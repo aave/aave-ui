@@ -6,12 +6,14 @@ import {
   UserReserveData,
   RAY_DECIMALS,
 } from '@aave/math-utils';
-import { ComputedReserveData } from '@aave/protocol-js';
+import { ComputedReserveData, IncentivesControllerInterface, TxBuilderV2 } from '@aave/protocol-js';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 import Preloader from '../../../components/basic/Preloader';
 import ErrorPage from '../../../components/ErrorPage';
+import { getProvider } from '../../../helpers/markets/markets-data';
 import { useApolloConfigContext } from '../../apollo-config';
 import {
   PoolIncentivesWithCache,
@@ -44,6 +46,7 @@ export interface UserIncentiveData {
 export interface IncentivesDataContextData {
   reserveIncentives: CalculateReserveIncentivesResponse[];
   userIncentives: UserIncentiveDict;
+  txBuilder: IncentivesControllerInterface;
 }
 
 const IncentivesDataContext = React.createContext({} as IncentivesDataContextData);
@@ -83,6 +86,7 @@ function calculateRewardTokenPrice(
 export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const { userId } = useStaticPoolDataContext();
   const { user, reserves } = useDynamicPoolDataContext();
+  const location = useLocation();
   const { network, networkConfig, currentMarketData } = useProtocolDataContext();
   const { network: apolloClientNetwork } = useApolloConfigContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
@@ -94,6 +98,11 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
 
   const currentAccount = userId ? userId.toLowerCase() : ethers.constants.AddressZero;
   const ETH_DECIMALS: number = 18;
+  const incentivesControllerAddress = location.pathname.split('/')[3]?.toLowerCase();
+  const txBuilder: IncentivesControllerInterface = new TxBuilderV2(
+    network,
+    getProvider(network)
+  ).getIncentives(incentivesControllerAddress);
 
   const {
     loading: cachedDataLoading,
@@ -246,13 +255,12 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   }, [reserves, reserveIncentiveData]);
 
   if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
-    return <Preloader withText={true} />;
+    return <Preloader withBackground={true} />;
   }
 
   if (!activeData || (isRPCActive && rpcDataError) || (!isRPCActive && cachedDataError)) {
     return <ErrorPage />;
   }
-
   // Compute the total claimable rewards for a user, returned as dictionary indexed by incentivesController
   let userIncentives = calculateTotalUserIncentives({
     reserveIncentives: reserveIncentiveData,
@@ -278,6 +286,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   return (
     <IncentivesDataContext.Provider
       value={{
+        txBuilder,
         reserveIncentives,
         userIncentives: userIncentives ? userIncentives : {},
       }}

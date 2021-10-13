@@ -8,7 +8,7 @@
     "@aave/aave-ui-kit": "^0.1.12",
     "@aave/math-utils": "0.13.0",
     "@aave/contract-helpers": "0.13.0",
-    "@aave/protocol-js": "^4.1.0",
+    "@aave/protocol-js": "4.1.1-f31265ae43fe4a3b9314a87bec5db0d273c2e9ae.0",
     "@actions/core": "^1.6.0",
     "@apollo/client": "^3.4.8",
     "@apollo/react-common": "^3.1.4",

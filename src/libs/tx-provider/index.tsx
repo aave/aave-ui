@@ -4,18 +4,16 @@ import {
   TxBuilderV2,
   TxBuilderConfig,
   FaucetInterface,
-  IncentivesControllerInterface,
   LendingPoolConfig,
 } from '@aave/protocol-js';
 
 import { useProtocolDataContext } from '../protocol-data-provider';
 import { getProvider } from '../../helpers/markets/markets-data';
-import { networkConfigs, marketsData } from '../../ui-config';
+import { marketsData } from '../../ui-config';
 
 export interface TxBuilderContextInterface {
   lendingPool: LendingPoolInterfaceV2;
   faucetService: FaucetInterface;
-  incentiveService: IncentivesControllerInterface;
 }
 
 const TxBuilderContext = React.createContext({} as TxBuilderContextInterface);
@@ -41,22 +39,6 @@ const marketConfig = Object.entries(marketsData).reduce<
   { lendingPool: {} }
 );
 
-const networkConfig = Object.entries(networkConfigs).reduce<TxBuilderConfig>(
-  (acc, [key, value]) => {
-    if (value.addresses) {
-      if (!acc.incentives) {
-        acc.incentives = {};
-      }
-      acc.incentives[key] = {
-        INCENTIVES_CONTROLLER: value.addresses?.INCENTIVES_CONTROLLER,
-        INCENTIVES_CONTROLLER_REWARD_TOKEN: value.addresses?.INCENTIVES_CONTROLLER_REWARD_TOKEN,
-      };
-    }
-    return acc;
-  },
-  { incentives: {} }
-);
-
 export function TxBuilderProvider({ children }: PropsWithChildren<{}>) {
   const { currentMarket, network: currentNetwork } = useProtocolDataContext();
 
@@ -65,15 +47,13 @@ export function TxBuilderProvider({ children }: PropsWithChildren<{}>) {
     currentNetwork,
     getProvider(currentNetwork),
     undefined,
-    Object.assign(marketConfig, networkConfig)
+    marketConfig
   );
   const lendingPool = txBuilder.getLendingPool(currentMarket);
 
-  const { incentiveService } = txBuilder;
-
   return (
     <TxBuilderContext.Provider
-      value={{ lendingPool, faucetService: txBuilder.getFaucet(currentMarket), incentiveService }}
+      value={{ lendingPool, faucetService: txBuilder.getFaucet(currentMarket) }}
     >
       {children}
     </TxBuilderContext.Provider>

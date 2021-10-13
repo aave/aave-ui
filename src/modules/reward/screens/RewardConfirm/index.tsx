@@ -4,7 +4,6 @@ import { normalize } from '@aave/protocol-js';
 
 import { getRewardTokenSymbol } from '../../../../components/wrappers/IncentiveWrapper';
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
-import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import {
   useIncentivesDataContext,
   UserIncentiveData,
@@ -24,13 +23,10 @@ export function RewardConfirm() {
   const intl = useIntl();
   const location = useLocation();
 
-  // TO-DO: need to refactor to allow custom incentiveController
-  const { incentiveService } = useTxBuilderContext();
-
   const { user, reserves } = useDynamicPoolDataContext();
-  const { userIncentives } = useIncentivesDataContext();
-  const incentiveControllerAddress = location.pathname.split('/')[3];
-  const incentiveData: UserIncentiveData = userIncentives[incentiveControllerAddress];
+  const { userIncentives, txBuilder } = useIncentivesDataContext();
+  const incentivesControllerAddress = location.pathname.split('/')[3];
+  const incentiveData: UserIncentiveData = userIncentives[incentivesControllerAddress];
   const rewardTokenSymbol = getRewardTokenSymbol(reserves, incentiveData.rewardTokenAddress);
 
   const aTokenData = getAtokenInfo({
@@ -56,7 +52,7 @@ export function RewardConfirm() {
 
   const assets = incentiveData.assets;
   const handleGetTransactions = async () =>
-    incentiveService.claimRewards({ user: user.id, assets, to: user.id });
+    txBuilder.claimRewards({ user: user.id, assets, to: user.id });
 
   return (
     <ScreenWrapper
