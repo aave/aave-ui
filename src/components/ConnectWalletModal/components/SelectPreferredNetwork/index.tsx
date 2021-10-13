@@ -5,6 +5,7 @@ import { Network } from '@aave/protocol-js';
 
 import messages from './messages';
 import staticStyles from './style';
+import { networkConfigs } from '../../../../ui-config';
 
 interface SelectPreferredNetworkProps {
   preferredNetwork: Network;
@@ -24,8 +25,7 @@ export default function SelectPreferredNetwork({
 
   const formattedNetwork = (network: Network) =>
     network === Network.mainnet ? 'Ethereum' : network;
-  const isTestnet = (network: Network) =>
-    network !== Network.mainnet && network !== Network.polygon && network !== Network.avalanche;
+  const isTestnet = (network: Network) => networkConfigs[network].isTestnet;
 
   return (
     <div className="SelectPreferredNetwork">

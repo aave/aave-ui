@@ -29,7 +29,7 @@ export default function CircleCollateralCompositionBar() {
       );
     })
     .map((userReserve) => ({
-      title: `${getAssetInfo(userReserve.reserve.symbol).formattedName}  ${intl.formatNumber(
+      label: `${getAssetInfo(userReserve.reserve.symbol).formattedName}  ${intl.formatNumber(
         valueToBigNumber(userReserve.underlyingBalanceETH)
           .dividedBy(totalCollateralETH)
           .multipliedBy(100)

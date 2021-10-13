@@ -1,19 +1,18 @@
-name: CI
+name: Deploy production
 
 on:
-  pull_request:
+  workflow_dispatch:
 
 jobs:
   deploy_ipfs:
     runs-on: ubuntu-latest
     container: node:14
     env:
-      REACT_APP_SUPPORTED_ETHEREUM_NETWORKS: 'kovan,mumbai,fuji,mainnet,polygon,avalanche'
+      REACT_APP_SUPPORTED_ETHEREUM_NETWORKS: 'mainnet,polygon,avalanche'
       REACT_APP_DEFAULT_ETHEREUM_NETWORK: 'mainnet'
       REACT_APP_ENABLE_CACHING_BACKEND: 'true'
-      REACT_APP_ENABLE_NASH: 'true'
       REACT_APP_RATES_HISTORY_ENDPOINT: 'https://aave-api-v2.aave.com/data/rates-history'
-      NGINX_MODE: 'staging'
+      REACT_APP_ENABLE_NASH: 'true'
     steps:
       - uses: actions/checkout@v2
 
@@ -25,15 +24,8 @@ jobs:
         env:
           PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
           PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
-          PIN_ALIAS: "${{ format('pull_request_{0}', github.head_ref) }}"
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+          PIN_ALIAS: production
+          CF_DEPLOYMENT_DOMAIN: ipfs.aave.com 
         run: npm run pinata:ipfs-publish
-
-      - uses: actions/github-script@v5
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.payload.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'Preview link: ${{steps.deploy.outputs.uri}}'
-            })
