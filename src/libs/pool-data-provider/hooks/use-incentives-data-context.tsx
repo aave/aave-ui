@@ -135,13 +135,18 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const reserveIncentiveData: ReserveIncentiveData[] =
     activeData && activeData.reserveIncentiveData ? activeData.reserveIncentiveData : [];
 
-  // Calculate and update userTotalRewards
+  // Calculate and update userReserves
   useEffect(() => {
-    if (user && userIncentiveData && reserveIncentiveData && reserves) {
+    if (user && reserves) {
       const userReserves: UserReserveData[] = [];
       user.reservesData.forEach((userReserve) => {
         // Account for underlyingReserveAddress of network base assets not matching wrapped incentives
         let reserveUnderlyingAddress = userReserve.reserve.underlyingAsset.toLowerCase();
+        // Find the underlying reserve data for each userReserve
+        const reserve = reserves.find(
+          (reserve) => reserve.underlyingAsset.toLowerCase() === reserveUnderlyingAddress
+        );
+        // Convert to match incentives data which uses wrapped addresses for base assets (ETH, MATIC, AVAX)
         if (reserveUnderlyingAddress === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
           if (userReserve.reserve.symbol === 'MATIC') {
             reserveUnderlyingAddress = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
@@ -151,14 +156,10 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
             reserveUnderlyingAddress = '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7';
           }
         }
-        // Find the underlying reserve data for each userReserve
-        const reserve = reserves.find(
-          (reserve) => reserve.underlyingAsset.toLowerCase() === reserveUnderlyingAddress
-        );
         if (reserve) {
           // Construct UserReserveData object from reserve and userReserve fields
           userReserves.push({
-            underlyingAsset: reserve.underlyingAsset.toLowerCase(),
+            underlyingAsset: reserveUnderlyingAddress,
             totalLiquidity: formatBNInput(reserve.totalLiquidity, Number(reserve.decimals)),
             liquidityIndex: formatBNInput(reserve.liquidityIndex, RAY_DECIMALS),
             totalScaledVariableDebt: formatBNInput(
@@ -183,7 +184,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
       });
       setUserReserves(userReserves);
     }
-  }, [user, reserves, reserveIncentiveData, userIncentiveData]);
+  }, [user, reserves]);
 
   // Calculate and update reserveIncentives
   useEffect(() => {
