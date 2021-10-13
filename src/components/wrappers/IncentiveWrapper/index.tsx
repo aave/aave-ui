@@ -43,22 +43,21 @@ export default function IncentiveWrapper() {
   const { user, reserves } = useDynamicPoolDataContext();
   const { userIncentives } = useIncentivesDataContext();
 
-  const hasEmission = reserves.find(
-    (r) =>
-      r.aEmissionPerSecond !== '0' || r.vEmissionPerSecond !== '0' || r.sEmissionPerSecond !== '0'
-  );
+  if (!user) return null;
 
-  if (!user || !hasEmission) return null;
+  // Only display assets for which user has claimable rewards
+  const userIncentivesFiltered = Object.fromEntries(
+    Object.entries(userIncentives).filter((entry) => Number(entry[1].claimableRewards) > 0)
+  );
 
   return (
     <div className="IncentiveWrapper">
       <p className="IncentiveWrapper__title">{intl.formatMessage(messages.availableReward)}</p>
 
       <div className="IncentiveWrapper__incentives">
-        {Object.entries(userIncentives).map((incentive) => {
+        {Object.entries(userIncentivesFiltered).map((incentive) => {
           const rewardTokenSymbol = getRewardTokenSymbol(reserves, incentive[1].rewardTokenAddress);
           const claimableRewards = normalize(incentive[1].claimableRewards, 18);
-
           return (
             <IncentiveClaimItem
               key={incentive[0]}
