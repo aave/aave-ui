@@ -52,7 +52,15 @@ const PermissionWarning: React.FC<
     <ScreenWrapper isTopLineSmall={true} className="PermissionWarning">
       <ContentWrapper withBackButton={true} withFullHeight={true}>
         {requiredPermission === PERMISSION.DEPOSITOR && !isDAI && !canDepositAndBorrow ? (
-          <Caption title="NOT DAI" description={<>Not DAI</>} />
+          <Caption
+            title="DROP participation is restricted"
+            description={
+              <>
+                Only signed up Tinlake Pools and their respective Issuer are allowed to deposit DROP
+                tokens and borrow stablecoins in the RWA Market.
+              </>
+            }
+          />
         ) : requiredPermission === PERMISSION.DEPOSITOR ? (
           <Caption
             title="Onboarding required"
@@ -84,6 +92,16 @@ const PermissionWarning: React.FC<
                 <a href="https://tinlake.centrifuge.io/" target="_blank" rel="noreferrer">
                   https://tinlake.centrifuge.io/
                 </a>
+              </>
+            }
+          />
+        ) : requiredPermission === PERMISSION.BORROWER ? (
+          <Caption
+            title="DAI borrowing is restricted"
+            description={
+              <>
+                Only signed up Tinlake Pools and their respective Issuer are allowed to deposit DROP
+                tokens and borrow stablecoins in the RWA Market.
               </>
             }
           />
