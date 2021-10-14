@@ -85,7 +85,9 @@ export function StaticPoolDataProvider({
     return loader;
   }
 
-  const activeData = isRPCActive && rpcData ? rpcData : cachedData;
+  // Temporary: will be refactored to use updated new caching service and RPC hook (use-pool-data)
+  //const activeData = isRPCActive && rpcData ? rpcData : cachedData;
+  const activeData = rpcData;
 
   if (!activeData || (isRPCActive && rpcDataError) || (!isRPCActive && cachedDataError)) {
     return errorPage;
@@ -162,7 +164,7 @@ export function StaticPoolDataProvider({
         userId,
         network,
         networkConfig,
-        refresh: isRPCActive ? refresh : async () => {},
+        refresh: isRPCActive ? refresh : async () => { },
         WrappedBaseNetworkAssetAddress,
         rawReserves: reservesWithFixedUnderlying,
         rawUserReserves: userReservesWithFixedUnderlying,
