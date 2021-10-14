@@ -35,9 +35,7 @@ export default function Markets() {
   );
   const [sortName, setSortName] = useState('');
   const [sortDesc, setSortDesc] = useState(false);
-  console.log(reserveIncentives);
   let totalLockedInUsd = valueToBigNumber('0');
-
   let sortedData = reserves
     .filter((res) => res.isActive)
     .map((reserve) => {
