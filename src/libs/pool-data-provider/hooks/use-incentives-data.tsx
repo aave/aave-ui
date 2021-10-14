@@ -5,9 +5,7 @@ import { Network } from '@aave/protocol-js';
 import { getProvider } from '../../../helpers/markets/markets-data';
 import {
   UiIncentiveDataProvider,
-  IncentivesWithFeeds,
   UserReserveIncentiveDataHumanizedResponse,
-  IncentiveUserDataHumanized,
   Denominations,
 } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../../protocol-data-provider';
@@ -64,38 +62,6 @@ export interface IncentiveDataResponse {
     userIncentiveData?: UserReserveIncentiveData[];
   };
   refresh: () => Promise<void>;
-}
-
-// Format reserve incentive contract data into object with BigNumber fields converted to string
-function formatIncentiveData(incentive: IncentivesWithFeeds): ReserveTokenIncentives {
-  const formattedIncentiveData: ReserveTokenIncentives = {
-    emissionPerSecond: incentive.emissionPerSecond.toString(),
-    incentivesLastUpdateTimestamp: incentive.incentivesLastUpdateTimestamp,
-    tokenIncentivesIndex: incentive.tokenIncentivesIndex.toString(),
-    emissionEndTimestamp: incentive.emissionEndTimestamp,
-    tokenAddress: incentive.tokenAddress,
-    rewardTokenAddress: incentive.rewardTokenAddress,
-    incentiveControllerAddress: incentive.incentiveControllerAddress,
-    rewardTokenDecimals: incentive.rewardTokenDecimals,
-    precision: incentive.precision,
-    priceFeed: incentive.priceFeed,
-    priceFeedDecimals: incentive.priceFeedDecimals,
-    priceFeedTimestamp: incentive.priceFeedTimestamp,
-  };
-  return formattedIncentiveData;
-}
-
-// Format user incentive contract data  into object with BigNumber fields converted to string
-function formatUserIncentiveData(incentive: IncentiveUserDataHumanized): UserTokenIncentives {
-  const formattedIncentiveData: UserTokenIncentives = {
-    tokenIncentivesUserIndex: incentive.tokenIncentivesUserIndex.toString(),
-    userUnclaimedRewards: incentive.userUnclaimedRewards.toString(),
-    tokenAddress: incentive.tokenAddress,
-    rewardTokenAddress: incentive.rewardTokenAddress,
-    incentiveControllerAddress: incentive.incentiveControllerAddress,
-    rewardTokenDecimals: incentive.rewardTokenDecimals,
-  };
-  return formattedIncentiveData;
 }
 
 // Fetch reserve and user incentive data from UiIncentiveDataProvider
@@ -159,9 +125,9 @@ export function useIncentivesData(
         (reserveIncentive) => {
           const formattedReserveIncentive: ReserveIncentiveData = {
             underlyingAsset: reserveIncentive.underlyingAsset,
-            aIncentiveData: formatIncentiveData(reserveIncentive.aIncentiveData),
-            vIncentiveData: formatIncentiveData(reserveIncentive.vIncentiveData),
-            sIncentiveData: formatIncentiveData(reserveIncentive.sIncentiveData),
+            aIncentiveData: reserveIncentive.aIncentiveData,
+            vIncentiveData: reserveIncentive.vIncentiveData,
+            sIncentiveData: reserveIncentive.sIncentiveData,
           };
           return formattedReserveIncentive;
         }
@@ -197,15 +163,9 @@ export function useIncentivesData(
         (userIncentive) => {
           const formattedUserIncentive: UserReserveIncentiveData = {
             underlyingAsset: userIncentive.underlyingAsset,
-            aTokenIncentivesUserData: formatUserIncentiveData(
-              userIncentive.aTokenIncentivesUserData
-            ),
-            vTokenIncentivesUserData: formatUserIncentiveData(
-              userIncentive.vTokenIncentivesUserData
-            ),
-            sTokenIncentivesUserData: formatUserIncentiveData(
-              userIncentive.sTokenIncentivesUserData
-            ),
+            aTokenIncentivesUserData: userIncentive.aTokenIncentivesUserData,
+            vTokenIncentivesUserData: userIncentive.vTokenIncentivesUserData,
+            sTokenIncentivesUserData: userIncentive.sTokenIncentivesUserData,
           };
           return formattedUserIncentive;
         }
