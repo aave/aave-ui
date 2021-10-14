@@ -30,7 +30,7 @@ const mainnet_config: BaseNetworkConfig = {
   rewardTokenDecimals: 18,
   incentivePrecision: 18,
   explorerLink: 'https://etherscan.com',
-  rpcOnly: !ENABLE_CACHING_BACKEND,
+  rpcOnly: true, //!ENABLE_CACHING_BACKEND,
   // addresses: {
   //   INCENTIVES_CONTROLLER: '0xd784927Ff2f95ba542BfC824c8a8a98F3495f6b5',
   //   INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x4da27a545c0c5b758a6ba100e3a049001de870f5',
@@ -53,7 +53,7 @@ const polygon_config: BaseNetworkConfig = {
   rewardTokenDecimals: 18,
   incentivePrecision: 18,
   explorerLink: 'https://polygonscan.com',
-  rpcOnly: !ENABLE_CACHING_BACKEND,
+  rpcOnly: true, //!ENABLE_CACHING_BACKEND,
   // addresses: {
   //   INCENTIVES_CONTROLLER: '0x357d51124f59836ded84c8a1730d72b749d8bc23',
   //   INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
@@ -83,7 +83,7 @@ const avalanche_config: BaseNetworkConfig = {
   rewardTokenDecimals: 18,
   incentivePrecision: 18,
   explorerLink: 'https://cchain.explorer.avax.network',
-  rpcOnly: !ENABLE_CACHING_BACKEND,
+  rpcOnly: true, //!ENABLE_CACHING_BACKEND,
   usdMarket: true,
   // addresses: {
   //   INCENTIVES_CONTROLLER: '0x01d83fe6a10d2f2b7af17034343746188272cac9',
