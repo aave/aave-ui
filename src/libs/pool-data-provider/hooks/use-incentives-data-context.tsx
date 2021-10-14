@@ -276,14 +276,6 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     )
   );
 
-  // TO-DO: Remove this, just a test to display multiple claimable rewards
-  userIncentives['0x0000000000000000000000000000000000000001'] = {
-    rewardTokenAddress: '0xc7283b66eb1eb5fb86327f08e1b5816b0720212b',
-    rewardTokenDecimals: 18,
-    claimableRewards: new BigNumber('1100000000000000000'),
-    assets: [],
-  };
-
   return (
     <IncentivesDataContext.Provider
       value={{
