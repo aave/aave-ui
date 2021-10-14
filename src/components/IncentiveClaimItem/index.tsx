@@ -48,7 +48,7 @@ export default function IncentiveClaimItem({
       <Link
         to={rewardClaimLink}
         className="ButtonLink"
-        disabled={Number(claimableRewards) === 0}
+        disabled={claimableRewards === '0'}
         title={intl.formatMessage(defaultMessages.claim)}
       />
 

@@ -21,9 +21,9 @@ export function getRewardTokenSymbol(
   } else if (rewardTokenAddress.toLowerCase() === '0xc7283b66eb1eb5fb86327f08e1b5816b0720212b') {
     return 'TRIBE';
   } else if (rewardTokenAddress.toLowerCase() === '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7') {
-    return 'AVAX';
+    return 'WAVAX';
   } else if (rewardTokenAddress.toLowerCase() === '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270') {
-    return 'MATIC';
+    return 'WMATIC';
   } else {
     let rewardReserve = reserves.find(
       (reserve) => reserve.underlyingAsset.toLowerCase() === rewardTokenAddress.toLowerCase()
@@ -43,12 +43,12 @@ export default function IncentiveWrapper() {
   const { user, reserves } = useDynamicPoolDataContext();
   const { userIncentives } = useIncentivesDataContext();
 
-  if (!user) return null;
-
   // Only display assets for which user has claimable rewards
   const userIncentivesFiltered = Object.fromEntries(
     Object.entries(userIncentives).filter((entry) => Number(entry[1].claimableRewards) > 0)
   );
+
+  if (!user || Object.keys(userIncentivesFiltered).length === 0) return null;
 
   return (
     <div className="IncentiveWrapper">
