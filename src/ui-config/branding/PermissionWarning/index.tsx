@@ -51,7 +51,10 @@ const PermissionWarning: React.FC<
   return (
     <ScreenWrapper isTopLineSmall={true} className="PermissionWarning">
       <ContentWrapper withBackButton={true} withFullHeight={true}>
-        {requiredPermission === PERMISSION.DEPOSITOR && !isDAI && !canDepositAndBorrow ? (
+        {requiredPermission === PERMISSION.DEPOSITOR &&
+        match.params.underlyingAsset &&
+        !isDAI &&
+        !canDepositAndBorrow ? (
           <Caption
             title="DROP participation is restricted"
             description={
@@ -70,13 +73,11 @@ const PermissionWarning: React.FC<
                 Subscription Agreement with the Issuer, RWA Market LLC.
                 <br />
                 <div style={{ display: 'inline-block', marginTop: '30px' }}>
-                  {isDAI && (
-                    <DefaultButton
-                      onClick={() => window.open(ONBOARDING_URL, '_blank')}
-                      title="Start onboarding"
-                      size="big"
-                    />
-                  )}
+                  <DefaultButton
+                    onClick={() => window.open(ONBOARDING_URL, '_blank')}
+                    title="Start onboarding"
+                    size="big"
+                  />
                 </div>
               </>
             }
