@@ -284,6 +284,8 @@ export type Borrow_Filter = {
   borrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
   borrowRateMode?: Maybe<BorrowRateMode>;
   borrowRateMode_not?: Maybe<BorrowRateMode>;
+  borrowRateMode_in?: Maybe<Array<BorrowRateMode>>;
+  borrowRateMode_not_in?: Maybe<Array<BorrowRateMode>>;
   referrer?: Maybe<Scalars['String']>;
   referrer_not?: Maybe<Scalars['String']>;
   referrer_gt?: Maybe<Scalars['String']>;
@@ -1970,8 +1972,12 @@ export type PriceOracleAsset_Filter = {
   isFallbackRequired_not_in?: Maybe<Array<Scalars['Boolean']>>;
   type?: Maybe<PriceOracleAssetType>;
   type_not?: Maybe<PriceOracleAssetType>;
+  type_in?: Maybe<Array<PriceOracleAssetType>>;
+  type_not_in?: Maybe<Array<PriceOracleAssetType>>;
   platform?: Maybe<PriceOracleAssetPlatform>;
   platform_not?: Maybe<PriceOracleAssetPlatform>;
+  platform_in?: Maybe<Array<PriceOracleAssetPlatform>>;
+  platform_not_in?: Maybe<Array<PriceOracleAssetPlatform>>;
   dependentAssets?: Maybe<Array<Scalars['String']>>;
   dependentAssets_not?: Maybe<Array<Scalars['String']>>;
   dependentAssets_contains?: Maybe<Array<Scalars['String']>>;
@@ -2151,6 +2157,8 @@ export type Proposal_Filter = {
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   state?: Maybe<ProposalState>;
   state_not?: Maybe<ProposalState>;
+  state_in?: Maybe<Array<ProposalState>>;
+  state_not_in?: Maybe<Array<ProposalState>>;
   ipfsHash?: Maybe<Scalars['String']>;
   ipfsHash_not?: Maybe<Scalars['String']>;
   ipfsHash_gt?: Maybe<Scalars['String']>;
@@ -2245,6 +2253,8 @@ export type Proposal_Filter = {
   currentNoVote_not_in?: Maybe<Array<Scalars['BigInt']>>;
   winner?: Maybe<Winner>;
   winner_not?: Maybe<Winner>;
+  winner_in?: Maybe<Array<Winner>>;
+  winner_not_in?: Maybe<Array<Winner>>;
   createdTimestamp?: Maybe<Scalars['Int']>;
   createdTimestamp_not?: Maybe<Scalars['Int']>;
   createdTimestamp_gt?: Maybe<Scalars['Int']>;
@@ -6044,8 +6054,12 @@ export type Swap_Filter = {
   userReserve_not_ends_with?: Maybe<Scalars['String']>;
   borrowRateModeFrom?: Maybe<BorrowRateMode>;
   borrowRateModeFrom_not?: Maybe<BorrowRateMode>;
+  borrowRateModeFrom_in?: Maybe<Array<BorrowRateMode>>;
+  borrowRateModeFrom_not_in?: Maybe<Array<BorrowRateMode>>;
   borrowRateModeTo?: Maybe<BorrowRateMode>;
   borrowRateModeTo_not?: Maybe<BorrowRateMode>;
+  borrowRateModeTo_in?: Maybe<Array<BorrowRateMode>>;
+  borrowRateModeTo_not_in?: Maybe<Array<BorrowRateMode>>;
   stableBorrowRate?: Maybe<Scalars['BigInt']>;
   stableBorrowRate_not?: Maybe<Scalars['BigInt']>;
   stableBorrowRate_gt?: Maybe<Scalars['BigInt']>;

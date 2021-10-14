@@ -207,7 +207,9 @@ export type Borrow_Filter = {
   amount_not_in?: Maybe<Array<Scalars['BigInt']>>;
   borrowRate?: Maybe<Scalars['BigInt']>;
   borrowRateMode?: Maybe<BorrowRateMode>;
+  borrowRateMode_in?: Maybe<Array<BorrowRateMode>>;
   borrowRateMode_not?: Maybe<BorrowRateMode>;
+  borrowRateMode_not_in?: Maybe<Array<BorrowRateMode>>;
   borrowRate_gt?: Maybe<Scalars['BigInt']>;
   borrowRate_gte?: Maybe<Scalars['BigInt']>;
   borrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
@@ -1858,7 +1860,9 @@ export type PriceOracleAsset_Filter = {
   oracle_not_starts_with?: Maybe<Scalars['String']>;
   oracle_starts_with?: Maybe<Scalars['String']>;
   platform?: Maybe<PriceOracleAssetPlatform>;
+  platform_in?: Maybe<Array<PriceOracleAssetPlatform>>;
   platform_not?: Maybe<PriceOracleAssetPlatform>;
+  platform_not_in?: Maybe<Array<PriceOracleAssetPlatform>>;
   priceInEth?: Maybe<Scalars['BigInt']>;
   priceInEth_gt?: Maybe<Scalars['BigInt']>;
   priceInEth_gte?: Maybe<Scalars['BigInt']>;
@@ -1874,7 +1878,9 @@ export type PriceOracleAsset_Filter = {
   priceSource_not_contains?: Maybe<Scalars['Bytes']>;
   priceSource_not_in?: Maybe<Array<Scalars['Bytes']>>;
   type?: Maybe<PriceOracleAssetType>;
+  type_in?: Maybe<Array<PriceOracleAssetType>>;
   type_not?: Maybe<PriceOracleAssetType>;
+  type_not_in?: Maybe<Array<PriceOracleAssetType>>;
 };
 
 export enum PriceOracleAsset_OrderBy {
@@ -5429,9 +5435,13 @@ export enum SwapHistory_OrderBy {
 
 export type Swap_Filter = {
   borrowRateModeFrom?: Maybe<BorrowRateMode>;
+  borrowRateModeFrom_in?: Maybe<Array<BorrowRateMode>>;
   borrowRateModeFrom_not?: Maybe<BorrowRateMode>;
+  borrowRateModeFrom_not_in?: Maybe<Array<BorrowRateMode>>;
   borrowRateModeTo?: Maybe<BorrowRateMode>;
+  borrowRateModeTo_in?: Maybe<Array<BorrowRateMode>>;
   borrowRateModeTo_not?: Maybe<BorrowRateMode>;
+  borrowRateModeTo_not_in?: Maybe<Array<BorrowRateMode>>;
   id?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;

@@ -158,6 +158,14 @@ export enum AToken_OrderBy {
   TokenContractImpl = 'tokenContractImpl',
 }
 
+export type BaseCurrencyData = {
+  __typename?: 'BaseCurrencyData';
+  baseCurrencyDecimals: Scalars['Float'];
+  baseCurrencyPriceInUsd: Scalars['String'];
+  networkBaseTokenPriceInUsd: Scalars['String'];
+  networkBaseTokenDecimals: Scalars['Float'];
+};
+
 export type Block_Height = {
   hash?: Maybe<Scalars['Bytes']>;
   number?: Maybe<Scalars['Int']>;
@@ -284,6 +292,8 @@ export type Borrow_Filter = {
   borrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
   borrowRateMode?: Maybe<BorrowRateMode>;
   borrowRateMode_not?: Maybe<BorrowRateMode>;
+  borrowRateMode_in?: Maybe<Array<BorrowRateMode>>;
+  borrowRateMode_not_in?: Maybe<Array<BorrowRateMode>>;
   referrer?: Maybe<Scalars['String']>;
   referrer_not?: Maybe<Scalars['String']>;
   referrer_gt?: Maybe<Scalars['String']>;
@@ -1676,11 +1686,6 @@ export enum Pool_OrderBy {
   Paused = 'paused',
 }
 
-export type PriceData = {
-  __typename?: 'PriceData';
-  priceInEth: Scalars['String'];
-};
-
 export type PriceHistoryItem = {
   __typename?: 'PriceHistoryItem';
   id: Scalars['ID'];
@@ -1869,8 +1874,12 @@ export type PriceOracleAsset_Filter = {
   isFallbackRequired_not_in?: Maybe<Array<Scalars['Boolean']>>;
   type?: Maybe<PriceOracleAssetType>;
   type_not?: Maybe<PriceOracleAssetType>;
+  type_in?: Maybe<Array<PriceOracleAssetType>>;
+  type_not_in?: Maybe<Array<PriceOracleAssetType>>;
   platform?: Maybe<PriceOracleAssetPlatform>;
   platform_not?: Maybe<PriceOracleAssetPlatform>;
+  platform_in?: Maybe<Array<PriceOracleAssetPlatform>>;
+  platform_not_in?: Maybe<Array<PriceOracleAssetPlatform>>;
   dependentAssets?: Maybe<Array<Scalars['String']>>;
   dependentAssets_not?: Maybe<Array<Scalars['String']>>;
   dependentAssets_contains?: Maybe<Array<Scalars['String']>>;
@@ -2000,8 +2009,7 @@ export type ProtocolPoolsArgs = {
 export type ProtocolData = {
   __typename?: 'ProtocolData';
   reserves: Array<ReserveData>;
-  usdPriceEth: Scalars['String'];
-  emissionEndTimestamp: Scalars['Float'];
+  baseCurrencyData: BaseCurrencyData;
 };
 
 export type Protocol_Filter = {
@@ -2100,7 +2108,7 @@ export type Query = {
   usdEthPriceHistoryItem?: Maybe<UsdEthPriceHistoryItem>;
   usdEthPriceHistoryItems: Array<UsdEthPriceHistoryItem>;
   user?: Maybe<User>;
-  userData: UserData;
+  userData: Array<UserReserveData>;
   userIncentives: Array<UserIncentivesData>;
   userReserve?: Maybe<UserReserve>;
   userReserves: Array<UserReserve>;
@@ -2395,7 +2403,7 @@ export type QueryProtocolArgs = {
 };
 
 export type QueryProtocolDataArgs = {
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 };
 
 export type QueryProtocolsArgs = {
@@ -2633,7 +2641,7 @@ export type QueryUserArgs = {
 };
 
 export type QueryUserDataArgs = {
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
   userAddress: Scalars['String'];
 };
 
@@ -3475,12 +3483,10 @@ export type ReserveData = {
   stableBorrowRateEnabled: Scalars['Boolean'];
   reserveFactor: Scalars['String'];
   baseLTVasCollateral: Scalars['String'];
-  optimalUtilisationRate: Scalars['String'];
   stableRateSlope1: Scalars['String'];
   stableRateSlope2: Scalars['String'];
   averageStableRate: Scalars['String'];
   stableDebtLastUpdateTimestamp: Scalars['Float'];
-  baseVariableBorrowRate: Scalars['String'];
   variableRateSlope1: Scalars['String'];
   variableRateSlope2: Scalars['String'];
   liquidityIndex: Scalars['String'];
@@ -3494,16 +3500,7 @@ export type ReserveData = {
   totalPrincipalStableDebt: Scalars['String'];
   totalScaledVariableDebt: Scalars['String'];
   lastUpdateTimestamp: Scalars['Float'];
-  aEmissionPerSecond: Scalars['String'];
-  vEmissionPerSecond: Scalars['String'];
-  sEmissionPerSecond: Scalars['String'];
-  aIncentivesLastUpdateTimestamp: Scalars['Float'];
-  vIncentivesLastUpdateTimestamp: Scalars['Float'];
-  sIncentivesLastUpdateTimestamp: Scalars['Float'];
-  aTokenIncentivesIndex: Scalars['String'];
-  vTokenIncentivesIndex: Scalars['String'];
-  sTokenIncentivesIndex: Scalars['String'];
-  price: PriceData;
+  priceInMarketReferenceCurrency: Scalars['String'];
 };
 
 export type ReserveIncentivesData = {
@@ -4843,7 +4840,7 @@ export type Subscription = {
   usdEthPriceHistoryItem?: Maybe<UsdEthPriceHistoryItem>;
   usdEthPriceHistoryItems: Array<UsdEthPriceHistoryItem>;
   user?: Maybe<User>;
-  userDataUpdate: UserData;
+  userDataUpdate: Array<UserReserveData>;
   userPoolIncentivesDataUpdate: Array<UserIncentivesData>;
   userReserve?: Maybe<UserReserve>;
   userReserves: Array<UserReserve>;
@@ -5144,7 +5141,7 @@ export type SubscriptionProtocolArgs = {
 };
 
 export type SubscriptionProtocolDataUpdateArgs = {
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 };
 
 export type SubscriptionProtocolsArgs = {
@@ -5376,7 +5373,7 @@ export type SubscriptionUserArgs = {
 };
 
 export type SubscriptionUserDataUpdateArgs = {
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
   userAddress: Scalars['String'];
 };
 
@@ -5665,8 +5662,12 @@ export type Swap_Filter = {
   userReserve_not_ends_with?: Maybe<Scalars['String']>;
   borrowRateModeFrom?: Maybe<BorrowRateMode>;
   borrowRateModeFrom_not?: Maybe<BorrowRateMode>;
+  borrowRateModeFrom_in?: Maybe<Array<BorrowRateMode>>;
+  borrowRateModeFrom_not_in?: Maybe<Array<BorrowRateMode>>;
   borrowRateModeTo?: Maybe<BorrowRateMode>;
   borrowRateModeTo_not?: Maybe<BorrowRateMode>;
+  borrowRateModeTo_in?: Maybe<Array<BorrowRateMode>>;
+  borrowRateModeTo_not_in?: Maybe<Array<BorrowRateMode>>;
   stableBorrowRate?: Maybe<Scalars['BigInt']>;
   stableBorrowRate_not?: Maybe<Scalars['BigInt']>;
   stableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
@@ -5997,12 +5998,6 @@ export type UserClaimIncentivesArgs = {
   where?: Maybe<ClaimIncentiveCall_Filter>;
 };
 
-export type UserData = {
-  __typename?: 'UserData';
-  userReserves: Array<UserReserveData>;
-  userUnclaimedRewards: Scalars['String'];
-};
-
 export type UserIncentivesData = {
   __typename?: 'UserIncentivesData';
   underlyingAsset: Scalars['String'];
@@ -6173,13 +6168,9 @@ export type UserReserveData = {
   scaledATokenBalance: Scalars['String'];
   usageAsCollateralEnabledOnUser: Scalars['Boolean'];
   scaledVariableDebt: Scalars['String'];
-  variableBorrowIndex: Scalars['String'];
   stableBorrowRate: Scalars['String'];
   principalStableDebt: Scalars['String'];
   stableBorrowLastUpdateTimestamp: Scalars['Float'];
-  aTokenincentivesUserIndex: Scalars['String'];
-  vTokenincentivesUserIndex: Scalars['String'];
-  sTokenincentivesUserIndex: Scalars['String'];
 };
 
 export type UserReserve_Filter = {
@@ -7000,74 +6991,71 @@ export type C_PoolIncentivesDataUpdateSubscription = { __typename?: 'Subscriptio
   >;
 };
 
-export type ProtocolDataFragmentFragment = { __typename?: 'ProtocolData' } & Pick<
-  ProtocolData,
-  'usdPriceEth' | 'emissionEndTimestamp'
-> & {
-    reserves: Array<
-      { __typename?: 'ReserveData' } & Pick<
-        ReserveData,
-        | 'id'
-        | 'underlyingAsset'
-        | 'name'
-        | 'symbol'
-        | 'decimals'
-        | 'isActive'
-        | 'isFrozen'
-        | 'usageAsCollateralEnabled'
-        | 'aTokenAddress'
-        | 'stableDebtTokenAddress'
-        | 'variableDebtTokenAddress'
-        | 'borrowingEnabled'
-        | 'stableBorrowRateEnabled'
-        | 'reserveFactor'
-        | 'baseLTVasCollateral'
-        | 'optimalUtilisationRate'
-        | 'stableRateSlope1'
-        | 'stableRateSlope2'
-        | 'averageStableRate'
-        | 'stableDebtLastUpdateTimestamp'
-        | 'baseVariableBorrowRate'
-        | 'variableRateSlope1'
-        | 'variableRateSlope2'
-        | 'liquidityIndex'
-        | 'reserveLiquidationThreshold'
-        | 'reserveLiquidationBonus'
-        | 'variableBorrowIndex'
-        | 'variableBorrowRate'
-        | 'availableLiquidity'
-        | 'stableBorrowRate'
-        | 'liquidityRate'
-        | 'totalPrincipalStableDebt'
-        | 'totalScaledVariableDebt'
-        | 'lastUpdateTimestamp'
-        | 'aEmissionPerSecond'
-        | 'vEmissionPerSecond'
-        | 'sEmissionPerSecond'
-        | 'aIncentivesLastUpdateTimestamp'
-        | 'vIncentivesLastUpdateTimestamp'
-        | 'sIncentivesLastUpdateTimestamp'
-        | 'aTokenIncentivesIndex'
-        | 'vTokenIncentivesIndex'
-        | 'sTokenIncentivesIndex'
-      > & { price: { __typename?: 'PriceData' } & Pick<PriceData, 'priceInEth'> }
-    >;
-  };
+export type ReserveDataFragmentFragment = { __typename?: 'ReserveData' } & Pick<
+  ReserveData,
+  | 'id'
+  | 'underlyingAsset'
+  | 'name'
+  | 'symbol'
+  | 'decimals'
+  | 'isActive'
+  | 'isFrozen'
+  | 'usageAsCollateralEnabled'
+  | 'aTokenAddress'
+  | 'stableDebtTokenAddress'
+  | 'variableDebtTokenAddress'
+  | 'borrowingEnabled'
+  | 'stableBorrowRateEnabled'
+  | 'reserveFactor'
+  | 'baseLTVasCollateral'
+  | 'stableRateSlope1'
+  | 'stableRateSlope2'
+  | 'averageStableRate'
+  | 'stableDebtLastUpdateTimestamp'
+  | 'variableRateSlope1'
+  | 'variableRateSlope2'
+  | 'liquidityIndex'
+  | 'reserveLiquidationThreshold'
+  | 'reserveLiquidationBonus'
+  | 'variableBorrowIndex'
+  | 'variableBorrowRate'
+  | 'availableLiquidity'
+  | 'stableBorrowRate'
+  | 'liquidityRate'
+  | 'totalPrincipalStableDebt'
+  | 'totalScaledVariableDebt'
+  | 'lastUpdateTimestamp'
+  | 'priceInMarketReferenceCurrency'
+>;
+
+export type BaseCurrencyDataFragmentFragment = { __typename?: 'BaseCurrencyData' } & Pick<
+  BaseCurrencyData,
+  | 'baseCurrencyDecimals'
+  | 'baseCurrencyPriceInUsd'
+  | 'networkBaseTokenPriceInUsd'
+  | 'networkBaseTokenDecimals'
+>;
 
 export type C_ProtocolDataQueryVariables = Exact<{
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 }>;
 
 export type C_ProtocolDataQuery = { __typename?: 'Query' } & {
-  protocolData: { __typename?: 'ProtocolData' } & ProtocolDataFragmentFragment;
+  protocolData: { __typename?: 'ProtocolData' } & {
+    reserves: Array<{ __typename?: 'ReserveData' } & ReserveDataFragmentFragment>;
+    baseCurrencyData: { __typename?: 'BaseCurrencyData' } & BaseCurrencyDataFragmentFragment;
+  };
 };
 
 export type C_ProtocolDataUpdateSubscriptionVariables = Exact<{
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 }>;
 
 export type C_ProtocolDataUpdateSubscription = { __typename?: 'Subscription' } & {
-  protocolDataUpdate: { __typename?: 'ProtocolData' } & ProtocolDataFragmentFragment;
+  protocolDataUpdate: { __typename?: 'ProtocolData' } & {
+    reserves: Array<{ __typename?: 'ReserveData' } & ReserveDataFragmentFragment>;
+    baseCurrencyData: { __typename?: 'BaseCurrencyData' } & BaseCurrencyDataFragmentFragment;
+  };
 };
 
 export type StakeGeneralUiDataFragmentFragment = { __typename?: 'StakeGeneralUIData' } & Pick<
@@ -7150,44 +7138,33 @@ export type C_StakeUserUiDataUpdateSubscription = { __typename?: 'Subscription' 
   stakeUserUIDataUpdate: { __typename?: 'StakeUserUIData' } & StakeUserUiDataFragmentFragment;
 };
 
-export type UserDataFragmentFragment = { __typename?: 'UserData' } & Pick<
-  UserData,
-  'userUnclaimedRewards'
-> & {
-    userReserves: Array<
-      { __typename?: 'UserReserveData' } & Pick<
-        UserReserveData,
-        | 'underlyingAsset'
-        | 'scaledATokenBalance'
-        | 'usageAsCollateralEnabledOnUser'
-        | 'scaledVariableDebt'
-        | 'variableBorrowIndex'
-        | 'stableBorrowRate'
-        | 'principalStableDebt'
-        | 'stableBorrowLastUpdateTimestamp'
-        | 'aTokenincentivesUserIndex'
-        | 'vTokenincentivesUserIndex'
-        | 'sTokenincentivesUserIndex'
-      >
-    >;
-  };
+export type UserReserveDataFragmentFragment = { __typename?: 'UserReserveData' } & Pick<
+  UserReserveData,
+  | 'underlyingAsset'
+  | 'scaledATokenBalance'
+  | 'usageAsCollateralEnabledOnUser'
+  | 'scaledVariableDebt'
+  | 'stableBorrowRate'
+  | 'principalStableDebt'
+  | 'stableBorrowLastUpdateTimestamp'
+>;
 
 export type C_UserDataQueryVariables = Exact<{
   userAddress: Scalars['String'];
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 }>;
 
 export type C_UserDataQuery = { __typename?: 'Query' } & {
-  userData: { __typename?: 'UserData' } & UserDataFragmentFragment;
+  userData: Array<{ __typename?: 'UserReserveData' } & UserReserveDataFragmentFragment>;
 };
 
 export type C_UserDataUpdateSubscriptionVariables = Exact<{
   userAddress: Scalars['String'];
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 }>;
 
 export type C_UserDataUpdateSubscription = { __typename?: 'Subscription' } & {
-  userDataUpdate: { __typename?: 'UserData' } & UserDataFragmentFragment;
+  userDataUpdate: Array<{ __typename?: 'UserReserveData' } & UserReserveDataFragmentFragment>;
 };
 
 export type TokenIncentivesUserDataFragmentFragment = {
@@ -7264,58 +7241,49 @@ export const IncentivesDataFragmentFragmentDoc = gql`
     priceFeedTimestamp
   }
 `;
-export const ProtocolDataFragmentFragmentDoc = gql`
-  fragment ProtocolDataFragment on ProtocolData {
-    reserves {
-      id
-      underlyingAsset
-      name
-      symbol
-      decimals
-      isActive
-      isFrozen
-      usageAsCollateralEnabled
-      aTokenAddress
-      stableDebtTokenAddress
-      variableDebtTokenAddress
-      borrowingEnabled
-      stableBorrowRateEnabled
-      reserveFactor
-      baseLTVasCollateral
-      optimalUtilisationRate
-      stableRateSlope1
-      stableRateSlope2
-      averageStableRate
-      stableDebtLastUpdateTimestamp
-      baseVariableBorrowRate
-      variableRateSlope1
-      variableRateSlope2
-      liquidityIndex
-      reserveLiquidationThreshold
-      reserveLiquidationBonus
-      variableBorrowIndex
-      variableBorrowRate
-      availableLiquidity
-      stableBorrowRate
-      liquidityRate
-      totalPrincipalStableDebt
-      totalScaledVariableDebt
-      lastUpdateTimestamp
-      aEmissionPerSecond
-      vEmissionPerSecond
-      sEmissionPerSecond
-      aIncentivesLastUpdateTimestamp
-      vIncentivesLastUpdateTimestamp
-      sIncentivesLastUpdateTimestamp
-      aTokenIncentivesIndex
-      vTokenIncentivesIndex
-      sTokenIncentivesIndex
-      price {
-        priceInEth
-      }
-    }
-    usdPriceEth
-    emissionEndTimestamp
+export const ReserveDataFragmentFragmentDoc = gql`
+  fragment ReserveDataFragment on ReserveData {
+    id
+    underlyingAsset
+    name
+    symbol
+    decimals
+    isActive
+    isFrozen
+    usageAsCollateralEnabled
+    aTokenAddress
+    stableDebtTokenAddress
+    variableDebtTokenAddress
+    borrowingEnabled
+    stableBorrowRateEnabled
+    reserveFactor
+    baseLTVasCollateral
+    stableRateSlope1
+    stableRateSlope2
+    averageStableRate
+    stableDebtLastUpdateTimestamp
+    variableRateSlope1
+    variableRateSlope2
+    liquidityIndex
+    reserveLiquidationThreshold
+    reserveLiquidationBonus
+    variableBorrowIndex
+    variableBorrowRate
+    availableLiquidity
+    stableBorrowRate
+    liquidityRate
+    totalPrincipalStableDebt
+    totalScaledVariableDebt
+    lastUpdateTimestamp
+    priceInMarketReferenceCurrency
+  }
+`;
+export const BaseCurrencyDataFragmentFragmentDoc = gql`
+  fragment BaseCurrencyDataFragment on BaseCurrencyData {
+    baseCurrencyDecimals
+    baseCurrencyPriceInUsd
+    networkBaseTokenPriceInUsd
+    networkBaseTokenDecimals
   }
 `;
 export const StakeGeneralUiDataFragmentFragmentDoc = gql`
@@ -7362,22 +7330,15 @@ export const StakeUserUiDataFragmentFragmentDoc = gql`
     usdPriceEth
   }
 `;
-export const UserDataFragmentFragmentDoc = gql`
-  fragment UserDataFragment on UserData {
-    userReserves {
-      underlyingAsset
-      scaledATokenBalance
-      usageAsCollateralEnabledOnUser
-      scaledVariableDebt
-      variableBorrowIndex
-      stableBorrowRate
-      principalStableDebt
-      stableBorrowLastUpdateTimestamp
-      aTokenincentivesUserIndex
-      vTokenincentivesUserIndex
-      sTokenincentivesUserIndex
-    }
-    userUnclaimedRewards
+export const UserReserveDataFragmentFragmentDoc = gql`
+  fragment UserReserveDataFragment on UserReserveData {
+    underlyingAsset
+    scaledATokenBalance
+    usageAsCollateralEnabledOnUser
+    scaledVariableDebt
+    stableBorrowRate
+    principalStableDebt
+    stableBorrowLastUpdateTimestamp
   }
 `;
 export const TokenIncentivesUserDataFragmentFragmentDoc = gql`
@@ -7528,12 +7489,18 @@ export type C_PoolIncentivesDataUpdateSubscriptionHookResult = ReturnType<
 export type C_PoolIncentivesDataUpdateSubscriptionResult =
   ApolloReactCommon.SubscriptionResult<C_PoolIncentivesDataUpdateSubscription>;
 export const C_ProtocolDataDocument = gql`
-  query C_ProtocolData($poolAddress: String!) {
-    protocolData(poolAddress: $poolAddress) {
-      ...ProtocolDataFragment
+  query C_ProtocolData($lendingPoolAddressProvider: String!) {
+    protocolData(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
+      reserves {
+        ...ReserveDataFragment
+      }
+      baseCurrencyData {
+        ...BaseCurrencyDataFragment
+      }
     }
   }
-  ${ProtocolDataFragmentFragmentDoc}
+  ${ReserveDataFragmentFragmentDoc}
+  ${BaseCurrencyDataFragmentFragmentDoc}
 `;
 
 /**
@@ -7548,7 +7515,7 @@ export const C_ProtocolDataDocument = gql`
  * @example
  * const { data, loading, error } = useC_ProtocolDataQuery({
  *   variables: {
- *      poolAddress: // value for 'poolAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
  *   },
  * });
  */
@@ -7580,12 +7547,18 @@ export type C_ProtocolDataQueryResult = ApolloReactCommon.QueryResult<
   C_ProtocolDataQueryVariables
 >;
 export const C_ProtocolDataUpdateDocument = gql`
-  subscription C_ProtocolDataUpdate($poolAddress: String!) {
-    protocolDataUpdate(poolAddress: $poolAddress) {
-      ...ProtocolDataFragment
+  subscription C_ProtocolDataUpdate($lendingPoolAddressProvider: String!) {
+    protocolDataUpdate(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
+      reserves {
+        ...ReserveDataFragment
+      }
+      baseCurrencyData {
+        ...BaseCurrencyDataFragment
+      }
     }
   }
-  ${ProtocolDataFragmentFragmentDoc}
+  ${ReserveDataFragmentFragmentDoc}
+  ${BaseCurrencyDataFragmentFragmentDoc}
 `;
 
 /**
@@ -7600,7 +7573,7 @@ export const C_ProtocolDataUpdateDocument = gql`
  * @example
  * const { data, loading, error } = useC_ProtocolDataUpdateSubscription({
  *   variables: {
- *      poolAddress: // value for 'poolAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
  *   },
  * });
  */
@@ -7816,12 +7789,12 @@ export type C_StakeUserUiDataUpdateSubscriptionHookResult = ReturnType<
 export type C_StakeUserUiDataUpdateSubscriptionResult =
   ApolloReactCommon.SubscriptionResult<C_StakeUserUiDataUpdateSubscription>;
 export const C_UserDataDocument = gql`
-  query C_UserData($userAddress: String!, $poolAddress: String!) {
-    userData(userAddress: $userAddress, poolAddress: $poolAddress) {
-      ...UserDataFragment
+  query C_UserData($userAddress: String!, $lendingPoolAddressProvider: String!) {
+    userData(userAddress: $userAddress, lendingPoolAddressProvider: $lendingPoolAddressProvider) {
+      ...UserReserveDataFragment
     }
   }
-  ${UserDataFragmentFragmentDoc}
+  ${UserReserveDataFragmentFragmentDoc}
 `;
 
 /**
@@ -7837,7 +7810,7 @@ export const C_UserDataDocument = gql`
  * const { data, loading, error } = useC_UserDataQuery({
  *   variables: {
  *      userAddress: // value for 'userAddress'
- *      poolAddress: // value for 'poolAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
  *   },
  * });
  */
@@ -7866,12 +7839,15 @@ export type C_UserDataQueryResult = ApolloReactCommon.QueryResult<
   C_UserDataQueryVariables
 >;
 export const C_UserDataUpdateDocument = gql`
-  subscription C_UserDataUpdate($userAddress: String!, $poolAddress: String!) {
-    userDataUpdate(userAddress: $userAddress, poolAddress: $poolAddress) {
-      ...UserDataFragment
+  subscription C_UserDataUpdate($userAddress: String!, $lendingPoolAddressProvider: String!) {
+    userDataUpdate(
+      userAddress: $userAddress
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+    ) {
+      ...UserReserveDataFragment
     }
   }
-  ${UserDataFragmentFragmentDoc}
+  ${UserReserveDataFragmentFragmentDoc}
 `;
 
 /**
@@ -7887,7 +7863,7 @@ export const C_UserDataUpdateDocument = gql`
  * const { data, loading, error } = useC_UserDataUpdateSubscription({
  *   variables: {
  *      userAddress: // value for 'userAddress'
- *      poolAddress: // value for 'poolAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
  *   },
  * });
  */
