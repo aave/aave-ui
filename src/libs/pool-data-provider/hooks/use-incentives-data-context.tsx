@@ -5,6 +5,7 @@ import {
   CalculateReserveIncentivesResponse,
   UserReserveData,
   RAY_DECIMALS,
+  normalize,
 } from '@aave/math-utils';
 import { ComputedReserveData, IncentivesControllerInterface, TxBuilderV2 } from '@aave/protocol-js';
 import BigNumber from 'bignumber.js';
@@ -46,16 +47,10 @@ export interface UserIncentiveData {
 export interface IncentivesDataContextData {
   reserveIncentives: CalculateReserveIncentivesResponse[];
   userIncentives: UserIncentiveDict;
-  txBuilder: IncentivesControllerInterface;
+  incentivesTxBuilder: IncentivesControllerInterface;
 }
 
 const IncentivesDataContext = React.createContext({} as IncentivesDataContextData);
-
-function formatBNInput(input: string, decimals: number): string {
-  let inputBN = new BigNumber(input);
-  inputBN = inputBN.shiftedBy(decimals);
-  return inputBN.toString();
-}
 
 // Calculate incentive token price from reserves data or priceFeed from UiIncentiveDataProvider
 function calculateRewardTokenPrice(
@@ -77,9 +72,9 @@ function calculateRewardTokenPrice(
   }
   const rewardReserve = reserves.find((reserve) => reserve.underlyingAsset === address);
   if (rewardReserve) {
-    return formatBNInput(rewardReserve.price.priceInEth, Number(rewardReserve.decimals));
+    return normalize(rewardReserve.price.priceInEth, Number(rewardReserve.decimals));
   } else {
-    return formatBNInput(priceFeed, priceFeedDecimals);
+    return normalize(priceFeed, priceFeedDecimals);
   }
 }
 
@@ -99,7 +94,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const currentAccount = userId ? userId.toLowerCase() : ethers.constants.AddressZero;
   const ETH_DECIMALS: number = 18;
   const incentivesControllerAddress = location.pathname.split('/')[3]?.toLowerCase();
-  const txBuilder: IncentivesControllerInterface = new TxBuilderV2(
+  const incentivesTxBuilder: IncentivesControllerInterface = new TxBuilderV2(
     network,
     getProvider(network)
   ).getIncentives(incentivesControllerAddress);
@@ -160,25 +155,13 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
           // Construct UserReserveData object from reserve and userReserve fields
           userReserves.push({
             underlyingAsset: reserveUnderlyingAddress,
-            totalLiquidity: formatBNInput(reserve.totalLiquidity, Number(reserve.decimals)),
-            liquidityIndex: formatBNInput(reserve.liquidityIndex, RAY_DECIMALS),
-            totalScaledVariableDebt: formatBNInput(
-              reserve.totalScaledVariableDebt,
-              Number(reserve.decimals)
-            ),
-            totalPrincipalStableDebt: formatBNInput(
-              reserve.totalPrincipalStableDebt,
-              Number(reserve.decimals)
-            ),
-            scaledATokenBalance: formatBNInput(
-              userReserve.scaledATokenBalance,
-              Number(reserve.decimals)
-            ),
+            totalLiquidity: normalize(reserve.totalLiquidity, reserve.decimals),
+            liquidityIndex: normalize(reserve.liquidityIndex, RAY_DECIMALS),
+            totalScaledVariableDebt: normalize(reserve.totalScaledVariableDebt, reserve.decimals),
+            totalPrincipalStableDebt: normalize(reserve.totalPrincipalStableDebt, reserve.decimals),
+            scaledATokenBalance: normalize(userReserve.scaledATokenBalance, reserve.decimals),
             scaledVariableDebt: userReserve.scaledVariableDebt,
-            principalStableDebt: formatBNInput(
-              userReserve.principalStableDebt,
-              Number(reserve.decimals)
-            ),
+            principalStableDebt: normalize(userReserve.principalStableDebt, reserve.decimals),
           });
         }
       });
@@ -212,18 +195,15 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
           const calculatedReserveIncentives: CalculateReserveIncentivesResponse =
             calculateReserveIncentives({
               reserveIncentiveData: incentiveData,
-              totalLiquidity: formatBNInput(reserve.totalLiquidity, Number(reserve.decimals)),
-              liquidityIndex: formatBNInput(reserve.liquidityIndex, RAY_DECIMALS),
-              totalScaledVariableDebt: formatBNInput(
-                reserve.totalScaledVariableDebt,
-                Number(reserve.decimals)
-              ),
-              totalPrincipalStableDebt: formatBNInput(
+              totalLiquidity: normalize(reserve.totalLiquidity, reserve.decimals),
+              liquidityIndex: normalize(reserve.liquidityIndex, RAY_DECIMALS),
+              totalScaledVariableDebt: normalize(reserve.totalScaledVariableDebt, reserve.decimals),
+              totalPrincipalStableDebt: normalize(
                 reserve.totalPrincipalStableDebt,
-                Number(reserve.decimals)
+                reserve.decimals
               ),
-              priceInMarketReferenceCurrency: formatBNInput(reserve.price.priceInEth, ETH_DECIMALS), // Will be replaced with marketReferencePrice/Decimals
-              decimals: Number(reserve.decimals),
+              priceInMarketReferenceCurrency: normalize(reserve.price.priceInEth, ETH_DECIMALS), // Will be replaced with marketReferencePrice/Decimals
+              decimals: reserve.decimals,
 
               aRewardTokenPriceInMarketReferenceCurrency: calculateRewardTokenPrice(
                 reserves,
@@ -269,6 +249,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     userReserves,
     currentTimestamp,
   });
+  // Filter out blank incentives controllers
   userIncentives = Object.fromEntries(
     Object.entries(userIncentives).filter(
       (incentive) =>
@@ -279,7 +260,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   return (
     <IncentivesDataContext.Provider
       value={{
-        txBuilder,
+        incentivesTxBuilder,
         reserveIncentives,
         userIncentives: userIncentives ? userIncentives : {},
       }}

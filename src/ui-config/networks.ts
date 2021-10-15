@@ -54,10 +54,6 @@ const polygon_config: BaseNetworkConfig = {
   incentivePrecision: 18,
   explorerLink: 'https://polygonscan.com',
   rpcOnly: !ENABLE_CACHING_BACKEND,
-  // addresses: {
-  //   INCENTIVES_CONTROLLER: '0x357d51124f59836ded84c8a1730d72b749d8bc23',
-  //   INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
-  // },
   bridge: {
     brandColor: '130, 71, 229',
     name: 'Polygon PoS Bridge',
@@ -85,10 +81,6 @@ const avalanche_config: BaseNetworkConfig = {
   explorerLink: 'https://cchain.explorer.avax.network',
   rpcOnly: !ENABLE_CACHING_BACKEND,
   usdMarket: true,
-  // addresses: {
-  //   INCENTIVES_CONTROLLER: '0x01d83fe6a10d2f2b7af17034343746188272cac9',
-  //   INCENTIVES_CONTROLLER_REWARD_TOKEN: '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7',
-  // },
   bridge: {
     brandColor: '232, 65, 66',
     name: 'Avalanche Bridge',
@@ -138,10 +130,6 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     explorerLink: 'https://explorer-mumbai.maticvigil.com',
     rpcOnly: true,
     isTestnet: true,
-    // addresses: {
-    //   INCENTIVES_CONTROLLER: '0xd41aE58e803Edf4304334acCE4DC4Ec34a63C644',
-    //   INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x9c3c9283d3e44854697cd22d3faa240cfb032889',
-    // },
   },
   [Network.fuji]: {
     publicJsonRPCUrl: 'https://api.avax-test.network/ext/bc/C/rpc',
@@ -161,10 +149,6 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     rpcOnly: true,
     usdMarket: true,
     isTestnet: true,
-    // addresses: {
-    //   INCENTIVES_CONTROLLER: '0xd4eCF34187a52E755D44fca4d37aBe0b50724De2',
-    //   INCENTIVES_CONTROLLER_REWARD_TOKEN: '0xd00ae08403b9bbb9124bb305c09058e32c39a48c',
-    // },
     bridge: {
       brandColor: '232, 65, 66',
       name: 'Avalanche Bridge',

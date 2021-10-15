@@ -24,7 +24,7 @@ export function RewardConfirm() {
   const location = useLocation();
 
   const { user, reserves } = useDynamicPoolDataContext();
-  const { userIncentives, txBuilder } = useIncentivesDataContext();
+  const { userIncentives, incentivesTxBuilder } = useIncentivesDataContext();
   const incentivesControllerAddress = location.pathname.split('/')[3];
   const incentiveData: UserIncentiveData = userIncentives[incentivesControllerAddress];
   const rewardTokenSymbol = getRewardTokenSymbol(reserves, incentiveData.rewardTokenAddress);
@@ -52,7 +52,7 @@ export function RewardConfirm() {
 
   const assets = incentiveData.assets;
   const handleGetTransactions = async () =>
-    txBuilder.claimRewards({ user: user.id, assets, to: user.id });
+    incentivesTxBuilder.claimRewards({ user: user.id, assets, to: user.id });
 
   return (
     <ScreenWrapper
