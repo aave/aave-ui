@@ -160,10 +160,10 @@ export enum AToken_OrderBy {
 
 export type BaseCurrencyData = {
   __typename?: 'BaseCurrencyData';
-  baseCurrencyDecimals: Scalars['Float'];
-  baseCurrencyPriceInUsd: Scalars['String'];
+  marketReferenceCurrencyDecimals: Scalars['Float'];
+  marketReferenceCurrencyPriceInUsd: Scalars['String'];
   networkBaseTokenPriceInUsd: Scalars['String'];
-  networkBaseTokenDecimals: Scalars['Float'];
+  networkBaseTokenPriceDecimals: Scalars['Float'];
 };
 
 export type Block_Height = {
@@ -7030,10 +7030,10 @@ export type ReserveDataFragmentFragment = { __typename?: 'ReserveData' } & Pick<
 
 export type BaseCurrencyDataFragmentFragment = { __typename?: 'BaseCurrencyData' } & Pick<
   BaseCurrencyData,
-  | 'baseCurrencyDecimals'
-  | 'baseCurrencyPriceInUsd'
+  | 'marketReferenceCurrencyDecimals'
+  | 'marketReferenceCurrencyPriceInUsd'
   | 'networkBaseTokenPriceInUsd'
-  | 'networkBaseTokenDecimals'
+  | 'networkBaseTokenPriceDecimals'
 >;
 
 export type C_ProtocolDataQueryVariables = Exact<{
@@ -7280,10 +7280,10 @@ export const ReserveDataFragmentFragmentDoc = gql`
 `;
 export const BaseCurrencyDataFragmentFragmentDoc = gql`
   fragment BaseCurrencyDataFragment on BaseCurrencyData {
-    baseCurrencyDecimals
-    baseCurrencyPriceInUsd
+    marketReferenceCurrencyDecimals
+    marketReferenceCurrencyPriceInUsd
     networkBaseTokenPriceInUsd
-    networkBaseTokenDecimals
+    networkBaseTokenPriceDecimals
   }
 `;
 export const StakeGeneralUiDataFragmentFragmentDoc = gql`

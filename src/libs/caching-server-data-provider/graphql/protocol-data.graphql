@@ -35,10 +35,10 @@ fragment ReserveDataFragment on ReserveData {
 }
 
 fragment BaseCurrencyDataFragment on BaseCurrencyData {
-  baseCurrencyDecimals
-  baseCurrencyPriceInUsd
+  marketReferenceCurrencyDecimals
+  marketReferenceCurrencyPriceInUsd
   networkBaseTokenPriceInUsd
-  networkBaseTokenDecimals
+  networkBaseTokenPriceDecimals
 }
 
 query C_ProtocolData($lendingPoolAddressProvider: String!) {
