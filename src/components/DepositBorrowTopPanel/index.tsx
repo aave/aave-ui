@@ -98,7 +98,7 @@ export default function DepositBorrowTopPanel() {
     value: availableBorrowPower,
     label: `${intl.formatMessage(messages.borrowingPowerAvailable)}: ${intl.formatNumber(
       new BigNumber(1)
-        .minus(valueToBigNumber(usedBorrowPower).dividedBy(availableBorrowPower))
+        .minus(valueToBigNumber(usedBorrowPower).dividedBy(maxBorrowAmount))
         .multipliedBy(100)
         .toNumber(),
       {
