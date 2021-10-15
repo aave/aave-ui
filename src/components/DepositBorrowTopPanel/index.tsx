@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { useDynamicPoolDataContext } from '../../libs/pool-data-provider';
@@ -86,6 +86,26 @@ export default function DepositBorrowTopPanel() {
         });
       }
     }
+  });
+  const availableBorrowPower = borrowCompositionData
+    .reduce((acc, slice) => acc.minus(slice.value), maxBorrowAmount)
+    .toNumber();
+  const usedBorrowPower = borrowCompositionData
+    .reduce((acc, slice) => acc.plus(slice.value), new BigNumber(0))
+    .toNumber();
+
+  borrowCompositionData.push({
+    value: availableBorrowPower,
+    label: `${intl.formatMessage(messages.borrowingPowerAvailable)}: ${intl.formatNumber(
+      new BigNumber(1)
+        .minus(valueToBigNumber(usedBorrowPower).dividedBy(availableBorrowPower))
+        .multipliedBy(100)
+        .toNumber(),
+      {
+        maximumFractionDigits: 2,
+      }
+    )}%`,
+    color: currentTheme.white.hex,
   });
 
   return (
