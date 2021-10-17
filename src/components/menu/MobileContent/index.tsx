@@ -20,12 +20,11 @@ import { moreMenuExtraItems, socialIcons } from '../../../ui-config';
 import staticStyles from './style';
 
 interface MobileContentProps {
-  isTestnet?: boolean | number;
   isActive: (url: string) => boolean;
   currentAccount: string;
 }
 
-export default function MobileContent({ isTestnet, isActive, currentAccount }: MobileContentProps) {
+export default function MobileContent({ isActive, currentAccount }: MobileContentProps) {
   const intl = useIntl();
   const { currentTheme, md } = useThemeContext();
   const { openMobileMenu, closeMobileMenu, mobileMenuVisible, setMobileMenuVisible } =

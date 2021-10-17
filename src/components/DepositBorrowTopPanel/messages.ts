@@ -4,6 +4,7 @@ export default defineMessages({
   depositInformation: 'Deposit Information',
   approximateBalance: 'Approximate balance',
   depositComposition: 'Deposit Composition',
+  borrowingPowerAvailable: 'Borrowing power available',
 
   borrowInformation: 'Borrow Information',
   youBorrowed: 'You borrowed',

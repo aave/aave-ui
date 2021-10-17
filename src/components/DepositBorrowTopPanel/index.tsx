@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { useDynamicPoolDataContext } from '../../libs/pool-data-provider';
@@ -61,7 +61,7 @@ export default function DepositBorrowTopPanel() {
     if (userReserve.underlyingBalance !== '0' || userReserve.totalBorrows !== '0') {
       if (userReserve.underlyingBalance !== '0') {
         depositCompositionData.push({
-          title: `${getAssetInfo(userReserve.reserve.symbol).formattedName}  ${intl.formatNumber(
+          label: `${getAssetInfo(userReserve.reserve.symbol).formattedName}  ${intl.formatNumber(
             valueToBigNumber(userReserve.underlyingBalanceETH)
               .dividedBy(user?.totalLiquidityETH)
               .multipliedBy(100)
@@ -74,7 +74,7 @@ export default function DepositBorrowTopPanel() {
       }
       if (userReserve.totalBorrows !== '0') {
         borrowCompositionData.push({
-          title: `${getAssetInfo(userReserve.reserve.symbol).formattedName}  ${intl.formatNumber(
+          label: `${getAssetInfo(userReserve.reserve.symbol).formattedName}  ${intl.formatNumber(
             valueToBigNumber(userReserve.totalBorrowsETH)
               .dividedBy(maxBorrowAmount)
               .multipliedBy(100)
@@ -86,6 +86,26 @@ export default function DepositBorrowTopPanel() {
         });
       }
     }
+  });
+  const availableBorrowPower = borrowCompositionData
+    .reduce((acc, slice) => acc.minus(slice.value), maxBorrowAmount)
+    .toNumber();
+  const usedBorrowPower = borrowCompositionData
+    .reduce((acc, slice) => acc.plus(slice.value), new BigNumber(0))
+    .toNumber();
+
+  borrowCompositionData.push({
+    value: availableBorrowPower,
+    label: `${intl.formatMessage(messages.borrowingPowerAvailable)}: ${intl.formatNumber(
+      new BigNumber(1)
+        .minus(valueToBigNumber(usedBorrowPower).dividedBy(maxBorrowAmount))
+        .multipliedBy(100)
+        .toNumber(),
+      {
+        maximumFractionDigits: 2,
+      }
+    )}%`,
+    color: currentTheme.white.hex,
   });
 
   return (

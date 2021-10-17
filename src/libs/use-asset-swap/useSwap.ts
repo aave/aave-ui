@@ -7,18 +7,21 @@ import {
   valueToBigNumber,
   API_ETH_MOCK_ADDRESS,
   ChainId,
+  Network,
 } from '@aave/protocol-js';
 
 import { useDynamicPoolDataContext, useStaticPoolDataContext } from '../pool-data-provider';
+import { mapChainIdToName } from '../web3-data-provider';
 
 const mainnetParaswap = new ParaSwap(ChainId.mainnet);
 const polygonParaswap = new ParaSwap(ChainId.polygon);
 
-const _paraSwap = {
-  [ChainId.mainnet]: mainnetParaswap,
-  [ChainId.fork]: mainnetParaswap,
-  [ChainId.polygon]: polygonParaswap,
-  [ChainId.polygon_fork]: polygonParaswap,
+const getParaswap = (chainId: ChainId) => {
+  if ([Network.fork, Network.mainnet].includes(mapChainIdToName(chainId) as Network))
+    return mainnetParaswap;
+  if ([Network.polygon, Network.polygon_fork].includes(mapChainIdToName(chainId) as Network))
+    return polygonParaswap;
+  throw new Error('chain not supported');
 };
 
 type UseSwapProps = {
@@ -48,14 +51,7 @@ const MESSAGE_MAP = {
 
 // TODO: resolve error codes to human understandable error messages https://github.com/paraswap/paraswap-sdk/issues/22
 export const useSwap = ({ swapIn, swapOut, variant, userId, max, chainId }: UseSwapProps) => {
-  if (
-    ChainId.polygon !== chainId &&
-    ChainId.polygon_fork !== chainId &&
-    ChainId.fork !== chainId &&
-    ChainId.mainnet !== chainId
-  )
-    throw new Error('chain not supported');
-  const paraSwap = _paraSwap[chainId];
+  const paraSwap = getParaswap(chainId);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [priceRoute, setPriceRoute] = useState<
@@ -170,14 +166,7 @@ export const getSwapCallData = async ({
   route,
   chainId,
 }: GetSwapCallDataProps) => {
-  if (
-    ChainId.polygon !== chainId &&
-    ChainId.polygon_fork !== chainId &&
-    ChainId.fork !== chainId &&
-    ChainId.mainnet !== chainId
-  )
-    throw new Error('chain not supported');
-  const paraSwap = _paraSwap[chainId];
+  const paraSwap = getParaswap(chainId);
   const params = await paraSwap.buildTx(
     srcToken,
     destToken,

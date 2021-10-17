@@ -1,5 +1,6 @@
 import { Network } from '@aave/protocol-js';
 import { MarketDataType } from '../../helpers/markets/markets-data';
+
 import * as logos from './images';
 
 export enum CustomMarket {
