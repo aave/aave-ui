@@ -1,5 +1,9 @@
-let { DOMAIN } = process.env;
+require('dotenv').config();
+
+const { DOMAIN } = process.env;
+
+if (!DOMAIN) throw new Error('domain not set');
 
 module.exports = {
-    URL: DOMAIN || "https://staging.aave.com",
+  URL: DOMAIN,
 };
