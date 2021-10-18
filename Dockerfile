@@ -1,4 +1,4 @@
-FROM node:12 as build-deps
+FROM node:14 as build-deps
 WORKDIR /app
 
 ADD package.json package-lock.json /app/
