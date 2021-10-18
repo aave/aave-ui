@@ -51,7 +51,9 @@ jobs:
       #      })
 
       - name: test
+        uses: djp3/puppeteer-headful@master
         env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
           DOMAIN: 'http://localhost:5000'
           TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
           TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
