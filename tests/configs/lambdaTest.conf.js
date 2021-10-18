@@ -99,7 +99,7 @@ exports.config = {
   connectionRetryTimeout: 300000,
   connectionRetryCount: 5,
   path: '/wd/hub',
-  hostname: '@eu-central-1-hub.lambdatest.com',
+  hostname: 'hub.lambdatest.com',
   port: 80,
 
   beforeSession: function (config, capabilities, specs) {
