@@ -101,9 +101,7 @@ let configAave=(market, forkNetworkID = null , forkRPCUrl = null)=>{
   MM.doSwitchToMetamaskNotificationWindow()
   MM.doConnect()
   MainPage.doSwitchToAave()
-  // MainPage.doAcceptCookie()
 }
-
 
 let configEnvWithTenderly = ({setupOptions, market, account}) =>{
   const _networkOptions = {
