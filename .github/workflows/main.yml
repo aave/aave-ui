@@ -5,8 +5,9 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  branches:
-    - test/test
+  push:
+    branches:
+      - test/test
 
 jobs:
   deploy_ipfs:
