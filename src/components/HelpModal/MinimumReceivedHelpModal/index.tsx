@@ -8,7 +8,6 @@ import { HelpModalProps } from '../types';
 import messages from './messages';
 import staticStyles from './style';
 
-// TODO: need change text
 export default function MinimumReceivedHelpModal({
   text,
   iconSize,
@@ -28,7 +27,6 @@ export default function MinimumReceivedHelpModal({
         description={
           <div className="MinimumReceivedHelpModal__content">
             <p>{intl.formatMessage(messages.descriptionFirst)}</p>
-            <p>{intl.formatMessage(messages.descriptionSecond)}</p>
           </div>
         }
         color={color}
