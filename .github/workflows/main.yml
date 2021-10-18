@@ -49,21 +49,10 @@ jobs:
               body: 'Preview link: ${{steps.deploy.outputs.uri}}'
             })
 
-  test:
-    runs-on: ubuntu-latest
-    needs: deploy_ipfs
-    env:
-      DOMAIN: 'http://localhost:5000'
-      LAMBDATEST_ACCOUNT: ${{ secrets.LAMBDATEST_ACCOUNT }}
-      LAMBDATEST_KEY: ${{ secrets.LAMBDATEST_KEY }}
-      TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
-      TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
-      TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: install
-        run: cd tests && npm ci
-
-      - name: Main
-        run: cd tests && npm run ci
+      - name: test
+        env:
+          DOMAIN: 'http://localhost:5000'
+          TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
+          TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
+          TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
+        run: cd tests && npm ci && npm run ci
