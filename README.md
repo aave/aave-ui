@@ -24,8 +24,9 @@ Enabling users to:
 Each commits gets deployed to ipfs automatically.
 There's a github action commenting the appropriate ipfs hash embedded in the cloudflare ipfs gateway after each commit.
 
-For ease of use the DNS of [https://staging.aave.com](https://staging.aave.com) will always point to the latest master ipfs hash with all networks enabled.
-The DNS of [htpps://aave.com](https://aave.com) will always point to the latest master ipfs hash with disabld test networks.
+For ease of use:
+- the DNS of [https://staging.aave.com](https://staging.aave.com) will always point to the latest master ipfs hash with all networks enabled.
+- the DNS of [htpps://aave.com](https://aave.com) will always point to the latest master ipfs hash with disabld test networks.
 
 ## Contribution
 For instructions on local deployment and configurations, see [Contributing](./CONTRIBUTING.md)
