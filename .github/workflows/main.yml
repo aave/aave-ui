@@ -11,7 +11,7 @@ jobs:
   deploy_ipfs:
     runs-on: ubuntu-latest
     outputs:
-      url: ${{ steps.deploy.outputs.uri }}
+      uri: ${{ steps.deploy.outputs.uri }}
     env:
       REACT_APP_SUPPORTED_ETHEREUM_NETWORKS: 'kovan,mumbai,fuji,mainnet,polygon,avalanche'
       REACT_APP_DEFAULT_ETHEREUM_NETWORK: 'mainnet'
