@@ -58,4 +58,5 @@ jobs:
           TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
           TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
           TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
-        run: cd tests && npm ci && npm run ci
+        with:
+          args: cd tests && npm ci && npm run ci
