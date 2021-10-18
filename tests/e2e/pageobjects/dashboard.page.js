@@ -123,23 +123,25 @@ class DashboardPage extends Page {
     return _aprValue
   }
 
-  doCheckDepositValue(asset, balance, isCollateral){
+  doCheckDepositValue(asset, isCollateral, balance = null){
     let _degree = mathUtil.getRoundDegree(balance)
     let _balanceValue = Math.floor(parseFloat(
       this.doGetCollateralValue(asset, isCollateral).replace(/,/g, "")
     )* _degree) / _degree
     let _collateralValue = this.doGetCollateralTypeValue(asset, isCollateral)
-    expect(balance).to.be.equal(_balanceValue, "Balance incorrect")
+    if(balance != null)
+      expect(balance).to.be.equal(_balanceValue, "Balance incorrect")
     expect(isCollateral).to.be.equal(_collateralValue, "Collateral incorrect")
   }
 
-  doCheckBorrowValue(asset, borrowed, aprType){
+  doCheckBorrowValue(asset, aprType, borrowed = null){
     let _degree = mathUtil.getRoundDegree(borrowed)
     let _balanceValue = Math.floor(parseFloat(
       this.doGetBorrowedValue(asset, aprType).replace(/,/g, "")
     )* _degree) / _degree
     let _collateralValue = this.doGetAPRTypeValue(asset, aprType)
-    expect(borrowed).to.be.equal(_balanceValue, "Borrowed incorrect")
+    if(borrowed != null)
+      expect(borrowed).to.be.equal(_balanceValue, "Borrowed incorrect")
     expect(aprType).to.be.equal(_collateralValue, "APR type incorrect")
   }
 
