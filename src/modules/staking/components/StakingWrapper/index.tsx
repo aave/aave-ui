@@ -19,11 +19,11 @@ import NoDataPanel from '../../../../components/NoDataPanel';
 import StakingTopPanel from '../StakingTopPanel';
 import SidePanelCard from '../SidePanelCard';
 import MainnetWarning from '../../../../components/MainnetWarning';
+import { ComputedStakeData } from '../../../../libs/pool-data-provider/types/stake';
+import CooldownInfoModal from '../CooldownInfoModal';
 
 import messages from './messages';
 import staticStyles from './style';
-import { ComputedStakeData } from '../../../../libs/pool-data-provider/types/stake';
-import CooldownInfoModal from '../CooldownInfoModal';
 
 interface StakingWrapperProps {
   children: ReactNode;
