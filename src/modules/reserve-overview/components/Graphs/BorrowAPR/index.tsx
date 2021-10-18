@@ -24,7 +24,7 @@ export default function BorrowAPR({
   const { currentLangSlug } = useLanguageContext();
   const { currentTheme } = useThemeContext();
 
-  const { data: borrowRatesHistory } = useReserveRatesHistory(poolReserveId);
+  const { data: borrowRatesHistory, loading } = useReserveRatesHistory(poolReserveId);
   const [series, setSeries] = useState<InterestRateSeries[]>([]);
 
   const stableRateHistoryData = [] as GraphPoint[];
@@ -55,6 +55,8 @@ export default function BorrowAPR({
     setSeries(series);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [borrowRatesHistory.length, currentLangSlug]);
+
+  if (!loading && !variableRateHistoryData.length) return null;
 
   return (
     <GraphInner

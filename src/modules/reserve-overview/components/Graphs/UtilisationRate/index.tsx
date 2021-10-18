@@ -18,7 +18,7 @@ export default function UtilisationRate({ poolReserveId, borrowingEnabled }: Uti
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { currentLangSlug } = useLanguageContext();
-  const { data: interestRatesHistory } = useReserveRatesHistory(poolReserveId);
+  const { data: interestRatesHistory, loading } = useReserveRatesHistory(poolReserveId);
   const [series, setSeries] = useState<InterestRateSeries[]>([]);
 
   const utilizationRateHistoryData = interestRatesHistory.map<GraphPoint>((item) => [
@@ -35,6 +35,8 @@ export default function UtilisationRate({ poolReserveId, borrowingEnabled }: Uti
     ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [utilizationRateHistoryData.length, currentLangSlug]);
+
+  if (!loading && !utilizationRateHistoryData.length) return null;
 
   return (
     <GraphInner
