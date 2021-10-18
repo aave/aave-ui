@@ -101,7 +101,7 @@ let configAave=(market, forkNetworkID = null , forkRPCUrl = null)=>{
   MM.doSwitchToMetamaskNotificationWindow()
   MM.doConnect()
   MainPage.doSwitchToAave()
-  MainPage.doAcceptCookie()
+  // MainPage.doAcceptCookie()
 }
 
 
