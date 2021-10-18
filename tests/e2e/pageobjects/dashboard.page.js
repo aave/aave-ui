@@ -67,6 +67,7 @@ class DashboardPage extends Page {
   }
 
   doChangeApr(asset, aprType = null){
+    browser.pause(2000)
     let _aprSwitcher = this.borrowRow(asset, aprType).$(locators.borrowsTable.aprSwitcher)
     elemUtil.doClickWithRedirect(_aprSwitcher)
   }
