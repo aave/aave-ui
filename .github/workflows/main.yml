@@ -38,17 +38,17 @@ jobs:
           PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
           PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
           PIN_ALIAS: "${{ format('pull_request_{0}', github.head_ref) }}"
-        run: npm run pinata:ipfs-publish
+        run: npm run build-ipfs
 
-      - uses: actions/github-script@v5
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.payload.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'Preview link: ${{steps.deploy.outputs.uri}}'
-            })
+      #- uses: actions/github-script@v5
+      #  with:
+      #    script: |
+      #      github.rest.issues.createComment({
+      #        issue_number: context.payload.number,
+      #        owner: context.repo.owner,
+      #        repo: context.repo.repo,
+      #        body: 'Preview link: ${{steps.deploy.outputs.uri}}'
+      #      })
 
       - name: test
         env:
