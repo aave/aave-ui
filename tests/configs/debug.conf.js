@@ -44,7 +44,7 @@ exports.config = {
 
     './e2e/specs/polygonMarket/assets/matic.polygon.test.js',
     './e2e/specs/polygonMarket/assets/dai.polygon.test.js',
-    './e2e/specs/polygonMarket/assets/usdc.polygon.test.js',
+    // './e2e/specs/polygonMarket/assets/usdc.polygon.test.js',
     './e2e/specs/polygonMarket/assets/usdt.polygon.test.js',
     './e2e/specs/polygonMarket/assets/weth.polygon.test.js',
     './e2e/specs/polygonMarket/assets/wbtc.polygon.test.js',

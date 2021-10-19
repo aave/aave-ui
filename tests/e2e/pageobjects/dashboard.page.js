@@ -67,6 +67,7 @@ class DashboardPage extends Page {
   }
 
   doChangeApr(asset, aprType = null){
+    browser.pause(2000)
     let _aprSwitcher = this.borrowRow(asset, aprType).$(locators.borrowsTable.aprSwitcher)
     elemUtil.doClickWithRedirect(_aprSwitcher)
   }
@@ -148,16 +149,27 @@ class DashboardPage extends Page {
   }
 
   doCheckRewardIsAvailable(){
-    let _rewardValue = elemUtil.doGetText(this.rewardCountText)
-    expect(_rewardValue).to.be.not.equal("0.00")
+    browser.waitUntil(
+      () => elemUtil.doGetText(this.rewardCountText) != "0.00",
+      {
+        timeout: 10000,
+        timeoutMsg: 'expected reward != 0.00, but it is ' + elemUtil.doGetText(this.rewardCountText)
+      }
+    )
     expect(elemUtil.doIsElemDisable(this.claimBtn)).to.be.false
   }
 
   doCheckRewardIsNotAvailable(){
-    let _rewardValue = elemUtil.doGetText(this.rewardCountText)
-    expect(_rewardValue).to.be.equal("0.00")
+    browser.waitUntil(
+      () => elemUtil.doGetText(this.rewardCountText) == "0.00",
+      {
+        timeout: 10000,
+        timeoutMsg: 'expected reward = 0.00, but it is ' + elemUtil.doGetText(this.rewardCountText)
+      }
+    )
     expect(elemUtil.doIsElemDisable(this.claimBtn)).to.be.true
   }
+
 
   doOpenClaimReward(){
     elemUtil.doClick(this.claimBtn)

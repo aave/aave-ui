@@ -11,7 +11,7 @@ jobs:
   deploy_ipfs:
     runs-on: ubuntu-latest
     outputs:
-      url: ${{ steps.deploy.outputs.url }}
+      uri: ${{ steps.deploy.outputs.uri }}
     env:
       REACT_APP_SUPPORTED_ETHEREUM_NETWORKS: 'kovan,mumbai,fuji,mainnet,polygon,avalanche'
       REACT_APP_DEFAULT_ETHEREUM_NETWORK: 'mainnet'
@@ -53,7 +53,7 @@ jobs:
     needs: deploy_ipfs
     container: 'wolphin/e2e-image'
     env:
-      DOMAIN: '${{ needs.deploy_ipfs.outputs.url }}'
+      DOMAIN: '${{ needs.deploy_ipfs.outputs.uri }}'
       LAMBDATEST_ACCOUNT: ${{ secrets.LAMBDATEST_ACCOUNT }}
       LAMBDATEST_KEY: ${{ secrets.LAMBDATEST_KEY }}
       TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}

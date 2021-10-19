@@ -3,7 +3,7 @@ const config = require('../../config');
 module.exports = class Page {
     open (path) {
         if(path){
-            return browser.url(config.URL+`${path}`)
+            return browser.url(config.URL+"/#"+`${path}`)
         }else{
             return browser.url(config.URL)
         }
