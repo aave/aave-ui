@@ -52,7 +52,7 @@ jobs:
 
       - name: Install Dependencies
         uses: actions/setup-node@v2
-        directory: tests
+        working-directory: tests
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
         with:
@@ -60,7 +60,7 @@ jobs:
 
       - name: Test Code
         uses: mujo-code/puppeteer-headful@v2
-        directory: tests
+        working-directory: tests
         env:
           CI: 'true'
           DOMAIN: 'http://localhost:5000'
