@@ -59,7 +59,7 @@ jobs:
         uses: mujo-code/puppeteer-headful@v2
         env:
           CI: 'true'
-          DOMAIN: 'http://localhost:5000'
+          DOMAIN: 'http://localhost:3000'
           TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
           TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
           TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
