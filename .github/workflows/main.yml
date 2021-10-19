@@ -50,13 +50,22 @@ jobs:
       #        body: 'Preview link: ${{steps.deploy.outputs.uri}}'
       #      })
 
-      - name: test
-        uses: djp3/puppeteer-headful@master
+      - name: Install Dependencies
+        uses: actions/setup-node@v2
+        directory: tests
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+        with:
+          args: install
+
+      - name: Test Code
+        uses: mujo-code/puppeteer-headful@v2
+        directory: tests
+        env:
+          CI: 'true'
           DOMAIN: 'http://localhost:5000'
           TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
           TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
           TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
         with:
-          args: cd tests && npm ci && npm run ci
+          args: npm run ci
