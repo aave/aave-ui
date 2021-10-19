@@ -15,8 +15,7 @@ const locators = {
       ammForkBtn: "//div[contains(@class, 'Menu__buttons-inner')]//img[@alt='amm_fork']/../..",
       aaveV2KovanBtn: "//div[contains(@class, 'Menu__buttons-inner')]//img[@alt='proto_kovan']/../..",
       avalancheForkBtn: "//div[contains(@class, 'Menu__buttons-inner')]//img[@alt='avalanche_fork']/../..",
-    },
-    acceptCookieBtn: "//*[contains(@class, 'LegalBanner__buttons-inner')]//button"
+    }
 };
 
 class MainPage extends Page {
@@ -31,19 +30,12 @@ class MainPage extends Page {
   get aaveV2KovanBtnBurger () { return $(locators.marketsBtnsList.aaveV2KovanBtn) }
   get avalancheForkBtnBurger () { return $(locators.marketsBtnsList.avalancheForkBtn) }
 
-
-  get acceptCookieBtn () { return $(locators.acceptCookieBtn) }
-
   open(path) {
       return super.open(path);
   }
 
   doSwitchToAave(){
     browser.switchWindow(config.URL)
-  }
-
-  doAcceptCookie(){
-    elemUtil.doClick(this.acceptCookieBtn)
   }
 
   doConnectWithMM(){

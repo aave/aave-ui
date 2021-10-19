@@ -1,15 +1,17 @@
 import css from 'styled-jsx/css';
 
+const PUBLIC_URL = process.env.PUBLIC_URL;
+
 /*language=SCSS*/
 const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
   @import 'src/_mixins/vars';
   @import 'src/_mixins/font-face';
 
-  @include font-face('roboto-font', '/fonts/RobotoRegular/RobotoRegular');
-  @include font-face('roboto-font', '/fonts/RobotoLight/RobotoLight', 300);
-  @include font-face('roboto-font', '/fonts/RobotoMedium/RobotoMedium', 500);
-  @include font-face('roboto-font', '/fonts/RobotoBold/RobotoBold', 600);
+  @include font-face('roboto-font', '${PUBLIC_URL}/fonts/RobotoRegular/RobotoRegular');
+  @include font-face('roboto-font', '${PUBLIC_URL}/fonts/RobotoLight/RobotoLight', 300);
+  @include font-face('roboto-font', '${PUBLIC_URL}/fonts/RobotoMedium/RobotoMedium', 500);
+  @include font-face('roboto-font', '${PUBLIC_URL}/fonts/RobotoBold/RobotoBold', 600);
 
   * {
     padding: 0;

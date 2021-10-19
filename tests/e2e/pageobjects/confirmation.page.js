@@ -71,6 +71,7 @@ class ConfirmationPage extends Page {
         }
       }catch (e){}
     }
+    browser.pause(2000) // awaiting updating data on client
   }
 }
 

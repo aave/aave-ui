@@ -5,7 +5,7 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@0x/subproviders": "^6.5.4",
-    "@aave/aave-ui-kit": "^0.1.12",
+    "@aave/aave-ui-kit": "^0.1.13",
     "@aave/contract-helpers": "0.10.0",
     "@aave/protocol-js": "^4.1.0",
     "@actions/core": "^1.6.0",
@@ -117,9 +117,8 @@
     "eject": "react-scripts eject",
     "gql-gen": "graphql-codegen --config codegen.yml",
     "i18n": "NODE_ENV=development node ./scripts/extract-intl-messages.js",
-    "sys:prepare-ipfs-mode": "cp package.json package.temp.json && cat package.json | python3 -c 'import json, sys; v = json.load(sys.stdin); v[\"homepage\"] = \".\"; json.dump(v, sys.stdout, indent=2)' | tee package.json > /dev/null",
-    "sys:cleanup-ipfs-mode": "mv -f package.temp.json package.json",
-    "build-ipfs": "npm run sys:prepare-ipfs-mode && REACT_APP_IPFS_MODE=true npm run build && npm run sys:cleanup-ipfs-mode",
+    "sys:prepare-ipfs-mode": "contents=\"$(jq '.homepage = \".\"' package.json)\" && echo \"${contents}\" > package.json",
+    "build-ipfs": "npm run sys:prepare-ipfs-mode && REACT_APP_IPFS_MODE=true npm run build",
     "pinata:ipfs-publish": "npm run build-ipfs && node scripts/publish.js"
   },
   "husky": {

@@ -1,7 +1,7 @@
 name: CI
 
 concurrency:
-  group: ${{ github.head_ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 on:
@@ -10,9 +10,8 @@ on:
 jobs:
   deploy_ipfs:
     runs-on: ubuntu-latest
-    container: node:14
     outputs:
-      url: ${{ steps.deploy.outputs.url }}
+      uri: ${{ steps.deploy.outputs.uri }}
     env:
       REACT_APP_SUPPORTED_ETHEREUM_NETWORKS: 'kovan,mumbai,fuji,mainnet,polygon,avalanche'
       REACT_APP_DEFAULT_ETHEREUM_NETWORK: 'mainnet'
@@ -22,6 +21,11 @@ jobs:
       NGINX_MODE: 'staging'
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
 
       - name: install
         run: npm ci
@@ -47,9 +51,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: deploy_ipfs
-    container: "wolphin/e2e-image"
+    container: 'wolphin/e2e-image'
     env:
-      DOMAIN: "${{ needs.deploy_ipfs.outputs.url }}"
+      DOMAIN: '${{ needs.deploy_ipfs.outputs.uri }}'
       LAMBDATEST_ACCOUNT: ${{ secrets.LAMBDATEST_ACCOUNT }}
       LAMBDATEST_KEY: ${{ secrets.LAMBDATEST_KEY }}
       TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
@@ -60,6 +64,6 @@ jobs:
 
       - name: install
         run: cd tests && npm ci
-      
+
       - name: Main
         run: cd tests && BUILD="${GITHUB_REF}_${GITHUB_SHA}" npm run lambdaTest

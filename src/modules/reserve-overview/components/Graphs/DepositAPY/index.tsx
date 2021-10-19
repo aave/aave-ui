@@ -18,7 +18,7 @@ export default function DepositAPY({ poolReserveId, borrowingEnabled }: DepositA
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { currentLangSlug } = useLanguageContext();
-  const { data: interestRatesHistory } = useReserveRatesHistory(poolReserveId);
+  const { data: interestRatesHistory, loading } = useReserveRatesHistory(poolReserveId);
   const [series, setSeries] = useState<InterestRateSeries[]>([]);
 
   const liquidityRateHistoryData = interestRatesHistory.map<GraphPoint>((item) => [
@@ -35,6 +35,8 @@ export default function DepositAPY({ poolReserveId, borrowingEnabled }: DepositA
     ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [liquidityRateHistoryData.length, currentLangSlug]);
+
+  if (!loading && !interestRatesHistory.length) return null;
 
   return (
     <GraphInner
