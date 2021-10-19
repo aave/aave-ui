@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { ethers, Wallet, providers } from 'ethers';
 
 declare global {
   // @ts-ignore

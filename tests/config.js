@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { DOMAIN } = process.env;
 
 module.exports = {

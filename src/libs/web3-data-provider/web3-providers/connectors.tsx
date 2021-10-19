@@ -1,4 +1,5 @@
-import { Network } from '@aave/protocol-js';
+import { ChainId, Network } from '@aave/protocol-js';
+import { ethers, Wallet, providers } from 'ethers';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { LedgerConnector } from './connectors/ledger-connector';
@@ -11,6 +12,7 @@ import { TorusConnector } from '@web3-react/torus-connector';
 import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
 // import { PortisConnector } from '@web3-react/portis-connector';
 import { PortisConnector } from './connectors/portis-connector';
+import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 
 import { MewConnectConnector } from '@myetherwallet/mewconnect-connector';
 
@@ -33,7 +35,8 @@ export type AvailableWeb3Connectors =
   | 'authereum'
   | 'torus'
   | 'gnosis-safe'
-  | 'portis';
+  | 'portis'
+  | 'test';
 
 export enum LedgerDerivationPath {
   'Legacy' = "44'/60'/0'/x",
@@ -54,6 +57,57 @@ function raiseUnsupportedNetworkError(network: Network, connectorName: Available
   throw new Error(`${network} is not supported by ${connectorName}`);
 }
 
+interface ConnectorUpdate<T = number | string> {
+  provider?: any;
+  chainId?: T;
+  account?: null | string;
+}
+export class NetworkConnector extends AbstractConnector {
+  private readonly provider: JsonRpcProvider;
+  private currentChainId: number;
+
+  constructor(provider: JsonRpcProvider, currentChainId: number) {
+    super({ supportedChainIds: [currentChainId] });
+
+    this.currentChainId = currentChainId;
+    this.provider = provider;
+  }
+
+  public async activate(): Promise<ConnectorUpdate> {
+    return {
+      provider: this.provider,
+      chainId: this.currentChainId,
+      account: this.provider.getSigner()._address,
+    };
+  }
+
+  public async getProvider(): Promise<JsonRpcProvider> {
+    return this.provider;
+  }
+
+  public async getChainId(): Promise<number> {
+    return this.currentChainId;
+  }
+
+  public async getAccount(): Promise<string> {
+    return this.provider.getSigner()._address;
+  }
+
+  public deactivate() {
+    return;
+  }
+}
+
+const getTestProvider = () => {
+  const privateKey = localStorage.getItem('testPrivatekey') as string;
+  const testRPC = localStorage.getItem('testRPC') as string;
+  const testChainID = Number(localStorage.getItem('testChainID') as string);
+  const signer = new Wallet(privateKey);
+  const provider = new providers.JsonRpcProvider(testRPC, testChainID);
+  signer.connect(provider);
+  return new NetworkConnector(provider, testChainID);
+};
+
 export function getWeb3Connector(
   connectorName: AvailableWeb3Connectors,
   currentNetwork: Network,
@@ -64,6 +118,8 @@ export function getWeb3Connector(
   const networkId = mapNameToChainID(currentNetwork);
 
   switch (connectorName) {
+    case 'test':
+      return getTestProvider();
     case 'browser':
       return new InjectedConnector({ supportedChainIds: getSupportedNetworksIds() });
     case 'ledger':
