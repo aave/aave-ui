@@ -1,5 +1,9 @@
 name: Deploy
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -33,5 +37,5 @@ jobs:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
           PIN_ALIAS: staging
-          CF_DEPLOYMENT_DOMAIN: staging-ipfs.aave.com
+          CF_DEPLOYMENT_DOMAIN: staging.aave.com
         run: npm run pinata:ipfs-publish

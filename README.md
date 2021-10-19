@@ -21,7 +21,12 @@ Enabling users to:
 - Participate on the Aave Governance.
 
 ## IPFS deployment
-https://cloudflare-ipfs.com/ipfs/QmUGvvcpvnWX3bWhNrixNt3ojEu9TmR3gwAj52myAjwQ1U
+Each commit gets deployed to ipfs automatically.
+There's a github action commenting the appropriate ipfs hash embedded in the cloudflare ipfs gateway after each commit.
+
+For ease of use:
+- the DNS of [https://staging.aave.com](https://staging.aave.com) will always point to the latest master ipfs hash with all networks enabled.
+- the DNS of [htpps://app.aave.com](https://app.aave.com) will always point to the latest master ipfs hash with disabled test networks.
 
 ## Contribution
 For instructions on local deployment and configurations, see [Contributing](./CONTRIBUTING.md)
