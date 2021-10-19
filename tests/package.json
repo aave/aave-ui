@@ -7,7 +7,7 @@
     "debug": "node ./node_modules/.bin/wdio ./configs/debug.conf.js",
     "test": "node ./node_modules/.bin/wdio ./configs/local.conf.js",
     "lambdaTest": "node ./node_modules/.bin/wdio ./configs/lambdaTest.conf.js",
-    "start-server": "cd .. && npm i -g serve && serve -s build",
+    "start-server": "cd .. && npm run start:dev",
     "ci": "start-server-and-test start-server http://localhost:5000 test"
   },
   "author": "",
