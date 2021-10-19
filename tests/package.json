@@ -8,7 +8,7 @@
     "test": "node ./node_modules/.bin/wdio ./configs/local.conf.js",
     "lambdaTest": "node ./node_modules/.bin/wdio ./configs/lambdaTest.conf.js",
     "start-server": "cd .. && npm run start:dev",
-    "ci": "start-server-and-test start-server http://localhost:5000 test"
+    "ci": "start-server-and-test start-server http://localhost:3000 test"
   },
   "author": "",
   "license": "ISC",
