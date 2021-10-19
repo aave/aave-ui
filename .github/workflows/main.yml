@@ -51,16 +51,12 @@ jobs:
       #      })
 
       - name: Install Dependencies
-        uses: actions/setup-node@v2
-        working-directory: tests
         env:
           PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
-        with:
-          args: install
+        run: cd tests && npm ci
 
       - name: Test Code
         uses: mujo-code/puppeteer-headful@v2
-        working-directory: tests
         env:
           CI: 'true'
           DOMAIN: 'http://localhost:5000'
@@ -68,4 +64,4 @@ jobs:
           TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
           TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
         with:
-          args: npm run ci
+          args: cd tests && npm run ci
