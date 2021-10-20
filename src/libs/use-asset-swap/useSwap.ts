@@ -89,6 +89,7 @@ export const useSwap = ({ swapIn, swapOut, variant, userId, max, chainId }: UseS
           partner: 'aave',
           ...(max
             ? {
+                excludeDEXS: 'Balancer',
                 excludeContractMethods: [ContractMethod.simpleSwap],
               }
             : {}),
@@ -153,7 +154,6 @@ type GetSwapCallDataProps = {
   srcDecimals: number;
   destToken: string;
   destDecimals: number;
-  maxSlippage: number;
   user: string;
   route: OptimalRate;
   max?: boolean;
@@ -165,16 +165,16 @@ export const getSwapCallData = async ({
   srcDecimals,
   destToken,
   destDecimals,
-  maxSlippage,
   user,
   route,
   chainId,
 }: GetSwapCallDataProps) => {
   const paraSwap = getParaswap(chainId);
   const destAmountWithSlippage = new BigNumberZD(route.destAmount)
-    .multipliedBy(100 - maxSlippage)
+    .multipliedBy(99)
     .dividedBy(100)
-    .toString();
+    .toFixed(0);
+  console.log(destAmountWithSlippage);
   const params = await paraSwap.buildTx(
     srcToken,
     destToken,
