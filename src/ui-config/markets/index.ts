@@ -187,7 +187,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     aTokenPrefix: 'AV',
     enabledFeatures: {
       liquiditySwap: true,
-      incentives: true
+      incentives: true,
     },
     addresses: {
       LENDING_POOL_ADDRESS_PROVIDER: '0xb6A86025F0FE1862B372cb0ca18CE3EDe02A318f'.toLowerCase(),
