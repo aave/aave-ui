@@ -1,16 +1,18 @@
 import { Denominations } from '@aave/contract-helpers';
 import {
-  calculateTotalUserIncentives,
-  calculateReserveIncentives,
-  CalculateReserveIncentivesResponse,
-  UserReserveData,
-  RAY_DECIMALS,
+  calculateAllUserIncentives,
+  calculateAllReserveIncentives,
   normalize,
+  ReserveIncentiveDict,
+  UserIncentiveDict,
+  ETH_DECIMALS,
+  RAY_DECIMALS,
+  ReserveCalculationData,
+  UserReserveCalculationData,
 } from '@aave/math-utils';
-import { ComputedReserveData, IncentivesControllerInterface, TxBuilderV2 } from '@aave/protocol-js';
-import BigNumber from 'bignumber.js';
+import { IncentivesControllerInterface, TxBuilderV2 } from '@aave/protocol-js';
 import { ethers } from 'ethers';
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useContext } from 'react';
 import { useLocation } from 'react-router';
 import Preloader from '../../../components/basic/Preloader';
 import ErrorPage from '../../../components/ErrorPage';
@@ -32,51 +34,13 @@ import {
   UserReserveIncentiveData,
 } from './use-incentives-data';
 
-// User incentives response type
-interface UserIncentiveDict {
-  [incentiveControllerAddress: string]: UserIncentiveData;
-}
-
-export interface UserIncentiveData {
-  rewardTokenAddress: string;
-  rewardTokenDecimals: number;
-  claimableRewards: BigNumber;
-  assets: string[];
-}
-
-export interface IncentivesDataContextData {
-  reserveIncentives: CalculateReserveIncentivesResponse[];
+export interface IncentivesContext {
+  reserveIncentives: ReserveIncentiveDict;
   userIncentives: UserIncentiveDict;
   incentivesTxBuilder: IncentivesControllerInterface;
 }
 
-const IncentivesDataContext = React.createContext({} as IncentivesDataContextData);
-
-// Calculate incentive token price from reserves data or priceFeed from UiIncentiveDataProvider
-function calculateRewardTokenPrice(
-  reserves: ComputedReserveData[],
-  address: string,
-  priceFeed: string,
-  priceFeedDecimals: number
-): string {
-  // For stkAave incentives, use Aave reserve data
-  if (address === '0x4da27a545c0c5b758a6ba100e3a049001de870f5') {
-    address = '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9';
-  }
-  // For WMATIC/WAVAX incentives, use MATIC/AVAX reserve data
-  if (
-    address === '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270' ||
-    address === '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7'
-  ) {
-    address = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
-  }
-  const rewardReserve = reserves.find((reserve) => reserve.underlyingAsset === address);
-  if (rewardReserve) {
-    return normalize(rewardReserve.price.priceInEth, Number(rewardReserve.decimals));
-  } else {
-    return normalize(priceFeed, priceFeedDecimals);
-  }
-}
+const IncentivesDataContext = React.createContext({} as IncentivesContext);
 
 export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const { userId } = useStaticPoolDataContext();
@@ -86,13 +50,8 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const { network: apolloClientNetwork } = useApolloConfigContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
   const currentTimestamp = useCurrentTimestamp(1);
-  const [reserveIncentives, setReserveIncentives] = useState<CalculateReserveIncentivesResponse[]>(
-    []
-  );
-  const [userReserves, setUserReserves] = useState<UserReserveData[]>([]);
-
   const currentAccount = userId ? userId.toLowerCase() : ethers.constants.AddressZero;
-  const ETH_DECIMALS: number = 18;
+  // incentivesTxBuilder is used in RewardConfirm component where incentiveControllerAddress is appended to pathname
   const incentivesControllerAddress = location.pathname.split('/')[3]?.toLowerCase();
   const incentivesTxBuilder: IncentivesControllerInterface = new TxBuilderV2(
     network,
@@ -130,110 +89,50 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const reserveIncentiveData: ReserveIncentiveData[] =
     activeData && activeData.reserveIncentiveData ? activeData.reserveIncentiveData : [];
 
-  // Calculate and update userReserves
-  useEffect(() => {
-    if (user && reserves) {
-      const userReserves: UserReserveData[] = [];
-      user.reservesData.forEach((userReserve) => {
-        // Account for underlyingReserveAddress of network base assets not matching wrapped incentives
-        let reserveUnderlyingAddress = userReserve.reserve.underlyingAsset.toLowerCase();
-        // Find the underlying reserve data for each userReserve
-        const reserve = reserves.find(
-          (reserve) => reserve.underlyingAsset.toLowerCase() === reserveUnderlyingAddress
-        );
-        // Convert to match incentives data which uses wrapped addresses for base assets (ETH, MATIC, AVAX)
-        if (reserveUnderlyingAddress === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
-          if (userReserve.reserve.symbol === 'MATIC') {
-            reserveUnderlyingAddress = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
-          } else if (userReserve.reserve.symbol === 'ETH') {
-            reserveUnderlyingAddress = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
-          } else if (userReserve.reserve.symbol === 'AVAX') {
-            reserveUnderlyingAddress = '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7';
-          }
-        }
-        if (reserve) {
-          // Construct UserReserveData object from reserve and userReserve fields
-          userReserves.push({
-            underlyingAsset: reserveUnderlyingAddress,
-            totalLiquidity: normalize(reserve.totalLiquidity, reserve.decimals),
-            liquidityIndex: normalize(reserve.liquidityIndex, RAY_DECIMALS),
-            totalScaledVariableDebt: normalize(reserve.totalScaledVariableDebt, reserve.decimals),
-            totalPrincipalStableDebt: normalize(reserve.totalPrincipalStableDebt, reserve.decimals),
-            scaledATokenBalance: normalize(userReserve.scaledATokenBalance, reserve.decimals),
-            scaledVariableDebt: userReserve.scaledVariableDebt,
-            principalStableDebt: normalize(userReserve.principalStableDebt, reserve.decimals),
-          });
-        }
-      });
-      setUserReserves(userReserves);
-    }
-  }, [user, reserves]);
-
-  // Calculate and update reserveIncentives
-  useEffect(() => {
-    if (reserves && reserveIncentiveData) {
-      const allReserveIncentives: CalculateReserveIncentivesResponse[] = [];
-      reserves.forEach((reserve) => {
-        // Account for underlyingReserveAddress of network base assets not matching wrapped incentives
-        let reserveUnderlyingAddress = reserve.underlyingAsset.toLowerCase();
-        let isBaseAsset = false;
-        if (reserveUnderlyingAddress === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
-          isBaseAsset = true;
-          if (reserve.symbol === 'MATIC') {
-            reserveUnderlyingAddress = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270';
-          } else if (reserve.symbol === 'ETH') {
-            reserveUnderlyingAddress = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
-          } else if (reserve.symbol === 'AVAX') {
-            reserveUnderlyingAddress = '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7';
-          }
-        }
-        // Find the corresponding incentive data for each reserve
-        const incentiveData = reserveIncentiveData.find(
-          (incentive) => incentive.underlyingAsset.toLowerCase() === reserveUnderlyingAddress
-        );
-        if (incentiveData) {
-          const calculatedReserveIncentives: CalculateReserveIncentivesResponse =
-            calculateReserveIncentives({
-              reserveIncentiveData: incentiveData,
-              totalLiquidity: normalize(reserve.totalLiquidity, reserve.decimals),
-              liquidityIndex: normalize(reserve.liquidityIndex, RAY_DECIMALS),
-              totalScaledVariableDebt: normalize(reserve.totalScaledVariableDebt, reserve.decimals),
-              totalPrincipalStableDebt: normalize(
-                reserve.totalPrincipalStableDebt,
-                reserve.decimals
-              ),
-              priceInMarketReferenceCurrency: normalize(reserve.price.priceInEth, ETH_DECIMALS), // Will be replaced with marketReferencePrice/Decimals
-              decimals: reserve.decimals,
-
-              aRewardTokenPriceInMarketReferenceCurrency: calculateRewardTokenPrice(
-                reserves,
-                incentiveData.aIncentiveData.rewardTokenAddress.toLowerCase(),
-                incentiveData.aIncentiveData.priceFeed,
-                incentiveData.aIncentiveData.priceFeedDecimals
-              ),
-
-              vRewardTokenPriceInMarketReferenceCurrency: calculateRewardTokenPrice(
-                reserves,
-                incentiveData.vIncentiveData.rewardTokenAddress.toLowerCase(),
-                incentiveData.vIncentiveData.priceFeed,
-                incentiveData.vIncentiveData.priceFeedDecimals
-              ),
-              sRewardTokenPriceInMarketReferenceCurrency: calculateRewardTokenPrice(
-                reserves,
-                incentiveData.sIncentiveData.rewardTokenAddress.toLowerCase(),
-                incentiveData.sIncentiveData.priceFeed,
-                incentiveData.sIncentiveData.priceFeedDecimals
-              ),
-            });
-          calculatedReserveIncentives.underlyingAsset = isBaseAsset
-            ? '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
-            : calculatedReserveIncentives.underlyingAsset; // ETH, MATIC, and AVAX all use reserve address of '0xee...'
-          allReserveIncentives.push(calculatedReserveIncentives);
-        }
-      });
-      setReserveIncentives(allReserveIncentives);
-    }
-  }, [reserves, reserveIncentiveData]);
+  // Create array of formatted user and reserve data used for user incentive calculations
+  let computedUserReserves: UserReserveCalculationData[] = [];
+  if (user) {
+    user.reservesData.forEach((userReserve) => {
+      const reserve = reserves.find(
+        (reserve) =>
+          reserve.underlyingAsset.toLowerCase() ===
+          userReserve.reserve.underlyingAsset.toLowerCase()
+      );
+      if (reserve) {
+        // Construct UserReserveData object from reserve and userReserve fields
+        computedUserReserves.push({
+          underlyingAsset: userReserve.reserve.underlyingAsset.toLowerCase(),
+          totalLiquidity: normalize(reserve.totalLiquidity, -1 * reserve.decimals),
+          liquidityIndex: normalize(reserve.liquidityIndex, -1 * RAY_DECIMALS),
+          totalScaledVariableDebt: normalize(
+            reserve.totalScaledVariableDebt,
+            -1 * reserve.decimals
+          ),
+          totalPrincipalStableDebt: normalize(
+            reserve.totalPrincipalStableDebt,
+            -1 * reserve.decimals
+          ),
+          scaledATokenBalance: normalize(userReserve.scaledATokenBalance, -1 * reserve.decimals),
+          scaledVariableDebt: userReserve.scaledVariableDebt,
+          principalStableDebt: normalize(userReserve.principalStableDebt, -1 * reserve.decimals),
+        });
+      }
+    });
+  }
+  // Create array of formatted reserve data used for reserve incentive calculations
+  const computedReserves: ReserveCalculationData[] = reserves.map((reserve) => {
+    return {
+      underlyingAsset: reserve.underlyingAsset,
+      symbol: reserve.symbol,
+      totalLiquidity: normalize(reserve.totalLiquidity, -1 * reserve.decimals),
+      liquidityIndex: normalize(reserve.liquidityIndex, -1 * RAY_DECIMALS),
+      totalScaledVariableDebt: normalize(reserve.totalScaledVariableDebt, -1 * reserve.decimals),
+      totalPrincipalStableDebt: normalize(reserve.totalPrincipalStableDebt, -1 * reserve.decimals),
+      priceInMarketReferenceCurrency: normalize(reserve.price.priceInEth, -1 * ETH_DECIMALS),
+      marketReferenceCurrencyDecimals: ETH_DECIMALS,
+      decimals: reserve.decimals,
+    };
+  });
 
   if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
     return <Preloader withBackground={true} />;
@@ -242,27 +141,27 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   if (!activeData || (isRPCActive && rpcDataError) || (!isRPCActive && cachedDataError)) {
     return <ErrorPage />;
   }
+
+  // Compute the incentive APYs for all reserve assets, returned as dictionary indexed by underlyingAsset
+  let reserveIncentives = calculateAllReserveIncentives({
+    reserveIncentives: reserveIncentiveData,
+    reserves: computedReserves,
+  });
+
   // Compute the total claimable rewards for a user, returned as dictionary indexed by incentivesController
-  let userIncentives = calculateTotalUserIncentives({
+  let userIncentives = calculateAllUserIncentives({
     reserveIncentives: reserveIncentiveData,
     userReserveIncentives: userIncentiveData,
-    userReserves,
+    userReserves: computedUserReserves,
     currentTimestamp,
   });
-  // Filter out blank incentives controllers
-  userIncentives = Object.fromEntries(
-    Object.entries(userIncentives).filter(
-      (incentive) =>
-        incentive[1].rewardTokenAddress !== '0x0000000000000000000000000000000000000000'
-    )
-  );
 
   return (
     <IncentivesDataContext.Provider
       value={{
         incentivesTxBuilder,
         reserveIncentives,
-        userIncentives: userIncentives ? userIncentives : {},
+        userIncentives,
       }}
     >
       {children}
