@@ -1,6 +1,7 @@
 {
   "presets": ["react-app"],
   "plugins":[
+    "styled-jsx/babel",
     [
       "react-intl-auto",
       {
