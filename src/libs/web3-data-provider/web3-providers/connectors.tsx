@@ -12,7 +12,9 @@ import { TorusConnector } from '@web3-react/torus-connector';
 import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
 // import { PortisConnector } from '@web3-react/portis-connector';
 import { PortisConnector } from './connectors/portis-connector';
-import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
+import { JsonRpcProvider, Web3Provider, Provider } from '@ethersproject/providers';
+import Web3 from 'web3';
+import invariant from 'tiny-invariant';
 
 import { MewConnectConnector } from '@myetherwallet/mewconnect-connector';
 
@@ -63,34 +65,33 @@ interface ConnectorUpdate<T = number | string> {
   account?: null | string;
 }
 export class NetworkConnector extends AbstractConnector {
-  private readonly provider: JsonRpcProvider;
   private currentChainId: number;
+  private web3: Web3;
 
-  constructor(provider: JsonRpcProvider, currentChainId: number) {
+  constructor(web3: Web3, currentChainId: number) {
     super({ supportedChainIds: [currentChainId] });
-
     this.currentChainId = currentChainId;
-    this.provider = provider;
+    this.web3 = web3;
   }
 
   public async activate(): Promise<ConnectorUpdate> {
     return {
-      provider: this.provider,
+      provider: this.web3.eth.currentProvider,
       chainId: this.currentChainId,
-      account: this.provider.getSigner()._address,
+      account: this.web3.eth.defaultAccount,
     };
   }
 
-  public async getProvider(): Promise<JsonRpcProvider> {
-    return this.provider;
+  public async getProvider(): Promise<Provider> {
+    return this.web3.eth.currentProvider as any;
   }
 
   public async getChainId(): Promise<number> {
     return this.currentChainId;
   }
 
-  public async getAccount(): Promise<string> {
-    return this.provider.getSigner()._address;
+  public async getAccount(): Promise<string | null> {
+    return this.web3.eth.defaultAccount; // this.dress;
   }
 
   public deactivate() {
@@ -102,10 +103,14 @@ const getTestProvider = () => {
   const privateKey = localStorage.getItem('testPrivatekey') as string;
   const testRPC = localStorage.getItem('testRPC') as string;
   const testChainID = Number(localStorage.getItem('testChainID') as string);
-  const signer = new Wallet(privateKey);
-  const provider = new providers.JsonRpcProvider(testRPC, testChainID);
-  signer.connect(provider);
-  return new NetworkConnector(provider, testChainID);
+  const address = localStorage.getItem('selectedAccount') as string;
+  const web3 = new Web3(new Web3.providers.HttpProvider(testRPC));
+  const account = web3.eth.accounts.privateKeyToAccount('0x' + privateKey);
+  web3.eth.accounts.wallet.add(account);
+  web3.eth.defaultAccount = address;
+  web3.defaultAccount = address;
+  (window as any).web3 = web3;
+  return new NetworkConnector(web3, testChainID);
 };
 
 export function getWeb3Connector(
