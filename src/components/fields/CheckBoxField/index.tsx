@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
@@ -12,7 +12,7 @@ export interface onChange {
 
 interface CheckBoxFieldProps {
   className?: string;
-  title?: string;
+  title?: string | ReactNode;
   value: boolean;
   name: string;
   onChange: ({ name: string, value: boolean }: onChange) => void;
