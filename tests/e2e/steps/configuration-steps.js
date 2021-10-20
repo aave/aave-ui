@@ -140,7 +140,6 @@ module.exports.configTestWithTenderlyMainnetFork = ({
   market = constants.markets.aaveV2Fork,
   account = DEFAULT_TEST_ACCOUNT
 }) => {
-  console.log("mainnet " + DEFAULT_TEST_ACCOUNT.address)
   configEnvWithTenderly({
     setupOptions: TENDERLY_SETUP_OPTIONS_ETH_MAINNET,
     market: market,
