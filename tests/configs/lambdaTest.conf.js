@@ -29,7 +29,7 @@ const SPEC_LIST = {
       './e2e/specs/polygonMarket/assets/weth.polygon.test.js',
     ],
     reward: './e2e/specs/polygonMarket/reward.polygon.test.js',
-    swap: './e2e/specs/mainMarket/swap.polygon.test.js'
+    swap: './e2e/specs/polygonMarket/swap.polygon.test.js'
   },
   ammMarket: {
     assets: [
