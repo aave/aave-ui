@@ -31,10 +31,6 @@ const mainnet_config: BaseNetworkConfig = {
   incentivePrecision: 18,
   explorerLink: 'https://etherscan.com',
   rpcOnly: !ENABLE_CACHING_BACKEND,
-  // addresses: {
-  //   INCENTIVES_CONTROLLER: '0xd784927Ff2f95ba542BfC824c8a8a98F3495f6b5',
-  //   INCENTIVES_CONTROLLER_REWARD_TOKEN: '0x4da27a545c0c5b758a6ba100e3a049001de870f5',
-  // },
 } as const;
 
 const polygon_config: BaseNetworkConfig = {

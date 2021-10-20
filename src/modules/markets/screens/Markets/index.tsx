@@ -56,10 +56,7 @@ export default function Markets() {
         .multipliedBy(reserve.price.priceInEth)
         .dividedBy(marketRefPriceInUsd)
         .toNumber();
-      const reserveIncentiveData = reserveIncentives.find(
-        (incentive) =>
-          incentive.underlyingAsset.toLowerCase() === reserve.underlyingAsset.toLowerCase()
-      );
+      const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
       return {
         totalLiquidity,
         totalLiquidityInUSD,
@@ -79,15 +76,9 @@ export default function Markets() {
         borrowingEnabled: reserve.borrowingEnabled,
         stableBorrowRateEnabled: reserve.stableBorrowRateEnabled,
         isFreezed: reserve.isFrozen,
-        aIncentivesAPY: reserveIncentiveData
-          ? reserveIncentiveData.aIncentivesData.incentiveAPY
-          : '0',
-        vIncentivesAPY: reserveIncentiveData
-          ? reserveIncentiveData.vIncentivesData.incentiveAPY
-          : '0',
-        sIncentivesAPY: reserveIncentiveData
-          ? reserveIncentiveData.sIncentivesData.incentiveAPY
-          : '0',
+        aIncentivesAPY: reserveIncentiveData ? reserveIncentiveData.aIncentives.incentiveAPY : '0',
+        vIncentivesAPY: reserveIncentiveData ? reserveIncentiveData.vIncentives.incentiveAPY : '0',
+        sIncentivesAPY: reserveIncentiveData ? reserveIncentiveData.sIncentives.incentiveAPY : '0',
       };
     });
 

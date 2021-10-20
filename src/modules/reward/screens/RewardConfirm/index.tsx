@@ -1,13 +1,9 @@
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { normalize } from '@aave/protocol-js';
-
 import { getRewardTokenSymbol } from '../../../../components/wrappers/IncentiveWrapper';
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
-import {
-  useIncentivesDataContext,
-  UserIncentiveData,
-} from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
@@ -26,7 +22,7 @@ export function RewardConfirm() {
   const { user, reserves } = useDynamicPoolDataContext();
   const { userIncentives, incentivesTxBuilder } = useIncentivesDataContext();
   const incentivesControllerAddress = location.pathname.split('/')[3];
-  const incentiveData: UserIncentiveData = userIncentives[incentivesControllerAddress];
+  const incentiveData = userIncentives[incentivesControllerAddress];
   const rewardTokenSymbol = getRewardTokenSymbol(reserves, incentiveData.rewardTokenAddress);
 
   const aTokenData = getAtokenInfo({

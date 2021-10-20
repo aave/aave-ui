@@ -75,11 +75,8 @@ export default function Dashboard() {
       throw new Error('data is inconsistent pool reserve is not available');
     }
 
-    const reserveIncentiveData = reserveIncentives.find(
-      (incentive) =>
-        incentive.underlyingAsset.toLowerCase() ===
-        userReserve.reserve.underlyingAsset.toLowerCase()
-    );
+    const reserveIncentiveData =
+      reserveIncentives[userReserve.reserve.underlyingAsset.toLowerCase()];
     if (userReserve.underlyingBalance !== '0' || userReserve.totalBorrows !== '0') {
       const baseListData = {
         uiColor: getAssetColor(userReserve.reserve.symbol),
@@ -98,7 +95,7 @@ export default function Dashboard() {
           underlyingBalance: userReserve.underlyingBalance,
           underlyingBalanceUSD: userReserve.underlyingBalanceUSD,
           aIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.aIncentivesData.incentiveAPY
+            ? reserveIncentiveData.aIncentives.incentiveAPY
             : '0',
           onToggleSwitch: () =>
             toggleUseAsCollateral(
@@ -119,10 +116,10 @@ export default function Dashboard() {
           borrowRateMode: InterestRate.Variable,
           borrowRate: poolReserve.variableBorrowRate,
           vIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.vIncentivesData.incentiveAPY
+            ? reserveIncentiveData.vIncentives.incentiveAPY
             : '0',
           sIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.sIncentivesData.incentiveAPY
+            ? reserveIncentiveData.sIncentives.incentiveAPY
             : '0',
           avg30DaysVariableRate: poolReserve.avg30DaysVariableBorrowRate,
           repayLink: loanActionLinkComposer(
@@ -155,10 +152,10 @@ export default function Dashboard() {
           borrowRateMode: InterestRate.Stable,
           borrowRate: userReserve.stableBorrowRate,
           vIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.vIncentivesData.incentiveAPY
+            ? reserveIncentiveData.vIncentives.incentiveAPY
             : '0',
           sIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.sIncentivesData.incentiveAPY
+            ? reserveIncentiveData.sIncentives.incentiveAPY
             : '0',
           repayLink: loanActionLinkComposer(
             'repay',
