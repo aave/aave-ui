@@ -174,7 +174,6 @@ export const getSwapCallData = async ({
     .multipliedBy(99)
     .dividedBy(100)
     .toFixed(0);
-  console.log(destAmountWithSlippage);
   const params = await paraSwap.buildTx(
     srcToken,
     destToken,
