@@ -85,7 +85,6 @@ export type MarketDataType = {
     LENDING_POOL_ADDRESS_PROVIDER: string;
     LENDING_POOL: string;
     WETH_GATEWAY?: string;
-    FLASH_LIQUIDATION_ADAPTER?: string;
     SWAP_COLLATERAL_ADAPTER?: string;
     REPAY_WITH_COLLATERAL_ADAPTER?: string;
     FAUCET?: string;
