@@ -8,6 +8,8 @@ const locators = {
   optionBoxSwapTo: "//*[contains(@class,'AssetSelect__reverse')]//*[@class='AssetSelect__option']",
 
   swapFromBlock:  "//*[contains(@class,'AmountFieldWithSelect')][1]//*[contains(@class,'DropdownWrapper__left')]",
+  swapFromSelectBtn: "//*[contains(@class,'AmountFieldWithSelect')][1]//*[contains(@class,'DropdownWrapper__left')]//button",
+  swapToBlock: "//*[contains(@class,'AmountFieldWithSelect')][2]//*[contains(@class,'DropdownWrapper__left')]",
   optionBoxSwapFrom: "//*[contains(@class,'AmountFieldWithSelect')][1]//*[@class='AssetSelect__option']"
 };
 
@@ -20,6 +22,7 @@ class SwapPage extends Page {
 
   get swapFromBlock () {return $(locators.swapFromBlock)}
   get swapToBlock () {return $(locators.swapToBlock)}
+  get swapFromSelectBtn () {return $(locators.swapFromSelectBtn)}
 
   open() {
     return super.open("/asset-swap");
@@ -34,7 +37,7 @@ class SwapPage extends Page {
   }
 
   doChooseSwapFromOption(asset){
-    elemUtil.doClick(this.swapFromBlock)
+    elemUtil.doClick(this.swapFromSelectBtn)
     elemUtil.doClick(this.swapFromOption(asset))
   }
 
@@ -47,11 +50,11 @@ class SwapPage extends Page {
   }
 
   doSwap(fromAsset, toAsset, amount){
-    let _swapFromBlockText = elemUtil.doGetText(this.swapToBlock)
+    let _swapFromBlockText = elemUtil.doGetText(this.swapFromBlock)
     if(_swapFromBlockText == "Asset"){
       this.doChooseSwapFromOption(fromAsset)
     }
-    elemUtil.doSetValue(this.amountInput, amount)
+    this.doSetNumberInput(this.amountInput, amount)
     this.doChooseSwapToOption(toAsset)
     elemUtil.doClickWithRedirect(this.continueBtn)
   }

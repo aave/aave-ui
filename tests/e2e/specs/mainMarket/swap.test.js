@@ -1,74 +1,83 @@
-const{configTestWithTenderlyMainnetFork} = require('../../steps/configuration-steps')
-const {skipState} = require('../../steps/common')
-const {deposit, withdraw, claimReward} = require('../../steps/steps')
-const constants= require('../../fixtures/consts.json')
-const assets= require('../../fixtures/assets.json')
-const MM = require('../../../metamask/mm.control')
+const{ configTestWithTenderlyMainnetFork } = require('../../steps/configuration-steps')
+const { skipState } = require('../../steps/common')
+const { deposit, swap } = require('../../steps/steps')
+const assets = require('../../fixtures/assets.json')
+const mathUtil = require('../../util/mathUtil')
+const constants = require('../../fixtures/consts.json');
+const { dashboardAssetValuesVerification, dashboardSpotCountVerification } = require('../../steps/verification-steps');
+const {createSwapListAsset}  = require('../../steps/preparation-steps.json')
 
-const testData ={
+let testData = {
   asset: {
     name: assets.aaveMarket.ETH,
     deposit: {
-      amount: 5,
+      amount: 10,
       hasApproval: true
     },
   },
-  swap: [
+  ...createSwapListAsset({
+    assetsMarket: assets.aaveMarket,
+    excludeAssetNumber: 1,
+    assetsCount: 3,
+    baseAsset: assets.aaveMarket.ETH
+  }),
+  finalVerification: [
     {
-      fromAsset:assets.aaveMarket.ETH,
-      toAsset:assets.aaveMarket.USDT,
-      amount:1
+      type: constants.dashboardTypes.deposit,
+      asset: assets.aaveMarket.ETH.shortName,
+      collateralType: constants.collateralType.isCollateral
     },
-    {
-      fromAsset:assets.aaveMarket.ETH,
-      toAsset:assets.aaveMarket.DAI,
-      amount:1
-    },
-    {
-      fromAsset:assets.aaveMarket.ETH,
-      toAsset:assets.aaveMarket.MANA,
-      amount:1
-    }
-  ]
+  ],
+  finalDashboardRowVerification: {
+    depositCount: 1,
+    borrowCount: 0
+  }
 }
 
-describe('REWARD MAIN MARKET INTEGRATION SPEC',  ()=>{
-  const skipTestState = skipState(false);
-  configTestWithTenderlyMainnetFork({})
+describe('SWAP SPEC FOR MAINMARKET',  ()=>{
+    const skipTestState = skipState(false);
+    configTestWithTenderlyMainnetFork({})
 
-  deposit(
-    {
-      asset: testData.asset.name,
-      amount: testData.asset.deposit.amount,
-      hasApproval: testData.asset.deposit.hasApproval,
-    },
-    skipTestState,
-    true
-  )
+    deposit(
+      {
+        asset: testData.asset.name,
+        amount: testData.asset.deposit.amount,
+        hasApproval: testData.asset.deposit.hasApproval,
+      },
+      skipTestState,
+      true
+    )
 
+    testData.swapFrom.forEach( (swapCase) =>{
+      swap(
+        swapCase,
+        skipTestState,
+        true
+      )
+    })
 
-  swap(
-    {
+    dashboardAssetValuesVerification(
+      testData.middleVerifications,
+      skipTestState
+    )
 
-    }
-  )
+    testData.swapTo.forEach( (swapCase) =>{
+      swap(
+        swapCase,
+        skipTestState,
+        true
+      )
+    })
 
+    dashboardAssetValuesVerification(
+      testData.finalVerification,
+      skipTestState
+    )
 
-  // describe("test", () =>{
-  //   it("test1", () => {
-  //     console.log("11111")
-  //     MM.doOpenMMNewTab()
-  //     browser.pause(500000)
-  //   })
-  // })
-
-  // deposit(
-  //   {
-  //     asset: testData.asset.name,
-  //     amount: testData.asset.deposit.amount,
-  //     hasApproval: testData.asset.deposit.hasApproval,
-  //   },
-  //   skipTestState,
-  //   true
-  // )
+    dashboardSpotCountVerification({
+      ...testData.finalDashboardRowVerification
+      },
+      skipTestState
+    )
 })
+

@@ -41,6 +41,7 @@ class ElementUtil{
   doIsDisplayed(elem,timeout=20000){
     elem.waitForExist({ timeout: timeout })
     elem.waitForDisplayed()
+
   }
 
   doWaitValueIsNot0(path, timeout=20000){

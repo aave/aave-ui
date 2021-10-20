@@ -199,9 +199,9 @@ module.exports.changeBorrowType= ({asset, aprType, newAPR, hasApproval = true}, 
   })
 }
 
-module.exports.swap= ({assetFrom, assetTo, amount, hasApproval = true}, skip, updateSkipStatus = false) =>{
-  let _shortNameFrom = assetFrom.shortName
-  let _shortNameTo = assetTo.shortName
+module.exports.swap= ({fromAsset, toAsset, amount, hasApproval = true}, skip, updateSkipStatus = false) =>{
+  let _shortNameFrom = fromAsset.shortName
+  let _shortNameTo = toAsset.shortName
   describe(`Swap ${amount} ${_shortNameFrom} to ${_shortNameTo}`,()=>{
     let _passed = false
     before(function(){
@@ -209,12 +209,12 @@ module.exports.swap= ({assetFrom, assetTo, amount, hasApproval = true}, skip, up
         this.skip()
       }
     })
-    it(`Choose swap options,${amount} ${_shortNameFrom} to ${_shortNameTo}`, ()=>{
+    it(`Choosing swap options, ${amount} ${_shortNameFrom} to ${_shortNameTo}`, ()=>{
       SwapPage.open()
       SwapPage.doSwap(_shortNameFrom, _shortNameTo, amount)
     })
     it(`Make approve for swap`, ()=>{
-      ConfirmationPage.doTwoStepProcess()
+      ConfirmationPage.doApproveProcess(hasApproval)
       _passed = true
     })
     after(()=>{
