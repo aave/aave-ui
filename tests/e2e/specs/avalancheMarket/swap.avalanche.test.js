@@ -9,7 +9,7 @@ const {createSwapListAsset}  = require('../../steps/preparation-steps.json')
 
 let testData = {
   asset: {
-    name: assets.polygonMarket.MATIC,
+    name: assets.avalancheMarket.AVAX,
     deposit: {
       amount: 10,
       hasApproval: true
@@ -24,7 +24,7 @@ let testData = {
   finalVerification: [
     {
       type: constants.dashboardTypes.deposit,
-      asset: assets.polygonMarket.MATIC.shortName,
+      asset: assets.avalancheMarket.AVAX.shortName,
       collateralType: constants.collateralType.isCollateral
     },
   ],
