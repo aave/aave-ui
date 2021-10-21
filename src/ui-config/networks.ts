@@ -24,6 +24,7 @@ const mainnet_config: BaseNetworkConfig = {
   protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2',
   baseUniswapAdapter: '0xc3efa200a60883a96ffe3d5b492b121d6e9a1f3f',
   baseAsset: 'ETH',
+  baseAssetWrappedAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
   // incentives hardcoded information
   rewardTokenSymbol: 'stkAAVE',
   rewardTokenAddress: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
@@ -43,6 +44,7 @@ const polygon_config: BaseNetworkConfig = {
   cachingWSServerUrl: 'wss://cache-api-polygon.aave.com/graphql',
   protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/aave-v2-matic',
   baseAsset: 'MATIC',
+  baseAssetWrappedAddress: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
   // incentives hardcoded information
   rewardTokenSymbol: 'WMATIC',
   rewardTokenAddress: API_ETH_MOCK_ADDRESS,
@@ -69,6 +71,7 @@ const avalanche_config: BaseNetworkConfig = {
   cachingWSServerUrl: 'wss://cache-api-avalanche.aave.com/graphql',
   baseUniswapAdapter: '0x0',
   baseAsset: 'AVAX',
+  baseAssetWrappedAddress: '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
   // incentives hardcoded information
   rewardTokenSymbol: 'WAVAX',
   rewardTokenAddress: API_ETH_MOCK_ADDRESS,
@@ -95,6 +98,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-kovan',
     baseUniswapAdapter: '0xf86Be05f535EC2d217E4c6116B3fa147ee5C05A1',
     baseAsset: 'ETH',
+    baseAssetWrappedAddress: '0xd0a1e359811322d97991e03f863a0c30c2cf029c',
     // incentives hardcoded information
     rewardTokenSymbol: 'stkAAVE',
     rewardTokenAddress: '0xb597cd8d3217ea6477232f9217fa70837ff667af',
@@ -118,6 +122,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     uiIncentiveDataProvider: '0x04110Dc40B04b99B94840E53B2a33bE45E45A8Ed',
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/aave-v2-polygon-mumbai',
     baseAsset: 'MATIC',
+    baseAssetWrappedAddress: '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889',
     // incentives hardcoded information
     rewardTokenSymbol: 'WMATIC',
     rewardTokenAddress: '0x9c3c9283d3e44854697cd22d3faa240cfb032889',
@@ -136,6 +141,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-fuji',
     baseUniswapAdapter: '0x0',
     baseAsset: 'AVAX',
+    baseAssetWrappedAddress: '0xd00ae08403B9bbb9124bB305C09058E32C39A48c',
     // incentives hardcoded information
     rewardTokenSymbol: 'WAVAX',
     rewardTokenAddress: API_ETH_MOCK_ADDRESS,

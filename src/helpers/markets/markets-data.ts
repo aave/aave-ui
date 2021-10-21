@@ -42,6 +42,7 @@ export type NetworkConfig = {
   cachingWSServerUrl?: string;
   baseUniswapAdapter?: string;
   baseAsset: string;
+  baseAssetWrappedAddress?: string;
   rewardTokenSymbol: string;
   rewardTokenAddress: string;
   rewardTokenDecimals: number;
