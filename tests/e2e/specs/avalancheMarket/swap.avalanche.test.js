@@ -18,7 +18,7 @@ let testData = {
   ...createSwapListAsset({
     assetsMarket: assets.avalancheMarket,
     excludeAssetNumber: 0,
-    assetsCount: 3,
+    assetsCount: 2,
     baseAsset: assets.avalancheMarket.AVAX
   }),
   finalVerification: [
@@ -34,7 +34,7 @@ let testData = {
   }
 }
 
-describe('SWAP SPEC FOR POLYGON',  ()=>{
+describe('SWAP SPEC FOR AVALANCHE',  ()=>{
   const skipTestState = skipState(false);
   configTestWithTenderlyAvalancheFork()
 
