@@ -18,7 +18,7 @@ let testData = {
   ...createSwapListAsset({
     assetsMarket: assets.polygonMarket,
     excludeAssetNumber: 0,
-    assetsCount: 3,
+    assetsCount: 2,
     baseAsset: assets.polygonMarket.MATIC
   }),
   finalVerification: [
