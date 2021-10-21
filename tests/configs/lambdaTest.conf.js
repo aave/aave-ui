@@ -49,6 +49,7 @@ const SPEC_LIST = {
       './e2e/specs/avalancheMarket/assets/wbtc.avalanche.test.js',
     ],
     reward:'./e2e/specs/avalancheMarket/reward.avalanche.test.js',
+    swap: './e2e/specs/polygonMarket/swap.avalanche.test.js'
   }
 }
 
@@ -72,6 +73,7 @@ let executionList = () => {
   _specs.push(SPEC_LIST.avalancheMarket.baseAsset)
   _specs.push(SPEC_LIST.avalancheMarket.assets[random(SPEC_LIST.avalancheMarket.assets.length)])
   _specs.push(SPEC_LIST.avalancheMarket.reward)
+  _specs.push(SPEC_LIST.avalancheMarket.swap)
   return _specs
 }
 
