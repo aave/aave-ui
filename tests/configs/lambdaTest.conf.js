@@ -49,7 +49,7 @@ const SPEC_LIST = {
       './e2e/specs/avalancheMarket/assets/wbtc.avalanche.test.js',
     ],
     reward:'./e2e/specs/avalancheMarket/reward.avalanche.test.js',
-    swap: './e2e/specs/polygonMarket/swap.avalanche.test.js'
+    swap: './e2e/specs/avalancheMarket/swap.avalanche.test.js'
   }
 }
 
