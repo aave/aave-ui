@@ -31,6 +31,8 @@ export interface StaticPoolDataContextData {
   rawReserves: ReserveData[];
   isUserHasDeposits: boolean;
   rawUserReserves?: UserReserveData[];
+  rawReservesWithBase: ReserveData[];
+  rawUserReservesWithBase?: UserReserveData[];
   userUnclaimedRewards: string;
   rewardsEmissionEndTimestamp: number;
   marketRefPriceInUsd: string;
@@ -166,6 +168,8 @@ export function StaticPoolDataProvider({
         WrappedBaseNetworkAssetAddress,
         rawReserves: reservesWithFixedUnderlying,
         rawUserReserves: userReservesWithFixedUnderlying,
+        rawReservesWithBase: reserves,
+        rawUserReservesWithBase: userReserves,
         isUserHasDeposits,
         marketRefPriceInUsd: networkConfig.usdMarket
           ? normalize(1, 10)
