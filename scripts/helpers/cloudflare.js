@@ -49,7 +49,7 @@ const updateOrCreateRecord = async (name, type, _payload) => {
 const updateCloudFlareRecord = async (hash, domain) => {
   console.log(`domain to update - https://${domain}`);
   
-  if domain != 'app.aave.com' {
+  if (domain != 'app.aave.com') {
     console.log('updating CNAME record');
     await updateOrCreateRecord(domain, 'CNAME', {
       content: `cloudflare-ipfs.com`,
