@@ -79,8 +79,11 @@ export default function LiquidityMiningCard({
         </>
       )}
 
-      {((liquidityMiningValue && liquidityMiningValue !== '0') ||
-        (symbol === 'FEI' && type !== 'borrow-stable' && type !== 'deposit')) && (
+      {(
+        (liquidityMiningValue && liquidityMiningValue !== '0') ||
+        (symbol === 'FEI' && type !== 'borrow-stable' && type !== 'deposit') ||
+        (symbol === 'AMPL' && type === 'deposit')
+      ) && (
         <LiquidityMiningAPYLine
           symbol={symbol}
           value={liquidityMiningValue || 0}

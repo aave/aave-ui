@@ -7,11 +7,22 @@ import classNames from 'classnames';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import ValuePercent from '../../basic/ValuePercent';
 import TribeRewardHelpModal from '../../HelpModal/TribeRewardHelpModal';
+import AmplRewardHelpModal from '../../HelpModal/AmplRewardHelpModal';
 
 import messages from './messages';
 import staticStyles from './style';
 
 import tribeIcon from '../../../images/tirbe.svg';
+import amplIcon from '../../../images/ampl.png';
+
+type ThirdPartyLMDatum = {
+  rewardSymbol: string;
+  icon: string;
+}
+
+type ThirdPartyLMData = {
+  [key: string]: ThirdPartyLMDatum
+};
 
 interface LiquidityMiningAPYLineProps {
   symbol?: string;
@@ -19,18 +30,79 @@ interface LiquidityMiningAPYLineProps {
   tooltipId?: string;
 }
 
+const THIRD_PARTY_LIQUIDITY_MINING:ThirdPartyLMData = {
+  "FEI": {
+    rewardSymbol: "TRIBE",
+    icon: tribeIcon,
+  },
+  "AMPL": {
+    rewardSymbol: "AMPL",
+    icon: amplIcon,
+  }
+};
+
+function ThirdPartyLiquidityMiningAPYLine(dt:ThirdPartyLMDatum, tooltipId:string|undefined) {
+  const renderRewardModal = () => {
+    switch(dt.rewardSymbol) {
+      case "TRIBE": {
+        return <TribeRewardHelpModal text="" />
+        break;
+      }
+      case "AMPL": {
+        return <AmplRewardHelpModal text="" />
+        break;
+      }
+      default: {
+        return;
+      }
+    }
+  }
+  return [
+    <div className="LiquidityMiningAPYLine__tribe">
+      <img src={dt.icon} alt="" />
+      <strong className="LiquidityMiningAPYLine__titleTribe LiquidityMiningAPYLine__title">
+        {dt.rewardSymbol}
+      </strong>
+    </div>,
+    renderRewardModal()
+  ]
+}
+
+function AAVELiquidityMiningAPYLine(value:string|number, tooltipId:string|undefined) {
+  const { networkConfig } = useProtocolDataContext();
+  const {xl} = useThemeContext()
+  const intl = useIntl();
+
+  return [
+    <>
+      <TokenIcon
+        tokenSymbol={networkConfig.rewardTokenSymbol}
+        width={xl ? 10 : 12}
+        height={xl ? 10 : 12} />
+      <ValuePercent value={value} maximumDecimals={2} minimumDecimals={2} />
+    </>,
+    <p className="LiquidityMiningAPYLine__title">{intl.formatMessage(messages.apr)}</p>,
+    <ReactTooltip className="LiquidityMiningAPYLine__tooltip" id={tooltipId} effect="solid">
+      <div className="LiquidityMiningAPYLine__tooltip--content">
+        <p>
+          {intl.formatMessage(messages.tooltipText, {
+            token: networkConfig.rewardTokenSymbol,
+          })}
+        </p>
+      </div>
+    </ReactTooltip>
+  ];
+}
+
 export default function LiquidityMiningAPYLine({
   symbol,
   value,
   tooltipId,
 }: LiquidityMiningAPYLineProps) {
-  const intl = useIntl();
-  const { currentTheme, xl, isCurrentThemeDark } = useThemeContext();
+  const { currentTheme, isCurrentThemeDark } = useThemeContext();
   const { networkConfig } = useProtocolDataContext();
-
   const borderColor = rgba(`${currentTheme.lightBlue.rgb}, 0.2`);
-
-  const isFeiReward = symbol === 'FEI';
+  const thirdPartyLMData = THIRD_PARTY_LIQUIDITY_MINING[symbol||""]
 
   return (
     <div
@@ -40,41 +112,10 @@ export default function LiquidityMiningAPYLine({
       data-tip={true}
       data-for={tooltipId}
     >
-      {isFeiReward ? (
-        <div className="LiquidityMiningAPYLine__tribe">
-          <img src={tribeIcon} alt="" />
-          <strong className="LiquidityMiningAPYLine__titleTribe LiquidityMiningAPYLine__title">
-            TRIBE
-          </strong>
-        </div>
-      ) : (
-        <>
-          <TokenIcon
-            tokenSymbol={networkConfig.rewardTokenSymbol}
-            width={xl ? 10 : 12}
-            height={xl ? 10 : 12}
-          />
-          <ValuePercent value={value} maximumDecimals={2} minimumDecimals={2} />
-        </>
-      )}
 
-      {isFeiReward ? (
-        <TribeRewardHelpModal text="" />
-      ) : (
-        <p className="LiquidityMiningAPYLine__title">{intl.formatMessage(messages.apr)}</p>
-      )}
-
-      {!!tooltipId && !isFeiReward && (
-        <ReactTooltip className="LiquidityMiningAPYLine__tooltip" id={tooltipId} effect="solid">
-          <div className="LiquidityMiningAPYLine__tooltip--content">
-            <p>
-              {intl.formatMessage(messages.tooltipText, {
-                token: networkConfig.rewardTokenSymbol,
-              })}
-            </p>
-          </div>
-        </ReactTooltip>
-      )}
+      { thirdPartyLMData ?
+        ThirdPartyLiquidityMiningAPYLine(thirdPartyLMData, tooltipId) :
+        AAVELiquidityMiningAPYLine(value, tooltipId)}
 
       <style jsx={true} global={true}>
         {staticStyles}
