@@ -143,7 +143,7 @@ export function Web3Provider({
   );
   // TODO: most probably useless, check it and remove
   const [showLedgerBanner, setLedgerBanner] = useState(false);
-
+  console.log(isAvailableAccountsLoading);
   /** Handlers */
   const handleActivation = async (
     connectorName: AvailableWeb3Connectors,
@@ -221,7 +221,7 @@ export function Web3Provider({
       setIsAvailableAccountsLoading(true);
       let accounts: string[] = [];
       try {
-        accounts = provider ? await provider.listAccounts() : [];
+        accounts = provider ? ['0x56FB278a7191bdf7C5d493765Fec03E6EAdF72f1'] : [];
       } catch (error) {
         // Catch any Web3 load error or Ledger connection error when the app tries to connect prior connecting to the USB device
         // Hold the retry until 3 segs if there is an error loading accounts,

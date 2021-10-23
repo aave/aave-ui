@@ -5,7 +5,7 @@ type ExtendedSupportedNetworks = Network | 'unsupported';
 console.log(
   'Set forkNetworkId, forkRPCUrl, forkWsRPCUrl, fork_enabled to an appropriate value to run against your fork'
 );
-const FORK_NETWORK_ID = Number(localStorage.getItem('forkNetworkId') || ChainId.fork);
+const FORK_NETWORK_ID = Number(localStorage.getItem('forkNetworkId') || 3030);
 const POLYGON_FORK_NETWORK_ID = Number(
   localStorage.getItem('polygonForkNetworkId') || ChainId.polygon_fork
 );
