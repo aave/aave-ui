@@ -1,5 +1,10 @@
-import React, { useContext, PropsWithChildren } from 'react';
-import { AaveGovernanceV2Interface, TxBuilderConfig, TxBuilderV2 } from '@aave/protocol-js';
+import React, { useContext, PropsWithChildren, useState } from 'react';
+import {
+  AaveGovernanceV2Interface,
+  Network,
+  TxBuilderConfig,
+  TxBuilderV2,
+} from '@aave/protocol-js';
 import GovernanceDelegationToken from '@aave/protocol-js/dist/tx-builder/interfaces/v2/GovernanceDelegationToken';
 
 import useGetProposals from './hooks/use-get-proposals';
@@ -9,6 +14,15 @@ import { getNetworkConfig, getProvider, NetworkConfig } from '../../helpers/mark
 
 import { ProposalItem } from './types';
 import Preloader from '../../components/basic/Preloader';
+import {
+  ConnectionMode,
+  useConnectionStatusContext,
+  WS_ATTEMPTS_LIMIT,
+} from '../connection-status-provider';
+import {
+  useMainnetCachedServerWsGraphCheck,
+  useNetworkCachedServerWsGraphCheck,
+} from '../pool-data-provider/hooks/use-graph-check';
 
 export interface ProtocolContextDataType {
   governanceConfig: GovernanceConfig;
@@ -20,13 +34,20 @@ export interface ProtocolContextDataType {
 
 const GovernanceProviderContext = React.createContext({} as ProtocolContextDataType);
 
-const RPC_ONLY_MODE = false;
-
 export function GovernanceDataProvider({
   children,
   governanceConfig,
 }: PropsWithChildren<{ governanceConfig: GovernanceConfig }>) {
   const governanceNetworkConfig = getNetworkConfig(governanceConfig.network);
+  const RPC_ONLY_MODE = governanceNetworkConfig.rpcOnly;
+  const { preferredConnectionMode } = useConnectionStatusContext();
+  const wsMainnetError = useMainnetCachedServerWsGraphCheck();
+  const isRPCMandatory =
+    RPC_ONLY_MODE ||
+    (wsMainnetError.wsErrorCount >= WS_ATTEMPTS_LIMIT &&
+      governanceConfig.network === Network.mainnet);
+  const isRPCActive = preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory;
+
   const config: TxBuilderConfig = {
     governance: {
       [governanceConfig.network]: {
@@ -54,27 +75,25 @@ export function GovernanceDataProvider({
     loading: loadingGraph,
     error,
   } = useGetProposals({
-    skip: RPC_ONLY_MODE,
+    skip: isRPCActive,
     network: governanceConfig.network,
     averageNetworkBlockTime: governanceConfig.averageNetworkBlockTime,
   });
 
-  const skipRPC = !(RPC_ONLY_MODE || !!error);
-
   const { proposals: propRPC, loading: loadingRPC } = useGetProposalsRPC({
-    skip: skipRPC,
+    skip: !isRPCActive,
     network: governanceConfig.network,
     governanceService,
     averageNetworkBlockTime: governanceConfig.averageNetworkBlockTime,
   });
 
-  const loading = skipRPC ? loadingGraph : loadingRPC;
+  const loading = !isRPCActive ? loadingGraph : loadingRPC;
 
   if (loading) {
     return <Preloader withText={true} />;
   }
 
-  const proposals = skipRPC ? propGraph : propRPC;
+  const proposals = !isRPCActive ? propGraph : propRPC;
   proposals.forEach((proposal) => {
     if (proposal.id === 25) {
       proposal.title = 'Dynamic Risk Parameters';
