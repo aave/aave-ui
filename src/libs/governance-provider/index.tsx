@@ -1,4 +1,4 @@
-import React, { useContext, PropsWithChildren, useState } from 'react';
+import React, { useContext, PropsWithChildren } from 'react';
 import {
   AaveGovernanceV2Interface,
   Network,
@@ -19,10 +19,7 @@ import {
   useConnectionStatusContext,
   WS_ATTEMPTS_LIMIT,
 } from '../connection-status-provider';
-import {
-  useMainnetCachedServerWsGraphCheck,
-  useNetworkCachedServerWsGraphCheck,
-} from '../pool-data-provider/hooks/use-graph-check';
+import { useMainnetCachedServerWsGraphCheck } from '../pool-data-provider/hooks/use-graph-check';
 
 export interface ProtocolContextDataType {
   governanceConfig: GovernanceConfig;
@@ -80,20 +77,22 @@ export function GovernanceDataProvider({
     averageNetworkBlockTime: governanceConfig.averageNetworkBlockTime,
   });
 
+  const skipRPC = !(isRPCActive || !!error);
+
   const { proposals: propRPC, loading: loadingRPC } = useGetProposalsRPC({
-    skip: !isRPCActive,
+    skip: skipRPC,
     network: governanceConfig.network,
     governanceService,
     averageNetworkBlockTime: governanceConfig.averageNetworkBlockTime,
   });
 
-  const loading = !isRPCActive ? loadingGraph : loadingRPC;
+  const loading = skipRPC ? loadingGraph : loadingRPC;
 
   if (loading) {
     return <Preloader withText={true} />;
   }
 
-  const proposals = !isRPCActive ? propGraph : propRPC;
+  const proposals = skipRPC ? propGraph : propRPC;
   proposals.forEach((proposal) => {
     if (proposal.id === 25) {
       proposal.title = 'Dynamic Risk Parameters';
