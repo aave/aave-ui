@@ -1,4 +1,4 @@
-const{ configTestWithTenderlyMainnetFork, configTestWithTenderlyPolygonFork } = require('../../steps/configuration-steps')
+const{ configTestWithTenderlyMainnetFork, configTestWithTenderlyPolygonFork, configTestWithTenderlyAvalancheFork } = require('../../steps/configuration-steps')
 const { skipState } = require('../../steps/common')
 const { deposit, swap } = require('../../steps/steps')
 const assets = require('../../fixtures/assets.json')
@@ -9,22 +9,22 @@ const {createSwapListAsset}  = require('../../steps/preparation-steps.json')
 
 let testData = {
   asset: {
-    name: assets.polygonMarket.MATIC,
+    name: assets.avalancheMarket.AVAX,
     deposit: {
       amount: 10,
       hasApproval: true
     },
   },
   ...createSwapListAsset({
-    assetsMarket: assets.polygonMarket,
-    listOfNumbers: [1, 2, 3],
+    assetsMarket: assets.avalancheMarket,
     assetsCount: 1,
-    baseAsset: assets.polygonMarket.MATIC
+    listOfNumbers: [1, 2, 3],
+    baseAsset: assets.avalancheMarket.AVAX
   }),
   finalVerification: [
     {
       type: constants.dashboardTypes.deposit,
-      asset: assets.polygonMarket.MATIC.shortName,
+      asset: assets.avalancheMarket.AVAX.shortName,
       collateralType: constants.collateralType.isCollateral
     },
   ],
@@ -34,9 +34,9 @@ let testData = {
   }
 }
 
-describe('SWAP SPEC FOR POLYGON',  ()=>{
+describe('SWAP SPEC FOR AVALANCHE',  ()=>{
   const skipTestState = skipState(false);
-  configTestWithTenderlyPolygonFork()
+  configTestWithTenderlyAvalancheFork()
 
   deposit(
     {

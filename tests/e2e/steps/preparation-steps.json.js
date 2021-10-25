@@ -2,13 +2,17 @@ const assets = require('../fixtures/assets.json');
 const mathUtil = require('../util/mathUtil');
 const constants = require('../fixtures/consts.json');
 
-module.exports.createSwapListAsset = ({assetsMarket, excludeAssetNumber, assetsCount, baseAsset}) => {
+module.exports.createSwapListAsset = ({assetsMarket, excludeAssetNumber, listOfNumbers = null, assetsCount, baseAsset}) => {
 
   let getRandomListOfAssets = () => {
     let _randomAssetList = []
     let _marketAssets = assetsMarket
     let _length = Object.keys(_marketAssets).length
-    let _randomNumberList = mathUtil.randomSetOfNumbers(assetsCount, _length, excludeAssetNumber)
+    let _randomNumberList
+    if(listOfNumbers == null)
+      _randomNumberList = mathUtil.randomSetOfNumbers(assetsCount, _length, excludeAssetNumber)
+    else
+      _randomNumberList = mathUtil.uniqueRandomSetOfValuesFromList(assetsCount, listOfNumbers)
     _randomNumberList.forEach(
       (item) => {
         _randomAssetList.push(_marketAssets[Object.keys(_marketAssets)[item]])

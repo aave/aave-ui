@@ -13,8 +13,7 @@ class MathUtil {
     return Math.floor(Math.random() * maxValue)
   }
 
-  randomSetOfNumbers(count, maxValue, exclude){
-    console.log("count " + count + "maxValue " + maxValue )
+  randomSetOfNumbers(count, maxValue, numbers){
     let _result = []
     for(let i = 0; i < count; i++){
       let _number
@@ -25,6 +24,22 @@ class MathUtil {
     }
     return _result
   }
+
+  uniqueRandomSetOfValuesFromList(count, list){
+    let _result = []
+    let _count = count > list.length? list.length : count
+    for(let i=0; i<_count; i++){
+      let _value
+      do {
+        _value = list[this.randomNumber(list.length)]
+      } while (_result.find(elem => elem == _value)){
+        _result.push(_value)
+      }
+    }
+    return _result
+  }
 }
+
+
 
 module.exports = new MathUtil()

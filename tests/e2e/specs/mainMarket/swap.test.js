@@ -18,7 +18,8 @@ let testData = {
   ...createSwapListAsset({
     assetsMarket: assets.aaveMarket,
     excludeAssetNumber: 1,
-    assetsCount: 3,
+    assetsCount: 1,
+    listOfNumbers: [0, 2, 3, 8],
     baseAsset: assets.aaveMarket.ETH
   }),
   finalVerification: [

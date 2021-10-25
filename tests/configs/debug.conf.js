@@ -50,7 +50,7 @@ exports.config = {
     './e2e/specs/polygonMarket/assets/weth.polygon.test.js',
     './e2e/specs/polygonMarket/assets/wbtc.polygon.test.js',
     './e2e/specs/polygonMarket/reward.polygon.test.js',
-    // './e2e/specs/mainMarket/swap.polygon.test.js',
+    './e2e/specs/polygonMarket/swap.polygon.test.js',
 
     './e2e/specs/ammMarket/assets/eth.test.js',
     './e2e/specs/ammMarket/assets/usdc.test.js',
@@ -64,7 +64,7 @@ exports.config = {
     './e2e/specs/avalancheMarket/assets/weth.avalanche.test.js',
     './e2e/specs/avalancheMarket/assets/wbtc.avalanche.test.js',
     './e2e/specs/avalancheMarket/reward.avalanche.test.js',
-
+    './e2e/specs/avalancheMarket/swap.avalanche.test.js',
 
     './e2e/specs/mainMarket/stake.kovan.test.js',
   ],
