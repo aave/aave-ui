@@ -17,8 +17,8 @@ let testData = {
   },
   ...createSwapListAsset({
     assetsMarket: assets.avalancheMarket,
-    excludeAssetNumber: 0,
-    assetsCount: 2,
+    assetsCount: 1,
+    listOfNumbers: [1, 2, 3],
     baseAsset: assets.avalancheMarket.AVAX
   }),
   finalVerification: [

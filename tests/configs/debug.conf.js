@@ -66,7 +66,6 @@ exports.config = {
     './e2e/specs/avalancheMarket/reward.avalanche.test.js',
     './e2e/specs/avalancheMarket/swap.avalanche.test.js',
 
-
     './e2e/specs/mainMarket/stake.kovan.test.js',
   ],
   maxInstances: 1,
