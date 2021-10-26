@@ -95,6 +95,7 @@
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-react-intl-auto": "^3.3.0",
     "customize-cra": "^1.0.0",
+    "dotenv": "^10.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react-hooks": "^4.2.0",
@@ -112,13 +113,12 @@
     "start": "npm i && sed -i 's/git+ssh/git+https/g' package-lock.json && react-app-rewired start",
     "start:dev": "react-app-rewired start",
     "build": "GENERATE_SOURCEMAP=false react-app-rewired build",
+    "build:ipfs": "REACT_APP_IPFS_MODE=true npm run build",
     "test": "react-app-rewired tests",
     "eject": "react-scripts eject",
     "gql-gen": "graphql-codegen --config codegen.yml",
     "i18n": "NODE_ENV=development node ./scripts/extract-intl-messages.js",
-    "sys:prepare-ipfs-mode": "contents=\"$(jq '.homepage = \".\"' package.json)\" && echo \"${contents}\" > package.json",
-    "build-ipfs": "npm run sys:prepare-ipfs-mode && REACT_APP_IPFS_MODE=true npm run build",
-    "pinata:ipfs-publish": "npm run build-ipfs && node scripts/publish.js"
+    "pinata:ipfs-publish": "node scripts/publish.js"
   },
   "husky": {
     "hooks": {
