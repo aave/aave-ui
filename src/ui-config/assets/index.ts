@@ -16,6 +16,13 @@ export const assetsList: Asset[] = [
     aIcon: 'https://storage.googleapis.com/tinlake/pool-media/new-silver-2/drop.svg',
   },
   {
+    name: 'New Silver Series 2 DROP',
+    symbol: 'KR2DRP',
+    color: '#0828BE',
+    icon: 'https://storage.googleapis.com/tinlake/pool-media/new-silver-2/drop.svg',
+    aIcon: 'https://storage.googleapis.com/tinlake/pool-media/new-silver-2/drop.svg',
+  },
+  {
     name: 'Fortunafi Series 1 DROP',
     symbol: 'FF1DRP',
     color: '#0828BE',
@@ -32,6 +39,13 @@ export const assetsList: Asset[] = [
   {
     name: '1754 Factory (Bling Series 1) DROP',
     symbol: 'BL1DRP',
+    color: '#0828BE',
+    icon: 'https://storage.googleapis.com/tinlake/pool-media/bling-series-1/drop.svg',
+    aIcon: 'https://storage.googleapis.com/tinlake/pool-media/bling-series-1/drop.svg',
+  },
+  {
+    name: '1754 Factory (Bling Series 1) DROP',
+    symbol: 'KTestDROP1',
     color: '#0828BE',
     icon: 'https://storage.googleapis.com/tinlake/pool-media/bling-series-1/drop.svg',
     aIcon: 'https://storage.googleapis.com/tinlake/pool-media/bling-series-1/drop.svg',
