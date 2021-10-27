@@ -59,8 +59,8 @@ const PermissionWarning: React.FC<
             title="DROP participation is restricted"
             description={
               <>
-                Only signed up Tinlake Pools and their respective Issuers are allowed to deposit DROP
-                tokens and borrow stablecoins in the RWA Market.
+                Only signed up Tinlake Pools and their respective Issuers are allowed to deposit
+                DROP tokens and borrow stablecoins in the RWA Market.
               </>
             }
           />
@@ -87,9 +87,8 @@ const PermissionWarning: React.FC<
             title={intl.formatMessage(messages.caption)}
             description={
               <>
-                To liquidate assets in the RWA market, you need to complete KYC and sign
-                a Subscription Agreement with the Issuer of the DROP token that you wish to
-                liquidate.
+                To liquidate assets in the RWA market, you need to complete KYC and sign a
+                Subscription Agreement with the Issuer of the DROP token that you wish to liquidate.
               </>
             }
           />
@@ -98,8 +97,8 @@ const PermissionWarning: React.FC<
             title="DAI borrowing is restricted"
             description={
               <>
-                Only signed up Tinlake Pools and their respective Issuers are allowed to deposit DROP
-                tokens and borrow stablecoins in the RWA Market.
+                Only signed up Tinlake Pools and their respective Issuers are allowed to deposit
+                DROP tokens and borrow stablecoins in the RWA Market.
               </>
             }
           />
