@@ -1,10 +1,12 @@
+const config = require('../../config')
 const MM = require('../../metamask/mm.control')
 const MainPage = require('../pageobjects/main.page')
 const TenderlyFork = require('../helpers/tenderly')
 const Page = require('../pageobjects/page')
-const config = require('../../config')
 const constants= require('../fixtures/consts.json')
-const {TENDERLY_ACCOUNT, TENDERLY_KEY, TENDERLY_PROJECT } = process.env;
+const {TENDERLY_ACCOUNT, TENDERLY_KEY, TENDERLY_PROJECT, DOMAIN } = process.env;
+
+if (!DOMAIN) throw new Error('Domain needs to be specified');
 
 const TENDERLY_SETUP = {
   tenderlyAccount: TENDERLY_ACCOUNT,
@@ -101,9 +103,7 @@ let configAave=(market, forkNetworkID = null , forkRPCUrl = null)=>{
   MM.doSwitchToMetamaskNotificationWindow()
   MM.doConnect()
   MainPage.doSwitchToAave()
-  MainPage.doAcceptCookie()
 }
-
 
 let configEnvWithTenderly = ({setupOptions, market, account}) =>{
   const _networkOptions = {
@@ -140,7 +140,6 @@ module.exports.configTestWithTenderlyMainnetFork = ({
   market = constants.markets.aaveV2Fork,
   account = DEFAULT_TEST_ACCOUNT
 }) => {
-  console.log("mainnet " + DEFAULT_TEST_ACCOUNT.address)
   configEnvWithTenderly({
     setupOptions: TENDERLY_SETUP_OPTIONS_ETH_MAINNET,
     market: market,

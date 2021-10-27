@@ -6,7 +6,7 @@ import { rgba, useThemeContext, AnimationArrow, DropdownWrapper } from '@aave/aa
 import CustomScroll from '../../../../basic/CustomScroll';
 import BasicField from '../../../BasicField';
 import ValuePercent from '../../../../basic/ValuePercent';
-import { TokenIcon } from '../../../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';
@@ -84,7 +84,7 @@ export default function AssetSelect({
             tokenSymbol={option.label.toUpperCase()}
             height={30}
             width={30}
-            tokenFullName={option.label.toUpperCase()}
+            tokenFullName={getAssetInfo(option.label).formattedSymbol || option.label.toUpperCase()}
             onWhiteBackground={true}
           />
         </button>
@@ -121,7 +121,9 @@ export default function AssetSelect({
                 tokenSymbol={activeAsset.label}
                 height={25}
                 width={25}
-                tokenFullName={activeAsset.label.toUpperCase()}
+                tokenFullName={
+                  getAssetInfo(activeAsset.label).formattedSymbol || activeAsset.label.toUpperCase()
+                }
               />
             ) : (
               <p className="AssetSelect__button-placeholder">

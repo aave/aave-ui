@@ -2,7 +2,7 @@ const MetamaskPage = require('./pages/metamask.page')
 const elemUtil = require('./util/element.util')
 const exec = require('child_process').exec;
 
-const data ={
+const data = {
   seedPhrase: "diary enrich solar frown choose chest fiction farm risk approve corn upon",
   password: "12345678",
 }
@@ -52,6 +52,11 @@ class MM {
 
   doOpenMainPage(){
     elemUtil.doClick(MetamaskPage.logo)
+  }
+
+  doOpenMMNewTab(){
+    browser.newWindow(this.extensionUrl)
+    browser.url(this.extensionUrl.replace("#", ""))
   }
 
   doSetupProfile(){
