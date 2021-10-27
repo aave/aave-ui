@@ -59,7 +59,7 @@ const PermissionWarning: React.FC<
             title="DROP participation is restricted"
             description={
               <>
-                Only signed up Tinlake Pools and their respective Issuer are allowed to deposit DROP
+                Only signed up Tinlake Pools and their respective Issuers are allowed to deposit DROP
                 tokens and borrow stablecoins in the RWA Market.
               </>
             }
@@ -87,12 +87,9 @@ const PermissionWarning: React.FC<
             title={intl.formatMessage(messages.caption)}
             description={
               <>
-                To liquidate assets in the Aave Centrifuge market, you need to complete KYC and sign
-                a Subscription Agreement with the issuer of the DROP token that you wish to
-                liquidate. This process can be completed on{' '}
-                <a href="https://tinlake.centrifuge.io/" target="_blank" rel="noreferrer">
-                  https://tinlake.centrifuge.io/
-                </a>
+                To liquidate assets in the RWA market, you need to complete KYC and sign
+                a Subscription Agreement with the Issuer of the DROP token that you wish to
+                liquidate.
               </>
             }
           />
@@ -101,7 +98,7 @@ const PermissionWarning: React.FC<
             title="DAI borrowing is restricted"
             description={
               <>
-                Only signed up Tinlake Pools and their respective Issuer are allowed to deposit DROP
+                Only signed up Tinlake Pools and their respective Issuers are allowed to deposit DROP
                 tokens and borrow stablecoins in the RWA Market.
               </>
             }

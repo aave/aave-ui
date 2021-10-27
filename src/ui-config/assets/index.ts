@@ -64,6 +64,13 @@ export const assetsList: Asset[] = [
     icon: 'https://storage.googleapis.com/tinlake/pool-media/branch-3/drop.png',
     aIcon: 'https://storage.googleapis.com/tinlake/pool-media/branch-3/drop.png',
   },
+  {
+    name: 'Branch Series 3 (1754 Factory) DROP',
+    symbol: 'AEADRP',
+    color: '#0828BE',
+    icon: 'https://storage.googleapis.com/tinlake/pool-media/branch-3/drop.png',
+    aIcon: 'https://storage.googleapis.com/tinlake/pool-media/branch-3/drop.png',
+  },
 ];
 
 export const assetsOrder: string[] = [];

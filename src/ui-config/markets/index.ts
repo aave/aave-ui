@@ -4,7 +4,7 @@ import { MarketDataType } from '../../helpers/markets/markets-data';
 import * as logos from './images';
 
 export enum CustomMarket {
-  centrifuge_kovan = 'centrifuge_kovan',
+  rwa_kovan = 'rwa_kovan',
 }
 
 export interface ExtendedMarketDataType extends MarketDataType {
@@ -12,7 +12,7 @@ export interface ExtendedMarketDataType extends MarketDataType {
 }
 
 export const marketsData: { [key in keyof typeof CustomMarket]: ExtendedMarketDataType } = {
-  [CustomMarket.centrifuge_kovan]: {
+  [CustomMarket.rwa_kovan]: {
     network: Network.kovan,
     logo: logos.rwaLogo,
     activeLogo: logos.rwaLogoActive,
@@ -27,9 +27,9 @@ export const marketsData: { [key in keyof typeof CustomMarket]: ExtendedMarketDa
     },
     DAIAddress: '0xff795577d9ac8bd7d90ee22b6c1703490b6512fd',
     addresses: {
-      LENDING_POOL_ADDRESS_PROVIDER: '0x2871c9Ac3FeBE04Ea66Bd231D8979A9AAA13CB52'.toLowerCase(),
-      LENDING_POOL: '0x4DB84ef1130F62d466cd643582c79CD7d9B45397',
-      PERMISSION_MANAGER: '0xcf50B1c4be6e28d5D83D2AB4Df1b06e878631364',
+      LENDING_POOL_ADDRESS_PROVIDER: '0xcC40346Df7564A7b9288b425CB7a228Fda2563b2'.toLowerCase(),
+      LENDING_POOL: '0x7A2219FCdeB0196f087592D571F896AFd02F504D',
+      PERMISSION_MANAGER: '0xEE269A35043403282e319FB3fba4bC1470ba9b93',
     },
   },
 } as const;
