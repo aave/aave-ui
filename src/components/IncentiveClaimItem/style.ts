@@ -71,6 +71,10 @@ const staticStyles = css.global`
         }
       }
     }
+
+    .CustomTooltip.place-top {
+      margin-top: -5px !important;
+    }
   }
 `;
 

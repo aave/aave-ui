@@ -52,10 +52,12 @@ export default function IncentiveClaimItem({
         title={intl.formatMessage(defaultMessages.claim)}
       />
 
-      <CustomTooltip
-        tooltipId={tooltipId}
-        text={`${Number(claimableRewards).toFixed(10)} ${symbol}`}
-      />
+      {!sm && (
+        <CustomTooltip
+          tooltipId={tooltipId}
+          text={`${Number(claimableRewards).toFixed(10)} ${symbol}`}
+        />
+      )}
 
       <style jsx={true} global={true}>
         {staticStyles}
