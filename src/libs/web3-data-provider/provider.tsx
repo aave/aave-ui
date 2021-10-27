@@ -221,7 +221,7 @@ export function Web3Provider({
       setIsAvailableAccountsLoading(true);
       let accounts: string[] = [];
       try {
-        accounts = provider ? ['0x56FB278a7191bdf7C5d493765Fec03E6EAdF72f1'] : [];
+        accounts = provider ? await provider.listAccounts() : [];
       } catch (error) {
         // Catch any Web3 load error or Ledger connection error when the app tries to connect prior connecting to the USB device
         // Hold the retry until 3 segs if there is an error loading accounts,

@@ -44,7 +44,7 @@
     "d3-array": "^3.1.1",
     "dayjs": "^1.10.7",
     "ethereumjs-tx": "^2.1.2",
-    "ethers": "^5.5.1",
+    "ethers": "5.4.6",
     "front-matter": "^4.0.2",
     "graphql": "^15.6.1",
     "intl": "^1.2.5",
@@ -72,7 +72,7 @@
   },
   "devDependencies": {
     "@actions/core": "^1.6.0",
-    "@ethersproject/experimental": "^5.5.0",
+    "@ethersproject/experimental": "5.4.0",
     "@graphql-codegen/cli": "^2.2.1",
     "@graphql-codegen/fragment-matcher": "^3.1.0",
     "@graphql-codegen/typescript": "^2.2.4",

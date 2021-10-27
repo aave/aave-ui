@@ -29,6 +29,7 @@ import { DEFAULT_TEST_ACCOUNT, TenderlyFork } from './tenderly';
 import { Eip1193Bridge } from '@ethersproject/experimental/lib/eip1193-bridge';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
+import { providers } from 'ethers';
 
 class CustomizedBridge extends Eip1193Bridge {
   chainId = 3030;
@@ -54,9 +55,9 @@ class CustomizedBridge extends Eip1193Bridge {
     }
     if (method === 'eth_requestAccounts' || method === 'eth_accounts') {
       if (isCallbackForm) {
-        callback({ result: [DEFAULT_TEST_ACCOUNT.address] });
+        callback({ result: [await this.signer.getAddress()] });
       } else {
-        return Promise.resolve([DEFAULT_TEST_ACCOUNT.address]);
+        return Promise.resolve([await this.signer.getAddress()]);
       }
     }
     if (method === 'eth_chainId') {
@@ -65,6 +66,27 @@ class CustomizedBridge extends Eip1193Bridge {
       } else {
         return Promise.resolve(this.chainId);
       }
+    }
+    if (method === 'eth_call') {
+      const req = providers.JsonRpcProvider.hexlifyTransaction(
+        // @ts-ignore
+        params[0],
+        { from: true }
+      );
+      return await this.provider.call(req, params[1]);
+    }
+    if (method === 'eth_sendTransaction') {
+      if (!this.signer) {
+        throw new Error('eth_sendTransaction requires an account');
+      }
+
+      const req = providers.JsonRpcProvider.hexlifyTransaction(
+        // @ts-ignore
+        params[0],
+        { from: true, gas: true }
+      );
+      const tx = await this.signer.sendTransaction(req);
+      return tx.hash;
     }
     try {
       if (params?.[0]) {
@@ -98,15 +120,16 @@ Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
       const rpc = tenderly.get_rpc_url();
       const provider = new JsonRpcProvider(rpc, 3030);
       const signer = new Wallet(DEFAULT_TEST_ACCOUNT.privateKey, provider);
-      win.ethereum = new CustomizedBridge(signer, provider);
+
+      win.ethereum = new CustomizedBridge(signer, signer.provider);
 
       win.localStorage.setItem('fork_enabled', 'true');
       win.localStorage.setItem('forkNetworkId', '3030');
       win.localStorage.setItem('forkRPCUrl', rpc);
       // win.localStorage.setItem('polygon_fork_enabled', 'true');
       // win.localStorage.setItem('avalanche_fork_enabled', 'true');
-      win.localStorage.setItem('currentProvider', 'browser');
-      win.localStorage.setItem('selectedAccount', DEFAULT_TEST_ACCOUNT.address);
+      // win.localStorage.setItem('currentProvider', 'browser');
+      // win.localStorage.setItem('selectedAccount', DEFAULT_TEST_ACCOUNT.address);
       win.localStorage.setItem('selectedMarket', 'proto_fork');
     },
     ...options,
