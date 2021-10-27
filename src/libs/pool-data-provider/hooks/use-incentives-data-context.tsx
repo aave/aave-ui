@@ -8,7 +8,7 @@ import {
   calculateAllReserveIncentives,
   ReserveIncentiveDict,
   UserIncentiveDict,
-  ETH_DECIMALS,
+  WEI_DECIMALS,
   ReserveCalculationData,
   UserReserveCalculationData,
 } from '@aave/math-utils';
@@ -139,7 +139,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
       totalVariableDebt: supplies.totalVariableDebt.toString(),
       totalStableDebt: supplies.totalStableDebt.toString(),
       priceInMarketReferenceCurrency: reserve.price.priceInEth,
-      marketReferenceCurrencyDecimals: ETH_DECIMALS,
+      marketReferenceCurrencyDecimals: WEI_DECIMALS,
       decimals: reserve.decimals,
     };
   });
@@ -166,7 +166,6 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     reserveIncentives[API_ETH_MOCK_ADDRESS.toLowerCase()] =
       reserveIncentives[networkConfig.baseAssetWrappedAddress.toLowerCase()];
   }
-
   // Compute the total claimable rewards for a user, returned as dictionary indexed by incentivesController
   let userIncentives = calculateAllUserIncentives({
     reserveIncentives: reserveIncentiveData,

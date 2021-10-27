@@ -76,9 +76,9 @@ export default function Markets() {
         borrowingEnabled: reserve.borrowingEnabled,
         stableBorrowRateEnabled: reserve.stableBorrowRateEnabled,
         isFreezed: reserve.isFrozen,
-        aIncentivesAPY: reserveIncentiveData ? reserveIncentiveData.aIncentives.incentiveAPY : '0',
-        vIncentivesAPY: reserveIncentiveData ? reserveIncentiveData.vIncentives.incentiveAPY : '0',
-        sIncentivesAPY: reserveIncentiveData ? reserveIncentiveData.sIncentives.incentiveAPY : '0',
+        aincentivesAPR: reserveIncentiveData ? reserveIncentiveData.aIncentives.incentiveAPR : '0',
+        vincentivesAPR: reserveIncentiveData ? reserveIncentiveData.vIncentives.incentiveAPR : '0',
+        sincentivesAPR: reserveIncentiveData ? reserveIncentiveData.sIncentives.incentiveAPR : '0',
       };
     });
 

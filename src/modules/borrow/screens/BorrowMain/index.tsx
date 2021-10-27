@@ -81,14 +81,14 @@ export default function BorrowMain() {
           variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowRate) : -1,
           avg30DaysVariableRate: Number(reserve.avg30DaysVariableBorrowRate),
           interestHistory: [],
-          aIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.aIncentives.incentiveAPY
+          aincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.aIncentives.incentiveAPR
             : '0',
-          vIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.vIncentives.incentiveAPY
+          vincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.vIncentives.incentiveAPR
             : '0',
-          sIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.sIncentives.incentiveAPY
+          sincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.sIncentives.incentiveAPR
             : '0',
         };
       });

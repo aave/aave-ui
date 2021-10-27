@@ -20,7 +20,7 @@ export default function DepositItem({
   userId,
   borrowingEnabled,
   isFreezed,
-  aIncentivesAPY,
+  aincentivesAPR,
 }: DepositTableItem) {
   const url = `/deposit/${underlyingAsset}-${id}`;
 
@@ -46,7 +46,7 @@ export default function DepositItem({
           <LiquidityMiningCard
             value={liquidityRate}
             thirtyDaysValue={avg30DaysLiquidityRate}
-            liquidityMiningValue={aIncentivesAPY}
+            liquidityMiningValue={aincentivesAPR}
             symbol={symbol}
             type="deposit"
           />

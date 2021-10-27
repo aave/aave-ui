@@ -70,8 +70,8 @@ export default function DepositsMain() {
           walletData[reserve.underlyingAsset] === '0'
             ? valueToBigNumber('0')
             : valueToBigNumber(walletData[reserve.underlyingAsset] || '0').dividedBy(
-                valueToBigNumber('10').pow(reserve.decimals)
-              );
+              valueToBigNumber('10').pow(reserve.decimals)
+            );
         const walletBalanceInUSD = walletBalance
           .multipliedBy(reserve.price.priceInEth)
           .dividedBy(marketRefPriceInUsd)
@@ -87,14 +87,14 @@ export default function DepositsMain() {
           avg30DaysLiquidityRate: Number(reserve.avg30DaysLiquidityRate),
           borrowingEnabled: reserve.borrowingEnabled,
           interestHistory: [],
-          aIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.aIncentives.incentiveAPY
+          aincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.aIncentives.incentiveAPR
             : '0',
-          vIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.vIncentives.incentiveAPY
+          vincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.vIncentives.incentiveAPR
             : '0',
-          sIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.sIncentives.incentiveAPY
+          sincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.sIncentives.incentiveAPR
             : '0',
         };
       });

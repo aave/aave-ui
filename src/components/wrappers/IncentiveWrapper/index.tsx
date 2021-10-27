@@ -57,7 +57,10 @@ export default function IncentiveWrapper() {
       <div className="IncentiveWrapper__incentives">
         {Object.entries(userIncentivesFiltered).map((incentive) => {
           const rewardTokenSymbol = getRewardTokenSymbol(reserves, incentive[1].rewardTokenAddress);
-          const claimableRewards = normalize(incentive[1].claimableRewards, 18);
+          const claimableRewards = normalize(
+            incentive[1].claimableRewards,
+            incentive[1].rewardTokenDecimals
+          );
           return (
             <IncentiveClaimItem
               key={incentive[0]}

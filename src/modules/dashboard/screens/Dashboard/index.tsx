@@ -94,8 +94,8 @@ export default function Dashboard() {
           usageAsCollateralEnabledOnUser: userReserve.usageAsCollateralEnabledOnUser,
           underlyingBalance: userReserve.underlyingBalance,
           underlyingBalanceUSD: userReserve.underlyingBalanceUSD,
-          aIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.aIncentives.incentiveAPY
+          aincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.aIncentives.incentiveAPR
             : '0',
           onToggleSwitch: () =>
             toggleUseAsCollateral(
@@ -115,11 +115,11 @@ export default function Dashboard() {
           currentBorrowsUSD: userReserve.variableBorrowsUSD,
           borrowRateMode: InterestRate.Variable,
           borrowRate: poolReserve.variableBorrowRate,
-          vIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.vIncentives.incentiveAPY
+          vincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.vIncentives.incentiveAPR
             : '0',
-          sIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.sIncentives.incentiveAPY
+          sincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.sIncentives.incentiveAPR
             : '0',
           avg30DaysVariableRate: poolReserve.avg30DaysVariableBorrowRate,
           repayLink: loanActionLinkComposer(
@@ -151,11 +151,11 @@ export default function Dashboard() {
           currentBorrowsUSD: userReserve.stableBorrowsUSD,
           borrowRateMode: InterestRate.Stable,
           borrowRate: userReserve.stableBorrowRate,
-          vIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.vIncentives.incentiveAPY
+          vincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.vIncentives.incentiveAPR
             : '0',
-          sIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.sIncentives.incentiveAPY
+          sincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.sIncentives.incentiveAPR
             : '0',
           repayLink: loanActionLinkComposer(
             'repay',

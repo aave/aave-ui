@@ -32,8 +32,8 @@ export default function BorrowItem({
   repayLink,
   borrowLink,
   index,
-  vIncentivesAPY,
-  sIncentivesAPY,
+  vincentivesAPR,
+  sincentivesAPR,
 }: BorrowTableItem) {
   const intl = useIntl();
   const { currentTheme, xl, lg, md, isCurrentThemeDark } = useThemeContext();
@@ -52,7 +52,7 @@ export default function BorrowItem({
         value={Number(borrowRate)}
         thirtyDaysAverage={borrowRateMode === BorrowRateMode.Variable ? avg30DaysVariableRate : ''}
         liquidityMiningValue={
-          borrowRateMode === BorrowRateMode.Variable ? vIncentivesAPY : sIncentivesAPY
+          borrowRateMode === BorrowRateMode.Variable ? vincentivesAPR : sincentivesAPR
         }
         symbol={symbol}
         type={borrowRateMode === BorrowRateMode.Variable ? 'borrow-variable' : 'borrow-stable'}
