@@ -141,7 +141,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     publicJsonRPCWSUrl: 'wss://api.avax-test.network/ext/bc/C/rpc',
     walletBalanceProvider: '0x3f5A507B33260a3869878B31FB90F04F451d28e3',
     uiPoolDataProvider: '0x41b6b18DfF735dbaEda5F5FB5393F57E420D5CB8',
-    protocolDataUrl: '', // TODO: fill when subgraph deployed
+    protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-fuji',
     baseUniswapAdapter: '0x0',
     baseAsset: 'AVAX',
     // incentives hardcoded information
