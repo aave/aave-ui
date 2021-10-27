@@ -27,16 +27,18 @@ export type NetworkConfig = {
   privateJsonRPCWSUrl?: string;
   publicJsonRPCUrl: string; // public rpc used if not private found, and used to add specific network to wallets if user don't have them. Normally with slow rates
   publicJsonRPCWSUrl?: string;
-  walletBalanceProvider: string;
-  /**
-   * UiPoolDataProvider currently requires a non-master version
-   * https://github.com/aave/protocol-v2/blob/feat/split-ui-dataprovider-logic/contracts/misc/UiPoolDataProvider.sol
-   * If you deploy a market with the non default oracle or incentive controller you have to redeploy the UiPoolDataProvider as well as currently the addresses are static.
-   * In the upcoming version this will no longer be needed.
-   */
-  uiPoolDataProvider: string;
-  uiIncentiveDataProvider: string;
-  chainlinkFeedRegistry?: string;
+  addresses: {
+    walletBalanceProvider: string;
+    /**
+     * UiPoolDataProvider currently requires a non-master version
+     * https://github.com/aave/protocol-v2/blob/feat/split-ui-dataprovider-logic/contracts/misc/UiPoolDataProvider.sol
+     * If you deploy a market with the non default oracle or incentive controller you have to redeploy the UiPoolDataProvider as well as currently the addresses are static.
+     * In the upcoming version this will no longer be needed.
+     */
+    uiPoolDataProvider: string;
+    uiIncentiveDataProvider: string;
+    chainlinkFeedRegistry?: string;
+  };
   protocolDataUrl: string;
   cachingServerUrl?: string;
   cachingWSServerUrl?: string;

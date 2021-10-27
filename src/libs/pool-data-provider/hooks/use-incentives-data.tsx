@@ -119,7 +119,7 @@ export function useIncentivesData(
         await incentiveDataProviderContract.getIncentivesDataWithPrice({
           lendingPoolAddressProvider,
           quote: networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
-          chainlinkFeedsRegistry: networkConfig.chainlinkFeedRegistry,
+          chainlinkFeedsRegistry: networkConfig.addresses.chainlinkFeedRegistry,
         });
       setReserveIncentiveData(rawReserveIncentiveData);
       setErrorReserveIncentives(false);

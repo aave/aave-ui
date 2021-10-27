@@ -57,7 +57,7 @@ export const WalletBalanceProvider: React.FC = ({ children }) => {
       const networkConfig = getNetworkConfig(marketData.network);
       const provider = getProvider(marketData.network);
       const contract = WalletBalanceProviderFactory.connect(
-        networkConfig.walletBalanceProvider,
+        networkConfig.addresses.walletBalanceProvider,
         provider
       );
 
