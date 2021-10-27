@@ -41,14 +41,16 @@ exports.config = {
     './e2e/specs/mainMarket/assets/ren.test.js',
     './e2e/specs/mainMarket/assets/mana.test.js',
     './e2e/specs/mainMarket/reward.test.js',
+    './e2e/specs/mainMarket/swap.test.js',
 
     './e2e/specs/polygonMarket/assets/matic.polygon.test.js',
     './e2e/specs/polygonMarket/assets/dai.polygon.test.js',
-    // './e2e/specs/polygonMarket/assets/usdc.polygon.test.js',
+    './e2e/specs/polygonMarket/assets/usdc.polygon.test.js',
     './e2e/specs/polygonMarket/assets/usdt.polygon.test.js',
     './e2e/specs/polygonMarket/assets/weth.polygon.test.js',
     './e2e/specs/polygonMarket/assets/wbtc.polygon.test.js',
     './e2e/specs/polygonMarket/reward.polygon.test.js',
+    './e2e/specs/polygonMarket/swap.polygon.test.js',
 
     './e2e/specs/ammMarket/assets/eth.test.js',
     './e2e/specs/ammMarket/assets/usdc.test.js',
@@ -62,7 +64,7 @@ exports.config = {
     './e2e/specs/avalancheMarket/assets/weth.avalanche.test.js',
     './e2e/specs/avalancheMarket/assets/wbtc.avalanche.test.js',
     './e2e/specs/avalancheMarket/reward.avalanche.test.js',
-
+    './e2e/specs/avalancheMarket/swap.avalanche.test.js',
 
     './e2e/specs/mainMarket/stake.kovan.test.js',
   ],
