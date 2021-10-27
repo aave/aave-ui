@@ -12,6 +12,8 @@ import routeParamValidationHOC, {
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
+import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
+import { PERMISSION } from '@aave/contract-helpers';
 
 function WithdrawAmount({
   currencySymbol,
@@ -81,17 +83,19 @@ function WithdrawAmount({
   };
 
   return (
-    <BasicForm
-      title={intl.formatMessage(defaultMessages.withdraw)}
-      description={intl.formatMessage(messages.formDescription)}
-      maxAmount={maxUserAmountToWithdraw}
-      currencySymbol={currencySymbol}
-      onSubmit={handleWithdrawSubmit}
-      amountFieldTitle={intl.formatMessage(messages.amountTitle)}
-      absoluteMaximum={true}
-      maxDecimals={poolReserve.decimals}
-      getTransactionData={handleTransactionData}
-    />
+    <PermissionWarning requiredPermission={PERMISSION.DEPOSITOR}>
+      <BasicForm
+        title={intl.formatMessage(defaultMessages.withdraw)}
+        description={intl.formatMessage(messages.formDescription)}
+        maxAmount={maxUserAmountToWithdraw}
+        currencySymbol={currencySymbol}
+        onSubmit={handleWithdrawSubmit}
+        amountFieldTitle={intl.formatMessage(messages.amountTitle)}
+        absoluteMaximum={true}
+        maxDecimals={poolReserve.decimals}
+        getTransactionData={handleTransactionData}
+      />
+    </PermissionWarning>
   );
 }
 
