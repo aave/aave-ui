@@ -16,7 +16,7 @@ const mainnet_config: BaseNetworkConfig = {
   publicJsonRPCUrl: 'https://eth-mainnet.alchemyapi.io/v2/demo',
   publicJsonRPCWSUrl: 'wss://eth-mainnet.alchemyapi.io/v2/demo',
   walletBalanceProvider: '0x8E8dAd5409E0263a51C0aB5055dA66Be28cFF922',
-  uiPoolDataProvider: '0x575303eEB4C9020B2C9998957AD412A8E2894fE0',
+  uiPoolDataProvider: '0xf49670C78794b6a604f3B49393d8eE951713339F',
   cachingServerUrl: 'https://cache-api-mainnet.aave.com/graphql',
   cachingWSServerUrl: 'wss://cache-api-mainnet.aave.com/graphql',
   protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2',
@@ -97,7 +97,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
   [Network.kovan]: {
     publicJsonRPCUrl: 'https://kovan.poa.network ',
     walletBalanceProvider: '0x07DC923859b68e9399d787bf52c4Aa9eBe3490aF',
-    uiPoolDataProvider: '0x7F9fEF2c144C7D120E27E7Fe9798D4C7b714F0dD',
+    uiPoolDataProvider: '0x575303eEB4C9020B2C9998957AD412A8E2894fE0',
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-kovan',
     baseUniswapAdapter: '0xf86Be05f535EC2d217E4c6116B3fa147ee5C05A1',
     baseAsset: 'ETH',
