@@ -48,7 +48,12 @@ export function RewardConfirm() {
 
   const assets = incentiveData.assets;
   const handleGetTransactions = async () =>
-    incentivesTxBuilder.claimRewards({ user: user.id, assets, to: user.id });
+    incentivesTxBuilder.claimRewards({
+      user: user.id,
+      assets,
+      to: user.id,
+      incentivesControllerAddress,
+    });
 
   return (
     <ScreenWrapper

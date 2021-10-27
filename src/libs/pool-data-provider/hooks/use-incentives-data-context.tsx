@@ -1,4 +1,8 @@
-import { Denominations } from '@aave/contract-helpers';
+import {
+  Denominations,
+  IncentivesController,
+  IncentivesControllerInterface,
+} from '@aave/contract-helpers';
 import {
   calculateAllUserIncentives,
   calculateAllReserveIncentives,
@@ -8,15 +12,9 @@ import {
   ReserveCalculationData,
   UserReserveCalculationData,
 } from '@aave/math-utils';
-import {
-  API_ETH_MOCK_ADDRESS,
-  calculateSupplies,
-  IncentivesControllerInterface,
-  TxBuilderV2,
-} from '@aave/protocol-js';
+import { API_ETH_MOCK_ADDRESS, calculateSupplies } from '@aave/protocol-js';
 import { ethers } from 'ethers';
 import React, { ReactNode, useContext } from 'react';
-import { useLocation } from 'react-router';
 import Preloader from '../../../components/basic/Preloader';
 import ErrorPage from '../../../components/ErrorPage';
 import { getProvider } from '../../../helpers/markets/markets-data';
@@ -46,18 +44,14 @@ const IncentivesDataContext = React.createContext({} as IncentivesContext);
 
 export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const { userId, rawReservesWithBase, rawUserReservesWithBase } = useStaticPoolDataContext();
-  const location = useLocation();
   const { network, networkConfig, currentMarketData } = useProtocolDataContext();
   const { network: apolloClientNetwork } = useApolloConfigContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const currentAccount = userId ? userId.toLowerCase() : ethers.constants.AddressZero;
-  // incentivesTxBuilder is used in RewardConfirm component where incentiveControllerAddress is appended to pathname
-  const incentivesControllerAddress = location.pathname.split('/')[3]?.toLowerCase();
-  const incentivesTxBuilder: IncentivesControllerInterface = new TxBuilderV2(
-    network,
+  const incentivesTxBuilder: IncentivesControllerInterface = new IncentivesController(
     getProvider(network)
-  ).getIncentives(incentivesControllerAddress);
+  );
 
   const {
     loading: cachedDataLoading,
