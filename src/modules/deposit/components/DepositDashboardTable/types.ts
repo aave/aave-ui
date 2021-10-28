@@ -8,7 +8,7 @@ export type DepositTableItem = {
   uiColor: string;
   reserve: Pick<ReserveData, 'id' | 'symbol' | 'name' | 'liquidityRate' | 'underlyingAsset'>;
   avg30DaysLiquidityRate?: string;
-  aIncentivesAPY: string;
+  aincentivesAPR: string;
   borrowingEnabled: boolean;
   index?: number;
 } & Pick<

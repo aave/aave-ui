@@ -5,6 +5,7 @@ import { valueToBigNumber, InterestRate, Network } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import classNames from 'classnames';
 
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import { loanActionLinkComposer } from '../../../../helpers/loan-action-link-composer';
@@ -28,7 +29,7 @@ import MainDashboardTable from '../../components/MainDashboardTable';
 import MobileTopPanelWrapper from '../../components/MobileTopPanelWrapper';
 import DepositBorrowTopPanel from '../../../../components/DepositBorrowTopPanel';
 import ApproximateBalanceHelpModal from '../../../../components/HelpModal/ApproximateBalanceHelpModal';
-import TopIncentiveBalance from '../../../../components/TopIncentiveBalance';
+import IncentiveWrapper from '../../../../components/wrappers/IncentiveWrapper';
 import DashboardNoData from '../../components/DashboardNoData';
 
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
@@ -44,6 +45,7 @@ export default function Dashboard() {
   const history = useHistory();
   const { network } = useProtocolDataContext();
   const { user, reserves } = useDynamicPoolDataContext();
+  const { reserveIncentives } = useIncentivesDataContext();
   const { currentTheme, sm } = useThemeContext();
 
   const [isLTVModalVisible, setLTVModalVisible] = useState(false);
@@ -69,10 +71,12 @@ export default function Dashboard() {
 
   user?.reservesData.forEach((userReserve) => {
     const poolReserve = reserves.find((res) => res.symbol === userReserve.reserve.symbol);
-
     if (!poolReserve) {
       throw new Error('data is inconsistent pool reserve is not available');
     }
+
+    const reserveIncentiveData =
+      reserveIncentives[userReserve.reserve.underlyingAsset.toLowerCase()];
     if (userReserve.underlyingBalance !== '0' || userReserve.totalBorrows !== '0') {
       const baseListData = {
         uiColor: getAssetColor(userReserve.reserve.symbol),
@@ -90,7 +94,9 @@ export default function Dashboard() {
           usageAsCollateralEnabledOnUser: userReserve.usageAsCollateralEnabledOnUser,
           underlyingBalance: userReserve.underlyingBalance,
           underlyingBalanceUSD: userReserve.underlyingBalanceUSD,
-          aIncentivesAPY: poolReserve.aIncentivesAPY,
+          aincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.aIncentives.incentiveAPR
+            : '0',
           onToggleSwitch: () =>
             toggleUseAsCollateral(
               history,
@@ -109,8 +115,12 @@ export default function Dashboard() {
           currentBorrowsUSD: userReserve.variableBorrowsUSD,
           borrowRateMode: InterestRate.Variable,
           borrowRate: poolReserve.variableBorrowRate,
-          vIncentivesAPY: poolReserve.vIncentivesAPY,
-          sIncentivesAPY: poolReserve.sIncentivesAPY,
+          vincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.vIncentives.incentiveAPR
+            : '0',
+          sincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.sIncentives.incentiveAPR
+            : '0',
           avg30DaysVariableRate: poolReserve.avg30DaysVariableBorrowRate,
           repayLink: loanActionLinkComposer(
             'repay',
@@ -141,8 +151,12 @@ export default function Dashboard() {
           currentBorrowsUSD: userReserve.stableBorrowsUSD,
           borrowRateMode: InterestRate.Stable,
           borrowRate: userReserve.stableBorrowRate,
-          vIncentivesAPY: poolReserve.vIncentivesAPY,
-          sIncentivesAPY: poolReserve.sIncentivesAPY,
+          vincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.vIncentives.incentiveAPR
+            : '0',
+          sincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.sIncentives.incentiveAPR
+            : '0',
           repayLink: loanActionLinkComposer(
             'repay',
             poolReserve.id,
@@ -198,7 +212,7 @@ export default function Dashboard() {
         <div className="ButtonLink">
           <DashboardLeftTopLine intl={intl} network={network} />
         </div>
-        <TopIncentiveBalance />
+        <IncentiveWrapper />
       </div>
 
       <DepositBorrowTopPanel />
@@ -353,7 +367,7 @@ export default function Dashboard() {
         </MobileTopPanelWrapper>
       )}
 
-      {sm && <TopIncentiveBalance />}
+      {sm && <IncentiveWrapper />}
 
       {user ? (
         <>

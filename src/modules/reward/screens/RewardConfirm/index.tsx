@@ -1,63 +1,59 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
-import { ComputedReserveData, valueToBigNumber } from '@aave/protocol-js';
-
-import {
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../../../../libs/pool-data-provider';
-import { useTxBuilderContext } from '../../../../libs/tx-provider';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import { useLocation } from 'react-router-dom';
+import { normalize } from '@aave/protocol-js';
+import { getRewardTokenSymbol } from '../../../../components/wrappers/IncentiveWrapper';
+import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
+
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import Row from '../../../../components/basic/Row';
 import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationView';
 import Value from '../../../../components/basic/Value';
+import Link from '../../../../components/basic/Link';
 
 import messages from './messages';
 
 export function RewardConfirm() {
   const intl = useIntl();
-  const { incentiveService } = useTxBuilderContext();
-  const { userUnclaimedRewards } = useStaticPoolDataContext();
+  const location = useLocation();
+
   const { user, reserves } = useDynamicPoolDataContext();
-  const { networkConfig } = useProtocolDataContext();
+  const { userIncentives, incentivesTxBuilder } = useIncentivesDataContext();
+  const incentivesControllerAddress = location.pathname.split('/')[3];
+  const incentiveData = userIncentives[incentivesControllerAddress];
+  const rewardTokenSymbol = getRewardTokenSymbol(reserves, incentiveData.rewardTokenAddress);
 
   const aTokenData = getAtokenInfo({
-    address: incentiveService.incentivesControllerRewardTokenAddress,
-    symbol: networkConfig.rewardTokenSymbol, // TODO: maybe need change in the future
-    decimals: 18,
+    address: incentiveData.rewardTokenAddress,
+    symbol: rewardTokenSymbol,
+    decimals: incentiveData.rewardTokenDecimals,
     withFormattedSymbol: true,
   });
 
-  if (!user) return null;
-
-  const amount = valueToBigNumber(user.totalRewards).plus(userUnclaimedRewards);
-  if ((amount.lt(0) && !amount.eq(-1)) || !user) {
+  if ((incentiveData.claimableRewards.lt(0) && !incentiveData.claimableRewards.eq(-1)) || !user) {
     return null;
   }
 
   let blockingError = '';
-  if (amount.eq('0')) {
+  if (incentiveData.claimableRewards.eq('0')) {
     blockingError = intl.formatMessage(messages.notEnoughBalance);
   }
 
-  const formattedAmount = amount.toString();
+  const formattedAmount = normalize(
+    incentiveData.claimableRewards,
+    incentiveData.rewardTokenDecimals
+  );
 
-  const assets = user.reservesData.reduce((acc, userReserve) => {
-    const reserve = reserves.find(
-      (reserve) =>
-        reserve.underlyingAsset.toLowerCase() === userReserve.reserve.underlyingAsset.toLowerCase()
-    ) as ComputedReserveData;
-    if (userReserve.aTokenRewards !== '0') acc.push(reserve.aTokenAddress);
-    if (userReserve.vTokenRewards !== '0') acc.push(reserve.variableDebtTokenAddress);
-    if (userReserve.sTokenRewards !== '0') acc.push(reserve.stableDebtTokenAddress);
-    return acc;
-  }, [] as string[]);
-
+  const assets = incentiveData.assets;
   const handleGetTransactions = async () =>
-    incentiveService.claimRewards({ user: user.id, assets, to: user.id });
+    incentivesTxBuilder.claimRewards({
+      user: user.id,
+      assets,
+      to: user.id,
+      incentivesControllerAddress,
+    });
 
   return (
     <ScreenWrapper
@@ -76,13 +72,42 @@ export function RewardConfirm() {
           blockingError={blockingError}
           goToAfterSuccess="/dashboard"
           aTokenData={aTokenData}
+          dangerousMessage={
+            rewardTokenSymbol === 'TRIBE' ? (
+              <div>
+                <p>
+                  {intl.formatMessage(messages.tribeWarningFirst, {
+                    proposal: (
+                      <Link
+                        to="https://www.withtally.com/governance/fei/proposal/20"
+                        inNewWindow={true}
+                        absolute={true}
+                        color="secondary"
+                        title={intl.formatMessage(messages.proposal)}
+                      />
+                    ),
+                    link: (
+                      <Link
+                        to="https://app.fei.money/farm"
+                        inNewWindow={true}
+                        absolute={true}
+                        color="secondary"
+                        title={intl.formatMessage(messages.feiMessage)}
+                      />
+                    ),
+                  })}
+                </p>
+                <p style={{ marginTop: 15 }}>{intl.formatMessage(messages.tribeWarningSecond)}</p>
+              </div>
+            ) : undefined
+          }
         >
           <Row title={intl.formatMessage(messages.claim)}>
             <Value
-              symbol={networkConfig.rewardTokenSymbol}
+              symbol={rewardTokenSymbol}
               value={formattedAmount}
               tokenIcon={true}
-              tooltipId={networkConfig.rewardTokenSymbol}
+              tooltipId={rewardTokenSymbol}
             />
           </Row>
         </PoolTxConfirmationView>

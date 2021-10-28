@@ -27,19 +27,24 @@ export type NetworkConfig = {
   privateJsonRPCWSUrl?: string;
   publicJsonRPCUrl: string; // public rpc used if not private found, and used to add specific network to wallets if user don't have them. Normally with slow rates
   publicJsonRPCWSUrl?: string;
-  walletBalanceProvider: string;
-  /**
-   * UiPoolDataProvider currently requires a non-master version
-   * https://github.com/aave/protocol-v2/blob/feat/split-ui-dataprovider-logic/contracts/misc/UiPoolDataProvider.sol
-   * If you deploy a market with the non default oracle or incentive controller you have to redeploy the UiPoolDataProvider as well as currently the addresses are static.
-   * In the upcoming version this will no longer be needed.
-   */
-  uiPoolDataProvider: string;
+  addresses: {
+    walletBalanceProvider: string;
+    /**
+     * UiPoolDataProvider currently requires a non-master version
+     * https://github.com/aave/protocol-v2/blob/feat/split-ui-dataprovider-logic/contracts/misc/UiPoolDataProvider.sol
+     * If you deploy a market with the non default oracle or incentive controller you have to redeploy the UiPoolDataProvider as well as currently the addresses are static.
+     * In the upcoming version this will no longer be needed.
+     */
+    uiPoolDataProvider: string;
+    uiIncentiveDataProvider: string;
+    chainlinkFeedRegistry?: string;
+  };
   protocolDataUrl: string;
   cachingServerUrl?: string;
   cachingWSServerUrl?: string;
   baseUniswapAdapter?: string;
   baseAsset: string;
+  baseAssetWrappedAddress?: string;
   rewardTokenSymbol: string;
   rewardTokenAddress: string;
   rewardTokenDecimals: number;
@@ -51,10 +56,6 @@ export type NetworkConfig = {
   rpcOnly: boolean;
   // set this to show faucets and similar
   isTestnet?: boolean;
-  addresses?: {
-    INCENTIVES_CONTROLLER: string;
-    INCENTIVES_CONTROLLER_REWARD_TOKEN: string;
-  };
   bridge?: {
     brandColor: string;
     name: string;

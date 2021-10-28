@@ -12,7 +12,7 @@ export type BorrowTableItem = {
   stableBorrowRateEnabled?: boolean;
   userId?: string;
   isFreezed?: boolean;
-  vIncentivesAPY: string;
-  sIncentivesAPY: string;
-  aIncentivesAPY: string;
+  vincentivesAPR: string;
+  sincentivesAPR: string;
+  aincentivesAPR: string;
 };
