@@ -121,6 +121,7 @@ export function useIncentivesData(
           quote: networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
           chainlinkFeedsRegistry: networkConfig.addresses.chainlinkFeedRegistry,
         });
+      console.log('rawReserveIncentiveData::: ', rawReserveIncentiveData)
       setReserveIncentiveData(rawReserveIncentiveData);
       setErrorReserveIncentives(false);
     } catch (e) {
