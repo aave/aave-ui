@@ -6,6 +6,9 @@ const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
 
   .DashboardNoData {
+    @include respond-to(sm) {
+      margin-top: 50px;
+    }
     .Caption {
       margin-bottom: 50px;
       max-width: 540px;
