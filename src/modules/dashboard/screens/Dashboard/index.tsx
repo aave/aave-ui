@@ -38,11 +38,12 @@ import { getAssetColor } from '../../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';
+import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
 
 export default function Dashboard() {
   const intl = useIntl();
   const history = useHistory();
-  const { network } = useProtocolDataContext();
+  const { chainId } = useProtocolDataContext();
   const { user, reserves } = useDynamicPoolDataContext();
   const { currentTheme, sm } = useThemeContext();
 
@@ -66,6 +67,8 @@ export default function Dashboard() {
 
   const depositedPositions: DepositTableItem[] = [];
   const borrowedPositions: BorrowTableItem[] = [];
+
+  const network = ChainIdToNetwork[chainId] as Network;
 
   user?.reservesData.forEach((userReserve) => {
     const poolReserve = reserves.find((res) => res.symbol === userReserve.reserve.symbol);
@@ -172,7 +175,7 @@ export default function Dashboard() {
       <div
         className={classNames('Dashboard__mobileMigrate--inner', {
           Dashboard__mobileMigrateWithoutContent:
-            network !== Network.mainnet && !depositedPositions.length,
+            chainId !== ChainId.mainnet && !depositedPositions.length,
         })}
       >
         <DashboardLeftTopLine intl={intl} network={network} onMobile={true} />

@@ -3,8 +3,8 @@ import {
   useNetworkCachedServerWsGraphCheck,
   useQueryGraphCheck,
 } from './pool-data-provider/hooks/use-graph-check';
-import { Network } from '@aave/protocol-js';
 import { useProtocolDataContext } from './protocol-data-provider';
+import { ChainId } from '@aave/contract-helpers';
 
 export enum ConnectionMode {
   normal = 'normal',
@@ -22,7 +22,7 @@ export interface ConnectionStatusProviderData {
 const ConnectionStatusDataContext = React.createContext({} as ConnectionStatusProviderData);
 
 export function ConnectionStatusProvider({ children }: React.PropsWithChildren<{}>) {
-  const { networkConfig, network } = useProtocolDataContext();
+  const { networkConfig, chainId } = useProtocolDataContext();
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
   const [preferredConnectionMode, setPreferredConnectionMode] = useState<ConnectionMode>(
     RPC_ONLY_MODE
@@ -47,7 +47,7 @@ export function ConnectionStatusProvider({ children }: React.PropsWithChildren<{
   const isRPCMandatory =
     RPC_ONLY_MODE ||
     wsError.wsErrorCount >= WS_ATTEMPTS_LIMIT ||
-    network === Network.fork ||
+    chainId === ChainId.fork ||
     queryError.queryErrorCount >= 1;
   const isRPCActive = preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory;
   return (

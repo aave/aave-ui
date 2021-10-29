@@ -1,11 +1,5 @@
 import React, { ReactElement, ReactNode, useContext } from 'react';
-import {
-  API_ETH_MOCK_ADDRESS,
-  Network,
-  normalize,
-  ReserveData,
-  UserReserveData,
-} from '@aave/protocol-js';
+import { API_ETH_MOCK_ADDRESS, normalize, ReserveData, UserReserveData } from '@aave/protocol-js';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useProtocolDataWithRpc } from '../hooks/use-v2-protocol-data-with-rpc';
 import { useUserWalletDataContext } from '../../web3-data-provider';
@@ -14,6 +8,7 @@ import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/
 import { useApolloConfigContext } from '../../apollo-config';
 import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
 import { assetsOrder } from '../../../ui-config/assets';
+import { ChainId } from '@aave/contract-helpers';
 
 /**
  * removes the marketPrefix from a symbol
@@ -26,7 +21,7 @@ export const unPrefixSymbol = (symbol: string, prefix: string) => {
 
 export interface StaticPoolDataContextData {
   userId?: string;
-  network: Network;
+  chainId: ChainId;
   networkConfig: NetworkConfig;
   rawReserves: ReserveData[];
   isUserHasDeposits: boolean;
@@ -53,8 +48,8 @@ export function StaticPoolDataProvider({
   errorPage,
 }: StaticPoolDataProviderProps) {
   const { currentAccount } = useUserWalletDataContext();
-  const { network: apolloClientNetwork } = useApolloConfigContext();
-  const { currentMarketData, network, networkConfig } = useProtocolDataContext();
+  const { chainId: apolloClientChainId } = useApolloConfigContext();
+  const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
 
@@ -65,7 +60,7 @@ export function StaticPoolDataProvider({
   } = useCachedProtocolData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     currentAccount,
-    preferredConnectionMode === ConnectionMode.rpc || network !== apolloClientNetwork
+    preferredConnectionMode === ConnectionMode.rpc || chainId !== apolloClientChainId
   );
 
   const {
@@ -76,7 +71,7 @@ export function StaticPoolDataProvider({
   } = useProtocolDataWithRpc(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     currentAccount,
-    network,
+    chainId,
     networkConfig.uiPoolDataProvider,
     !isRPCActive // TODO: think one more time
   );
@@ -160,7 +155,7 @@ export function StaticPoolDataProvider({
     <StaticPoolDataContext.Provider
       value={{
         userId,
-        network,
+        chainId,
         networkConfig,
         refresh: isRPCActive ? refresh : async () => {},
         WrappedBaseNetworkAssetAddress,

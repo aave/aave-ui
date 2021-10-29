@@ -4,7 +4,6 @@ import {
   StakingInterface,
   Stake,
   TxBuilderV2,
-  Network,
   valueToBigNumber,
   TxBuilderConfig,
 } from '@aave/protocol-js';
@@ -31,6 +30,7 @@ import {
 import { useApolloConfigContext } from '../../apollo-config';
 import { StakeConfig } from '../../../ui-config';
 import { getProvider } from '../../../helpers/markets/markets-data';
+import { ChainId } from '@aave/contract-helpers';
 
 export function computeStakeData(data: StakeData): ComputedStakeData {
   return {
@@ -96,8 +96,8 @@ export function StakeDataProvider({
   const location = useLocation();
   const [cooldownStep, setCooldownStep] = useState(0);
   const { preferredConnectionMode } = useConnectionStatusContext();
-  const { network, networkConfig } = useProtocolDataContext();
-  const { network: apolloClientNetwork } = useApolloConfigContext();
+  const { chainId, networkConfig } = useProtocolDataContext();
+  const { chainId: apolloClientChainId } = useApolloConfigContext();
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
 
   const selectedStake =
@@ -120,7 +120,7 @@ export function StakeDataProvider({
     usdPriceEth: usdPriceEthCached,
   } = useCachedStakeData(
     userId,
-    preferredConnectionMode === ConnectionMode.rpc || network !== apolloClientNetwork
+    preferredConnectionMode === ConnectionMode.rpc || chainId !== apolloClientChainId
   );
 
   const wsNetworkError = useNetworkCachedServerWsGraphCheck();
@@ -129,9 +129,9 @@ export function StakeDataProvider({
 
   const isRPCMandatory =
     RPC_ONLY_MODE ||
-    (wsNetworkError.wsErrorCount >= WS_ATTEMPTS_LIMIT && network === Network.mainnet) ||
-    (wsMainnetError.wsErrorCount >= WS_ATTEMPTS_LIMIT && network !== Network.mainnet) ||
-    network === Network.fork ||
+    (wsNetworkError.wsErrorCount >= WS_ATTEMPTS_LIMIT && chainId === ChainId.mainnet) ||
+    (wsMainnetError.wsErrorCount >= WS_ATTEMPTS_LIMIT && chainId !== ChainId.mainnet) ||
+    chainId === ChainId.fork ||
     (!cachedData && !cachedDataLoading) ||
     queryError.queryErrorCount >= 1;
   const isRPCActive = preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory;

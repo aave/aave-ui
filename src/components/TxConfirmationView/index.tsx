@@ -28,6 +28,7 @@ import NetworkMismatch from './NetworkMismatch';
 
 import messages from './messages';
 import staticStyles from './style';
+import { ChainIdToNetwork } from '@aave/contract-helpers';
 
 export interface TxConfirmationViewProps {
   caption?: string;
@@ -97,7 +98,7 @@ export default function TxConfirmationView({
   const { disconnectWallet, currentProviderName } = useUserWalletDataContext();
   const [loadingTxData, setLoadingTxData] = useState(true);
   const [backendNotAvailable, setBackendNotAvailable] = useState(false);
-  const { network: currentMarketNetwork } = useProtocolDataContext();
+  const { chainId: currentMarketChainId } = useProtocolDataContext();
 
   // todo: do types more sophisticated
   const [uncheckedApproveTxData, setApproveTxData] = useState({} as EthTransactionData);
@@ -117,14 +118,18 @@ export default function TxConfirmationView({
   );
   // current marketNetwork is supported if the action is either not restricted to a network or the network is in the allow list
   const currentMarketNetworkIsSupported =
-    !allowedNetworks || allowedNetworks?.find((network) => network === currentMarketNetwork);
+    !allowedNetworks ||
+    allowedNetworks?.find((network) => network === ChainIdToNetwork[currentMarketChainId]);
 
   let networkMismatch = false;
   let neededNetworkName = getDefaultNetworkName();
 
-  if (currentMarketNetworkIsSupported && currentMarketNetwork !== currentWalletNetwork) {
+  if (
+    currentMarketNetworkIsSupported &&
+    ChainIdToNetwork[currentMarketChainId] !== currentWalletNetwork
+  ) {
     networkMismatch = true;
-    neededNetworkName = currentMarketNetwork;
+    neededNetworkName = ChainIdToNetwork[currentMarketChainId] as Network;
   }
 
   if (!currentMarketNetworkIsSupported && txNetwork !== currentWalletNetwork) {
@@ -337,7 +342,7 @@ export default function TxConfirmationView({
 
         {!mainTxConfirmed &&
           [Network.mainnet, Network.fork].includes(currentWalletNetwork) &&
-          currentMarketNetwork === currentWalletNetwork && (
+          ChainIdToNetwork[currentMarketChainId] === currentWalletNetwork && (
             <TxEstimationEditor
               customGasPrice={customGasPrice}
               txs={[uncheckedApproveTxData, uncheckedActionTxData]}

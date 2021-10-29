@@ -1,6 +1,5 @@
 import { providers } from 'ethers';
 import React, { PropsWithChildren, useContext, useState } from 'react';
-import { Network } from '@aave/protocol-js';
 import { CustomMarket, marketsData } from '../../ui-config';
 import {
   getNetworkConfig,
@@ -19,7 +18,6 @@ export interface ProtocolContextData {
   currentMarketData: MarketDataType;
   // currently selected one
   chainId: number;
-  network: Network;
   networkConfig: NetworkConfig;
   jsonRpcProvider: providers.Provider;
 }
@@ -49,7 +47,6 @@ export function ProtocolDataProvider({ children }: PropsWithChildren<{}>) {
   return (
     <PoolDataContext.Provider
       value={{
-        network,
         currentMarket,
         chainId: mapNameToChainID(marketsData[currentMarket].network),
         setCurrentMarket: handleSetMarket,

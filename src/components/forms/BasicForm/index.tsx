@@ -1,7 +1,7 @@
 import React, { FormEvent, ReactNode, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { valueToBigNumber, EthereumTransactionTypeExtended, Network } from '@aave/protocol-js';
+import { valueToBigNumber, EthereumTransactionTypeExtended } from '@aave/protocol-js';
 
 import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
@@ -14,6 +14,7 @@ import ConnectButton from '../../ConnectButton';
 
 import messages from './messages';
 import staticStyles from './style';
+import { ChainId } from '@aave/contract-helpers';
 
 interface BasicFormProps {
   title?: string;
@@ -51,7 +52,7 @@ export default function BasicForm({
   getTransactionData,
 }: BasicFormProps) {
   const intl = useIntl();
-  const { network } = useProtocolDataContext();
+  const { chainId } = useProtocolDataContext();
   const { currentAccount } = useUserWalletDataContext();
 
   const [isMaxSelected, setIsMaxSelected] = useState(false);
@@ -106,7 +107,7 @@ export default function BasicForm({
           error={error}
         />
 
-        {[Network.mainnet, Network.fork].includes(network) && getTransactionData && (
+        {[ChainId.mainnet, ChainId.fork].includes(chainId) && getTransactionData && (
           <TxEstimation getTransactionsData={getTransactionData} amount={amount} />
         )}
 

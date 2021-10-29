@@ -6,11 +6,13 @@ import {
   FaucetInterface,
   IncentivesControllerInterface,
   LendingPoolConfig,
+  Network,
 } from '@aave/protocol-js';
 
 import { useProtocolDataContext } from '../protocol-data-provider';
 import { getProvider } from '../../helpers/markets/markets-data';
 import { networkConfigs, marketsData } from '../../ui-config';
+import { ChainIdToNetwork } from '@aave/contract-helpers';
 
 export interface TxBuilderContextInterface {
   lendingPool: LendingPoolInterfaceV2;
@@ -57,7 +59,8 @@ const networkConfig = Object.entries(networkConfigs).reduce<TxBuilderConfig>(
 );
 
 export function TxBuilderProvider({ children }: PropsWithChildren<{}>) {
-  const { currentMarket, network: currentNetwork } = useProtocolDataContext();
+  const { currentMarket, chainId: currentChainId } = useProtocolDataContext();
+  const currentNetwork = ChainIdToNetwork[currentChainId] as Network;
 
   // txBuilder used for lending pool
   const txBuilder = new TxBuilderV2(
