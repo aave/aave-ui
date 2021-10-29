@@ -43,24 +43,17 @@ export function usePoolData(
   );
 
   // Fetch reserves data, and user reserves data only if currentAccount is set
-  const fetchData = async (
-    currentAccount: string | undefined,
-    lendingPoolAddressProvider: string,
-    poolDataProviderAddress: string
-  ) => {
-    fetchReserves(lendingPoolAddressProvider, poolDataProviderAddress);
+  const fetchData = async () => {
+    fetchReserves();
     if (currentAccount && currentAccount !== ethers.constants.AddressZero) {
-      fetchUserReserves(currentAccount, lendingPoolAddressProvider, poolDataProviderAddress);
+      fetchUserReserves(currentAccount);
     } else {
       setLoadingUserReserves(false);
     }
   };
 
   // Fetch and format reserve incentive data from UiIncentiveDataProvider contract
-  const fetchReserves = async (
-    lendingPoolAddressProvider: string,
-    poolDataProviderAddress: string
-  ) => {
+  const fetchReserves = async () => {
     const provider = getProvider(network);
     const poolDataProviderContract = new UiPoolDataProvider({
       uiPoolDataProviderAddress: poolDataProviderAddress,
@@ -81,11 +74,7 @@ export function usePoolData(
   };
 
   // Fetch and format user incentive data from UiIncentiveDataProvider
-  const fetchUserReserves = async (
-    currentAccount: string,
-    lendingPoolAddressProvider: string,
-    incentiveDataProviderAddress: string
-  ) => {
+  const fetchUserReserves = async (userId: string) => {
     const provider = getProvider(network);
     const poolDataProviderContract = new UiPoolDataProvider({
       uiPoolDataProviderAddress: poolDataProviderAddress,
@@ -94,10 +83,7 @@ export function usePoolData(
 
     try {
       const userReservesResponse: UserReserveDataHumanized[] =
-        await poolDataProviderContract.getUserReservesHumanized(
-          lendingPoolAddressProvider,
-          currentAccount
-        );
+        await poolDataProviderContract.getUserReservesHumanized(lendingPoolAddressProvider, userId);
 
       setUserReserves(userReservesResponse);
       setErrorUserReserves(false);
@@ -113,9 +99,9 @@ export function usePoolData(
     setLoadingUserReserves(true);
 
     if (!skip) {
-      fetchData(currentAccount, lendingPoolAddressProvider, poolDataProviderAddress);
+      fetchData();
       const intervalID = setInterval(
-        () => fetchData(currentAccount, lendingPoolAddressProvider, poolDataProviderAddress),
+        () => fetchData(),
         errorReserves || errorUserReserves ? RECOVER_INTERVAL : POOLING_INTERVAL
       );
       return () => clearInterval(intervalID);
@@ -132,6 +118,6 @@ export function usePoolData(
     loading,
     error,
     data: { reserves, userReserves },
-    refresh: () => fetchData(currentAccount, lendingPoolAddressProvider, poolDataProviderAddress),
+    refresh: () => fetchData(),
   };
 }
