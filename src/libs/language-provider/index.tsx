@@ -22,6 +22,7 @@ import esMessages from '../../translations/es.json';
 import frMessages from '../../translations/fr.json';
 import itMessages from '../../translations/it.json';
 import cnMessages from '../../translations/cn.json';
+import guMessages from '../../translations/gu.json';
 import jaMessages from '../../translations/ja.json';
 import trMessages from '../../translations/tr.json';
 import viMessages from '../../translations/vi.json';
@@ -43,6 +44,7 @@ const messages: {
   fr: frMessages,
   it: itMessages,
   zh: cnMessages,
+  gu: guMessages,
   ja: jaMessages,
   tr: trMessages,
   vi: viMessages,

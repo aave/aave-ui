@@ -7,6 +7,7 @@ export default defineMessages({
   french: 'French',
   russian: 'Russian',
   chinese: 'Chinese',
+  gujarati: 'Gujarati',
   italian: 'Italian',
   japanese: 'Japanese',
   turkish: 'Turkish',
