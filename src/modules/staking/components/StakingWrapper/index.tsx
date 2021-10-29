@@ -19,10 +19,11 @@ import NoDataPanel from '../../../../components/NoDataPanel';
 import StakingTopPanel from '../StakingTopPanel';
 import SidePanelCard from '../SidePanelCard';
 import MainnetWarning from '../../../../components/MainnetWarning';
+import { ComputedStakeData } from '../../../../libs/pool-data-provider/types/stake';
+import CooldownInfoModal from '../CooldownInfoModal';
 
 import messages from './messages';
 import staticStyles from './style';
-import { ComputedStakeData } from '../../../../libs/pool-data-provider/types/stake';
 
 interface StakingWrapperProps {
   children: ReactNode;
@@ -37,6 +38,7 @@ export default function StakingWrapper({ children }: StakingWrapperProps) {
 
   const [isShowYourIncentives, setShowYourIncentives] = useState(false);
   const [currentAsset, setCurrentAsset] = useState<Stake>(Stake.aave);
+  const [isActivateCooldownModalVisible, setActivateCooldownModalVisible] = useState(false);
 
   const isCurrentAssetAAVE = currentAsset === Stake.aave;
 
@@ -175,27 +177,20 @@ export default function StakingWrapper({ children }: StakingWrapperProps) {
               withGradientBorder={cooldownStep === 2}
             >
               {cooldownStep === 0 && (
-                <Link
-                  to={`/staking/${currentAsset}/activate-cooldown/confirmation`}
-                  className="StakingWrapper__link ButtonLink"
+                <DefaultButton
+                  title={intl.formatMessage(messages.activateCooldown)}
+                  className="StakingWrapper__button"
+                  onClick={() => {
+                    setShowYourIncentives(false);
+                    setActivateCooldownModalVisible(true);
+                  }}
+                  color="dark"
                   disabled={
                     location.pathname ===
                       `/staking/${currentAsset}/activate-cooldown/confirmation` ||
                     selectedStakeData.stakeTokenUserBalance === '0'
                   }
-                >
-                  <DefaultButton
-                    title={intl.formatMessage(messages.activateCooldown)}
-                    className="StakingWrapper__button"
-                    onClick={() => setShowYourIncentives(false)}
-                    color="dark"
-                    disabled={
-                      location.pathname ===
-                        `/staking/${currentAsset}/activate-cooldown/confirmation` ||
-                      selectedStakeData.stakeTokenUserBalance === '0'
-                    }
-                  />
-                </Link>
+                />
               )}
 
               {cooldownStep === 1 && (
@@ -327,6 +322,13 @@ export default function StakingWrapper({ children }: StakingWrapperProps) {
           </Row>
         </div>
       </div>
+
+      <CooldownInfoModal
+        stake={currentAsset}
+        stakeData={selectedStakeData}
+        isVisible={isActivateCooldownModalVisible}
+        onBackdropPress={() => setActivateCooldownModalVisible(false)}
+      />
 
       <style jsx={true} global={true}>
         {staticStyles}

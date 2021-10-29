@@ -76,10 +76,7 @@ export default function DepositsMain() {
           .multipliedBy(reserve.price.priceInEth)
           .dividedBy(marketRefPriceInUsd)
           .toString();
-        const reserveIncentiveData = reserveIncentives.find(
-          (incentive) =>
-            incentive.underlyingAsset.toLowerCase() === reserve.underlyingAsset.toLowerCase()
-        );
+        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
         return {
           ...reserve,
           walletBalance,
@@ -90,14 +87,14 @@ export default function DepositsMain() {
           avg30DaysLiquidityRate: Number(reserve.avg30DaysLiquidityRate),
           borrowingEnabled: reserve.borrowingEnabled,
           interestHistory: [],
-          aIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.aIncentivesData.incentiveAPY
+          aincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.aIncentives.incentiveAPR
             : '0',
-          vIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.vIncentivesData.incentiveAPY
+          vincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.vIncentives.incentiveAPR
             : '0',
-          sIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.sIncentivesData.incentiveAPY
+          sincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.sIncentives.incentiveAPR
             : '0',
         };
       });

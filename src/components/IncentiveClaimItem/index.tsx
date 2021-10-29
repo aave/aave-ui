@@ -48,14 +48,16 @@ export default function IncentiveClaimItem({
       <Link
         to={rewardClaimLink}
         className="ButtonLink"
-        disabled={Number(claimableRewards) === 0}
+        disabled={claimableRewards === '0'}
         title={intl.formatMessage(defaultMessages.claim)}
       />
 
-      <CustomTooltip
-        tooltipId={tooltipId}
-        text={`${Number(claimableRewards).toFixed(10)} ${symbol}`}
-      />
+      {!sm && (
+        <CustomTooltip
+          tooltipId={tooltipId}
+          text={`${Number(claimableRewards).toFixed(10)} ${symbol}`}
+        />
+      )}
 
       <style jsx={true} global={true}>
         {staticStyles}

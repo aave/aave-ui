@@ -20,7 +20,10 @@ export type Scalars = {
 
 export type AToken = {
   __typename?: 'AToken';
-  /** AToken address */
+  /**
+   * AToken address
+   *
+   */
   id: Scalars['ID'];
   pool: Pool;
   tokenContractImpl: Scalars['Bytes'];
@@ -31,7 +34,10 @@ export type AToken = {
 export type ATokenBalanceHistoryItem = {
   __typename?: 'ATokenBalanceHistoryItem';
   currentATokenBalance: Scalars['BigInt'];
-  /** userReserve + txHash */
+  /**
+   * userReserve + txHash
+   *
+   */
   id: Scalars['ID'];
   index: Scalars['BigInt'];
   scaledATokenBalance: Scalars['BigInt'];
@@ -161,10 +167,10 @@ export enum AToken_OrderBy {
 export enum AuthStatus {
   /** init */
   Init = 'init',
-  /** loggedOut */
-  LoggedOut = 'loggedOut',
   /** loggedIn */
   LoggedIn = 'loggedIn',
+  /** loggedOut */
+  LoggedOut = 'loggedOut',
 }
 
 export type Block_Height = {
@@ -177,7 +183,10 @@ export type Borrow = UserTransaction & {
   amount: Scalars['BigInt'];
   borrowRate: Scalars['BigInt'];
   borrowRateMode: BorrowRateMode;
-  /** tx hash */
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   onBehalfOf: User;
   pool: Pool;
@@ -446,7 +455,10 @@ export enum ChainlinkEns_OrderBy {
 export type ClaimIncentiveCall = {
   __typename?: 'ClaimIncentiveCall';
   amount: Scalars['BigInt'];
-  /** txHash */
+  /**
+   * txHash
+   *
+   */
   id: Scalars['ID'];
   incentivesController: IncentivesController;
   user: User;
@@ -545,7 +557,10 @@ export enum ContractToPoolMapping_OrderBy {
 export type Deposit = UserTransaction & {
   __typename?: 'Deposit';
   amount: Scalars['BigInt'];
-  /** tx hash */
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   onBehalfOf: User;
   pool: Pool;
@@ -682,7 +697,10 @@ export enum Deposit_OrderBy {
 export type FlashLoan = {
   __typename?: 'FlashLoan';
   amount: Scalars['BigInt'];
-  /** tx hash */
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   initiator: User;
   pool: Pool;
@@ -790,7 +808,10 @@ export type IncentivesController = {
   __typename?: 'IncentivesController';
   claimIncentives: Array<ClaimIncentiveCall>;
   emissionEndTimestamp: Scalars['Int'];
-  /** address of the incentives controller */
+  /**
+   * address of the incentives controller
+   *
+   */
   id: Scalars['ID'];
   incentivizedActions: Array<IncentivizedAction>;
   precision: Scalars['Int'];
@@ -884,7 +905,10 @@ export enum IncentivesController_OrderBy {
 export type IncentivizedAction = {
   __typename?: 'IncentivizedAction';
   amount: Scalars['BigInt'];
-  /** txHash */
+  /**
+   * txHash
+   *
+   */
   id: Scalars['ID'];
   incentivesController: IncentivesController;
   user: User;
@@ -949,7 +973,10 @@ export type LiquidationCall = UserTransaction & {
   collateralAmount: Scalars['BigInt'];
   collateralReserve: Reserve;
   collateralUserReserve: UserReserve;
-  /** tx hash */
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   liquidator: Scalars['Bytes'];
   pool: Pool;
@@ -1101,7 +1128,10 @@ export enum LiquidationCall_OrderBy {
 
 export type MapAssetPool = {
   __typename?: 'MapAssetPool';
-  /** address of a /s /v token */
+  /**
+   * address of a /s /v token
+   *
+   */
   id: Scalars['ID'];
   pool: Scalars['String'];
   underlyingAsset: Scalars['Bytes'];
@@ -1154,7 +1184,10 @@ export type OriginationFeeLiquidation = UserTransaction & {
   collateralReserve: Reserve;
   collateralUserReserve: UserReserve;
   feeLiquidated: Scalars['BigInt'];
-  /** tx hash */
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   liquidatedCollateralForFee: Scalars['BigInt'];
   pool: Pool;
@@ -1427,7 +1460,10 @@ export type PoolConfigurationHistoryItem = {
   __typename?: 'PoolConfigurationHistoryItem';
   active?: Maybe<Scalars['Boolean']>;
   configurationAdmin?: Maybe<Scalars['Bytes']>;
-  /** tx hash */
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   lendingPool?: Maybe<Scalars['Bytes']>;
   lendingPoolCollateralManager?: Maybe<Scalars['Bytes']>;
@@ -2713,7 +2749,10 @@ export type RebalanceStableBorrowRate = UserTransaction & {
   __typename?: 'RebalanceStableBorrowRate';
   borrowRateFrom: Scalars['BigInt'];
   borrowRateTo: Scalars['BigInt'];
-  /** tx hash */
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   pool: Pool;
   reserve: Reserve;
@@ -2827,7 +2866,10 @@ export enum RebalanceStableBorrowRate_OrderBy {
 export type RedeemUnderlying = UserTransaction & {
   __typename?: 'RedeemUnderlying';
   amount: Scalars['BigInt'];
-  /** tx hash */
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   onBehalfOf: User;
   pool: Pool;
@@ -2988,7 +3030,10 @@ export enum Referrer_OrderBy {
 export type Repay = UserTransaction & {
   __typename?: 'Repay';
   amount: Scalars['BigInt'];
-  /** tx hash */
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   onBehalfOf: User;
   pool: Pool;
@@ -3123,7 +3168,10 @@ export type Reserve = {
   depositHistory: Array<Deposit>;
   deposits: Array<Deposit>;
   flashLoanHistory: Array<FlashLoan>;
-  /** Reserve address */
+  /**
+   * Reserve address
+   *
+   */
   id: Scalars['ID'];
   isActive: Scalars['Boolean'];
   isFrozen: Scalars['Boolean'];
@@ -3305,7 +3353,10 @@ export type ReserveConfigurationHistoryItem = {
   __typename?: 'ReserveConfigurationHistoryItem';
   baseLTVasCollateral: Scalars['BigInt'];
   borrowingEnabled: Scalars['Boolean'];
-  /** tx hash */
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   isActive: Scalars['Boolean'];
   isFrozen: Scalars['Boolean'];
@@ -3420,7 +3471,10 @@ export type ReserveParamsHistoryItem = {
   __typename?: 'ReserveParamsHistoryItem';
   availableLiquidity: Scalars['BigInt'];
   averageStableBorrowRate: Scalars['BigInt'];
-  /** tx hash */
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   lifetimeBorrows: Scalars['BigInt'];
   lifetimeCurrentVariableDebt: Scalars['BigInt'];
@@ -4359,7 +4413,10 @@ export enum Reserve_OrderBy {
 
 export type SToken = {
   __typename?: 'SToken';
-  /** SToken address */
+  /**
+   * SToken address
+   *
+   */
   id: Scalars['ID'];
   pool: Pool;
   tokenContractImpl: Scalars['Bytes'];
@@ -4371,7 +4428,10 @@ export type STokenBalanceHistoryItem = {
   __typename?: 'STokenBalanceHistoryItem';
   avgStableBorrowRate: Scalars['BigInt'];
   currentStableDebt: Scalars['BigInt'];
-  /** userReserve + txHash */
+  /**
+   * userReserve + txHash
+   *
+   */
   id: Scalars['ID'];
   principalStableDebt: Scalars['BigInt'];
   timestamp: Scalars['Int'];
@@ -4499,7 +4559,10 @@ export enum SToken_OrderBy {
 
 export type StableDebtToken = {
   __typename?: 'StableDebtToken';
-  /** StableDebtToken address */
+  /**
+   * StableDebtToken address
+   *
+   */
   id: Scalars['ID'];
   pool: Pool;
   underlyingAssetAddress: Scalars['Bytes'];
@@ -4556,7 +4619,10 @@ export type StableTokenDelegatedAllowance = {
   __typename?: 'StableTokenDelegatedAllowance';
   amountAllowed: Scalars['BigInt'];
   fromUser: User;
-  /** stable + fromuser address + touser address+ reserve address */
+  /**
+   * stable + fromuser address + touser address+ reserve address
+   *
+   */
   id: Scalars['ID'];
   toUser: User;
   userReserve: UserReserve;
@@ -5333,7 +5399,10 @@ export type Swap = UserTransaction & {
   __typename?: 'Swap';
   borrowRateModeFrom: BorrowRateMode;
   borrowRateModeTo: BorrowRateMode;
-  /** tx hash */
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   pool: Pool;
   reserve: Reserve;
@@ -5348,7 +5417,10 @@ export type SwapHistory = {
   __typename?: 'SwapHistory';
   fromAmount: Scalars['BigInt'];
   fromAsset: Scalars['String'];
-  /** tx hash */
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   receivedAmount: Scalars['BigInt'];
   swapType: Scalars['String'];
@@ -5548,7 +5620,10 @@ export enum Swap_OrderBy {
 export type UsageAsCollateral = UserTransaction & {
   __typename?: 'UsageAsCollateral';
   fromState: Scalars['Boolean'];
-  /** tx hash */
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   pool: Pool;
   reserve: Reserve;
@@ -5714,7 +5789,10 @@ export type User = {
   borrowedReservesCount: Scalars['Int'];
   claimIncentives: Array<ClaimIncentiveCall>;
   depositHistory: Array<Deposit>;
-  /** user address */
+  /**
+   * user address
+   *
+   */
   id: Scalars['ID'];
   incentivesLastUpdated: Scalars['Int'];
   incentivizedActions: Array<IncentivizedAction>;
@@ -5837,9 +5915,15 @@ export type UserReserve = {
   currentTotalDebt: Scalars['BigInt'];
   currentVariableDebt: Scalars['BigInt'];
   depositHistory: Array<Deposit>;
-  /** user address + reserve address */
+  /**
+   * user address + reserve address
+   *
+   */
   id: Scalars['ID'];
-  /** Amount in currency units included as fee */
+  /**
+   * Amount in currency units included as fee
+   *
+   */
   lastUpdateTimestamp: Scalars['Int'];
   liquidationCallHistory: Array<LiquidationCall>;
   liquidityRate: Scalars['BigInt'];
@@ -6358,7 +6442,10 @@ export enum User_OrderBy {
 
 export type VToken = {
   __typename?: 'VToken';
-  /** VToken address */
+  /**
+   * VToken address
+   *
+   */
   id: Scalars['ID'];
   pool: Pool;
   tokenContractImpl: Scalars['Bytes'];
@@ -6369,7 +6456,10 @@ export type VToken = {
 export type VTokenBalanceHistoryItem = {
   __typename?: 'VTokenBalanceHistoryItem';
   currentVariableDebt: Scalars['BigInt'];
-  /** userReserve + txHash */
+  /**
+   * userReserve + txHash
+   *
+   */
   id: Scalars['ID'];
   index: Scalars['BigInt'];
   scaledVariableDebt: Scalars['BigInt'];
@@ -6498,7 +6588,10 @@ export enum VToken_OrderBy {
 
 export type VariableDebtToken = {
   __typename?: 'VariableDebtToken';
-  /** VariableDebtToken address */
+  /**
+   * VariableDebtToken address
+   *
+   */
   id: Scalars['ID'];
   pool: Pool;
   underlyingAssetAddress: Scalars['Bytes'];
@@ -6555,7 +6648,10 @@ export type VariableTokenDelegatedAllowance = {
   __typename?: 'VariableTokenDelegatedAllowance';
   amountAllowed: Scalars['BigInt'];
   fromUser: User;
-  /** variable + fromuser address + touser address+ reserve address */
+  /**
+   * variable + fromuser address + touser address+ reserve address
+   *
+   */
   id: Scalars['ID'];
   toUser: User;
   userReserve: UserReserve;
@@ -6634,7 +6730,10 @@ export type WethReserve = {
   __typename?: 'WETHReserve';
   address: Scalars['Bytes'];
   decimals: Scalars['Int'];
-  /** weth address */
+  /**
+   * weth address
+   *
+   */
   id: Scalars['ID'];
   name: Scalars['String'];
   symbol: Scalars['String'];
@@ -6737,6 +6836,7 @@ export type _Meta_ = {
    * will be null if the _meta field has a block constraint that asks for
    * a block number. It will be filled if the _meta field has no block constraint
    * and therefore asks for the latest  block
+   *
    */
   block: _Block_;
   /** The deployment ID */
@@ -6752,94 +6852,97 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny',
 }
 
-export type ReserveDataFragment = { __typename?: 'Reserve' } & Pick<
-  Reserve,
-  | 'id'
-  | 'underlyingAsset'
-  | 'name'
-  | 'symbol'
-  | 'decimals'
-  | 'isActive'
-  | 'isFrozen'
-  | 'usageAsCollateralEnabled'
-  | 'borrowingEnabled'
-  | 'stableBorrowRateEnabled'
-  | 'baseLTVasCollateral'
-  | 'optimalUtilisationRate'
-  | 'averageStableRate'
-  | 'stableRateSlope1'
-  | 'stableRateSlope2'
-  | 'baseVariableBorrowRate'
-  | 'variableRateSlope1'
-  | 'variableRateSlope2'
-  | 'liquidityIndex'
-  | 'reserveLiquidationThreshold'
-  | 'variableBorrowIndex'
-  | 'availableLiquidity'
-  | 'stableBorrowRate'
-  | 'liquidityRate'
-  | 'totalPrincipalStableDebt'
-  | 'totalScaledVariableDebt'
-  | 'totalLiquidity'
-  | 'utilizationRate'
-  | 'reserveLiquidationBonus'
-  | 'variableBorrowRate'
-  | 'lastUpdateTimestamp'
-  | 'stableDebtLastUpdateTimestamp'
-  | 'reserveFactor'
-  | 'aEmissionPerSecond'
-  | 'vEmissionPerSecond'
-  | 'sEmissionPerSecond'
-  | 'aTokenIncentivesIndex'
-  | 'vTokenIncentivesIndex'
-  | 'sTokenIncentivesIndex'
-  | 'aIncentivesLastUpdateTimestamp'
-  | 'vIncentivesLastUpdateTimestamp'
-  | 'sIncentivesLastUpdateTimestamp'
-> & {
-    aToken: { __typename?: 'AToken' } & Pick<AToken, 'id'>;
-    vToken: { __typename?: 'VToken' } & Pick<VToken, 'id'>;
-    sToken: { __typename?: 'SToken' } & Pick<SToken, 'id'>;
-    price: { __typename?: 'PriceOracleAsset' } & Pick<PriceOracleAsset, 'priceInEth'>;
+export type ReserveDataFragment = {
+  __typename?: 'Reserve';
+  id: string;
+  underlyingAsset: any;
+  name: string;
+  symbol: string;
+  decimals: number;
+  isActive: boolean;
+  isFrozen: boolean;
+  usageAsCollateralEnabled: boolean;
+  borrowingEnabled: boolean;
+  stableBorrowRateEnabled: boolean;
+  baseLTVasCollateral: any;
+  optimalUtilisationRate: any;
+  averageStableRate: any;
+  stableRateSlope1: any;
+  stableRateSlope2: any;
+  baseVariableBorrowRate: any;
+  variableRateSlope1: any;
+  variableRateSlope2: any;
+  liquidityIndex: any;
+  reserveLiquidationThreshold: any;
+  variableBorrowIndex: any;
+  availableLiquidity: any;
+  stableBorrowRate: any;
+  liquidityRate: any;
+  totalPrincipalStableDebt: any;
+  totalScaledVariableDebt: any;
+  totalLiquidity: any;
+  utilizationRate: any;
+  reserveLiquidationBonus: any;
+  variableBorrowRate: any;
+  lastUpdateTimestamp: number;
+  stableDebtLastUpdateTimestamp: number;
+  reserveFactor: any;
+  aEmissionPerSecond: any;
+  vEmissionPerSecond: any;
+  sEmissionPerSecond: any;
+  aTokenIncentivesIndex: any;
+  vTokenIncentivesIndex: any;
+  sTokenIncentivesIndex: any;
+  aIncentivesLastUpdateTimestamp: number;
+  vIncentivesLastUpdateTimestamp: number;
+  sIncentivesLastUpdateTimestamp: number;
+  aToken: { __typename?: 'AToken'; id: string };
+  vToken: { __typename?: 'VToken'; id: string };
+  sToken: { __typename?: 'SToken'; id: string };
+  price: { __typename?: 'PriceOracleAsset'; priceInEth: any };
+};
+
+export type ReserveRatesHistoryDataFragment = {
+  __typename?: 'ReserveParamsHistoryItem';
+  variableBorrowRate: any;
+  stableBorrowRate: any;
+  liquidityRate: any;
+  utilizationRate: any;
+  timestamp: number;
+};
+
+export type UserReserveDataFragment = {
+  __typename?: 'UserReserve';
+  scaledATokenBalance: any;
+  usageAsCollateralEnabledOnUser: boolean;
+  stableBorrowRate: any;
+  stableBorrowLastUpdateTimestamp: number;
+  principalStableDebt: any;
+  scaledVariableDebt: any;
+  variableBorrowIndex: any;
+  lastUpdateTimestamp: number;
+  aTokenincentivesUserIndex: any;
+  vTokenincentivesUserIndex: any;
+  sTokenincentivesUserIndex: any;
+  reserve: {
+    __typename?: 'Reserve';
+    id: string;
+    underlyingAsset: any;
+    name: string;
+    symbol: string;
+    decimals: number;
+    liquidityRate: any;
+    reserveLiquidationBonus: any;
+    lastUpdateTimestamp: number;
+    aToken: { __typename?: 'AToken'; id: string };
   };
+  user: { __typename?: 'User'; unclaimedRewards: any };
+};
 
-export type ReserveRatesHistoryDataFragment = { __typename?: 'ReserveParamsHistoryItem' } & Pick<
-  ReserveParamsHistoryItem,
-  'variableBorrowRate' | 'stableBorrowRate' | 'liquidityRate' | 'utilizationRate' | 'timestamp'
->;
-
-export type UserReserveDataFragment = { __typename?: 'UserReserve' } & Pick<
-  UserReserve,
-  | 'scaledATokenBalance'
-  | 'usageAsCollateralEnabledOnUser'
-  | 'stableBorrowRate'
-  | 'stableBorrowLastUpdateTimestamp'
-  | 'principalStableDebt'
-  | 'scaledVariableDebt'
-  | 'variableBorrowIndex'
-  | 'lastUpdateTimestamp'
-  | 'aTokenincentivesUserIndex'
-  | 'vTokenincentivesUserIndex'
-  | 'sTokenincentivesUserIndex'
-> & {
-    reserve: { __typename?: 'Reserve' } & Pick<
-      Reserve,
-      | 'id'
-      | 'underlyingAsset'
-      | 'name'
-      | 'symbol'
-      | 'decimals'
-      | 'liquidityRate'
-      | 'reserveLiquidationBonus'
-      | 'lastUpdateTimestamp'
-    > & { aToken: { __typename?: 'AToken' } & Pick<AToken, 'id'> };
-    user: { __typename?: 'User' } & Pick<User, 'unclaimedRewards'>;
-  };
-
-export type RewardsDataFragment = { __typename?: 'IncentivesController' } & Pick<
-  IncentivesController,
-  'emissionEndTimestamp'
->;
+export type RewardsDataFragment = {
+  __typename?: 'IncentivesController';
+  emissionEndTimestamp: number;
+};
 
 export type UserHistoryQueryVariables = Exact<{
   id: Scalars['String'];
@@ -6848,56 +6951,70 @@ export type UserHistoryQueryVariables = Exact<{
   skip?: Maybe<Scalars['Int']>;
 }>;
 
-export type UserHistoryQuery = { __typename?: 'Query' } & {
+export type UserHistoryQuery = {
+  __typename?: 'Query';
   userTransactions: Array<
-    | ({ __typename?: 'Borrow' } & Pick<
-        Borrow,
-        | 'amount'
-        | 'borrowRateMode'
-        | 'borrowRate'
-        | 'stableTokenDebt'
-        | 'variableTokenDebt'
-        | 'id'
-        | 'timestamp'
-      > & { reserve: { __typename?: 'Reserve' } & Pick<Reserve, 'symbol' | 'decimals'> })
-    | ({ __typename?: 'Deposit' } & Pick<Deposit, 'amount' | 'id' | 'timestamp'> & {
-          reserve: { __typename?: 'Reserve' } & Pick<Reserve, 'symbol' | 'decimals'>;
-        })
-    | ({ __typename?: 'LiquidationCall' } & Pick<
-        LiquidationCall,
-        'collateralAmount' | 'principalAmount' | 'id' | 'timestamp'
-      > & {
-          collateralReserve: { __typename?: 'Reserve' } & Pick<Reserve, 'symbol' | 'decimals'>;
-          principalReserve: { __typename?: 'Reserve' } & Pick<Reserve, 'symbol' | 'decimals'>;
-        })
-    | ({ __typename?: 'OriginationFeeLiquidation' } & Pick<
-        OriginationFeeLiquidation,
-        'id' | 'timestamp'
-      >)
-    | ({ __typename?: 'RebalanceStableBorrowRate' } & Pick<
-        RebalanceStableBorrowRate,
-        'id' | 'timestamp'
-      >)
-    | ({ __typename?: 'RedeemUnderlying' } & Pick<
-        RedeemUnderlying,
-        'amount' | 'id' | 'timestamp'
-      > & { reserve: { __typename?: 'Reserve' } & Pick<Reserve, 'symbol' | 'decimals'> })
-    | ({ __typename?: 'Repay' } & Pick<Repay, 'amount' | 'id' | 'timestamp'> & {
-          reserve: { __typename?: 'Reserve' } & Pick<Reserve, 'symbol' | 'decimals'>;
-        })
-    | ({ __typename?: 'Swap' } & Pick<
-        Swap,
-        | 'borrowRateModeFrom'
-        | 'borrowRateModeTo'
-        | 'variableBorrowRate'
-        | 'stableBorrowRate'
-        | 'id'
-        | 'timestamp'
-      > & { reserve: { __typename?: 'Reserve' } & Pick<Reserve, 'symbol' | 'decimals'> })
-    | ({ __typename?: 'UsageAsCollateral' } & Pick<
-        UsageAsCollateral,
-        'fromState' | 'toState' | 'id' | 'timestamp'
-      > & { reserve: { __typename?: 'Reserve' } & Pick<Reserve, 'symbol'> })
+    | {
+        __typename?: 'Borrow';
+        amount: any;
+        borrowRateMode: BorrowRateMode;
+        borrowRate: any;
+        stableTokenDebt: any;
+        variableTokenDebt: any;
+        id: string;
+        timestamp: number;
+        reserve: { __typename?: 'Reserve'; symbol: string; decimals: number };
+      }
+    | {
+        __typename?: 'Deposit';
+        amount: any;
+        id: string;
+        timestamp: number;
+        reserve: { __typename?: 'Reserve'; symbol: string; decimals: number };
+      }
+    | {
+        __typename?: 'LiquidationCall';
+        collateralAmount: any;
+        principalAmount: any;
+        id: string;
+        timestamp: number;
+        collateralReserve: { __typename?: 'Reserve'; symbol: string; decimals: number };
+        principalReserve: { __typename?: 'Reserve'; symbol: string; decimals: number };
+      }
+    | { __typename?: 'OriginationFeeLiquidation'; id: string; timestamp: number }
+    | { __typename?: 'RebalanceStableBorrowRate'; id: string; timestamp: number }
+    | {
+        __typename?: 'RedeemUnderlying';
+        amount: any;
+        id: string;
+        timestamp: number;
+        reserve: { __typename?: 'Reserve'; symbol: string; decimals: number };
+      }
+    | {
+        __typename?: 'Repay';
+        amount: any;
+        id: string;
+        timestamp: number;
+        reserve: { __typename?: 'Reserve'; symbol: string; decimals: number };
+      }
+    | {
+        __typename?: 'Swap';
+        borrowRateModeFrom: BorrowRateMode;
+        borrowRateModeTo: BorrowRateMode;
+        variableBorrowRate: any;
+        stableBorrowRate: any;
+        id: string;
+        timestamp: number;
+        reserve: { __typename?: 'Reserve'; symbol: string; decimals: number };
+      }
+    | {
+        __typename?: 'UsageAsCollateral';
+        fromState: boolean;
+        toState: boolean;
+        id: string;
+        timestamp: number;
+        reserve: { __typename?: 'Reserve'; symbol: string };
+      }
   >;
 };
 
@@ -6906,41 +7023,58 @@ export type ReservesRates30DaysAgoQueryQueryVariables = Exact<{
   pool?: Maybe<Scalars['String']>;
 }>;
 
-export type ReservesRates30DaysAgoQueryQuery = { __typename?: 'Query' } & {
-  reserves: Array<
-    { __typename?: 'Reserve' } & Pick<Reserve, 'id' | 'symbol'> & {
-        paramsHistory: Array<
-          { __typename?: 'ReserveParamsHistoryItem' } & Pick<
-            ReserveParamsHistoryItem,
-            'variableBorrowIndex' | 'liquidityIndex' | 'timestamp'
-          >
-        >;
-      }
-  >;
+export type ReservesRates30DaysAgoQueryQuery = {
+  __typename?: 'Query';
+  reserves: Array<{
+    __typename?: 'Reserve';
+    id: string;
+    symbol: string;
+    paramsHistory: Array<{
+      __typename?: 'ReserveParamsHistoryItem';
+      variableBorrowIndex: any;
+      liquidityIndex: any;
+      timestamp: number;
+    }>;
+  }>;
 };
 
 export type ReserveRatesHistoryUpdateQueryQueryVariables = Exact<{
   reserveAddress: Scalars['String'];
 }>;
 
-export type ReserveRatesHistoryUpdateQueryQuery = { __typename?: 'Query' } & {
-  reserveParamsHistoryItems: Array<
-    { __typename?: 'ReserveParamsHistoryItem' } & ReserveRatesHistoryDataFragment
-  >;
+export type ReserveRatesHistoryUpdateQueryQuery = {
+  __typename?: 'Query';
+  reserveParamsHistoryItems: Array<{
+    __typename?: 'ReserveParamsHistoryItem';
+    variableBorrowRate: any;
+    stableBorrowRate: any;
+    liquidityRate: any;
+    utilizationRate: any;
+    timestamp: number;
+  }>;
 };
 
 export type ConnectionStatusQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ConnectionStatusQuery = { __typename?: 'Query' } & Pick<Query, 'isDisconnected'>;
+export type ConnectionStatusQuery = {
+  __typename?: 'Query';
+  isDisconnected?: boolean | null | undefined;
+};
 
 export type ReserveRatesHistoryUpdateSubscriptionVariables = Exact<{
   reserveAddress: Scalars['String'];
 }>;
 
-export type ReserveRatesHistoryUpdateSubscription = { __typename?: 'Subscription' } & {
-  reserveParamsHistoryItems: Array<
-    { __typename?: 'ReserveParamsHistoryItem' } & ReserveRatesHistoryDataFragment
-  >;
+export type ReserveRatesHistoryUpdateSubscription = {
+  __typename?: 'Subscription';
+  reserveParamsHistoryItems: Array<{
+    __typename?: 'ReserveParamsHistoryItem';
+    variableBorrowRate: any;
+    stableBorrowRate: any;
+    liquidityRate: any;
+    utilizationRate: any;
+    timestamp: number;
+  }>;
 };
 
 export type ReservesRates30DaysAgoSubscriptionVariables = Exact<{
@@ -6948,31 +7082,83 @@ export type ReservesRates30DaysAgoSubscriptionVariables = Exact<{
   pool?: Maybe<Scalars['String']>;
 }>;
 
-export type ReservesRates30DaysAgoSubscription = { __typename?: 'Subscription' } & {
-  reserves: Array<
-    { __typename?: 'Reserve' } & Pick<Reserve, 'id' | 'symbol'> & {
-        paramsHistory: Array<
-          { __typename?: 'ReserveParamsHistoryItem' } & Pick<
-            ReserveParamsHistoryItem,
-            'variableBorrowIndex' | 'liquidityIndex' | 'timestamp'
-          >
-        >;
-      }
-  >;
+export type ReservesRates30DaysAgoSubscription = {
+  __typename?: 'Subscription';
+  reserves: Array<{
+    __typename?: 'Reserve';
+    id: string;
+    symbol: string;
+    paramsHistory: Array<{
+      __typename?: 'ReserveParamsHistoryItem';
+      variableBorrowIndex: any;
+      liquidityIndex: any;
+      timestamp: number;
+    }>;
+  }>;
 };
 
 export type ReserveUpdateSubscriptionSubscriptionVariables = Exact<{
   pool?: Maybe<Scalars['String']>;
 }>;
 
-export type ReserveUpdateSubscriptionSubscription = { __typename?: 'Subscription' } & {
-  reserves: Array<{ __typename?: 'Reserve' } & ReserveDataFragment>;
+export type ReserveUpdateSubscriptionSubscription = {
+  __typename?: 'Subscription';
+  reserves: Array<{
+    __typename?: 'Reserve';
+    id: string;
+    underlyingAsset: any;
+    name: string;
+    symbol: string;
+    decimals: number;
+    isActive: boolean;
+    isFrozen: boolean;
+    usageAsCollateralEnabled: boolean;
+    borrowingEnabled: boolean;
+    stableBorrowRateEnabled: boolean;
+    baseLTVasCollateral: any;
+    optimalUtilisationRate: any;
+    averageStableRate: any;
+    stableRateSlope1: any;
+    stableRateSlope2: any;
+    baseVariableBorrowRate: any;
+    variableRateSlope1: any;
+    variableRateSlope2: any;
+    liquidityIndex: any;
+    reserveLiquidationThreshold: any;
+    variableBorrowIndex: any;
+    availableLiquidity: any;
+    stableBorrowRate: any;
+    liquidityRate: any;
+    totalPrincipalStableDebt: any;
+    totalScaledVariableDebt: any;
+    totalLiquidity: any;
+    utilizationRate: any;
+    reserveLiquidationBonus: any;
+    variableBorrowRate: any;
+    lastUpdateTimestamp: number;
+    stableDebtLastUpdateTimestamp: number;
+    reserveFactor: any;
+    aEmissionPerSecond: any;
+    vEmissionPerSecond: any;
+    sEmissionPerSecond: any;
+    aTokenIncentivesIndex: any;
+    vTokenIncentivesIndex: any;
+    sTokenIncentivesIndex: any;
+    aIncentivesLastUpdateTimestamp: number;
+    vIncentivesLastUpdateTimestamp: number;
+    sIncentivesLastUpdateTimestamp: number;
+    aToken: { __typename?: 'AToken'; id: string };
+    vToken: { __typename?: 'VToken'; id: string };
+    sToken: { __typename?: 'SToken'; id: string };
+    price: { __typename?: 'PriceOracleAsset'; priceInEth: any };
+  }>;
 };
 
 export type UsdPriceEthSubscriptionVariables = Exact<{ [key: string]: never }>;
 
-export type UsdPriceEthSubscription = { __typename?: 'Subscription' } & {
-  priceOracle?: Maybe<{ __typename?: 'PriceOracle' } & Pick<PriceOracle, 'usdPriceEth'>>;
+export type UsdPriceEthSubscription = {
+  __typename?: 'Subscription';
+  priceOracle?: { __typename?: 'PriceOracle'; usdPriceEth: any } | null | undefined;
 };
 
 export type UserPositionUpdateSubscriptionSubscriptionVariables = Exact<{
@@ -6980,14 +7166,45 @@ export type UserPositionUpdateSubscriptionSubscriptionVariables = Exact<{
   pool?: Maybe<Scalars['String']>;
 }>;
 
-export type UserPositionUpdateSubscriptionSubscription = { __typename?: 'Subscription' } & {
-  userReserves: Array<{ __typename?: 'UserReserve' } & UserReserveDataFragment>;
+export type UserPositionUpdateSubscriptionSubscription = {
+  __typename?: 'Subscription';
+  userReserves: Array<{
+    __typename?: 'UserReserve';
+    scaledATokenBalance: any;
+    usageAsCollateralEnabledOnUser: boolean;
+    stableBorrowRate: any;
+    stableBorrowLastUpdateTimestamp: number;
+    principalStableDebt: any;
+    scaledVariableDebt: any;
+    variableBorrowIndex: any;
+    lastUpdateTimestamp: number;
+    aTokenincentivesUserIndex: any;
+    vTokenincentivesUserIndex: any;
+    sTokenincentivesUserIndex: any;
+    reserve: {
+      __typename?: 'Reserve';
+      id: string;
+      underlyingAsset: any;
+      name: string;
+      symbol: string;
+      decimals: number;
+      liquidityRate: any;
+      reserveLiquidationBonus: any;
+      lastUpdateTimestamp: number;
+      aToken: { __typename?: 'AToken'; id: string };
+    };
+    user: { __typename?: 'User'; unclaimedRewards: any };
+  }>;
 };
 
 export type RewardsSubscriptionSubscriptionVariables = Exact<{ [key: string]: never }>;
 
-export type RewardsSubscriptionSubscription = { __typename?: 'Subscription' } & {
-  incentivesControllers: Array<{ __typename?: 'IncentivesController' } & RewardsDataFragment>;
+export type RewardsSubscriptionSubscription = {
+  __typename?: 'Subscription';
+  incentivesControllers: Array<{
+    __typename?: 'IncentivesController';
+    emissionEndTimestamp: number;
+  }>;
 };
 
 export const ReserveDataFragmentDoc = gql`

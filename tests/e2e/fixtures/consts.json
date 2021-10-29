@@ -1,0 +1,35 @@
+{
+  "markets":{
+    "aaveV2": "aave-v2",
+    "aaveV2Fork": "aave-v2-fork",
+    "amm": "amm",
+    "ammFork": "amm-fork",
+    "polygon": "polygon",
+    "polygonFork": "polygon-fork",
+    "aaveV2Kovan": "aaveV2-kovan",
+    "avalancheFork": "avalanche-fork"
+  },
+  "networks": {
+    "CustomRPC": "Custom RPC",
+    "LocalHost": "Localhost 8545",
+    "Kovan": "Kovan Test Network"
+  },
+  "repayType":{
+    "collateral": "collateral",
+    "wallet": "wallet",
+    "default": "default"
+  },
+  "dashboardTypes": {
+    "deposit": "depost",
+    "borrow": "borrow"
+  },
+  "collateralType": {
+    "isCollateral": "Yes",
+    "isNotCollateral": "No"
+  },
+  "borrowAPRType": {
+    "variable": "Variable",
+    "stable": "Stable"
+  },
+  "maxValue": "MAX"
+}

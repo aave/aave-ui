@@ -28,7 +28,6 @@ const marketConfig = Object.entries(marketsData).reduce<
     acc.lendingPool[value.network][key] = {
       LENDING_POOL: value.addresses.LENDING_POOL,
       WETH_GATEWAY: value.addresses.WETH_GATEWAY,
-      FLASH_LIQUIDATION_ADAPTER: value.addresses.FLASH_LIQUIDATION_ADAPTER,
       REPAY_WITH_COLLATERAL_ADAPTER: value.addresses.REPAY_WITH_COLLATERAL_ADAPTER,
       SWAP_COLLATERAL_ADAPTER: value.addresses.SWAP_COLLATERAL_ADAPTER,
       FAUCET: value.addresses.FAUCET,

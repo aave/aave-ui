@@ -119,20 +119,9 @@ export function useIncentivesData(
         await incentiveDataProviderContract.getIncentivesDataWithPrice({
           lendingPoolAddressProvider,
           quote: networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
-          chainlinkFeedsRegistry: networkConfig.chainlinkFeedRegistry,
+          chainlinkFeedsRegistry: networkConfig.addresses.chainlinkFeedRegistry,
         });
-      const formattedReserveIncentiveData: ReserveIncentiveData[] = rawReserveIncentiveData.map(
-        (reserveIncentive) => {
-          const formattedReserveIncentive: ReserveIncentiveData = {
-            underlyingAsset: reserveIncentive.underlyingAsset,
-            aIncentiveData: reserveIncentive.aIncentiveData,
-            vIncentiveData: reserveIncentive.vIncentiveData,
-            sIncentiveData: reserveIncentive.sIncentiveData,
-          };
-          return formattedReserveIncentive;
-        }
-      );
-      setReserveIncentiveData(formattedReserveIncentiveData);
+      setReserveIncentiveData(rawReserveIncentiveData);
       setErrorReserveIncentives(false);
     } catch (e) {
       console.log('e', e);
@@ -159,18 +148,8 @@ export function useIncentivesData(
           currentAccount,
           lendingPoolAddressProvider
         );
-      const formattedUserIncentiveData: UserReserveIncentiveData[] = rawUserIncentiveData.map(
-        (userIncentive) => {
-          const formattedUserIncentive: UserReserveIncentiveData = {
-            underlyingAsset: userIncentive.underlyingAsset,
-            aTokenIncentivesUserData: userIncentive.aTokenIncentivesUserData,
-            vTokenIncentivesUserData: userIncentive.vTokenIncentivesUserData,
-            sTokenIncentivesUserData: userIncentive.sTokenIncentivesUserData,
-          };
-          return formattedUserIncentive;
-        }
-      );
-      setUserIncentiveData(formattedUserIncentiveData);
+
+      setUserIncentiveData(rawUserIncentiveData);
       setErrorUserIncentives(false);
     } catch (e) {
       console.log('e', e);

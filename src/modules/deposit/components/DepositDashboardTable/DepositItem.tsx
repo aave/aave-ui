@@ -29,7 +29,7 @@ export default function DepositItem({
   isFrozen,
   avg30DaysLiquidityRate,
   index,
-  aIncentivesAPY,
+  aincentivesAPR,
 }: DepositTableItem) {
   const intl = useIntl();
   const { currentTheme, xl, lg, md } = useThemeContext();
@@ -50,7 +50,7 @@ export default function DepositItem({
       <TableAprCol
         value={Number(liquidityRate)}
         thirtyDaysAverage={avg30DaysLiquidityRate}
-        liquidityMiningValue={aIncentivesAPY}
+        liquidityMiningValue={aincentivesAPR}
         symbol={symbol}
         type="deposit"
       />

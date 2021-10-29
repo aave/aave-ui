@@ -29,13 +29,11 @@ const Context = React.createContext<WalletBalanceProviderContext>(
 
 export const WalletBalanceProvider: React.FC = ({ children }) => {
   const { currentAccount: walletAddress } = useUserWalletDataContext();
-  const [markets, setMarkets] = React.useState<
-    {
-      [key in keyof typeof CustomMarket]?: {
-        [address: string]: string;
-      };
-    }
-  >({});
+  const [markets, setMarkets] = React.useState<{
+    [key in keyof typeof CustomMarket]?: {
+      [address: string]: string;
+    };
+  }>({});
   const [marketsLoading, setMarketsLoading] = React.useState(false);
   const [observedMarkets, setObservedMarkets] = React.useState<CustomMarket[]>([]);
 
@@ -57,7 +55,7 @@ export const WalletBalanceProvider: React.FC = ({ children }) => {
       const networkConfig = getNetworkConfig(marketData.network);
       const provider = getProvider(marketData.network);
       const contract = WalletBalanceProviderFactory.connect(
-        networkConfig.walletBalanceProvider,
+        networkConfig.addresses.walletBalanceProvider,
         provider
       );
 

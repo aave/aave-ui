@@ -75,11 +75,8 @@ export default function Dashboard() {
       throw new Error('data is inconsistent pool reserve is not available');
     }
 
-    const reserveIncentiveData = reserveIncentives.find(
-      (incentive) =>
-        incentive.underlyingAsset.toLowerCase() ===
-        userReserve.reserve.underlyingAsset.toLowerCase()
-    );
+    const reserveIncentiveData =
+      reserveIncentives[userReserve.reserve.underlyingAsset.toLowerCase()];
     if (userReserve.underlyingBalance !== '0' || userReserve.totalBorrows !== '0') {
       const baseListData = {
         uiColor: getAssetColor(userReserve.reserve.symbol),
@@ -97,8 +94,8 @@ export default function Dashboard() {
           usageAsCollateralEnabledOnUser: userReserve.usageAsCollateralEnabledOnUser,
           underlyingBalance: userReserve.underlyingBalance,
           underlyingBalanceUSD: userReserve.underlyingBalanceUSD,
-          aIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.aIncentivesData.incentiveAPY
+          aincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.aIncentives.incentiveAPR
             : '0',
           onToggleSwitch: () =>
             toggleUseAsCollateral(
@@ -118,11 +115,11 @@ export default function Dashboard() {
           currentBorrowsUSD: userReserve.variableBorrowsUSD,
           borrowRateMode: InterestRate.Variable,
           borrowRate: poolReserve.variableBorrowRate,
-          vIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.vIncentivesData.incentiveAPY
+          vincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.vIncentives.incentiveAPR
             : '0',
-          sIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.sIncentivesData.incentiveAPY
+          sincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.sIncentives.incentiveAPR
             : '0',
           avg30DaysVariableRate: poolReserve.avg30DaysVariableBorrowRate,
           repayLink: loanActionLinkComposer(
@@ -154,11 +151,11 @@ export default function Dashboard() {
           currentBorrowsUSD: userReserve.stableBorrowsUSD,
           borrowRateMode: InterestRate.Stable,
           borrowRate: userReserve.stableBorrowRate,
-          vIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.vIncentivesData.incentiveAPY
+          vincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.vIncentives.incentiveAPR
             : '0',
-          sIncentivesAPY: reserveIncentiveData
-            ? reserveIncentiveData.sIncentivesData.incentiveAPY
+          sincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.sIncentives.incentiveAPR
             : '0',
           repayLink: loanActionLinkComposer(
             'repay',

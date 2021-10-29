@@ -1,26 +1,35 @@
 name: CI
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
 
 jobs:
   deploy_ipfs:
     runs-on: ubuntu-latest
-    container: node:14
-    env:
-      REACT_APP_SUPPORTED_ETHEREUM_NETWORKS: 'kovan,mumbai,fuji,mainnet,polygon,avalanche'
-      REACT_APP_DEFAULT_ETHEREUM_NETWORK: 'mainnet'
-      REACT_APP_ENABLE_CACHING_BACKEND: 'true'
-      REACT_APP_ENABLE_NASH: 'true'
-      REACT_APP_RATES_HISTORY_ENDPOINT: 'https://aave-api-v2.aave.com/data/rates-history'
-      NGINX_MODE: 'staging'
+    outputs:
+      uri: ${{ steps.deploy.outputs.uri }}
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
 
       - name: install
         run: npm ci
 
-      - name: Build and pinata upload
+      - name: prepare env
+        run: cp ${ENV:-'.github/.env.preview'} .env
+
+      - name: build
+        run: npm run build:ipfs
+
+      - name: deploy
         id: deploy
         env:
           PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
@@ -37,3 +46,23 @@ jobs:
               repo: context.repo.repo,
               body: 'Preview link: ${{steps.deploy.outputs.uri}}'
             })
+
+  test:
+    runs-on: ubuntu-latest
+    needs: deploy_ipfs
+    container: 'wolphin/e2e-image'
+    env:
+      DOMAIN: '${{ needs.deploy_ipfs.outputs.uri }}'
+      LAMBDATEST_ACCOUNT: ${{ secrets.LAMBDATEST_ACCOUNT }}
+      LAMBDATEST_KEY: ${{ secrets.LAMBDATEST_KEY }}
+      TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
+      TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
+      TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install
+        run: cd tests && npm ci
+
+      - name: Main
+        run: cd tests && BUILD="${GITHUB_REF}_${GITHUB_SHA}" npm run lambdaTest
