@@ -1,4 +1,4 @@
-import { Network } from '@aave/protocol-js';
+import { ChainId } from '@aave/contract-helpers';
 import { MarketDataType } from '../../helpers/markets/markets-data';
 
 import * as logos from './images';
@@ -20,7 +20,7 @@ export enum CustomMarket {
 
 export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType } = {
   [CustomMarket.proto_kovan]: {
-    network: Network.kovan,
+    chainId: ChainId.kovan,
     logo: logos.aavev2Logo,
     activeLogo: logos.aavev2ActiveLogo,
     aTokenPrefix: 'A',
@@ -38,7 +38,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     },
   },
   [CustomMarket.proto_mainnet]: {
-    network: Network.mainnet,
+    chainId: ChainId.mainnet,
     logo: logos.aavev2Logo,
     activeLogo: logos.aavev2ActiveLogo,
     aTokenPrefix: 'A',
@@ -58,7 +58,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     },
   },
   [CustomMarket.proto_fork]: {
-    network: Network.fork,
+    chainId: ChainId.fork,
     logo: logos.aavev2Logo,
     activeLogo: logos.aavev2ActiveLogo,
     aTokenPrefix: 'A',
@@ -78,7 +78,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     },
   },
   [CustomMarket.amm_kovan]: {
-    network: Network.kovan,
+    chainId: ChainId.kovan,
     logo: logos.ammLogo,
     activeLogo: logos.ammActiveLogo,
     aTokenPrefix: 'AAMM',
@@ -90,7 +90,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     },
   },
   [CustomMarket.amm_mainnet]: {
-    network: Network.mainnet,
+    chainId: ChainId.mainnet,
     logo: logos.ammLogo,
     activeLogo: logos.ammActiveLogo,
     aTokenPrefix: 'AAMM',
@@ -101,7 +101,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     },
   },
   [CustomMarket.amm_fork]: {
-    network: Network.fork,
+    chainId: ChainId.fork,
     logo: logos.ammLogo,
     activeLogo: logos.ammActiveLogo,
     aTokenPrefix: 'AAMM',
@@ -112,7 +112,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     },
   },
   [CustomMarket.proto_matic]: {
-    network: Network.polygon,
+    chainId: ChainId.polygon,
     logo: logos.aaveLogo,
     activeLogo: logos.aaveActiveLogo,
     subLogo: logos.polygon,
@@ -129,7 +129,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     },
   },
   [CustomMarket.polygon_fork]: {
-    network: Network.polygon_fork,
+    chainId: ChainId.polygon_fork,
     logo: logos.aaveLogo,
     activeLogo: logos.aaveActiveLogo,
     subLogo: logos.polygon,
@@ -146,7 +146,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     },
   },
   [CustomMarket.proto_mumbai]: {
-    network: Network.mumbai,
+    chainId: ChainId.mumbai,
     logo: logos.aaveLogo,
     activeLogo: logos.aaveActiveLogo,
     subLogo: logos.polygon,
@@ -163,7 +163,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     },
   },
   [CustomMarket.proto_fuji]: {
-    network: Network.fuji,
+    chainId: ChainId.fuji,
     logo: logos.aaveLogo,
     activeLogo: logos.aaveActiveLogo,
     subLogo: logos.avalanche,
@@ -180,7 +180,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     },
   },
   [CustomMarket.proto_avalanche]: {
-    network: Network.avalanche,
+    chainId: ChainId.avalanche,
     logo: logos.aaveLogo,
     activeLogo: logos.aaveActiveLogo,
     subLogo: logos.avalanche,
@@ -197,7 +197,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     },
   },
   [CustomMarket.avalanche_fork]: {
-    network: Network.avalanche_fork,
+    chainId: ChainId.avalanche_fork,
     logo: logos.aaveLogo,
     activeLogo: logos.aaveActiveLogo,
     subLogo: logos.avalanche,

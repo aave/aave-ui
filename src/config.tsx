@@ -1,3 +1,4 @@
+import { ChainIdToNetwork } from '@aave/contract-helpers';
 import { Network } from '@aave/protocol-js';
 
 import { mapNameToChainID } from './libs/web3-data-provider';
@@ -44,7 +45,9 @@ export function getSupportedNetworksIds(): number[] {
  * selectable markets (markets in a available network + forks when enabled)
  */
 export const availableMarkets = Object.keys(marketsData).filter((key) =>
-  getSupportedNetworks().includes(marketsData[key as keyof typeof CustomMarket].network)
+  getSupportedNetworks().includes(
+    ChainIdToNetwork[marketsData[key as keyof typeof CustomMarket].chainId] as Network
+  )
 ) as CustomMarket[];
 
 export const IPFS_MODE = process.env.REACT_APP_IPFS_MODE === 'true';

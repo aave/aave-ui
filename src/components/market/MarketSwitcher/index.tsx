@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { Network } from '@aave/protocol-js';
 import { rgba, useThemeContext, DropdownWrapper } from '@aave/aave-ui-kit';
 
 import { CustomMarket, marketsData } from '../../../ui-config';
@@ -11,6 +10,7 @@ import GradientText from '../../basic/GradientText';
 import messages from './messages';
 import staticStyles from './style';
 import { availableMarkets } from '../../../config';
+import { getNetworkConfig } from '../../../helpers/markets/markets-data';
 
 interface MarketSwitcherProps {
   toTop?: boolean;
@@ -18,17 +18,11 @@ interface MarketSwitcherProps {
   textButton?: boolean;
 }
 
-const getTestnetMark = (network: Network) =>
-  [Network.kovan, Network.mumbai, Network.fork, Network.fuji, Network.avalanche_fork].includes(
-    network
-  )
-    ? network.charAt(0)
-    : undefined;
-
 export default function MarketSwitcher({ toTop, className, textButton }: MarketSwitcherProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
-  const { currentMarket, setCurrentMarket, currentMarketData } = useProtocolDataContext();
+  const { currentMarket, setCurrentMarket, currentMarketData, networkConfig } =
+    useProtocolDataContext();
 
   const [visible, setVisible] = useState(false);
   const [isFirstMarketButtonClick, setFirstMarketClick] = useState(
@@ -52,7 +46,7 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
   };
 
   const transparentDarkColor = rgba(`${currentTheme.darkBlue.rgb}, 0.05`);
-  const selectedMarketTestnetMark = getTestnetMark(currentMarketData.network);
+  const selectedMarketTestnetMark = networkConfig.isTestnet ? 't' : undefined;
 
   return (
     <DropdownWrapper
@@ -115,7 +109,8 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
         <p className="MarketSwitcher__title">{intl.formatMessage(messages.changeMarket)}</p>
         {availableMarkets.map((market) => {
           const marketData = marketsData[market];
-          const testnetMark = getTestnetMark(marketData.network);
+          const config = getNetworkConfig(marketData.chainId);
+          const testnetMark = config.isTestnet ? 't' : undefined;
           return (
             <button
               onClick={() => handleSetCurrentMarket(market)}

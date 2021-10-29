@@ -26,10 +26,10 @@ const marketConfig = Object.entries(marketsData).reduce<
   TxBuilderConfig & { lendingPool: LendingPoolConfig }
 >(
   (acc, [key, value]) => {
-    if (!acc.lendingPool?.[value.network]) {
-      acc.lendingPool[value.network] = {};
+    if (!acc.lendingPool?.[value.chainId]) {
+      acc.lendingPool[ChainIdToNetwork[value.chainId]] = {};
     }
-    acc.lendingPool[value.network][key] = {
+    acc.lendingPool[ChainIdToNetwork[value.chainId]][key] = {
       LENDING_POOL: value.addresses.LENDING_POOL,
       WETH_GATEWAY: value.addresses.WETH_GATEWAY,
       REPAY_WITH_COLLATERAL_ADAPTER: value.addresses.REPAY_WITH_COLLATERAL_ADAPTER,

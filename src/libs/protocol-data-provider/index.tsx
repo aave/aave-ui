@@ -7,9 +7,7 @@ import {
   MarketDataType,
   NetworkConfig,
 } from '../../helpers/markets/markets-data';
-import { mapNameToChainID } from '../web3-data-provider';
 import { availableMarkets } from '../../config';
-import { ChainId } from '@aave/contract-helpers';
 
 const LS_KEY = 'selectedMarket';
 
@@ -38,7 +36,6 @@ export function ProtocolDataProvider({ children }: PropsWithChildren<{}>) {
   const [currentMarket, setCurrentMarket] = useState<CustomMarket>(getInitialMarket());
 
   const currentMarketData = marketsData[currentMarket];
-  const network = currentMarketData.network;
 
   const handleSetMarket = (market: CustomMarket) => {
     localStorage.setItem(LS_KEY, market);
@@ -49,11 +46,11 @@ export function ProtocolDataProvider({ children }: PropsWithChildren<{}>) {
     <PoolDataContext.Provider
       value={{
         currentMarket,
-        chainId: mapNameToChainID(marketsData[currentMarket].network),
+        chainId: currentMarketData.chainId,
         setCurrentMarket: handleSetMarket,
         currentMarketData: currentMarketData,
-        networkConfig: getNetworkConfig(ChainId[network]),
-        jsonRpcProvider: getProvider(ChainId[network]),
+        networkConfig: getNetworkConfig(currentMarketData.chainId),
+        jsonRpcProvider: getProvider(currentMarketData.chainId),
       }}
     >
       {children}

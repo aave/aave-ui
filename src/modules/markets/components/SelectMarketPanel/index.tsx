@@ -28,7 +28,7 @@ export default function SelectMarketPanel({ isCollapse }: SelectMarketPanelProps
               className="SelectMarketPanel__select-button"
               onClick={() => setCurrentMarket(market)}
               logo={marketData.logo}
-              network={marketData.network}
+              chainId={marketData.chainId}
               subLogo={marketData.subLogo}
               disabled={market === currentMarket}
               key={market}

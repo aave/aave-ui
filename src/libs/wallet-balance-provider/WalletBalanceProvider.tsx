@@ -5,7 +5,6 @@ import { getNetworkConfig, getProvider } from '../../helpers/markets/markets-dat
 import { WalletBalanceProviderFactory } from '../pool-data-provider/contracts/WalletBalanceProviderContract';
 import { useProtocolDataContext } from '../protocol-data-provider';
 import { useUserWalletDataContext } from '../web3-data-provider';
-import { ChainId } from '@aave/contract-helpers';
 
 type WalletBalanceContractData = {
   0: string[];
@@ -53,8 +52,8 @@ export const WalletBalanceProvider: React.FC = ({ children }) => {
   const fetchFunctions = useMemo(() => {
     return uniqueMarkets.map((market) => {
       const marketData = marketsData[market];
-      const networkConfig = getNetworkConfig(ChainId[marketData.network]);
-      const provider = getProvider(ChainId[marketData.network]);
+      const networkConfig = getNetworkConfig(marketData.chainId);
+      const provider = getProvider(marketData.chainId);
       const contract = WalletBalanceProviderFactory.connect(
         networkConfig.walletBalanceProvider,
         provider

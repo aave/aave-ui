@@ -42,7 +42,7 @@ export default function MarketsModal({ isVisible, onBackdropPress }: MarketsModa
               <MarketSelectButton
                 onClick={() => setCurrentMarket(market)}
                 logo={marketData.logo}
-                network={marketData.network}
+                chainId={marketData.chainId}
                 subLogo={marketData.subLogo}
                 disabled={market === currentMarket}
                 key={market}

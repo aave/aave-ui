@@ -33,7 +33,7 @@ export default function DashboardNoData() {
             <MarketSelectButton
               onClick={() => setCurrentMarket(market)}
               logo={isCurrentThemeDark ? marketData.logo : marketData.activeLogo || marketData.logo}
-              network={marketData.network}
+              chainId={marketData.chainId}
               subLogo={marketData.subLogo}
               disabled={market === currentMarket}
               key={market}
