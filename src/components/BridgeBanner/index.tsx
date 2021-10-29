@@ -37,7 +37,7 @@ export default function BridgeBanner({
       </div>
       <div className="BridgeBanner__title">
         {intl.formatMessage(messages.title, {
-          networkName: networkName[0].toUpperCase() + networkName.slice(1),
+          networkName,
           bridge: (
             <Link to={url} inNewWindow={true} absolute={true} color="white" bold={true}>
               {name}
