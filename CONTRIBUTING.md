@@ -75,14 +75,18 @@ REACT_APP_SENTRY_DSN - [Sentry](https://sentry.io/) dsn url (optional)
 
 ## Connecting to forks
 
-If you want to run the app against a custom fork set corresponding params in the browser localStorage
+To run against a fork network you just need to set 3 environment variables in your localStorage.
 
 ```
-  forkNetworkId // chainId you will set in metamask
-  forkRPCUrl // the url of the http fork RPC
-  forkWsRPCUrl // the url of the ws fork RPC
-  fork_enabled // enable the fork
+localStorage.setItem("<network>ForkEnabled", "true")
+localStorage.setItem("<network>ForkNetworkId", <FORK_CHAIN_ID>)
+localStorage.setItem("<network>ForkRPCUrl", "<FORK_RPC_URL>")
+// optional
+localStorage.setItem("<network>ForkWsRPCUrl", "<FORK_RPC_WS_URL>")
 ```
+
+Valid networks are `ethereum`, `polygon` and `avalanche`.
+To execute transactions on the fork you need to setup your wallet with the correct fork rpc as well.
 
 ## Updating GraphQL Schemas
 

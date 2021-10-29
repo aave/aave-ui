@@ -3,9 +3,9 @@ import { ChainId, Network } from '@aave/protocol-js';
 type ExtendedSupportedNetworks = Network | 'unsupported';
 
 console.log(
-  'Set forkNetworkId, forkRPCUrl, forkWsRPCUrl, fork_enabled to an appropriate value to run against your fork'
+  'Visit https://github.com/aave/aave-ui/blob/master/CONTRIBUTING.md#connecting-to-forks to learn how to connect to forks.'
 );
-const FORK_NETWORK_ID = Number(localStorage.getItem('forkNetworkId') || ChainId.fork);
+const FORK_NETWORK_ID = Number(localStorage.getItem('ethereumForkNetworkId') || ChainId.fork);
 const POLYGON_FORK_NETWORK_ID = Number(
   localStorage.getItem('polygonForkNetworkId') || ChainId.polygon_fork
 );

@@ -24,13 +24,13 @@ export function getSupportedNetworks(): Network[] {
     ','
   ) as Network[];
 
-  if (localStorage.getItem('fork_enabled') === 'true') {
+  if (localStorage.getItem('ethereumForkEnabled') === 'true') {
     supportedNetworks.push(Network.fork);
   }
-  if (localStorage.getItem('polygon_fork_enabled') === 'true') {
+  if (localStorage.getItem('polygonForkEnabled') === 'true') {
     supportedNetworks.push(Network.polygon_fork);
   }
-  if (localStorage.getItem('avalanche_fork_enabled') === 'true') {
+  if (localStorage.getItem('avalancheForkEnabled') === 'true') {
     supportedNetworks.push(Network.avalanche_fork);
   }
   return supportedNetworks;
@@ -70,8 +70,8 @@ export function getFortmaticKeyByNetwork(network: Network): string {
 
 // TESTING AND DEBUG
 // Mainnet Fork
-export const FORK_RPC_URL = localStorage.getItem('forkRPCUrl') || 'http://127.0.0.1:8545';
-export const FORK_WS_RPC_URL = localStorage.getItem('forkWsRPCUrl') || 'ws://127.0.0.1:8545';
+export const FORK_RPC_URL = localStorage.getItem('ethereumForkRPCUrl') || 'http://127.0.0.1:8545';
+export const FORK_WS_RPC_URL = localStorage.getItem('ethereumForkWsRPCUrl') || 'ws://127.0.0.1:8545';
 // Polygon Fork
 export const POLYGON_FORK_RPC_URL =
   localStorage.getItem('polygonForkRPCUrl') || 'http://127.0.0.1:8545';
