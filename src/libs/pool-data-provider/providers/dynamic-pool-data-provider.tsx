@@ -12,10 +12,18 @@ import {
 
 import { useCurrentTimestamp } from '../hooks/use-current-timestamp';
 import { useStaticPoolDataContext } from './static-pool-data-provider';
+import {
+  formatReserve,
+  FormatReserveResponse,
+  formatUserSummary,
+  FormatUserSummaryResponse,
+} from '@aave/math-utils';
 
 export interface DynamicPoolDataContextData {
   reserves: ComputedReserveData[];
   user?: UserSummaryData;
+  reservesNew: FormatReserveResponse[]; // WIP: aave-utilities Reserve types need an update
+  userNew?: FormatUserSummaryResponse;
 }
 
 const DynamicPoolDataContext = React.createContext({} as DynamicPoolDataContextData);
@@ -24,6 +32,9 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
   const {
     rawReserves,
     rawUserReserves,
+    rawReservesNew,
+    baseCurrencyData,
+    rawUserReservesNew,
     networkConfig,
     rewardsEmissionEndTimestamp,
     usdPriceEth,
@@ -37,6 +48,30 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
       setLastAvgRatesUpdateTimestamp(currentTimestamp);
     }
   }, [currentTimestamp, lastAvgRatesUpdateTimestamp]);
+
+  const computedUserDataNew =
+    userId && rawUserReservesNew
+      ? formatUserSummary({
+          currentTimestamp,
+          usdPriceMarketReferenceCurrency: baseCurrencyData
+            ? baseCurrencyData?.marketReferenceCurrencyPriceInUsd
+            : '0',
+          marketReferenceCurrencyDecimals: baseCurrencyData
+            ? baseCurrencyData?.marketReferenceCurrencyDecimals
+            : 18,
+          rawUserReserves: rawUserReservesNew,
+        })
+      : undefined;
+
+  const formattedPoolReservesNew: FormatReserveResponse[] = rawReservesNew.map((reserve) => {
+    const formattedReserve = formatReserve({
+      reserve,
+      currentTimestamp,
+    });
+    return formattedReserve;
+  });
+
+  // FROM HERE BELOW IS THE LEGACY DYNAMIC PROVIDER
 
   // TODO: get price from reserve
   const rewardReserve = rawReserves.find(
@@ -129,6 +164,8 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
       value={{
         user: computedUserData,
         reserves: formattedPoolReserves,
+        userNew: computedUserDataNew,
+        reservesNew: formattedPoolReservesNew,
       }}
     >
       {children}
