@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Proposal, normalize, AaveGovernanceV2Interface, Network } from '@aave/protocol-js';
+import { Proposal, normalize, AaveGovernanceV2Interface } from '@aave/protocol-js';
 import { providers } from 'ethers';
 
 import { ProposalItem } from '../types';
@@ -11,6 +11,7 @@ import { IpfsMeta } from '../types';
 
 import fm from 'front-matter';
 import { getProvider } from '../../../helpers/markets/markets-data';
+import { ChainId } from '@aave/contract-helpers';
 
 const MemorizeStartTimestamp: { [id: string]: number } = {};
 const MemorizeProposalTimestamp: { [id: string]: number } = {};
@@ -109,12 +110,12 @@ const useGetProposalsRPC = ({
   skip = false,
   averageNetworkBlockTime,
   governanceService,
-  network,
+  chainId,
 }: {
   skip: boolean;
   averageNetworkBlockTime: number;
   governanceService: AaveGovernanceV2Interface;
-  network: Network;
+  chainId: ChainId;
 }) => {
   const [proposals, setProposals] = useState<ProposalItem[]>([]);
   const { loading, setLoading } = useStateLoading();
@@ -124,7 +125,7 @@ const useGetProposalsRPC = ({
     try {
       const rawProposals = await governanceService.getProposals({ skip: 0, limit: 100 });
       setProposals(
-        await parserProposals(rawProposals, getProvider(network), averageNetworkBlockTime)
+        await parserProposals(rawProposals, getProvider(chainId), averageNetworkBlockTime)
       );
     } catch (e) {
       console.error(`ERROR Proposals RPC : ${e.message}`);
@@ -135,9 +136,9 @@ const useGetProposalsRPC = ({
   useEffect(() => {
     !skip && getProposals();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [skip, network]);
+  }, [skip, chainId]);
 
-  usePooling(getProposals, INTERVAL_POOL, skip, [skip, network]);
+  usePooling(getProposals, INTERVAL_POOL, skip, [skip, chainId]);
 
   return { proposals, loading };
 };

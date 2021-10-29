@@ -9,6 +9,7 @@ import {
 } from '../../helpers/markets/markets-data';
 import { mapNameToChainID } from '../web3-data-provider';
 import { availableMarkets } from '../../config';
+import { ChainId } from '@aave/contract-helpers';
 
 const LS_KEY = 'selectedMarket';
 
@@ -51,8 +52,8 @@ export function ProtocolDataProvider({ children }: PropsWithChildren<{}>) {
         chainId: mapNameToChainID(marketsData[currentMarket].network),
         setCurrentMarket: handleSetMarket,
         currentMarketData: currentMarketData,
-        networkConfig: getNetworkConfig(network),
-        jsonRpcProvider: getProvider(network),
+        networkConfig: getNetworkConfig(ChainId[network]),
+        jsonRpcProvider: getProvider(ChainId[network]),
       }}
     >
       {children}

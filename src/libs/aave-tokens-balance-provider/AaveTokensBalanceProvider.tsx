@@ -28,7 +28,7 @@ export const AaveTokensBalanceProvider: React.FC = ({ children }) => {
     if (!walletAddress) return;
     const contract = WalletBalanceProviderFactory.connect(
       governanceNetworkConfig.walletBalanceProvider,
-      getProvider(governanceConfig.network)
+      getProvider(governanceConfig.chainId)
     );
     const fetchAaveTokenBalances = async () => {
       setAaveTokensLoading(true);

@@ -20,7 +20,7 @@ import {
   WsErrorCountKey,
 } from '../pool-data-provider/hooks/use-graph-check';
 import { governanceConfig } from '../../ui-config';
-import { Network } from '@aave/protocol-js';
+import { ChainId } from '@aave/contract-helpers';
 
 enum WsConnectonStatusKey {
   wsNetworkConnectonStatusKey = 'networkIsDisconnected',
@@ -74,7 +74,7 @@ function getCachedServerLink(
 
   const networkCachingWSLink = createWsLink(cachingWSServerUrl);
 
-  const mainnetConfig = getNetworkConfig(Network.mainnet);
+  const mainnetConfig = getNetworkConfig(ChainId.mainnet);
   if (mainnetConfig.cachingWSServerUrl !== cachingWSServerUrl && mainnetConfig.cachingWSServerUrl) {
     const mainnetCachingWSLink = createWsLink(mainnetConfig.cachingWSServerUrl);
 

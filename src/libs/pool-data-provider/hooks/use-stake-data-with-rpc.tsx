@@ -4,7 +4,8 @@ import { BigNumber, ethers } from 'ethers';
 import { getProvider } from '../../../helpers/markets/markets-data';
 import { StakeUiHelperIFactory } from '../contracts/StakeUiHelperIContract';
 import { StakeData, StakeGeneralDataT, StakesData, StakeUserDataT } from '../types/stake';
-import { Network, Stake } from '@aave/protocol-js';
+import { Stake } from '@aave/protocol-js';
+import { ChainId } from '@aave/contract-helpers';
 
 function formatRawStakeData(
   data: StakeGeneralDataT<BigNumber, BigNumber> & StakeUserDataT<BigNumber, BigNumber>
@@ -28,7 +29,7 @@ function formatRawStakeData(
 
 export function useStakeDataWithRpc(
   stakeDataProvider: string,
-  network: Network,
+  chainId: ChainId,
   user?: string,
   skip: boolean = false,
   poolingInterval: number = 30
@@ -41,7 +42,7 @@ export function useStakeDataWithRpc(
     userAddress: string = ethers.constants.AddressZero,
     helperAddress: string
   ) => {
-    const helperContract = StakeUiHelperIFactory.connect(helperAddress, getProvider(network));
+    const helperContract = StakeUiHelperIFactory.connect(helperAddress, getProvider(chainId));
     try {
       const data = await helperContract.getUserUIData(userAddress);
 
@@ -70,7 +71,7 @@ export function useStakeDataWithRpc(
       setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, skip, poolingInterval, stakeDataProvider, network]);
+  }, [user, skip, poolingInterval, stakeDataProvider, chainId]);
 
   return {
     loading,

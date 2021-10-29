@@ -65,7 +65,7 @@ export function TxBuilderProvider({ children }: PropsWithChildren<{}>) {
   // txBuilder used for lending pool
   const txBuilder = new TxBuilderV2(
     currentNetwork,
-    getProvider(currentNetwork),
+    getProvider(currentChainId),
     undefined,
     Object.assign(marketConfig, networkConfig)
   );

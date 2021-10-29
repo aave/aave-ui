@@ -5,6 +5,7 @@ import TxConfirmationView, {
 } from '../../../../components/TxConfirmationView';
 import { useStakeDataContext } from '../../../../libs/pool-data-provider/hooks/use-stake-data-context';
 import { Network } from '@aave/protocol-js';
+import { ChainIdToNetwork } from '@aave/contract-helpers';
 
 type StakeTxConfirmationViewProps = Omit<TxConfirmationViewProps, 'txNetwork' | 'allowedNetworks'>;
 
@@ -20,7 +21,7 @@ function StakeTxConfirmationView({ onMainTxConfirmed, ...props }: StakeTxConfirm
   return (
     <TxConfirmationView
       {...props}
-      txNetwork={stakeConfig.network}
+      txNetwork={ChainIdToNetwork[stakeConfig.chainId] as Network}
       allowedNetworks={[Network.mainnet, Network.fork, Network.kovan]}
       onMainTxConfirmed={handleMainTxConfirmed}
     />

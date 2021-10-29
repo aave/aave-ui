@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { ethers, providers } from 'ethers';
 import BigNumber from 'bignumber.js';
-import { Network, ReserveData, UserReserveData } from '@aave/protocol-js';
+import { ReserveData, UserReserveData } from '@aave/protocol-js';
 
 import { IUiPoolDataProviderFactory } from '../contracts/IUiPoolDataProviderFactory';
 import { getProvider } from '../../../helpers/markets/markets-data';
-import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
+import { ChainId } from '@aave/contract-helpers';
 
 // interval in which the rpc data is refreshed
 const POOLING_INTERVAL = 30 * 1000;
@@ -65,8 +65,7 @@ export function useProtocolDataWithRpc(
     chainId: ChainId,
     poolDataProvider: string
   ) => {
-    const network = ChainIdToNetwork[chainId] as Network;
-    const provider = getProvider(network);
+    const provider = getProvider(chainId);
     const helperContract = IUiPoolDataProviderFactory.connect(poolDataProvider, provider);
     try {
       const result = await helperContract.getReservesData(poolAddress, userAddress);

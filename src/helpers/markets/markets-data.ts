@@ -1,3 +1,4 @@
+import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
 import { Network } from '@aave/protocol-js';
 import { ethers } from 'ethers';
 
@@ -96,7 +97,8 @@ export type MarketDataType = {
 
 export type BaseNetworkConfig = Omit<NetworkConfig, 'explorerLinkBuilder'>;
 
-export function getNetworkConfig(network: Network): NetworkConfig {
+export function getNetworkConfig(chainId: ChainId): NetworkConfig {
+  const network = ChainIdToNetwork[chainId] as Network;
   const config = networkConfigs[network];
   if (!config) throw new Error(`${network} network was not configured`);
   return { ...config, explorerLinkBuilder: linkBuilder({ baseUrl: config.explorerLink }) };
@@ -113,14 +115,14 @@ export const isFeatureEnabled = {
 
 const providers: { [network: string]: ethers.providers.Provider } = {};
 
-export const getProvider = (network: Network): ethers.providers.Provider => {
-  if (!providers[network]) {
-    const config = getNetworkConfig(network);
+export const getProvider = (chainId: ChainId): ethers.providers.Provider => {
+  if (!providers[chainId]) {
+    const config = getNetworkConfig(chainId);
     const jsonRPCUrl = config.privateJsonRPCUrl || config.publicJsonRPCUrl;
     if (!jsonRPCUrl) {
-      throw new Error(`${network} has no jsonRPCUrl configured`);
+      throw new Error(`${chainId} has no jsonRPCUrl configured`);
     }
-    providers[network] = new ethers.providers.StaticJsonRpcProvider(jsonRPCUrl);
+    providers[chainId] = new ethers.providers.StaticJsonRpcProvider(jsonRPCUrl);
   }
-  return providers[network];
+  return providers[chainId];
 };

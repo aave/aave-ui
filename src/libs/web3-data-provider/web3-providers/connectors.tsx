@@ -22,6 +22,7 @@ import {
 } from '../../../config';
 import { mapNameToChainID } from '../web3-helpers';
 import { getNetworkConfig } from '../../../helpers/markets/markets-data';
+import { ChainId } from '@aave/contract-helpers';
 
 export type AvailableWeb3Connectors =
   | 'browser'
@@ -60,7 +61,7 @@ export function getWeb3Connector(
   supportedNetworks: Network[],
   connectorConfig: ConnectorOptionalConfig
 ): AbstractConnector {
-  const networkConfig = getNetworkConfig(currentNetwork);
+  const networkConfig = getNetworkConfig(ChainId[currentNetwork]);
   const networkId = mapNameToChainID(currentNetwork);
 
   switch (connectorName) {
@@ -84,7 +85,7 @@ export function getWeb3Connector(
     case 'wallet-connect':
       return new WalletConnectConnector({
         rpc: supportedNetworks.reduce((acc, network) => {
-          const config = getNetworkConfig(network);
+          const config = getNetworkConfig(ChainId[network]);
           acc[mapNameToChainID(network)] = config.privateJsonRPCUrl || config.publicJsonRPCUrl;
           return acc;
         }, {} as { [networkId: number]: string }),

@@ -15,6 +15,7 @@ import { getNetworkConfig } from '../../../helpers/markets/markets-data';
 
 import messages from './messages';
 import staticStyles from './style';
+import { ChainId } from '@aave/contract-helpers';
 
 interface NetworkMismatchProps {
   neededNetworkName: Network;
@@ -76,7 +77,7 @@ export default function NetworkMismatch({
     currentProviderName === 'browser' &&
     [Network.polygon, Network.mumbai, Network.avalanche, Network.fuji].includes(neededNetworkName);
   const config = ADD_CONFIG[neededNetworkName as Network.polygon];
-  const { publicJsonRPCWSUrl, publicJsonRPCUrl } = getNetworkConfig(neededNetworkName);
+  const { publicJsonRPCWSUrl, publicJsonRPCUrl } = getNetworkConfig(ChainId[neededNetworkName]);
 
   // const isExternalNetworkUpdateNeeded =
   //   !isMetaMaskForMatic && ['browser', 'wallet-connect'].includes(currentProviderName);

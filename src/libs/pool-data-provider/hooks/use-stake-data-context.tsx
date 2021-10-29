@@ -6,6 +6,7 @@ import {
   TxBuilderV2,
   valueToBigNumber,
   TxBuilderConfig,
+  Network,
 } from '@aave/protocol-js';
 
 import { useLocation } from 'react-router-dom';
@@ -30,7 +31,7 @@ import {
 import { useApolloConfigContext } from '../../apollo-config';
 import { StakeConfig } from '../../../ui-config';
 import { getProvider } from '../../../helpers/markets/markets-data';
-import { ChainId } from '@aave/contract-helpers';
+import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
 
 export function computeStakeData(data: StakeData): ComputedStakeData {
   return {
@@ -99,17 +100,18 @@ export function StakeDataProvider({
   const { chainId, networkConfig } = useProtocolDataContext();
   const { chainId: apolloClientChainId } = useApolloConfigContext();
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
+  const network = ChainIdToNetwork[chainId] as Network;
 
   const selectedStake =
     location.pathname.split('/')[2]?.toLowerCase() === Stake.aave ? Stake.aave : Stake.bpt;
   const config: TxBuilderConfig = {
     staking: {
-      [stakeConfig.network]: stakeConfig.tokens,
+      [network]: stakeConfig.tokens,
     },
   };
   const txBuilder = new TxBuilderV2(
-    stakeConfig.network,
-    getProvider(stakeConfig.network),
+    network,
+    getProvider(stakeConfig.chainId),
     undefined,
     config
   ).getStaking(selectedStake === Stake.aave ? Stake.aave : Stake.bpt);
@@ -141,7 +143,7 @@ export function StakeDataProvider({
     data: rpcData,
     usdPriceEth: usdPriceEthRpc,
     refresh,
-  } = useStakeDataWithRpc(stakeConfig.stakeDataProvider, stakeConfig.network, userId, !isRPCActive);
+  } = useStakeDataWithRpc(stakeConfig.stakeDataProvider, stakeConfig.chainId, userId, !isRPCActive);
 
   if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
     return <Preloader withText={true} />;

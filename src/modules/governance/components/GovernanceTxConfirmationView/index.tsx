@@ -5,6 +5,7 @@ import TxConfirmationView, {
 } from '../../../../components/TxConfirmationView';
 import { Network } from '@aave/protocol-js';
 import { useGovernanceDataContext } from '../../../../libs/governance-provider';
+import { ChainIdToNetwork } from '@aave/contract-helpers';
 
 type GovernanceTxConfirmationViewProps = Omit<
   TxConfirmationViewProps,
@@ -20,7 +21,7 @@ function GovernanceTxConfirmationView({
   return (
     <TxConfirmationView
       {...props}
-      txNetwork={governanceConfig.network}
+      txNetwork={ChainIdToNetwork[governanceConfig.chainId] as Network}
       allowedNetworks={[Network.mainnet, Network.fork, Network.kovan]}
     />
   );

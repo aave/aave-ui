@@ -20,6 +20,7 @@ import {
   WS_ATTEMPTS_LIMIT,
 } from '../connection-status-provider';
 import { useMainnetCachedServerWsGraphCheck } from '../pool-data-provider/hooks/use-graph-check';
+import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
 
 export interface ProtocolContextDataType {
   governanceConfig: GovernanceConfig;
@@ -35,19 +36,20 @@ export function GovernanceDataProvider({
   children,
   governanceConfig,
 }: PropsWithChildren<{ governanceConfig: GovernanceConfig }>) {
-  const governanceNetworkConfig = getNetworkConfig(governanceConfig.network);
+  const governanceNetworkConfig = getNetworkConfig(governanceConfig.chainId);
   const RPC_ONLY_MODE = governanceNetworkConfig.rpcOnly;
   const { preferredConnectionMode } = useConnectionStatusContext();
   const wsMainnetError = useMainnetCachedServerWsGraphCheck();
   const isRPCMandatory =
     RPC_ONLY_MODE ||
     (wsMainnetError.wsErrorCount >= WS_ATTEMPTS_LIMIT &&
-      governanceConfig.network === Network.mainnet);
+      governanceConfig.chainId === ChainId.mainnet);
   const isRPCActive = preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory;
+  const network = ChainIdToNetwork[governanceConfig.chainId] as Network;
 
   const config: TxBuilderConfig = {
     governance: {
-      [governanceConfig.network]: {
+      [network]: {
         AAVE_GOVERNANCE_V2: governanceConfig.addresses.AAVE_GOVERNANCE_V2,
         AAVE_GOVERNANCE_V2_EXECUTOR_SHORT:
           governanceConfig.addresses.AAVE_GOVERNANCE_V2_EXECUTOR_SHORT,
@@ -59,8 +61,8 @@ export function GovernanceDataProvider({
   };
 
   const txBuilder = new TxBuilderV2(
-    governanceConfig.network,
-    getProvider(governanceConfig.network),
+    network,
+    getProvider(governanceConfig.chainId),
     undefined,
     config
   );
@@ -73,7 +75,7 @@ export function GovernanceDataProvider({
     error,
   } = useGetProposals({
     skip: isRPCActive,
-    network: governanceConfig.network,
+    chainId: governanceConfig.chainId,
     averageNetworkBlockTime: governanceConfig.averageNetworkBlockTime,
   });
 
@@ -81,7 +83,7 @@ export function GovernanceDataProvider({
 
   const { proposals: propRPC, loading: loadingRPC } = useGetProposalsRPC({
     skip: skipRPC,
-    network: governanceConfig.network,
+    chainId: governanceConfig.chainId,
     governanceService,
     averageNetworkBlockTime: governanceConfig.averageNetworkBlockTime,
   });

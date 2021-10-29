@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { normalize, Network } from '@aave/protocol-js';
+import { normalize } from '@aave/protocol-js';
 
 import { WalletBalanceProviderFactory } from '../contracts/WalletBalanceProviderContract';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { getNetworkConfig, getProvider } from '../../../helpers/markets/markets-data';
-import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
+import { ChainId } from '@aave/contract-helpers';
 
 interface AddressBalance {
   [key: string]: string;
@@ -29,9 +29,8 @@ const retrieveBalances = async (
   if (!addresses.length || !reserveAssets.length) {
     throw new Error('[retrieveBalance] Missing params');
   }
-  const network = ChainIdToNetwork[chainId] as Network;
-  const networkConfig = getNetworkConfig(network);
-  const provider = getProvider(network);
+  const networkConfig = getNetworkConfig(chainId);
+  const provider = getProvider(chainId);
   const walletBalanceContract = WalletBalanceProviderFactory.connect(
     networkConfig.walletBalanceProvider,
     provider

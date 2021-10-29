@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { tEthereumAddress, normalize, Network } from '@aave/protocol-js';
+import { tEthereumAddress, normalize } from '@aave/protocol-js';
 import { formatEther } from 'ethers/lib/utils';
 import { ethers } from 'ethers';
 import { providers } from 'ethers';
@@ -15,6 +15,7 @@ import { getCorrectState, getProposalExpiry } from '../helper';
 import { useStateLoading, LOADING_STATE } from '../../hooks/use-state-loading';
 
 import { getProvider } from '../../../helpers/markets/markets-data';
+import { ChainId } from '@aave/contract-helpers';
 
 const NULL_ADDRESS: tEthereumAddress = ethers.constants.AddressZero;
 
@@ -135,11 +136,11 @@ const parserProposals = async (
 
 const useGetProposals = ({
   skip = false,
-  network,
+  chainId,
   averageNetworkBlockTime,
 }: {
   skip: boolean;
-  network: Network;
+  chainId: ChainId;
   averageNetworkBlockTime: number;
 }) => {
   const { loading, setLoading } = useStateLoading();
@@ -163,14 +164,14 @@ const useGetProposals = ({
     if (data && data.proposals) {
       setLoading(LOADING_STATE.LOADING);
 
-      parserProposals(data, getProvider(network), averageNetworkBlockTime).then(
+      parserProposals(data, getProvider(chainId), averageNetworkBlockTime).then(
         (resp: ProposalItem[]) => {
           setProposals(resp);
           setLoading(LOADING_STATE.FINISHED);
         }
       );
     } else setLoading(loadingProposals ? LOADING_STATE.LOADING : LOADING_STATE.FINISHED);
-  }, [data?.proposals, updatedVotes, network]);
+  }, [data?.proposals, updatedVotes, chainId]);
 
   return { proposals, loading, error };
 };
