@@ -38,6 +38,7 @@ export interface IncentivesContext {
   reserveIncentives: ReserveIncentiveDict;
   userIncentives: UserIncentiveDict;
   incentivesTxBuilder: IncentivesControllerInterface;
+  refresh: () => void;
 }
 
 const IncentivesDataContext = React.createContext({} as IncentivesContext);
@@ -69,6 +70,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     data: rpcData,
     loading: rpcDataLoading,
     error: rpcDataError,
+    refresh,
   }: IncentiveDataResponse = useIncentivesData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     network,
@@ -180,6 +182,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
         incentivesTxBuilder,
         reserveIncentives,
         userIncentives,
+        refresh: isRPCActive ? refresh : async () => {},
       }}
     >
       {children}
