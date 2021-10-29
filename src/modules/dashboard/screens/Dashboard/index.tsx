@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
-import { valueToBigNumber, InterestRate, Network } from '@aave/protocol-js';
+import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import classNames from 'classnames';
 
@@ -38,7 +38,7 @@ import { getAssetColor } from '../../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';
-import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
+import { ChainId } from '@aave/contract-helpers';
 
 export default function Dashboard() {
   const intl = useIntl();
@@ -67,8 +67,6 @@ export default function Dashboard() {
 
   const depositedPositions: DepositTableItem[] = [];
   const borrowedPositions: BorrowTableItem[] = [];
-
-  const network = ChainIdToNetwork[chainId] as Network;
 
   user?.reservesData.forEach((userReserve) => {
     const poolReserve = reserves.find((res) => res.symbol === userReserve.reserve.symbol);
@@ -178,7 +176,7 @@ export default function Dashboard() {
             chainId !== ChainId.mainnet && !depositedPositions.length,
         })}
       >
-        <DashboardLeftTopLine intl={intl} network={network} onMobile={true} />
+        <DashboardLeftTopLine intl={intl} chainId={chainId} onMobile={true} />
       </div>
 
       {user && !!depositedPositions.length && (
@@ -199,7 +197,7 @@ export default function Dashboard() {
 
       <div className="Dashboard__top--line">
         <div className="ButtonLink">
-          <DashboardLeftTopLine intl={intl} network={network} />
+          <DashboardLeftTopLine intl={intl} chainId={chainId} />
         </div>
         <TopIncentiveBalance />
       </div>

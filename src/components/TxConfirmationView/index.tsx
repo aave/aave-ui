@@ -28,13 +28,13 @@ import NetworkMismatch from './NetworkMismatch';
 
 import messages from './messages';
 import staticStyles from './style';
-import { ChainIdToNetwork } from '@aave/contract-helpers';
+import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
 
 export interface TxConfirmationViewProps {
   caption?: string;
   description?: string | ReactNodeArray | ReactNode;
 
-  txNetwork: Network;
+  txChainId: ChainId;
   mainTxName: string;
   mainTxType?: string;
   boxTitle: string;
@@ -58,7 +58,7 @@ export interface TxConfirmationViewProps {
 
   updateTransactionsData?: boolean;
 
-  allowedNetworks?: Network[];
+  allowedChainIds?: ChainId[];
   aTokenData?: ATokenInfo;
 }
 
@@ -66,7 +66,7 @@ export default function TxConfirmationView({
   caption,
   description,
 
-  txNetwork,
+  txChainId,
   mainTxType,
   mainTxName,
   boxTitle,
@@ -89,7 +89,7 @@ export default function TxConfirmationView({
   className,
 
   updateTransactionsData,
-  allowedNetworks: _allowedNetworks,
+  allowedChainIds: _allowedChainIds,
   aTokenData,
 }: TxConfirmationViewProps) {
   const intl = useIntl();
@@ -112,29 +112,25 @@ export default function TxConfirmationView({
    * 1. walletNetwork is not allowed for this action
    * 2. all networks or walletNetwork is allowed, but there the browsed market does not walletNetwork the walletNetwork
    */
-  const currentWalletNetwork = mapChainIdToName(chainId as number) as Network;
-  const allowedNetworks = _allowedNetworks?.filter((network) =>
-    getSupportedNetworks().includes(network)
+  const currentWalletChainId = chainId as number;
+  const allowedNetworks = _allowedChainIds?.filter((chainId) =>
+    getSupportedNetworks().includes(ChainIdToNetwork[chainId] as Network)
   );
   // current marketNetwork is supported if the action is either not restricted to a network or the network is in the allow list
   const currentMarketNetworkIsSupported =
-    !allowedNetworks ||
-    allowedNetworks?.find((network) => network === ChainIdToNetwork[currentMarketChainId]);
+    !allowedNetworks || allowedNetworks?.find((network) => network === currentMarketChainId);
 
   let networkMismatch = false;
   let neededNetworkName = getDefaultNetworkName();
 
-  if (
-    currentMarketNetworkIsSupported &&
-    ChainIdToNetwork[currentMarketChainId] !== currentWalletNetwork
-  ) {
+  if (currentMarketNetworkIsSupported && currentMarketChainId !== currentWalletChainId) {
     networkMismatch = true;
     neededNetworkName = ChainIdToNetwork[currentMarketChainId] as Network;
   }
 
-  if (!currentMarketNetworkIsSupported && txNetwork !== currentWalletNetwork) {
+  if (!currentMarketNetworkIsSupported && txChainId !== currentWalletChainId) {
     networkMismatch = true;
-    neededNetworkName = txNetwork;
+    neededNetworkName = ChainIdToNetwork[txChainId] as Network;
   }
 
   const [customGasPrice, setCustomGasPrice] = useState<string | null>(null);
@@ -341,8 +337,8 @@ export default function TxConfirmationView({
         )}
 
         {!mainTxConfirmed &&
-          [Network.mainnet, Network.fork].includes(currentWalletNetwork) &&
-          ChainIdToNetwork[currentMarketChainId] === currentWalletNetwork && (
+          [ChainId.mainnet, ChainId.fork].includes(currentWalletChainId) &&
+          currentMarketChainId === currentWalletChainId && (
             <TxEstimationEditor
               customGasPrice={customGasPrice}
               txs={[uncheckedApproveTxData, uncheckedActionTxData]}

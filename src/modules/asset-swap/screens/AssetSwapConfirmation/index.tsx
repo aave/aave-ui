@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber, Network } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/protocol-js';
 import queryString from 'query-string';
 
 import {
@@ -22,6 +22,7 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
+import { ChainId } from '@aave/contract-helpers';
 
 interface QueryParams {
   fromAsset?: string;
@@ -197,7 +198,7 @@ export default function AssetSwapConfirmation() {
       approveDescription={intl.formatMessage(messages.approveDescription)}
       mainTxName={intl.formatMessage(defaultMessages.swap)}
       blockingError={error || blockingError}
-      allowedNetworks={[Network.mainnet, Network.fork, Network.polygon, Network.polygon_fork]}
+      allowedChainIds={[ChainId.mainnet, ChainId.fork, ChainId.polygon, ChainId.polygon_fork]}
       aTokenData={aTokenData}
       warningMessage={intl.formatMessage(messages.warningMessage)}
     >

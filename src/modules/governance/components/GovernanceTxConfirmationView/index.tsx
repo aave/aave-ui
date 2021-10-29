@@ -3,13 +3,12 @@ import React from 'react';
 import TxConfirmationView, {
   TxConfirmationViewProps,
 } from '../../../../components/TxConfirmationView';
-import { Network } from '@aave/protocol-js';
 import { useGovernanceDataContext } from '../../../../libs/governance-provider';
-import { ChainIdToNetwork } from '@aave/contract-helpers';
+import { ChainId } from '@aave/contract-helpers';
 
 type GovernanceTxConfirmationViewProps = Omit<
   TxConfirmationViewProps,
-  'txNetwork' | 'allowedNetworks'
+  'txChainId' | 'allowedChainIds'
 >;
 
 function GovernanceTxConfirmationView({
@@ -21,8 +20,8 @@ function GovernanceTxConfirmationView({
   return (
     <TxConfirmationView
       {...props}
-      txNetwork={ChainIdToNetwork[governanceConfig.chainId] as Network}
-      allowedNetworks={[Network.mainnet, Network.fork, Network.kovan]}
+      txChainId={governanceConfig.chainId}
+      allowedChainIds={[ChainId.mainnet, ChainId.fork, ChainId.kovan]}
     />
   );
 }
