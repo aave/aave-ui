@@ -78,18 +78,18 @@ let configMMWithDefaultNetwork = (mmNetwork, privateKey) => {
 let configAave = (market, forkNetworkID = null, forkRPCUrl = null) => {
   const page = new Page();
   MainPage.doSwitchToAave();
-  page.doSetupLocalStorage('forkEnabled', 'true'); // this row should be in "if", but now we have internal loader if don't use it as defoult
+  page.doSetupLocalStorage('ethereumForkEnabled', 'true'); // this row should be in "if", but now we have internal loader if don't use it as defoult
   page.doSetupLocalStorage('polygonForkEnabled', 'true');
   page.doSetupLocalStorage('avalancheForkEnabled', 'true');
   if (forkNetworkID != null && forkRPCUrl != null) {
     switch (market) {
       case constants.markets.aaveV2Fork:
-        page.doSetupLocalStorage('forkNetworkId', forkNetworkID);
-        page.doSetupLocalStorage('forkRPCUrl', forkRPCUrl);
+        page.doSetupLocalStorage('ethereumForkNetworkId', forkNetworkID);
+        page.doSetupLocalStorage('ethereumForkRPCUrl', forkRPCUrl);
         break;
       case constants.markets.ammFork:
-        page.doSetupLocalStorage('forkNetworkId', forkNetworkID);
-        page.doSetupLocalStorage('forkRPCUrl', forkRPCUrl);
+        page.doSetupLocalStorage('ethereumForkNetworkId', forkNetworkID);
+        page.doSetupLocalStorage('ethereumForkRPCUrl', forkRPCUrl);
         break;
       case constants.markets.polygonFork:
         page.doSetupLocalStorage('polygonForkNetworkId', forkNetworkID);
