@@ -17,7 +17,7 @@ import { MewConnectConnector } from '@myetherwallet/mewconnect-connector';
 import {
   AUTHEREUM_API_KEY,
   getFortmaticKeyByNetwork,
-  getSupportedNetworksIds,
+  getSupportedNetworkIds,
   PORTIS_DAPP_ID,
 } from '../../../config';
 import { mapNameToChainID } from '../web3-helpers';
@@ -66,7 +66,7 @@ export function getWeb3Connector(
 
   switch (connectorName) {
     case 'browser':
-      return new InjectedConnector({ supportedChainIds: getSupportedNetworksIds() });
+      return new InjectedConnector({ supportedChainIds: getSupportedNetworkIds() });
     case 'ledger':
       return new LedgerConnector({
         chainId: networkId,

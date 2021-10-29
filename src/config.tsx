@@ -37,7 +37,7 @@ export function getSupportedNetworks(): Network[] {
   return supportedNetworks;
 }
 
-export function getSupportedNetworksIds(): number[] {
+export function getSupportedNetworkIds(): number[] {
   return getSupportedNetworks().map((name) => mapNameToChainID(name));
 }
 

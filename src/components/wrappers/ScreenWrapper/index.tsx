@@ -1,6 +1,4 @@
 import { useThemeContext } from '@aave/aave-ui-kit';
-import { ChainIdToNetwork } from '@aave/contract-helpers';
-import { Network } from '@aave/protocol-js';
 import classNames from 'classnames';
 import React, { ReactNode, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -40,8 +38,7 @@ export default function ScreenWrapper({
   const { currentLangSlug } = useLanguageContext();
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
   const {
-    networkConfig: { bridge },
-    chainId,
+    networkConfig: { bridge, name },
   } = useProtocolDataContext();
   const location = useLocation();
   const { setTitle } = useHeaderTitle();
@@ -79,7 +76,7 @@ export default function ScreenWrapper({
       {DISPLAY_BRIDGE_BANNER_PAGES.includes(location.pathname) && bridge && (
         <>
           <div className="ScreenWrapper__bannerWrapper">
-            <BridgeBanner networkName={ChainIdToNetwork[chainId] as Network} {...bridge} />
+            <BridgeBanner networkName={name} {...bridge} />
           </div>
           <div className="ScreenWrapper__bannerSpacer" />
         </>

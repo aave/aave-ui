@@ -6,7 +6,7 @@ import { useWeb3React } from '@web3-react/core';
 import { providers } from 'ethers';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { getDefaultNetworkName, getSupportedNetworks } from '../../config';
+import { getDefaultNetworkName, getSupportedNetworkIds } from '../../config';
 import { mapChainIdToName, useUserWalletDataContext } from '../../libs/web3-data-provider';
 import { useProtocolDataContext } from '../../libs/protocol-data-provider';
 import {
@@ -114,7 +114,7 @@ export default function TxConfirmationView({
    */
   const currentWalletChainId = chainId as number;
   const allowedNetworks = _allowedChainIds?.filter((chainId) =>
-    getSupportedNetworks().includes(ChainIdToNetwork[chainId] as Network)
+    getSupportedNetworkIds().includes(chainId)
   );
   // current marketNetwork is supported if the action is either not restricted to a network or the network is in the allow list
   const currentMarketNetworkIsSupported =
