@@ -11,7 +11,10 @@ import DefaultButton from '../../../../components/basic/DefaultButton';
 
 import messages from './messages';
 import staticStyles from './style';
-import { availableMarkets, marketsData } from '../../../../helpers/config/markets-and-network-config';
+import {
+  availableMarkets,
+  marketsData,
+} from '../../../../helpers/config/markets-and-network-config';
 
 export default function DashboardNoData() {
   const intl = useIntl();

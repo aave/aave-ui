@@ -23,16 +23,24 @@ const FORK_ENABLED = localStorage.getItem('forkEnabled') === 'true';
 // specifies which network was forked
 const FORK_BASE_CHAIN_ID = Number(localStorage.getItem('forkBaseChainId') || 1);
 // specifies on which chainId the fork is running
-const FORK_CHAIN_ID = Number(localStorage.getItem('forkChainId') || 1337);
+const FORK_CHAIN_ID = Number(localStorage.getItem('forkChainId') || 3030);
+const FORK_RPC_URL = localStorage.getItem('forkRPCUrl') || 'http://127.0.0.1:8545';
+const FORK_WS_RPC_URL = localStorage.getItem('forkWsRPCUrl') || 'ws://127.0.0.1:8545';
 
 export const networkConfigs = Object.keys(_networkConfigs).reduce((acc, value) => {
-  // TODO: add fork network
   acc[value] = _networkConfigs[value];
-  // if (FORK_ENABLED) {
-  //   acc[`fork_${value}`] = {};
-  // }
+  if (FORK_ENABLED && ChainId[value as keyof typeof ChainId] === FORK_BASE_CHAIN_ID) {
+    acc[ChainIdToNetwork[FORK_CHAIN_ID]] = {
+      ..._networkConfigs[value],
+      rpcOnly: true,
+      privateJsonRPCUrl: FORK_RPC_URL,
+      privateJsonRPCWSUrl: FORK_WS_RPC_URL,
+    };
+  }
   return acc;
 }, {} as { [key: string]: BaseNetworkConfig });
+
+console.log(networkConfigs);
 
 export const marketsData = Object.keys(_marketsData).reduce((acc, value) => {
   acc[value] = _marketsData[value as keyof typeof CustomMarket];

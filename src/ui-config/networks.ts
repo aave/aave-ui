@@ -5,21 +5,6 @@ import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
 
 export const ENABLE_CACHING_BACKEND = process.env.REACT_APP_ENABLE_CACHING_BACKEND === 'true';
 
-// TESTING AND DEBUG
-// Mainnet Fork
-export const FORK_RPC_URL = localStorage.getItem('forkRPCUrl') || 'http://127.0.0.1:8545';
-export const FORK_WS_RPC_URL = localStorage.getItem('forkWsRPCUrl') || 'ws://127.0.0.1:8545';
-// Polygon Fork
-export const POLYGON_FORK_RPC_URL =
-  localStorage.getItem('polygonForkRPCUrl') || 'http://127.0.0.1:8545';
-export const POLYGON_FORK_WS_RPC_URL =
-  localStorage.getItem('polygonForkWsRPCUrl') || 'ws://127.0.0.1:8545';
-// Avalanche Fork
-export const AVALANCHE_FORK_RPC_URL =
-  localStorage.getItem('avalancheForkRPCUrl') || 'http://127.0.0.1:8545';
-export const AVALANCHE_FORK_WS_RPC_URL =
-  localStorage.getItem('avalancheForkWsRPCUrl') || 'ws://127.0.0.1:8545';
-
 const mainnet_config: BaseNetworkConfig = {
   name: 'mainnet',
   publicJsonRPCUrl: 'https://eth-mainnet.alchemyapi.io/v2/demo',
@@ -178,25 +163,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
       logo: avalancheBridgeLogo,
     },
   },
-  [Network.fork]: {
-    ...mainnet_config,
-    privateJsonRPCUrl: FORK_RPC_URL,
-    privateJsonRPCWSUrl: FORK_WS_RPC_URL,
-    rpcOnly: true,
-  },
-  [Network.polygon_fork]: {
-    ...polygon_config,
-    privateJsonRPCUrl: POLYGON_FORK_RPC_URL,
-    privateJsonRPCWSUrl: POLYGON_FORK_WS_RPC_URL,
-    rpcOnly: true,
-  },
   [Network.avalanche]: {
     ...avalanche_config,
-  },
-  [Network.avalanche_fork]: {
-    ...avalanche_config,
-    privateJsonRPCUrl: AVALANCHE_FORK_RPC_URL,
-    privateJsonRPCWSUrl: AVALANCHE_FORK_WS_RPC_URL,
-    rpcOnly: true,
   },
 } as const;
