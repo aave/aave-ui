@@ -1,16 +1,24 @@
 import { API_ETH_MOCK_ADDRESS, Network } from '@aave/protocol-js';
-import {
-  ENABLE_CACHING_BACKEND,
-  FORK_RPC_URL,
-  FORK_WS_RPC_URL,
-  POLYGON_FORK_RPC_URL,
-  POLYGON_FORK_WS_RPC_URL,
-  AVALANCHE_FORK_RPC_URL,
-  AVALANCHE_FORK_WS_RPC_URL,
-} from '../config';
 import { BaseNetworkConfig } from '../helpers/markets/markets-data';
 import polygonBridgeLogo from './branding/images/polygonLogo.svg';
 import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
+
+export const ENABLE_CACHING_BACKEND = process.env.REACT_APP_ENABLE_CACHING_BACKEND === 'true';
+
+// TESTING AND DEBUG
+// Mainnet Fork
+export const FORK_RPC_URL = localStorage.getItem('forkRPCUrl') || 'http://127.0.0.1:8545';
+export const FORK_WS_RPC_URL = localStorage.getItem('forkWsRPCUrl') || 'ws://127.0.0.1:8545';
+// Polygon Fork
+export const POLYGON_FORK_RPC_URL =
+  localStorage.getItem('polygonForkRPCUrl') || 'http://127.0.0.1:8545';
+export const POLYGON_FORK_WS_RPC_URL =
+  localStorage.getItem('polygonForkWsRPCUrl') || 'ws://127.0.0.1:8545';
+// Avalanche Fork
+export const AVALANCHE_FORK_RPC_URL =
+  localStorage.getItem('avalancheForkRPCUrl') || 'http://127.0.0.1:8545';
+export const AVALANCHE_FORK_WS_RPC_URL =
+  localStorage.getItem('avalancheForkWsRPCUrl') || 'ws://127.0.0.1:8545';
 
 const mainnet_config: BaseNetworkConfig = {
   name: 'mainnet',

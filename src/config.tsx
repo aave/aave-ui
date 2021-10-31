@@ -1,29 +1,31 @@
 import { ChainIdToNetwork } from '@aave/contract-helpers';
 import { Network } from '@aave/protocol-js';
 
-import { mapNameToChainID } from './libs/web3-data-provider';
-import { CustomMarket, marketsData } from './ui-config';
+import { networkConfigs } from './ui-config/networks';
+import { CustomMarket, marketsData as _marketsData } from './ui-config';
 
 export type Pool = {
   address: string;
 };
 
-export function getParamOrFail(name: string, network?: string): string {
-  const param = process.env[`${name.toUpperCase()}${network ? `_${network.toUpperCase()}` : ''}`];
+const ENABLE_TESTNET = process.env.REACT_APP_ENABLE_TESTNET === 'true';
+
+const marketsData = _marketsData;
+
+export function getParamOrFail(name: string): string {
+  const param = process.env[name.toUpperCase()];
   if (!param) {
-    throw new Error(`${name} is not specified for a ${network}, please contact support`);
+    throw new Error(`${name} is not specified please check your config`);
   }
   return param;
 }
 
 export function getDefaultNetworkName() {
-  return process.env.REACT_APP_DEFAULT_ETHEREUM_NETWORK as Network;
+  return ChainIdToNetwork[marketsData[availableMarkets[0]].chainId] as Network;
 }
 
 export function getSupportedNetworks(): Network[] {
-  const supportedNetworks = getParamOrFail('REACT_APP_SUPPORTED_ETHEREUM_NETWORKS').split(
-    ','
-  ) as Network[];
+  const supportedNetworks = getSupportedNetworkIds().map((id) => ChainIdToNetwork[id]) as Network[];
 
   if (localStorage.getItem('fork_enabled') === 'true') {
     supportedNetworks.push(Network.fork);
@@ -38,20 +40,27 @@ export function getSupportedNetworks(): Network[] {
 }
 
 export function getSupportedNetworkIds(): number[] {
-  return getSupportedNetworks().map((name) => mapNameToChainID(name));
+  return Array.from(
+    Object.keys(marketsData).reduce((acc, value) => {
+      if (
+        ENABLE_TESTNET ||
+        !networkConfigs[ChainIdToNetwork[marketsData[value as keyof typeof CustomMarket].chainId]]
+          .isTestnet
+      )
+        acc.add(marketsData[value as keyof typeof CustomMarket].chainId);
+      return acc;
+    }, new Set<number>())
+  );
 }
 
 /**
  * selectable markets (markets in a available network + forks when enabled)
  */
 export const availableMarkets = Object.keys(marketsData).filter((key) =>
-  getSupportedNetworks().includes(
-    ChainIdToNetwork[marketsData[key as keyof typeof CustomMarket].chainId] as Network
-  )
+  getSupportedNetworkIds().includes(marketsData[key as keyof typeof CustomMarket].chainId)
 ) as CustomMarket[];
 
 export const IPFS_MODE = process.env.REACT_APP_IPFS_MODE === 'true';
-export const ENABLE_CACHING_BACKEND = process.env.REACT_APP_ENABLE_CACHING_BACKEND === 'true';
 export const RATES_HISTORY_ENDPOINT = process.env.REACT_APP_RATES_HISTORY_ENDPOINT;
 
 // fiat on rump services setup
@@ -70,18 +79,3 @@ export function getFortmaticKeyByNetwork(network: Network): string {
     return process.env.REACT_APP_FORTMATIC_KEY_TESTNET || '';
   }
 }
-
-// TESTING AND DEBUG
-// Mainnet Fork
-export const FORK_RPC_URL = localStorage.getItem('forkRPCUrl') || 'http://127.0.0.1:8545';
-export const FORK_WS_RPC_URL = localStorage.getItem('forkWsRPCUrl') || 'ws://127.0.0.1:8545';
-// Polygon Fork
-export const POLYGON_FORK_RPC_URL =
-  localStorage.getItem('polygonForkRPCUrl') || 'http://127.0.0.1:8545';
-export const POLYGON_FORK_WS_RPC_URL =
-  localStorage.getItem('polygonForkWsRPCUrl') || 'ws://127.0.0.1:8545';
-// Avalanche Fork
-export const AVALANCHE_FORK_RPC_URL =
-  localStorage.getItem('avalancheForkRPCUrl') || 'http://127.0.0.1:8545';
-export const AVALANCHE_FORK_WS_RPC_URL =
-  localStorage.getItem('avalancheForkWsRPCUrl') || 'ws://127.0.0.1:8545';
