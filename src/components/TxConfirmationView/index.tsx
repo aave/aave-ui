@@ -6,7 +6,7 @@ import { useWeb3React } from '@web3-react/core';
 import { providers } from 'ethers';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { getDefaultNetworkName, getSupportedNetworkIds } from '../../config';
+import { getDefaultNetworkName, getSupportedNetworkIds } from '../../helpers/config/markets-and-network-config';
 import { mapChainIdToName, useUserWalletDataContext } from '../../libs/web3-data-provider';
 import { useProtocolDataContext } from '../../libs/protocol-data-provider';
 import {

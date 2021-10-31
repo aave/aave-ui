@@ -5,14 +5,14 @@ import { valueToBigNumber } from '@aave/protocol-js';
 import { useReserveRatesHistory } from '../../../../libs/pool-data-provider/hooks/use-reserve-rates-history';
 import { useLanguageContext } from '../../../../libs/language-provider';
 import CurrencyScreenWrapper from '../../../../components/wrappers/CurrencyScreenWrapper';
-import { RATES_HISTORY_ENDPOINT } from '../../../../config';
+import { RATES_HISTORY_ENDPOINT } from '../../../../helpers/config/misc-config';
 
 import messages from './messages';
 
 import { ValidationWrapperComponentProps } from '../../../../components/RouteParamsValidationWrapper';
 import { GraphPoint, InterestRateSeries } from '../../../../components/graphs/types';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-import { getAssetInfo } from '../../../../helpers/markets/assets';
+import { getAssetInfo } from '../../../../helpers/config/assets-config';
 
 interface DepositCurrencyWrapperProps
   extends Pick<

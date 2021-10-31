@@ -14,7 +14,7 @@ import { ProposalItem } from '../types';
 import { getCorrectState, getProposalExpiry } from '../helper';
 import { useStateLoading, LOADING_STATE } from '../../hooks/use-state-loading';
 
-import { getProvider } from '../../../helpers/markets/markets-data';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { ChainId } from '@aave/contract-helpers';
 
 const NULL_ADDRESS: tEthereumAddress = ethers.constants.AddressZero;

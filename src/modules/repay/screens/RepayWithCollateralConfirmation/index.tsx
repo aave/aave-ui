@@ -19,7 +19,7 @@ import { calculateHFAfterRepay } from '../../helpers';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';

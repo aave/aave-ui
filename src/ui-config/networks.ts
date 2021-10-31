@@ -1,5 +1,5 @@
 import { API_ETH_MOCK_ADDRESS, Network } from '@aave/protocol-js';
-import { BaseNetworkConfig } from '../helpers/markets/markets-data';
+import { BaseNetworkConfig } from '../helpers/config/types';
 import polygonBridgeLogo from './branding/images/polygonLogo.svg';
 import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
 

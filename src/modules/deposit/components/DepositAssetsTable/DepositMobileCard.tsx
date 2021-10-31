@@ -7,7 +7,7 @@ import Row from '../../../../components/basic/Row';
 import NoData from '../../../../components/basic/NoData';
 import Value from '../../../../components/basic/Value';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 

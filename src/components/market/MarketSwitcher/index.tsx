@@ -3,14 +3,17 @@ import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { rgba, useThemeContext, DropdownWrapper } from '@aave/aave-ui-kit';
 
-import { CustomMarket, marketsData } from '../../../ui-config';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import GradientText from '../../basic/GradientText';
 
 import messages from './messages';
 import staticStyles from './style';
-import { availableMarkets } from '../../../config';
-import { getNetworkConfig } from '../../../helpers/markets/markets-data';
+import {
+  availableMarkets,
+  marketsData,
+  getNetworkConfig,
+  CustomMarket,
+} from '../../../helpers/config/markets-and-network-config';
 
 interface MarketSwitcherProps {
   toTop?: boolean;

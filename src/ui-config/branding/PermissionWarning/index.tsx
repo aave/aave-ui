@@ -12,7 +12,7 @@ import staticStyles from './style';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
-import { isFeatureEnabled } from '../../../helpers/markets/markets-data';
+import { isFeatureEnabled } from '../../../helpers/config/markets-and-network-config';
 
 interface PermissionWarningProps {
   requiredPermission: PERMISSION;

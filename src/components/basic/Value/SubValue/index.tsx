@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import staticStyles from './style';
-import { getAssetInfo } from '../../../../helpers/markets/assets';
+import { getAssetInfo } from '../../../../helpers/config/assets-config';
 
 interface SubValueProps {
   symbol?: string;

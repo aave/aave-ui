@@ -34,7 +34,7 @@ import DashboardNoData from '../../components/DashboardNoData';
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
 import { DashboardLeftTopLine } from '../../../../ui-config';
-import { getAssetColor } from '../../../../helpers/markets/assets';
+import { getAssetColor } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';

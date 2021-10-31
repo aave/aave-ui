@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { ReserveData, UserReserveData } from '@aave/protocol-js';
 
 import { IUiPoolDataProviderFactory } from '../contracts/IUiPoolDataProviderFactory';
-import { getProvider } from '../../../helpers/markets/markets-data';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { ChainId } from '@aave/contract-helpers';
 
 // interval in which the rpc data is refreshed

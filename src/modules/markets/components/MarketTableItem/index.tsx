@@ -7,7 +7,7 @@ import Value from '../../../../components/basic/Value';
 import FreezedWarning from '../../../../components/FreezedWarning';
 import NoData from '../../../../components/basic/NoData';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
-import { getAssetInfo, TokenIcon } from '../../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import staticStyles from './style';
 

@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import { WalletBalanceProviderFactory } from '../pool-data-provider/contracts/WalletBalanceProviderContract';
 import { useUserWalletDataContext } from '../web3-data-provider';
 import { useGovernanceDataContext } from '../governance-provider';
-import { getProvider } from '../../helpers/markets/markets-data';
+import { getProvider } from '../../helpers/config/markets-and-network-config';
 
 type WalletBalanceProviderContext = {
   aaveTokens: { aave: string; aAave: string; stkAave: string };

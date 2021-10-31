@@ -10,8 +10,7 @@ import staticStyles from './style';
 
 import whiteCloseIcon from '../../../images/whiteCloseIcon.svg';
 import closeIcon from '../../../images/closeIcon.svg';
-import { marketsData } from '../../../ui-config';
-import { availableMarkets } from '../../../config';
+import { availableMarkets, marketsData } from '../../../helpers/config/markets-and-network-config';
 
 interface MarketsModalProps {
   isVisible: boolean;

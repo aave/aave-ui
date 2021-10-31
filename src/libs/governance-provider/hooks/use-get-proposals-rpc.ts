@@ -10,7 +10,7 @@ import { usePooling } from '../../hooks/use-pooling';
 import { IpfsMeta } from '../types';
 
 import fm from 'front-matter';
-import { getProvider } from '../../../helpers/markets/markets-data';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { ChainId } from '@aave/contract-helpers';
 
 const MemorizeStartTimestamp: { [id: string]: number } = {};

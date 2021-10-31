@@ -5,7 +5,7 @@ import { Network } from '@aave/protocol-js';
 
 import messages from './messages';
 import staticStyles from './style';
-import { networkConfigs } from '../../../../ui-config';
+import { networkConfigs } from '../../../../helpers/config/markets-and-network-config';
 
 interface SelectPreferredNetworkProps {
   preferredNetwork: Network;

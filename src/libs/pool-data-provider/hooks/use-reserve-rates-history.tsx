@@ -5,7 +5,7 @@ import {
   useReserveRatesHistoryUpdateQueryQuery,
   ReserveRatesHistoryUpdateQueryQuery,
 } from '../graphql';
-import { RATES_HISTORY_ENDPOINT } from '../../../config';
+import { RATES_HISTORY_ENDPOINT } from '../../../helpers/config/misc-config';
 
 /**
  * The newest reserve history is not necessarily close to "now".

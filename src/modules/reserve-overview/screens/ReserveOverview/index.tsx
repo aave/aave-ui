@@ -6,7 +6,7 @@ import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
 import { getLPTokenPoolLink } from '../../../../helpers/lp-tokens';
-import { RATES_HISTORY_ENDPOINT } from '../../../../config';
+import { RATES_HISTORY_ENDPOINT } from '../../../../helpers/config/misc-config';
 // import { useReservesRateHistoryHelper } from '../../../../helpers/use-reserve-rates-history';
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useThemeContext } from '@aave/aave-ui-kit';
@@ -25,7 +25,7 @@ import messages from './messages';
 import staticStyles from './style';
 
 import linkIcon from '../../../../images/blueLinkIcon.svg';
-import { getAssetInfo } from '../../../../helpers/markets/assets';
+import { getAssetInfo } from '../../../../helpers/config/assets-config';
 
 function ReserveOverview({
   poolReserve,

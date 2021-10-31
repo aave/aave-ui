@@ -10,8 +10,8 @@ import messages from './messages';
 
 import { ValidationWrapperComponentProps } from '../../../../components/RouteParamsValidationWrapper';
 import { GraphPoint, InterestRateSeries } from '../../../../components/graphs/types';
-import { RATES_HISTORY_ENDPOINT } from '../../../../config';
-import { getAssetInfo } from '../../../../helpers/markets/assets';
+import { RATES_HISTORY_ENDPOINT } from '../../../../helpers/config/misc-config';
+import { getAssetInfo } from '../../../../helpers/config/assets-config';
 
 interface BorrowCurrencyWrapperProps
   extends Pick<

@@ -22,7 +22,7 @@ import messages from './messages';
 
 import { DepositTableItem } from '../../components/DepositAssetsTable/types';
 import { useWalletBalanceProviderContext } from '../../../../libs/wallet-balance-provider/WalletBalanceProvider';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 
 export default function DepositsMain() {

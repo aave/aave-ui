@@ -17,11 +17,13 @@ import { MewConnectConnector } from '@myetherwallet/mewconnect-connector';
 import {
   AUTHEREUM_API_KEY,
   getFortmaticKeyByNetwork,
-  getSupportedNetworkIds,
   PORTIS_DAPP_ID,
-} from '../../../config';
+} from '../../../helpers/config/wallet-config';
+import {
+  getSupportedNetworkIds,
+  getNetworkConfig,
+} from '../../../helpers/config/markets-and-network-config';
 import { mapNameToChainID } from '../web3-helpers';
-import { getNetworkConfig } from '../../../helpers/markets/markets-data';
 import { ChainId } from '@aave/contract-helpers';
 
 export type AvailableWeb3Connectors =

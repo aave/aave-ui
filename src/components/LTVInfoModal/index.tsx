@@ -10,7 +10,7 @@ import Value from '../basic/Value';
 import ValuePercent from '../basic/ValuePercent';
 import MaxLTVHelpModal from '../HelpModal/MaxLTVHelpModal';
 import Caption from '../basic/Caption';
-import { getAssetColor, isAssetStable, TokenIcon } from '../../helpers/markets/assets';
+import { getAssetColor, isAssetStable, TokenIcon } from '../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';

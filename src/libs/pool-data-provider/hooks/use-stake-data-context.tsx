@@ -30,7 +30,7 @@ import {
 } from '../../connection-status-provider';
 import { useApolloConfigContext } from '../../apollo-config';
 import { StakeConfig } from '../../../ui-config';
-import { getProvider } from '../../../helpers/markets/markets-data';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
 
 export function computeStakeData(data: StakeData): ComputedStakeData {

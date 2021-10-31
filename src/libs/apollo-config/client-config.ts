@@ -11,7 +11,8 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { DocumentNode, NameNode } from 'graphql';
 import gql from 'graphql-tag';
-import { getNetworkConfig, NetworkConfig } from '../../helpers/markets/markets-data';
+import { NetworkConfig } from '../../helpers/config/types';
+import { getNetworkConfig } from '../../helpers/config/markets-and-network-config';
 import introspectionQueryResultData from '../pool-data-provider/graphql/fragmentTypes.json';
 import {
   GET_MAINNET_CACHED_SERVER_WS_ERROR,

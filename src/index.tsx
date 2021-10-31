@@ -27,7 +27,11 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 import globalStyle from './globalStyle';
 import { WalletBalanceProvider } from './libs/wallet-balance-provider/WalletBalanceProvider';
-import { getDefaultNetworkName, getSupportedNetworks, IPFS_MODE } from './config';
+import { IPFS_MODE } from './helpers/config/misc-config';
+import {
+  getDefaultNetworkName,
+  getSupportedNetworks,
+} from './helpers/config/markets-and-network-config';
 import { UnlockWalletPreloader } from './components/UnlockWalletPreloader';
 import ConnectWalletModal from './components/ConnectWalletModal';
 import { PermissionProvider } from './libs/use-permissions/usePermissions';

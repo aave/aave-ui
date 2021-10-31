@@ -7,7 +7,7 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 import { useProtocolDataContext } from '../../libs/protocol-data-provider';
 
 import * as logos from './images';
-import { ENABLE_NASH, ONRAMP_API_KEY, TRANSAK_API_KEY } from '../../config';
+import { ENABLE_NASH, ONRAMP_API_KEY, TRANSAK_API_KEY } from '../config/onramp-config';
 import { ChainId } from '@aave/contract-helpers';
 
 enum PaymentName {

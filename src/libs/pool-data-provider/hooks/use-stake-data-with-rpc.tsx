@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BigNumber, ethers } from 'ethers';
 
-import { getProvider } from '../../../helpers/markets/markets-data';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { StakeUiHelperIFactory } from '../contracts/StakeUiHelperIContract';
 import { StakeData, StakeGeneralDataT, StakesData, StakeUserDataT } from '../types/stake';
 import { Stake } from '@aave/protocol-js';

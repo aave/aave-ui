@@ -3,12 +3,11 @@ import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-import { marketsData } from '../../../../ui-config';
 import MarketSelectButton from '../../../../components/market/MarketSelectButton';
 import MarketSwitcher from '../../../../components/market/MarketSwitcher';
 
 import staticStyles from './style';
-import { availableMarkets } from '../../../../config';
+import { availableMarkets, marketsData } from '../../../../helpers/config/markets-and-network-config';
 
 interface SelectMarketPanelProps {
   isCollapse?: boolean;

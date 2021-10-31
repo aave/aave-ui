@@ -10,7 +10,8 @@ import GovernanceDelegationToken from '@aave/protocol-js/dist/tx-builder/interfa
 import useGetProposals from './hooks/use-get-proposals';
 import useGetProposalsRPC from './hooks/use-get-proposals-rpc';
 import { GovernanceConfig } from '../../ui-config';
-import { getNetworkConfig, getProvider, NetworkConfig } from '../../helpers/markets/markets-data';
+import { NetworkConfig } from '../../helpers/config/types';
+import { getNetworkConfig, getProvider } from '../../helpers/config/markets-and-network-config';
 
 import { ProposalItem } from './types';
 import Preloader from '../../components/basic/Preloader';

@@ -16,7 +16,7 @@ import Value from '../../../../../components/basic/Value';
 import Link from '../../../../../components/basic/Link';
 import DefaultButton from '../../../../../components/basic/DefaultButton';
 import CustomSwitch from '../../../../../components/basic/CustomSwitch';
-import { TokenIcon } from '../../../../../helpers/markets/assets';
+import { TokenIcon } from '../../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../../defaultMessages';
 import messages from './messages';

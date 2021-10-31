@@ -16,8 +16,8 @@ import RepayAmount from './screens/RepayAmount';
 import RepayConfirmation from './screens/RepayConfirmation';
 import RepayAmountWithSelect from './screens/RepayAmountWithSelect';
 import RepayWithCollateralConfirmation from './screens/RepayWithCollateralConfirmation';
-import { isFeatureEnabled } from '../../helpers/markets/markets-data';
-import { getAssetInfo } from '../../helpers/markets/assets';
+import { isFeatureEnabled } from '../../helpers/config/markets-and-network-config';
+import { getAssetInfo } from '../../helpers/config/assets-config';
 
 import messages from './messages';
 

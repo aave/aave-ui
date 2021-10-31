@@ -7,7 +7,7 @@ import { useProtocolDataContext } from '../../libs/protocol-data-provider';
 import Value from '../basic/Value';
 import Link from '../basic/Link';
 import DefaultButton from '../basic/DefaultButton';
-import { TokenIcon } from '../../helpers/markets/assets';
+import { TokenIcon } from '../../helpers/config/assets-config';
 
 import defaultMessages from '../../defaultMessages';
 import messages from './messages';

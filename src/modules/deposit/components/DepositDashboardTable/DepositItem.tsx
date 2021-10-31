@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-import { isFeatureEnabled } from '../../../../helpers/markets/markets-data';
+import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
 import CustomSwitch from '../../../../components/basic/CustomSwitch';
 import TableItem from '../../../dashboard/components/DashboardTable/TableItem';
 import TableValueCol from '../../../dashboard/components/DashboardTable/TableValueCol';

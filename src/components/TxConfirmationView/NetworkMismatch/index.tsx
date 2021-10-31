@@ -11,7 +11,7 @@ import {
   useUserWalletDataContext,
   mapNameToChainID,
 } from '../../../libs/web3-data-provider';
-import { getNetworkConfig } from '../../../helpers/markets/markets-data';
+import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
 
 import messages from './messages';
 import staticStyles from './style';

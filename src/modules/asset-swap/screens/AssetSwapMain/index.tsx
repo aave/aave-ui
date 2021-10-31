@@ -18,7 +18,7 @@ import { useSwap } from '../../../../libs/use-asset-swap/useSwap';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
-import { isFeatureEnabled } from '../../../../helpers/markets/markets-data';
+import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
 
 const applySlippage = (amount: string, slippagePercent: number | string) => {
   return valueToBigNumber(amount || '0').multipliedBy(1 - +slippagePercent / 100);

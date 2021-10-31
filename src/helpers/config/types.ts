@@ -1,27 +1,15 @@
-import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
-import { Network } from '@aave/protocol-js';
-import { ethers } from 'ethers';
+import { ChainId } from '@aave/contract-helpers';
 
-import { networkConfigs } from '../../ui-config';
-
-type ExplorerLinkBuilderProps = {
+export type ExplorerLinkBuilderProps = {
   tx?: string;
   address?: string;
 };
 
-type ExplorerLinkBuilderConfig = { baseUrl: string; addressPrefix?: string; txPrefix?: string };
-
-const linkBuilder =
-  ({ baseUrl, addressPrefix = 'address', txPrefix = 'tx' }: ExplorerLinkBuilderConfig) =>
-  ({ tx, address }: ExplorerLinkBuilderProps): string => {
-    if (tx) {
-      return `${baseUrl}/${txPrefix}/${tx}`;
-    }
-    if (address) {
-      return `${baseUrl}/${addressPrefix}/${address}`;
-    }
-    return baseUrl;
-  };
+export type ExplorerLinkBuilderConfig = {
+  baseUrl: string;
+  addressPrefix?: string;
+  txPrefix?: string;
+};
 
 export type NetworkConfig = {
   name: string;
@@ -65,6 +53,8 @@ export type NetworkConfig = {
   };
 };
 
+export type BaseNetworkConfig = Omit<NetworkConfig, 'explorerLinkBuilder'>;
+
 export type MarketDataType = {
   // the network the market operates on
   chainId: ChainId;
@@ -94,36 +84,4 @@ export type MarketDataType = {
     FAUCET?: string;
     PERMISSION_MANAGER?: string;
   };
-};
-
-export type BaseNetworkConfig = Omit<NetworkConfig, 'explorerLinkBuilder'>;
-
-export function getNetworkConfig(chainId: ChainId): NetworkConfig {
-  const network = ChainIdToNetwork[chainId] as Network;
-  const config = networkConfigs[network];
-  if (!config) throw new Error(`${network} network was not configured`);
-  return { ...config, explorerLinkBuilder: linkBuilder({ baseUrl: config.explorerLink }) };
-}
-
-export const isFeatureEnabled = {
-  faucet: (data: MarketDataType) => data.enabledFeatures?.faucet,
-  governance: (data: MarketDataType) => data.enabledFeatures?.governance,
-  staking: (data: MarketDataType) => data.enabledFeatures?.staking,
-  liquiditySwap: (data: MarketDataType) => data.enabledFeatures?.liquiditySwap,
-  collateralRepay: (data: MarketDataType) => data.enabledFeatures?.collateralRepay,
-  permissions: (data: MarketDataType) => data.enabledFeatures?.permissions,
-};
-
-const providers: { [network: string]: ethers.providers.Provider } = {};
-
-export const getProvider = (chainId: ChainId): ethers.providers.Provider => {
-  if (!providers[chainId]) {
-    const config = getNetworkConfig(chainId);
-    const jsonRPCUrl = config.privateJsonRPCUrl || config.publicJsonRPCUrl;
-    if (!jsonRPCUrl) {
-      throw new Error(`${chainId} has no jsonRPCUrl configured`);
-    }
-    providers[chainId] = new ethers.providers.StaticJsonRpcProvider(jsonRPCUrl);
-  }
-  return providers[chainId];
 };

@@ -5,7 +5,7 @@ import TableColumn from '../../../../components/BasicTable/TableColumn';
 import Value from '../../../../components/basic/Value';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
 import NoData from '../../../../components/basic/NoData';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import { BorrowTableItem } from './types';
 

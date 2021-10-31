@@ -1,13 +1,13 @@
 import { providers } from 'ethers';
 import React, { PropsWithChildren, useContext, useState } from 'react';
-import { CustomMarket, marketsData } from '../../ui-config';
+import { MarketDataType, NetworkConfig } from '../../helpers/config/types';
 import {
+  availableMarkets,
+  marketsData,
   getNetworkConfig,
   getProvider,
-  MarketDataType,
-  NetworkConfig,
-} from '../../helpers/markets/markets-data';
-import { availableMarkets } from '../../config';
+  CustomMarket,
+} from '../../helpers/config/markets-and-network-config';
 
 const LS_KEY = 'selectedMarket';
 
