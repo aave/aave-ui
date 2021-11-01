@@ -1,5 +1,6 @@
 /.env.local
 /.env.production
+tests/.env
 node_modules/
 package.temp.json
 .expo/*

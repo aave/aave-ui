@@ -40,7 +40,7 @@ export default function MarketSelectButton({
   const config = getNetworkConfig(chainId);
 
   const hoverColor = rgba(`${currentTheme.primary.rgb}, 0.7`);
-  const testnetMark = config.isTestnet ? 't' : undefined;
+  const testnetMark = config.isTestnet ? config.name.charAt(0).toUpperCase() : undefined;
   const gradientBorder = gradient(
     252,
     `${currentTheme.primary.rgb}, 1`,

@@ -41,6 +41,7 @@ export type NetworkConfig = {
   rpcOnly: boolean;
   // set this to show faucets and similar
   isTestnet?: boolean;
+  isFork?: boolean;
   addresses?: {
     INCENTIVES_CONTROLLER: string;
     INCENTIVES_CONTROLLER_REWARD_TOKEN: string;
