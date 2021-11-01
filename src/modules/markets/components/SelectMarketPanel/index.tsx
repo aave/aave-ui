@@ -7,7 +7,10 @@ import MarketSelectButton from '../../../../components/market/MarketSelectButton
 import MarketSwitcher from '../../../../components/market/MarketSwitcher';
 
 import staticStyles from './style';
-import { availableMarkets, marketsData } from '../../../../helpers/config/markets-and-network-config';
+import {
+  availableMarkets,
+  marketsData,
+} from '../../../../helpers/config/markets-and-network-config';
 
 interface SelectMarketPanelProps {
   isCollapse?: boolean;
