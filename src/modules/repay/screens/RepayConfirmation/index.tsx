@@ -74,13 +74,13 @@ function RepayConfirmation({
 
   const displayAmountToRepay = BigNumber.min(amountToRepayUI, maxAmountToRepay);
   const displayAmountToRepayInUsd = displayAmountToRepay
-    .multipliedBy(poolReserve.price.priceInEth)
+    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
     .dividedBy(marketRefPriceInUsd);
 
   const amountAfterRepay = maxAmountToRepay.minus(amountToRepayUI).toString();
   const displayAmountAfterRepay = BigNumber.min(amountAfterRepay, maxAmountToRepay);
   const displayAmountAfterRepayInUsd = displayAmountAfterRepay
-    .multipliedBy(poolReserve.price.priceInEth)
+    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
     .dividedBy(marketRefPriceInUsd);
 
   const healthFactorAfterRepay = calculateHealthFactorFromBalancesBigUnits(
@@ -102,14 +102,14 @@ function RepayConfirmation({
   const blockingError =
     walletBalance.eq('0') || walletBalance.lt(amount)
       ? intl.formatMessage(messages.error, {
-          userReserveSymbol: assetDetails.formattedSymbol || assetDetails.symbol,
-        })
+        userReserveSymbol: assetDetails.formattedSymbol || assetDetails.symbol,
+      })
       : '';
 
   const warningMessage =
     amount.eq('-1') &&
-    amountToRepayUI.gte(maxAmountToRepay) &&
-    !amountToRepayUI.gte(safeAmountToRepayAll)
+      amountToRepayUI.gte(maxAmountToRepay) &&
+      !amountToRepayUI.gte(safeAmountToRepayAll)
       ? intl.formatMessage(messages.warningMessage)
       : '';
 

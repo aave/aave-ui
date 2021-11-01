@@ -35,18 +35,18 @@ export default function LTVInfoModal({ visible, setVisible }: LTVInfoModalProps)
   }
 
   const {
-    reservesData,
+    userReservesData,
     currentLoanToValue,
     currentLiquidationThreshold,
-    totalBorrowsETH,
-    totalCollateralETH,
+    totalBorrowsMarketReferenceCurrency,
+    totalCollateralMarketReferenceCurrency,
   } = user;
 
-  const loanToValue = valueToBigNumber(totalBorrowsETH)
-    .dividedBy(totalCollateralETH || '1')
+  const loanToValue = valueToBigNumber(totalBorrowsMarketReferenceCurrency)
+    .dividedBy(totalCollateralMarketReferenceCurrency || '1')
     .toFixed();
 
-  const collateralComposition = reservesData
+  const collateralComposition = userReservesData
     .filter((userReserve) => {
       const poolReserve = reserves.find((res) => res.symbol === userReserve.reserve.symbol);
       return (
@@ -60,17 +60,18 @@ export default function LTVInfoModal({ visible, setVisible }: LTVInfoModalProps)
       title: userReserve.reserve.symbol,
       color: getAssetColor(userReserve.reserve.symbol),
       value: userReserve.underlyingBalance,
-      currentUnderlyingBalanceETH: userReserve.underlyingBalanceETH,
+      currentunderlyingBalanceMarketReferenceCurrency:
+        userReserve.underlyingBalanceMarketReferenceCurrency,
       unitPriceInUsd: userReserve.underlyingBalanceUSD,
     }));
 
-  const borrowedReserves = user?.reservesData
+  const borrowedReserves = user?.userReservesData
     .filter((reserve) => reserve.totalBorrows !== '0')
     .map((reserve) => ({
       ...reserve,
       title: reserve.reserve.symbol,
       unitPriceInUsd: reserve.totalBorrowsUSD,
-      unitPriceInEth: reserve.totalBorrowsETH,
+      unitPriceInEth: reserve.totalBorrowsMarketReferenceCurrency,
     }));
 
   const hasOneCollateralAndOneReserve =
@@ -92,15 +93,18 @@ export default function LTVInfoModal({ visible, setVisible }: LTVInfoModalProps)
     if (!borrowIsStable) {
       currency = borrowedReserves[0].title;
       unitPrice = borrowedReserves[0].unitPriceInEth.toString();
-      liquidationPrice = new BigNumber(collateralComposition[0].currentUnderlyingBalanceETH)
+      liquidationPrice = new BigNumber(
+        collateralComposition[0].currentunderlyingBalanceMarketReferenceCurrency
+      )
         .dividedBy(currentLiquidationThreshold)
         .dividedBy(borrowedReserves[0].totalBorrows)
         .toString();
       // Calculate the liquidation price of the collateral asset if not stablecoin
     } else if (!collateralIsStable) {
       currency = collateralComposition[0].title;
-      unitPrice = collateralComposition[0].currentUnderlyingBalanceETH.toString();
-      liquidationPrice = valueToBigNumber(borrowedReserves[0].totalBorrowsETH)
+      unitPrice =
+        collateralComposition[0].currentunderlyingBalanceMarketReferenceCurrency.toString();
+      liquidationPrice = valueToBigNumber(borrowedReserves[0].totalBorrowsMarketReferenceCurrency)
         .dividedBy(currentLiquidationThreshold)
         .dividedBy(collateralComposition[0].value)
         .toString();

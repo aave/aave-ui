@@ -2,13 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import {
-  ComputedUserReserve,
-  UserSummaryData,
-  ReserveData,
-  valueToBigNumber,
-  BigNumber,
-} from '@aave/protocol-js';
+import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { toggleUseAsCollateral } from '../../../../helpers/toggle-use-as-collateral';
@@ -27,10 +21,12 @@ import BorrowTableItem from '../BorrowTable/BorrowTableItem';
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import staticStyles from './style';
+import { ComputedReserveData, UserSummary } from '../../../../libs/pool-data-provider';
+import { ComputedUserReserve } from '@aave/math-utils';
 
 interface UserInformationProps {
-  user?: UserSummaryData;
-  poolReserve: ReserveData;
+  user?: UserSummary;
+  poolReserve: ComputedReserveData;
   userReserve?: ComputedUserReserve;
   symbol: string;
   walletBalance: BigNumber;
@@ -59,12 +55,14 @@ export default function UserInformation({
   const totalBorrows = valueToBigNumber(userReserve?.totalBorrows || '0').toNumber();
   const underlyingBalance = valueToBigNumber(userReserve?.underlyingBalance || '0').toNumber();
 
-  const availableBorrowsETH = valueToBigNumber(user?.availableBorrowsETH || 0);
-  const availableBorrows = availableBorrowsETH.gt(0)
+  const availableBorrowsMarketReferenceCurrency = valueToBigNumber(
+    user?.availableBorrowsMarketReferenceCurrency || 0
+  );
+  const availableBorrows = availableBorrowsMarketReferenceCurrency.gt(0)
     ? BigNumber.min(
-        availableBorrowsETH
-          .div(poolReserve.price.priceInEth)
-          .multipliedBy(user && user.totalBorrowsETH !== '0' ? '0.99' : '1'),
+        availableBorrowsMarketReferenceCurrency
+          .div(poolReserve.priceInMarketReferenceCurrency)
+          .multipliedBy(user && user.totalBorrowsMarketReferenceCurrency !== '0' ? '0.99' : '1'),
         poolReserve.availableLiquidity
       ).toNumber()
     : 0;

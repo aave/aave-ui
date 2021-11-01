@@ -53,23 +53,23 @@ export default function Dashboard() {
   const [isDepositMobileInfoVisible, setDepositMobileInfoVisible] = useState(false);
   const [isBorrowMobileInfoVisible, setBorrowMobileInfoVisible] = useState(false);
 
-  const maxBorrowAmount = valueToBigNumber(user?.totalBorrowsETH || '0').plus(
-    user?.availableBorrowsETH || '0'
+  const maxBorrowAmount = valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0').plus(
+    user?.availableBorrowsMarketReferenceCurrency || '0'
   );
   const collateralUsagePercent = maxBorrowAmount.eq(0)
     ? '1'
-    : valueToBigNumber(user?.totalBorrowsETH || '0')
+    : valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0')
         .div(maxBorrowAmount)
         .toFixed();
 
-  const loanToValue = valueToBigNumber(user?.totalBorrowsETH || '0')
-    .dividedBy(user?.totalCollateralETH || '1')
+  const loanToValue = valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0')
+    .dividedBy(user?.totalCollateralMarketReferenceCurrency || '1')
     .toFixed();
 
   const depositedPositions: DepositTableItem[] = [];
   const borrowedPositions: BorrowTableItem[] = [];
 
-  user?.reservesData.forEach((userReserve) => {
+  user?.userReservesData.forEach((userReserve) => {
     const poolReserve = reserves.find((res) => res.symbol === userReserve.reserve.symbol);
     if (!poolReserve) {
       throw new Error('data is inconsistent pool reserve is not available');
@@ -239,7 +239,7 @@ export default function Dashboard() {
                   symbol="USD"
                   tokenIcon={true}
                   withSmallDecimals={true}
-                  subValue={user.totalLiquidityETH}
+                  subValue={user.totalLiquidityMarketReferenceCurrency}
                   maximumSubValueDecimals={18}
                   subSymbol="ETH"
                   color="white"
@@ -273,7 +273,7 @@ export default function Dashboard() {
                     tokenIcon={true}
                     minimumValueDecimals={2}
                     maximumValueDecimals={2}
-                    subValue={user.totalBorrowsETH}
+                    subValue={user.totalBorrowsMarketReferenceCurrency}
                     subSymbol="ETH"
                     color="white"
                   />
@@ -304,7 +304,7 @@ export default function Dashboard() {
                 tokenIcon={true}
                 minimumValueDecimals={2}
                 maximumValueDecimals={2}
-                subValue={user.totalCollateralETH}
+                subValue={user.totalCollateralMarketReferenceCurrency}
                 subSymbol="ETH"
                 color="white"
               />

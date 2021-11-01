@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { ComputedReserveData, valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/protocol-js';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
@@ -22,6 +22,7 @@ import staticStyles from './style';
 
 import linkIcon from '../../../../images/blueLinkIcon.svg';
 import { getLPTokenPoolLink } from '../../../../helpers/lp-tokens';
+import { ComputedReserveData } from '../../../../libs/pool-data-provider';
 
 interface ReserveInformationProps {
   symbol: string;
@@ -37,15 +38,15 @@ export default function ReserveInformation({
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const totalLiquidityInUsd = valueToBigNumber(poolReserve.totalLiquidity)
-    .multipliedBy(poolReserve.price.priceInEth)
+    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
     .dividedBy(marketRefPriceInUsd)
     .toString();
   const totalBorrowsInUsd = valueToBigNumber(poolReserve.totalDebt)
-    .multipliedBy(poolReserve.price.priceInEth)
+    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
     .dividedBy(marketRefPriceInUsd)
     .toString();
   const availableLiquidityInUsd = valueToBigNumber(poolReserve.availableLiquidity)
-    .multipliedBy(poolReserve.price.priceInEth)
+    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
     .dividedBy(marketRefPriceInUsd)
     .toString();
 

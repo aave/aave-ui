@@ -85,10 +85,10 @@ export default function AssetSwapConfirmation() {
 
   const calcToAmount = valueToBigNumber(calcToAmountString);
 
-  const fromUserReserve = user?.reservesData.find(
+  const fromUserReserve = user?.userReservesData.find(
     (res) => res.reserve.underlyingAsset.toLowerCase() === fromAsset?.toLowerCase()
   );
-  const toUserReserve = user?.reservesData.find(
+  const toUserReserve = user?.userReservesData.find(
     (res) => res.reserve.underlyingAsset.toLowerCase() === toAsset?.toLowerCase()
   );
 

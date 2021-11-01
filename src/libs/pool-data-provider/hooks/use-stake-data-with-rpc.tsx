@@ -35,7 +35,7 @@ export function useStakeDataWithRpc(
 ) {
   const [loading, setLoading] = useState(true);
   const [stakeData, setStakeData] = useState<StakesData>();
-  const [usdPriceEth, setUsdPriceEth] = useState<string>('0');
+  const [usdPriceEth, setusdPriceEth] = useState<string>('0');
 
   const loadStakeData = async (
     userAddress: string = ethers.constants.AddressZero,
@@ -49,7 +49,7 @@ export function useStakeDataWithRpc(
         [Stake.aave]: formatRawStakeData(data['0']),
         [Stake.bpt]: formatRawStakeData(data['1']),
       });
-      setUsdPriceEth(data[2].toString());
+      setusdPriceEth(data[2].toString());
     } catch (e) {
       console.log('Stake data loading error', e);
     }

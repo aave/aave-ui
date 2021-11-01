@@ -84,13 +84,13 @@ function BorrowConfirmation({
     );
   }
 
-  let userAvailableAmountToBorrow = valueToBigNumber(user.availableBorrowsETH).div(
-    poolReserve.price.priceInEth
-  );
+  let userAvailableAmountToBorrow = valueToBigNumber(
+    user.availableBorrowsMarketReferenceCurrency
+  ).div(poolReserve.priceInMarketReferenceCurrency);
 
   if (
     userAvailableAmountToBorrow.gt(0) &&
-    user?.totalBorrowsETH !== '0' &&
+    user?.totalBorrowsMarketReferenceCurrency !== '0' &&
     userAvailableAmountToBorrow.lt(
       valueToBigNumber(poolReserve.availableLiquidity).multipliedBy('1.01')
     )
@@ -114,7 +114,7 @@ function BorrowConfirmation({
   }
 
   const amountToBorrowInUsd = amount
-    .multipliedBy(poolReserve.price.priceInEth)
+    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
     .dividedBy(marketRefPriceInUsd);
 
   const newHealthFactor = calculateHealthFactorFromBalancesBigUnits(

@@ -100,8 +100,6 @@ export function useCachedProtocolData(
   //   .exponentiatedBy(18 + 8)
   //   .div(poolData?.protocolData.usdPriceEth || '0')
   //   .toFixed(0, BigNumber.ROUND_DOWN);
-
-
   // if (userData?.userData.length && reserves.length) {
   //   userData?.userData.reduce((prev, userReserve) => {
   //     const reserve = reserves.find(

@@ -1,12 +1,11 @@
+import { ComputedUserReserve } from '@aave/math-utils';
 import {
   calculateHealthFactorFromBalancesBigUnits,
-  ComputedReserveData,
-  ComputedUserReserve,
-  UserSummaryData,
   valueToBigNumber,
   BigNumberValue,
   BigNumber,
 } from '@aave/protocol-js';
+import { ComputedReserveData, UserSummary } from '../../libs/pool-data-provider';
 
 export function calculateHFAfterRepay(
   fromAmount: BigNumberValue,
@@ -15,7 +14,7 @@ export function calculateHFAfterRepay(
   repayAmount: BigNumberValue,
   repayAssetData: ComputedReserveData | undefined,
   repayAssetUserData: ComputedUserReserve | undefined,
-  user: UserSummaryData
+  user: UserSummary
 ) {
   if (!repayAssetData || !fromAssetData) {
     return {
@@ -29,21 +28,23 @@ export function calculateHFAfterRepay(
     fromAssetData.usageAsCollateralEnabled &&
     fromAssetUserData?.usageAsCollateralEnabledOnUser
       ? calculateHealthFactorFromBalancesBigUnits(
-          valueToBigNumber(fromAmount).multipliedBy(fromAssetData.price.priceInEth),
-          user.totalBorrowsETH,
+          valueToBigNumber(fromAmount).multipliedBy(fromAssetData.priceInMarketReferenceCurrency),
+          user.totalBorrowsMarketReferenceCurrency,
           fromAssetData.reserveLiquidationThreshold
         ).toString()
       : '0';
 
   const fromAmountInETH = repayAssetUserData?.totalBorrows
-    ? valueToBigNumber(repayAmount).multipliedBy(repayAssetData.price.priceInEth).toString(10)
+    ? valueToBigNumber(repayAmount)
+        .multipliedBy(repayAssetData.priceInMarketReferenceCurrency)
+        .toString(10)
     : '0';
-  const debtLeftETH = valueToBigNumber(user.totalBorrowsETH)
+  const debtLeftETH = valueToBigNumber(user.totalBorrowsMarketReferenceCurrency)
     .minus(fromAmountInETH)
     .toFixed(18, BigNumber.ROUND_DOWN);
 
   const hfAfterRepayBeforeWithdraw = calculateHealthFactorFromBalancesBigUnits(
-    user.totalCollateralETH,
+    user.totalCollateralMarketReferenceCurrency,
     debtLeftETH,
     user.currentLiquidationThreshold
   );
@@ -54,7 +55,7 @@ export function calculateHFAfterRepay(
     fromAssetData.usageAsCollateralEnabled &&
     fromAssetUserData?.usageAsCollateralEnabledOnUser
       ? calculateHealthFactorFromBalancesBigUnits(
-          valueToBigNumber(fromAmount).multipliedBy(fromAssetData.price.priceInEth),
+          valueToBigNumber(fromAmount).multipliedBy(fromAssetData.priceInMarketReferenceCurrency),
           debtLeftETH,
           fromAssetData.reserveLiquidationThreshold
         ).toString()

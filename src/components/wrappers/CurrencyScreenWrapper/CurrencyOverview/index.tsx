@@ -58,7 +58,7 @@ export default function CurrencyOverview({
   const overviewData = {
     utilizationRate: Number(poolReserve.utilizationRate),
     availableLiquidity: poolReserve.availableLiquidity,
-    priceInUsd: valueToBigNumber(poolReserve.price.priceInEth)
+    priceInUsd: valueToBigNumber(poolReserve.priceInMarketReferenceCurrency)
       .dividedBy(marketRefPriceInUsd)
       .toNumber(),
     depositApy: Number(poolReserve.liquidityRate),

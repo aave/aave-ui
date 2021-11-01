@@ -60,18 +60,20 @@ function DepositConfirmation({
     });
   }
 
-  const amountIntEth = amount.multipliedBy(poolReserve.price.priceInEth);
+  const amountIntEth = amount.multipliedBy(poolReserve.priceInMarketReferenceCurrency);
   const amountInUsd = amountIntEth.dividedBy(marketRefPriceInUsd);
-  const totalCollateralETHAfter = valueToBigNumber(user.totalCollateralETH).plus(amountIntEth);
+  const totalCollateralMarketReferenceCurrencyAfter = valueToBigNumber(
+    user.totalCollateralMarketReferenceCurrency
+  ).plus(amountIntEth);
 
-  const liquidationThresholdAfter = valueToBigNumber(user.totalCollateralETH)
+  const liquidationThresholdAfter = valueToBigNumber(user.totalCollateralMarketReferenceCurrency)
     .multipliedBy(user.currentLiquidationThreshold)
     .plus(amountIntEth.multipliedBy(poolReserve.reserveLiquidationThreshold))
-    .dividedBy(totalCollateralETHAfter);
+    .dividedBy(totalCollateralMarketReferenceCurrencyAfter);
 
   const healthFactorAfterDeposit = calculateHealthFactorFromBalancesBigUnits(
-    totalCollateralETHAfter,
-    valueToBigNumber(user.totalBorrowsETH),
+    totalCollateralMarketReferenceCurrencyAfter,
+    valueToBigNumber(user.totalBorrowsMarketReferenceCurrency),
     liquidationThresholdAfter
   );
 
@@ -84,7 +86,8 @@ function DepositConfirmation({
     });
   };
 
-  const notShowHealthFactor = user.totalBorrowsETH !== '0' && poolReserve.usageAsCollateralEnabled;
+  const notShowHealthFactor =
+    user.totalBorrowsMarketReferenceCurrency !== '0' && poolReserve.usageAsCollateralEnabled;
 
   const usageAsCollateralEnabledOnDeposit =
     poolReserve.usageAsCollateralEnabled &&

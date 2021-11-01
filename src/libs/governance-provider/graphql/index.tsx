@@ -7525,23 +7525,23 @@ export type GovernanceProposalsSubscription = {
     shortDescription: string;
     createdBlockNumber: any;
     executor?:
-    | {
-      __typename?: 'Executor';
-      id: string;
-      authorized: boolean;
-      propositionThreshold: any;
-      votingDuration: any;
-      voteDifferential: any;
-      minimumQuorum: any;
-      gracePeriod: any;
-      executionDelay: any;
-      admin: any;
-      authorizationBlock: any;
-      authorizationTimestamp: any;
-      pendingAdmin?: any | null | undefined;
-    }
-    | null
-    | undefined;
+      | {
+          __typename?: 'Executor';
+          id: string;
+          authorized: boolean;
+          propositionThreshold: any;
+          votingDuration: any;
+          voteDifferential: any;
+          minimumQuorum: any;
+          gracePeriod: any;
+          executionDelay: any;
+          admin: any;
+          authorizationBlock: any;
+          authorizationTimestamp: any;
+          pendingAdmin?: any | null | undefined;
+        }
+      | null
+      | undefined;
   }>;
 };
 
@@ -7552,17 +7552,17 @@ export type GetVoteByUserQueryVariables = Exact<{
 export type GetVoteByUserQuery = {
   __typename?: 'Query';
   vote?:
-  | {
-    __typename?: 'Vote';
-    voter: any;
-    id: string;
-    support: boolean;
-    votingPower: any;
-    timestamp: number;
-    proposal: { __typename?: 'Proposal'; id: string };
-  }
-  | null
-  | undefined;
+    | {
+        __typename?: 'Vote';
+        voter: any;
+        id: string;
+        support: boolean;
+        votingPower: any;
+        timestamp: number;
+        proposal: { __typename?: 'Proposal'; id: string };
+      }
+    | null
+    | undefined;
 };
 
 export type GetTopVotersSubscriptionVariables = Exact<{

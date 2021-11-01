@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { UserSummaryData, valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/protocol-js';
 import { BigNumber } from 'bignumber.js';
 
 import Row from '../../basic/Row';
@@ -9,15 +9,16 @@ import { getAssetInfo, getAssetColor } from '../../../helpers/markets/assets';
 
 import messages from './messages';
 import staticStyles from './style';
+import { UserSummary } from '../../../libs/pool-data-provider';
 
 type DepositCompositionBarProps = {
-  user: UserSummaryData;
+  user: UserSummary;
 };
 
 export default function DepositCompositionBar({ user }: DepositCompositionBarProps) {
   const intl = useIntl();
 
-  const userReserves = user.reservesData
+  const userReserves = user.userReservesData
     .filter((userReserve) => userReserve.underlyingBalance !== '0')
     .map((userReserve) => ({
       value: userReserve.underlyingBalance,
