@@ -37,8 +37,6 @@ You may overwrite them for the production build, by creating an additional `.env
 
 ### General network
 
-REACT_APP_ENABLE_CACHING_BACKEND - enable [aave-caching-server](https://github.com/aave/aave-ui-caching-server) support, default value: false
-
 REACT_APP_RATES_HISTORY_ENDPOINT - enable rates history endpoint support, optional
 
 REACT_APP_ENABLE_TESTNET - enables markets that are on a network flagged as testnet

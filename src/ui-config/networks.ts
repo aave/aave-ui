@@ -3,8 +3,6 @@ import { BaseNetworkConfig } from '../helpers/config/types';
 import polygonBridgeLogo from './branding/images/polygonLogo.svg';
 import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
 
-export const ENABLE_CACHING_BACKEND = process.env.REACT_APP_ENABLE_CACHING_BACKEND === 'true';
-
 const mainnet_config: BaseNetworkConfig = {
   name: 'mainnet',
   publicJsonRPCUrl: 'https://eth-mainnet.alchemyapi.io/v2/demo',
@@ -27,7 +25,7 @@ const mainnet_config: BaseNetworkConfig = {
   rewardTokenDecimals: 18,
   incentivePrecision: 18,
   explorerLink: 'https://etherscan.com',
-  rpcOnly: !ENABLE_CACHING_BACKEND,
+  rpcOnly: false,
 } as const;
 
 const polygon_config: BaseNetworkConfig = {
@@ -50,7 +48,7 @@ const polygon_config: BaseNetworkConfig = {
   rewardTokenDecimals: 18,
   incentivePrecision: 18,
   explorerLink: 'https://polygonscan.com',
-  rpcOnly: !ENABLE_CACHING_BACKEND,
+  rpcOnly: false,
   bridge: {
     brandColor: '130, 71, 229',
     name: 'Polygon PoS Bridge',
@@ -80,7 +78,7 @@ const avalanche_config: BaseNetworkConfig = {
   rewardTokenDecimals: 18,
   incentivePrecision: 18,
   explorerLink: 'https://cchain.explorer.avax.network',
-  rpcOnly: !ENABLE_CACHING_BACKEND,
+  rpcOnly: false,
   usdMarket: true,
   bridge: {
     brandColor: '232, 65, 66',
