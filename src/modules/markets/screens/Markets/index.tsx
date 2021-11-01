@@ -21,6 +21,7 @@ import MarketMobileCard from '../../components/MarketMobileCard';
 
 import messages from './messages';
 import staticStyles from './style';
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 
 export default function Markets() {
   const intl = useIntl();
@@ -28,16 +29,13 @@ export default function Markets() {
   const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { reserves } = useDynamicPoolDataContext();
   const { currentMarketData } = useProtocolDataContext();
-
+  const { reserveIncentives } = useIncentivesDataContext();
   const [isPriceInUSD, setIsPriceInUSD] = useState(
     localStorage.getItem('marketsIsPriceInUSD') === 'true'
   );
-
   const [sortName, setSortName] = useState('');
   const [sortDesc, setSortDesc] = useState(false);
-
   let totalLockedInUsd = valueToBigNumber('0');
-
   let sortedData = reserves
     .filter((res) => res.isActive)
     .map((reserve) => {
@@ -58,7 +56,7 @@ export default function Markets() {
         .multipliedBy(reserve.price.priceInEth)
         .dividedBy(marketRefPriceInUsd)
         .toNumber();
-
+      const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
       return {
         totalLiquidity,
         totalLiquidityInUSD,
@@ -78,9 +76,9 @@ export default function Markets() {
         borrowingEnabled: reserve.borrowingEnabled,
         stableBorrowRateEnabled: reserve.stableBorrowRateEnabled,
         isFreezed: reserve.isFrozen,
-        aIncentivesAPY: reserve.aIncentivesAPY,
-        vIncentivesAPY: reserve.vIncentivesAPY,
-        sIncentivesAPY: reserve.sIncentivesAPY,
+        aincentivesAPR: reserveIncentiveData ? reserveIncentiveData.aIncentives.incentiveAPR : '0',
+        vincentivesAPR: reserveIncentiveData ? reserveIncentiveData.vIncentives.incentiveAPR : '0',
+        sincentivesAPR: reserveIncentiveData ? reserveIncentiveData.sIncentives.incentiveAPR : '0',
       };
     });
 
@@ -153,7 +151,7 @@ export default function Markets() {
       <div className="Markets__mobile--cards">
         {currentMarketData.enabledFeatures?.incentives && (
           <div className="Markets__help--modalInner">
-            <BorrowRatesHelpModal
+            <BorrowRatesHelpModal // TO-DO: Pass rewardTokenSymbol to this component
               className="Markets__help--modal"
               text={intl.formatMessage(messages.rewardsInformation)}
               iconSize={14}
