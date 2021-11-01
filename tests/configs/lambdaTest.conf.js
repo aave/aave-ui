@@ -1,4 +1,7 @@
+require('dotenv').config();
 const build = process.env.BUILD || 'Empty build'
+const LAMBDATEST_ACCOUNT = process.env.LAMBDATEST_ACCOUNT
+const LAMBDATEST_KEY = process.env.LAMBDATEST_KEY
 
 const SPEC_LIST = {
   aaveMarket: {
@@ -79,8 +82,8 @@ let executionList = () => {
 
 exports.config = {
   updateJob: false,
-  user: "nikitaaave",
-  key: "NwR8snfL3EIUt4xTjmUQ2mgqLio6DCDUZMctg2NN2UAx04rGmt",
+  user: LAMBDATEST_ACCOUNT,
+  key: LAMBDATEST_KEY,
   specs: executionList(),
   exclude: [],
   maxInstances: 5,
