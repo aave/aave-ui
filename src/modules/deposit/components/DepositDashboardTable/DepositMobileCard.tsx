@@ -31,7 +31,7 @@ export default function DepositMobileCard({
   isFrozen,
   avg30DaysLiquidityRate,
   borrowingEnabled,
-  aIncentivesAPY,
+  aincentivesAPR,
 }: DepositTableItem) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -54,12 +54,12 @@ export default function DepositMobileCard({
         </Row>
 
         <Row title={intl.formatMessage(messages.apyRowTitle)} withMargin={true}>
-          {borrowingEnabled || aIncentivesAPY !== '0' ? (
+          {borrowingEnabled || aincentivesAPR !== '0' ? (
             <LiquidityMiningCard
               symbol={symbol}
               value={borrowingEnabled ? Number(liquidityRate) : 0}
               thirtyDaysValue={avg30DaysLiquidityRate}
-              liquidityMiningValue={aIncentivesAPY}
+              liquidityMiningValue={aincentivesAPR}
               type="deposit"
             />
           ) : (

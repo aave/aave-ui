@@ -32,7 +32,7 @@ const retrieveBalances = async (
   const networkConfig = getNetworkConfig(chainId);
   const provider = getProvider(chainId);
   const walletBalanceContract = WalletBalanceProviderFactory.connect(
-    networkConfig.walletBalanceProvider,
+    networkConfig.addresses.walletBalanceProvider,
     provider
   );
   try {

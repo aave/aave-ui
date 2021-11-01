@@ -24,7 +24,7 @@ export default function DepositMobileCard({
   userId,
   borrowingEnabled,
   isFreezed,
-  aIncentivesAPY,
+  aincentivesAPR,
 }: DepositTableItem) {
   const intl = useIntl();
   const history = useHistory();
@@ -60,7 +60,7 @@ export default function DepositMobileCard({
               symbol={symbol}
               value={liquidityRate}
               thirtyDaysValue={avg30DaysLiquidityRate}
-              liquidityMiningValue={aIncentivesAPY}
+              liquidityMiningValue={aincentivesAPR}
               type="deposit"
             />
           ) : (

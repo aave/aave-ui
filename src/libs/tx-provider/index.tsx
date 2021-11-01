@@ -3,20 +3,17 @@ import {
   TxBuilderV2,
   TxBuilderConfig,
   FaucetInterface,
-  IncentivesControllerInterface,
   LendingPoolConfig,
   Network,
 } from '@aave/protocol-js';
 
 import { useProtocolDataContext } from '../protocol-data-provider';
-import { networkConfigs } from '../../helpers/config/markets-and-network-config';
 import { marketsData, getProvider } from '../../helpers/config/markets-and-network-config';
 import { ChainIdToNetwork, LendingPool } from '@aave/contract-helpers';
 
 export interface TxBuilderContextInterface {
   lendingPool: LendingPool;
   faucetService: FaucetInterface;
-  incentiveService: IncentivesControllerInterface;
 }
 
 const TxBuilderContext = React.createContext({} as TxBuilderContextInterface);
@@ -41,22 +38,6 @@ const marketConfig = Object.entries(marketsData).reduce<
   { lendingPool: {} }
 );
 
-const networkConfig = Object.entries(networkConfigs).reduce<TxBuilderConfig>(
-  (acc, [key, value]) => {
-    if (value.addresses) {
-      if (!acc.incentives) {
-        acc.incentives = {};
-      }
-      acc.incentives[key] = {
-        INCENTIVES_CONTROLLER: value.addresses?.INCENTIVES_CONTROLLER,
-        INCENTIVES_CONTROLLER_REWARD_TOKEN: value.addresses?.INCENTIVES_CONTROLLER_REWARD_TOKEN,
-      };
-    }
-    return acc;
-  },
-  { incentives: {} }
-);
-
 export function TxBuilderProvider({ children }: PropsWithChildren<{}>) {
   const { currentMarket, chainId: currentChainId, currentMarketData } = useProtocolDataContext();
   const currentNetwork = ChainIdToNetwork[currentChainId] as Network;
@@ -66,7 +47,7 @@ export function TxBuilderProvider({ children }: PropsWithChildren<{}>) {
     currentNetwork,
     getProvider(currentChainId),
     undefined,
-    Object.assign(marketConfig, networkConfig)
+    marketConfig
   );
 
   const lendingPool = new LendingPool(getProvider(currentChainId), {
@@ -77,11 +58,9 @@ export function TxBuilderProvider({ children }: PropsWithChildren<{}>) {
     WETH_GATEWAY: currentMarketData.addresses.WETH_GATEWAY,
   });
 
-  const { incentiveService } = txBuilder;
-
   return (
     <TxBuilderContext.Provider
-      value={{ lendingPool, faucetService: txBuilder.getFaucet(currentMarket), incentiveService }}
+      value={{ lendingPool, faucetService: txBuilder.getFaucet(currentMarket) }}
     >
       {children}
     </TxBuilderContext.Provider>

@@ -9,8 +9,8 @@ export type BorrowTableItem = {
   uiColor: string;
   avg30DaysVariableRate?: string;
   borrowRate: string;
-  vIncentivesAPY: string;
-  sIncentivesAPY: string;
+  vincentivesAPR: string;
+  sincentivesAPR: string;
   borrowRateMode: string;
   currentBorrows: string;
   currentBorrowsUSD: string;

@@ -84,28 +84,29 @@ export default function DepositBorrowTopPanel() {
           value: Number(userReserve.totalBorrowsETH),
           color: getAssetColor(userReserve.reserve.symbol),
         });
+
+        const availableBorrowPower = borrowCompositionData
+          .reduce((acc, slice) => acc.minus(slice.value), maxBorrowAmount)
+          .toNumber();
+        const usedBorrowPower = borrowCompositionData
+          .reduce((acc, slice) => acc.plus(slice.value), new BigNumber(0))
+          .toNumber();
+
+        borrowCompositionData.push({
+          value: availableBorrowPower,
+          label: `${intl.formatMessage(messages.borrowingPowerAvailable)}: ${intl.formatNumber(
+            new BigNumber(1)
+              .minus(valueToBigNumber(usedBorrowPower).dividedBy(maxBorrowAmount))
+              .multipliedBy(100)
+              .toNumber(),
+            {
+              maximumFractionDigits: 2,
+            }
+          )}%`,
+          color: currentTheme.white.hex,
+        });
       }
     }
-  });
-  const availableBorrowPower = borrowCompositionData
-    .reduce((acc, slice) => acc.minus(slice.value), maxBorrowAmount)
-    .toNumber();
-  const usedBorrowPower = borrowCompositionData
-    .reduce((acc, slice) => acc.plus(slice.value), new BigNumber(0))
-    .toNumber();
-
-  borrowCompositionData.push({
-    value: availableBorrowPower,
-    label: `${intl.formatMessage(messages.borrowingPowerAvailable)}: ${intl.formatNumber(
-      new BigNumber(1)
-        .minus(valueToBigNumber(usedBorrowPower).dividedBy(maxBorrowAmount))
-        .multipliedBy(100)
-        .toNumber(),
-      {
-        maximumFractionDigits: 2,
-      }
-    )}%`,
-    color: currentTheme.white.hex,
   });
 
   return (

@@ -23,12 +23,14 @@ import messages from './messages';
 import { DepositTableItem } from '../../components/DepositAssetsTable/types';
 import { useWalletBalanceProviderContext } from '../../../../libs/wallet-balance-provider/WalletBalanceProvider';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 
 export default function DepositsMain() {
   const intl = useIntl();
   const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
+  const { reserveIncentives } = useIncentivesDataContext();
   const { sm } = useThemeContext();
 
   const [searchValue, setSearchValue] = useState('');
@@ -74,7 +76,7 @@ export default function DepositsMain() {
           .multipliedBy(reserve.price.priceInEth)
           .dividedBy(marketRefPriceInUsd)
           .toString();
-
+        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
         return {
           ...reserve,
           walletBalance,
@@ -85,9 +87,15 @@ export default function DepositsMain() {
           avg30DaysLiquidityRate: Number(reserve.avg30DaysLiquidityRate),
           borrowingEnabled: reserve.borrowingEnabled,
           interestHistory: [],
-          aIncentivesAPY: reserve.aIncentivesAPY,
-          vIncentivesAPY: reserve.vIncentivesAPY,
-          sIncentivesAPY: reserve.sIncentivesAPY,
+          aincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.aIncentives.incentiveAPR
+            : '0',
+          vincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.vIncentives.incentiveAPR
+            : '0',
+          sincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.sIncentives.incentiveAPR
+            : '0',
         };
       });
 
