@@ -109,6 +109,7 @@ let configAave = (market, forkNetworkID = null, forkRPCUrl = null) => {
         break;
     }
   }
+  page.refresh();
   MainPage.doSwitchMarket(market);
   MainPage.doConnectWithMM();
   MM.doSwitchToMetamaskNotificationWindow();
