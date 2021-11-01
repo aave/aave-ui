@@ -1,14 +1,4 @@
 import React, { PropsWithChildren, useContext, useEffect, useState } from 'react';
-import {
-  ComputedReserveData,
-  formatReserves,
-  formatUserSummaryData,
-  normalize,
-  normalizeBN,
-  RewardsInformation,
-  UserSummaryData,
-  valueToBigNumber,
-} from '@aave/protocol-js';
 
 import { useCurrentTimestamp } from '../hooks/use-current-timestamp';
 import { useStaticPoolDataContext } from './static-pool-data-provider';
@@ -19,27 +9,39 @@ import {
   FormatUserSummaryResponse,
 } from '@aave/math-utils';
 
+export interface ComputedReserveData extends FormatReserveResponse {
+  id: string;
+  underlyingAsset: string;
+  name: string;
+  symbol: string;
+  decimals: number;
+  usageAsCollateralEnabled: boolean;
+  borrowingEnabled: boolean;
+  stableBorrowRateEnabled: boolean;
+  isActive: boolean;
+  isFrozen: boolean;
+  aTokenAddress: string;
+  stableDebtTokenAddress: string;
+  variableDebtTokenAddress: string;
+  priceInMarketReferenceCurrency: string;
+  avg30DaysLiquidityRate?: string;
+  avg30DaysVariableBorrowRate?: string;
+}
+
+export interface UserSummary extends FormatUserSummaryResponse {
+  id: string;
+}
+
 export interface DynamicPoolDataContextData {
   reserves: ComputedReserveData[];
-  user?: UserSummaryData;
-  reservesNew: FormatReserveResponse[]; // WIP: aave-utilities Reserve types need an update
-  userNew?: FormatUserSummaryResponse;
+  user?: UserSummary;
 }
 
 const DynamicPoolDataContext = React.createContext({} as DynamicPoolDataContextData);
 
 export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
-  const {
-    rawReserves,
-    rawUserReserves,
-    rawReservesNew,
-    baseCurrencyData,
-    rawUserReservesNew,
-    networkConfig,
-    rewardsEmissionEndTimestamp,
-    usdPriceEth,
-    userId,
-  } = useStaticPoolDataContext();
+  const { rawReserves, rawUserReserves, userId, marketRefCurrencyDecimals, marketRefPriceInUsd } =
+    useStaticPoolDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const [lastAvgRatesUpdateTimestamp, setLastAvgRatesUpdateTimestamp] = useState(currentTimestamp);
 
@@ -49,123 +51,54 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
     }
   }, [currentTimestamp, lastAvgRatesUpdateTimestamp]);
 
-  const computedUserDataNew =
-    userId && rawUserReservesNew
+  const computedUserData =
+    userId && rawUserReserves
       ? formatUserSummary({
           currentTimestamp,
-          usdPriceMarketReferenceCurrency: baseCurrencyData
-            ? baseCurrencyData?.marketReferenceCurrencyPriceInUsd
-            : '0',
-          marketReferenceCurrencyDecimals: baseCurrencyData
-            ? baseCurrencyData?.marketReferenceCurrencyDecimals
-            : 18,
-          rawUserReserves: rawUserReservesNew,
+          usdPriceMarketReferenceCurrency: marketRefPriceInUsd,
+          marketReferenceCurrencyDecimals: marketRefCurrencyDecimals,
+          rawUserReserves: rawUserReserves,
         })
       : undefined;
 
-  const formattedPoolReservesNew: FormatReserveResponse[] = rawReservesNew.map((reserve) => {
+  const formattedPoolReserves: ComputedReserveData[] = rawReserves.map((reserve) => {
     const formattedReserve = formatReserve({
       reserve,
       currentTimestamp,
     });
-    return formattedReserve;
+    const fullReserve: ComputedReserveData = {
+      ...formattedReserve,
+      id: reserve.id,
+      underlyingAsset: reserve.underlyingAsset,
+      name: reserve.name,
+      symbol: reserve.symbol,
+      decimals: reserve.decimals,
+      usageAsCollateralEnabled: reserve.usageAsCollateralEnabled,
+      borrowingEnabled: reserve.borrowingEnabled,
+      stableBorrowRateEnabled: reserve.stableBorrowRateEnabled,
+      isActive: reserve.isActive,
+      isFrozen: reserve.isFrozen,
+      aTokenAddress: reserve.aTokenAddress,
+      stableDebtTokenAddress: reserve.stableDebtTokenAddress,
+      variableDebtTokenAddress: reserve.variableDebtTokenAddress,
+      priceInMarketReferenceCurrency: reserve.priceInMarketReferenceCurrency,
+    };
+    return fullReserve;
   });
 
-  // FROM HERE BELOW IS THE LEGACY DYNAMIC PROVIDER
-
-  // TODO: get price from reserve
-  const rewardReserve = rawReserves.find(
-    (reserve) =>
-      reserve.underlyingAsset.toLowerCase() === networkConfig.rewardTokenAddress.toLowerCase()
-  );
-  const rewardTokenPriceEth = rewardReserve ? rewardReserve.price.priceInEth : '0';
-
-  const rewardInfo: RewardsInformation = {
-    rewardTokenAddress: networkConfig.rewardTokenAddress,
-    rewardTokenDecimals: networkConfig.rewardTokenDecimals,
-    incentivePrecision: networkConfig.incentivePrecision,
-    rewardTokenPriceEth,
-    emissionEndTimestamp: rewardsEmissionEndTimestamp,
-  };
-
-  const computedUserData =
-    userId && rawUserReserves
-      ? formatUserSummaryData(
-          rawReserves,
-          rawUserReserves,
-          userId,
-          networkConfig.usdMarket ? valueToBigNumber(1) : normalize(usdPriceEth, -18),
-          currentTimestamp,
-          rewardInfo
-        )
-      : undefined;
-
-  // This is a fix continue to use same aave-js. When update to aave-js with correct usd/eth market logic is integrated, remove
-  if (networkConfig.usdMarket && computedUserData) {
-    computedUserData.totalBorrowsUSD =
-      computedUserData.totalBorrowsUSD !== '0'
-        ? normalizeBN(computedUserData.totalBorrowsUSD, 8).toString()
-        : '0';
-    computedUserData.totalCollateralUSD =
-      computedUserData.totalCollateralUSD !== '0'
-        ? normalizeBN(computedUserData.totalCollateralUSD, 8).toString()
-        : '0';
-    computedUserData.totalLiquidityUSD =
-      computedUserData.totalLiquidityUSD !== '0'
-        ? normalizeBN(computedUserData.totalLiquidityUSD, 8).toString()
-        : '0';
-
-    computedUserData.reservesData.forEach((reserveData, index) => {
-      computedUserData.reservesData[index].aTokenRewardsUSD =
-        computedUserData.reservesData[index].aTokenRewardsUSD !== '0'
-          ? normalizeBN(computedUserData.reservesData[index].aTokenRewardsUSD, 8).toString()
-          : '0';
-      computedUserData.reservesData[index].sTokenRewardsUSD =
-        computedUserData.reservesData[index].sTokenRewardsUSD !== '0'
-          ? normalizeBN(computedUserData.reservesData[index].sTokenRewardsUSD, 8).toString()
-          : '0';
-      computedUserData.reservesData[index].vTokenRewardsUSD =
-        computedUserData.reservesData[index].vTokenRewardsUSD !== '0'
-          ? normalizeBN(computedUserData.reservesData[index].vTokenRewardsUSD, 8).toString()
-          : '0';
-      computedUserData.reservesData[index].stableBorrowsUSD =
-        computedUserData.reservesData[index].stableBorrowsUSD !== '0'
-          ? normalizeBN(computedUserData.reservesData[index].stableBorrowsUSD, 8).toString()
-          : '0';
-      computedUserData.reservesData[index].variableBorrowsUSD =
-        computedUserData.reservesData[index].variableBorrowsUSD !== '0'
-          ? normalizeBN(computedUserData.reservesData[index].variableBorrowsUSD, 8).toString()
-          : '0';
-      computedUserData.reservesData[index].underlyingBalanceUSD =
-        computedUserData.reservesData[index].underlyingBalanceUSD !== '0'
-          ? normalizeBN(computedUserData.reservesData[index].underlyingBalanceUSD, 8).toString()
-          : '0';
-      computedUserData.reservesData[index].totalBorrowsUSD =
-        computedUserData.reservesData[index].totalBorrowsUSD !== '0'
-          ? normalizeBN(computedUserData.reservesData[index].totalBorrowsUSD, 8).toString()
-          : '0';
-      computedUserData.reservesData[index].totalRewardsUSD =
-        computedUserData.reservesData[index].totalRewardsUSD !== '0'
-          ? normalizeBN(computedUserData.reservesData[index].totalRewardsUSD, 8).toString()
-          : '0';
-    });
+  let userSummary: UserSummary | undefined = undefined;
+  if (computedUserData && userId) {
+    userSummary = {
+      id: userId,
+      ...computedUserData,
+    };
   }
-
-  const formattedPoolReserves = formatReserves(
-    rawReserves,
-    currentTimestamp,
-    undefined, //TODO: recover at some point
-    rewardTokenPriceEth,
-    rewardsEmissionEndTimestamp
-  );
-
+  console.log(formattedPoolReserves);
   return (
     <DynamicPoolDataContext.Provider
       value={{
-        user: computedUserData,
+        user: userSummary,
         reserves: formattedPoolReserves,
-        userNew: computedUserDataNew,
-        reservesNew: formattedPoolReservesNew,
       }}
     >
       {children}
