@@ -1,6 +1,5 @@
 import React, { PropsWithChildren, useContext } from 'react';
 import {
-  LendingPoolInterfaceV2,
   TxBuilderV2,
   TxBuilderConfig,
   FaucetInterface,
@@ -12,10 +11,10 @@ import {
 import { useProtocolDataContext } from '../protocol-data-provider';
 import { networkConfigs } from '../../helpers/config/markets-and-network-config';
 import { marketsData, getProvider } from '../../helpers/config/markets-and-network-config';
-import { ChainIdToNetwork } from '@aave/contract-helpers';
+import { ChainIdToNetwork, LendingPool } from '@aave/contract-helpers';
 
 export interface TxBuilderContextInterface {
-  lendingPool: LendingPoolInterfaceV2;
+  lendingPool: LendingPool;
   faucetService: FaucetInterface;
   incentiveService: IncentivesControllerInterface;
 }
@@ -59,7 +58,7 @@ const networkConfig = Object.entries(networkConfigs).reduce<TxBuilderConfig>(
 );
 
 export function TxBuilderProvider({ children }: PropsWithChildren<{}>) {
-  const { currentMarket, chainId: currentChainId } = useProtocolDataContext();
+  const { currentMarket, chainId: currentChainId, currentMarketData } = useProtocolDataContext();
   const currentNetwork = ChainIdToNetwork[currentChainId] as Network;
 
   // txBuilder used for lending pool
@@ -69,7 +68,14 @@ export function TxBuilderProvider({ children }: PropsWithChildren<{}>) {
     undefined,
     Object.assign(marketConfig, networkConfig)
   );
-  const lendingPool = txBuilder.getLendingPool(currentMarket);
+
+  const lendingPool = new LendingPool(getProvider(currentChainId), {
+    LENDING_POOL: currentMarketData.addresses.LENDING_POOL,
+    REPAY_WITH_COLLATERAL_ADAPTER: currentMarketData.addresses.REPAY_WITH_COLLATERAL_ADAPTER,
+    SWAP_COLLATERAL_ADAPTER: currentMarketData.addresses.SWAP_COLLATERAL_ADAPTER,
+    FAUCET: currentMarketData.addresses.FAUCET,
+    WETH_GATEWAY: currentMarketData.addresses.WETH_GATEWAY,
+  });
 
   const { incentiveService } = txBuilder;
 
