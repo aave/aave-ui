@@ -117,7 +117,6 @@ export function useCachedProtocolData(
             name: reserve.name,
             symbol: reserve.symbol,
             decimals: reserve.decimals,
-            liquidityRate: reserve.liquidityRate,
             reserveLiquidationBonus: reserve.reserveLiquidationBonus,
             lastUpdateTimestamp: reserve.lastUpdateTimestamp,
           },

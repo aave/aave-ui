@@ -69,11 +69,11 @@ function BorrowConfirmation({
   }
 
   const currentStableBorrowRate =
-    userReserve && userReserve.stableBorrows !== '0' && userReserve.stableBorrowRate;
+    userReserve && userReserve.stableBorrows !== '0' && poolReserve.stableBorrowAPY;
   const newBorrowRate =
     interestRateMode === InterestRate.Variable
-      ? poolReserve.variableBorrowRate
-      : poolReserve.stableBorrowRate;
+      ? poolReserve.variableBorrowAPY
+      : poolReserve.stableBorrowAPY;
 
   if (!interestRateMode || !amount) {
     return (
