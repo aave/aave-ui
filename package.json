@@ -7,7 +7,7 @@
     "@0x/subproviders": "^6.5.4",
     "@aave/aave-ui-kit": "^0.1.14",
     "@aave/math-utils": "0.20.3",
-    "@aave/contract-helpers": "0.21.2-16a16d853ad9f84d5673a1b66b010a01cdaf3e23.0+16a16d8",
+    "@aave/contract-helpers": "0.21.2-85af1244a1a4bee8417d40a0399051c46b36bb26.0+85af124",
     "@aave/protocol-js": "4.2.0",
     "@apollo/client": "^3.4.16",
     "@apollo/react-common": "^3.1.4",
