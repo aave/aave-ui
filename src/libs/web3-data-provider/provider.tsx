@@ -34,7 +34,7 @@ interface UserWalletData {
 
 const formattingError = (
   error: Error | undefined,
-  supportedNetworks: ChainId[],
+  supportedChainIds: ChainId[],
   intl: IntlShape
 ) => {
   if (!error || !error.message) {
@@ -43,7 +43,7 @@ const formattingError = (
   // Unsupported chain
   if (error.message.includes('Unsupported chain id:')) {
     return intl.formatMessage(messages.unsupportedNetwork, {
-      supportedNetworks: supportedNetworks.join(', '),
+      supportedChainIds: supportedChainIds.join(', '),
     });
   }
   // Disconnected or locked ledger
@@ -90,8 +90,8 @@ export interface ConnectWalletModalProps {
   supportedChainIds: ChainId[];
   onUnlockExternalWallet: (
     providerName: AvailableWeb3Connectors,
-    network: ChainId,
-    availableNetworks: ChainId[],
+    chainId: ChainId,
+    availableChainIds: ChainId[],
     connectorConfig: ConnectorOptionalConfig,
     skipLoad?: boolean
   ) => void;
@@ -103,16 +103,16 @@ export interface ConnectWalletModalProps {
 }
 
 interface Web3ProviderProps {
-  defaultNetwork: ChainId;
-  supportedNetworks: ChainId[];
+  defaultChainId: ChainId;
+  supportedChainIds: ChainId[];
   preloader: (props: { currentProviderName?: AvailableWeb3Connectors }) => JSX.Element;
   connectWalletModal: (props: ConnectWalletModalProps) => JSX.Element;
 }
 
 export function Web3Provider({
   children,
-  defaultNetwork,
-  supportedNetworks,
+  defaultChainId,
+  supportedChainIds,
   preloader: Preloader,
   connectWalletModal: ConnectWalletModal,
 }: PropsWithChildren<Web3ProviderProps>) {
@@ -124,13 +124,13 @@ export function Web3Provider({
     AvailableWeb3Connectors | undefined
   >();
   const [preferredNetwork, setPreferredNetwork] = useState(
-    (Number(localStorage.getItem('preferredNetwork') || 1) as ChainId) || defaultNetwork
+    (Number(localStorage.getItem('preferredNetwork') || 1) as ChainId) || defaultChainId
   );
   const [activating, setActivation] = useState(true);
   const [isSelectWalletModalVisible, setSelectWalletModalVisible] = useState(false);
   const [isErrorDetected, setErrorDetected] = useState(false);
 
-  const formattedError = formattingError(error, supportedNetworks, intl);
+  const formattedError = formattingError(error, supportedChainIds, intl);
 
   const [availableAccounts, setAvailableAccounts] = useState<string[]>([]);
   const [displaySwitchAccountModal, setDisplaySwitchAccountModal] = useState(false);
@@ -178,7 +178,7 @@ export function Web3Provider({
       return await handleActivation(
         currentProviderName,
         network,
-        supportedNetworks,
+        supportedChainIds,
         connectorOptionalConfig
       );
     }
@@ -263,7 +263,7 @@ export function Web3Provider({
 
   const handleConnectorConfigUpdate = (updatedConfig: ConnectorOptionalConfig) => {
     if (currentProviderName) {
-      handleUnlockWallet(currentProviderName, preferredNetwork, supportedNetworks, updatedConfig);
+      handleUnlockWallet(currentProviderName, preferredNetwork, supportedChainIds, updatedConfig);
     }
     setConnectorOptionalConfig(updatedConfig);
   };
@@ -281,7 +281,7 @@ export function Web3Provider({
             handleActivation(
               currentProviderName,
               preferredNetwork,
-              supportedNetworks,
+              supportedChainIds,
               updatedConfig
             );
           }
@@ -338,7 +338,7 @@ export function Web3Provider({
         handleUnlockWallet(
           storedProviderName,
           preferredNetwork,
-          supportedNetworks,
+          supportedChainIds,
           connectorOptionalConfig
         );
       } else {
@@ -358,7 +358,7 @@ export function Web3Provider({
   //     handleUnlockWallet(
   //       currentProviderName,
   //       preferredNetwork,
-  //       supportedNetworks,
+  //       supportedChainIds,
   //       connectorOptionalConfig
   //     );
   //   }
@@ -439,7 +439,7 @@ export function Web3Provider({
         <ConnectWalletModal
           preferredChainId={preferredNetwork}
           onSelectPreferredChainId={handleNetworkChange}
-          supportedChainIds={supportedNetworks}
+          supportedChainIds={supportedChainIds}
           onUnlockExternalWallet={handleUnlockWallet}
           connectorConfig={connectorOptionalConfig}
           error={formattedError}

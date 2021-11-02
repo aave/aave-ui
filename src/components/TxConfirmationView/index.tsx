@@ -8,7 +8,7 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import {
   getDefaultNetworkName,
-  getSupportedNetworkIds,
+  getSupportedChainIds,
 } from '../../helpers/config/markets-and-network-config';
 import { mapChainIdToName, useUserWalletDataContext } from '../../libs/web3-data-provider';
 import { useProtocolDataContext } from '../../libs/protocol-data-provider';
@@ -117,7 +117,7 @@ export default function TxConfirmationView({
    */
   const currentWalletChainId = chainId as number;
   const allowedNetworks = _allowedChainIds?.filter((chainId) =>
-    getSupportedNetworkIds().includes(chainId)
+    getSupportedChainIds().includes(chainId)
   );
   // current marketNetwork is supported if the action is either not restricted to a network or the network is in the allow list
   const currentMarketNetworkIsSupported =

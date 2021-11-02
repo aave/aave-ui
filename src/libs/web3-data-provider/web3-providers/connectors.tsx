@@ -19,7 +19,7 @@ import {
   PORTIS_DAPP_ID,
 } from '../../../helpers/config/wallet-config';
 import {
-  getSupportedNetworkIds,
+  getSupportedChainIds,
   getNetworkConfig,
 } from '../../../helpers/config/markets-and-network-config';
 import { ChainId } from '@aave/contract-helpers';
@@ -51,22 +51,22 @@ const POLLING_INTERVAL = 12000;
 const APP_NAME = 'Aave';
 const APP_LOGO_URL = 'https://aave.com/favicon.ico';
 
-function raiseUnsupportedNetworkError(network: ChainId, connectorName: AvailableWeb3Connectors) {
-  throw new Error(`${network} is not supported by ${connectorName}`);
+function raiseUnsupportedNetworkError(chainId: ChainId, connectorName: AvailableWeb3Connectors) {
+  throw new Error(`ChainId "${chainId}" is not supported by ${connectorName}`);
 }
 
 export function getWeb3Connector(
   connectorName: AvailableWeb3Connectors,
-  currentNetwork: ChainId,
-  supportedNetworks: ChainId[],
+  currentChainId: ChainId,
+  supportedChainIds: ChainId[],
   connectorConfig: ConnectorOptionalConfig
 ): AbstractConnector {
-  const networkConfig = getNetworkConfig(currentNetwork);
-  const chainId = currentNetwork;
+  const networkConfig = getNetworkConfig(currentChainId);
+  const chainId = currentChainId;
 
   switch (connectorName) {
     case 'browser':
-      return new InjectedConnector({ supportedChainIds: getSupportedNetworkIds() });
+      return new InjectedConnector({ supportedChainIds: getSupportedChainIds() });
     case 'ledger':
       return new LedgerConnector({
         chainId,
@@ -84,7 +84,7 @@ export function getWeb3Connector(
       });
     case 'wallet-connect':
       return new WalletConnectConnector({
-        rpc: supportedNetworks.reduce((acc, network) => {
+        rpc: supportedChainIds.reduce((acc, network) => {
           const config = getNetworkConfig(network);
           acc[network] = config.privateJsonRPCUrl || config.publicJsonRPCUrl;
           return acc;
@@ -109,13 +109,13 @@ export function getWeb3Connector(
         windowClosedError: true,
       });
     case 'authereum': {
-      if (currentNetwork !== ChainId.mainnet) {
-        raiseUnsupportedNetworkError(currentNetwork, connectorName);
+      if (currentChainId !== ChainId.mainnet) {
+        raiseUnsupportedNetworkError(currentChainId, connectorName);
       }
       return new AuthereumConnector({
         chainId,
         config: {
-          networkName: currentNetwork,
+          networkName: currentChainId,
           rpcUri: networkConfig.privateJsonRPCUrl || networkConfig.publicJsonRPCUrl,
           apiKey: AUTHEREUM_API_KEY,
         },
@@ -126,7 +126,7 @@ export function getWeb3Connector(
         chainId,
         initOptions: {
           network: {
-            host: currentNetwork === ChainId.polygon ? 'matic' : currentNetwork,
+            host: currentChainId === ChainId.polygon ? 'matic' : currentChainId,
           },
           showTorusButton: false,
           enableLogging: false,

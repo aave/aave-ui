@@ -71,12 +71,7 @@ export function getDefaultChainId() {
   return marketsData[availableMarkets[0]].chainId;
 }
 
-export function getSupportedNetworks(): Network[] {
-  const supportedNetworks = getSupportedNetworkIds().map((id) => ChainIdToNetwork[id]) as Network[];
-  return supportedNetworks;
-}
-
-export function getSupportedNetworkIds(): number[] {
+export function getSupportedChainIds(): number[] {
   return Array.from(
     Object.keys(marketsData).reduce((acc, value) => {
       if (
@@ -94,7 +89,7 @@ export function getSupportedNetworkIds(): number[] {
  * selectable markets (markets in a available network + forks when enabled)
  */
 export const availableMarkets = Object.keys(marketsData).filter((key) =>
-  getSupportedNetworkIds().includes(marketsData[key as keyof typeof CustomMarket].chainId)
+  getSupportedChainIds().includes(marketsData[key as keyof typeof CustomMarket].chainId)
 ) as CustomMarket[];
 
 const linkBuilder =
