@@ -83,12 +83,19 @@ export default function AssetSwapMain() {
       res.underlyingBalance !== '0' &&
       res.reserve.underlyingAsset.toLowerCase() !== toAsset.toLowerCase()
   );
-  const availableDepositsSymbols = availableDeposits.map((res) => ({
-    label: res.reserve.symbol,
-    value: res.reserve.underlyingAsset,
-    decimals: res.reserve.decimals,
-    apy: res.reserve.liquidityRate,
-  }));
+  const availableDepositsSymbols = availableDeposits.map((res) => {
+    const reserve = reserves.find(
+      (reserve) =>
+        reserve.underlyingAsset.toLowerCase() === res.reserve.underlyingAsset.toLowerCase()
+    );
+    const apy = reserve ? reserve.supplyAPY : '0';
+    return {
+      label: res.reserve.symbol,
+      value: res.reserve.underlyingAsset,
+      decimals: res.reserve.decimals,
+      apy,
+    };
+  });
 
   const availableDestinations = reserves.filter(
     (res) =>
@@ -98,15 +105,15 @@ export default function AssetSwapMain() {
     label: res.symbol,
     value: res.underlyingAsset,
     decimals: res.decimals,
-    apy: res.liquidityRate,
+    apy: res.supplyAPY,
   }));
 
-  const fromAPY = availableDeposits.find(
-    (res) => res.reserve.underlyingAsset.toLowerCase() === fromAsset.toLowerCase()
-  )?.reserve.liquidityRate;
+  const fromAPY = availableDestinations.find(
+    (res) => res.underlyingAsset.toLowerCase() === fromAsset.toLowerCase()
+  )?.supplyAPY;
   const toAPY = availableDestinations.find(
     (res) => res.underlyingAsset.toLowerCase() === toAsset.toLowerCase()
-  )?.liquidityRate;
+  )?.supplyAPY;
 
   const fromAssetUserData = user.reservesData.find(
     (res) => res.reserve.underlyingAsset === fromAsset

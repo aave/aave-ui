@@ -55,7 +55,7 @@ function SwapBorrowRateModeConfirmation({
 
   const currentApy =
     currentRateMode === InterestRate.Stable
-      ? userReserve.stableBorrowRate
+      ? poolReserve.stableBorrowRate
       : poolReserve.variableBorrowRate;
   const apyAfterSwitch =
     currentRateMode === InterestRate.Stable

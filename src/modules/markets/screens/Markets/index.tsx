@@ -65,13 +65,13 @@ export default function Markets() {
         id: reserve.id,
         underlyingAsset: reserve.underlyingAsset,
         currencySymbol: reserve.symbol,
-        depositAPY: reserve.borrowingEnabled ? Number(reserve.liquidityRate) : -1,
+        depositAPY: reserve.borrowingEnabled ? Number(reserve.supplyAPY) : -1,
         avg30DaysLiquidityRate: Number(reserve.avg30DaysLiquidityRate),
         stableBorrowRate:
           reserve.stableBorrowRateEnabled && reserve.borrowingEnabled
-            ? Number(reserve.stableBorrowRate)
+            ? Number(reserve.stableBorrowAPY)
             : -1,
-        variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowRate) : -1,
+        variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowAPY) : -1,
         avg30DaysVariableRate: Number(reserve.avg30DaysVariableBorrowRate),
         borrowingEnabled: reserve.borrowingEnabled,
         stableBorrowRateEnabled: reserve.stableBorrowRateEnabled,

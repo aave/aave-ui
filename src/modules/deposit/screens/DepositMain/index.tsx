@@ -83,7 +83,7 @@ export default function DepositsMain() {
           walletBalanceInUSD,
           underlyingBalance: userReserve ? userReserve.underlyingBalance : '0',
           underlyingBalanceInUSD: userReserve ? userReserve.underlyingBalanceUSD : '0',
-          liquidityRate: reserve.borrowingEnabled ? Number(reserve.liquidityRate) : '-1',
+          liquidityRate: reserve.supplyAPY,
           avg30DaysLiquidityRate: Number(reserve.avg30DaysLiquidityRate),
           borrowingEnabled: reserve.borrowingEnabled,
           interestHistory: [],

@@ -65,6 +65,22 @@ class MM {
   }
 
   doSwitchNetwork(name){
+    browser.pause(1000)
+    browser.waitUntil(
+      () => {
+        let _located = false
+        if($$(MetamaskPage.networkXpath()).length != 0)
+          _located = true
+        else
+          browser.refresh()
+        return _located
+      },
+      {
+        timeout: 25000,
+        interval: 5000,
+        timeoutMsg: "network button not exist"
+      }
+    )
     elemUtil.doClick(MetamaskPage.networkListBtn)
     let liXpath = '//li//*[text()="'+name+'"]'
     elemUtil.doClick($(liXpath))
