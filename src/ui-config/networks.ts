@@ -4,7 +4,7 @@ import polygonBridgeLogo from './branding/images/polygonLogo.svg';
 import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
 
 const mainnet_config: BaseNetworkConfig = {
-  name: 'mainnet',
+  name: 'Ethereum Mainnet',
   publicJsonRPCUrl: 'https://eth-mainnet.alchemyapi.io/v2/demo',
   publicJsonRPCWSUrl: 'wss://eth-mainnet.alchemyapi.io/v2/demo',
   addresses: {
@@ -29,7 +29,7 @@ const mainnet_config: BaseNetworkConfig = {
 } as const;
 
 const polygon_config: BaseNetworkConfig = {
-  name: 'polygon pos',
+  name: 'Polygon POS',
   publicJsonRPCUrl: 'https://polygon-rpc.com',
   publicJsonRPCWSUrl: 'wss://polygon-rpc.com',
   addresses: {
@@ -90,7 +90,7 @@ const avalanche_config: BaseNetworkConfig = {
 
 export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
   [Network.kovan]: {
-    name: 'kovan',
+    name: 'Kovan',
     publicJsonRPCUrl: 'https://kovan.poa.network ',
     addresses: {
       walletBalanceProvider: '0x07DC923859b68e9399d787bf52c4Aa9eBe3490aF',
