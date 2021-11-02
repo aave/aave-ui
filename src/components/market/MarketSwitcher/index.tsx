@@ -39,6 +39,8 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
     localStorage.setItem('firstMarketButtonClick', 'false');
   };
 
+  if (availableMarkets.length === 1) return null;
+
   const toggleVisible = () => {
     if (isFirstMarketButtonClick) {
       firstMarketButtonClick();
