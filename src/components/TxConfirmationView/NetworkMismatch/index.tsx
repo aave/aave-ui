@@ -15,7 +15,7 @@ import { getNetworkConfig } from '../../../helpers/config/markets-and-network-co
 
 import messages from './messages';
 import staticStyles from './style';
-import { ChainId } from '@aave/contract-helpers';
+import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
 
 interface NetworkMismatchProps {
   neededNetworkName: Network;
@@ -141,7 +141,7 @@ export default function NetworkMismatch({
           {isManualNetworkUpdateNeeded && (
             <DefaultButton
               title={intl.formatMessage(messages.changeNetwork)}
-              onClick={() => handleNetworkChange(neededNetworkName)}
+              onClick={() => handleNetworkChange(ChainIdToNetwork[neededNetworkName as any] as any)}
             />
           )}
         </div>

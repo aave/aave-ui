@@ -1,6 +1,5 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Network } from '@aave/protocol-js';
 
 import {
   AvailableWeb3Connectors,
@@ -16,7 +15,7 @@ import LedgerChecklist from './components/LedgerChecklist';
 import SelectPreferredNetwork from './components/SelectPreferredNetwork';
 import {
   AUTHEREUM_API_KEY,
-  getFortmaticKeyByNetwork,
+  getFortmaticKeyByChainId,
   PORTIS_DAPP_ID,
 } from '../../helpers/config/wallet-config';
 import { UnlockWalletExtraText } from '../../ui-config';
@@ -25,6 +24,7 @@ import messages from './messages';
 import staticStyles from './style';
 
 import * as icons from './images';
+import { ChainId } from '@aave/contract-helpers';
 
 export interface Wallet {
   title: string;
@@ -37,9 +37,9 @@ export interface Wallet {
 }
 
 export default function ConnectWalletModal({
-  preferredNetwork,
-  onSelectPreferredNetwork,
-  supportedNetworks,
+  preferredChainId,
+  onSelectPreferredChainId,
+  supportedChainIds,
   onUnlockExternalWallet,
   connectorConfig,
   error,
@@ -53,8 +53,8 @@ export default function ConnectWalletModal({
   const handleUnlockExternalWallet = (providerName: AvailableWeb3Connectors) =>
     onUnlockExternalWallet(
       providerName,
-      preferredNetwork,
-      supportedNetworks,
+      preferredChainId,
+      supportedChainIds,
       connectorConfig,
       false
     );
@@ -77,31 +77,31 @@ export default function ConnectWalletModal({
       title: 'Portis',
       providerName: 'portis',
       icon: icons.portisIcon,
-      notSupported: !PORTIS_DAPP_ID || preferredNetwork === Network.avalanche,
+      notSupported: !PORTIS_DAPP_ID || preferredChainId === ChainId.avalanche,
     },
     {
       title: 'Ledger',
       providerName: 'ledger',
       icon: icons.ledgerIcon,
-      notSupported: preferredNetwork === Network.polygon || preferredNetwork === Network.avalanche,
+      notSupported: preferredChainId === ChainId.polygon || preferredChainId === ChainId.avalanche,
     },
     {
       title: 'MEW wallet',
       providerName: 'mew-wallet',
       icon: icons.MEWIcon,
-      notSupported: preferredNetwork !== Network.mainnet,
+      notSupported: preferredChainId !== ChainId.mainnet,
     },
     {
       title: 'Coinbase',
       providerName: 'wallet-link',
       icon: icons.coinbaseIcon,
-      notSupported: preferredNetwork === Network.avalanche,
+      notSupported: preferredChainId === ChainId.avalanche,
     },
     {
       title: 'Authereum',
       providerName: 'authereum',
       icon: icons.authereumIcon,
-      notSupported: !AUTHEREUM_API_KEY || preferredNetwork !== Network.mainnet,
+      notSupported: !AUTHEREUM_API_KEY || preferredChainId !== ChainId.mainnet,
     },
     {
       title: 'Wallet Connect',
@@ -112,23 +112,23 @@ export default function ConnectWalletModal({
       title: 'Torus',
       providerName: 'torus',
       icon: icons.torusIcon,
-      notSupported: preferredNetwork === Network.avalanche,
+      notSupported: preferredChainId === ChainId.avalanche,
     },
     {
       title: 'Fortmatic',
       providerName: 'fortmatic',
       icon: icons.formaticIcon,
       notSupported:
-        !getFortmaticKeyByNetwork(preferredNetwork) ||
-        preferredNetwork === Network.polygon ||
-        preferredNetwork === Network.avalanche,
+        !getFortmaticKeyByChainId(preferredChainId) ||
+        preferredChainId === ChainId.polygon ||
+        preferredChainId === ChainId.avalanche,
     },
     {
       title: 'imToken',
       providerName: 'wallet-connect',
       icon: icons.imToken,
       notSupported:
-        isImToken || preferredNetwork === Network.polygon || preferredNetwork === Network.avalanche,
+        isImToken || preferredChainId === ChainId.polygon || preferredChainId === ChainId.avalanche,
     },
   ];
 
@@ -139,9 +139,9 @@ export default function ConnectWalletModal({
       className="ConnectWalletModal"
     >
       <SelectPreferredNetwork
-        preferredNetwork={preferredNetwork}
-        onSelectPreferredNetwork={onSelectPreferredNetwork}
-        supportedNetworks={supportedNetworks}
+        preferredNetwork={preferredChainId}
+        onSelectPreferredNetwork={onSelectPreferredChainId}
+        supportedNetworks={supportedChainIds}
       />
 
       {error && (

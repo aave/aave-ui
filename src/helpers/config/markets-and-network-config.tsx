@@ -67,6 +67,10 @@ export function getDefaultNetworkName() {
   return ChainIdToNetwork[marketsData[availableMarkets[0]].chainId] as Network;
 }
 
+export function getDefaultChainId() {
+  return marketsData[availableMarkets[0]].chainId;
+}
+
 export function getSupportedNetworks(): Network[] {
   const supportedNetworks = getSupportedNetworkIds().map((id) => ChainIdToNetwork[id]) as Network[];
   return supportedNetworks;
@@ -108,7 +112,9 @@ const linkBuilder =
 export function getNetworkConfig(chainId: ChainId): NetworkConfig {
   const network = ChainIdToNetwork[chainId] as Network;
   const config = networkConfigs[network];
-  if (!config) throw new Error(`${network}, ${chainId} network was not configured`);
+  if (!config) {
+    throw new Error(`${network}, ${chainId} network was not configured`);
+  }
   return { ...config, explorerLinkBuilder: linkBuilder({ baseUrl: config.explorerLink }) };
 }
 

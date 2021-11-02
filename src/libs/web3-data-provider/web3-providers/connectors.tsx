@@ -1,4 +1,3 @@
-import { Network } from '@aave/protocol-js';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { LedgerConnector } from './connectors/ledger-connector';
@@ -16,14 +15,13 @@ import { MewConnectConnector } from '@myetherwallet/mewconnect-connector';
 
 import {
   AUTHEREUM_API_KEY,
-  getFortmaticKeyByNetwork,
+  getFortmaticKeyByChainId,
   PORTIS_DAPP_ID,
 } from '../../../helpers/config/wallet-config';
 import {
   getSupportedNetworkIds,
   getNetworkConfig,
 } from '../../../helpers/config/markets-and-network-config';
-import { mapNameToChainID } from '../web3-helpers';
 import { ChainId } from '@aave/contract-helpers';
 
 export type AvailableWeb3Connectors =
@@ -53,25 +51,25 @@ const POLLING_INTERVAL = 12000;
 const APP_NAME = 'Aave';
 const APP_LOGO_URL = 'https://aave.com/favicon.ico';
 
-function raiseUnsupportedNetworkError(network: Network, connectorName: AvailableWeb3Connectors) {
+function raiseUnsupportedNetworkError(network: ChainId, connectorName: AvailableWeb3Connectors) {
   throw new Error(`${network} is not supported by ${connectorName}`);
 }
 
 export function getWeb3Connector(
   connectorName: AvailableWeb3Connectors,
-  currentNetwork: Network,
-  supportedNetworks: Network[],
+  currentNetwork: ChainId,
+  supportedNetworks: ChainId[],
   connectorConfig: ConnectorOptionalConfig
 ): AbstractConnector {
-  const networkConfig = getNetworkConfig(ChainId[currentNetwork]);
-  const networkId = mapNameToChainID(currentNetwork);
+  const networkConfig = getNetworkConfig(currentNetwork);
+  const chainId = currentNetwork;
 
   switch (connectorName) {
     case 'browser':
       return new InjectedConnector({ supportedChainIds: getSupportedNetworkIds() });
     case 'ledger':
       return new LedgerConnector({
-        chainId: networkId,
+        chainId,
         url: networkConfig.privateJsonRPCUrl || networkConfig.publicJsonRPCUrl,
         pollingInterval: POLLING_INTERVAL,
         baseDerivationPath: connectorConfig.ledgerBaseDerivationPath,
@@ -87,19 +85,19 @@ export function getWeb3Connector(
     case 'wallet-connect':
       return new WalletConnectConnector({
         rpc: supportedNetworks.reduce((acc, network) => {
-          const config = getNetworkConfig(ChainId[network]);
-          acc[mapNameToChainID(network)] = config.privateJsonRPCUrl || config.publicJsonRPCUrl;
+          const config = getNetworkConfig(network);
+          acc[network] = config.privateJsonRPCUrl || config.publicJsonRPCUrl;
           return acc;
         }, {} as { [networkId: number]: string }),
         bridge: 'https://aave.bridge.walletconnect.org',
         qrcode: true,
         pollingInterval: POLLING_INTERVAL,
-        preferredNetworkId: networkId,
+        preferredNetworkId: chainId,
       });
     case 'fortmatic':
       return new FortmaticConnector({
-        chainId: networkId,
-        apiKey: getFortmaticKeyByNetwork(currentNetwork),
+        chainId,
+        apiKey: getFortmaticKeyByChainId(chainId),
       });
     case 'mew-wallet':
       return new MewConnectConnector({
@@ -111,11 +109,11 @@ export function getWeb3Connector(
         windowClosedError: true,
       });
     case 'authereum': {
-      if (currentNetwork !== Network.mainnet) {
+      if (currentNetwork !== ChainId.mainnet) {
         raiseUnsupportedNetworkError(currentNetwork, connectorName);
       }
       return new AuthereumConnector({
-        chainId: networkId,
+        chainId,
         config: {
           networkName: currentNetwork,
           rpcUri: networkConfig.privateJsonRPCUrl || networkConfig.publicJsonRPCUrl,
@@ -125,10 +123,10 @@ export function getWeb3Connector(
     }
     case 'torus':
       return new TorusConnector({
-        chainId: networkId,
+        chainId,
         initOptions: {
           network: {
-            host: currentNetwork === Network.polygon ? 'matic' : currentNetwork,
+            host: currentNetwork === ChainId.polygon ? 'matic' : currentNetwork,
           },
           showTorusButton: false,
           enableLogging: false,
@@ -139,7 +137,7 @@ export function getWeb3Connector(
       if (!PORTIS_DAPP_ID) throw new Error('Portis DAPP id not specified');
       return new PortisConnector({
         dAppId: PORTIS_DAPP_ID,
-        networks: [networkId],
+        networks: [chainId],
       });
     }
     case 'gnosis-safe': {

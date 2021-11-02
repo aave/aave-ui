@@ -12,7 +12,6 @@ import ConnectButton from '../../ConnectButton';
 import staticStyles from './style';
 import messages from './messages';
 import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
-import { ChainId } from '@aave/contract-helpers';
 
 export default function AddressInfo() {
   const intl = useIntl();
@@ -28,7 +27,7 @@ export default function AddressInfo() {
   const { closeMobileMenu } = useMenuContext();
 
   const [visible, setVisible] = useState(false);
-  const config = getNetworkConfig(chainId as ChainId);
+  const config = chainId ? getNetworkConfig(chainId) : undefined;
   const networkName = config && config.name;
   let longName = networkName;
   let networkColor = '';

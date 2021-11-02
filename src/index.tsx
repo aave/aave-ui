@@ -29,8 +29,8 @@ import globalStyle from './globalStyle';
 import { WalletBalanceProvider } from './libs/wallet-balance-provider/WalletBalanceProvider';
 import { IPFS_MODE } from './helpers/config/misc-config';
 import {
-  getDefaultNetworkName,
-  getSupportedNetworks,
+  getDefaultChainId,
+  getSupportedNetworkIds,
 } from './helpers/config/markets-and-network-config';
 import { UnlockWalletPreloader } from './components/UnlockWalletPreloader';
 import ConnectWalletModal from './components/ConnectWalletModal';
@@ -67,8 +67,8 @@ ReactDOM.render(
                     <Web3ReactProvider getLibrary={getWeb3Library}>
                       <ErrorBoundary>
                         <Web3Provider
-                          defaultNetwork={getDefaultNetworkName()}
-                          supportedNetworks={getSupportedNetworks()}
+                          defaultNetwork={getDefaultChainId()}
+                          supportedNetworks={getSupportedNetworkIds()}
                           preloader={UnlockWalletPreloader}
                           connectWalletModal={ConnectWalletModal}
                         >
