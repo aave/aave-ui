@@ -7366,6 +7366,7 @@ export type ReserveDataFragmentFragment = {
   borrowingEnabled: boolean;
   stableBorrowRateEnabled: boolean;
   reserveFactor: string;
+  interestRateStrategyAddress: string;
   baseLTVasCollateral: string;
   stableRateSlope1: string;
   stableRateSlope2: string;
@@ -7419,6 +7420,7 @@ export type C_ProtocolDataQuery = {
       borrowingEnabled: boolean;
       stableBorrowRateEnabled: boolean;
       reserveFactor: string;
+      interestRateStrategyAddress: string;
       baseLTVasCollateral: string;
       stableRateSlope1: string;
       stableRateSlope2: string;
@@ -7473,6 +7475,7 @@ export type C_ProtocolDataUpdateSubscription = {
       borrowingEnabled: boolean;
       stableBorrowRateEnabled: boolean;
       reserveFactor: string;
+      interestRateStrategyAddress: string;
       baseLTVasCollateral: string;
       stableRateSlope1: string;
       stableRateSlope2: string;
@@ -7846,6 +7849,7 @@ export const ReserveDataFragmentFragmentDoc = gql`
     borrowingEnabled
     stableBorrowRateEnabled
     reserveFactor
+    interestRateStrategyAddress
     baseLTVasCollateral
     stableRateSlope1
     stableRateSlope2

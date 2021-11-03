@@ -13,6 +13,7 @@ fragment ReserveDataFragment on ReserveData {
   borrowingEnabled
   stableBorrowRateEnabled
   reserveFactor
+  interestRateStrategyAddress
   baseLTVasCollateral
   stableRateSlope1
   stableRateSlope2
