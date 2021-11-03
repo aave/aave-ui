@@ -61,20 +61,18 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
           rawUserReserves: rawUserReserves,
         })
       : undefined;
-
   const formattedPoolReserves: ComputedReserveData[] = rawReserves.map((reserve) => {
     const formattedReserve = formatReserve({
       reserve,
       currentTimestamp,
     });
     const fullReserve: ComputedReserveData = {
-      ...formattedReserve,
       ...reserve,
+      ...formattedReserve,
       priceInMarketReferenceCurrency: normalize(
         reserve.priceInMarketReferenceCurrency,
         marketRefCurrencyDecimals
       ),
-      availableLiquidity: normalize(reserve.availableLiquidity, reserve.decimals),
     };
     return fullReserve;
   });

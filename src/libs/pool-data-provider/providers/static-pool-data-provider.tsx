@@ -3,9 +3,9 @@ import { API_ETH_MOCK_ADDRESS, Network } from '@aave/protocol-js';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useUserWalletDataContext } from '../../web3-data-provider';
 import { NetworkConfig } from '../../../helpers/markets/markets-data';
-import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/use-cached-protocol-data';
-import { useApolloConfigContext } from '../../apollo-config';
-import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
+//import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/use-cached-protocol-data';
+//import { useApolloConfigContext } from '../../apollo-config';
+import { /*ConnectionMode,*/ useConnectionStatusContext } from '../../connection-status-provider';
 import { assetsOrder } from '../../../ui-config/assets';
 import { usePoolData } from '../hooks/use-pool-data';
 import { ReserveDataHumanized, UserReserveDataHumanized } from '@aave/contract-helpers';
@@ -22,7 +22,6 @@ export const unPrefixSymbol = (symbol: string, prefix: string) => {
 
 export interface UserReserveDataExtended extends UserReserveDataHumanized {
   reserve: ReserveDataHumanized;
-  variableBorrowIndex: string;
 }
 
 export interface StaticPoolDataContextData {
@@ -54,14 +53,14 @@ export function StaticPoolDataProvider({
   errorPage,
 }: StaticPoolDataProviderProps) {
   const { currentAccount } = useUserWalletDataContext();
-  const { network: apolloClientNetwork } = useApolloConfigContext();
+  //const { network: apolloClientNetwork } = useApolloConfigContext();
   const { currentMarketData, network, networkConfig } = useProtocolDataContext();
-  const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
+  const { /*preferredConnectionMode,*/ isRPCActive } = useConnectionStatusContext();
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
 
   const {
-    error: rpcDataError,
-    loading: rpcDataLoading,
+    //error: rpcDataError,
+    //loading: rpcDataLoading,
     data: rpcData,
     refresh,
   } = usePoolData(
@@ -72,7 +71,6 @@ export function StaticPoolDataProvider({
     currentAccount
   );
 
-  // TO-DO: Enable cached data
   /*   const {
     error: cachedDataError,
     loading: cachedDataLoading,
@@ -81,36 +79,34 @@ export function StaticPoolDataProvider({
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     currentAccount,
     preferredConnectionMode === ConnectionMode.rpc || network !== apolloClientNetwork
-    );
-    console.log(cachedData); */
+  );
 
-  //const activeData = isRPCActive && rpcData ? rpcData : cachedData;
+  const activeData = isRPCActive && rpcData ? formattedRPC : cachedData;
+
+  if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
+    return loader;
+   }
+
+   if (!activeData || (isRPCActive && rpcDataError) || (!isRPCActive && cachedDataError)) {
+    return errorPage;
+  } */
+  // Temporary until caching server enabled
   const activeData = rpcData;
-  //if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
-  //  return loader;
-  // }
-  // if (!activeData || (isRPCActive && rpcDataError) || (!isRPCActive && cachedDataError)) {
-  //  return errorPage;
-  //}
 
   const reserves: ReserveDataHumanized[] | undefined = activeData.reserves?.reservesData
     .map((reserve) => ({
       ...reserve,
-      symbol: unPrefixSymbol(reserve.symbol, currentMarketData.aTokenPrefix),
     }))
     .sort(
       ({ symbol: a }, { symbol: b }) =>
         assetsOrder.indexOf(a.toUpperCase()) - assetsOrder.indexOf(b.toUpperCase())
     );
 
-  let WrappedBaseNetworkAssetAddress = '';
   const reservesWithFixedUnderlying: ReserveDataHumanized[] | undefined = reserves?.map(
     (reserve) => {
       if (reserve.symbol.toUpperCase() === `W${networkConfig.baseAsset}`) {
-        WrappedBaseNetworkAssetAddress = reserve.underlyingAsset;
         return {
           ...reserve,
-          symbol: networkConfig.baseAsset,
           underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
         };
       }
@@ -125,25 +121,25 @@ export function StaticPoolDataProvider({
       (reserve) =>
         reserve.underlyingAsset.toLowerCase() === userReserve.underlyingAsset.toLowerCase()
     );
-    const reserveFixed = reservesWithFixedUnderlying?.find(
-      (reserve) =>
-        reserve.underlyingAsset.toLowerCase() === userReserve.underlyingAsset.toLowerCase()
-    );
     if (reserve) {
-      const UserReserve: UserReserveDataExtended = {
+      const reserveWithBase: UserReserveDataExtended = {
         ...userReserve,
-        variableBorrowIndex: '',
         reserve,
       };
-      userReserves.push(UserReserve);
-    }
-    if (reserveFixed) {
-      const UserReserveFixed: UserReserveDataExtended = {
-        ...userReserve,
-        variableBorrowIndex: '',
-        reserve: reserveFixed,
-      };
-      userReservesWithFixedUnderlying.push(UserReserveFixed);
+      userReserves.push(reserveWithBase);
+      if (reserve.symbol.toUpperCase() === `W${networkConfig.baseAsset}`) {
+        const userReserveFixed: UserReserveDataExtended = {
+          ...userReserve,
+          underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
+          reserve: {
+            ...reserve,
+            underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
+          },
+        };
+        userReservesWithFixedUnderlying.push(userReserveFixed);
+      } else {
+        userReservesWithFixedUnderlying.push(reserveWithBase);
+      }
     }
   });
 
@@ -172,8 +168,10 @@ export function StaticPoolDataProvider({
         network,
         networkConfig,
         refresh: isRPCActive ? refresh : async () => {},
-        WrappedBaseNetworkAssetAddress,
-        rawReserves: reserves ? reserves : [],
+        WrappedBaseNetworkAssetAddress: networkConfig.baseAssetWrappedAddress
+          ? networkConfig.baseAssetWrappedAddress
+          : '', // TO-DO: Replace all instances of this with the value from protocol-data-provider instead
+        rawReserves: reservesWithFixedUnderlying ? reservesWithFixedUnderlying : [],
         rawUserReserves: userReservesWithFixedUnderlying,
         rawReservesWithBase: reserves ? reserves : [],
         rawUserReservesWithBase: userReserves,
