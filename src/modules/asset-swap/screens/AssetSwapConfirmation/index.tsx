@@ -43,8 +43,7 @@ interface QueryParams {
 export default function AssetSwapConfirmation() {
   const intl = useIntl();
   const location = useLocation();
-  const { chainId } = useProtocolDataContext();
-  const { WrappedBaseNetworkAssetAddress, networkConfig } = useStaticPoolDataContext();
+  const { WrappedBaseNetworkAssetAddress, networkConfig, chainId } = useStaticPoolDataContext();
   const { user, reserves } = useDynamicPoolDataContext();
   const { lendingPool } = useTxBuilderContext();
   const query = queryString.parse(location.search) as QueryParams;
@@ -61,6 +60,11 @@ export default function AssetSwapConfirmation() {
   const maxSlippage = valueToBigNumber(query.maxSlippage || 0);
   const totalFees = valueToBigNumber(query.totalFees || 0);
   const swapAll = query.swapAll === 'true';
+
+  // paraswap has no api specifically for the fork you're running on, so we need to select the correct chainId
+  const underlyingChainId = (
+    networkConfig.isFork ? networkConfig.underlyingChainId : chainId
+  ) as number;
 
   const {
     error,
@@ -81,7 +85,7 @@ export default function AssetSwapConfirmation() {
     },
     variant: 'exactIn',
     max: swapAll,
-    chainId,
+    chainId: underlyingChainId,
   });
 
   const calcToAmount = valueToBigNumber(calcToAmountString);

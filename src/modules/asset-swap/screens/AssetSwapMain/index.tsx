@@ -30,7 +30,7 @@ export default function AssetSwapMain() {
   const location = useLocation();
   const { currentTheme, md } = useThemeContext();
   const { user, reserves } = useDynamicPoolDataContext();
-  const { currentMarketData, chainId } = useProtocolDataContext();
+  const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
   const [fromAmount, setAmountFrom] = useState<string>('');
   const [fromAsset, setAssetFrom] = useState('');
   const fromAssetData = reserves.find(
@@ -41,6 +41,12 @@ export default function AssetSwapMain() {
     (res) => res.underlyingAsset.toLowerCase() === toAsset.toLowerCase()
   );
   const [isMaxSelected, setIsMaxSelected] = useState(false);
+
+  // paraswap has no api specifically for the fork you're running on, so we need to select the correct chainId
+  const underlyingChainId = (
+    networkConfig.isFork ? networkConfig.underlyingChainId : chainId
+  ) as number;
+
   const {
     loading,
     error,
@@ -59,7 +65,7 @@ export default function AssetSwapMain() {
     },
     variant: 'exactIn',
     max: isMaxSelected,
-    chainId,
+    chainId: underlyingChainId,
   });
 
   const [maxSlippage, setMaxSlippage] = useState(DEFAULT_MAX_SLIPPAGE);

@@ -46,7 +46,10 @@ export type NetworkConfig = {
   rpcOnly: boolean;
   // set this to show faucets and similar
   isTestnet?: boolean;
+  // get's automatically populated on fork networks
   isFork?: boolean;
+  // contains the forked off chainId
+  underlyingChainId?: number;
   bridge?: {
     brandColor: string;
     name: string;
