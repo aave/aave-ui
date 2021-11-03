@@ -3612,6 +3612,7 @@ export type ReserveData = {
   borrowingEnabled: Scalars['Boolean'];
   decimals: Scalars['Float'];
   id: Scalars['String'];
+  interestRateStrategyAddress: Scalars['String'];
   isActive: Scalars['Boolean'];
   isFrozen: Scalars['Boolean'];
   lastUpdateTimestamp: Scalars['Float'];
