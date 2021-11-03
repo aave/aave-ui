@@ -57,10 +57,13 @@ export default function ReserveInformation({
     totalLiquidity: poolReserve.totalLiquidity,
     totalBorrows: poolReserve.totalDebt,
     availableLiquidity: poolReserve.availableLiquidity,
-    liquidityRate: Number(poolReserve.liquidityRate),
+    supplyAPY: Number(poolReserve.supplyAPY),
+    supplyAPR: Number(poolReserve.supplyAPR),
     avg30DaysLiquidityRate: Number(poolReserve.avg30DaysLiquidityRate),
-    stableRate: Number(poolReserve.stableBorrowRate),
-    variableRate: Number(poolReserve.variableBorrowRate),
+    stableAPY: Number(poolReserve.stableBorrowAPY),
+    stableAPR: Number(poolReserve.stableBorrowAPR),
+    variableAPY: Number(poolReserve.variableBorrowAPY),
+    variableAPR: Number(poolReserve.variableBorrowAPR),
     stableOverTotal: valueToBigNumber(poolReserve.totalStableDebt)
       .dividedBy(poolReserve.totalDebt)
       .toNumber(),
@@ -173,12 +176,12 @@ export default function ReserveInformation({
             <APYCard title={intl.formatMessage(defaultMessages.deposit)}>
               <APYLine
                 title={intl.formatMessage(messages.depositAPY)}
-                value={reserveOverviewData.liquidityRate}
+                value={reserveOverviewData.supplyAPY}
                 condition={reserveOverviewData.borrowingEnabled}
               />
               <APYLine
-                title={intl.formatMessage(messages.pastThirtyDayAvg)}
-                value={reserveOverviewData.avg30DaysLiquidityRate}
+                title={intl.formatMessage(messages.depositAPR)}
+                value={reserveOverviewData.supplyAPR}
                 condition={reserveOverviewData.borrowingEnabled}
               />
             </APYCard>
@@ -186,7 +189,15 @@ export default function ReserveInformation({
             <APYCard title={intl.formatMessage(messages.stableBorrowing)} color="primary">
               <APYLine
                 title={intl.formatMessage(messages.borrowAPY)}
-                value={reserveOverviewData.stableRate}
+                value={reserveOverviewData.stableAPY}
+                condition={
+                  reserveOverviewData.borrowingEnabled &&
+                  reserveOverviewData.stableBorrowRateEnabled
+                }
+              />
+              <APYLine
+                title={intl.formatMessage(messages.borrowAPR)}
+                value={reserveOverviewData.stableAPR}
                 condition={
                   reserveOverviewData.borrowingEnabled &&
                   reserveOverviewData.stableBorrowRateEnabled
@@ -205,12 +216,12 @@ export default function ReserveInformation({
             <APYCard title={intl.formatMessage(messages.variableBorrowing)} color="secondary">
               <APYLine
                 title={intl.formatMessage(messages.borrowAPY)}
-                value={reserveOverviewData.variableRate}
+                value={reserveOverviewData.variableAPY}
                 condition={reserveOverviewData.borrowingEnabled}
               />
               <APYLine
-                title={intl.formatMessage(messages.pastThirtyDayAvg)}
-                value={reserveOverviewData.avg30DaysVariableRate}
+                title={intl.formatMessage(messages.borrowAPR)}
+                value={reserveOverviewData.variableAPR}
                 condition={reserveOverviewData.borrowingEnabled}
               />
               <APYLine

@@ -82,7 +82,7 @@ export default function BorrowInterestRateForm({
             title={intl.formatMessage(messages.stable)}
             type="stable"
             disabled={!isStableBorrowRateAllowed}
-            percent={Number(poolReserve.stableBorrowRate)}
+            percent={Number(poolReserve.stableBorrowAPY)}
             isActive={rateMode === BorrowRateMode.Stable}
             onClick={() => setRateMode(BorrowRateMode.Stable)}
           />
@@ -90,7 +90,7 @@ export default function BorrowInterestRateForm({
         <InterestRateButton
           title={intl.formatMessage(messages.variable)}
           type="variable"
-          percent={Number(poolReserve.variableBorrowRate)}
+          percent={Number(poolReserve.variableBorrowAPY)}
           isActive={rateMode === BorrowRateMode.Variable}
           onClick={() => setRateMode(BorrowRateMode.Variable)}
         />

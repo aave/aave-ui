@@ -49,7 +49,7 @@ exports.config = {
     './e2e/specs/polygonMarket/assets/usdt.polygon.test.js',
     './e2e/specs/polygonMarket/assets/weth.polygon.test.js',
     './e2e/specs/polygonMarket/assets/wbtc.polygon.test.js',
-    './e2e/specs/polygonMarket/reward.polygon.test.js',
+    // './e2e/specs/polygonMarket/reward.polygon.test.js',
     './e2e/specs/polygonMarket/swap.polygon.test.js',
 
     './e2e/specs/ammMarket/assets/eth.test.js',

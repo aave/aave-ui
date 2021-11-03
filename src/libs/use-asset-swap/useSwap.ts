@@ -49,7 +49,7 @@ const getReserve = (address: string, reserves: ComputedReserveData[], WETHAddres
     address: address.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase() ? WETHAddress : address,
     decimals: Number.parseInt(reserve?.decimals as any),
     priceInEth: reserve?.priceInMarketReferenceCurrency,
-    liquidityRate: reserve?.liquidityRate,
+    liquidityRate: reserve?.supplyAPY,
   };
 };
 

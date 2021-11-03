@@ -83,7 +83,10 @@ export default function Dashboard() {
         isActive: poolReserve.isActive,
         isFrozen: poolReserve.isFrozen,
         stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
-        reserve: userReserve.reserve,
+        reserve: {
+          ...userReserve.reserve,
+          liquidityRate: poolReserve.supplyAPY,
+        },
       };
       if (userReserve.underlyingBalance !== '0') {
         depositedPositions.push({
@@ -114,7 +117,7 @@ export default function Dashboard() {
           currentBorrows: userReserve.variableBorrows,
           currentBorrowsUSD: userReserve.variableBorrowsUSD,
           borrowRateMode: InterestRate.Variable,
-          borrowRate: poolReserve.variableBorrowRate,
+          borrowRate: poolReserve.variableBorrowAPY,
           vincentivesAPR: reserveIncentiveData
             ? reserveIncentiveData.vIncentives.incentiveAPR
             : '0',
@@ -150,7 +153,7 @@ export default function Dashboard() {
           currentBorrows: userReserve.stableBorrows,
           currentBorrowsUSD: userReserve.stableBorrowsUSD,
           borrowRateMode: InterestRate.Stable,
-          borrowRate: userReserve.stableBorrowRate,
+          borrowRate: poolReserve.stableBorrowAPY,
           vincentivesAPR: reserveIncentiveData
             ? reserveIncentiveData.vIncentives.incentiveAPR
             : '0',

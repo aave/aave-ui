@@ -44,18 +44,6 @@ class ElementUtil{
 
   }
 
-  doWaitValueIsNot0(path, timeout=20000){
-    browser.waitUntil(
-      () => {
-
-      },
-      {
-        timeout: timeout,
-        timeoutMsg: 'element is still exist'
-      }
-    )
-  }
-
   doIsExist(elem,timeout=20000){
       return elem.waitForExist({ timeout: timeout })
   }
@@ -73,9 +61,21 @@ class ElementUtil{
       let valueXpath = '//*[text()="'+value+'"]'
       $(valueXpath).click()
   }
+
   doIsElemDisable(elem) {
     let _result = elem.getAttribute('disabled') == null ? false : true
     return _result
+  }
+
+  doIsNotExist(xpath,timeout = 10000, wait = 2000){
+    browser.pause(wait)
+    browser.waitUntil(
+      () => $$(xpath).length == 0,
+      {
+        timeout: timeout,
+        timeoutMsg: 'element still exist on the page'
+      }
+    )
   }
 }
 

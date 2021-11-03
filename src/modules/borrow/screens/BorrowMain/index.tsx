@@ -81,9 +81,9 @@ export default function BorrowMain() {
           availableBorrowsInUSD,
           stableBorrowRate:
             reserve.stableBorrowRateEnabled && reserve.borrowingEnabled
-              ? Number(reserve.stableBorrowRate)
+              ? Number(reserve.stableBorrowAPY)
               : -1,
-          variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowRate) : -1,
+          variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowAPY) : -1,
           avg30DaysVariableRate: Number(reserve.avg30DaysVariableBorrowRate),
           interestHistory: [],
           aincentivesAPR: reserveIncentiveData
