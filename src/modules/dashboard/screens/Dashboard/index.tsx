@@ -153,7 +153,7 @@ export default function Dashboard() {
           currentBorrows: userReserve.stableBorrows,
           currentBorrowsUSD: userReserve.stableBorrowsUSD,
           borrowRateMode: InterestRate.Stable,
-          borrowRate: poolReserve.stableBorrowAPY,
+          borrowRate: userReserve.stableBorrowAPY,
           vincentivesAPR: reserveIncentiveData
             ? reserveIncentiveData.vIncentives.incentiveAPR
             : '0',
