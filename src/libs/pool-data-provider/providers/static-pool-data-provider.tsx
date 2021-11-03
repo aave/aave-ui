@@ -160,7 +160,6 @@ export function StaticPoolDataProvider({
     ?.marketReferenceCurrencyDecimals
     ? activeData.reserves.baseCurrencyData?.marketReferenceCurrencyDecimals
     : 18;
-  const normalizedMarketRef = 1 / Number(normalize(marketRefPriceInUsd, 8));
   return (
     <StaticPoolDataContext.Provider
       value={{
@@ -175,7 +174,7 @@ export function StaticPoolDataProvider({
         rawUserReserves: userReservesWithFixedUnderlying,
         rawReservesWithBase: reserves ? reserves : [],
         rawUserReservesWithBase: userReserves,
-        marketRefPriceInUsd: normalizedMarketRef.toString(),
+        marketRefPriceInUsd: normalize(marketRefPriceInUsd, 8),
         marketRefCurrencyDecimals,
         isUserHasDeposits,
       }}
