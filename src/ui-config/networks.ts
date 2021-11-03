@@ -3,91 +3,6 @@ import { BaseNetworkConfig } from '../helpers/config/types';
 import polygonBridgeLogo from './branding/images/polygonLogo.svg';
 import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
 
-const mainnet_config: BaseNetworkConfig = {
-  name: 'Ethereum Mainnet',
-  publicJsonRPCUrl: 'https://eth-mainnet.alchemyapi.io/v2/demo',
-  publicJsonRPCWSUrl: 'wss://eth-mainnet.alchemyapi.io/v2/demo',
-  addresses: {
-    walletBalanceProvider: '0x8E8dAd5409E0263a51C0aB5055dA66Be28cFF922',
-    uiPoolDataProvider: '0xf49670C78794b6a604f3B49393d8eE951713339F',
-    uiIncentiveDataProvider: '0xd9F1e5F70B14b8Fd577Df84be7D75afB8a3A0186',
-    chainlinkFeedRegistry: '0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf',
-  },
-  cachingServerUrl: 'https://cache-api-mainnet.aave.com/graphql',
-  cachingWSServerUrl: 'wss://cache-api-mainnet.aave.com/graphql',
-  protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2',
-  baseUniswapAdapter: '0xc3efa200a60883a96ffe3d5b492b121d6e9a1f3f',
-  baseAsset: 'ETH',
-  baseAssetWrappedAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-  // incentives hardcoded information
-  rewardTokenSymbol: 'stkAAVE',
-  rewardTokenAddress: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
-  rewardTokenDecimals: 18,
-  incentivePrecision: 18,
-  explorerLink: 'https://etherscan.com',
-  rpcOnly: false,
-} as const;
-
-const polygon_config: BaseNetworkConfig = {
-  name: 'Polygon POS',
-  publicJsonRPCUrl: 'https://polygon-rpc.com',
-  publicJsonRPCWSUrl: 'wss://polygon-rpc.com',
-  addresses: {
-    walletBalanceProvider: '0x34aa032bC416Cf2CdC45c0C8f065b1F19463D43e',
-    uiPoolDataProvider: '0x3b4108475a8092967225564C05a1E74e9F7A45D6',
-    uiIncentiveDataProvider: '0xC5093EDAC52f4DD68b42433eA8754B26eAbb1A48',
-  },
-  cachingServerUrl: 'https://cache-api-polygon.aave.com/graphql',
-  cachingWSServerUrl: 'wss://cache-api-polygon.aave.com/graphql',
-  protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/aave-v2-matic',
-  baseAsset: 'MATIC',
-  baseAssetWrappedAddress: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
-  // incentives hardcoded information
-  rewardTokenSymbol: 'WMATIC',
-  rewardTokenAddress: API_ETH_MOCK_ADDRESS,
-  rewardTokenDecimals: 18,
-  incentivePrecision: 18,
-  explorerLink: 'https://polygonscan.com',
-  rpcOnly: false,
-  bridge: {
-    brandColor: '130, 71, 229',
-    name: 'Polygon PoS Bridge',
-    url: 'https://wallet.matic.network/bridge/',
-    logo: polygonBridgeLogo,
-  },
-} as const;
-
-const avalanche_config: BaseNetworkConfig = {
-  name: 'avalanche',
-  publicJsonRPCUrl: 'https://api.avax.network/ext/bc/C/rpc',
-  publicJsonRPCWSUrl: 'wss://api.avax.network/ext/bc/C/rpc',
-  addresses: {
-    walletBalanceProvider: '0x73e4898a1Bfa9f710B6A6AB516403A6299e01fc6',
-    uiPoolDataProvider: '0x7d9d970CaE574912221d25107A6728f0d17Cb901',
-    uiIncentiveDataProvider: '0x16Dea0fCBca21E848714B2e96f26ddF6BCe505C9',
-  },
-  protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-avalanche',
-  cachingServerUrl: 'https://cache-api-avalanche.aave.com/graphql',
-  cachingWSServerUrl: 'wss://cache-api-avalanche.aave.com/graphql',
-  baseUniswapAdapter: '0x0',
-  baseAsset: 'AVAX',
-  baseAssetWrappedAddress: '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
-  // incentives hardcoded information
-  rewardTokenSymbol: 'WAVAX',
-  rewardTokenAddress: API_ETH_MOCK_ADDRESS,
-  rewardTokenDecimals: 18,
-  incentivePrecision: 18,
-  explorerLink: 'https://cchain.explorer.avax.network',
-  rpcOnly: false,
-  usdMarket: true,
-  bridge: {
-    brandColor: '232, 65, 66',
-    name: 'Avalanche Bridge',
-    url: 'https://bridge.avax.network/',
-    logo: avalancheBridgeLogo,
-  },
-};
-
 export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
   [Network.kovan]: {
     name: 'Kovan',
@@ -112,13 +27,59 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     isTestnet: true,
   },
   [Network.mainnet]: {
-    ...mainnet_config,
+    name: 'Ethereum Mainnet',
+    publicJsonRPCUrl: 'https://eth-mainnet.alchemyapi.io/v2/demo',
+    publicJsonRPCWSUrl: 'wss://eth-mainnet.alchemyapi.io/v2/demo',
+    addresses: {
+      walletBalanceProvider: '0x8E8dAd5409E0263a51C0aB5055dA66Be28cFF922',
+      uiPoolDataProvider: '0xf49670C78794b6a604f3B49393d8eE951713339F',
+      uiIncentiveDataProvider: '0xd9F1e5F70B14b8Fd577Df84be7D75afB8a3A0186',
+      chainlinkFeedRegistry: '0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf',
+    },
+    cachingServerUrl: 'https://cache-api-mainnet.aave.com/graphql',
+    cachingWSServerUrl: 'wss://cache-api-mainnet.aave.com/graphql',
+    protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2',
+    baseUniswapAdapter: '0xc3efa200a60883a96ffe3d5b492b121d6e9a1f3f',
+    baseAsset: 'ETH',
+    baseAssetWrappedAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+    // incentives hardcoded information
+    rewardTokenSymbol: 'stkAAVE',
+    rewardTokenAddress: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
+    rewardTokenDecimals: 18,
+    incentivePrecision: 18,
+    explorerLink: 'https://etherscan.com',
+    rpcOnly: false,
   },
   [Network.polygon]: {
-    ...polygon_config,
+    name: 'Polygon POS',
+    publicJsonRPCUrl: 'https://polygon-rpc.com',
+    publicJsonRPCWSUrl: 'wss://polygon-rpc.com',
+    addresses: {
+      walletBalanceProvider: '0x34aa032bC416Cf2CdC45c0C8f065b1F19463D43e',
+      uiPoolDataProvider: '0x3b4108475a8092967225564C05a1E74e9F7A45D6',
+      uiIncentiveDataProvider: '0xC5093EDAC52f4DD68b42433eA8754B26eAbb1A48',
+    },
+    cachingServerUrl: 'https://cache-api-polygon.aave.com/graphql',
+    cachingWSServerUrl: 'wss://cache-api-polygon.aave.com/graphql',
+    protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/aave-v2-matic',
+    baseAsset: 'MATIC',
+    baseAssetWrappedAddress: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
+    // incentives hardcoded information
+    rewardTokenSymbol: 'WMATIC',
+    rewardTokenAddress: API_ETH_MOCK_ADDRESS,
+    rewardTokenDecimals: 18,
+    incentivePrecision: 18,
+    explorerLink: 'https://polygonscan.com',
+    rpcOnly: false,
+    bridge: {
+      brandColor: '130, 71, 229',
+      name: 'Polygon PoS Bridge',
+      url: 'https://wallet.matic.network/bridge/',
+      logo: polygonBridgeLogo,
+    },
   },
   [Network.mumbai]: {
-    name: 'mumbai',
+    name: 'Mumbai',
     publicJsonRPCUrl: 'https://rpc-mumbai.maticvigil.com',
     publicJsonRPCWSUrl: 'wss://rpc-mumbai.maticvigil.com',
     addresses: {
@@ -139,7 +100,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     isTestnet: true,
   },
   [Network.fuji]: {
-    name: 'fuji',
+    name: 'Fuji',
     publicJsonRPCUrl: 'https://api.avax-test.network/ext/bc/C/rpc',
     publicJsonRPCWSUrl: 'wss://api.avax-test.network/ext/bc/C/rpc',
     addresses: {
@@ -168,6 +129,33 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     },
   },
   [Network.avalanche]: {
-    ...avalanche_config,
+    name: 'Avalanche',
+    publicJsonRPCUrl: 'https://api.avax.network/ext/bc/C/rpc',
+    publicJsonRPCWSUrl: 'wss://api.avax.network/ext/bc/C/rpc',
+    addresses: {
+      walletBalanceProvider: '0x73e4898a1Bfa9f710B6A6AB516403A6299e01fc6',
+      uiPoolDataProvider: '0x7d9d970CaE574912221d25107A6728f0d17Cb901',
+      uiIncentiveDataProvider: '0x16Dea0fCBca21E848714B2e96f26ddF6BCe505C9',
+    },
+    protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-avalanche',
+    cachingServerUrl: 'https://cache-api-avalanche.aave.com/graphql',
+    cachingWSServerUrl: 'wss://cache-api-avalanche.aave.com/graphql',
+    baseUniswapAdapter: '0x0',
+    baseAsset: 'AVAX',
+    baseAssetWrappedAddress: '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
+    // incentives hardcoded information
+    rewardTokenSymbol: 'WAVAX',
+    rewardTokenAddress: API_ETH_MOCK_ADDRESS,
+    rewardTokenDecimals: 18,
+    incentivePrecision: 18,
+    explorerLink: 'https://cchain.explorer.avax.network',
+    rpcOnly: false,
+    usdMarket: true,
+    bridge: {
+      brandColor: '232, 65, 66',
+      name: 'Avalanche Bridge',
+      url: 'https://bridge.avax.network/',
+      logo: avalancheBridgeLogo,
+    },
   },
 } as const;

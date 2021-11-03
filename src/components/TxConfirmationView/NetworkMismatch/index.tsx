@@ -2,14 +2,12 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
-import { Network } from '@aave/protocol-js';
 
 import DefaultButton from '../../basic/DefaultButton';
 import AccessMaticMarketHelpModal from '../../HelpModal/AccessMaticMarketHelpModal';
 import {
   AvailableWeb3Connectors,
   useUserWalletDataContext,
-  mapNameToChainID,
 } from '../../../libs/web3-data-provider';
 import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
 
@@ -18,13 +16,19 @@ import staticStyles from './style';
 import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
 
 interface NetworkMismatchProps {
-  neededNetworkName: Network;
-  currentNetworkName: Network;
+  neededChainId: ChainId;
+  currentChainId: ChainId;
   currentProviderName: AvailableWeb3Connectors;
 }
 
-const ADD_CONFIG = {
-  [Network.polygon]: {
+const ADD_CONFIG: {
+  [key: number]: {
+    name: string;
+    explorerUrls: string[];
+    nativeCurrency: { name: string; symbol: string; decimals: number };
+  };
+} = {
+  [ChainId.polygon]: {
     name: 'Polygon',
     explorerUrls: ['https://explorer.matic.network'],
     nativeCurrency: {
@@ -33,7 +37,7 @@ const ADD_CONFIG = {
       decimals: 18,
     },
   },
-  [Network.mumbai]: {
+  [ChainId.mumbai]: {
     name: 'Mumbai',
     explorerUrls: ['https://explorer-mumbai.maticvigil.com'],
     nativeCurrency: {
@@ -42,7 +46,7 @@ const ADD_CONFIG = {
       decimals: 18,
     },
   },
-  [Network.avalanche]: {
+  [ChainId.avalanche]: {
     name: 'Avalanche',
     explorerUrls: ['https://cchain.explorer.avax.network'],
     nativeCurrency: {
@@ -51,7 +55,7 @@ const ADD_CONFIG = {
       decimals: 18,
     },
   },
-  [Network.fuji]: {
+  [ChainId.fuji]: {
     name: 'Avalanche Fuji',
     explorerUrls: ['https://cchain.explorer.avax-test.network'],
     nativeCurrency: {
@@ -60,31 +64,31 @@ const ADD_CONFIG = {
       decimals: 18,
     },
   },
-} as const;
+};
 
 export default function NetworkMismatch({
-  neededNetworkName,
-  currentNetworkName,
+  neededChainId,
+  currentChainId,
   currentProviderName,
 }: NetworkMismatchProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { handleNetworkChange } = useUserWalletDataContext();
 
-  const isNeededNetworkNamePolygon = neededNetworkName === Network.polygon;
+  const config = ADD_CONFIG[neededChainId];
   const isAddableByMetamask =
-    (global.window as any)?.ethereum?.isMetaMask &&
-    currentProviderName === 'browser' &&
-    [Network.polygon, Network.mumbai, Network.avalanche, Network.fuji].includes(neededNetworkName);
-  const config = ADD_CONFIG[neededNetworkName as Network.polygon];
-  const { publicJsonRPCWSUrl, publicJsonRPCUrl } = getNetworkConfig(ChainId[neededNetworkName]);
+    (global.window as any)?.ethereum?.isMetaMask && currentProviderName === 'browser' && config;
+  const { publicJsonRPCWSUrl, publicJsonRPCUrl } = getNetworkConfig(neededChainId);
 
   // const isExternalNetworkUpdateNeeded =
   //   !isMetaMaskForMatic && ['browser', 'wallet-connect'].includes(currentProviderName);
   const isManualNetworkUpdateNeeded = ['torus', 'portis'].includes(currentProviderName);
   const isNeededNetworkNotSupported =
-    neededNetworkName === Network.polygon &&
+    neededChainId === ChainId.polygon &&
     ['authereum', 'fortmatic', 'mew-wallet', 'ledger'].includes(currentProviderName);
+
+  const neededNetworkConfig = getNetworkConfig(neededChainId);
+  const currentNetworkConfig = getNetworkConfig(currentChainId);
 
   return (
     <div className="NetworkMismatch">
@@ -97,9 +101,7 @@ export default function NetworkMismatch({
           {isNeededNetworkNotSupported
             ? intl.formatMessage(messages.networkIsNotSupportedCaption)
             : intl.formatMessage(messages.caption, {
-                networkName: isNeededNetworkNamePolygon
-                  ? 'Polygon POS'
-                  : neededNetworkName.toUpperCase(),
+                networkName: neededNetworkConfig.name,
               })}
         </h4>
 
@@ -107,11 +109,11 @@ export default function NetworkMismatch({
           <p>
             {isNeededNetworkNotSupported
               ? intl.formatMessage(messages.networkIsNotSupportedDescription, {
-                  networkName: neededNetworkName.toUpperCase(),
+                  networkName: neededNetworkConfig.name,
                   walletName: currentProviderName,
                 })
               : intl.formatMessage(messages.description, {
-                  networkName: currentNetworkName.toUpperCase(),
+                  networkName: currentNetworkConfig.name,
                   additional: !isAddableByMetamask
                     ? intl.formatMessage(messages.additionalDescription)
                     : '',
@@ -126,7 +128,7 @@ export default function NetworkMismatch({
                   method: 'wallet_addEthereumChain',
                   params: [
                     {
-                      chainId: `0x${mapNameToChainID(neededNetworkName).toString(16)}`,
+                      chainId: `0x${neededChainId.toString(16)}`,
                       chainName: config.name,
                       nativeCurrency: config.nativeCurrency,
                       rpcUrls: [publicJsonRPCUrl, publicJsonRPCWSUrl],
@@ -141,7 +143,7 @@ export default function NetworkMismatch({
           {isManualNetworkUpdateNeeded && (
             <DefaultButton
               title={intl.formatMessage(messages.changeNetwork)}
-              onClick={() => handleNetworkChange(ChainIdToNetwork[neededNetworkName as any] as any)}
+              onClick={() => handleNetworkChange(ChainIdToNetwork[neededChainId as any] as any)}
             />
           )}
         </div>

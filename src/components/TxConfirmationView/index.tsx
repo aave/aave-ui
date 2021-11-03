@@ -1,16 +1,16 @@
 import React, { ReactNode, ReactNodeArray, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { EthereumTransactionTypeExtended, Network } from '@aave/protocol-js';
+import { EthereumTransactionTypeExtended } from '@aave/protocol-js';
 import { useWeb3React } from '@web3-react/core';
 import { providers } from 'ethers';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import {
-  getDefaultNetworkName,
+  getDefaultChainId,
   getSupportedChainIds,
 } from '../../helpers/config/markets-and-network-config';
-import { mapChainIdToName, useUserWalletDataContext } from '../../libs/web3-data-provider';
+import { useUserWalletDataContext } from '../../libs/web3-data-provider';
 import { useProtocolDataContext } from '../../libs/protocol-data-provider';
 import {
   EthTransactionData,
@@ -31,7 +31,7 @@ import NetworkMismatch from './NetworkMismatch';
 
 import messages from './messages';
 import staticStyles from './style';
-import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
+import { ChainId } from '@aave/contract-helpers';
 
 export interface TxConfirmationViewProps {
   caption?: string;
@@ -116,24 +116,24 @@ export default function TxConfirmationView({
    * 2. all networks or walletNetwork is allowed, but there the browsed market does not walletNetwork the walletNetwork
    */
   const currentWalletChainId = chainId as number;
-  const allowedNetworks = _allowedChainIds?.filter((chainId) =>
+  const allowedChainIds = _allowedChainIds?.filter((chainId) =>
     getSupportedChainIds().includes(chainId)
   );
   // current marketNetwork is supported if the action is either not restricted to a network or the network is in the allow list
   const currentMarketNetworkIsSupported =
-    !allowedNetworks || allowedNetworks?.find((network) => network === currentMarketChainId);
+    !allowedChainIds || allowedChainIds?.find((network) => network === currentMarketChainId);
 
   let networkMismatch = false;
-  let neededNetworkName = getDefaultNetworkName();
+  let neededChainId = getDefaultChainId();
 
   if (currentMarketNetworkIsSupported && currentMarketChainId !== currentWalletChainId) {
     networkMismatch = true;
-    neededNetworkName = ChainIdToNetwork[currentMarketChainId] as Network;
+    neededChainId = currentMarketChainId;
   }
 
   if (!currentMarketNetworkIsSupported && txChainId !== currentWalletChainId) {
     networkMismatch = true;
-    neededNetworkName = ChainIdToNetwork[txChainId] as Network;
+    neededChainId = txChainId;
   }
 
   const [customGasPrice, setCustomGasPrice] = useState<string | null>(null);
@@ -246,8 +246,8 @@ export default function TxConfirmationView({
       <div className="TxConfirmationView__actions-inner">
         {networkMismatch && currentProviderName ? (
           <NetworkMismatch
-            neededNetworkName={neededNetworkName}
-            currentNetworkName={mapChainIdToName(chainId as number) as Network}
+            neededChainId={neededChainId}
+            currentChainId={chainId as ChainId}
             currentProviderName={currentProviderName}
           />
         ) : (
