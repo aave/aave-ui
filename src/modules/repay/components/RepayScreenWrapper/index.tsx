@@ -82,7 +82,11 @@ export default function RepayScreenWrapper({
           <Row title={intl.formatMessage(messages.yourCollateral)} color="white" weight="light">
             <Value
               value={Number(totalCollateralUSD)}
-              subValue={!networkConfig.usdMarket ? Number(totalCollateralMarketReferenceCurrency) : undefined}
+              subValue={
+                !networkConfig.usdMarket
+                  ? Number(totalCollateralMarketReferenceCurrency)
+                  : undefined
+              }
               color="white"
               symbol="USD"
               subSymbol="ETH"

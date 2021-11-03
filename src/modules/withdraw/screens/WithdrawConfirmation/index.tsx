@@ -92,7 +92,9 @@ function WithdrawConfirmation({
   }
 
   let blockingError = '';
-  let totalCollateralInETHAfterWithdraw = valueToBigNumber(user.totalCollateralMarketReferenceCurrency);
+  let totalCollateralInETHAfterWithdraw = valueToBigNumber(
+    user.totalCollateralMarketReferenceCurrency
+  );
   let liquidationThresholdAfterWithdraw = user.currentLiquidationThreshold;
   let healthFactorAfterWithdraw = valueToBigNumber(user.healthFactor);
 
@@ -103,7 +105,9 @@ function WithdrawConfirmation({
     totalCollateralInETHAfterWithdraw =
       totalCollateralInETHAfterWithdraw.minus(amountToWithdrawInEth);
 
-    liquidationThresholdAfterWithdraw = valueToBigNumber(user.totalCollateralMarketReferenceCurrency)
+    liquidationThresholdAfterWithdraw = valueToBigNumber(
+      user.totalCollateralMarketReferenceCurrency
+    )
       .multipliedBy(user.currentLiquidationThreshold)
       .minus(
         valueToBigNumber(amountToWithdrawInEth).multipliedBy(
@@ -165,8 +169,8 @@ function WithdrawConfirmation({
       dangerousMessage={
         isHealthFactorDangerous
           ? intl.formatMessage(messages.healthFactorDangerousText, {
-            liquidation: <span>{intl.formatMessage(messages.liquidation)}</span>,
-          })
+              liquidation: <span>{intl.formatMessage(messages.liquidation)}</span>,
+            })
           : ''
       }
       aTokenData={aTokenData}

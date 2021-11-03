@@ -102,14 +102,14 @@ function RepayConfirmation({
   const blockingError =
     walletBalance.eq('0') || walletBalance.lt(amount)
       ? intl.formatMessage(messages.error, {
-        userReserveSymbol: assetDetails.formattedSymbol || assetDetails.symbol,
-      })
+          userReserveSymbol: assetDetails.formattedSymbol || assetDetails.symbol,
+        })
       : '';
 
   const warningMessage =
     amount.eq('-1') &&
-      amountToRepayUI.gte(maxAmountToRepay) &&
-      !amountToRepayUI.gte(safeAmountToRepayAll)
+    amountToRepayUI.gte(maxAmountToRepay) &&
+    !amountToRepayUI.gte(safeAmountToRepayAll)
       ? intl.formatMessage(messages.warningMessage)
       : '';
 
