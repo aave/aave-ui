@@ -7,6 +7,7 @@ import {
   FormatReserveResponse,
   formatUserSummary,
   FormatUserSummaryResponse,
+  normalize,
 } from '@aave/math-utils';
 
 export interface ComputedReserveData extends FormatReserveResponse {
@@ -68,20 +69,12 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
     });
     const fullReserve: ComputedReserveData = {
       ...formattedReserve,
-      id: reserve.id,
-      underlyingAsset: reserve.underlyingAsset,
-      name: reserve.name,
-      symbol: reserve.symbol,
-      decimals: reserve.decimals,
-      usageAsCollateralEnabled: reserve.usageAsCollateralEnabled,
-      borrowingEnabled: reserve.borrowingEnabled,
-      stableBorrowRateEnabled: reserve.stableBorrowRateEnabled,
-      isActive: reserve.isActive,
-      isFrozen: reserve.isFrozen,
-      aTokenAddress: reserve.aTokenAddress,
-      stableDebtTokenAddress: reserve.stableDebtTokenAddress,
-      variableDebtTokenAddress: reserve.variableDebtTokenAddress,
-      priceInMarketReferenceCurrency: reserve.priceInMarketReferenceCurrency,
+      ...reserve,
+      priceInMarketReferenceCurrency: normalize(
+        reserve.priceInMarketReferenceCurrency,
+        marketRefCurrencyDecimals
+      ),
+      availableLiquidity: normalize(reserve.availableLiquidity, reserve.decimals),
     };
     return fullReserve;
   });
@@ -93,7 +86,6 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
       ...computedUserData,
     };
   }
-  console.log(formattedPoolReserves);
   return (
     <DynamicPoolDataContext.Provider
       value={{

@@ -9,6 +9,7 @@ import { ConnectionMode, useConnectionStatusContext } from '../../connection-sta
 import { assetsOrder } from '../../../ui-config/assets';
 import { usePoolData } from '../hooks/use-pool-data';
 import { ReserveDataHumanized, UserReserveDataHumanized } from '@aave/contract-helpers';
+import { normalize } from '@aave/math-utils';
 
 /**
  * removes the marketPrefix from a symbol
@@ -163,7 +164,7 @@ export function StaticPoolDataProvider({
     ?.marketReferenceCurrencyDecimals
     ? activeData.reserves.baseCurrencyData?.marketReferenceCurrencyDecimals
     : 18;
-
+  const normalizedMarketRef = 1 / Number(normalize(marketRefPriceInUsd, 8));
   return (
     <StaticPoolDataContext.Provider
       value={{
@@ -176,7 +177,7 @@ export function StaticPoolDataProvider({
         rawUserReserves: userReservesWithFixedUnderlying,
         rawReservesWithBase: reserves ? reserves : [],
         rawUserReservesWithBase: userReserves,
-        marketRefPriceInUsd,
+        marketRefPriceInUsd: normalizedMarketRef.toString(),
         marketRefCurrencyDecimals,
         isUserHasDeposits,
       }}
