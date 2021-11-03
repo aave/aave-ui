@@ -20,7 +20,6 @@ import { calculateHFAfterSwap } from '../../helpers';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import { ChainId } from '@aave/contract-helpers';
 
@@ -145,7 +144,7 @@ export default function AssetSwapConfirmation() {
       destDecimals: reserveOut.decimals,
       user: user?.id,
       route: priceRoute,
-      chainId,
+      chainId: underlyingChainId,
     });
     return lendingPool.swapCollateral({
       fromAsset:
