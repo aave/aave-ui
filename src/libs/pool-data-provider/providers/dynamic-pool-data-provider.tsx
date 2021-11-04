@@ -56,8 +56,8 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
     userId && rawUserReserves
       ? formatUserSummary({
           currentTimestamp,
-          usdPriceMarketReferenceCurrency: marketRefPriceInUsd,
-          marketReferenceCurrencyDecimals: marketRefCurrencyDecimals,
+          marketRefPriceInUsd,
+          marketRefCurrencyDecimals,
           rawUserReserves: rawUserReserves,
         })
       : undefined;

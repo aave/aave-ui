@@ -6,8 +6,8 @@
   "dependencies": {
     "@0x/subproviders": "^6.5.4",
     "@aave/aave-ui-kit": "^0.1.14",
-    "@aave/math-utils": "0.21.2-09a0242f419d52e6e219eb49ffb67c0a565dc54e.0+09a0242",
-    "@aave/contract-helpers": "0.21.2-09a0242f419d52e6e219eb49ffb67c0a565dc54e.0+09a0242",
+    "@aave/math-utils": "0.22.1-c33041b8e005c0d5e08dfc3c14a123c42c06d87b.0+c33041b",
+    "@aave/contract-helpers": "0.22.1-c33041b8e005c0d5e08dfc3c14a123c42c06d87b.0+c33041b ",
     "@aave/protocol-js": "4.2.0",
     "@apollo/client": "^3.4.16",
     "@apollo/react-common": "^3.1.4",
