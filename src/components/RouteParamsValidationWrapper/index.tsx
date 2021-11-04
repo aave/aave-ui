@@ -59,10 +59,10 @@ export default function routeParamValidationHOC({
       );
       const userReserve = user
         ? user.userReservesData.find((userReserve) =>
-          reserveId
-            ? userReserve.reserve.id === reserveId
-            : userReserve.reserve.underlyingAsset.toLowerCase() === underlyingAsset.toLowerCase()
-        )
+            reserveId
+              ? userReserve.reserve.id === reserveId
+              : userReserve.reserve.underlyingAsset.toLowerCase() === underlyingAsset.toLowerCase()
+          )
         : undefined;
 
       const currencySymbol = poolReserve?.symbol || '';

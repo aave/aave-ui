@@ -163,14 +163,14 @@ function RepayWithCollateralConfirmation({
     fromAmountQuery
   )
     ? intl.formatMessage(messages.error, {
-      userReserveSymbol: fromAssetData?.symbol,
-    })
+        userReserveSymbol: fromAssetData?.symbol,
+      })
     : '';
 
   const warningMessage =
     repayAllDebt &&
-      debtToRepay.gte(maxDebtToRepay) &&
-      !valueToBigNumber(maxDebtToRepayWithCurrentCollateral).lt(maxDebtToRepay.multipliedBy(1.0025))
+    debtToRepay.gte(maxDebtToRepay) &&
+    !valueToBigNumber(maxDebtToRepayWithCurrentCollateral).lt(maxDebtToRepay.multipliedBy(1.0025))
       ? intl.formatMessage(messages.warningMessage)
       : '';
 

@@ -71,8 +71,8 @@ export default function DepositsMain() {
           walletData[reserve.underlyingAsset] === '0'
             ? valueToBigNumber('0')
             : valueToBigNumber(walletData[reserve.underlyingAsset] || '0').dividedBy(
-              valueToBigNumber('10').pow(reserve.decimals)
-            );
+                valueToBigNumber('10').pow(reserve.decimals)
+              );
         const walletBalanceInUSD = walletBalance
           .multipliedBy(reserve.priceInMarketReferenceCurrency)
           .multipliedBy(marketRefPriceInUsd)
