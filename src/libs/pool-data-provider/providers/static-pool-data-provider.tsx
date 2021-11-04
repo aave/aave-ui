@@ -3,9 +3,9 @@ import { API_ETH_MOCK_ADDRESS, Network } from '@aave/protocol-js';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useUserWalletDataContext } from '../../web3-data-provider';
 import { NetworkConfig } from '../../../helpers/markets/markets-data';
-//import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/use-cached-protocol-data';
-//import { useApolloConfigContext } from '../../apollo-config';
-import { /*ConnectionMode,*/ useConnectionStatusContext } from '../../connection-status-provider';
+import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/use-cached-protocol-data';
+import { useApolloConfigContext } from '../../apollo-config';
+import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
 import { assetsOrder } from '../../../ui-config/assets';
 import { usePoolData } from '../hooks/use-pool-data';
 import { ReserveDataHumanized, UserReserveDataHumanized } from '@aave/contract-helpers';
@@ -53,25 +53,25 @@ export function StaticPoolDataProvider({
   errorPage,
 }: StaticPoolDataProviderProps) {
   const { currentAccount } = useUserWalletDataContext();
-  //const { network: apolloClientNetwork } = useApolloConfigContext();
+  const { network: apolloClientNetwork } = useApolloConfigContext();
   const { currentMarketData, network, networkConfig } = useProtocolDataContext();
-  const { /*preferredConnectionMode,*/ isRPCActive } = useConnectionStatusContext();
+  const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
 
   const {
-    //error: rpcDataError,
-    //loading: rpcDataLoading,
+    error: rpcDataError,
+    loading: rpcDataLoading,
     data: rpcData,
     refresh,
   } = usePoolData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     network,
     networkConfig.addresses.uiPoolDataProvider,
-    false, // For now just default to RPC to test
+    !isRPCActive,
     currentAccount
   );
 
-  /*   const {
+  const {
     error: cachedDataError,
     loading: cachedDataLoading,
     data: cachedData,
@@ -81,17 +81,14 @@ export function StaticPoolDataProvider({
     preferredConnectionMode === ConnectionMode.rpc || network !== apolloClientNetwork
   );
 
-  const activeData = isRPCActive && rpcData ? formattedRPC : cachedData;
-
+  const activeData = isRPCActive && rpcData ? rpcData : cachedData;
   if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
     return loader;
-   }
+  }
 
-   if (!activeData || (isRPCActive && rpcDataError) || (!isRPCActive && cachedDataError)) {
+  if (!activeData || (isRPCActive && rpcDataError) || (!isRPCActive && cachedDataError)) {
     return errorPage;
-  } */
-  // Temporary until caching server enabled
-  const activeData = rpcData;
+  }
 
   const reserves: ReserveDataHumanized[] | undefined = activeData.reserves?.reservesData
     .map((reserve) => ({

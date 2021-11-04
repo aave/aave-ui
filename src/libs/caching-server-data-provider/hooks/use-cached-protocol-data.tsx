@@ -15,9 +15,11 @@ import {
 } from '../graphql';
 
 type PoolData = {
-  reserves: ReserveData[];
+  reserves: {
+    reservesData: ReserveData[];
+    baseCurrencyData: BaseCurrencyData | undefined;
+  };
   userReserves: UserReserveData[];
-  baseCurrencyInfo: BaseCurrencyData | undefined;
   userId?: string;
 };
 
@@ -128,9 +130,11 @@ export function useCachedProtocolData(
     loading,
     data: {
       userId,
-      reserves,
+      reserves: {
+        reservesData: reserves,
+        baseCurrencyData: baseCurrencyInfo,
+      },
       userReserves,
-      baseCurrencyInfo,
     },
   };
 }
