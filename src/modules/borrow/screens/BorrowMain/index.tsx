@@ -55,18 +55,18 @@ export default function BorrowMain() {
       reserves.map<BorrowTableItem>((reserve) => {
         const availableBorrows = availableBorrowsMarketReferenceCurrency.gt(0)
           ? BigNumber.min(
-              // one percent margin to don't fail tx
-              availableBorrowsMarketReferenceCurrency
-                .div(reserve.priceInMarketReferenceCurrency)
-                .multipliedBy(
-                  user && user.totalBorrowsMarketReferenceCurrency !== '0' ? '0.99' : '1'
-                ),
-              reserve.availableLiquidity
-            ).toNumber()
+            // one percent margin to don't fail tx
+            availableBorrowsMarketReferenceCurrency
+              .div(reserve.priceInMarketReferenceCurrency)
+              .multipliedBy(
+                user && user.totalBorrowsMarketReferenceCurrency !== '0' ? '0.99' : '1'
+              ),
+            reserve.availableLiquidity
+          ).toNumber()
           : 0;
         const availableBorrowsInUSD = valueToBigNumber(availableBorrows)
           .multipliedBy(reserve.priceInMarketReferenceCurrency)
-          .dividedBy(marketRefPriceInUsd)
+          .multipliedBy(marketRefPriceInUsd)
           .toString();
         const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
         return {

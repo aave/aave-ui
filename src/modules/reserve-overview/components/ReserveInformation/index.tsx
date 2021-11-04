@@ -39,15 +39,15 @@ export default function ReserveInformation({
   const { currentTheme } = useThemeContext();
   const totalLiquidityInUsd = valueToBigNumber(poolReserve.totalLiquidity)
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .dividedBy(marketRefPriceInUsd)
+    .multipliedBy(marketRefPriceInUsd)
     .toString();
   const totalBorrowsInUsd = valueToBigNumber(poolReserve.totalDebt)
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .dividedBy(marketRefPriceInUsd)
+    .multipliedBy(marketRefPriceInUsd)
     .toString();
   const availableLiquidityInUsd = valueToBigNumber(poolReserve.availableLiquidity)
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .dividedBy(marketRefPriceInUsd)
+    .multipliedBy(marketRefPriceInUsd)
     .toString();
 
   const reserveOverviewData = {

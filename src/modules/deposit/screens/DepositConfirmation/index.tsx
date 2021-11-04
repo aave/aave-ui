@@ -61,7 +61,7 @@ function DepositConfirmation({
   }
 
   const amountIntEth = amount.multipliedBy(poolReserve.priceInMarketReferenceCurrency);
-  const amountInUsd = amountIntEth.dividedBy(marketRefPriceInUsd);
+  const amountInUsd = amountIntEth.multipliedBy(marketRefPriceInUsd);
   const totalCollateralMarketReferenceCurrencyAfter = valueToBigNumber(
     user.totalCollateralMarketReferenceCurrency
   ).plus(amountIntEth);

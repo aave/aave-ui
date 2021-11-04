@@ -115,7 +115,7 @@ function BorrowConfirmation({
 
   const amountToBorrowInUsd = amount
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .dividedBy(marketRefPriceInUsd);
+    .multipliedBy(marketRefPriceInUsd);
 
   const newHealthFactor = calculateHealthFactorFromBalancesBigUnits(
     user.totalCollateralUSD,

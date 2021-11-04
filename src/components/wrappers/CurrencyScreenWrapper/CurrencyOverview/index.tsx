@@ -59,7 +59,7 @@ export default function CurrencyOverview({
     utilizationRate: Number(poolReserve.utilizationRate),
     availableLiquidity: poolReserve.availableLiquidity,
     priceInUsd: valueToBigNumber(poolReserve.priceInMarketReferenceCurrency)
-      .dividedBy(marketRefPriceInUsd)
+      .multipliedBy(marketRefPriceInUsd)
       .toNumber(),
     depositApy: Number(poolReserve.supplyAPY),
     avg30DaysLiquidityRate: Number(poolReserve.avg30DaysLiquidityRate),

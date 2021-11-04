@@ -112,9 +112,9 @@ export default function LTVInfoModal({ visible, setVisible }: LTVInfoModalProps)
   }
 
   const liquidationPriceUSD = new BigNumber(liquidationPrice)
-    .dividedBy(marketRefPriceInUsd)
+    .multipliedBy(marketRefPriceInUsd)
     .toString();
-  const unitPriceUsd = new BigNumber(unitPrice).dividedBy(marketRefPriceInUsd).toString();
+  const unitPriceUsd = new BigNumber(unitPrice).multipliedBy(marketRefPriceInUsd).toString();
 
   return (
     <BasicModal

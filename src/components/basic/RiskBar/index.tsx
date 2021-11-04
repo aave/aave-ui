@@ -36,7 +36,7 @@ export default function RiskBar({ value, onChange, maxAmount, currencySymbol }: 
 
   const amountToBorrowInUsd = valueToBigNumber(value)
     .multipliedBy(reserveETHPrice || '0')
-    .dividedBy(marketRefPriceInUsd);
+    .multipliedBy(marketRefPriceInUsd);
 
   const newHealthFactor = calculateHealthFactorFromBalancesBigUnits(
     user.totalCollateralUSD,

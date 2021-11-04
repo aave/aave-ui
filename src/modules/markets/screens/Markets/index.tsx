@@ -42,19 +42,19 @@ export default function Markets() {
       totalLockedInUsd = totalLockedInUsd.plus(
         valueToBigNumber(reserve.totalLiquidity)
           .multipliedBy(reserve.priceInMarketReferenceCurrency)
-          .dividedBy(marketRefPriceInUsd)
+          .multipliedBy(marketRefPriceInUsd)
       );
 
       const totalLiquidity = Number(reserve.totalLiquidity);
       const totalLiquidityInUSD = valueToBigNumber(reserve.totalLiquidity)
         .multipliedBy(reserve.priceInMarketReferenceCurrency)
-        .dividedBy(marketRefPriceInUsd)
+        .multipliedBy(marketRefPriceInUsd)
         .toNumber();
 
       const totalBorrows = Number(reserve.totalDebt);
       const totalBorrowsInUSD = valueToBigNumber(reserve.totalDebt)
         .multipliedBy(reserve.priceInMarketReferenceCurrency)
-        .dividedBy(marketRefPriceInUsd)
+        .multipliedBy(marketRefPriceInUsd)
         .toNumber();
       const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
       return {

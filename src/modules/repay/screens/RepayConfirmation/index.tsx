@@ -75,13 +75,13 @@ function RepayConfirmation({
   const displayAmountToRepay = BigNumber.min(amountToRepayUI, maxAmountToRepay);
   const displayAmountToRepayInUsd = displayAmountToRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .dividedBy(marketRefPriceInUsd);
+    .multipliedBy(marketRefPriceInUsd);
 
   const amountAfterRepay = maxAmountToRepay.minus(amountToRepayUI).toString();
   const displayAmountAfterRepay = BigNumber.min(amountAfterRepay, maxAmountToRepay);
   const displayAmountAfterRepayInUsd = displayAmountAfterRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .dividedBy(marketRefPriceInUsd);
+    .multipliedBy(marketRefPriceInUsd);
 
   const healthFactorAfterRepay = calculateHealthFactorFromBalancesBigUnits(
     user.totalCollateralUSD,

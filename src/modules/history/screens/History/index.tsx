@@ -57,105 +57,107 @@ export default function History() {
 
   const historyFormattedData = data
     ? data.userTransactions.map((historyItem: UserHistoryQuery['userTransactions'][0]) => {
-        let amountDecimals: number = 0;
-        let amount: number | string = 0;
-        let symbol: string = '';
-        let borrowRate: number = 0;
-        let borrowRateMode: BorrowRateMode | undefined = undefined;
-        let condition: boolean | undefined = undefined;
-        let collateralDecimals: number = 0;
-        let collateralAmount: number | string = 0;
-        let collateralAmountSymbol: string = '';
-        let reserveETHPrice: number | string | undefined = undefined;
+      let amountDecimals: number = 0;
+      let amount: number | string = 0;
+      let symbol: string = '';
+      let borrowRate: number = 0;
+      let borrowRateMode: BorrowRateMode | undefined = undefined;
+      let condition: boolean | undefined = undefined;
+      let collateralDecimals: number = 0;
+      let collateralAmount: number | string = 0;
+      let collateralAmountSymbol: string = '';
+      let reserveETHPrice: number | string | undefined = undefined;
 
-        // help functions
-        const amountNormalize = (amount: number, decimals: number) =>
-          normalize(valueToBigNumber(amount), decimals);
-        const ethPrice = (symbol: string) =>
-          normalize(
-            rawReserves.find((reserve) => reserve.symbol === symbol)
-              ?.priceInMarketReferenceCurrency || '0',
-            ETH_DECIMALS
-          );
+      // help functions
+      const amountNormalize = (amount: number, decimals: number) =>
+        normalize(valueToBigNumber(amount), decimals);
+      const ethPrice = (symbol: string) =>
+        normalize(
+          rawReserves.find((reserve) => reserve.symbol === symbol)
+            ?.priceInMarketReferenceCurrency || '0',
+          ETH_DECIMALS
+        );
 
-        if (
-          historyItem.__typename === 'Deposit' ||
-          historyItem.__typename === 'Borrow' ||
-          historyItem.__typename === 'Repay' ||
-          historyItem.__typename === 'RedeemUnderlying' ||
-          historyItem.__typename === 'Swap' ||
-          historyItem.__typename === 'UsageAsCollateral'
-        ) {
-          symbol = historyItem.reserve.symbol;
-        }
+      if (
+        historyItem.__typename === 'Deposit' ||
+        historyItem.__typename === 'Borrow' ||
+        historyItem.__typename === 'Repay' ||
+        historyItem.__typename === 'RedeemUnderlying' ||
+        historyItem.__typename === 'Swap' ||
+        historyItem.__typename === 'UsageAsCollateral'
+      ) {
+        symbol = historyItem.reserve.symbol;
+      }
 
-        if (
-          historyItem.__typename === 'Deposit' ||
-          historyItem.__typename === 'Borrow' ||
-          historyItem.__typename === 'Repay' ||
-          historyItem.__typename === 'RedeemUnderlying'
-        ) {
-          reserveETHPrice = ethPrice(symbol);
-        }
+      if (
+        historyItem.__typename === 'Deposit' ||
+        historyItem.__typename === 'Borrow' ||
+        historyItem.__typename === 'Repay' ||
+        historyItem.__typename === 'RedeemUnderlying'
+      ) {
+        reserveETHPrice = ethPrice(symbol);
+      }
 
-        if (
-          historyItem.__typename === 'Deposit' ||
-          historyItem.__typename === 'Borrow' ||
-          historyItem.__typename === 'RedeemUnderlying'
-        ) {
+      if (
+        historyItem.__typename === 'Deposit' ||
+        historyItem.__typename === 'Borrow' ||
+        historyItem.__typename === 'RedeemUnderlying'
+      ) {
+        amountDecimals = historyItem.reserve.decimals;
+        amount = amountNormalize(historyItem.amount, amountDecimals);
+      }
+
+      switch (historyItem.__typename) {
+        case 'Borrow':
+          borrowRate = valueToBigNumber(normalize(historyItem.borrowRate, 27)).toNumber();
+          borrowRateMode = historyItem.borrowRateMode;
+          break;
+
+        case 'Repay':
           amountDecimals = historyItem.reserve.decimals;
           amount = amountNormalize(historyItem.amount, amountDecimals);
-        }
+          break;
 
-        switch (historyItem.__typename) {
-          case 'Borrow':
-            borrowRate = valueToBigNumber(normalize(historyItem.borrowRate, 27)).toNumber();
-            borrowRateMode = historyItem.borrowRateMode;
-            break;
+        case 'Swap':
+          condition = historyItem.borrowRateModeFrom === BorrowRateMode.Variable;
+          break;
 
-          case 'Repay':
-            amountDecimals = historyItem.reserve.decimals;
-            amount = amountNormalize(historyItem.amount, amountDecimals);
-            break;
+        case 'UsageAsCollateral':
+          condition = historyItem.fromState;
+          break;
 
-          case 'Swap':
-            condition = historyItem.borrowRateModeFrom === BorrowRateMode.Variable;
-            break;
+        case 'LiquidationCall':
+          amountDecimals = historyItem.principalReserve.decimals;
+          amount = amountNormalize(historyItem.principalAmount, amountDecimals);
+          symbol = historyItem.principalReserve.symbol;
+          collateralDecimals = historyItem.collateralReserve.decimals;
+          collateralAmount = amountNormalize(historyItem.collateralAmount, collateralDecimals);
+          collateralAmountSymbol = historyItem.collateralReserve.symbol;
+          reserveETHPrice = ethPrice(symbol);
+          break;
+      }
 
-          case 'UsageAsCollateral':
-            condition = historyItem.fromState;
-            break;
+      const amountInUsd =
+        amount && reserveETHPrice
+          ? valueToBigNumber(amount)
+            .multipliedBy(reserveETHPrice)
+            .multipliedBy(marketRefPriceInUsd)
+          : undefined;
 
-          case 'LiquidationCall':
-            amountDecimals = historyItem.principalReserve.decimals;
-            amount = amountNormalize(historyItem.principalAmount, amountDecimals);
-            symbol = historyItem.principalReserve.symbol;
-            collateralDecimals = historyItem.collateralReserve.decimals;
-            collateralAmount = amountNormalize(historyItem.collateralAmount, collateralDecimals);
-            collateralAmountSymbol = historyItem.collateralReserve.symbol;
-            reserveETHPrice = ethPrice(symbol);
-            break;
-        }
-
-        const amountInUsd =
-          amount && reserveETHPrice
-            ? valueToBigNumber(amount).multipliedBy(reserveETHPrice).dividedBy(marketRefPriceInUsd)
-            : undefined;
-
-        return {
-          type: historyItem.__typename,
-          date: historyItem.timestamp,
-          amount,
-          amountInUsd: amount && amountInUsd && amountInUsd.toNumber(),
-          symbol: unPrefixSymbol(symbol, currentMarketData.aTokenPrefix),
-          borrowRate,
-          borrowRateMode,
-          condition,
-          collateralAmount,
-          collateralAmountSymbol,
-          transactionLink: networkConfig.explorerLinkBuilder({ tx: historyItem.id.split(':')[0] }),
-        };
-      })
+      return {
+        type: historyItem.__typename,
+        date: historyItem.timestamp,
+        amount,
+        amountInUsd: amount && amountInUsd && amountInUsd.toNumber(),
+        symbol: unPrefixSymbol(symbol, currentMarketData.aTokenPrefix),
+        borrowRate,
+        borrowRateMode,
+        condition,
+        collateralAmount,
+        collateralAmountSymbol,
+        transactionLink: networkConfig.explorerLinkBuilder({ tx: historyItem.id.split(':')[0] }),
+      };
+    })
     : [];
 
   return (

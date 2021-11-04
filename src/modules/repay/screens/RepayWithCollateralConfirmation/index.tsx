@@ -120,13 +120,13 @@ function RepayWithCollateralConfirmation({
   const displayAmountToRepay = BigNumber.min(debtToRepay, maxDebtToRepay);
   const displayAmountToRepayInUsd = displayAmountToRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .dividedBy(marketRefPriceInUsd);
+    .multipliedBy(marketRefPriceInUsd);
 
   const amountAfterRepay = maxDebtToRepay.minus(debtToRepay).toString();
   const displayAmountAfterRepay = BigNumber.min(amountAfterRepay, maxDebtToRepay);
   const displayAmountAfterRepayInUsd = displayAmountAfterRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .dividedBy(marketRefPriceInUsd);
+    .multipliedBy(marketRefPriceInUsd);
 
   const { hfAfterSwap, hfInitialEffectOfFromAmount } = calculateHFAfterRepay(
     fromAmountQuery,
@@ -163,14 +163,14 @@ function RepayWithCollateralConfirmation({
     fromAmountQuery
   )
     ? intl.formatMessage(messages.error, {
-        userReserveSymbol: fromAssetData?.symbol,
-      })
+      userReserveSymbol: fromAssetData?.symbol,
+    })
     : '';
 
   const warningMessage =
     repayAllDebt &&
-    debtToRepay.gte(maxDebtToRepay) &&
-    !valueToBigNumber(maxDebtToRepayWithCurrentCollateral).lt(maxDebtToRepay.multipliedBy(1.0025))
+      debtToRepay.gte(maxDebtToRepay) &&
+      !valueToBigNumber(maxDebtToRepayWithCurrentCollateral).lt(maxDebtToRepay.multipliedBy(1.0025))
       ? intl.formatMessage(messages.warningMessage)
       : '';
 
