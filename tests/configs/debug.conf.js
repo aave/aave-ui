@@ -52,7 +52,7 @@ exports.config = {
     './e2e/specs/polygonMarket/reward.polygon.test.js',
     './e2e/specs/polygonMarket/swap.polygon.test.js',
 
-    // './e2e/specs/ammMarket/assets/eth.test.js',
+    './e2e/specs/ammMarket/assets/eth.test.js',
     './e2e/specs/ammMarket/assets/usdc.test.js',
     './e2e/specs/ammMarket/assets/dai.test.js',
     './e2e/specs/ammMarket/assets/usdt.test.js',
@@ -69,6 +69,7 @@ exports.config = {
     './e2e/specs/mainMarket/stake.kovan.test.js',
   ],
   maxInstances: 1,
+  specFileRetries: 1,
   capabilities: [{
     maxInstances: 1,
     browserName: 'chrome',

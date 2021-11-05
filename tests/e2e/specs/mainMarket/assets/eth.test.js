@@ -9,7 +9,7 @@ const testData ={
   asset:{
     name:assets.aaveMarket.ETH,
     deposit:{
-      amount: 0.09,
+      amount: 1.09,
       hasApproval: true
     },
     borrow:{
