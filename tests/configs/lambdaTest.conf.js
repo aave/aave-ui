@@ -87,7 +87,7 @@ exports.config = {
   specs: executionList(),
   exclude: [],
   maxInstances: 5,
-  specFileRetries: 1,
+  specFileRetries: 3,
   capabilities: [{
     alwaysMatch: {
       browserName: "Chrome",
