@@ -32,7 +32,7 @@ const FORK_WS_RPC_URL = localStorage.getItem('forkWsRPCUrl') || 'ws://127.0.0.1:
  */
 export const networkConfigs = Object.keys(_networkConfigs).reduce((acc, value) => {
   acc[value] = _networkConfigs[value];
-  if (FORK_ENABLED && ChainId[value as keyof typeof ChainId] === FORK_BASE_CHAIN_ID) {
+  if (FORK_ENABLED && Number(value) === FORK_BASE_CHAIN_ID) {
     acc[FORK_CHAIN_ID] = {
       ..._networkConfigs[value],
       rpcOnly: true,
