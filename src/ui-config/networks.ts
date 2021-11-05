@@ -1,10 +1,11 @@
-import { API_ETH_MOCK_ADDRESS, Network } from '@aave/protocol-js';
+import { API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import { BaseNetworkConfig } from '../helpers/config/types';
 import polygonBridgeLogo from './branding/images/polygonLogo.svg';
 import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
+import { ChainId } from '@aave/contract-helpers';
 
-export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
-  [Network.kovan]: {
+export const networkConfigs: Record<string, BaseNetworkConfig> = {
+  [ChainId.kovan]: {
     name: 'Kovan',
     publicJsonRPCUrl: 'https://kovan.poa.network ',
     addresses: {
@@ -26,7 +27,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     rpcOnly: true,
     isTestnet: true,
   },
-  [Network.mainnet]: {
+  [ChainId.mainnet]: {
     name: 'Ethereum Mainnet',
     publicJsonRPCUrl: 'https://eth-mainnet.alchemyapi.io/v2/demo',
     publicJsonRPCWSUrl: 'wss://eth-mainnet.alchemyapi.io/v2/demo',
@@ -50,7 +51,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     explorerLink: 'https://etherscan.com',
     rpcOnly: false,
   },
-  [Network.polygon]: {
+  [ChainId.polygon]: {
     name: 'Polygon POS',
     publicJsonRPCUrl: 'https://polygon-rpc.com',
     publicJsonRPCWSUrl: 'wss://polygon-rpc.com',
@@ -78,7 +79,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
       logo: polygonBridgeLogo,
     },
   },
-  [Network.mumbai]: {
+  [ChainId.mumbai]: {
     name: 'Mumbai',
     publicJsonRPCUrl: 'https://rpc-mumbai.maticvigil.com',
     publicJsonRPCWSUrl: 'wss://rpc-mumbai.maticvigil.com',
@@ -99,7 +100,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     rpcOnly: true,
     isTestnet: true,
   },
-  [Network.fuji]: {
+  [ChainId.fuji]: {
     name: 'Fuji',
     publicJsonRPCUrl: 'https://api.avax-test.network/ext/bc/C/rpc',
     publicJsonRPCWSUrl: 'wss://api.avax-test.network/ext/bc/C/rpc',
@@ -128,7 +129,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
       logo: avalancheBridgeLogo,
     },
   },
-  [Network.avalanche]: {
+  [ChainId.avalanche]: {
     name: 'Avalanche',
     publicJsonRPCUrl: 'https://api.avax.network/ext/bc/C/rpc',
     publicJsonRPCWSUrl: 'wss://api.avax.network/ext/bc/C/rpc',

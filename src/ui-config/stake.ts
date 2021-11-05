@@ -31,7 +31,7 @@ export const stakeConfig: StakeConfig | undefined = {
 
 // kovan config
 // export const stakeConfig: StakeConfig | undefined = {
-//   network: Network.kovan,
+//   chainId: ChainId.kovan,
 //   stakeDataProvider: '0x5671387d56eAB334A2D65d6D0BB4D907898C7abA',
 //   tokens: {
 //     [Stake.aave]: {

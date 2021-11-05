@@ -1,5 +1,4 @@
-import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
-import { Network } from '@aave/protocol-js';
+import { ChainId } from '@aave/contract-helpers';
 
 import { networkConfigs as _networkConfigs } from '../../ui-config/networks';
 import { CustomMarket, marketsData as _marketsData } from '../../ui-config/markets/index';
@@ -34,7 +33,7 @@ const FORK_WS_RPC_URL = localStorage.getItem('forkWsRPCUrl') || 'ws://127.0.0.1:
 export const networkConfigs = Object.keys(_networkConfigs).reduce((acc, value) => {
   acc[value] = _networkConfigs[value];
   if (FORK_ENABLED && ChainId[value as keyof typeof ChainId] === FORK_BASE_CHAIN_ID) {
-    acc[ChainIdToNetwork[FORK_CHAIN_ID]] = {
+    acc[FORK_CHAIN_ID] = {
       ..._networkConfigs[value],
       rpcOnly: true,
       isFork: true,
@@ -64,10 +63,6 @@ export const marketsData = Object.keys(_marketsData).reduce((acc, value) => {
   return acc;
 }, {} as { [key: string]: MarketDataType });
 
-export function getDefaultNetworkName() {
-  return ChainIdToNetwork[marketsData[availableMarkets[0]].chainId] as Network;
-}
-
 export function getDefaultChainId() {
   return marketsData[availableMarkets[0]].chainId;
 }
@@ -77,8 +72,7 @@ export function getSupportedChainIds(): number[] {
     Object.keys(marketsData).reduce((acc, value) => {
       if (
         ENABLE_TESTNET ||
-        !networkConfigs[ChainIdToNetwork[marketsData[value as keyof typeof CustomMarket].chainId]]
-          .isTestnet
+        !networkConfigs[marketsData[value as keyof typeof CustomMarket].chainId].isTestnet
       )
         acc.add(marketsData[value as keyof typeof CustomMarket].chainId);
       return acc;
@@ -106,10 +100,9 @@ const linkBuilder =
   };
 
 export function getNetworkConfig(chainId: ChainId): NetworkConfig {
-  const network = ChainIdToNetwork[chainId] as Network;
-  const config = networkConfigs[network];
+  const config = networkConfigs[chainId];
   if (!config) {
-    throw new Error(`${network}, ${chainId} network was not configured`);
+    throw new Error(`Network with chainId "${chainId}" was not configured`);
   }
   return { ...config, explorerLinkBuilder: linkBuilder({ baseUrl: config.explorerLink }) };
 }

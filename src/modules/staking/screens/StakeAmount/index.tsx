@@ -15,7 +15,7 @@ export default function StakeAmount() {
   const {
     selectedStake,
     selectedStakeData: { underlyingTokenUserBalance },
-    txBuilder,
+    stakingService,
   } = useStakeDataContext();
   const history = useHistory();
 
@@ -32,7 +32,7 @@ export default function StakeAmount() {
   const currencyName = selectedStake.toUpperCase();
   const handleGetTransactions = (userId: string) => async () => {
     if (underlyingTokenUserBalance === '0') return [];
-    return await txBuilder.stake(userId, underlyingTokenUserBalance);
+    return await stakingService.stake(userId, underlyingTokenUserBalance);
   };
   return (
     <>

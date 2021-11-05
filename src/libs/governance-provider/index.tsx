@@ -1,10 +1,5 @@
 import React, { useContext, PropsWithChildren } from 'react';
-import {
-  AaveGovernanceV2Interface,
-  Network,
-  TxBuilderConfig,
-  TxBuilderV2,
-} from '@aave/protocol-js';
+import { Network, TxBuilderConfig, TxBuilderV2 } from '@aave/protocol-js';
 import GovernanceDelegationToken from '@aave/protocol-js/dist/tx-builder/interfaces/v2/GovernanceDelegationToken';
 
 import useGetProposals from './hooks/use-get-proposals';
@@ -21,12 +16,12 @@ import {
   WS_ATTEMPTS_LIMIT,
 } from '../connection-status-provider';
 import { useMainnetCachedServerWsGraphCheck } from '../pool-data-provider/hooks/use-graph-check';
-import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
+import { ChainId, ChainIdToNetwork, AaveGovernanceService } from '@aave/contract-helpers';
 
 export interface ProtocolContextDataType {
   governanceConfig: GovernanceConfig;
   governanceNetworkConfig: NetworkConfig;
-  governanceService: AaveGovernanceV2Interface;
+  governanceService: AaveGovernanceService;
   powerDelegation: GovernanceDelegationToken;
   proposals: ProposalItem[];
 }
@@ -67,7 +62,11 @@ export function GovernanceDataProvider({
     undefined,
     config
   );
-  const governanceService = txBuilder.aaveGovernanceV2Service;
+  const governanceService = new AaveGovernanceService(
+    getProvider(governanceConfig.chainId),
+    governanceConfig.addresses.AAVE_GOVERNANCE_V2,
+    governanceConfig.addresses.AAVE_GOVERNANCE_V2_HELPER
+  );
   const powerDelegation = txBuilder.governanceDelegationTokenService;
 
   const {

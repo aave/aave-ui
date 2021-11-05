@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Proposal, normalize, AaveGovernanceV2Interface } from '@aave/protocol-js';
+import { Proposal, normalize } from '@aave/protocol-js';
 import { providers } from 'ethers';
 
 import { ProposalItem } from '../types';
@@ -11,7 +11,7 @@ import { IpfsMeta } from '../types';
 
 import fm from 'front-matter';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
-import { ChainId } from '@aave/contract-helpers';
+import { AaveGovernanceService, ChainId } from '@aave/contract-helpers';
 
 const MemorizeStartTimestamp: { [id: string]: number } = {};
 const MemorizeProposalTimestamp: { [id: string]: number } = {};
@@ -114,7 +114,7 @@ const useGetProposalsRPC = ({
 }: {
   skip: boolean;
   averageNetworkBlockTime: number;
-  governanceService: AaveGovernanceV2Interface;
+  governanceService: AaveGovernanceService;
   chainId: ChainId;
 }) => {
   const [proposals, setProposals] = useState<ProposalItem[]>([]);

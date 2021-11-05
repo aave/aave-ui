@@ -31,7 +31,7 @@ import {
 import { useApolloConfigContext } from '../../apollo-config';
 import { StakeConfig } from '../../../ui-config';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
-import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
+import { ChainId, ChainIdToNetwork, StakingService } from '@aave/contract-helpers';
 
 export function computeStakeData(data: StakeData): ComputedStakeData {
   return {
@@ -71,7 +71,7 @@ const StakeDataContext = React.createContext<{
   data: ComputedStakesData;
   usdPriceEth: string;
   refresh: () => void;
-  txBuilder: StakingInterface;
+  stakingService: StakingService;
   cooldownStep: number;
   setCooldownStep: (value: number) => void;
 }>({
@@ -81,7 +81,7 @@ const StakeDataContext = React.createContext<{
   data: {} as ComputedStakesData,
   usdPriceEth: '0',
   refresh: () => {},
-  txBuilder: {} as StakingInterface,
+  stakingService: {} as StakingService,
   cooldownStep: 0,
   setCooldownStep: () => {},
 });
@@ -100,21 +100,15 @@ export function StakeDataProvider({
   const { chainId, networkConfig } = useProtocolDataContext();
   const { chainId: apolloClientChainId } = useApolloConfigContext();
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
-  const network = ChainIdToNetwork[chainId] as Network;
 
   const selectedStake =
     location.pathname.split('/')[2]?.toLowerCase() === Stake.aave ? Stake.aave : Stake.bpt;
-  const config: TxBuilderConfig = {
-    staking: {
-      [network]: stakeConfig.tokens,
-    },
-  };
-  const txBuilder = new TxBuilderV2(
-    network,
-    getProvider(stakeConfig.chainId),
-    undefined,
-    config
-  ).getStaking(selectedStake === Stake.aave ? Stake.aave : Stake.bpt);
+  const stakingService = new StakingService(getProvider(stakeConfig.chainId), {
+    TOKEN_STAKING_ADDRESS:
+      stakeConfig.tokens[selectedStake === Stake.aave ? Stake.aave : Stake.bpt].TOKEN_STAKING,
+    STAKING_HELPER_ADDRESS:
+      stakeConfig.tokens[selectedStake === Stake.aave ? Stake.aave : Stake.bpt].STAKING_HELPER,
+  });
 
   const {
     loading: cachedDataLoading,
@@ -165,7 +159,7 @@ export function StakeDataProvider({
       value={{
         stakeConfig,
         selectedStake,
-        txBuilder,
+        stakingService,
         selectedStakeData: computedData[selectedStake],
         usdPriceEth,
         data: computedData,
