@@ -133,7 +133,7 @@ export function StakeDataProvider({
     RPC_ONLY_MODE ||
     (wsNetworkError.wsErrorCount >= WS_ATTEMPTS_LIMIT && chainId === ChainId.mainnet) ||
     (wsMainnetError.wsErrorCount >= WS_ATTEMPTS_LIMIT && chainId !== ChainId.mainnet) ||
-    chainId === ChainId.fork ||
+    networkConfig.isFork ||
     (!cachedData && !cachedDataLoading) ||
     queryError.queryErrorCount >= 1;
   const isRPCActive = preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory;

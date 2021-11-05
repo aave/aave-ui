@@ -107,7 +107,7 @@ export default function BasicForm({
           error={error}
         />
 
-        {[ChainId.mainnet, ChainId.fork].includes(chainId) && getTransactionData && (
+        {[ChainId.mainnet].includes(chainId) && getTransactionData && (
           <TxEstimation getTransactionsData={getTransactionData} amount={amount} />
         )}
 

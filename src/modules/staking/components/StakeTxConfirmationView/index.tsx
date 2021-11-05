@@ -21,7 +21,7 @@ function StakeTxConfirmationView({ onMainTxConfirmed, ...props }: StakeTxConfirm
     <TxConfirmationView
       {...props}
       txChainId={stakeConfig.chainId}
-      allowedChainIds={[ChainId.mainnet, ChainId.fork, ChainId.kovan]}
+      allowedChainIds={[ChainId.mainnet, ChainId.kovan]}
       onMainTxConfirmed={handleMainTxConfirmed}
     />
   );

@@ -21,7 +21,7 @@ function GovernanceTxConfirmationView({
     <TxConfirmationView
       {...props}
       txChainId={governanceConfig.chainId}
-      allowedChainIds={[ChainId.mainnet, ChainId.fork, ChainId.kovan]}
+      allowedChainIds={[ChainId.mainnet, ChainId.kovan]}
     />
   );
 }

@@ -101,7 +101,7 @@ export default function TxConfirmationView({
   const { disconnectWallet, currentProviderName } = useUserWalletDataContext();
   const [loadingTxData, setLoadingTxData] = useState(true);
   const [backendNotAvailable, setBackendNotAvailable] = useState(false);
-  const { chainId: currentMarketChainId } = useProtocolDataContext();
+  const { chainId: currentMarketChainId, networkConfig } = useProtocolDataContext();
 
   // todo: do types more sophisticated
   const [uncheckedApproveTxData, setApproveTxData] = useState({} as EthTransactionData);
@@ -121,7 +121,12 @@ export default function TxConfirmationView({
   );
   // current marketNetwork is supported if the action is either not restricted to a network or the network is in the allow list
   const currentMarketNetworkIsSupported =
-    !allowedChainIds || allowedChainIds?.find((network) => network === currentMarketChainId);
+    !allowedChainIds ||
+    allowedChainIds?.find((network) =>
+      networkConfig.isFork
+        ? network === networkConfig.underlyingChainId
+        : network === currentMarketChainId
+    );
 
   let networkMismatch = false;
   let neededChainId = getDefaultChainId();
@@ -340,7 +345,7 @@ export default function TxConfirmationView({
         )}
 
         {!mainTxConfirmed &&
-          [ChainId.mainnet, ChainId.fork].includes(currentWalletChainId) &&
+          [ChainId.mainnet].includes(currentWalletChainId) &&
           currentMarketChainId === currentWalletChainId && (
             <TxEstimationEditor
               customGasPrice={customGasPrice}

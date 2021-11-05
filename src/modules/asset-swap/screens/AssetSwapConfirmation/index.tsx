@@ -201,7 +201,7 @@ export default function AssetSwapConfirmation() {
       approveDescription={intl.formatMessage(messages.approveDescription)}
       mainTxName={intl.formatMessage(defaultMessages.swap)}
       blockingError={error || blockingError}
-      allowedChainIds={[ChainId.mainnet, ChainId.fork, ChainId.polygon, ChainId.polygon_fork]}
+      allowedChainIds={[ChainId.mainnet, ChainId.polygon]}
       aTokenData={aTokenData}
       warningMessage={intl.formatMessage(messages.warningMessage)}
     >

@@ -182,7 +182,7 @@ function RepayWithCollateralConfirmation({
       goToAfterSuccess="/dashboard/borrowings"
       warningMessage={warningMessage}
       dangerousMessage={intl.formatMessage(messages.dangerousMessage)}
-      allowedChainIds={[ChainId.mainnet, ChainId.fork, ChainId.kovan]}
+      allowedChainIds={[ChainId.mainnet, ChainId.kovan]}
     >
       <Row title={intl.formatMessage(messages.rowTitle)} withMargin={true}>
         <Value
