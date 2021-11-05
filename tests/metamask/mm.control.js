@@ -65,10 +65,9 @@ class MM {
   }
 
   doSwitchNetwork(name){
-    browser.pause(1000)
+    browser.pause(2000) // need to fix unknown mm problem in CI
     browser.waitUntil(
       () => {
-        console.log("missed!!!!!g")
         let _located = false
         if($$(MetamaskPage.networkXpath()).length != 0)
           _located = true
@@ -78,10 +77,10 @@ class MM {
       },
       {
         timeout: 25000,
-        interval: 5000,
+        interval: 5000, // need to fix unknown mm problem in CI
         timeoutMsg: "network button not exist"
       }
-    )
+    ) // need to fix unknown mm problem in CI
     elemUtil.doClick($(MetamaskPage.networkXpath()))
     let liXpath = '//li//*[text()="'+name+'"]'
     elemUtil.doClick($(liXpath))

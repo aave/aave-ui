@@ -62,43 +62,41 @@ describe('USDC AMM MARKET INTEGRATION SPEC',  ()=>{
   configTestWithTenderlyMainnetFork({
     market: constants.markets.ammFork
   })
-  describe("Test execution", () => {
-    deposit(
-      {
-        asset: testData.depositETH.asset,
-        amount: testData.depositETH.amount,
-        hasApproval: testData.depositETH.hasApproval,
-      },
+  deposit(
+    {
+      asset: testData.depositETH.asset,
+      amount: testData.depositETH.amount,
+      hasApproval: testData.depositETH.hasApproval,
+    },
+    skipTestState,
+    true
+  )
+  testData.testCases.borrow.forEach((borrowCase) =>{
+    borrow(
+      borrowCase,
       skipTestState,
       true
     )
-    testData.testCases.borrow.forEach((borrowCase) =>{
-      borrow(
-        borrowCase,
-        skipTestState,
-        true
-      )
-    })
-    deposit(
-      testData.testCases.deposit,
-      skipTestState,
-      true
-    )
-    testData.testCases.repay.forEach((repayCase) =>{
-      repay(
-        repayCase,
-        skipTestState,
-        false
-      )
-    })
-    withdraw(
-      testData.testCases.withdraw,
+  })
+  deposit(
+    testData.testCases.deposit,
+    skipTestState,
+    true
+  )
+  testData.testCases.repay.forEach((repayCase) =>{
+    repay(
+      repayCase,
       skipTestState,
       false
     )
-    dashboardAssetValuesVerification(
-      testData.verifications.finalDashboard,
-      skipTestState
-    )
-  },1)
+  })
+  withdraw(
+    testData.testCases.withdraw,
+    skipTestState,
+    false
+  )
+  dashboardAssetValuesVerification(
+    testData.verifications.finalDashboard,
+    skipTestState
+  )
 })

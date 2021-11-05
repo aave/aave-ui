@@ -52,50 +52,48 @@ describe('ETH AMM MARKET INTEGRATION SPEC',  ()=>{
   configTestWithTenderlyMainnetFork({
     market: constants.markets.ammFork
   })
-  describe("Test execution", () => {
-    deposit(
+  deposit(
+    {
+      asset: testData.asset.name,
+      amount: testData.asset.deposit.amount,
+      hasApproval: testData.asset.deposit.hasApproval,
+    },
+    skipTestState,
+    true
+  )
+  borrow(
+    {
+      asset: testData.asset.name,
+      amount: testData.asset.borrow.amount,
+      aprType: testData.asset.borrow.aprType,
+      hasApproval: testData.asset.borrow.hasApproval
+    },
+    skipTestState,
+    true
+  )
+  testData.asset.repay.forEach((repayCase) =>{
+    repay(
       {
         asset: testData.asset.name,
-        amount: testData.asset.deposit.amount,
-        hasApproval: testData.asset.deposit.hasApproval,
-      },
-      skipTestState,
-      true
-    )
-    borrow(
-      {
-        asset: testData.asset.name,
-        amount: testData.asset.borrow.amount,
-        aprType: testData.asset.borrow.aprType,
-        hasApproval: testData.asset.borrow.hasApproval
-      },
-      skipTestState,
-      true
-    )
-    testData.asset.repay.forEach((repayCase) =>{
-      repay(
-        {
-          asset: testData.asset.name,
-          amount: repayCase.amount,
-          repayOption: repayCase.repayOption,
-          hasApproval: repayCase.hasApproval
+        amount: repayCase.amount,
+        repayOption: repayCase.repayOption,
+        hasApproval: repayCase.hasApproval
 
-        },
-        skipTestState,
-        false
-      )
-    })
-    withdraw(
-      {
-        asset: testData.asset.name,
-        amount: testData.asset.withdraw.amount,
-        hasApproval: testData.asset.withdraw.hasApproval,
       },
       skipTestState,
       false
     )
-    dashboardAssetValuesVerification(
-      testData.verifications.finalDashboard, skipTestState
-    )
-  },1)
+  })
+  withdraw(
+    {
+      asset: testData.asset.name,
+      amount: testData.asset.withdraw.amount,
+      hasApproval: testData.asset.withdraw.hasApproval,
+    },
+    skipTestState,
+    false
+  )
+  dashboardAssetValuesVerification(
+    testData.verifications.finalDashboard, skipTestState
+  )
 })
