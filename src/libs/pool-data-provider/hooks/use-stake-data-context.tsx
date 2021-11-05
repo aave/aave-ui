@@ -1,13 +1,5 @@
 import React, { ReactNode, useContext, useState } from 'react';
-import {
-  normalize,
-  StakingInterface,
-  Stake,
-  TxBuilderV2,
-  valueToBigNumber,
-  TxBuilderConfig,
-  Network,
-} from '@aave/protocol-js';
+import { normalize, Stake, valueToBigNumber } from '@aave/protocol-js';
 
 import { useLocation } from 'react-router-dom';
 
@@ -31,7 +23,7 @@ import {
 import { useApolloConfigContext } from '../../apollo-config';
 import { StakeConfig } from '../../../ui-config';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
-import { ChainId, ChainIdToNetwork, StakingService } from '@aave/contract-helpers';
+import { ChainId, StakingService } from '@aave/contract-helpers';
 
 export function computeStakeData(data: StakeData): ComputedStakeData {
   return {
@@ -104,10 +96,8 @@ export function StakeDataProvider({
   const selectedStake =
     location.pathname.split('/')[2]?.toLowerCase() === Stake.aave ? Stake.aave : Stake.bpt;
   const stakingService = new StakingService(getProvider(stakeConfig.chainId), {
-    TOKEN_STAKING_ADDRESS:
-      stakeConfig.tokens[selectedStake === Stake.aave ? Stake.aave : Stake.bpt].TOKEN_STAKING,
-    STAKING_HELPER_ADDRESS:
-      stakeConfig.tokens[selectedStake === Stake.aave ? Stake.aave : Stake.bpt].STAKING_HELPER,
+    TOKEN_STAKING_ADDRESS: stakeConfig.tokens[selectedStake].TOKEN_STAKING,
+    STAKING_HELPER_ADDRESS: stakeConfig.tokens[selectedStake].STAKING_HELPER,
   });
 
   const {

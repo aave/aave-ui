@@ -1,6 +1,4 @@
 import React, { useContext, PropsWithChildren } from 'react';
-import { Network, TxBuilderConfig, TxBuilderV2 } from '@aave/protocol-js';
-import GovernanceDelegationToken from '@aave/protocol-js/dist/tx-builder/interfaces/v2/GovernanceDelegationToken';
 
 import useGetProposals from './hooks/use-get-proposals';
 import useGetProposalsRPC from './hooks/use-get-proposals-rpc';
@@ -16,13 +14,17 @@ import {
   WS_ATTEMPTS_LIMIT,
 } from '../connection-status-provider';
 import { useMainnetCachedServerWsGraphCheck } from '../pool-data-provider/hooks/use-graph-check';
-import { ChainId, ChainIdToNetwork, AaveGovernanceService } from '@aave/contract-helpers';
+import {
+  ChainId,
+  AaveGovernanceService,
+  GovernancePowerDelegationTokenService,
+} from '@aave/contract-helpers';
 
 export interface ProtocolContextDataType {
   governanceConfig: GovernanceConfig;
   governanceNetworkConfig: NetworkConfig;
   governanceService: AaveGovernanceService;
-  powerDelegation: GovernanceDelegationToken;
+  powerDelegation: GovernancePowerDelegationTokenService;
   proposals: ProposalItem[];
 }
 
@@ -41,33 +43,14 @@ export function GovernanceDataProvider({
     (wsMainnetError.wsErrorCount >= WS_ATTEMPTS_LIMIT &&
       governanceConfig.chainId === ChainId.mainnet);
   const isRPCActive = preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory;
-  const network = ChainIdToNetwork[governanceConfig.chainId] as Network;
 
-  const config: TxBuilderConfig = {
-    governance: {
-      [network]: {
-        AAVE_GOVERNANCE_V2: governanceConfig.addresses.AAVE_GOVERNANCE_V2,
-        AAVE_GOVERNANCE_V2_EXECUTOR_SHORT:
-          governanceConfig.addresses.AAVE_GOVERNANCE_V2_EXECUTOR_SHORT,
-        AAVE_GOVERNANCE_V2_EXECUTOR_LONG:
-          governanceConfig.addresses.AAVE_GOVERNANCE_V2_EXECUTOR_LONG,
-        AAVE_GOVERNANCE_V2_HELPER: governanceConfig.addresses.AAVE_GOVERNANCE_V2_HELPER,
-      },
-    },
-  };
-
-  const txBuilder = new TxBuilderV2(
-    network,
-    getProvider(governanceConfig.chainId),
-    undefined,
-    config
+  const governanceService = new AaveGovernanceService(getProvider(governanceConfig.chainId), {
+    GOVERNANCE_ADDRESS: governanceConfig.addresses.AAVE_GOVERNANCE_V2,
+    GOVERNANCE_HELPER_ADDRESS: governanceConfig.addresses.AAVE_GOVERNANCE_V2_HELPER,
+  });
+  const powerDelegation = new GovernancePowerDelegationTokenService(
+    getProvider(governanceConfig.chainId)
   );
-  const governanceService = new AaveGovernanceService(
-    getProvider(governanceConfig.chainId),
-    governanceConfig.addresses.AAVE_GOVERNANCE_V2,
-    governanceConfig.addresses.AAVE_GOVERNANCE_V2_HELPER
-  );
-  const powerDelegation = txBuilder.governanceDelegationTokenService;
 
   const {
     proposals: propGraph,
