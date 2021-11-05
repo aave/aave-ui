@@ -112,4 +112,4 @@ describe('DAI INTEGRATION SPEC ON AVALANCHE',  ()=>{
   dashboardAssetValuesVerification(
       testData.verifications.finalDashboard, skipTestState
   )
-})
+},1)

@@ -52,4 +52,4 @@ describe('REWARD POLYGON MARKET INTEGRATION SPEC',  ()=>{
     },
     skipTestState
   )
-})
+},1)

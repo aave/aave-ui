@@ -52,4 +52,4 @@ describe('STAKE INTEGRATION SPEC ON KOVAN',  ()=> {
       StakePage.doClaimReward()
     })
   })
-})
+},1)

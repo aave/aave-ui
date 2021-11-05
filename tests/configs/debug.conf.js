@@ -31,7 +31,7 @@ exports.config = {
     './e2e/specs/**/*.test.js',
   ],
   exclude: [
-    './e2e/specs/mainMarket/assets/eth.test.js',
+    // './e2e/specs/mainMarket/assets/eth.test.js',
     './e2e/specs/mainMarket/assets/usdc.test.js',
     './e2e/specs/mainMarket/assets/dai.test.js',
     './e2e/specs/mainMarket/assets/bat.test.js',
@@ -49,10 +49,10 @@ exports.config = {
     './e2e/specs/polygonMarket/assets/usdt.polygon.test.js',
     './e2e/specs/polygonMarket/assets/weth.polygon.test.js',
     './e2e/specs/polygonMarket/assets/wbtc.polygon.test.js',
-    // './e2e/specs/polygonMarket/reward.polygon.test.js',
+    './e2e/specs/polygonMarket/reward.polygon.test.js',
     './e2e/specs/polygonMarket/swap.polygon.test.js',
 
-    './e2e/specs/ammMarket/assets/eth.test.js',
+    // './e2e/specs/ammMarket/assets/eth.test.js',
     './e2e/specs/ammMarket/assets/usdc.test.js',
     './e2e/specs/ammMarket/assets/dai.test.js',
     './e2e/specs/ammMarket/assets/usdt.test.js',

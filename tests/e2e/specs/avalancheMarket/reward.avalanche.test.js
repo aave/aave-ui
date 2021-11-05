@@ -52,4 +52,4 @@ describe('REWARD AVALANCHE MARKET INTEGRATION SPEC',  ()=>{
     },
     skipTestState
   )
-})
+},1)
