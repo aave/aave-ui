@@ -95,4 +95,4 @@ describe('MATIC INTEGRATION SPEC ON POLYGON',  ()=>{
   dashboardAssetValuesVerification(
     testData.verifications.finalDashboard, skipTestState
   )
-},1)
+})

@@ -79,5 +79,5 @@ describe('SWAP SPEC FOR AVALANCHE',  ()=>{
     },
     skipTestState
   )
-},1)
+})
 

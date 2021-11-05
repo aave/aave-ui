@@ -68,6 +68,7 @@ class MM {
     browser.pause(1000)
     browser.waitUntil(
       () => {
+        console.log("missed!!!!!g")
         let _located = false
         if($$(MetamaskPage.networkXpath()).length != 0)
           _located = true
@@ -81,7 +82,7 @@ class MM {
         timeoutMsg: "network button not exist"
       }
     )
-    elemUtil.doClick(MetamaskPage.networkListBtn)
+    elemUtil.doClick($(MetamaskPage.networkXpath()))
     let liXpath = '//li//*[text()="'+name+'"]'
     elemUtil.doClick($(liXpath))
   }

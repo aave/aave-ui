@@ -112,4 +112,4 @@ describe('WETH INTEGRATION SPEC ON AVALACNHE',  ()=>{
     dashboardAssetValuesVerification(
         testData.verifications.finalDashboard, skipTestState
     )
-},1)
+})

@@ -100,4 +100,4 @@ describe('ETH INTEGRATION SPEC',  ()=>{
   dashboardAssetValuesVerification(
     testData.verifications.finalDashboard, skipTestState
   )
-},1)
+})

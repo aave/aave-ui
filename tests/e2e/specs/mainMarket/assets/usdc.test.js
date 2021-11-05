@@ -132,4 +132,4 @@ describe('USDC INTEGRATION SPEC',  ()=>{
     testData.verifications.finalDashboard,
     skipTestState
   )
-},1)
+})
