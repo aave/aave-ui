@@ -124,7 +124,7 @@ export function Web3Provider({
     AvailableWeb3Connectors | undefined
   >();
   const [preferredNetwork, setPreferredNetwork] = useState(
-    (Number(localStorage.getItem('preferredNetwork') || 1) as ChainId) || defaultChainId
+    Number(localStorage.getItem('preferredNetwork') || defaultChainId) as ChainId
   );
   const [activating, setActivation] = useState(true);
   const [isSelectWalletModalVisible, setSelectWalletModalVisible] = useState(false);
@@ -153,6 +153,7 @@ export function Web3Provider({
   ): Promise<boolean> => {
     let isSuccessful = false;
     setActivation(true);
+    console.log(network);
     //TODO: maybe next line is useless
     localStorage.setItem('preferredNetwork', network as unknown as string);
     try {

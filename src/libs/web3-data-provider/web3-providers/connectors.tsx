@@ -57,12 +57,11 @@ function raiseUnsupportedNetworkError(chainId: ChainId, connectorName: Available
 
 export function getWeb3Connector(
   connectorName: AvailableWeb3Connectors,
-  currentChainId: ChainId,
+  chainId: ChainId,
   supportedChainIds: ChainId[],
   connectorConfig: ConnectorOptionalConfig
 ): AbstractConnector {
-  const networkConfig = getNetworkConfig(currentChainId);
-  const chainId = currentChainId;
+  const networkConfig = getNetworkConfig(chainId);
 
   switch (connectorName) {
     case 'browser':
@@ -109,13 +108,13 @@ export function getWeb3Connector(
         windowClosedError: true,
       });
     case 'authereum': {
-      if (currentChainId !== ChainId.mainnet) {
-        raiseUnsupportedNetworkError(currentChainId, connectorName);
+      if (chainId !== ChainId.mainnet) {
+        raiseUnsupportedNetworkError(chainId, connectorName);
       }
       return new AuthereumConnector({
         chainId,
         config: {
-          networkName: currentChainId,
+          networkName: chainId,
           rpcUri: networkConfig.privateJsonRPCUrl || networkConfig.publicJsonRPCUrl,
           apiKey: AUTHEREUM_API_KEY,
         },
@@ -126,7 +125,7 @@ export function getWeb3Connector(
         chainId,
         initOptions: {
           network: {
-            host: currentChainId === ChainId.polygon ? 'matic' : currentChainId,
+            host: chainId === ChainId.polygon ? 'matic' : chainId,
           },
           showTorusButton: false,
           enableLogging: false,
