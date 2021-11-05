@@ -101,7 +101,9 @@ export default function NetworkMismatch({
           {isNeededNetworkNotSupported
             ? intl.formatMessage(messages.networkIsNotSupportedCaption)
             : intl.formatMessage(messages.caption, {
-                networkName: neededNetworkConfig.name,
+                networkName: neededNetworkConfig.isFork
+                  ? neededNetworkConfig.name + ' Fork'
+                  : neededNetworkConfig.name,
               })}
         </h4>
 

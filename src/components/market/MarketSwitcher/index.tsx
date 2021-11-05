@@ -113,7 +113,11 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
         {availableMarkets.map((market) => {
           const marketData = marketsData[market];
           const config = getNetworkConfig(marketData.chainId);
-          const testnetMark = config.isTestnet ? config.name.charAt(0).toUpperCase() : undefined;
+          const testnetMark = config.isFork
+            ? 'F'
+            : config.isTestnet
+            ? config.name.charAt(0).toUpperCase()
+            : undefined;
           return (
             <button
               onClick={() => handleSetCurrentMarket(market)}
