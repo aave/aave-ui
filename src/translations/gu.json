@@ -223,7 +223,7 @@
   "components.graphs.VisxHistoricalRatesGraph.apy": "APY",
   "components.graphs.VisxHistoricalRatesGraph.stable": "સ્થિર",
   "components.graphs.VisxHistoricalRatesGraph.variable": "ચલ",
-  "components.liquidityMining.LiquidityMiningAPYLine.apr": "APY",
+  "components.liquidityMining.LiquidityMiningAPYLine.apr": "APR",
   "components.liquidityMining.LiquidityMiningAPYLine.tooltipText": "આ Aave માર્કેટમાં ભાગ લેવાથી {token} ટોકનમાં ભેટ મળે છે. APR એ 1-વર્ષના સમયગાળા દરમિયાન આ પુરસ્કારો કેવા હશે તેની માત્ર એક રજૂઆત છે",
   "components.liquidityMining.ThirtyDayAverage.thirtyDaysAverage": "30 દિ. સરેરાશ",
   "components.liquidityMining.ThirtyDayAverage.thirtyDaysAverageFull": "30 દિવસની સરેરાશ",
