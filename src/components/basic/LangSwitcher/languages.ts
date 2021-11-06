@@ -6,7 +6,7 @@ import en from './images/en.png';
 import es from './images/es.svg';
 import fr from './images/fr.svg';
 import cn from './images/cn.svg';
-import gu from './images/cn.svg';
+import gu from './images/gu.svg';
 import it from './images/it.svg';
 import ja from './images/ja.svg';
 import tr from './images/tr.svg';
