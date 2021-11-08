@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 
-import { useReserveRatesHistory } from '../../../../../libs/pool-data-provider/hooks/use-reserve-rates-history';
+import { FormattedReserveHistoryItem } from '../../../../../libs/pool-data-provider/hooks/use-reserve-rates-history';
 import { useLanguageContext } from '../../../../../libs/language-provider';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import GraphInner from '../index';
@@ -10,18 +10,17 @@ import { GraphPoint, InterestRateSeries } from '../../../../../components/graphs
 import messages from './messages';
 
 interface DepositAPYProps {
-  poolReserveId: string;
+  data: FormattedReserveHistoryItem[];
   borrowingEnabled: boolean;
 }
 
-export default function DepositAPY({ poolReserveId, borrowingEnabled }: DepositAPYProps) {
+export default function DepositAPY({ data, borrowingEnabled }: DepositAPYProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { currentLangSlug } = useLanguageContext();
-  const { data: interestRatesHistory, loading } = useReserveRatesHistory(poolReserveId);
   const [series, setSeries] = useState<InterestRateSeries[]>([]);
 
-  const liquidityRateHistoryData = interestRatesHistory.map<GraphPoint>((item) => [
+  const liquidityRateHistoryData = data.map<GraphPoint>((item) => [
     item.timestamp,
     Number((Number(item.liquidityRate) * 100).toFixed(2)),
   ]);
@@ -35,8 +34,6 @@ export default function DepositAPY({ poolReserveId, borrowingEnabled }: DepositA
     ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [liquidityRateHistoryData.length, currentLangSlug]);
-
-  if (!loading && !interestRatesHistory.length) return null;
 
   return (
     <GraphInner

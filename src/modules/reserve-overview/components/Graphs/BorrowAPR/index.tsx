@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 
-import { useReserveRatesHistory } from '../../../../../libs/pool-data-provider/hooks/use-reserve-rates-history';
+import { FormattedReserveHistoryItem } from '../../../../../libs/pool-data-provider/hooks/use-reserve-rates-history';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { useLanguageContext } from '../../../../../libs/language-provider';
 import GraphInner from '../index';
@@ -10,13 +10,13 @@ import { GraphPoint, InterestRateSeries } from '../../../../../components/graphs
 import messages from './messages';
 
 interface BorrowAPRProps {
-  poolReserveId: string;
+  data: FormattedReserveHistoryItem[];
   borrowingEnabled: boolean;
   stableBorrowRateEnabled: boolean;
 }
 
 export default function BorrowAPR({
-  poolReserveId,
+  data,
   borrowingEnabled,
   stableBorrowRateEnabled,
 }: BorrowAPRProps) {
@@ -24,12 +24,11 @@ export default function BorrowAPR({
   const { currentLangSlug } = useLanguageContext();
   const { currentTheme } = useThemeContext();
 
-  const { data: borrowRatesHistory, loading } = useReserveRatesHistory(poolReserveId);
   const [series, setSeries] = useState<InterestRateSeries[]>([]);
 
   const stableRateHistoryData = [] as GraphPoint[];
   const variableRateHistoryData = [] as GraphPoint[];
-  borrowRatesHistory.forEach((item) => {
+  data.forEach((item) => {
     stableRateHistoryData.push([
       item.timestamp,
       Number((Number(item.stableBorrowRate) * 100).toFixed(2)),
@@ -54,9 +53,7 @@ export default function BorrowAPR({
     });
     setSeries(series);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [borrowRatesHistory.length, currentLangSlug]);
-
-  if (!loading && !variableRateHistoryData.length) return null;
+  }, [data.length, currentLangSlug]);
 
   return (
     <GraphInner
