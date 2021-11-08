@@ -52,7 +52,6 @@ describe('ETH AMM MARKET INTEGRATION SPEC',  ()=>{
   configTestWithTenderlyMainnetFork({
     market: constants.markets.ammFork
   })
-
   deposit(
     {
       asset: testData.asset.name,

@@ -87,6 +87,7 @@ exports.config = {
   specs: executionList(),
   exclude: [],
   maxInstances: 5,
+  specFileRetries: 3,
   capabilities: [{
     alwaysMatch: {
       browserName: "Chrome",
@@ -131,6 +132,6 @@ exports.config = {
   framework: 'mocha',
   mochaOpts: {
     ui: 'bdd',
-    timeout: 250000
+    timeout: 600000
   }
 }

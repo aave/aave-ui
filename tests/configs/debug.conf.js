@@ -31,7 +31,7 @@ exports.config = {
     './e2e/specs/**/*.test.js',
   ],
   exclude: [
-    './e2e/specs/mainMarket/assets/eth.test.js',
+    // './e2e/specs/mainMarket/assets/eth.test.js',
     './e2e/specs/mainMarket/assets/usdc.test.js',
     './e2e/specs/mainMarket/assets/dai.test.js',
     './e2e/specs/mainMarket/assets/bat.test.js',
@@ -49,7 +49,7 @@ exports.config = {
     './e2e/specs/polygonMarket/assets/usdt.polygon.test.js',
     './e2e/specs/polygonMarket/assets/weth.polygon.test.js',
     './e2e/specs/polygonMarket/assets/wbtc.polygon.test.js',
-    // './e2e/specs/polygonMarket/reward.polygon.test.js',
+    './e2e/specs/polygonMarket/reward.polygon.test.js',
     './e2e/specs/polygonMarket/swap.polygon.test.js',
 
     './e2e/specs/ammMarket/assets/eth.test.js',
@@ -69,6 +69,7 @@ exports.config = {
     './e2e/specs/mainMarket/stake.kovan.test.js',
   ],
   maxInstances: 1,
+  specFileRetries: 1,
   capabilities: [{
     maxInstances: 1,
     browserName: 'chrome',
