@@ -131,6 +131,7 @@ export function StaticPoolDataProvider({
           underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
           reserve: {
             ...reserve,
+            symbol: networkConfig.baseAsset,
             underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
           },
         };
