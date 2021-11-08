@@ -131,7 +131,7 @@ exports.config = {
   reporters: ['spec'],
   framework: 'mocha',
   mochaOpts: {
-    ui: 'bdd'б
+    ui: 'bdd',
     timeout: 90000
   }
 }
