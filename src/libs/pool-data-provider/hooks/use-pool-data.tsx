@@ -3,11 +3,11 @@ import { ethers } from 'ethers';
 import { Network } from '@aave/protocol-js';
 
 import { getProvider } from '../../../helpers/markets/markets-data';
-import { UiPoolDataProvider } from '@aave/contract-helpers';
 import {
+  UiPoolDataProvider,
   ReservesDataHumanized,
   UserReserveDataHumanized,
-} from '@aave/contract-helpers/dist/esm/ui-pool-data-provider/types/UiPoolDataProviderTypes';
+} from '@aave/contract-helpers';
 
 // interval in which the rpc data is refreshed
 const POOLING_INTERVAL = 30 * 1000;
