@@ -35,8 +35,6 @@ export default function DepositAPY({ data, borrowingEnabled }: DepositAPYProps) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [liquidityRateHistoryData.length, currentLangSlug]);
 
-  if (!data.length) return null;
-
   return (
     <GraphInner
       title={intl.formatMessage(messages.title)}

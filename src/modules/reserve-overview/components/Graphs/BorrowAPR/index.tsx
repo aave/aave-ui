@@ -55,8 +55,6 @@ export default function BorrowAPR({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.length, currentLangSlug]);
 
-  if (!variableRateHistoryData.length) return null;
-
   return (
     <GraphInner
       title={

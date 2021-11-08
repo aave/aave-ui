@@ -35,8 +35,6 @@ export default function UtilisationRate({ data, borrowingEnabled }: UtilisationR
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [utilizationRateHistoryData.length, currentLangSlug]);
 
-  if (!utilizationRateHistoryData.length) return null;
-
   return (
     <GraphInner
       title={intl.formatMessage(messages.title)}

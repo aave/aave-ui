@@ -27,18 +27,21 @@ import { getAssetInfo } from '../../../../helpers/markets/assets';
 import { useReserveRatesHistory } from '../../../../libs/pool-data-provider/hooks/use-reserve-rates-history';
 
 function Charts({ poolReserve }: { poolReserve: ValidationWrapperComponentProps['poolReserve'] }) {
-  const { data } = useReserveRatesHistory(poolReserve.id);
-
+  const { data, loading } = useReserveRatesHistory(poolReserve.id);
   return (
     <div className="ReserveOverview__graphs-wrapper">
       <div className="ReserveOverview__graphs-inner">
-        <BorrowAPR
-          data={data}
-          borrowingEnabled={poolReserve.borrowingEnabled}
-          stableBorrowRateEnabled={poolReserve.stableBorrowRateEnabled}
-        />
-        <DepositAPY data={data} borrowingEnabled={poolReserve.borrowingEnabled} />
-        <UtilisationRate data={data} borrowingEnabled={poolReserve.borrowingEnabled} />
+        {!loading && !data.length ? null : (
+          <>
+            <BorrowAPR
+              data={data}
+              borrowingEnabled={poolReserve.borrowingEnabled}
+              stableBorrowRateEnabled={poolReserve.stableBorrowRateEnabled}
+            />
+            <DepositAPY data={data} borrowingEnabled={poolReserve.borrowingEnabled} />
+            <UtilisationRate data={data} borrowingEnabled={poolReserve.borrowingEnabled} />
+          </>
+        )}
       </div>
     </div>
   );
