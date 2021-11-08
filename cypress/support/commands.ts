@@ -29,7 +29,6 @@ import { DEFAULT_TEST_ACCOUNT, TenderlyFork } from './tenderly';
 import { Eip1193Bridge } from '@ethersproject/experimental/lib/eip1193-bridge';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
-import { providers } from 'ethers';
 
 class CustomizedBridge extends Eip1193Bridge {
   chainId = 3030;
@@ -67,20 +66,12 @@ class CustomizedBridge extends Eip1193Bridge {
         return Promise.resolve(this.chainId);
       }
     }
-    if (method === 'eth_call') {
-      const req = providers.JsonRpcProvider.hexlifyTransaction(
-        // @ts-ignore
-        params[0],
-        { from: true }
-      );
-      return await this.provider.call(req, params[1]);
-    }
     if (method === 'eth_sendTransaction') {
       if (!this.signer) {
         throw new Error('eth_sendTransaction requires an account');
       }
 
-      const req = providers.JsonRpcProvider.hexlifyTransaction(
+      const req = JsonRpcProvider.hexlifyTransaction(
         // @ts-ignore
         params[0],
         { from: true, gas: true }
@@ -89,11 +80,6 @@ class CustomizedBridge extends Eip1193Bridge {
       return tx.hash;
     }
     try {
-      if (params?.[0]) {
-        const { gas, ...rest } = params[0];
-        params[0] = { ...rest, gasLimit: gas };
-      }
-      console.log('sendTxn', method, params);
       const result = await super.send(method, params);
       console.debug('result received', method, params, result);
       if (isCallbackForm) {
@@ -121,7 +107,7 @@ Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
       const provider = new JsonRpcProvider(rpc, 3030);
       const signer = new Wallet(DEFAULT_TEST_ACCOUNT.privateKey, provider);
 
-      win.ethereum = new CustomizedBridge(signer, signer.provider);
+      win.ethereum = new CustomizedBridge(signer, provider);
 
       win.localStorage.setItem('fork_enabled', 'true');
       win.localStorage.setItem('forkNetworkId', '3030');

@@ -25,7 +25,7 @@ export default function SelectPreferredNetwork({
 
   const formattedNetwork = (network: Network) =>
     network === Network.mainnet ? 'Ethereum' : network;
-  const isTestnet = (network: Network) => networkConfigs[network].isTestnet;
+  const isTestnet = (network: Network) => networkConfigs[network]?.isTestnet;
 
   return (
     <div className="SelectPreferredNetwork">

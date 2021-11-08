@@ -2,7 +2,7 @@ const axios = require('axios');
 
 export const DEFAULT_TEST_ACCOUNT = {
   privateKey: '0x54c6ae44611f38e662093c9a3f4b26c3bf13f5b8adb02da1a76f321bd18efe92',
-  address: '0x56FB278a7191bdf7C5d493765Fec03E6EAdF72f1',
+  address: '0x56FB278a7191bdf7C5d493765Fec03E6EAdF72f1'.toLowerCase(),
 };
 
 const TENDERLY_KEY = Cypress.env('TENDERLY_KEY');

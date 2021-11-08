@@ -72,6 +72,7 @@ export async function sendEthTransaction(
   const signer = provider.getSigner(from);
   console.log(signer);
   let txResponse: TransactionResponse | undefined;
+  console.log({ ...txData, value: txData.value ? BigNumber.from(txData.value) : undefined });
   try {
     txResponse = await signer.sendTransaction({
       ...txData,
