@@ -31,7 +31,7 @@ function Charts({ poolReserve }: { poolReserve: ValidationWrapperComponentProps[
   return (
     <div className="ReserveOverview__graphs-wrapper">
       <div className="ReserveOverview__graphs-inner">
-        {!loading && !data.length ? null : (
+        {(loading || data.length) && (
           <>
             <BorrowAPR
               data={data}
