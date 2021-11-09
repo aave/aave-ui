@@ -15,6 +15,11 @@ export const usePolling = (
   }, [callback]);
 
   useEffect(() => {
+    // initial execution
+    callback();
+  }, [...deps]);
+
+  useEffect(() => {
     let timeout: number;
 
     function tick() {
@@ -30,8 +35,6 @@ export const usePolling = (
     }
 
     if (!skip) {
-      // initial execution
-      callback();
       timeout = window.setTimeout(tick, time);
     }
     return () => clearTimeout(timeout);
