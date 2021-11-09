@@ -16,7 +16,7 @@ export const usePolling = (
 
   useEffect(() => {
     // initial execution
-    callback();
+    if (!skip) callback();
   }, [...deps]);
 
   useEffect(() => {
