@@ -49,7 +49,11 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
   };
 
   const transparentDarkColor = rgba(`${currentTheme.darkBlue.rgb}, 0.05`);
-  const selectedMarketTestnetMark = networkConfig.isTestnet ? 't' : undefined;
+  const selectedMarketTestnetMark = networkConfig.isFork
+    ? 'F'
+    : networkConfig.isTestnet
+    ? networkConfig.name.charAt(0).toUpperCase()
+    : undefined;
 
   return (
     <DropdownWrapper
