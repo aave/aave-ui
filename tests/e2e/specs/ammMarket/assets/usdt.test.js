@@ -62,7 +62,6 @@ describe('USDT AMM MARKET INTEGRATION SPEC',  ()=>{
   configTestWithTenderlyMainnetFork({
     market: constants.markets.ammFork
   })
-
   deposit(
     {
       asset: testData.depositETH.asset,
