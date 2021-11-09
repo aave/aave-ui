@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useStateLoading, LOADING_STATE } from './use-state-loading';
-import { usePooling } from './use-pooling';
+import { usePolling } from './use-polling';
 
 type GasInfo = {
   legacyGasPrice: string;
@@ -36,12 +36,7 @@ const useGetGasPrices = (skip?: boolean, interval?: number) => {
     setLoading(LOADING_STATE.FINISHED);
   };
 
-  useEffect(() => {
-    if (!skip) apiRequest();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [skip]);
-
-  usePooling(apiRequest, interval ? interval : TIME_POOLING, !!skip, [skip]);
+  usePolling(apiRequest, interval ? interval : TIME_POOLING, !!skip, [skip]);
 
   return { loading, data, error };
 };

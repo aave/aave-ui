@@ -82,7 +82,7 @@ export function StaticPoolDataProvider({
   );
 
   const activeData = isRPCActive && rpcData ? rpcData : cachedData;
-  if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
+  if ((isRPCActive && rpcDataLoading && !rpcData) || (!isRPCActive && cachedDataLoading)) {
     return loader;
   }
 

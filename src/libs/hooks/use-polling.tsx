@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const usePooling = (
+export const usePolling = (
   callback: () => Promise<void> | (() => void),
   time: number,
   skip: boolean,
@@ -30,6 +30,8 @@ export const usePooling = (
     }
 
     if (!skip) {
+      // initial execution
+      callback();
       timeout = window.setTimeout(tick, time);
     }
     return () => clearTimeout(timeout);

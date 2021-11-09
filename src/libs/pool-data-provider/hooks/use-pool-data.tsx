@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
+import { useState } from 'react';
 import { Network } from '@aave/protocol-js';
 
 import { getProvider } from '../../../helpers/markets/markets-data';
@@ -8,11 +7,10 @@ import {
   ReservesDataHumanized,
   UserReserveDataHumanized,
 } from '@aave/contract-helpers';
+import { usePolling } from '../../hooks/use-polling';
 
 // interval in which the rpc data is refreshed
-const POOLING_INTERVAL = 30 * 1000;
-// decreased interval in case there was a network error for faster recovery
-const RECOVER_INTERVAL = 10 * 1000;
+const POLLING_INTERVAL = 30 * 1000;
 
 export interface PoolDataResponse {
   loading: boolean;
@@ -21,7 +19,7 @@ export interface PoolDataResponse {
     reserves?: ReservesDataHumanized;
     userReserves?: UserReserveDataHumanized[];
   };
-  refresh: () => Promise<void>;
+  refresh: () => Promise<any>;
 }
 
 // Fetch reserve and user incentive data from UiIncentiveDataProvider
@@ -33,24 +31,14 @@ export function usePoolData(
   userAddress?: string
 ): PoolDataResponse {
   const currentAccount: string | undefined = userAddress ? userAddress.toLowerCase() : undefined;
-  const [loadingReserves, setLoadingReserves] = useState<boolean>(true);
+  const [loadingReserves, setLoadingReserves] = useState<boolean>(false);
   const [errorReserves, setErrorReserves] = useState<boolean>(false);
-  const [loadingUserReserves, setLoadingUserReserves] = useState<boolean>(true);
+  const [loadingUserReserves, setLoadingUserReserves] = useState<boolean>(false);
   const [errorUserReserves, setErrorUserReserves] = useState<boolean>(false);
   const [reserves, setReserves] = useState<ReservesDataHumanized | undefined>(undefined);
   const [userReserves, setUserReserves] = useState<UserReserveDataHumanized[] | undefined>(
     undefined
   );
-
-  // Fetch reserves data, and user reserves data only if currentAccount is set
-  const fetchData = async () => {
-    fetchReserves();
-    if (currentAccount && currentAccount !== ethers.constants.AddressZero) {
-      fetchUserReserves(currentAccount);
-    } else {
-      setLoadingUserReserves(false);
-    }
-  };
 
   // Fetch and format reserve incentive data from UiIncentiveDataProvider contract
   const fetchReserves = async () => {
@@ -61,6 +49,7 @@ export function usePoolData(
     });
 
     try {
+      setLoadingReserves(true);
       const reservesResponse = await poolDataProviderContract.getReservesHumanized(
         lendingPoolAddressProvider
       );
@@ -74,7 +63,8 @@ export function usePoolData(
   };
 
   // Fetch and format user incentive data from UiIncentiveDataProvider
-  const fetchUserReserves = async (userId: string) => {
+  const fetchUserReserves = async () => {
+    if (!currentAccount) return;
     const provider = getProvider(network);
     const poolDataProviderContract = new UiPoolDataProvider({
       uiPoolDataProviderAddress: poolDataProviderAddress,
@@ -82,8 +72,12 @@ export function usePoolData(
     });
 
     try {
+      setLoadingUserReserves(true);
       const userReservesResponse: UserReserveDataHumanized[] =
-        await poolDataProviderContract.getUserReservesHumanized(lendingPoolAddressProvider, userId);
+        await poolDataProviderContract.getUserReservesHumanized(
+          lendingPoolAddressProvider,
+          currentAccount
+        );
 
       setUserReserves(userReservesResponse);
       setErrorUserReserves(false);
@@ -94,23 +88,13 @@ export function usePoolData(
     setLoadingUserReserves(false);
   };
 
-  useEffect(() => {
-    setLoadingReserves(true);
-    setLoadingUserReserves(true);
-
-    if (!skip) {
-      fetchData();
-      const intervalID = setInterval(
-        () => fetchData(),
-        errorReserves || errorUserReserves ? RECOVER_INTERVAL : POOLING_INTERVAL
-      );
-      return () => clearInterval(intervalID);
-    } else {
-      setLoadingReserves(false);
-      setLoadingUserReserves(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentAccount, lendingPoolAddressProvider, skip]);
+  usePolling(fetchReserves, POLLING_INTERVAL, skip, [skip, poolDataProviderAddress, network]);
+  usePolling(fetchUserReserves, POLLING_INTERVAL, skip, [
+    skip,
+    poolDataProviderAddress,
+    network,
+    currentAccount,
+  ]);
 
   const loading = loadingReserves || loadingUserReserves;
   const error = errorReserves || errorUserReserves;
@@ -118,6 +102,8 @@ export function usePoolData(
     loading,
     error,
     data: { reserves, userReserves },
-    refresh: () => fetchData(),
+    refresh: () => {
+      return Promise.all([fetchUserReserves(), fetchReserves()]);
+    },
   };
 }
