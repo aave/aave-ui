@@ -28,7 +28,7 @@
     "@visx/grid": "^2.2.2",
     "@visx/group": "^2.1.0",
     "@visx/responsive": "^2.1.2",
-    "@visx/scale": "^2.1.2",
+    "@visx/scale": "^2.2.2",
     "@visx/shape": "^2.1.2",
     "@visx/tooltip": "^2.2.0",
     "@walletconnect/web3-provider": "^1.6.1",
