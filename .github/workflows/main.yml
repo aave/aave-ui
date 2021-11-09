@@ -38,6 +38,7 @@ jobs:
           start: npm run start:dev
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:3000'
+          wait-on-timeout: 180
           command: npm run test
 
       - name: deploy
