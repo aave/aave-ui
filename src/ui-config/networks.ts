@@ -84,7 +84,7 @@ const avalanche_config: BaseNetworkConfig = {
   rewardTokenDecimals: 18,
   incentivePrecision: 18,
   explorerLink: 'https://cchain.explorer.avax.network',
-  rpcOnly: true, //!ENABLE_CACHING_BACKEND,
+  rpcOnly: !ENABLE_CACHING_BACKEND,
   usdMarket: true,
   bridge: {
     brandColor: '232, 65, 66',
