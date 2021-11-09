@@ -15,7 +15,7 @@ export type ResponseGasPrice = {
   fastest: GasInfo;
 };
 
-const TIME_POOLING = 100000;
+const POLLING_INTERVAL = 100000;
 
 const useGetGasPrices = (skip?: boolean, interval?: number) => {
   const { loading, setLoading } = useStateLoading();
@@ -36,7 +36,7 @@ const useGetGasPrices = (skip?: boolean, interval?: number) => {
     setLoading(LOADING_STATE.FINISHED);
   };
 
-  usePolling(apiRequest, interval ? interval : TIME_POOLING, !!skip, [skip]);
+  usePolling(apiRequest, interval ? interval : POLLING_INTERVAL, !!skip, [skip]);
 
   return { loading, data, error };
 };
