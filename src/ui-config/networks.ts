@@ -191,4 +191,32 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     privateJsonRPCWSUrl: AVALANCHE_FORK_WS_RPC_URL,
     rpcOnly: true,
   },
+  [Network.arbitrum_rinkeby]: {
+    publicJsonRPCUrl: 'https://rinkeby.arbitrum.io/rpc',
+    publicJsonRPCWSUrl: 'wss://rinkeby.arbitrum.io/rpc',
+    addresses: {
+      walletBalanceProvider: '0x88f18c963D63Aa07Ef76A800E18714EAc7b318Af',
+      uiPoolDataProvider: '0x38275BE7c0b5CcB61c3cd30767a09b3Af8db7D4b',
+      uiIncentiveDataProvider: '0x2c911e6FaD423C00205eda22BBAc3e7F82c38007',
+    },
+    protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-fuji', // TODO
+    // baseUniswapAdapter: '0x0',
+    baseAsset: 'ETH',
+    baseAssetWrappedAddress: '0xd00ae08403B9bbb9124bB305C09058E32C39A48c', // TODO
+    // incentives hardcoded information
+    rewardTokenSymbol: 'WAVAX',
+    rewardTokenAddress: API_ETH_MOCK_ADDRESS,
+    rewardTokenDecimals: 18,
+    incentivePrecision: 18,
+    explorerLink: 'https://rinkeby-explorer.arbitrum.io',
+    rpcOnly: true,
+    usdMarket: true,
+    isTestnet: true,
+    // bridge: {
+    //   brandColor: '232, 65, 66',
+    //   name: 'Avalanche Bridge',
+    //   url: 'https://bridge.avax.network/',
+    //   logo: avalancheBridgeLogo,
+    // },
+  },
 } as const;

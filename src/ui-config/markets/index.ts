@@ -16,6 +16,7 @@ export enum CustomMarket {
   amm_fork = 'amm_fork',
   polygon_fork = 'polygon_fork',
   proto_fuji = 'proto_fuji',
+  arbitrum_rinkerby_proto = 'arbitrum_rinkerby_proto',
 }
 
 export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType } = {
@@ -211,6 +212,19 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
       LENDING_POOL: '0x4F01AeD16D97E3aB5ab2B501154DC9bb0F1A5A2C',
       WETH_GATEWAY: '0x8a47F74d1eE0e2edEB4F3A7e64EF3bD8e11D27C8',
       SWAP_COLLATERAL_ADAPTER: '0x2EcF2a2e74B19Aab2a62312167aFF4B78E93B6C5',
+    },
+  },
+  [CustomMarket.arbitrum_rinkerby_proto]: {
+    network: Network.arbitrum_rinkeby,
+    logo: logos.aavev2ActiveLogo,
+    activeLogo: logos.aavev2ActiveLogo,
+    subLogo: logos.avalanche,
+    aTokenPrefix: 'AV',
+    enabledFeatures: {},
+    addresses: {
+      LENDING_POOL_ADDRESS_PROVIDER: '0x0e47e8C0670bc86957035a2d70A355b75EEe937A'.toLowerCase(),
+      LENDING_POOL: '0xF7FB7b065040A09B90Ec8564D355A3f70e3Da8c9',
+      WETH_GATEWAY: '0x8d309932f7A29EA86736E323ca24e8cCa7DF56A3',
     },
   },
 } as const;
