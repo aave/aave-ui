@@ -21,3 +21,8 @@ build/
 web-build
 yalc.lock
 __pycache__/
+
+
+# cypress
+cypress/screenshots
+cypress/videos

@@ -114,8 +114,8 @@ Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
       win.localStorage.setItem('forkRPCUrl', rpc);
       // win.localStorage.setItem('polygon_fork_enabled', 'true');
       // win.localStorage.setItem('avalanche_fork_enabled', 'true');
-      // win.localStorage.setItem('currentProvider', 'browser');
-      // win.localStorage.setItem('selectedAccount', DEFAULT_TEST_ACCOUNT.address);
+      win.localStorage.setItem('currentProvider', 'browser');
+      win.localStorage.setItem('selectedAccount', DEFAULT_TEST_ACCOUNT.address);
       win.localStorage.setItem('selectedMarket', 'proto_fork');
     },
     ...options,

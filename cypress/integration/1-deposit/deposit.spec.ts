@@ -10,12 +10,21 @@ describe('deposit', () => {
   });
 
   it('can deposit', () => {
-    // Check if all markets are present
-    cy.get('.SelectMarketPanel__markets', { timeout: 10000 })
-      .children('button')
-      .should('have.length.gt', 1);
+    const eth = cy.get('[alt="ETH"]');
 
-    // select main market
-    cy.get('.SelectMarketPanel__markets button').first().next().click();
+    eth.click();
+
+    cy.get('.AmountField__input input').type('100');
+
+    cy.get('.BasicForm').contains('Continue').click();
+    // cy.get('.TxConfirmationView').contains('Approve').click();
+    cy.get('.Button').contains('Deposit').click();
+    cy.get('.Menu').contains('dashboard').click();
+
+    cy.get('.DashboardTable__content')
+      .find('.Value__value')
+      .invoke('text')
+      .then(parseFloat)
+      .should('be.gte', 100);
   });
 });

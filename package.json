@@ -119,7 +119,7 @@
     "start:dev": "react-app-rewired start",
     "build": "GENERATE_SOURCEMAP=false react-app-rewired build",
     "build:ipfs": "REACT_APP_IPFS_MODE=true npm run build",
-    "test": "cypress",
+    "test": "DOTENV_CONFIG_PATH='.env.local' cypress run",
     "test:ci": "start-server-and-test start:dev http://localhost:3000 test",
     "test:open": "DOTENV_CONFIG_PATH='.env.local' cypress open",
     "eject": "react-scripts eject",
