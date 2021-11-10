@@ -25,7 +25,7 @@ const linkBuilder =
 export type NetworkConfig = {
   privateJsonRPCUrl?: string; // private rpc will be used for rpc queries inside the client. normally has private api key and better rate
   privateJsonRPCWSUrl?: string;
-  publicJsonRPCUrl: string; // public rpc used if not private found, and used to add specific network to wallets if user don't have them. Normally with slow rates
+  publicJsonRPCUrl: readonly string[]; // public rpc used if not private found, and used to add specific network to wallets if user don't have them. Normally with slow rates
   publicJsonRPCWSUrl?: string;
   addresses: {
     walletBalanceProvider: string;
@@ -117,11 +117,22 @@ const providers: { [network: string]: ethers.providers.Provider } = {};
 export const getProvider = (network: Network): ethers.providers.Provider => {
   if (!providers[network]) {
     const config = getNetworkConfig(network);
-    const jsonRPCUrl = config.privateJsonRPCUrl || config.publicJsonRPCUrl;
-    if (!jsonRPCUrl) {
+    const chainProviders: ethers.providers.StaticJsonRpcProvider[] = [];
+    if (config.privateJsonRPCUrl)
+      chainProviders.push(new ethers.providers.StaticJsonRpcProvider(config.privateJsonRPCUrl));
+    if (config.publicJsonRPCUrl.length) {
+      config.publicJsonRPCUrl.map((rpc) =>
+        chainProviders.push(new ethers.providers.StaticJsonRpcProvider(rpc))
+      );
+    }
+    if (!chainProviders.length) {
       throw new Error(`${network} has no jsonRPCUrl configured`);
     }
-    providers[network] = new ethers.providers.StaticJsonRpcProvider(jsonRPCUrl);
+    if (chainProviders.length === 1) {
+      providers[network] = chainProviders[0];
+    } else {
+      providers[network] = new ethers.providers.FallbackProvider(chainProviders);
+    }
   }
   return providers[network];
 };
