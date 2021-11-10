@@ -3,15 +3,17 @@ import { ContractMethod, SwapSide } from 'paraswap/build/constants';
 import { OptimalRate } from 'paraswap-core';
 import { useCallback, useEffect, useState } from 'react';
 import {
-  ComputedReserveData,
   normalize,
   valueToBigNumber,
   API_ETH_MOCK_ADDRESS,
   ChainId,
   BigNumberZD,
 } from '@aave/protocol-js';
-
-import { useDynamicPoolDataContext, useStaticPoolDataContext } from '../pool-data-provider';
+import {
+  ComputedReserveData,
+  useDynamicPoolDataContext,
+  useStaticPoolDataContext,
+} from '../pool-data-provider';
 
 const mainnetParaswap = new ParaSwap(ChainId.mainnet);
 const polygonParaswap = new ParaSwap(ChainId.polygon);
@@ -40,7 +42,7 @@ const getReserve = (address: string, reserves: ComputedReserveData[], WETHAddres
   return {
     address: address.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase() ? WETHAddress : address,
     decimals: Number.parseInt(reserve?.decimals as any),
-    priceInEth: reserve?.price.priceInEth,
+    priceInEth: reserve?.priceInMarketReferenceCurrency,
     liquidityRate: reserve?.supplyAPY,
   };
 };

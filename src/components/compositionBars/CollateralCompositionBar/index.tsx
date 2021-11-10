@@ -26,9 +26,9 @@ export default function CollateralCompositionBar({
     return null;
   }
 
-  const { reservesData, totalCollateralETH } = user;
+  const { userReservesData, totalCollateralMarketReferenceCurrency } = user;
 
-  const collateralComposition = reservesData
+  const collateralComposition = userReservesData
     .filter((userReserve) => {
       const poolReserve = reserves.find((res) => res.symbol === userReserve.reserve.symbol);
       return (
@@ -42,8 +42,8 @@ export default function CollateralCompositionBar({
       title: getAssetInfo(userReserve.reserve.symbol).formattedName || '',
       color: getAssetColor(userReserve.reserve.symbol),
       value: userReserve.underlyingBalance,
-      percentage: valueToBigNumber(userReserve.underlyingBalanceETH)
-        .div(totalCollateralETH)
+      percentage: valueToBigNumber(userReserve.underlyingBalanceMarketReferenceCurrency)
+        .div(totalCollateralMarketReferenceCurrency)
         .multipliedBy(100)
         .precision(20, BigNumber.ROUND_UP)
         .toNumber(),

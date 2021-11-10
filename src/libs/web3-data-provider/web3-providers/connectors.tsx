@@ -69,7 +69,7 @@ export function getWeb3Connector(
     case 'ledger':
       return new LedgerConnector({
         chainId,
-        url: networkConfig.privateJsonRPCUrl || networkConfig.publicJsonRPCUrl,
+        url: networkConfig.privateJsonRPCUrl || networkConfig.publicJsonRPCUrl[0],
         pollingInterval: POLLING_INTERVAL,
         baseDerivationPath: connectorConfig.ledgerBaseDerivationPath,
         accountsOffset: connectorConfig.accountsOffset,
@@ -79,13 +79,13 @@ export function getWeb3Connector(
       return new WalletLinkConnector({
         appName: APP_NAME,
         appLogoUrl: APP_LOGO_URL,
-        url: networkConfig.privateJsonRPCUrl || networkConfig.publicJsonRPCUrl,
+        url: networkConfig.privateJsonRPCUrl || networkConfig.publicJsonRPCUrl[0],
       });
     case 'wallet-connect':
       return new WalletConnectConnector({
         rpc: supportedChainIds.reduce((acc, network) => {
           const config = getNetworkConfig(network);
-          acc[network] = config.privateJsonRPCUrl || config.publicJsonRPCUrl;
+          acc[network] = config.privateJsonRPCUrl || config.publicJsonRPCUrl[0];
           return acc;
         }, {} as { [networkId: number]: string }),
         bridge: 'https://aave.bridge.walletconnect.org',
@@ -104,7 +104,7 @@ export function getWeb3Connector(
           networkConfig.privateJsonRPCWSUrl ||
           networkConfig.privateJsonRPCUrl ||
           networkConfig.publicJsonRPCWSUrl ||
-          networkConfig.publicJsonRPCUrl,
+          networkConfig.publicJsonRPCUrl[0],
         windowClosedError: true,
       });
     case 'authereum': {
@@ -115,7 +115,7 @@ export function getWeb3Connector(
         chainId,
         config: {
           networkName: chainId,
-          rpcUri: networkConfig.privateJsonRPCUrl || networkConfig.publicJsonRPCUrl,
+          rpcUri: networkConfig.privateJsonRPCUrl || networkConfig.publicJsonRPCUrl[0],
           apiKey: AUTHEREUM_API_KEY,
         },
       });

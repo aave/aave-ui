@@ -61,21 +61,21 @@ function WithdrawConfirmation({
   if (
     userReserve.usageAsCollateralEnabledOnUser &&
     poolReserve.usageAsCollateralEnabled &&
-    user.totalBorrowsETH !== '0'
+    user.totalBorrowsMarketReferenceCurrency !== '0'
   ) {
     // if we have any borrowings we should check how much we can withdraw without liquidation
     // with 0.5% gap to avoid reverting of tx
     const excessHF = valueToBigNumber(user.healthFactor).minus('1');
     if (excessHF.gt('0')) {
       maxCollateralToWithdrawInETH = excessHF
-        .multipliedBy(user.totalBorrowsETH)
+        .multipliedBy(user.totalBorrowsMarketReferenceCurrency)
         // because of the rounding issue on the contracts side this value still can be incorrect
         .div(Number(poolReserve.reserveLiquidationThreshold) + 0.01)
         .multipliedBy('0.99');
     }
     maxAmountToWithdraw = BigNumber.min(
       maxAmountToWithdraw,
-      maxCollateralToWithdrawInETH.dividedBy(poolReserve.price.priceInEth)
+      maxCollateralToWithdrawInETH.dividedBy(poolReserve.priceInMarketReferenceCurrency)
     );
   }
 
@@ -83,7 +83,7 @@ function WithdrawConfirmation({
   let displayAmountToWithdraw = amount;
 
   if (amountToWithdraw.eq('-1')) {
-    if (user.totalBorrowsETH !== '0') {
+    if (user.totalBorrowsMarketReferenceCurrency !== '0') {
       if (!maxAmountToWithdraw.eq(underlyingBalance)) {
         amountToWithdraw = maxAmountToWithdraw;
       }
@@ -92,18 +92,22 @@ function WithdrawConfirmation({
   }
 
   let blockingError = '';
-  let totalCollateralInETHAfterWithdraw = valueToBigNumber(user.totalCollateralETH);
+  let totalCollateralInETHAfterWithdraw = valueToBigNumber(
+    user.totalCollateralMarketReferenceCurrency
+  );
   let liquidationThresholdAfterWithdraw = user.currentLiquidationThreshold;
   let healthFactorAfterWithdraw = valueToBigNumber(user.healthFactor);
 
   if (userReserve.usageAsCollateralEnabledOnUser && poolReserve.usageAsCollateralEnabled) {
     const amountToWithdrawInEth = displayAmountToWithdraw.multipliedBy(
-      poolReserve.price.priceInEth
+      poolReserve.priceInMarketReferenceCurrency
     );
     totalCollateralInETHAfterWithdraw =
       totalCollateralInETHAfterWithdraw.minus(amountToWithdrawInEth);
 
-    liquidationThresholdAfterWithdraw = valueToBigNumber(user.totalCollateralETH)
+    liquidationThresholdAfterWithdraw = valueToBigNumber(
+      user.totalCollateralMarketReferenceCurrency
+    )
       .multipliedBy(user.currentLiquidationThreshold)
       .minus(
         valueToBigNumber(amountToWithdrawInEth).multipliedBy(
@@ -115,11 +119,11 @@ function WithdrawConfirmation({
 
     healthFactorAfterWithdraw = calculateHealthFactorFromBalancesBigUnits(
       totalCollateralInETHAfterWithdraw,
-      user.totalBorrowsETH,
+      user.totalBorrowsMarketReferenceCurrency,
       liquidationThresholdAfterWithdraw
     );
 
-    if (healthFactorAfterWithdraw.lt('1') && user.totalBorrowsETH !== '0') {
+    if (healthFactorAfterWithdraw.lt('1') && user.totalBorrowsMarketReferenceCurrency !== '0') {
       blockingError = intl.formatMessage(messages.errorCanNotWithdrawThisAmount);
     }
   }
@@ -149,7 +153,8 @@ function WithdrawConfirmation({
   const handleMainTxExecuted = () => setIsTxExecuted(true);
 
   const isHealthFactorDangerous =
-    user.totalBorrowsETH !== '0' && healthFactorAfterWithdraw.toNumber() <= 1.05;
+    user.totalBorrowsMarketReferenceCurrency !== '0' &&
+    healthFactorAfterWithdraw.toNumber() <= 1.05;
 
   return (
     <PoolTxConfirmationView

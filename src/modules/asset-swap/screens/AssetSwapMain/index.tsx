@@ -84,7 +84,7 @@ export default function AssetSwapMain() {
     );
   }
 
-  const availableDeposits = user.reservesData.filter(
+  const availableDeposits = user.userReservesData.filter(
     (res) =>
       res.underlyingBalance !== '0' &&
       res.reserve.underlyingAsset.toLowerCase() !== toAsset.toLowerCase()
@@ -121,10 +121,12 @@ export default function AssetSwapMain() {
     (res) => res.underlyingAsset.toLowerCase() === toAsset.toLowerCase()
   )?.supplyAPY;
 
-  const fromAssetUserData = user.reservesData.find(
+  const fromAssetUserData = user.userReservesData.find(
     (res) => res.reserve.underlyingAsset === fromAsset
   );
-  const toAssetUserData = user.reservesData.find((res) => res.reserve.underlyingAsset === toAsset);
+  const toAssetUserData = user.userReservesData.find(
+    (res) => res.reserve.underlyingAsset === toAsset
+  );
 
   const maxAmountToSwap = fromAssetUserData?.underlyingBalance || '0';
 

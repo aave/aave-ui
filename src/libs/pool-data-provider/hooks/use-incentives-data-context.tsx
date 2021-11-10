@@ -140,7 +140,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
       totalLiquidity: supplies.totalLiquidity.toString(),
       totalVariableDebt: supplies.totalVariableDebt.toString(),
       totalStableDebt: supplies.totalStableDebt.toString(),
-      priceInMarketReferenceCurrency: reserve.price.priceInEth,
+      priceInMarketReferenceCurrency: reserve.priceInMarketReferenceCurrency,
       marketReferenceCurrencyDecimals: WEI_DECIMALS,
       decimals: reserve.decimals,
     };

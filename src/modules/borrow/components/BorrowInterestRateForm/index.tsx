@@ -1,6 +1,6 @@
 import React, { FormEvent, ReactNode, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ComputedReserveData, ComputedUserReserve, valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/protocol-js';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
 import Caption from '../../../../components/basic/Caption';
@@ -13,6 +13,8 @@ import messages from './messages';
 import staticStyles from './style';
 
 import { BorrowRateMode } from '../../../../libs/pool-data-provider/graphql';
+import { ComputedReserveData } from '../../../../libs/pool-data-provider';
+import { ComputedUserReserve } from '@aave/math-utils';
 
 interface BorrowInterestRateFormProps {
   amountToBorrow: string;

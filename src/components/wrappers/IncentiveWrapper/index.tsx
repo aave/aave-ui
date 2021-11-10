@@ -1,10 +1,9 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { ComputedReserveData } from '@aave/protocol-js';
 import { normalize } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { useDynamicPoolDataContext } from '../../../libs/pool-data-provider';
+import { ComputedReserveData, useDynamicPoolDataContext } from '../../../libs/pool-data-provider';
 import { useIncentivesDataContext } from '../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import IncentiveClaimItem from '../../IncentiveClaimItem';
 

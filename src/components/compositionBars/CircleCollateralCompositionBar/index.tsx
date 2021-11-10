@@ -16,9 +16,9 @@ export default function CircleCollateralCompositionBar() {
     return null;
   }
 
-  const { reservesData, totalCollateralETH } = user;
+  const { userReservesData, totalCollateralMarketReferenceCurrency } = user;
 
-  const collateralComposition = reservesData
+  const collateralComposition = userReservesData
     .filter((userReserve) => {
       const poolReserve = reserves.find((res) => res.symbol === userReserve.reserve.symbol);
       return (
@@ -30,20 +30,20 @@ export default function CircleCollateralCompositionBar() {
     })
     .map((userReserve) => ({
       label: `${getAssetInfo(userReserve.reserve.symbol).formattedName}  ${intl.formatNumber(
-        valueToBigNumber(userReserve.underlyingBalanceETH)
-          .dividedBy(totalCollateralETH)
+        valueToBigNumber(userReserve.underlyingBalanceMarketReferenceCurrency)
+          .dividedBy(totalCollateralMarketReferenceCurrency)
           .multipliedBy(100)
           .toNumber(),
         { maximumFractionDigits: 2 }
       )}%`,
-      value: Number(userReserve.underlyingBalanceETH),
+      value: Number(userReserve.underlyingBalanceMarketReferenceCurrency),
       color: getAssetColor(userReserve.reserve.symbol),
     }));
 
   return (
     <CircleCompositionBar
       title={intl.formatMessage(messages.collateralComposition)}
-      totalValue={Number(totalCollateralETH || 0)}
+      totalValue={Number(totalCollateralMarketReferenceCurrency || 0)}
       data={collateralComposition}
     />
   );

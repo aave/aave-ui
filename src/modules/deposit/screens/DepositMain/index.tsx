@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ComputedReserveData, valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { PERMISSION } from '@aave/contract-helpers';
 
 import {
+  ComputedReserveData,
   useDynamicPoolDataContext,
   useStaticPoolDataContext,
 } from '../../../../libs/pool-data-provider';
@@ -63,7 +64,7 @@ export default function DepositsMain() {
   const listData = (withFilter: boolean) => {
     const data = (reserves: ComputedReserveData[]) =>
       reserves.map<DepositTableItem>((reserve) => {
-        const userReserve = user?.reservesData.find(
+        const userReserve = user?.userReservesData.find(
           (userRes) => userRes.reserve.symbol === reserve.symbol
         );
         const walletBalance =
@@ -73,8 +74,8 @@ export default function DepositsMain() {
                 valueToBigNumber('10').pow(reserve.decimals)
               );
         const walletBalanceInUSD = walletBalance
-          .multipliedBy(reserve.price.priceInEth)
-          .dividedBy(marketRefPriceInUsd)
+          .multipliedBy(reserve.priceInMarketReferenceCurrency)
+          .multipliedBy(marketRefPriceInUsd)
           .toString();
         const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
         return {

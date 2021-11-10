@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Proposal, normalize } from '@aave/protocol-js';
 import { providers } from 'ethers';
 
@@ -6,7 +6,7 @@ import { ProposalItem } from '../types';
 import { getProposalExpiry } from '../helper';
 
 import { useStateLoading, LOADING_STATE } from '../../hooks/use-state-loading';
-import { usePooling } from '../../hooks/use-pooling';
+import { usePolling } from '../../hooks/use-polling';
 import { IpfsMeta } from '../types';
 
 import fm from 'front-matter';
@@ -133,12 +133,7 @@ const useGetProposalsRPC = ({
     setLoading(LOADING_STATE.FINISHED);
   };
 
-  useEffect(() => {
-    !skip && getProposals();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [skip, chainId]);
-
-  usePooling(getProposals, INTERVAL_POOL, skip, [skip, chainId]);
+  usePolling(getProposals, INTERVAL_POOL, skip, [skip, chainId]);
 
   return { proposals, loading };
 };

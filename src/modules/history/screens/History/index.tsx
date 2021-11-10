@@ -73,7 +73,8 @@ export default function History() {
           normalize(valueToBigNumber(amount), decimals);
         const ethPrice = (symbol: string) =>
           normalize(
-            rawReserves.find((reserve) => reserve.symbol === symbol)?.price.priceInEth || '0',
+            rawReserves.find((reserve) => reserve.symbol === symbol)
+              ?.priceInMarketReferenceCurrency || '0',
             ETH_DECIMALS
           );
 
@@ -138,7 +139,9 @@ export default function History() {
 
         const amountInUsd =
           amount && reserveETHPrice
-            ? valueToBigNumber(amount).multipliedBy(reserveETHPrice).dividedBy(marketRefPriceInUsd)
+            ? valueToBigNumber(amount)
+                .multipliedBy(reserveETHPrice)
+                .multipliedBy(marketRefPriceInUsd)
             : undefined;
 
         return {
