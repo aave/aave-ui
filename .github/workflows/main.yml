@@ -38,8 +38,12 @@ jobs:
           start: npm run start:dev
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:3000'
-          wait-on-timeout: 180
+          wait-on-timeout: 200
           command: npm run test
+        env:
+          TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
+          TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
+          TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
 
       - name: deploy
         id: deploy
