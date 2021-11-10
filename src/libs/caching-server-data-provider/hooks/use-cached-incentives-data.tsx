@@ -72,6 +72,7 @@ export function useCachedIncentivesData(
     }
   }, [subscribeToIncentivesData, lendingPoolAddressProvider, skip]);
 
+  console.log(userId);
   // User incentives
   const {
     loading: userIncentivesDataLoading,

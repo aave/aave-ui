@@ -35,6 +35,7 @@ export function useCachedProtocolData(
   skip = false
 ): PoolReservesWithCache {
   const userId = currentAccount?.toLowerCase() || undefined;
+  console.log(userId);
   const {
     loading: poolDataLoading,
     data: poolData,
