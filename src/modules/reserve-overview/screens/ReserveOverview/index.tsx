@@ -7,13 +7,11 @@ import routeParamValidationHOC, {
 } from '../../../../components/RouteParamsValidationWrapper';
 import { getLPTokenPoolLink } from '../../../../helpers/lp-tokens';
 import { RATES_HISTORY_ENDPOINT } from '../../../../config';
-// import { useReservesRateHistoryHelper } from '../../../../helpers/use-reserve-rates-history';
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import NoDataPanel from '../../../../components/NoDataPanel';
-// import GraphFilterButtons from '../../../../components/graphs/GraphFilterButtons';
 import ReserveInformation from '../../components/ReserveInformation';
 import UserInformation from '../../components/UserInformation';
 import BorrowAPR from '../../components/Graphs/BorrowAPR';
@@ -26,6 +24,28 @@ import staticStyles from './style';
 
 import linkIcon from '../../../../images/blueLinkIcon.svg';
 import { getAssetInfo } from '../../../../helpers/markets/assets';
+import { useReserveRatesHistory } from '../../../../libs/pool-data-provider/hooks/use-reserve-rates-history';
+
+function Charts({ poolReserve }: { poolReserve: ValidationWrapperComponentProps['poolReserve'] }) {
+  const { data, loading } = useReserveRatesHistory(poolReserve.id);
+  return (
+    <div className="ReserveOverview__graphs-wrapper">
+      <div className="ReserveOverview__graphs-inner">
+        {(loading || data.length !== 0) && (
+          <>
+            <BorrowAPR
+              data={data}
+              borrowingEnabled={poolReserve.borrowingEnabled}
+              stableBorrowRateEnabled={poolReserve.stableBorrowRateEnabled}
+            />
+            <DepositAPY data={data} borrowingEnabled={poolReserve.borrowingEnabled} />
+            <UtilisationRate data={data} borrowingEnabled={poolReserve.borrowingEnabled} />
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
 
 function ReserveOverview({
   poolReserve,
@@ -101,24 +121,7 @@ function ReserveOverview({
         )}
 
         {poolReserve.borrowingEnabled && isReserveHistoryGraphsVisible && (
-          <div className="ReserveOverview__graphs-wrapper">
-            {/*<GraphFilterButtons setMode={setMode} mode={mode} onWhiteBackground={sm} /> TODO: uncomment when filters are added to history graphs */}
-            <div className="ReserveOverview__graphs-inner">
-              <BorrowAPR
-                poolReserveId={poolReserve.id}
-                borrowingEnabled={poolReserve.borrowingEnabled}
-                stableBorrowRateEnabled={poolReserve.stableBorrowRateEnabled}
-              />
-              <DepositAPY
-                poolReserveId={poolReserve.id}
-                borrowingEnabled={poolReserve.borrowingEnabled}
-              />
-              <UtilisationRate
-                poolReserveId={poolReserve.id}
-                borrowingEnabled={poolReserve.borrowingEnabled}
-              />
-            </div>
-          </div>
+          <Charts poolReserve={poolReserve} />
         )}
 
         <div className="ReserveOverview__content-wrapper">
