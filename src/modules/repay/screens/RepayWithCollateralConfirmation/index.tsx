@@ -88,7 +88,7 @@ function RepayWithCollateralConfirmation({
     );
   }
 
-  const fromAssetUserData = user.reservesData.find(
+  const fromAssetUserData = user.userReservesData.find(
     (res) => res.reserve.underlyingAsset.toLowerCase() === fromAsset?.toLowerCase()
   );
 
@@ -119,14 +119,14 @@ function RepayWithCollateralConfirmation({
 
   const displayAmountToRepay = BigNumber.min(debtToRepay, maxDebtToRepay);
   const displayAmountToRepayInUsd = displayAmountToRepay
-    .multipliedBy(poolReserve.price.priceInEth)
-    .dividedBy(marketRefPriceInUsd);
+    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
+    .multipliedBy(marketRefPriceInUsd);
 
   const amountAfterRepay = maxDebtToRepay.minus(debtToRepay).toString();
   const displayAmountAfterRepay = BigNumber.min(amountAfterRepay, maxDebtToRepay);
   const displayAmountAfterRepayInUsd = displayAmountAfterRepay
-    .multipliedBy(poolReserve.price.priceInEth)
-    .dividedBy(marketRefPriceInUsd);
+    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
+    .multipliedBy(marketRefPriceInUsd);
 
   const { hfAfterSwap, hfInitialEffectOfFromAmount } = calculateHFAfterRepay(
     fromAmountQuery,

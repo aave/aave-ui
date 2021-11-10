@@ -1,19 +1,15 @@
 import React, { ReactElement, ReactNode, useContext } from 'react';
-import {
-  API_ETH_MOCK_ADDRESS,
-  Network,
-  normalize,
-  ReserveData,
-  UserReserveData,
-} from '@aave/protocol-js';
+import { API_ETH_MOCK_ADDRESS, Network } from '@aave/protocol-js';
 import { useProtocolDataContext } from '../../protocol-data-provider';
-import { useProtocolDataWithRpc } from '../hooks/use-v2-protocol-data-with-rpc';
 import { useUserWalletDataContext } from '../../web3-data-provider';
 import { NetworkConfig } from '../../../helpers/markets/markets-data';
 import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/use-cached-protocol-data';
 import { useApolloConfigContext } from '../../apollo-config';
 import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
 import { assetsOrder } from '../../../ui-config/assets';
+import { usePoolData } from '../hooks/use-pool-data';
+import { ReserveDataHumanized, UserReserveDataHumanized } from '@aave/contract-helpers';
+import { normalize } from '@aave/math-utils';
 
 /**
  * removes the marketPrefix from a symbol
@@ -21,22 +17,24 @@ import { assetsOrder } from '../../../ui-config/assets';
  * @param prefix
  */
 export const unPrefixSymbol = (symbol: string, prefix: string) => {
-  return symbol.toUpperCase().replace(new RegExp(`^(${prefix[0]}?${prefix.slice(1)})`), '');
+  return symbol.toUpperCase().replace(RegExp(`^(${prefix[0]}?${prefix.slice(1)})`), '');
 };
+
+export interface UserReserveDataExtended extends UserReserveDataHumanized {
+  reserve: ReserveDataHumanized;
+}
 
 export interface StaticPoolDataContextData {
   userId?: string;
   network: Network;
   networkConfig: NetworkConfig;
-  rawReserves: ReserveData[];
   isUserHasDeposits: boolean;
-  rawUserReserves?: UserReserveData[];
-  rawReservesWithBase: ReserveData[];
-  rawUserReservesWithBase?: UserReserveData[];
-  userUnclaimedRewards: string;
-  rewardsEmissionEndTimestamp: number;
+  rawReserves: ReserveDataHumanized[];
+  rawUserReserves?: UserReserveDataExtended[];
+  rawReservesWithBase: ReserveDataHumanized[];
+  rawUserReservesWithBase?: UserReserveDataExtended[];
+  marketRefCurrencyDecimals: number;
   marketRefPriceInUsd: string;
-  usdPriceEth: string;
   WrappedBaseNetworkAssetAddress: string;
   refresh: () => Promise<void>;
 }
@@ -61,6 +59,19 @@ export function StaticPoolDataProvider({
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
 
   const {
+    error: rpcDataError,
+    loading: rpcDataLoading,
+    data: rpcData,
+    refresh,
+  } = usePoolData(
+    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+    network,
+    networkConfig.addresses.uiPoolDataProvider,
+    !isRPCActive,
+    currentAccount
+  );
+
+  const {
     error: cachedDataError,
     loading: cachedDataLoading,
     data: cachedData,
@@ -70,54 +81,66 @@ export function StaticPoolDataProvider({
     preferredConnectionMode === ConnectionMode.rpc || network !== apolloClientNetwork
   );
 
-  const {
-    error: rpcDataError,
-    loading: rpcDataLoading,
-    data: rpcData,
-    refresh,
-  } = useProtocolDataWithRpc(
-    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
-    currentAccount,
-    network,
-    networkConfig.addresses.uiPoolDataProvider,
-    !isRPCActive // TODO: think one more time
-  );
-
-  if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
+  const activeData = isRPCActive && rpcData ? rpcData : cachedData;
+  if ((isRPCActive && rpcDataLoading && !rpcData) || (!isRPCActive && cachedDataLoading)) {
     return loader;
   }
-
-  const activeData = isRPCActive && rpcData ? rpcData : cachedData;
 
   if (!activeData || (isRPCActive && rpcDataError) || (!isRPCActive && cachedDataError)) {
     return errorPage;
   }
 
-  const {
-    rewardsData: {
-      emissionEndTimestamp: rewardsEmissionEndTimestamp,
-      userUnclaimedRewards: userUnclaimedRewardsRaw,
-    },
-    usdPriceEth,
-    userId,
-  } = activeData;
-
-  const reserves = activeData.reserves
+  const reserves: ReserveDataHumanized[] | undefined = activeData.reserves?.reservesData
     .map((reserve) => ({
       ...reserve,
-      symbol: unPrefixSymbol(reserve.symbol, currentMarketData.aTokenPrefix),
     }))
     .sort(
       ({ symbol: a }, { symbol: b }) =>
         assetsOrder.indexOf(a.toUpperCase()) - assetsOrder.indexOf(b.toUpperCase())
     );
-  const userReserves = activeData.userReserves.map((userReserve) => ({
-    ...userReserve,
-    reserve: {
-      ...userReserve.reserve,
-      symbol: unPrefixSymbol(userReserve.reserve.symbol, currentMarketData.aTokenPrefix),
-    },
-  }));
+
+  const reservesWithFixedUnderlying: ReserveDataHumanized[] | undefined = reserves?.map(
+    (reserve) => {
+      if (reserve.symbol.toUpperCase() === `W${networkConfig.baseAsset}`) {
+        return {
+          ...reserve,
+          symbol: networkConfig.baseAsset,
+          underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
+        };
+      }
+      return reserve;
+    }
+  );
+
+  const userReserves: UserReserveDataExtended[] = [];
+  const userReservesWithFixedUnderlying: UserReserveDataExtended[] = [];
+  activeData.userReserves?.forEach((userReserve) => {
+    const reserve = reserves?.find(
+      (reserve) =>
+        reserve.underlyingAsset.toLowerCase() === userReserve.underlyingAsset.toLowerCase()
+    );
+    if (reserve) {
+      const reserveWithBase: UserReserveDataExtended = {
+        ...userReserve,
+        reserve,
+      };
+      userReserves.push(reserveWithBase);
+      if (reserve.symbol.toUpperCase() === `W${networkConfig.baseAsset}`) {
+        const userReserveFixed: UserReserveDataExtended = {
+          ...userReserve,
+          underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
+          reserve: {
+            ...reserve,
+            symbol: networkConfig.baseAsset,
+            underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
+          },
+        };
+        userReservesWithFixedUnderlying.push(userReserveFixed);
+      } else {
+        userReservesWithFixedUnderlying.push(reserveWithBase);
+      }
+    }
+  });
 
   const isUserHasDeposits = userReserves.some(
     (userReserve) => userReserve.scaledATokenBalance !== '0'
@@ -127,56 +150,32 @@ export function StaticPoolDataProvider({
     console.log('switched to RPC');
   }
 
-  const userUnclaimedRewards = normalize(
-    userUnclaimedRewardsRaw,
-    networkConfig.rewardTokenDecimals
-  );
+  const marketRefPriceInUsd = activeData?.reserves?.baseCurrencyData
+    ?.marketReferenceCurrencyPriceInUsd
+    ? activeData.reserves.baseCurrencyData?.marketReferenceCurrencyPriceInUsd
+    : '0';
 
-  let WrappedBaseNetworkAssetAddress = '';
-  const reservesWithFixedUnderlying = reserves.map((reserve) => {
-    if (reserve.symbol.toUpperCase() === `W${networkConfig.baseAsset}`) {
-      WrappedBaseNetworkAssetAddress = reserve.underlyingAsset;
-      return {
-        ...reserve,
-        symbol: networkConfig.baseAsset,
-        underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
-      };
-    }
-    return reserve;
-  });
-  const userReservesWithFixedUnderlying = userReserves.map((userReserve) => {
-    if (userReserve.reserve.symbol.toUpperCase() === `W${networkConfig.baseAsset}`) {
-      return {
-        ...userReserve,
-        reserve: {
-          ...userReserve.reserve,
-          symbol: networkConfig.baseAsset,
-          underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
-        },
-      };
-    }
-    return userReserve;
-  });
-
+  const marketRefCurrencyDecimals = activeData?.reserves?.baseCurrencyData
+    ?.marketReferenceCurrencyDecimals
+    ? activeData.reserves.baseCurrencyData?.marketReferenceCurrencyDecimals
+    : 18;
   return (
     <StaticPoolDataContext.Provider
       value={{
-        userId,
+        userId: currentAccount,
         network,
         networkConfig,
         refresh: isRPCActive ? refresh : async () => {},
-        WrappedBaseNetworkAssetAddress,
-        rawReserves: reservesWithFixedUnderlying,
+        WrappedBaseNetworkAssetAddress: networkConfig.baseAssetWrappedAddress
+          ? networkConfig.baseAssetWrappedAddress
+          : '', // TO-DO: Replace all instances of this with the value from protocol-data-provider instead
+        rawReserves: reservesWithFixedUnderlying ? reservesWithFixedUnderlying : [],
         rawUserReserves: userReservesWithFixedUnderlying,
-        rawReservesWithBase: reserves,
+        rawReservesWithBase: reserves ? reserves : [],
         rawUserReservesWithBase: userReserves,
+        marketRefPriceInUsd: normalize(marketRefPriceInUsd, 8),
+        marketRefCurrencyDecimals,
         isUserHasDeposits,
-        marketRefPriceInUsd: networkConfig.usdMarket
-          ? normalize(1, 10)
-          : normalize(usdPriceEth, 18),
-        usdPriceEth: normalize(usdPriceEth, 18),
-        rewardsEmissionEndTimestamp,
-        userUnclaimedRewards,
       }}
     >
       {children}

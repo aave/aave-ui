@@ -118,8 +118,10 @@ export const getProvider = (network: Network): ethers.providers.Provider => {
   if (!providers[network]) {
     const config = getNetworkConfig(network);
     const chainProviders: ethers.providers.StaticJsonRpcProvider[] = [];
-    if (config.privateJsonRPCUrl)
-      chainProviders.push(new ethers.providers.StaticJsonRpcProvider(config.privateJsonRPCUrl));
+    if (config.privateJsonRPCUrl) {
+      providers[network] = new ethers.providers.StaticJsonRpcProvider(config.privateJsonRPCUrl);
+      return providers[network];
+    }
     if (config.publicJsonRPCUrl.length) {
       config.publicJsonRPCUrl.map((rpc) =>
         chainProviders.push(new ethers.providers.StaticJsonRpcProvider(rpc))

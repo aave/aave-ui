@@ -1,4 +1,4 @@
-import { ComputedUserReserve, ReserveData } from '@aave/protocol-js';
+import { ComputedUserReserve, RawReserveData } from '@aave/math-utils';
 
 export type DepositTableItem = {
   onToggleSwitch: () => void;
@@ -6,7 +6,7 @@ export type DepositTableItem = {
   isFrozen: boolean;
   usageAsCollateralEnabledOnThePool: boolean;
   uiColor: string;
-  reserve: Pick<ReserveData, 'id' | 'symbol' | 'name' | 'liquidityRate' | 'underlyingAsset'>;
+  reserve: Pick<RawReserveData, 'id' | 'symbol' | 'name' | 'liquidityRate' | 'underlyingAsset'>;
   avg30DaysLiquidityRate?: string;
   aincentivesAPR: string;
   borrowingEnabled: boolean;

@@ -1,4 +1,4 @@
-import { ReserveData } from '@aave/protocol-js';
+import { RawReserveData } from '@aave/math-utils';
 
 export type BorrowTableItem = {
   onSwitchToggle: () => void;
@@ -16,6 +16,6 @@ export type BorrowTableItem = {
   currentBorrowsUSD: string;
   repayLink: string;
   borrowLink: string;
-  reserve: Pick<ReserveData, 'symbol'>;
+  reserve: Pick<RawReserveData, 'symbol'>;
   index?: number;
 };

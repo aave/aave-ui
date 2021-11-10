@@ -26,7 +26,7 @@ export default function TxEstimation({
   step,
   editDisabled,
 }: TxEstimationProps) {
-  const { usdPriceEth } = useStaticPoolDataContext();
+  const { marketRefPriceInUsd } = useStaticPoolDataContext();
 
   const [visible, setVisible] = useState(false);
 
@@ -83,7 +83,7 @@ export default function TxEstimation({
         totalGas={gasTxs.totalGas || '0'}
         customGasPrice={customGasPrice}
         defaultGasPrice={gasTxs.defaultGasPrice || '0'}
-        marketRefPriceInUsd={usdPriceEth}
+        marketRefPriceInUsd={marketRefPriceInUsd}
         editDisabled={editDisabled}
       />
 
@@ -93,7 +93,7 @@ export default function TxEstimation({
           setVisible={setVisible}
           gasTxs={gasTxs}
           customGasPrice={customGasPrice}
-          marketRefPriceInUsd={usdPriceEth}
+          marketRefPriceInUsd={marketRefPriceInUsd}
           setCustomGasPrice={setCustomGasPrice}
           selectedOption={selected}
           setSelectedOption={setSelected}

@@ -47,7 +47,7 @@ function Repay({
         walletBalance={walletBalance.toString()}
         walletBalanceInUSD={walletBalanceUSD.toString()}
         totalCollateralUSD={user?.totalCollateralUSD || '0'}
-        totalCollateralETH={user?.totalCollateralETH || '0'}
+        totalCollateralMarketReferenceCurrency={user?.totalCollateralMarketReferenceCurrency || '0'}
         currencySymbol={currencySymbol}
         healthFactor={user?.healthFactor || '0'}
         loanToValue={user?.currentLoanToValue || '0'}
