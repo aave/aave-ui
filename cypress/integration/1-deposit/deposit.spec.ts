@@ -6,7 +6,7 @@ describe('deposit', () => {
     // so we must tell it to visit our website with the `cy.visit()` command.
     // Since we want to visit the same URL at the start of all our tests,
     // we include it in our beforeEach function so that it runs before each test
-    cy.visit('http://localhost:3000/deposit');
+    cy.visit('http://localhost:3000/#/deposit');
   });
 
   it('can deposit', () => {
