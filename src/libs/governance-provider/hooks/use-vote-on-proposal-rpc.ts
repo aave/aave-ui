@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Vote } from '../types';
 import { useStateLoading, LOADING_STATE } from '../../hooks/use-state-loading';
-import { usePooling } from '../../hooks/use-pooling';
+import { usePolling } from '../../hooks/use-polling';
 import { AaveGovernanceV2Interface } from '@aave/protocol-js';
 
 const INTERVAL_POOL = 60000; // 1 min
@@ -47,12 +47,7 @@ const useVoteOnProposal = ({
     !skip && getVote();
   };
 
-  useEffect(() => {
-    !skip && getVote();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  usePooling(getVote, INTERVAL_POOL, finish, [skip, proposalId, user]);
+  usePolling(getVote, INTERVAL_POOL, finish, [skip, proposalId, user]);
 
   return { data: voteData, loading, forceUpdate };
 };
