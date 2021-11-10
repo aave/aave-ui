@@ -16,7 +16,7 @@ const locators = {
     polygonBtn: "//div[contains(@class, 'Menu__buttons-inner')]//img[@alt='proto_matic']/../..",
     polygonForkBtn:
       "//div[contains(@class, 'Menu__buttons-inner')]//img[@alt='fork_proto_matic']/../..",
-    ammForkBtn: "//div[contains(@class, 'Menu__buttons-inner')]//img[@alt='amm_fork']/../..",
+    ammForkBtn: "//div[contains(@class, 'Menu__buttons-inner')]//img[@alt='fork_amm_mainnet']/../..",
     aaveV2KovanBtn: "//div[contains(@class, 'Menu__buttons-inner')]//img[@alt='proto_kovan']/../..",
     avalancheForkBtn:
       "//div[contains(@class, 'Menu__buttons-inner')]//img[@alt='fork_proto_avalanche']/../..",
