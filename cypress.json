@@ -1,7 +1,5 @@
 {
   "supportFile": "cypress/support/index.ts",
-  "viewportWidth": 1920,
-  "viewportHeight": 800,
   "video": false,
   "screenshotOnRunFailure": false
 }

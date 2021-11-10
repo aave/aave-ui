@@ -38,7 +38,6 @@ jobs:
           start: npm run start:prod
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:3000'
-          wait-on-timeout: 60
           command: npm run test
         env:
           CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
