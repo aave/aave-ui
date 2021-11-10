@@ -128,7 +128,7 @@ export default function NetworkMismatch({
                       chainId: `0x${mapNameToChainID(neededNetworkName).toString(16)}`,
                       chainName: config.name,
                       nativeCurrency: config.nativeCurrency,
-                      rpcUrls: [publicJsonRPCUrl, publicJsonRPCWSUrl],
+                      rpcUrls: [...publicJsonRPCUrl, publicJsonRPCWSUrl],
                       blockExplorerUrls: config.explorerUrls,
                     },
                   ],

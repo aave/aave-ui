@@ -13,7 +13,7 @@ import polygonBridgeLogo from './branding/images/polygonLogo.svg';
 import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
 
 const mainnet_config: BaseNetworkConfig = {
-  publicJsonRPCUrl: 'https://eth-mainnet.alchemyapi.io/v2/demo',
+  publicJsonRPCUrl: ['https://cloudflare-eth.com', 'https://eth-mainnet.alchemyapi.io/v2/demo'],
   publicJsonRPCWSUrl: 'wss://eth-mainnet.alchemyapi.io/v2/demo',
   addresses: {
     walletBalanceProvider: '0x8E8dAd5409E0263a51C0aB5055dA66Be28cFF922',
@@ -37,7 +37,7 @@ const mainnet_config: BaseNetworkConfig = {
 } as const;
 
 const polygon_config: BaseNetworkConfig = {
-  publicJsonRPCUrl: 'https://polygon-rpc.com',
+  publicJsonRPCUrl: ['https://polygon-rpc.com'],
   publicJsonRPCWSUrl: 'wss://polygon-rpc.com',
   addresses: {
     walletBalanceProvider: '0x34aa032bC416Cf2CdC45c0C8f065b1F19463D43e',
@@ -65,7 +65,7 @@ const polygon_config: BaseNetworkConfig = {
 } as const;
 
 const avalanche_config: BaseNetworkConfig = {
-  publicJsonRPCUrl: 'https://api.avax.network/ext/bc/C/rpc',
+  publicJsonRPCUrl: ['https://api.avax.network/ext/bc/C/rpc'],
   publicJsonRPCWSUrl: 'wss://api.avax.network/ext/bc/C/rpc',
   addresses: {
     walletBalanceProvider: '0x73e4898a1Bfa9f710B6A6AB516403A6299e01fc6',
@@ -96,7 +96,7 @@ const avalanche_config: BaseNetworkConfig = {
 
 export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
   [Network.kovan]: {
-    publicJsonRPCUrl: 'https://kovan.poa.network ',
+    publicJsonRPCUrl: ['https://kovan.poa.network'],
     addresses: {
       walletBalanceProvider: '0x07DC923859b68e9399d787bf52c4Aa9eBe3490aF',
       uiPoolDataProvider: '0x04110Dc40B04b99B94840E53B2a33bE45E45A8Ed',
@@ -123,7 +123,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     ...polygon_config,
   },
   [Network.mumbai]: {
-    publicJsonRPCUrl: 'https://rpc-mumbai.maticvigil.com',
+    publicJsonRPCUrl: ['https://rpc-mumbai.maticvigil.com'],
     publicJsonRPCWSUrl: 'wss://rpc-mumbai.maticvigil.com',
     addresses: {
       walletBalanceProvider: '0xEe7c0172c200e12AFEa3C34837052ec52F3f367A',
@@ -143,7 +143,7 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
     isTestnet: true,
   },
   [Network.fuji]: {
-    publicJsonRPCUrl: 'https://api.avax-test.network/ext/bc/C/rpc',
+    publicJsonRPCUrl: ['https://api.avax-test.network/ext/bc/C/rpc'],
     publicJsonRPCWSUrl: 'wss://api.avax-test.network/ext/bc/C/rpc',
     addresses: {
       walletBalanceProvider: '0x3f5A507B33260a3869878B31FB90F04F451d28e3',
