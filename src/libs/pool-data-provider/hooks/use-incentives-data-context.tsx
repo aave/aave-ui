@@ -13,7 +13,6 @@ import {
   UserReserveCalculationData,
 } from '@aave/math-utils';
 import { API_ETH_MOCK_ADDRESS, calculateSupplies } from '@aave/protocol-js';
-import { ethers } from 'ethers';
 import React, { ReactNode, useContext } from 'react';
 import Preloader from '../../../components/basic/Preloader';
 import ErrorPage from '../../../components/ErrorPage';
@@ -49,7 +48,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const { network: apolloClientNetwork } = useApolloConfigContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
   const currentTimestamp = useCurrentTimestamp(1);
-  const currentAccount = userId ? userId.toLowerCase() : ethers.constants.AddressZero;
+  const currentAccount = userId ? userId.toLowerCase() : undefined;
   const incentivesTxBuilder: IncentivesControllerInterface = new IncentivesController(
     getProvider(network)
   );
