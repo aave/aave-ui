@@ -14,7 +14,7 @@ interface TableItemProps {
   children: ReactNode;
 }
 
-export default function TableItem({ tokenSymbol, color, children }: TableItemProps) {
+export default function TableItem({ tokenSymbol, color, children, ...rest }: TableItemProps) {
   const { currentTheme, lg } = useThemeContext();
   const asset = getAssetInfo(tokenSymbol);
 
@@ -23,6 +23,7 @@ export default function TableItem({ tokenSymbol, color, children }: TableItemPro
       className={classNames('TableItem', {
         TableItem__withInfo: tokenSymbol === 'AMPL',
       })}
+      {...rest}
     >
       <span className="TableItem__assetColor" style={{ backgroundColor: color }} />
 

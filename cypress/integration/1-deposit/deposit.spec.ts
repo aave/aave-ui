@@ -10,18 +10,19 @@ describe('deposit', () => {
   });
 
   it('can deposit', () => {
-    const eth = cy.get('[alt="ETH"]');
+    const symbol = 'ETH';
+    const eth = cy.get(`[alt="${symbol}"]`);
 
     eth.click();
 
-    cy.get('.AmountField__input input').type('100');
+    cy.getBySel('amountInput').type('100');
 
     cy.get('.BasicForm').contains('Continue').click();
     // cy.get('.TxConfirmationView').contains('Approve').click();
     cy.get('.Button').contains('Deposit').click();
     cy.get('.Menu').contains('dashboard').click();
 
-    cy.get('.DashboardTable__content')
+    cy.getBySel(`dashboardDespositListItem${symbol}`)
       .find('.Value__value')
       .invoke('text')
       .then(parseFloat)
