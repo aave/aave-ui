@@ -121,3 +121,12 @@ Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
     ...options,
   });
 });
+
+// https://github.com/quasarframework/quasar/issues/2233
+const resizeObserverLoopErrRe = /^[^(ResizeObserver loop limit exceeded)]/;
+Cypress.on('uncaught:exception', (err) => {
+  /* returning false here prevents Cypress from failing the test */
+  if (resizeObserverLoopErrRe.test(err.message)) {
+    return false;
+  }
+});
