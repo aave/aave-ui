@@ -41,9 +41,9 @@ jobs:
           wait-on-timeout: 60
           command: npm run test
         env:
-          TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
-          TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
-          TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
+          CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
+          CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
+          CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
 
       - name: deploy
         id: deploy
