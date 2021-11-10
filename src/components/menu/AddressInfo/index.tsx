@@ -12,6 +12,7 @@ import ConnectButton from '../../ConnectButton';
 
 import staticStyles from './style';
 import messages from './messages';
+import useGetEnsName from '../../../libs/hooks/use-get-ens-name';
 
 export default function AddressInfo() {
   const intl = useIntl();
@@ -24,6 +25,12 @@ export default function AddressInfo() {
     currentProviderName,
     availableAccounts,
   } = useUserWalletDataContext();
+  const { ensName } = useGetEnsName(currentAccount);
+  const ensNameAbbreviated = ensName
+    ? ensName.length > 18
+      ? textCenterEllipsis(ensName, 12, 3)
+      : ensName
+    : undefined;
   const { closeMobileMenu } = useMenuContext();
 
   const [visible, setVisible] = useState(false);
@@ -69,7 +76,9 @@ export default function AddressInfo() {
               type="button"
             >
               <p>{formattedNetworkName}</p>
-              <span>{textCenterEllipsis(currentAccount, 4, 4)}</span>
+              <span>
+                {ensNameAbbreviated ? ensNameAbbreviated : textCenterEllipsis(currentAccount, 4, 4)}
+              </span>
             </button>
           }
         >
@@ -80,6 +89,7 @@ export default function AddressInfo() {
                 <span>{intl.formatMessage(networkMessage, { name: networkName })}</span>
               </p>
               <p className="AddressInfo__content-address">{currentAccount}</p>
+              {ensName ? <p className="AddressInfo__content-ens">{ensName}</p> : <></>}
             </div>
 
             <Link
