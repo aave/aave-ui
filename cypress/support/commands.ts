@@ -130,3 +130,7 @@ Cypress.on('uncaught:exception', (err) => {
     return false;
   }
 });
+
+Cypress.Commands.add('getBySel', (selector, ...args) => {
+  return cy.get(`[data-cy=${selector}]`, ...args);
+});
