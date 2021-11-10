@@ -35,10 +35,10 @@ jobs:
           headless: true
           install: false
           record: false
-          start: npm run start:dev
+          start: npm run start:prod
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:3000'
-          wait-on-timeout: 200
+          wait-on-timeout: 60
           command: npm run test
         env:
           TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
