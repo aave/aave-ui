@@ -19,8 +19,12 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-  const configWithDotenv = require('dotenv').config({ path: process.env.DOTENV_CONFIG_PATH });
-  const env = { ...config.env, ...configWithDotenv.parsed };
-  const result = { ...config, env };
-  return result;
+  try {
+    const configWithDotenv = require('dotenv').config({ path: process.env.DOTENV_CONFIG_PATH });
+    const env = { ...config.env, ...configWithDotenv.parsed };
+    const result = { ...config, env };
+    return result;
+  } catch (e) {
+    return config;
+  }
 };
