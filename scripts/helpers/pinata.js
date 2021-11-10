@@ -46,6 +46,20 @@ const cleanupAndPin = async () => {
         pinataMetadata: {
           name: PIN_ALIAS,
         },
+        pinataOptions: {
+          customPinPolicy: {
+            regions: [
+              {
+                id: 'FRA1',
+                desiredReplicationCount: 1,
+              },
+              {
+                id: 'NYC1',
+                desiredReplicationCount: 1,
+              },
+            ],
+          },
+        },
       });
       return result.IpfsHash;
     } catch (e) {
