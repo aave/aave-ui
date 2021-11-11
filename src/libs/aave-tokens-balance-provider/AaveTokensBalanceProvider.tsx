@@ -4,6 +4,7 @@ import { WalletBalanceProviderFactory } from '../pool-data-provider/contracts/Wa
 import { useUserWalletDataContext } from '../web3-data-provider';
 import { useGovernanceDataContext } from '../governance-provider';
 import { getProvider } from '../../helpers/config/markets-and-network-config';
+import { useProtocolDataContext } from '../protocol-data-provider';
 
 type WalletBalanceProviderContext = {
   aaveTokens: { aave: string; aAave: string; stkAave: string };
@@ -15,6 +16,7 @@ const Context = React.createContext<WalletBalanceProviderContext>(
 );
 
 export const AaveTokensBalanceProvider: React.FC = ({ children }) => {
+  const { chainId, networkConfig } = useProtocolDataContext();
   const { currentAccount: walletAddress } = useUserWalletDataContext();
   const { governanceConfig, governanceNetworkConfig } = useGovernanceDataContext();
   const [aaveTokens, setAaveTokens] = React.useState({
@@ -24,11 +26,14 @@ export const AaveTokensBalanceProvider: React.FC = ({ children }) => {
   });
   const [aaveTokensLoading, setAaveTokensLoading] = React.useState(false);
 
+  const isGovernanceFork =
+    networkConfig.isFork && networkConfig.underlyingChainId === governanceConfig.chainId;
+
   useEffect(() => {
     if (!walletAddress) return;
     const contract = WalletBalanceProviderFactory.connect(
       governanceNetworkConfig.addresses.walletBalanceProvider,
-      getProvider(governanceConfig.chainId)
+      getProvider(isGovernanceFork ? chainId : governanceConfig.chainId)
     );
     const fetchAaveTokenBalances = async () => {
       setAaveTokensLoading(true);
@@ -55,7 +60,7 @@ export const AaveTokensBalanceProvider: React.FC = ({ children }) => {
     const interval = setInterval(fetchAaveTokenBalances, 60000);
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [walletAddress]);
+  }, [walletAddress, isGovernanceFork]);
 
   return (
     <Context.Provider

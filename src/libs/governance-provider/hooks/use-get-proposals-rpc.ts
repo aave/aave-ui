@@ -33,7 +33,6 @@ const generateProposal = async (
       );
       MemorizeProposalTimestamp[memorizeId] = Number(proposalTimestamp);
     }
-    console.log(prop);
     // Fix Bug with the @
     const parsedDesc = !!prop.description
       ? prop.description.replace(/@/gi, '')
