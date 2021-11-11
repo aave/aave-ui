@@ -37,10 +37,8 @@ export function useStakeDataWithRpc(
   const [stakeData, setStakeData] = useState<StakesData>();
   const [usdPriceEth, setUsdPriceEth] = useState<string>('0');
 
-  const loadStakeData = async (
-    userAddress: string = ethers.constants.AddressZero,
-    helperAddress: string
-  ) => {
+  const loadStakeData = async (_userAddress: string | undefined, helperAddress: string) => {
+    const userAddress = _userAddress ? _userAddress : ethers.constants.AddressZero;
     const helperContract = StakeUiHelperIFactory.connect(helperAddress, getProvider(network));
     try {
       const data = await helperContract.getUserUIData(userAddress);
