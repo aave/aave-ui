@@ -37,11 +37,10 @@ export function GovernanceDataProvider({
 }: PropsWithChildren<{ governanceConfig: GovernanceConfig }>) {
   const { chainId, networkConfig } = useProtocolDataContext();
   const governanceNetworkConfig = getNetworkConfig(governanceConfig.chainId);
-  const RPC_ONLY_MODE = governanceNetworkConfig.rpcOnly;
   const { preferredConnectionMode } = useConnectionStatusContext();
   const wsMainnetError = useMainnetCachedServerWsGraphCheck();
   const isRPCMandatory =
-    RPC_ONLY_MODE ||
+    governanceNetworkConfig.rpcOnly ||
     (wsMainnetError.wsErrorCount >= WS_ATTEMPTS_LIMIT &&
       governanceConfig.chainId === ChainId.mainnet);
   const isGovernanceFork =
@@ -73,7 +72,7 @@ export function GovernanceDataProvider({
 
   const { proposals: propRPC, loading: loadingRPC } = useGetProposalsRPC({
     skip: skipRPC,
-    chainId: governanceConfig.chainId,
+    chainId: isGovernanceFork ? chainId : governanceConfig.chainId,
     governanceService,
     averageNetworkBlockTime: governanceConfig.averageNetworkBlockTime,
   });
