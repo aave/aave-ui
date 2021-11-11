@@ -95,6 +95,15 @@ const staticStyles = css.global`
         font-size: $regular;
       }
     }
+    &__content-ens {
+      font-size: $small;
+      word-break: break-all;
+      text-align: center;
+      margin-top: 12px;
+      @include respond-to(sm) {
+        font-size: $regular;
+      }
+    }
 
     &__contentButton {
       font-weight: 300;
