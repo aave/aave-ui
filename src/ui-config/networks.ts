@@ -129,6 +129,35 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
       logo: avalancheBridgeLogo,
     },
   },
+  [ChainId.arbitrum_rinkeby]: {
+    name: 'Arbitrum Rinkeby',
+    publicJsonRPCUrl: ['https://rinkeby.arbitrum.io/rpc'],
+    publicJsonRPCWSUrl: 'wss://rinkeby.arbitrum.io/rpc',
+    addresses: {
+      walletBalanceProvider: '0x605657a2b1C726831baF0EEC4494F38ACd04e2Fb',
+      uiPoolDataProvider: '0xE1BB308Af4EFb0A961c165d2B7Ed31780DB919fC',
+      uiIncentiveDataProvider: '0x3eF89B7dA387584f84011061c289651B31ECE6D3',
+    },
+    protocolDataUrl: '',
+    baseUniswapAdapter: '0x0',
+    baseAsset: 'ETH',
+    baseAssetWrappedAddress: '0x82af49447d8a07e3bd95bd0d56f35241523fbab1',
+    // incentives hardcoded information
+    rewardTokenSymbol: '',
+    rewardTokenAddress: '',
+    rewardTokenDecimals: 0,
+    incentivePrecision: 0,
+    explorerLink: 'https://rinkeby-explorer.arbitrum.io',
+    rpcOnly: true,
+    usdMarket: true,
+    isTestnet: true,
+    bridge: {
+      brandColor: '232, 65, 66',
+      name: 'Arbitrum Bridge',
+      url: 'https://bridge.arbitrum.io',
+      logo: avalancheBridgeLogo, // TO-DO: Update
+    },
+  },
   [ChainId.avalanche]: {
     name: 'Avalanche',
     publicJsonRPCUrl: ['https://api.avax.network/ext/bc/C/rpc'],
