@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import {
   UiPoolDataProviderV3,
+  UiPoolDataProvider,
   ReservesDataHumanized,
   UserReserveDataHumanized,
   ChainId,
@@ -43,10 +44,18 @@ export function usePoolData(
   // Fetch and format reserve incentive data from UiIncentiveDataProvider contract
   const fetchReserves = async () => {
     const provider = getProvider(chainId);
-    const poolDataProviderContract = new UiPoolDataProviderV3({
-      uiPoolDataProviderAddress: poolDataProviderAddress,
-      provider,
-    });
+    let poolDataProviderContract;
+    if (chainId !== 42161 && chainId !== 421611) {
+      poolDataProviderContract = new UiPoolDataProvider({
+        uiPoolDataProviderAddress: poolDataProviderAddress,
+        provider,
+      });
+    } else {
+      poolDataProviderContract = new UiPoolDataProviderV3({
+        uiPoolDataProviderAddress: poolDataProviderAddress,
+        provider,
+      });
+    }
 
     try {
       setLoadingReserves(true);
