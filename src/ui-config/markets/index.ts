@@ -153,13 +153,13 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     aTokenPrefix: '',
     enabledFeatures: {
       faucet: true,
-      incentives: true,
+      incentives: false,
     },
     addresses: {
-      LENDING_POOL_ADDRESS_PROVIDER: '0x22E1463acd4D5355009e89279d4FC04B4d30bc00'.toLowerCase(),
-      LENDING_POOL: '0x9BCAc49FAC3d210fe8B6Bb1832aBF98c49064CcE',
-      WETH_GATEWAY: '0x18dF3218CB885ee7a2f444Dca8d38B58698C7EcD',
-      FAUCET: '0xd8d70bE87A275a3C15Cd60D8bC5c1cd3ecC54fD1',
+      LENDING_POOL_ADDRESS_PROVIDER: '0xE28A80484125EF6a0b2018e17856eFFE4b89126A'.toLowerCase(),
+      LENDING_POOL: '0x89193d0E4D03278749b1216aea3Ec8D2ee78B896',
+      WETH_GATEWAY: '0x0841aD788Dd7a437a89D3CaD78F7Cc1C77E9b5f1',
+      FAUCET: '0x0655591f8cC6026e1Cb186fBc2E4016b142aB68c',
     },
   },
 } as const;

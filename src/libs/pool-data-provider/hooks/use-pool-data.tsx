@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import {
-  UiPoolDataProvider,
+  UiPoolDataProviderV3,
   ReservesDataHumanized,
   UserReserveDataHumanized,
   ChainId,
@@ -43,16 +43,18 @@ export function usePoolData(
   // Fetch and format reserve incentive data from UiIncentiveDataProvider contract
   const fetchReserves = async () => {
     const provider = getProvider(chainId);
-    const poolDataProviderContract = new UiPoolDataProvider({
+    const poolDataProviderContract = new UiPoolDataProviderV3({
       uiPoolDataProviderAddress: poolDataProviderAddress,
       provider,
     });
 
     try {
       setLoadingReserves(true);
+      console.log('-------------> ', lendingPoolAddressProvider)
       const reservesResponse = await poolDataProviderContract.getReservesHumanized(
         lendingPoolAddressProvider
       );
+      console.log('reserves: ', reservesResponse)
       setReserves(reservesResponse);
       setErrorReserves(false);
     } catch (e) {
@@ -66,7 +68,7 @@ export function usePoolData(
   const fetchUserReserves = async () => {
     if (!currentAccount) return;
     const provider = getProvider(chainId);
-    const poolDataProviderContract = new UiPoolDataProvider({
+    const poolDataProviderContract = new UiPoolDataProviderV3({
       uiPoolDataProviderAddress: poolDataProviderAddress,
       provider,
     });
