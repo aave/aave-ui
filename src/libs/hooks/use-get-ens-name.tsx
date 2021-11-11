@@ -5,27 +5,26 @@ import { getProvider } from '../../helpers/markets/markets-data';
 const mainnetProvider = getProvider(Network.mainnet);
 
 const useGetEnsName = (address: string) => {
-  const [loading, setLoading] = useState(false);
   const [ensName, setEnsName] = useState<string | undefined>(undefined);
 
   const getRecord = async (address: string) => {
-    if (address !== '') {
-      setLoading(true);
-      try {
-        const name = await mainnetProvider.lookupAddress(address);
-        setEnsName(name);
-      } catch (error) {
-        console.error('ENS lookup error', error);
-      }
-      setLoading(false);
+    try {
+      const name = await mainnetProvider.lookupAddress(address);
+      setEnsName(name);
+    } catch (error) {
+      console.error('ENS lookup error', error);
     }
   };
 
   useEffect(() => {
-    getRecord(address);
+    if (address) {
+      getRecord(address);
+    } else {
+      setEnsName(undefined);
+    }
   }, [address]);
 
-  return { ensName, loading };
+  return { ensName };
 };
 
 export default useGetEnsName;
