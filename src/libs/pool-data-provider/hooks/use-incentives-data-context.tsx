@@ -13,7 +13,6 @@ import {
   UserReserveCalculationData,
 } from '@aave/math-utils';
 import { API_ETH_MOCK_ADDRESS, calculateSupplies } from '@aave/protocol-js';
-import { ethers } from 'ethers';
 import React, { ReactNode, useContext } from 'react';
 import Preloader from '../../../components/basic/Preloader';
 import ErrorPage from '../../../components/ErrorPage';
@@ -49,7 +48,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
   const currentTimestamp = useCurrentTimestamp(1);
-  const currentAccount = userId ? userId.toLowerCase() : ethers.constants.AddressZero;
+  const currentAccount = userId ? userId.toLowerCase() : undefined;
   const incentivesTxBuilder: IncentivesControllerInterface = new IncentivesController(
     getProvider(chainId)
   );
@@ -63,7 +62,9 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     currentAccount,
     networkConfig.addresses.chainlinkFeedRegistry,
     networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
-    preferredConnectionMode === ConnectionMode.rpc || chainId !== apolloClientChainId
+    preferredConnectionMode === ConnectionMode.rpc ||
+      chainId !== apolloClientChainId ||
+      !networkConfig.addresses.uiIncentiveDataProvider
   );
 
   const {
@@ -75,7 +76,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     chainId,
     networkConfig.addresses.uiIncentiveDataProvider,
-    !isRPCActive,
+    !isRPCActive || !networkConfig.addresses.uiIncentiveDataProvider,
     currentAccount
   );
 

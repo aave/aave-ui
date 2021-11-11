@@ -68,7 +68,7 @@ export interface IncentiveDataResponse {
 export function useIncentivesData(
   lendingPoolAddressProvider: string,
   chainId: ChainId,
-  incentiveDataProviderAddress: string,
+  incentiveDataProviderAddress: string | undefined,
   skip: boolean,
   userAddress?: string
 ): IncentiveDataResponse {
@@ -162,7 +162,7 @@ export function useIncentivesData(
     setLoadingReserveIncentives(true);
     setLoadingUserIncentives(true);
 
-    if (!skip) {
+    if (!skip && incentiveDataProviderAddress) {
       fetchData(currentAccount, lendingPoolAddressProvider, incentiveDataProviderAddress);
       const intervalID = setInterval(
         () => fetchData(currentAccount, lendingPoolAddressProvider, incentiveDataProviderAddress),
@@ -182,7 +182,9 @@ export function useIncentivesData(
     loading,
     error,
     data: { reserveIncentiveData, userIncentiveData },
-    refresh: () =>
-      fetchData(currentAccount, lendingPoolAddressProvider, incentiveDataProviderAddress),
+    refresh: async () => {
+      if (incentiveDataProviderAddress)
+        return fetchData(currentAccount, lendingPoolAddressProvider, incentiveDataProviderAddress);
+    },
   };
 }
