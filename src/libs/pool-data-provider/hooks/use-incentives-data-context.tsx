@@ -62,7 +62,9 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     currentAccount,
     networkConfig.addresses.chainlinkFeedRegistry,
     networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
-    preferredConnectionMode === ConnectionMode.rpc || network !== apolloClientNetwork
+    preferredConnectionMode === ConnectionMode.rpc ||
+      network !== apolloClientNetwork ||
+      !networkConfig.addresses.uiIncentiveDataProvider
   );
 
   const {
@@ -74,7 +76,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     network,
     networkConfig.addresses.uiIncentiveDataProvider,
-    !isRPCActive,
+    !isRPCActive || !networkConfig.addresses.uiIncentiveDataProvider,
     currentAccount
   );
 
