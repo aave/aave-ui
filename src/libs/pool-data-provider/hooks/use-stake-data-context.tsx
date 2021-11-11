@@ -91,11 +91,16 @@ export function StakeDataProvider({
   const { preferredConnectionMode } = useConnectionStatusContext();
   const { chainId, networkConfig } = useProtocolDataContext();
   const { chainId: apolloClientChainId } = useApolloConfigContext();
-  const RPC_ONLY_MODE = networkConfig.rpcOnly;
+  const isStakeFork =
+    networkConfig.isFork && networkConfig.underlyingChainId === stakeConfig.chainId;
+  const RPC_ONLY_MODE =
+    networkConfig.rpcOnly || preferredConnectionMode === ConnectionMode.rpc || isStakeFork;
+
+  const rpcProvider = isStakeFork ? getProvider(chainId) : getProvider(stakeConfig.chainId);
 
   const selectedStake =
     location.pathname.split('/')[2]?.toLowerCase() === Stake.aave ? Stake.aave : Stake.bpt;
-  const stakingService = new StakingService(getProvider(stakeConfig.chainId), {
+  const stakingService = new StakingService(rpcProvider, {
     TOKEN_STAKING_ADDRESS: stakeConfig.tokens[selectedStake].TOKEN_STAKING,
     STAKING_HELPER_ADDRESS: stakeConfig.tokens[selectedStake].STAKING_HELPER,
   });
@@ -104,10 +109,7 @@ export function StakeDataProvider({
     loading: cachedDataLoading,
     data: cachedData,
     usdPriceEth: usdPriceEthCached,
-  } = useCachedStakeData(
-    userId,
-    preferredConnectionMode === ConnectionMode.rpc || chainId !== apolloClientChainId
-  );
+  } = useCachedStakeData(userId, chainId !== apolloClientChainId || RPC_ONLY_MODE);
 
   const wsNetworkError = useNetworkCachedServerWsGraphCheck();
   const wsMainnetError = useMainnetCachedServerWsGraphCheck();
@@ -127,7 +129,12 @@ export function StakeDataProvider({
     data: rpcData,
     usdPriceEth: usdPriceEthRpc,
     refresh,
-  } = useStakeDataWithRpc(stakeConfig.stakeDataProvider, stakeConfig.chainId, userId, !isRPCActive);
+  } = useStakeDataWithRpc(
+    stakeConfig.stakeDataProvider,
+    isStakeFork ? chainId : stakeConfig.chainId,
+    userId,
+    !isRPCActive
+  );
 
   if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
     return <Preloader withText={true} />;

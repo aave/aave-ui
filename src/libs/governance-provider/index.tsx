@@ -19,6 +19,7 @@ import {
   AaveGovernanceService,
   GovernancePowerDelegationTokenService,
 } from '@aave/contract-helpers';
+import { useProtocolDataContext } from '../protocol-data-provider';
 
 export interface ProtocolContextDataType {
   governanceConfig: GovernanceConfig;
@@ -34,6 +35,7 @@ export function GovernanceDataProvider({
   children,
   governanceConfig,
 }: PropsWithChildren<{ governanceConfig: GovernanceConfig }>) {
+  const { chainId, networkConfig } = useProtocolDataContext();
   const governanceNetworkConfig = getNetworkConfig(governanceConfig.chainId);
   const RPC_ONLY_MODE = governanceNetworkConfig.rpcOnly;
   const { preferredConnectionMode } = useConnectionStatusContext();
@@ -42,23 +44,28 @@ export function GovernanceDataProvider({
     RPC_ONLY_MODE ||
     (wsMainnetError.wsErrorCount >= WS_ATTEMPTS_LIMIT &&
       governanceConfig.chainId === ChainId.mainnet);
-  const isRPCActive = preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory;
+  const isGovernanceFork =
+    networkConfig.isFork && networkConfig.underlyingChainId === governanceConfig.chainId;
+  const isRPCActive =
+    preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory || isGovernanceFork;
 
-  const governanceService = new AaveGovernanceService(getProvider(governanceConfig.chainId), {
+  const rpcProvider = isGovernanceFork
+    ? getProvider(chainId)
+    : getProvider(governanceConfig.chainId);
+
+  const governanceService = new AaveGovernanceService(rpcProvider, {
     GOVERNANCE_ADDRESS: governanceConfig.addresses.AAVE_GOVERNANCE_V2,
     GOVERNANCE_HELPER_ADDRESS: governanceConfig.addresses.AAVE_GOVERNANCE_V2_HELPER,
   });
-  const powerDelegation = new GovernancePowerDelegationTokenService(
-    getProvider(governanceConfig.chainId)
-  );
+  const powerDelegation = new GovernancePowerDelegationTokenService(rpcProvider);
 
   const {
     proposals: propGraph,
     loading: loadingGraph,
     error,
   } = useGetProposals({
-    skip: isRPCActive,
-    chainId: governanceConfig.chainId,
+    skip: !!isRPCActive,
+    chainId: isGovernanceFork ? chainId : governanceConfig.chainId,
     averageNetworkBlockTime: governanceConfig.averageNetworkBlockTime,
   });
 
