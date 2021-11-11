@@ -9,14 +9,16 @@ const useGetEnsName = (address: string) => {
   const [ensName, setEnsName] = useState<string | undefined>(undefined);
 
   const getRecord = async (address: string) => {
-    setLoading(true);
-    try {
-      const name = await mainnetProvider.lookupAddress(address);
-      setEnsName(name);
-    } catch (error) {
-      console.error('ENS lookup error', error);
+    if (address !== '') {
+      setLoading(true);
+      try {
+        const name = await mainnetProvider.lookupAddress(address);
+        setEnsName(name);
+      } catch (error) {
+        console.error('ENS lookup error', error);
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
