@@ -12,6 +12,7 @@ export enum CustomMarket {
   amm_kovan = 'amm_kovan',
   amm_mainnet = 'amm_mainnet',
   proto_fuji = 'proto_fuji',
+  proto_arbitrum_rinkeby = 'proto_arbitrum_rinkeby',
 }
 
 export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType } = {
@@ -142,6 +143,23 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
       LENDING_POOL: '0x4F01AeD16D97E3aB5ab2B501154DC9bb0F1A5A2C',
       WETH_GATEWAY: '0x8a47F74d1eE0e2edEB4F3A7e64EF3bD8e11D27C8',
       SWAP_COLLATERAL_ADAPTER: '0x2EcF2a2e74B19Aab2a62312167aFF4B78E93B6C5',
+    },
+  },
+  [CustomMarket.proto_arbitrum_rinkeby]: {
+    chainId: ChainId.arbitrum_rinkeby,
+    logo: logos.aaveLogo,
+    activeLogo: logos.aaveActiveLogo,
+    subLogo: logos.arbitrium,
+    aTokenPrefix: '',
+    enabledFeatures: {
+      faucet: true,
+      incentives: true,
+    },
+    addresses: {
+      LENDING_POOL_ADDRESS_PROVIDER: '0x22E1463acd4D5355009e89279d4FC04B4d30bc00'.toLowerCase(),
+      LENDING_POOL: '0x9BCAc49FAC3d210fe8B6Bb1832aBF98c49064CcE',
+      WETH_GATEWAY: '0x18dF3218CB885ee7a2f444Dca8d38B58698C7EcD',
+      FAUCET: '0xd8d70bE87A275a3C15Cd60D8bC5c1cd3ecC54fD1',
     },
   },
 } as const;
