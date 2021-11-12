@@ -16,16 +16,12 @@ export const getCorrectState = (proposal: ProposalItem) => {
       .div(10000);
 
     const quorumValid = Number(proposal.formattedForVotes) >= minQuorumNeeded.toNumber();
-    const forVotesCalc = new BigNumber(proposal.forVotes)
-      .multipliedBy(10000)
-      .div(proposal.totalVotingSupply || '');
-
-    const againstVotesCalc = new BigNumber(proposal.againstVotes)
-      .multipliedBy(10000)
-      .div(proposal.totalVotingSupply || '')
-      .plus(proposal.minimumDiff);
-
-    const differentialValid = forVotesCalc.gt(againstVotesCalc);
+    const minDifferential = Number(proposal.minimumDiff) / 10000;
+    const activeDifferential =
+      (Number(proposal.forVotes) - Number(proposal.againstVotes)) /
+      10 ** 18 /
+      Number(proposal.totalVotingSupply);
+    const differentialValid = activeDifferential > minDifferential;
 
     return quorumValid && differentialValid ? ProposalState.Succeeded : ProposalState.Failed;
   }
