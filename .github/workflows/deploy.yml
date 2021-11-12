@@ -27,7 +27,7 @@ jobs:
         run: cp ${ENV:-'.github/.env.staging'} .env
 
       - name: build
-        run: npm run build:ipfs
+        run: npm run build
 
       - name: deploy
         id: deploy

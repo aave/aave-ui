@@ -20,7 +20,7 @@ import NotHaveEnoughFundsToRepayHelpModal from '../../../../components/HelpModal
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
-import { getAssetInfo, isAssetStable } from '../../../../helpers/markets/assets';
+import { getAssetInfo, isAssetStable } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';

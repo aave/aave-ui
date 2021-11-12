@@ -1,28 +1,18 @@
-import { Network } from '@aave/protocol-js';
-import { ethers } from 'ethers';
+import { ChainId } from '@aave/contract-helpers';
 
-import { networkConfigs } from '../../ui-config';
-
-type ExplorerLinkBuilderProps = {
+export type ExplorerLinkBuilderProps = {
   tx?: string;
   address?: string;
 };
 
-type ExplorerLinkBuilderConfig = { baseUrl: string; addressPrefix?: string; txPrefix?: string };
-
-const linkBuilder =
-  ({ baseUrl, addressPrefix = 'address', txPrefix = 'tx' }: ExplorerLinkBuilderConfig) =>
-  ({ tx, address }: ExplorerLinkBuilderProps): string => {
-    if (tx) {
-      return `${baseUrl}/${txPrefix}/${tx}`;
-    }
-    if (address) {
-      return `${baseUrl}/${addressPrefix}/${address}`;
-    }
-    return baseUrl;
-  };
+export type ExplorerLinkBuilderConfig = {
+  baseUrl: string;
+  addressPrefix?: string;
+  txPrefix?: string;
+};
 
 export type NetworkConfig = {
+  name: string;
   privateJsonRPCUrl?: string; // private rpc will be used for rpc queries inside the client. normally has private api key and better rate
   privateJsonRPCWSUrl?: string;
   publicJsonRPCUrl: readonly string[]; // public rpc used if not private found, and used to add specific network to wallets if user don't have them. Normally with slow rates
@@ -56,6 +46,10 @@ export type NetworkConfig = {
   rpcOnly: boolean;
   // set this to show faucets and similar
   isTestnet?: boolean;
+  // get's automatically populated on fork networks
+  isFork?: boolean;
+  // contains the forked off chainId
+  underlyingChainId?: number;
   bridge?: {
     brandColor: string;
     name: string;
@@ -64,9 +58,11 @@ export type NetworkConfig = {
   };
 };
 
+export type BaseNetworkConfig = Omit<NetworkConfig, 'explorerLinkBuilder'>;
+
 export type MarketDataType = {
   // the network the market operates on
-  network: Network;
+  chainId: ChainId;
   // market logo in the topbar
   logo: string;
   // logo for the active market in dropdown
@@ -93,48 +89,4 @@ export type MarketDataType = {
     FAUCET?: string;
     PERMISSION_MANAGER?: string;
   };
-};
-
-export type BaseNetworkConfig = Omit<NetworkConfig, 'explorerLinkBuilder'>;
-
-export function getNetworkConfig(network: Network): NetworkConfig {
-  const config = networkConfigs[network];
-  if (!config) throw new Error(`${network} network was not configured`);
-  return { ...config, explorerLinkBuilder: linkBuilder({ baseUrl: config.explorerLink }) };
-}
-
-export const isFeatureEnabled = {
-  faucet: (data: MarketDataType) => data.enabledFeatures?.faucet,
-  governance: (data: MarketDataType) => data.enabledFeatures?.governance,
-  staking: (data: MarketDataType) => data.enabledFeatures?.staking,
-  liquiditySwap: (data: MarketDataType) => data.enabledFeatures?.liquiditySwap,
-  collateralRepay: (data: MarketDataType) => data.enabledFeatures?.collateralRepay,
-  permissions: (data: MarketDataType) => data.enabledFeatures?.permissions,
-};
-
-const providers: { [network: string]: ethers.providers.Provider } = {};
-
-export const getProvider = (network: Network): ethers.providers.Provider => {
-  if (!providers[network]) {
-    const config = getNetworkConfig(network);
-    const chainProviders: ethers.providers.StaticJsonRpcProvider[] = [];
-    if (config.privateJsonRPCUrl) {
-      providers[network] = new ethers.providers.StaticJsonRpcProvider(config.privateJsonRPCUrl);
-      return providers[network];
-    }
-    if (config.publicJsonRPCUrl.length) {
-      config.publicJsonRPCUrl.map((rpc) =>
-        chainProviders.push(new ethers.providers.StaticJsonRpcProvider(rpc))
-      );
-    }
-    if (!chainProviders.length) {
-      throw new Error(`${network} has no jsonRPCUrl configured`);
-    }
-    if (chainProviders.length === 1) {
-      providers[network] = chainProviders[0];
-    } else {
-      providers[network] = new ethers.providers.FallbackProvider(chainProviders);
-    }
-  }
-  return providers[network];
 };

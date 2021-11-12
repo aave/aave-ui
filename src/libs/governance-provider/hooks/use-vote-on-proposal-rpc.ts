@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Vote } from '../types';
 import { useStateLoading, LOADING_STATE } from '../../hooks/use-state-loading';
+import { AaveGovernanceService } from '@aave/contract-helpers';
 import { usePolling } from '../../hooks/use-polling';
-import { AaveGovernanceV2Interface } from '@aave/protocol-js';
 
 const INTERVAL_POOL = 60000; // 1 min
 
@@ -12,10 +12,10 @@ const useVoteOnProposal = ({
   skip,
   governanceService,
 }: {
-  proposalId: string | undefined;
+  proposalId: number | undefined;
   user: string | undefined;
   skip: boolean;
-  governanceService: AaveGovernanceV2Interface;
+  governanceService: AaveGovernanceService;
 }) => {
   const { loading, setLoading } = useStateLoading();
   const [voteData, setVoteData] = useState<Vote>();

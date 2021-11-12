@@ -16,7 +16,7 @@ export default function UnstakeConfirmation() {
   const intl = useIntl();
   const location = useLocation();
   const { userId } = useStaticPoolDataContext();
-  const { selectedStakeData, selectedStake, txBuilder, cooldownStep } = useStakeDataContext();
+  const { selectedStakeData, selectedStake, stakingService, cooldownStep } = useStakeDataContext();
 
   const query = queryString.parse(location.search);
   let amount = new BigNumber(typeof query.amount === 'string' ? query.amount : 0);
@@ -39,7 +39,7 @@ export default function UnstakeConfirmation() {
     blockingError = intl.formatMessage(messages.blockingError);
   }
 
-  const handleGetTransactions = async () => txBuilder.redeem(userId, amount.toString());
+  const handleGetTransactions = async () => stakingService.redeem(userId, amount.toString());
 
   return (
     <StakeTxConfirmationView

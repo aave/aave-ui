@@ -87,7 +87,7 @@ exports.config = {
   specs: executionList(),
   exclude: [],
   maxInstances: 5,
-  specFileRetries: 3,
+  specFileRetries: 2,
   capabilities: [{
     alwaysMatch: {
       browserName: "Chrome",
@@ -108,7 +108,7 @@ exports.config = {
   logLevel: 'error',
   coloredLogs: true,
   baseUrl: '',
-  waitforTimeout: 400000,
+  waitforTimeout: 600000,
   connectionRetryTimeout: 300000,
   connectionRetryCount: 5,
   path: '/wd/hub',
@@ -132,6 +132,6 @@ exports.config = {
   framework: 'mocha',
   mochaOpts: {
     ui: 'bdd',
-    timeout: 600000
+    timeout: 500000
   }
 }

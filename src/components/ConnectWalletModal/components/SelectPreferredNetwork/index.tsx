@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { AnimationArrow, DropdownWrapper, useThemeContext } from '@aave/aave-ui-kit';
-import { Network } from '@aave/protocol-js';
 
 import messages from './messages';
 import staticStyles from './style';
-import { networkConfigs } from '../../../../ui-config';
+import { getNetworkConfig } from '../../../../helpers/config/markets-and-network-config';
+import { ChainId } from '@aave/contract-helpers';
 
 interface SelectPreferredNetworkProps {
-  preferredNetwork: Network;
-  onSelectPreferredNetwork: (network: Network) => void;
-  supportedNetworks: Network[];
+  preferredNetwork: ChainId;
+  onSelectPreferredNetwork: (network: ChainId) => void;
+  supportedNetworks: ChainId[];
 }
 
 export default function SelectPreferredNetwork({
@@ -23,9 +23,13 @@ export default function SelectPreferredNetwork({
 
   const [visible, setVisible] = useState(false);
 
-  const formattedNetwork = (network: Network) =>
-    network === Network.mainnet ? 'Ethereum' : network;
-  const isTestnet = (network: Network) => networkConfigs[network].isTestnet;
+  const getFormattedName = (chainId: ChainId) => {
+    const config = getNetworkConfig(chainId);
+    if (config?.isFork) return intl.formatMessage(messages.forkNetwork, { network: config.name });
+    if (config?.isTestnet)
+      return intl.formatMessage(messages.testNetwork, { network: config.name });
+    return intl.formatMessage(messages.mainnet, { network: config.name });
+  };
 
   return (
     <div className="SelectPreferredNetwork">
@@ -40,12 +44,7 @@ export default function SelectPreferredNetwork({
             type="button"
             onClick={() => setVisible(true)}
           >
-            <span>
-              {intl.formatMessage(
-                isTestnet(preferredNetwork) ? messages.testNetwork : messages.mainnet,
-                { network: formattedNetwork(preferredNetwork) }
-              )}
-            </span>
+            <span>{getFormattedName(preferredNetwork)}</span>
             <AnimationArrow
               className="SelectPreferredNetwork__select-arrow"
               active={visible}
@@ -72,11 +71,7 @@ export default function SelectPreferredNetwork({
             key={network}
             disabled={network === preferredNetwork}
           >
-            <span>
-              {intl.formatMessage(isTestnet(network) ? messages.testNetwork : messages.mainnet, {
-                network: formattedNetwork(network),
-              })}
-            </span>
+            <span>{getFormattedName(network)}</span>
           </button>
         ))}
       </DropdownWrapper>

@@ -1,12 +1,13 @@
 import React, { ReactElement, ReactNode, useContext } from 'react';
-import { API_ETH_MOCK_ADDRESS, Network } from '@aave/protocol-js';
+import { API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useUserWalletDataContext } from '../../web3-data-provider';
-import { NetworkConfig } from '../../../helpers/markets/markets-data';
+import { NetworkConfig } from '../../../helpers/config/types';
 import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/use-cached-protocol-data';
 import { useApolloConfigContext } from '../../apollo-config';
 import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
 import { assetsOrder } from '../../../ui-config/assets';
+import { ChainId } from '@aave/contract-helpers';
 import { usePoolData } from '../hooks/use-pool-data';
 import { ReserveDataHumanized, UserReserveDataHumanized } from '@aave/contract-helpers';
 import { normalize } from '@aave/math-utils';
@@ -26,7 +27,7 @@ export interface UserReserveDataExtended extends UserReserveDataHumanized {
 
 export interface StaticPoolDataContextData {
   userId?: string;
-  network: Network;
+  chainId: ChainId;
   networkConfig: NetworkConfig;
   isUserHasDeposits: boolean;
   rawReserves: ReserveDataHumanized[];
@@ -53,23 +54,10 @@ export function StaticPoolDataProvider({
   errorPage,
 }: StaticPoolDataProviderProps) {
   const { currentAccount } = useUserWalletDataContext();
-  const { network: apolloClientNetwork } = useApolloConfigContext();
-  const { currentMarketData, network, networkConfig } = useProtocolDataContext();
+  const { chainId: apolloClientChainId } = useApolloConfigContext();
+  const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
-
-  const {
-    error: rpcDataError,
-    loading: rpcDataLoading,
-    data: rpcData,
-    refresh,
-  } = usePoolData(
-    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
-    network,
-    networkConfig.addresses.uiPoolDataProvider,
-    !isRPCActive,
-    currentAccount
-  );
 
   const {
     error: cachedDataError,
@@ -78,7 +66,20 @@ export function StaticPoolDataProvider({
   } = useCachedProtocolData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     currentAccount,
-    preferredConnectionMode === ConnectionMode.rpc || network !== apolloClientNetwork
+    preferredConnectionMode === ConnectionMode.rpc || chainId !== apolloClientChainId
+  );
+
+  const {
+    error: rpcDataError,
+    loading: rpcDataLoading,
+    data: rpcData,
+    refresh,
+  } = usePoolData(
+    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+    chainId,
+    networkConfig.addresses.uiPoolDataProvider,
+    !isRPCActive,
+    currentAccount
   );
 
   const activeData = isRPCActive && rpcData ? rpcData : cachedData;
@@ -163,7 +164,7 @@ export function StaticPoolDataProvider({
     <StaticPoolDataContext.Provider
       value={{
         userId: currentAccount,
-        network,
+        chainId,
         networkConfig,
         refresh: isRPCActive ? refresh : async () => {},
         WrappedBaseNetworkAssetAddress: networkConfig.baseAssetWrappedAddress

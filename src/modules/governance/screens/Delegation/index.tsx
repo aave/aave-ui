@@ -16,7 +16,7 @@ import TextField from '../../../../components/fields/TextField';
 import DelegationFieldInner from './components/DelegationFieldInner';
 import { useAaveTokensProviderContext } from '../../../../libs/aave-tokens-balance-provider/AaveTokensBalanceProvider';
 import { useGovernanceDataContext } from '../../../../libs/governance-provider';
-import { TokenIcon } from '../../../../helpers/markets/assets';
+import { TokenIcon } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';

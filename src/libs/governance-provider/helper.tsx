@@ -1,8 +1,7 @@
 import { BigNumber, normalize, ProposalState } from '@aave/protocol-js';
-import axios from 'axios';
 import dayjs from 'dayjs';
 
-import { ProposalItem, ProposalMetadata } from './types';
+import { ProposalItem } from './types';
 
 const IPFS_ENDPOINT = 'https://cloudflare-ipfs.com/ipfs';
 
@@ -58,38 +57,4 @@ export const getProposalExpiry = (
 
 export function getLink(hash: string): string {
   return `${IPFS_ENDPOINT}/${hash}`;
-}
-
-export async function getProposalMetadata(ipfsHash: string): Promise<ProposalMetadata> {
-  try {
-    const { data } = await axios.get<Omit<ProposalMetadata, 'ipfsHash'>>(getLink(ipfsHash), {
-      timeout: 5000,
-    });
-
-    if (!data?.title) {
-      throw Error('Missing title field at proposal metadata.');
-    }
-    if (!data?.description) {
-      throw Error('Missing description field at proposal metadata.');
-    }
-    if (!data?.shortDescription) {
-      throw Error('Missing shortDescription field at proposal metadata.');
-    }
-
-    return {
-      ipfsHash,
-      ...data,
-    };
-  } catch (e) {
-    console.error(`IPFS fetch Error: ${e.message}`);
-    return {
-      ipfsHash,
-      title: `Proposal - ${ipfsHash}`,
-      description: `Proposal with invalid metadata format or IPFS gateway is down`,
-      shortDescription: `Proposal with invalid metadata format or IPFS gateway is down`,
-      author: `Proposal with invalid metadata format or IPFS gateway is down`,
-      discussions: `Proposal with invalid metadata format or IPFS gateway is down`,
-      aip: 0,
-    };
-  }
 }

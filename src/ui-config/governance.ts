@@ -1,7 +1,7 @@
-import { Network } from '@aave/protocol-js';
+import { ChainId } from '@aave/contract-helpers';
 
 export interface GovernanceConfig {
-  network: Network;
+  chainId: ChainId;
   votingAssetName: string;
   averageNetworkBlockTime: number;
   queryGovernanceDataUrl: string;
@@ -20,7 +20,7 @@ export interface GovernanceConfig {
 }
 
 export const governanceConfig: GovernanceConfig | undefined = {
-  network: Network.mainnet,
+  chainId: ChainId.mainnet,
   votingAssetName: 'AAVE + stkAAVE',
   averageNetworkBlockTime: 13.5,
   queryGovernanceDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/governance-v2',

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { Network } from '@aave/protocol-js';
 
-import { getProvider } from '../../../helpers/markets/markets-data';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import {
   UiIncentiveDataProvider,
   UserReserveIncentiveDataHumanizedResponse,
   Denominations,
+  ChainId,
 } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 
@@ -67,7 +67,7 @@ export interface IncentiveDataResponse {
 // Fetch reserve and user incentive data from UiIncentiveDataProvider
 export function useIncentivesData(
   lendingPoolAddressProvider: string,
-  network: Network,
+  chainId: ChainId,
   incentiveDataProviderAddress: string | undefined,
   skip: boolean,
   userAddress?: string
@@ -108,7 +108,7 @@ export function useIncentivesData(
     lendingPoolAddressProvider: string,
     incentiveDataProviderAddress: string
   ) => {
-    const provider = getProvider(network);
+    const provider = getProvider(chainId);
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
       incentiveDataProviderAddress,
       provider,
@@ -136,7 +136,7 @@ export function useIncentivesData(
     lendingPoolAddressProvider: string,
     incentiveDataProviderAddress: string
   ) => {
-    const provider = getProvider(network);
+    const provider = getProvider(chainId);
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
       incentiveDataProviderAddress,
       provider,

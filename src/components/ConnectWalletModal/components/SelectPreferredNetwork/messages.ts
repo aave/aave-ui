@@ -5,4 +5,5 @@ export default defineMessages({
 
   mainnet: '{network} Mainnet',
   testNetwork: '{network} Test Network',
+  forkNetwork: '{network} Fork Network',
 });

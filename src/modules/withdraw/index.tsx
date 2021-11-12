@@ -12,7 +12,7 @@ import NoDataPanel from '../../components/NoDataPanel';
 import WithdrawAmount from './screens/WithdrawAmount';
 import WithdrawConfirmation from './screens/WithdrawConfirmation';
 import { CURRENCY_ROUTE_PARAMS } from '../../helpers/router-types';
-import { getAssetInfo } from '../../helpers/markets/assets';
+import { getAssetInfo } from '../../helpers/config/assets-config';
 
 import messages from './messages';
 

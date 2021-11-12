@@ -6,7 +6,8 @@ import {
   stakeConfig,
   governanceConfig,
 } from '../../../ui-config';
-import { isFeatureEnabled, MarketDataType } from '../../../helpers/markets/markets-data';
+import { MarketDataType } from '../../../helpers/config/types';
+import { isFeatureEnabled } from '../../../helpers/config/markets-and-network-config';
 
 import messages from './messages';
 

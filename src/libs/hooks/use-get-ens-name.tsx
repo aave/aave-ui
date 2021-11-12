@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Network } from '@aave/protocol-js';
-import { getProvider } from '../../helpers/markets/markets-data';
+import { ChainId } from '@aave/contract-helpers';
+import { getProvider } from '../../helpers/config/markets-and-network-config';
 
-const mainnetProvider = getProvider(Network.mainnet);
+const mainnetProvider = getProvider(ChainId.mainnet);
 
 const useGetEnsName = (address: string) => {
   const [ensName, setEnsName] = useState<string | undefined>(undefined);

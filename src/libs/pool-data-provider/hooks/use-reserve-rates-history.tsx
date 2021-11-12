@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { RATES_HISTORY_ENDPOINT } from '../../../config';
+import { RATES_HISTORY_ENDPOINT } from '../../../helpers/config/misc-config';
 
 type APIResponse = {
   liquidityRate_avg: number;

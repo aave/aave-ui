@@ -10,7 +10,7 @@ import messages from './messages';
 
 export default function ActivateCooldownConfirmation() {
   const intl = useIntl();
-  const { selectedStake, selectedStakeData, txBuilder } = useStakeDataContext();
+  const { selectedStake, selectedStakeData, stakingService } = useStakeDataContext();
   const { userId } = useStaticPoolDataContext();
 
   if (!userId) {
@@ -21,7 +21,7 @@ export default function ActivateCooldownConfirmation() {
     return <Redirect to="/staking" />;
   }
 
-  const handleGetTransactions = async () => txBuilder.cooldown(userId);
+  const handleGetTransactions = async () => stakingService.cooldown(userId);
 
   let blockingError = '';
   if (selectedStakeData.stakeTokenUserBalance === '0') {

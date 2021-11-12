@@ -16,7 +16,7 @@ import { API_ETH_MOCK_ADDRESS, calculateSupplies } from '@aave/protocol-js';
 import React, { ReactNode, useContext } from 'react';
 import Preloader from '../../../components/basic/Preloader';
 import ErrorPage from '../../../components/ErrorPage';
-import { getProvider } from '../../../helpers/markets/markets-data';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { useApolloConfigContext } from '../../apollo-config';
 import {
   PoolIncentivesWithCache,
@@ -44,13 +44,13 @@ const IncentivesDataContext = React.createContext({} as IncentivesContext);
 
 export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const { userId, rawReservesWithBase, rawUserReservesWithBase } = useStaticPoolDataContext();
-  const { network, networkConfig, currentMarketData } = useProtocolDataContext();
-  const { network: apolloClientNetwork } = useApolloConfigContext();
+  const { chainId, networkConfig, currentMarketData } = useProtocolDataContext();
+  const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const currentAccount = userId ? userId.toLowerCase() : undefined;
   const incentivesTxBuilder: IncentivesControllerInterface = new IncentivesController(
-    getProvider(network)
+    getProvider(chainId)
   );
 
   const {
@@ -63,7 +63,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     networkConfig.addresses.chainlinkFeedRegistry,
     networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
     preferredConnectionMode === ConnectionMode.rpc ||
-      network !== apolloClientNetwork ||
+      chainId !== apolloClientChainId ||
       !networkConfig.addresses.uiIncentiveDataProvider
   );
 
@@ -74,7 +74,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     refresh,
   }: IncentiveDataResponse = useIncentivesData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
-    network,
+    chainId,
     networkConfig.addresses.uiIncentiveDataProvider,
     !isRPCActive || !networkConfig.addresses.uiIncentiveDataProvider,
     currentAccount
