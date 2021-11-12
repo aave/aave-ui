@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import {
-  UiPoolDataProviderV3,
   UiPoolDataProvider,
   ReservesDataHumanized,
   UserReserveDataHumanized,
@@ -44,26 +43,18 @@ export function usePoolData(
   // Fetch and format reserve incentive data from UiIncentiveDataProvider contract
   const fetchReserves = async () => {
     const provider = getProvider(chainId);
-    let poolDataProviderContract;
-    if (chainId !== 42161 && chainId !== 421611) {
-      poolDataProviderContract = new UiPoolDataProvider({
-        uiPoolDataProviderAddress: poolDataProviderAddress,
-        provider,
-      });
-    } else {
-      poolDataProviderContract = new UiPoolDataProviderV3({
-        uiPoolDataProviderAddress: poolDataProviderAddress,
-        provider,
-      });
-    }
+
+    const poolDataProviderContract = new UiPoolDataProvider({
+      uiPoolDataProviderAddress: poolDataProviderAddress,
+      provider,
+    });
 
     try {
       setLoadingReserves(true);
-      console.log('-------------> ', lendingPoolAddressProvider)
-      const reservesResponse = await poolDataProviderContract.getReservesHumanized(
-        lendingPoolAddressProvider
-      );
-      console.log('reserves: ', reservesResponse)
+      console.log('-------------> ', lendingPoolAddressProvider);
+      const reservesResponse: ReservesDataHumanized =
+        await poolDataProviderContract.getReservesHumanized(lendingPoolAddressProvider);
+      console.log('reserves: ', reservesResponse);
       setReserves(reservesResponse);
       setErrorReserves(false);
     } catch (e) {
@@ -77,7 +68,7 @@ export function usePoolData(
   const fetchUserReserves = async () => {
     if (!currentAccount) return;
     const provider = getProvider(chainId);
-    const poolDataProviderContract = new UiPoolDataProviderV3({
+    const poolDataProviderContract = new UiPoolDataProvider({
       uiPoolDataProviderAddress: poolDataProviderAddress,
       provider,
     });
