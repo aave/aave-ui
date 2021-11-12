@@ -60,6 +60,7 @@ const StakeDataContext = React.createContext<{
   stakeConfig: StakeConfig;
   selectedStake: Stake;
   selectedStakeData: ComputedStakeData;
+  STAKING_REWARD_TOKEN: string;
   data: ComputedStakesData;
   usdPriceEth: string;
   refresh: () => void;
@@ -69,6 +70,7 @@ const StakeDataContext = React.createContext<{
 }>({
   stakeConfig: {} as StakeConfig,
   selectedStake: Stake.aave,
+  STAKING_REWARD_TOKEN: '',
   selectedStakeData: {} as ComputedStakeData,
   data: {} as ComputedStakesData,
   usdPriceEth: '0',
@@ -100,9 +102,10 @@ export function StakeDataProvider({
 
   const selectedStake =
     location.pathname.split('/')[2]?.toLowerCase() === Stake.aave ? Stake.aave : Stake.bpt;
+  const selectedStakeAddresses = stakeConfig.tokens[selectedStake];
   const stakingService = new StakingService(rpcProvider, {
-    TOKEN_STAKING_ADDRESS: stakeConfig.tokens[selectedStake].TOKEN_STAKING,
-    STAKING_HELPER_ADDRESS: stakeConfig.tokens[selectedStake].STAKING_HELPER,
+    TOKEN_STAKING_ADDRESS: selectedStakeAddresses.TOKEN_STAKING,
+    STAKING_HELPER_ADDRESS: selectedStakeAddresses.STAKING_HELPER,
   });
 
   const {
@@ -156,6 +159,7 @@ export function StakeDataProvider({
       value={{
         stakeConfig,
         selectedStake,
+        STAKING_REWARD_TOKEN: selectedStakeAddresses.STAKING_REWARD_TOKEN,
         stakingService,
         selectedStakeData: computedData[selectedStake],
         usdPriceEth,

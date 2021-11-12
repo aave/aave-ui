@@ -17,10 +17,11 @@ export default function StakingClaimConfirmation() {
   const intl = useIntl();
   const location = useLocation();
   const { userId } = useStaticPoolDataContext();
-  const { selectedStakeData, stakingService, selectedStake } = useStakeDataContext();
+  const { selectedStakeData, stakingService, selectedStake, STAKING_REWARD_TOKEN } =
+    useStakeDataContext();
 
   const aTokenData = getAtokenInfo({
-    address: stakingService.stakingRewardTokenContractAddress,
+    address: STAKING_REWARD_TOKEN,
     symbol: 'AAVE',
     decimals: 18,
     withFormattedSymbol: true,
