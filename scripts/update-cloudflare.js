@@ -48,7 +48,7 @@ const updateOrCreateRecord = async (name, type, _payload) => {
 
 const updateCloudFlareRecord = async (hash, domain) => {
   console.log(`domain to update - https://${domain}`);
-  
+
   if (domain != 'app.aave.com') {
     console.log('updating CNAME record');
     await updateOrCreateRecord(domain, 'CNAME', {
@@ -64,4 +64,16 @@ const updateCloudFlareRecord = async (hash, domain) => {
   console.log('done');
 };
 
-module.exports = updateCloudFlareRecord;
+const publish = async () => {
+  const domain = process.env.CF_DEPLOYMENT_DOMAIN;
+  const hash = process.env.HASH;
+  if (domain && hash) {
+    console.log(`trying to update DNS for ${domain} with ${hash}`);
+    await updateCloudFlareRecord(hash, domain);
+  } else {
+    console.log('no cloudflare domain specified, skipping DNS update');
+  }
+  process.exit(0);
+};
+
+publish();

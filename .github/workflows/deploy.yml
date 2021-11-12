@@ -29,13 +29,27 @@ jobs:
       - name: build
         run: npm run build
 
-      - name: deploy
-        id: deploy
+      - name: pinata
+        id: pinata
         env:
           PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
           PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
+          PIN_ALIAS: staging
+        run: node scripts/pin-pinata.js
+
+      - name: crust
+        uses: crustio/ipfs-crust-action@v2.0.3
+        continue-on-error: true
+        timeout-minutes: 2
+        with:
+          cid: ${{ steps.pinata.outputs.hash }}
+          seeds: ${{ secrets.CRUST_SEEDS }}
+
+      - name: deploy
+        id: deploy
+        env:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
-          PIN_ALIAS: staging
+          HASH: ${{ steps.pinata.outputs.hash }}
           CF_DEPLOYMENT_DOMAIN: staging.aave.com
-        run: npm run pinata:ipfs-publish
+        run: node scripts/update-cloudflare.js

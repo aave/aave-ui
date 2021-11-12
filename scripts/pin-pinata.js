@@ -72,4 +72,7 @@ const cleanupAndPin = async () => {
   }
 };
 
-module.exports = cleanupAndPin;
+cleanupAndPin().then((hash) => {
+  console.log(`::set-output name=hash::${hash}`);
+  console.log(`::set-output name=uri::https://cloudflare-ipfs.com/ipfs/${hash}`);
+});
