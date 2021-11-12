@@ -11,11 +11,8 @@ import ConnectButton from '../../ConnectButton';
 
 import staticStyles from './style';
 import messages from './messages';
-<<<<<<< HEAD
 import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
-=======
 import useGetEnsName from '../../../libs/hooks/use-get-ens-name';
->>>>>>> master
 
 export default function AddressInfo() {
   const intl = useIntl();
@@ -69,15 +66,10 @@ export default function AddressInfo() {
               onClick={() => setVisible(!visible)}
               type="button"
             >
-<<<<<<< HEAD
               <p>{networkName}</p>
-              <span>{textCenterEllipsis(currentAccount, 4, 4)}</span>
-=======
-              <p>{formattedNetworkName}</p>
               <span>
                 {ensNameAbbreviated ? ensNameAbbreviated : textCenterEllipsis(currentAccount, 4, 4)}
               </span>
->>>>>>> master
             </button>
           }
         >
