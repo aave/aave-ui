@@ -5,27 +5,35 @@ import { ProposalItem } from './types';
 
 const IPFS_ENDPOINT = 'https://cloudflare-ipfs.com/ipfs';
 
+/**
+ * Thegraph data is only up to date to the last emitted events.
+ * When a proposal ends there can't be a event emitted so the "correct state" has to be derived from last information.
+ * @param proposal
+ * @returns
+ */
 export const getCorrectState = (proposal: ProposalItem) => {
   const hasEnded = dayjs().unix() > proposal?.proposalExpirationTimestamp;
   // there's no event for Active -> Success/Failed, so it's wrong on thegraph
 
   if (hasEnded && proposal.state === ProposalState.Active) {
+    // minimum required participation
+    // the voting power (in % of total voting power) of for-votes needs to reach the quorum
     const minQuorumNeeded = new BigNumber(proposal.totalVotingSupply || '')
       .multipliedBy(proposal.minimumQuorum)
       .div(10000);
-
     const quorumValid = Number(proposal.formattedForVotes) >= minQuorumNeeded.toNumber();
-    const forVotesCalc = new BigNumber(proposal.forVotes)
-      .multipliedBy(10000)
-      .div(proposal.totalVotingSupply || '');
 
-    const againstVotesCalc = new BigNumber(proposal.againstVotes)
-      .multipliedBy(10000)
-      .div(proposal.totalVotingSupply || '')
-      .plus(proposal.minimumDiff);
-
-    const differentialValid = forVotesCalc.gt(againstVotesCalc);
-
+    // minimum required outvote
+    // the difference between for-votes and against-votes (in % of total voting power) needs to exceed the vote differential threshold
+    let differentialValid = false;
+    // a proposal can only be valid when yay > nay
+    if (new BigNumber(proposal.forVotes).gt(proposal.againstVotes)) {
+      // & (yay - nay) / total > minDiff
+      differentialValid = new BigNumber(proposal.formattedForVotes)
+        .minus(proposal.formattedAgainstVotes)
+        .dividedBy(proposal.totalVotingSupply)
+        .gt(proposal.formattedMinDiff);
+    }
     return quorumValid && differentialValid ? ProposalState.Succeeded : ProposalState.Failed;
   }
 
