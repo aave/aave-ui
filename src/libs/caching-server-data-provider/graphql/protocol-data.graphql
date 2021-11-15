@@ -33,6 +33,21 @@ fragment ReserveDataFragment on ReserveData {
   totalScaledVariableDebt
   lastUpdateTimestamp
   priceInMarketReferenceCurrency
+  # v3 only
+  isPaused
+  accruedToTreasury
+  unbacked
+  isolationModeTotalDebt
+  debtCeiling
+  debtCeilingDecimals
+  eModeCategoryId
+  borrowCap
+  supplyCap
+  eModeLtv
+  eModeLiquidationThreshold
+  eModeLiquidationBonus
+  eModePriceSource
+  eModeLabel
 }
 
 fragment BaseCurrencyDataFragment on BaseCurrencyData {

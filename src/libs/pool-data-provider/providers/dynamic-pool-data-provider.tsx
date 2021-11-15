@@ -78,7 +78,6 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
     };
     return fullReserve;
   });
-  console.log(formattedPoolReserves);
 
   let userSummary: UserSummary | undefined = undefined;
   if (computedUserData && userId) {

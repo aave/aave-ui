@@ -106,7 +106,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCWSUrl: 'wss://api.avax-test.network/ext/bc/C/rpc',
     addresses: {
       walletBalanceProvider: '0x3f5A507B33260a3869878B31FB90F04F451d28e3',
-      uiPoolDataProvider: '0xDb49B99073C2AE890708227Dc83B1781bF01512D',
+      uiPoolDataProvider: '0x848482E84d358C0E23A40deB11Ca5b9c1984de81',
       uiIncentiveDataProvider: '0x2c911e6FaD423C00205eda22BBAc3e7F82c38007',
     },
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-fuji',
