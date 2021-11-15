@@ -3,8 +3,8 @@ import React, { PropsWithChildren, useContext, useEffect, useState } from 'react
 import { useCurrentTimestamp } from '../hooks/use-current-timestamp';
 import { useStaticPoolDataContext } from './static-pool-data-provider';
 import {
-  formatReserve,
   FormatReserveResponse,
+  formatReserveUSD,
   formatUserSummary,
   FormatUserSummaryResponse,
   normalize,
@@ -62,9 +62,11 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
         })
       : undefined;
   const formattedPoolReserves: ComputedReserveData[] = rawReserves.map((reserve) => {
-    const formattedReserve = formatReserve({
+    const formattedReserve = formatReserveUSD({
       reserve,
       currentTimestamp,
+      marketRefCurrencyDecimals,
+      marketRefPriceInUsd,
     });
     const fullReserve: ComputedReserveData = {
       ...reserve,
