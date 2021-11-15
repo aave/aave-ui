@@ -3,10 +3,7 @@ import { useIntl } from 'react-intl';
 import { valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import {
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../../../../libs/pool-data-provider';
+import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import toggleLocalStorageClick from '../../../../helpers/toggle-local-storage-click';
 import TopPanelWrapper from '../../../../components/wrappers/TopPanelWrapper';
@@ -26,7 +23,6 @@ import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/ho
 export default function Markets() {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { reserves } = useDynamicPoolDataContext();
   const { currentMarketData } = useProtocolDataContext();
   const { reserveIncentives } = useIncentivesDataContext();
@@ -39,23 +35,13 @@ export default function Markets() {
   let sortedData = reserves
     .filter((res) => res.isActive)
     .map((reserve) => {
-      totalLockedInUsd = totalLockedInUsd.plus(
-        valueToBigNumber(reserve.totalLiquidity)
-          .multipliedBy(reserve.priceInMarketReferenceCurrency)
-          .multipliedBy(marketRefPriceInUsd)
-      );
+      totalLockedInUsd = totalLockedInUsd.plus(reserve.totalLiquidityUSD);
 
       const totalLiquidity = Number(reserve.totalLiquidity);
-      const totalLiquidityInUSD = valueToBigNumber(reserve.totalLiquidity)
-        .multipliedBy(reserve.priceInMarketReferenceCurrency)
-        .multipliedBy(marketRefPriceInUsd)
-        .toNumber();
+      const totalLiquidityInUSD = Number(reserve.totalLiquidityUSD);
 
       const totalBorrows = Number(reserve.totalDebt);
-      const totalBorrowsInUSD = valueToBigNumber(reserve.totalDebt)
-        .multipliedBy(reserve.priceInMarketReferenceCurrency)
-        .multipliedBy(marketRefPriceInUsd)
-        .toNumber();
+      const totalBorrowsInUSD = Number(reserve.totalDebtUSD);
       const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
       return {
         totalLiquidity,

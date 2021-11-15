@@ -10,7 +10,6 @@ import { assetsOrder } from '../../../ui-config/assets';
 import { ChainId } from '@aave/contract-helpers';
 import { usePoolData } from '../hooks/use-pool-data';
 import { ReserveDataHumanized, UserReserveDataHumanized } from '@aave/contract-helpers';
-import { normalize } from '@aave/math-utils';
 
 /**
  * removes the marketPrefix from a symbol
@@ -174,7 +173,7 @@ export function StaticPoolDataProvider({
         rawUserReserves: userReservesWithFixedUnderlying,
         rawReservesWithBase: reserves ? reserves : [],
         rawUserReservesWithBase: userReserves,
-        marketRefPriceInUsd: normalize(marketRefPriceInUsd, 8),
+        marketRefPriceInUsd: marketRefPriceInUsd,
         marketRefCurrencyDecimals,
         isUserHasDeposits,
       }}

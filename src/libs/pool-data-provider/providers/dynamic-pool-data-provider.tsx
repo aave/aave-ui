@@ -3,14 +3,14 @@ import React, { PropsWithChildren, useContext, useEffect, useState } from 'react
 import { useCurrentTimestamp } from '../hooks/use-current-timestamp';
 import { useStaticPoolDataContext } from './static-pool-data-provider';
 import {
-  FormatReserveResponse,
+  FormatReserveUSDResponse,
   formatReserveUSD,
   formatUserSummary,
   FormatUserSummaryResponse,
   normalize,
 } from '@aave/math-utils';
 
-export interface ComputedReserveData extends FormatReserveResponse {
+export interface ComputedReserveData extends FormatReserveUSDResponse {
   id: string;
   underlyingAsset: string;
   name: string;
@@ -27,6 +27,8 @@ export interface ComputedReserveData extends FormatReserveResponse {
   priceInMarketReferenceCurrency: string;
   avg30DaysLiquidityRate?: string;
   avg30DaysVariableBorrowRate?: string;
+  borrowCap: string;
+  supplyCap: string;
 }
 
 export interface UserSummary extends FormatUserSummaryResponse {
@@ -71,6 +73,8 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
     const fullReserve: ComputedReserveData = {
       ...reserve,
       ...formattedReserve,
+      borrowCap: reserve.borrowCap,
+      supplyCap: reserve.supplyCap,
       priceInMarketReferenceCurrency: normalize(
         reserve.priceInMarketReferenceCurrency,
         marketRefCurrencyDecimals

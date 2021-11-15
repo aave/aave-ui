@@ -27,28 +27,14 @@ import { ComputedReserveData } from '../../../../libs/pool-data-provider';
 interface ReserveInformationProps {
   symbol: string;
   poolReserve: ComputedReserveData;
-  marketRefPriceInUsd: string;
 }
 
-export default function ReserveInformation({
-  symbol,
-  poolReserve,
-  marketRefPriceInUsd,
-}: ReserveInformationProps) {
+export default function ReserveInformation({ symbol, poolReserve }: ReserveInformationProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const totalLiquidityInUsd = valueToBigNumber(poolReserve.totalLiquidity)
-    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd)
-    .toString();
-  const totalBorrowsInUsd = valueToBigNumber(poolReserve.totalDebt)
-    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd)
-    .toString();
-  const availableLiquidityInUsd = valueToBigNumber(poolReserve.availableLiquidity)
-    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd)
-    .toString();
+  const totalLiquidityInUsd = poolReserve.totalLiquidityUSD;
+  const totalBorrowsInUsd = poolReserve.totalDebtUSD;
+  const availableLiquidityInUsd = poolReserve.availableLiquidityUSD;
 
   const reserveOverviewData = {
     totalLiquidityInUsd,
