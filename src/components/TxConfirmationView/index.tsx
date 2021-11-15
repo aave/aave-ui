@@ -32,6 +32,7 @@ import NetworkMismatch from './NetworkMismatch';
 import messages from './messages';
 import staticStyles from './style';
 import { ChainId } from '@aave/contract-helpers';
+import { useStaticPoolDataContext } from '../../libs/pool-data-provider';
 
 export interface TxConfirmationViewProps {
   caption?: string;
@@ -63,6 +64,12 @@ export interface TxConfirmationViewProps {
 
   allowedChainIds?: ChainId[];
   aTokenData?: ATokenInfo;
+
+  getPermitSignatureRequest?: () => Promise<string>;
+  getPermitEnabledTransactionData?: (
+    signature: string
+  ) => Promise<EthereumTransactionTypeExtended[]>;
+  permitEnabled?: boolean;
 }
 
 export default function TxConfirmationView({
@@ -78,6 +85,8 @@ export default function TxConfirmationView({
   children,
 
   getTransactionsData,
+  getPermitSignatureRequest,
+  getPermitEnabledTransactionData,
   onMainTxExecuted,
   onMainTxConfirmed,
 
@@ -94,6 +103,7 @@ export default function TxConfirmationView({
   updateTransactionsData,
   allowedChainIds: _allowedChainIds,
   aTokenData,
+  permitEnabled,
 }: TxConfirmationViewProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -102,12 +112,16 @@ export default function TxConfirmationView({
   const [loadingTxData, setLoadingTxData] = useState(true);
   const [backendNotAvailable, setBackendNotAvailable] = useState(false);
   const { chainId: currentMarketChainId, networkConfig } = useProtocolDataContext();
+  const { userId } = useStaticPoolDataContext();
 
   // todo: do types more sophisticated
   const [uncheckedApproveTxData, setApproveTxData] = useState({} as EthTransactionData);
   const [uncheckedActionTxData, setActionTxData] = useState({} as EthTransactionData);
   const [selectedStep, setSelectedStep] = useState(1);
   const [unlockedSteps, setUnlockedSteps] = useState(1);
+  const [unsignedPermitData, setUnsignedPermitData] = useState<string | undefined>(undefined);
+  const [permitLoading, setPermitLoading] = useState<boolean>(false);
+  const [permitError, setPermitError] = useState<string | undefined>(undefined);
 
   /**
    * For some actions like e.g. stake/gov/migration we only allow certain networks (fork, kovan, mainnet).
@@ -154,6 +168,51 @@ export default function TxConfirmationView({
       })
     : undefined;
 
+  // Create permit signature payload and trigger wallet sign
+  // If successful, use signature to generate supplyWithPermit transaction
+  const handleSubmitPermitSignature = async () => {
+    if (provider && userId && unsignedPermitData && getPermitEnabledTransactionData) {
+      try {
+        setPermitLoading(true);
+        const signer = provider.getSigner(userId);
+        const unsignedPermitDataObject = JSON.parse(unsignedPermitData);
+        let permitTypes = unsignedPermitDataObject.types;
+        // leaving this field in types throws an error
+        // Ethers computes this automatically so this type can be removed: https://github.com/ethers-io/ethers.js/issues/687#issuecomment-714069471
+        delete permitTypes['EIP712Domain'];
+        const typedData = {
+          domain: unsignedPermitDataObject.domain,
+          types: permitTypes,
+          value: unsignedPermitDataObject.message,
+        };
+        console.log('DATA TO SIGN');
+        console.log(typedData);
+        const permitSignatureResponse = await signer._signTypedData(
+          unsignedPermitDataObject.domain,
+          permitTypes,
+          unsignedPermitDataObject.message
+        );
+        console.log('SIGNATURE RESPONSE');
+        console.log(permitSignatureResponse);
+        const supplyWithPermitTx = await getPermitEnabledTransactionData(permitSignatureResponse);
+        setActionTxData({
+          txType: supplyWithPermitTx[0].txType,
+          unsignedData: supplyWithPermitTx[0].tx,
+          gas: supplyWithPermitTx[0].gas,
+          name: mainTxName,
+        });
+        setPermitLoading(false);
+        setPermitError(undefined);
+        setSelectedStep(2);
+      } catch (e) {
+        setPermitError('Error with permit signature: ' + e);
+        setPermitLoading(false);
+      }
+    } else {
+      setPermitError('Error initializing permit signature');
+    }
+  };
+
   const handleGetTxData = async () => {
     try {
       const txs = await getTransactionsData();
@@ -184,6 +243,10 @@ export default function TxConfirmationView({
           gas: actionTx.gas,
           name: mainTxName,
         });
+      }
+      if (permitEnabled && getPermitSignatureRequest) {
+        const permitTxResponse = await getPermitSignatureRequest();
+        setUnsignedPermitData(permitTxResponse);
       }
       setLoadingTxData(false);
     } catch (e) {
@@ -294,6 +357,21 @@ export default function TxConfirmationView({
                       buttonTitle={intl.formatMessage(messages.approve)}
                     />
                   )}
+
+                {permitEnabled && selectedStep === 1 && (
+                  <ActionExecutionBox
+                    title={`${selectedStep}/${numberOfSteps + 1} ${
+                      backendNotAvailable
+                        ? intl.formatMessage(messages.errorTitle)
+                        : intl.formatMessage(messages.permit)
+                    }`}
+                    description={approveDescription}
+                    onSubmitTransaction={async () => handleSubmitPermitSignature()}
+                    loading={permitLoading}
+                    failed={permitError}
+                    buttonTitle={intl.formatMessage(messages.permit)}
+                  />
+                )}
 
                 {actionTxData && selectedStep === numberOfSteps && (
                   <ActionExecutionBox

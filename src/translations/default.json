@@ -149,6 +149,7 @@
   "components.TxConfirmationView.TxTopInfo.showError": "Show error",
   "components.TxConfirmationView.TxTopInfo.submit": "Submit",
   "components.TxConfirmationView.approve": "Approve",
+  "components.TxConfirmationView.permit": "Permit",
   "components.TxConfirmationView.checkboxText": "Don’t ask me to approve again",
   "components.TxConfirmationView.congratulations": "Congrats!",
   "components.TxConfirmationView.errorDescription": "It is not possible to complete the transaction at the moment, please try again later.",

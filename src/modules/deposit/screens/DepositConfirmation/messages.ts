@@ -5,6 +5,7 @@ export default defineMessages({
   caption: 'Deposit overview',
   boxDescription: 'Please submit to deposit',
   approveDescription: 'Please approve before depositing',
+  approveOrPermitDescription: 'Please approve or permit before depositing',
   valueRowTitle: 'Amount',
   newHealthFactor: 'New health factor',
 
