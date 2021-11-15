@@ -27,6 +27,17 @@ export interface ComputedReserveData extends FormatReserveResponse {
   priceInMarketReferenceCurrency: string;
   avg30DaysLiquidityRate?: string;
   avg30DaysVariableBorrowRate?: string;
+  // new fields, will not be optional once use-pool-data uses a single UiPoolDataProvider
+  isPaused?: boolean;
+  debtCeiling?: string;
+  eModeCategoryId?: number;
+  borrowCap?: string;
+  supplyCap?: string;
+  eModeLtv?: number;
+  eModeLiquidationThreshold?: number;
+  eModeLiquidationBonus?: number;
+  eModePriceSource?: string;
+  eModeLabel?: string;
 }
 
 export interface UserSummary extends FormatUserSummaryResponse {
