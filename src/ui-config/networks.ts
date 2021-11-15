@@ -57,7 +57,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCWSUrl: 'wss://polygon-rpc.com',
     addresses: {
       walletBalanceProvider: '0x34aa032bC416Cf2CdC45c0C8f065b1F19463D43e',
-      uiPoolDataProvider: '0x538C84EA84F655f2e04eBfAD4948abA9495A2Fc3',
+      uiPoolDataProvider: '0xd6741Bbe4F90CFD5dB612D0b008129Fc9696ecF2',
       uiIncentiveDataProvider: '0xC5093EDAC52f4DD68b42433eA8754B26eAbb1A48',
     },
     cachingServerUrl: 'https://cache-api-polygon.aave.com/graphql',
@@ -71,7 +71,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     rewardTokenDecimals: 18,
     incentivePrecision: 18,
     explorerLink: 'https://polygonscan.com',
-    rpcOnly: false,
+    rpcOnly: true,
     bridge: {
       brandColor: '130, 71, 229',
       name: 'Polygon PoS Bridge',
@@ -85,7 +85,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCWSUrl: 'wss://rpc-mumbai.maticvigil.com',
     addresses: {
       walletBalanceProvider: '0xEe7c0172c200e12AFEa3C34837052ec52F3f367A',
-      uiPoolDataProvider: '0xafcE41554C19FfC87293Fb30C33c17614f61e7eD',
+      uiPoolDataProvider: '0x8E53e38D0EAAb4D9728d5242C5C3D97B852E3Ce4',
       uiIncentiveDataProvider: '0x04110Dc40B04b99B94840E53B2a33bE45E45A8Ed',
     },
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/aave-v2-polygon-mumbai',
