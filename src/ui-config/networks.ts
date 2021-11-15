@@ -159,4 +159,33 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
       logo: avalancheBridgeLogo,
     },
   },
+  [ChainId.arbitrum_rinkeby]: {
+    name: 'Arbitrum Rinkeby',
+    publicJsonRPCUrl: ['https://rinkeby.arbitrum.io/rpc'],
+    publicJsonRPCWSUrl: 'wss://rinkeby.arbitrum.io/rpc',
+    addresses: {
+      walletBalanceProvider: '0x3092e3557521C186c44fB4D802007f2B4126b9b3',
+      uiPoolDataProvider: '0x01f7e505e43dA50e99f2F6841c3E8183c86E8432',
+      // uiIncentiveDataProvider: '0xD0fbc73f1E3be7267AA23D8d74194887a862e02e',
+    },
+    protocolDataUrl: '',
+    baseUniswapAdapter: '0x0',
+    baseAsset: 'ARETH',
+    baseAssetWrappedAddress: '0x217F76f6332aAC6854CAf224B98eD95412940151',
+    // incentives hardcoded information
+    rewardTokenSymbol: '',
+    rewardTokenAddress: '',
+    rewardTokenDecimals: 0,
+    incentivePrecision: 0,
+    explorerLink: 'https://testnet.arbiscan.io/',
+    rpcOnly: true,
+    usdMarket: true,
+    isTestnet: true,
+    bridge: {
+      brandColor: '232, 65, 66',
+      name: 'Arbitrum Bridge',
+      url: 'https://bridge.arbitrum.io',
+      logo: avalancheBridgeLogo, // TO-DO: Update
+    },
+  },
 } as const;
