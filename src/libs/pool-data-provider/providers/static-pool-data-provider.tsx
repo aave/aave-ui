@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { ReactElement, ReactNode, useContext } from 'react';
 import { API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import { useProtocolDataContext } from '../../protocol-data-provider';
