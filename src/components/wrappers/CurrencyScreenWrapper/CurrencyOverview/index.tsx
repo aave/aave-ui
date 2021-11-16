@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { valueToBigNumber } from '@aave/protocol-js';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
 
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useLanguageContext } from '../../../../libs/language-provider';
 // import { useReservesRateHistoryHelper } from '../../../../helpers/use-reserve-rates-history';
 import Row from '../../../basic/Row';
@@ -47,7 +46,6 @@ export default function CurrencyOverview({
 }: CurrencyOverviewProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { currentLangSlug } = useLanguageContext();
   const asset = getAssetInfo(currencySymbol);
 
@@ -58,9 +56,7 @@ export default function CurrencyOverview({
   const overviewData = {
     utilizationRate: Number(poolReserve.utilizationRate),
     availableLiquidity: poolReserve.availableLiquidity,
-    priceInUsd: valueToBigNumber(poolReserve.priceInMarketReferenceCurrency)
-      .multipliedBy(marketRefPriceInUsd)
-      .toNumber(),
+    priceInUsd: valueToBigNumber(poolReserve.priceInMarketReferenceCurrency).toNumber(),
     depositApy: Number(poolReserve.supplyAPY),
     avg30DaysLiquidityRate: Number(poolReserve.avg30DaysLiquidityRate),
     stableRate: Number(poolReserve.stableBorrowAPY),

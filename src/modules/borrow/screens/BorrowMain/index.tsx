@@ -27,7 +27,7 @@ import PermissionWarning from '../../../../ui-config/branding/PermissionWarning'
 
 export default function BorrowMain() {
   const intl = useIntl();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { marketRefPriceInUsd, marketRefCurrencyDecimals } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
   const { reserveIncentives } = useIncentivesDataContext();
   const { sm } = useThemeContext();
@@ -67,6 +67,7 @@ export default function BorrowMain() {
         const availableBorrowsInUSD = valueToBigNumber(availableBorrows)
           .multipliedBy(reserve.priceInMarketReferenceCurrency)
           .multipliedBy(marketRefPriceInUsd)
+          .shiftedBy(-marketRefCurrencyDecimals)
           .toString();
         const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
         return {
