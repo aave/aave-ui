@@ -97,20 +97,21 @@ function RepayAmount({
 
   const withAtokenBalance = +userReserve.underlyingBalance > 0;
 
-  const options = withAtokenBalance
-    ? [
-        {
-          label: currencySymbol,
-          value: poolReserve.underlyingAsset,
-          decimals: poolReserve.decimals,
-        },
-        {
-          label: asset && asset.formattedSymbol ? asset.formattedSymbol : '',
-          value: poolReserve.aTokenAddress,
-          decimals: poolReserve.decimals,
-        },
-      ]
-    : [];
+  const options =
+    withAtokenBalance && v3
+      ? [
+          {
+            label: currencySymbol,
+            value: poolReserve.underlyingAsset,
+            decimals: poolReserve.decimals,
+          },
+          {
+            label: asset && asset.formattedSymbol ? asset.formattedSymbol : '',
+            value: poolReserve.aTokenAddress,
+            decimals: poolReserve.decimals,
+          },
+        ]
+      : [];
 
   const setAsset = (address: string) => {
     setAssetAddress(address);
@@ -123,7 +124,7 @@ function RepayAmount({
       <BasicForm
         title={intl.formatMessage(messages.formTitle)}
         description={intl.formatMessage(
-          withAtokenBalance ? messages.formDescriptionWithSelect : messages.formDescription
+          withAtokenBalance && v3 ? messages.formDescriptionWithSelect : messages.formDescription
         )}
         maxAmount={maxAmountToRepay.toString(10)}
         amountFieldTitle={intl.formatMessage(messages.amountTitle)}

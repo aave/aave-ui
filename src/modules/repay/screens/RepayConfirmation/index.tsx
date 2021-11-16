@@ -10,6 +10,7 @@ import {
 import { PoolInterface } from '@aave/contract-helpers';
 
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import Row from '../../../../components/basic/Row';
 import NoDataPanel from '../../../../components/NoDataPanel';
@@ -37,6 +38,7 @@ function RepayConfirmation({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { marketRefPriceInUsd, networkConfig } = useStaticPoolDataContext();
+  const { currentMarketData } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
   const [isTxExecuted, setIsTxExecuted] = useState(false);
   const assetDetails = getAssetInfo(poolReserve.symbol);
@@ -44,7 +46,7 @@ function RepayConfirmation({
   const debtType = query.debtType ? (query.debtType as InterestRate) : InterestRate.Variable;
   const assetAddress = query.assetAddress ? (query.assetAddress as string) : '';
 
-  const repayWithATokens = assetAddress === poolReserve.aTokenAddress;
+  const repayWithATokens = assetAddress === poolReserve.aTokenAddress && currentMarketData.v3;
 
   if (!user) {
     return (
