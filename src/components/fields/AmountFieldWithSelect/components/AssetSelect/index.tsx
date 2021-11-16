@@ -128,7 +128,10 @@ export default function AssetSelect({
           >
             {!!activeAsset?.label ? (
               <TokenIcon
-                tokenSymbol={isAtoken(currentMarketData.aTokenPrefix, activeAsset.label).symbol}
+                tokenSymbol={isAtoken(
+                  currentMarketData.aTokenPrefix,
+                  activeAsset.label
+                ).symbol.toUpperCase()}
                 height={25}
                 width={25}
                 tokenFullName={
