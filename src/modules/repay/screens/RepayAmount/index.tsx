@@ -91,24 +91,29 @@ function RepayAmount({
     symbol: currencySymbol,
     decimals: poolReserve.decimals,
     prefix: currentMarketData.aTokenPrefix,
-    withFormattedSymbol: false,
+    withFormattedSymbol: true,
   });
   console.log('asset:: ', asset);
-
+  // TODO: when using aToken also use the aToken icon instead of tokenIcon
   return (
     <>
-      <div onClick={() => setRepayWithATokens(!repayWithATokens)}>selector</div>
       <BasicForm
         title={intl.formatMessage(defaultMessages.repay)}
         description={intl.formatMessage(messages.formDescription)}
         maxAmount={maxAmountToRepay.toString(10)}
         amountFieldTitle={intl.formatMessage(messages.amountTitle)}
-        currencySymbol={currencySymbol}
+        currencySymbol={
+          repayWithATokens && asset.formattedSymbol ? asset.formattedSymbol : currencySymbol
+        }
         onSubmit={handleSubmit}
         absoluteMaximum={true}
         maxDecimals={poolReserve.decimals}
         getTransactionData={repayWithATokens ? handleGetTransactions : handleGetATokenTransactions}
       />
+
+      <div onClick={() => setRepayWithATokens(!repayWithATokens)}>
+        change this to correct dropdown (click to toggle between token and aToken)
+      </div>
 
       <InfoWrapper>
         <RepayInfoPanel />
