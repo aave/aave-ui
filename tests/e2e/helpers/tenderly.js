@@ -1,5 +1,8 @@
 require("dotenv").config();
 const axios = require("axios");
+const {ethers} = require("ethers");
+const ERC20_ABI = require("../fixtures/erc20_abi.json")
+
 
 module.exports = class TenderlyFork {
 
@@ -40,6 +43,23 @@ module.exports = class TenderlyFork {
         { accounts: [address], amount: amount }
     );
   }
+
+  async getERC20Token(walletAddress, tokenAddress){
+    let _url = this.get_rpc_url();
+    let provider = ethers.getDefaultProvider(_url);
+    const TOP_HOLDER_ADDRESS = await this.getTopHolder(tokenAddress);
+    const topHolderSigner = await provider.getSigner(TOP_HOLDER_ADDRESS)
+    const token = new ethers.Contract(tokenAddress, ERC20_ABI, topHolderSigner);
+// Transfer 1000 AAVE
+    await token.transfer(walletAddress, ethers.utils.parseEther('1000'))
+  }
+
+  async getTopHolder(token){
+    const res = await axios.get(
+      `https://ethplorer.io/service/service.php?data=${token}&page=tab%3Dtab-holders%26pageSize%3D10%26holders%3D1`
+    );
+    return res.data.holders[0].address;
+  };
 
   async deleteFork() {
     await this._tenderly.delete(
