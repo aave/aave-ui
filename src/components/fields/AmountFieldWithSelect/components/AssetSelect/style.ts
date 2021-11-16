@@ -90,6 +90,10 @@ const staticStyles = css.global`
       }
     }
 
+    &__arrowActive {
+      transform: rotate(180deg);
+    }
+
     .DropdownWrapper__contentVisible {
       width: calc(100% + 10px);
       box-shadow: none !important;
@@ -103,6 +107,9 @@ const staticStyles = css.global`
       flex-direction: column;
       height: 500px;
       padding: 0 5px;
+      @include respond-to(sm) {
+        height: 300px;
+      }
       .CustomScroll {
         > div {
           &:first-of-type {
@@ -120,14 +127,17 @@ const staticStyles = css.global`
       flex: auto;
       height: 1px;
       min-height: 114px;
-      max-height: 250px;
+      max-height: 220px;
       box-shadow: $boxShadow;
       @include respond-to(xl) {
         min-height: 94px;
-        max-height: 205px;
+        max-height: 160px;
       }
       @include respond-to(md) {
-        max-height: 230px;
+        max-height: 170px;
+      }
+      @include respond-to(sm) {
+        max-height: 150px;
       }
     }
     &__contentWithoutScroll {

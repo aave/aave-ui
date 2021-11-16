@@ -7,6 +7,7 @@ import {
   BigNumber,
   InterestRate,
 } from '@aave/protocol-js';
+import { PoolInterface } from '@aave/contract-helpers';
 
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
@@ -41,6 +42,9 @@ function RepayConfirmation({
   const assetDetails = getAssetInfo(poolReserve.symbol);
   const query = queryString.parse(location.search);
   const debtType = query.debtType ? (query.debtType as InterestRate) : InterestRate.Variable;
+  const assetAddress = query.assetAddress ? (query.assetAddress as string) : '';
+
+  const repayWithATokens = assetAddress === poolReserve.aTokenAddress;
 
   if (!user) {
     return (
@@ -51,9 +55,11 @@ function RepayConfirmation({
       />
     );
   }
+
   if (!amount || !userReserve) {
     return null;
   }
+
   const maxAmountToRepay = valueToBigNumber(
     debtType === InterestRate.Stable ? userReserve.stableBorrows : userReserve.variableBorrows
   );
@@ -94,7 +100,15 @@ function RepayConfirmation({
       user: user.id,
       reserve: poolReserve.underlyingAsset,
       amount: amountToRepay.toString(),
-      interestRateMode: debtType,
+      interestRateMode: debtType as InterestRate,
+    });
+
+  const handleGetATokenTransactions = async () =>
+    await (lendingPool as PoolInterface).repayWithATokens({
+      user: user.id,
+      reserve: poolReserve.aTokenAddress,
+      amount: amountToRepay.toString(),
+      rateMode: debtType as InterestRate,
     });
 
   const handleMainTxExecuted = () => setIsTxExecuted(true);
@@ -122,7 +136,7 @@ function RepayConfirmation({
       boxTitle={intl.formatMessage(defaultMessages.repay)}
       boxDescription={intl.formatMessage(messages.boxDescription)}
       approveDescription={intl.formatMessage(messages.approveDescription)}
-      getTransactionsData={handleGetTransactions}
+      getTransactionsData={repayWithATokens ? handleGetTransactions : handleGetATokenTransactions}
       onMainTxExecuted={handleMainTxExecuted}
       blockingError={blockingError}
       goToAfterSuccess="/dashboard/borrowings"

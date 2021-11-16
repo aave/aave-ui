@@ -1,8 +1,11 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
+  formTitle: 'Repay from wallet balance',
+  formDescription: 'Set the amount to repay',
+  formDescriptionWithSelect: 'Select an asset and set the amount to repay',
   amountTitle: 'Available to repay',
-  formDescription: 'How much do you want to repay?',
+  selectTitle: 'Select an asset',
 
   error: 'Incorrect connection to HOC',
   select: 'Select and asset',

@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { BigNumber, InterestRate } from '@aave/protocol-js';
+import { PoolInterface } from '@aave/contract-helpers';
 
+import { useTxBuilderContext } from '../../../../libs/tx-provider';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import BasicForm from '../../../../components/forms/BasicForm';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
@@ -11,13 +15,7 @@ import InfoWrapper from '../../../../components/wrappers/InfoWrapper';
 import InfoPanel from '../../../../components/InfoPanel';
 import RepayInfoPanel from '../../components/RepayInfoPanel';
 
-import { useTxBuilderContext } from '../../../../libs/tx-provider';
-import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-import { PoolInterface } from '@aave/contract-helpers';
-import { getAssetInfo } from '@aave/aave-ui-kit';
-import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 
 function RepayAmount({
   currencySymbol,
@@ -32,11 +30,14 @@ function RepayAmount({
   const { lendingPool } = useTxBuilderContext();
   const query = queryString.parse(location.search);
   const debtType = query.debtType || InterestRate.Variable;
-  const [repayWithATokens, setRepayWithATokens] = useState(false);
+
+  const [assetAddress, setAssetAddress] = useState(poolReserve.underlyingAsset);
   const [maxAmountToRepay, setMaxAmountToRepay] = useState(new BigNumber(0));
+
   if (!userReserve) {
     throw new Error(intl.formatMessage(messages.error));
   }
+
   const { v3 } = currentMarketData;
   const { underlyingBalance } = userReserve;
   // useWalletBalanceProviderContext()
@@ -45,28 +46,27 @@ function RepayAmount({
   // console.log('aTokenBalance: ', userReserve.underlyingBalance);
   // console.log('aTokenBalanceUSD: ', userReserve.underlyingBalanceUSD);
 
+  const repayWithATokens = assetAddress === poolReserve.aTokenAddress;
+
   useEffect(() => {
+    const interestRate =
+      debtType === InterestRate.Stable ? userReserve.stableBorrows : userReserve.variableBorrows;
+
     if (repayWithATokens) {
-      const maxAmountToRepay = BigNumber.min(
-        new BigNumber(underlyingBalance),
-        debtType === InterestRate.Stable ? userReserve.stableBorrows : userReserve.variableBorrows
-      );
+      const maxAmountToRepay = BigNumber.min(new BigNumber(underlyingBalance), interestRate);
       setMaxAmountToRepay(maxAmountToRepay);
     } else {
       const normalizedWalletBalance = walletBalance.minus(
         userReserve.reserve.symbol.toUpperCase() === networkConfig.baseAsset ? '0.004' : '0'
       );
 
-      const maxAmountToRepay = BigNumber.min(
-        normalizedWalletBalance,
-        debtType === InterestRate.Stable ? userReserve.stableBorrows : userReserve.variableBorrows
-      );
+      const maxAmountToRepay = BigNumber.min(normalizedWalletBalance, interestRate);
       setMaxAmountToRepay(maxAmountToRepay);
     }
   }, [walletBalance, underlyingBalance, repayWithATokens]);
 
   const handleSubmit = (amount: string, max?: boolean) => {
-    const query = queryString.stringify({ debtType, amount: max ? '-1' : amount });
+    const query = queryString.stringify({ debtType, amount: max ? '-1' : amount, assetAddress });
     history.push(`${history.location.pathname}confirmation?${query}`);
   };
 
@@ -94,14 +94,37 @@ function RepayAmount({
     prefix: currentMarketData.aTokenPrefix,
     withFormattedSymbol: true,
   });
-  console.log('asset:: ', asset);
-  // TODO: when using aToken also use the aToken icon instead of tokenIcon
-  // TODO: use v3 to allow repay as collateral
+
+  const withAtokenBalance = +userReserve.underlyingBalance > 0 && v3;
+
+  const options = withAtokenBalance
+    ? [
+        {
+          label: currencySymbol,
+          value: poolReserve.underlyingAsset,
+          decimals: poolReserve.decimals,
+        },
+        {
+          label: asset && asset.formattedSymbol ? asset.formattedSymbol : '',
+          value: poolReserve.aTokenAddress,
+          decimals: poolReserve.decimals,
+        },
+      ]
+    : [];
+
+  const setAsset = (address: string) => {
+    setAssetAddress(address);
+  };
+
+  // console.log('asset:: ', asset);
+
   return (
     <>
       <BasicForm
-        title={intl.formatMessage(defaultMessages.repay)}
-        description={intl.formatMessage(messages.formDescription)}
+        title={intl.formatMessage(messages.formTitle)}
+        description={intl.formatMessage(
+          withAtokenBalance ? messages.formDescriptionWithSelect : messages.formDescription
+        )}
         maxAmount={maxAmountToRepay.toString(10)}
         amountFieldTitle={intl.formatMessage(messages.amountTitle)}
         currencySymbol={
@@ -111,11 +134,12 @@ function RepayAmount({
         absoluteMaximum={true}
         maxDecimals={poolReserve.decimals}
         getTransactionData={repayWithATokens ? handleGetTransactions : handleGetATokenTransactions}
+        assetAddress={assetAddress}
+        options={options}
+        setAsset={setAsset}
+        amountTitle={intl.formatMessage(messages.amountTitle)}
+        selectTitle={intl.formatMessage(messages.selectTitle)}
       />
-
-      <div onClick={() => setRepayWithATokens(!repayWithATokens)}>
-        change this to correct dropdown (click to toggle between token and aToken)
-      </div>
 
       <InfoWrapper>
         <RepayInfoPanel />
