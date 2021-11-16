@@ -176,20 +176,16 @@ export default function TxConfirmationView({
         setPermitLoading(true);
         const signer = provider.getSigner(userId);
         const unsignedPermitDataObject = JSON.parse(unsignedPermitData);
-        let permitTypes = unsignedPermitDataObject.types;
-        // leaving this field in types throws an error
-        // Ethers computes this automatically so this type can be removed: https://github.com/ethers-io/ethers.js/issues/687#issuecomment-714069471
-        delete permitTypes['EIP712Domain'];
         const typedData = {
           domain: unsignedPermitDataObject.domain,
-          types: permitTypes,
+          types: unsignedPermitDataObject.types,
           value: unsignedPermitDataObject.message,
         };
         console.log('DATA TO SIGN');
         console.log(typedData);
         const permitSignatureResponse = await signer._signTypedData(
           unsignedPermitDataObject.domain,
-          permitTypes,
+          unsignedPermitDataObject.types,
           unsignedPermitDataObject.message
         );
         console.log('SIGNATURE RESPONSE');
@@ -358,7 +354,7 @@ export default function TxConfirmationView({
                     />
                   )}
 
-                {permitEnabled && selectedStep === 1 && (
+                {permitEnabled && approveTxData && selectedStep === 1 && (
                   <ActionExecutionBox
                     title={`${selectedStep}/${numberOfSteps + 1} ${
                       backendNotAvailable
