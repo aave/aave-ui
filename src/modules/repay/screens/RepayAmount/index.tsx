@@ -37,6 +37,7 @@ function RepayAmount({
   if (!userReserve) {
     throw new Error(intl.formatMessage(messages.error));
   }
+  const { v3 } = currentMarketData;
   const { underlyingBalance } = userReserve;
   // useWalletBalanceProviderContext()
   // console.log('wallet balance: ', walletBalance.toString());
@@ -95,6 +96,7 @@ function RepayAmount({
   });
   console.log('asset:: ', asset);
   // TODO: when using aToken also use the aToken icon instead of tokenIcon
+  // TODO: use v3 to allow repay as collateral
   return (
     <>
       <BasicForm

@@ -146,6 +146,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
   //   },
   // },
   [CustomMarket.proto_arbitrum_rinkeby]: {
+    v3: true,
     chainId: ChainId.arbitrum_rinkeby,
     logo: logos.aaveLogo,
     activeLogo: logos.aaveActiveLogo,
