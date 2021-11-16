@@ -46,7 +46,7 @@ function RepayAmount({
   // console.log('aTokenBalance: ', userReserve.underlyingBalance);
   // console.log('aTokenBalanceUSD: ', userReserve.underlyingBalanceUSD);
 
-  const repayWithATokens = assetAddress === poolReserve.aTokenAddress;
+  const repayWithATokens = assetAddress === poolReserve.aTokenAddress && v3;
 
   useEffect(() => {
     const interestRate =
@@ -95,7 +95,7 @@ function RepayAmount({
     withFormattedSymbol: true,
   });
 
-  const withAtokenBalance = +userReserve.underlyingBalance > 0 && v3;
+  const withAtokenBalance = +userReserve.underlyingBalance > 0;
 
   const options = withAtokenBalance
     ? [
