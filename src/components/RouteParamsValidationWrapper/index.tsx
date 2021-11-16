@@ -48,7 +48,7 @@ export default function routeParamValidationHOC({
       const underlyingAsset = match.params.underlyingAsset.toUpperCase();
       const reserveId = match.params.id;
 
-      const { marketRefPriceInUsd, walletData } = useStaticPoolDataContext();
+      const { walletData } = useStaticPoolDataContext();
       const { reserves, user } = useDynamicPoolDataContext();
 
       const poolReserve = reserves.find((res) =>
@@ -107,9 +107,9 @@ export default function routeParamValidationHOC({
         }
       }
 
-      const walletBalanceUSD = valueToBigNumber(walletBalance)
-        .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-        .multipliedBy(marketRefPriceInUsd);
+      const walletBalanceUSD = valueToBigNumber(
+        walletData[poolReserve.underlyingAsset]?.amountUSD || '0'
+      );
 
       const props = {
         poolReserve,

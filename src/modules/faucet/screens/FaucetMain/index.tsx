@@ -24,12 +24,7 @@ export default function FaucetMain() {
       (reserve) => reserve.symbol.toUpperCase() !== networkConfig.baseAsset && !reserve.isFrozen
     )
     .map<FaucetTableItem>((reserve) => {
-      const walletBalance =
-        walletData[reserve.underlyingAsset]?.amount === '0'
-          ? valueToBigNumber('0')
-          : valueToBigNumber(walletData[reserve.underlyingAsset].amount).dividedBy(
-              valueToBigNumber('10').pow(reserve.decimals)
-            );
+      const walletBalance = valueToBigNumber(walletData[reserve.underlyingAsset]?.amount || '0');
       return {
         ...reserve,
         walletBalance,

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { PERMISSION } from '@aave/contract-helpers';
 
@@ -28,7 +27,7 @@ import PermissionWarning from '../../../../ui-config/branding/PermissionWarning'
 
 export default function DepositsMain() {
   const intl = useIntl();
-  const { marketRefPriceInUsd, walletData } = useStaticPoolDataContext();
+  const { walletData } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
   const { reserveIncentives } = useIncentivesDataContext();
   const { sm } = useThemeContext();
@@ -64,14 +63,8 @@ export default function DepositsMain() {
         const userReserve = user?.userReservesData.find(
           (userRes) => userRes.reserve.symbol === reserve.symbol
         );
-        const walletBalance =
-          walletData[reserve.underlyingAsset].amount === '0'
-            ? valueToBigNumber('0')
-            : valueToBigNumber(walletData[reserve.underlyingAsset].amount || '0');
-        const walletBalanceInUSD = walletBalance
-          .multipliedBy(reserve.priceInMarketReferenceCurrency)
-          .multipliedBy(marketRefPriceInUsd)
-          .toString();
+        const walletBalance = walletData[reserve.underlyingAsset]?.amount || '0';
+        const walletBalanceInUSD = walletData[reserve.underlyingAsset]?.amountUSD || '0';
         const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
         return {
           ...reserve,

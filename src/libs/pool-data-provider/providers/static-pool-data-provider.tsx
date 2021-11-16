@@ -12,7 +12,8 @@ import { usePoolData } from '../hooks/use-pool-data';
 import { ReserveDataHumanized, UserReserveDataHumanized } from '@aave/contract-helpers';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { usePolling } from '../../hooks/use-polling';
-import { normalize } from '@aave/math-utils';
+import { nativeToUSD, normalize } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
 
 /**
  * removes the marketPrefix from a symbol
@@ -40,7 +41,7 @@ export interface StaticPoolDataContextData {
   marketRefPriceInUsd: string;
   WrappedBaseNetworkAssetAddress: string;
   refresh: () => Promise<void>;
-  walletData: { [address: string]: { amount: string } };
+  walletData: { [address: string]: { amount: string; amountUSD: string } };
   refetchWalletData: () => {};
 }
 
@@ -61,7 +62,9 @@ export function StaticPoolDataProvider({
   const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
-  const [walletData, setWalletsBalance] = useState<{ [address: string]: { amount: string } }>({});
+  const [walletData, setWalletsBalance] = useState<{
+    [address: string]: { amount: string; amountUSD: string };
+  }>({});
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
 
   const {
@@ -103,6 +106,7 @@ export function StaticPoolDataProvider({
 
     const aggregatedBalance = reserves.reduce((acc, reserve, i) => {
       const poolReserve = activeData.reserves?.reservesData.find((poolReserve) => {
+        // TODO: not 100% sure this is correct
         if (reserve.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()) {
           return (
             poolReserve.underlyingAsset.toLowerCase() ===
@@ -111,12 +115,20 @@ export function StaticPoolDataProvider({
         }
         return poolReserve.underlyingAsset.toLowerCase() === reserve.toLowerCase();
       });
-      if (!poolReserve) throw new Error('bla');
-      acc[reserve.toLowerCase()] = {
-        amount: normalize(balances[i].toString(), poolReserve.decimals),
-      };
+      if (poolReserve) {
+        acc[reserve.toLowerCase()] = {
+          amount: normalize(balances[i].toString(), poolReserve.decimals),
+          amountUSD: nativeToUSD({
+            amount: new BigNumber(balances[i].toString()),
+            currencyDecimals: poolReserve.decimals,
+            priceInMarketReferenceCurrency: poolReserve.priceInMarketReferenceCurrency,
+            marketRefCurrencyDecimals,
+            marketRefPriceInUsd,
+          }),
+        };
+      }
       return acc;
-    }, {} as { [address: string]: { amount: string } });
+    }, {} as { [address: string]: { amount: string; amountUSD: string } });
     setWalletsBalance(aggregatedBalance);
   }
 
