@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useContext } from 'react';
+import React, { ReactElement, ReactNode, useContext, useState } from 'react';
 import { API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useUserWalletDataContext } from '../../web3-data-provider';
@@ -7,9 +7,11 @@ import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/
 import { useApolloConfigContext } from '../../apollo-config';
 import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
 import { assetsOrder } from '../../../ui-config/assets';
-import { ChainId } from '@aave/contract-helpers';
+import { ChainId, WalletBalanceProvider } from '@aave/contract-helpers';
 import { usePoolData } from '../hooks/use-pool-data';
 import { ReserveDataHumanized, UserReserveDataHumanized } from '@aave/contract-helpers';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
+import { usePolling } from '../../hooks/use-polling';
 
 /**
  * removes the marketPrefix from a symbol
@@ -37,6 +39,8 @@ export interface StaticPoolDataContextData {
   marketRefPriceInUsd: string;
   WrappedBaseNetworkAssetAddress: string;
   refresh: () => Promise<void>;
+  walletData: { [address: string]: string };
+  refetchWalletData: () => {};
 }
 
 const StaticPoolDataContext = React.createContext({} as StaticPoolDataContextData);
@@ -56,6 +60,7 @@ export function StaticPoolDataProvider({
   const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
+  const [walletData, setWalletsBalance] = useState<{ [address: string]: string }>({});
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
 
   const {
@@ -80,6 +85,29 @@ export function StaticPoolDataProvider({
     !isRPCActive,
     currentAccount
   );
+
+  async function fetchWalletData() {
+    if (!currentAccount) return;
+    const contract = new WalletBalanceProvider({
+      walletBalanceProviderAddress: networkConfig.addresses.walletBalanceProvider,
+      provider: getProvider(chainId),
+    });
+    const { 0: reserves, 1: balances } = await contract.getUserWalletBalancesForLendingPoolProvider(
+      currentAccount,
+      currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER
+    );
+
+    const aggregatedBalance = reserves.reduce((acc, reserve, i) => {
+      acc[reserve.toLowerCase()] = balances[i].toString();
+      return acc;
+    }, {} as { [address: string]: string });
+    setWalletsBalance(aggregatedBalance);
+  }
+
+  usePolling(fetchWalletData, 30000, !currentAccount, [
+    currentAccount,
+    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+  ]);
 
   const activeData = isRPCActive && rpcData ? rpcData : cachedData;
   if ((isRPCActive && rpcDataLoading && !rpcData) || (!isRPCActive && cachedDataLoading)) {
@@ -176,6 +204,8 @@ export function StaticPoolDataProvider({
         marketRefPriceInUsd: marketRefPriceInUsd,
         marketRefCurrencyDecimals,
         isUserHasDeposits,
+        walletData,
+        refetchWalletData: fetchWalletData,
       }}
     >
       {children}

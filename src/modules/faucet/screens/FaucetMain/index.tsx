@@ -10,13 +10,11 @@ import FaucetAssetTable from '../../components/FaucetAssetTable';
 import messages from './messages';
 
 import { FaucetTableItem } from '../../components/FaucetAssetTable/types';
-import { useWalletBalanceProviderContext } from '../../../../libs/wallet-balance-provider/WalletBalanceProvider';
 
 export default function FaucetMain() {
   const intl = useIntl();
-  const { userId, rawReserves, networkConfig } = useStaticPoolDataContext();
+  const { userId, rawReserves, networkConfig, walletData } = useStaticPoolDataContext();
 
-  const { walletData } = useWalletBalanceProviderContext();
   if (!walletData) {
     return <Preloader />;
   }

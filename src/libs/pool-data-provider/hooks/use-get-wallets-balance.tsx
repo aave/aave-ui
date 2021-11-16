@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { normalize } from '@aave/protocol-js';
 
-import { WalletBalanceProviderFactory } from '../contracts/WalletBalanceProviderContract';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { getNetworkConfig, getProvider } from '../../../helpers/config/markets-and-network-config';
-import { ChainId } from '@aave/contract-helpers';
+import { ChainId, WalletBalanceProvider } from '@aave/contract-helpers';
 
 interface AddressBalance {
   [key: string]: string;
@@ -31,10 +30,10 @@ const retrieveBalances = async (
   }
   const networkConfig = getNetworkConfig(chainId);
   const provider = getProvider(chainId);
-  const walletBalanceContract = WalletBalanceProviderFactory.connect(
-    networkConfig.addresses.walletBalanceProvider,
-    provider
-  );
+  const walletBalanceContract = new WalletBalanceProvider({
+    walletBalanceProviderAddress: networkConfig.addresses.walletBalanceProvider,
+    provider,
+  });
   try {
     const balances = await walletBalanceContract.batchBalanceOf(addresses, reserveAssets);
     return addresses.map<WalletBalance>((address, addressIndex) => {

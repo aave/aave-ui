@@ -26,7 +26,6 @@ import StaticPoolDataProviderWrapper from './components/PoolDataProviderWrapper'
 import ErrorBoundary from './components/ErrorBoundary';
 
 import globalStyle from './globalStyle';
-import { WalletBalanceProvider } from './libs/wallet-balance-provider/WalletBalanceProvider';
 import { IPFS_MODE } from './helpers/config/misc-config';
 import {
   getDefaultChainId,
@@ -73,17 +72,15 @@ ReactDOM.render(
                           connectWalletModal={ConnectWalletModal}
                         >
                           <PermissionProvider>
-                            <WalletBalanceProvider>
-                              <StaticPoolDataProviderWrapper>
-                                <DynamicPoolDataProvider>
-                                  <IncentivesDataProvider>
-                                    <TxBuilderProvider>
-                                      <App />
-                                    </TxBuilderProvider>
-                                  </IncentivesDataProvider>
-                                </DynamicPoolDataProvider>
-                              </StaticPoolDataProviderWrapper>
-                            </WalletBalanceProvider>
+                            <StaticPoolDataProviderWrapper>
+                              <DynamicPoolDataProvider>
+                                <IncentivesDataProvider>
+                                  <TxBuilderProvider>
+                                    <App />
+                                  </TxBuilderProvider>
+                                </IncentivesDataProvider>
+                              </DynamicPoolDataProvider>
+                            </StaticPoolDataProviderWrapper>
                           </PermissionProvider>
                         </Web3Provider>
                       </ErrorBoundary>

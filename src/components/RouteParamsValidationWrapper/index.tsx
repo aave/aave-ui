@@ -15,7 +15,6 @@ import Preloader from '../basic/Preloader';
 import ErrorPage from '../ErrorPage';
 
 import messages from './messages';
-import { useWalletBalanceProviderContext } from '../../libs/wallet-balance-provider/WalletBalanceProvider';
 import { ComputedUserReserve } from '@aave/math-utils';
 
 export interface ValidationWrapperComponentProps
@@ -49,7 +48,7 @@ export default function routeParamValidationHOC({
       const underlyingAsset = match.params.underlyingAsset.toUpperCase();
       const reserveId = match.params.id;
 
-      const { marketRefPriceInUsd } = useStaticPoolDataContext();
+      const { marketRefPriceInUsd, walletData } = useStaticPoolDataContext();
       const { reserves, user } = useDynamicPoolDataContext();
 
       const poolReserve = reserves.find((res) =>
@@ -67,9 +66,6 @@ export default function routeParamValidationHOC({
 
       const currencySymbol = poolReserve?.symbol || '';
 
-      const { walletData } = useWalletBalanceProviderContext({
-        skip: !withWalletBalance || !poolReserve || (withUserReserve && !userReserve),
-      });
       if (!walletData) {
         return <Preloader withText={true} />;
       }
