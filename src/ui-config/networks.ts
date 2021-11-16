@@ -97,18 +97,22 @@ export const networkConfigs: { [key: string]: BaseNetworkConfig } = {
   [Network.kovan]: {
     publicJsonRPCUrl: 'https://kovan.poa.network ',
     walletBalanceProvider: '0x07DC923859b68e9399d787bf52c4Aa9eBe3490aF',
-    uiPoolDataProvider: '0x9D5a2658723aD9F618FD1Bd78ada08E43A2a1906',
+    uiPoolDataProvider: '0x9488666dB59C1Fe26a047737600fdD0C50c2964b',
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-kovan',
     baseUniswapAdapter: '0xf86Be05f535EC2d217E4c6116B3fa147ee5C05A1',
     baseAsset: 'ETH',
     // incentives hardcoded information
-    rewardTokenSymbol: 'stkAAVE',
-    rewardTokenAddress: '0xb597cd8d3217ea6477232f9217fa70837ff667af',
+    rewardTokenSymbol: 'wCFG',
+    rewardTokenAddress: '0x9c3c9283d3e44854697cd22d3faa240cfb032889',
     rewardTokenDecimals: 18,
     incentivePrecision: 18,
     explorerLink: 'https://kovan.etherscan.com',
     rpcOnly: true,
     isTestnet: true,
+    addresses: {
+      INCENTIVES_CONTROLLER: '0x2c28827845528664160dbfF1eDecabf15634A70a',
+      INCENTIVES_CONTROLLER_REWARD_TOKEN: '0xd4fc010E195eaa4ACE923e7456feE062BB3Fc5c8',
+    },
   },
   [Network.mainnet]: {
     ...mainnet_config,

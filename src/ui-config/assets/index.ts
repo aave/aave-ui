@@ -71,6 +71,13 @@ export const assetsList: Asset[] = [
     icon: 'https://storage.googleapis.com/tinlake/pool-media/branch-3/drop.png',
     aIcon: 'https://storage.googleapis.com/tinlake/pool-media/branch-3/drop.png',
   },
+  {
+    name: 'wCFG',
+    symbol: 'wCFG',
+    color: '#f7b14a',
+    icon: 'https://tinlake.centrifuge.io/static/cfg-white.svg',
+    aIcon: 'https://tinlake.centrifuge.io/static/cfg-white.svg',
+  },
 ];
 
 export const assetsOrder: string[] = [];
