@@ -15,4 +15,6 @@ export type BorrowTableItem = {
   vincentivesAPR: string;
   sincentivesAPR: string;
   aincentivesAPR: string;
+  borrowCap: string;
+  borrowCapUSD: string;
 };

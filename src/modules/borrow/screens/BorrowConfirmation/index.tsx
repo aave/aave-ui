@@ -125,6 +125,7 @@ function BorrowConfirmation({
 
   const handleGetTransactions = async () => {
     const referralCode = getReferralCode() || undefined;
+    console.log(amount.toString());
     return await lendingPool.borrow({
       interestRateMode,
       referralCode,

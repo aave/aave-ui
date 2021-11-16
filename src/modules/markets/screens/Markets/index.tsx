@@ -65,6 +65,10 @@ export default function Markets() {
         aincentivesAPR: reserveIncentiveData ? reserveIncentiveData.aIncentives.incentiveAPR : '0',
         vincentivesAPR: reserveIncentiveData ? reserveIncentiveData.vIncentives.incentiveAPR : '0',
         sincentivesAPR: reserveIncentiveData ? reserveIncentiveData.sIncentives.incentiveAPR : '0',
+        borrowCap: reserve.borrowCap,
+        borrowCapUSD: reserve.borrowCapUSD,
+        supplyCap: reserve.supplyCap,
+        supplyCapUSD: reserve.supplyCapUSD,
       };
     });
 

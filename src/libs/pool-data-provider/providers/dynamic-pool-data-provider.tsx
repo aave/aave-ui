@@ -70,6 +70,8 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
       marketRefCurrencyDecimals,
       marketRefPriceInUsd,
     });
+    if (reserve.symbol === 'DAI') console.log(reserve, formattedReserve);
+
     const fullReserve: ComputedReserveData = {
       ...reserve,
       ...formattedReserve,
