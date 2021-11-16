@@ -176,7 +176,9 @@ export default function EditorModal({
                   <Value value={Number(estimation)} symbol="ETH" />
                   <span className="TxEstimationModal__contentValues--separator">/</span>
                   <Value
-                    value={valueToBigNumber(estimation).div(marketRefPriceInUsd).toNumber()}
+                    value={valueToBigNumber(estimation)
+                      .multipliedBy(marketRefPriceInUsd)
+                      .toNumber()}
                     symbol="USD"
                   />
                 </div>
@@ -194,7 +196,9 @@ export default function EditorModal({
               <span className="TxEstimationModal__contentValues--separator">/</span>
               <Value
                 className="TxEstimationModal__total"
-                value={valueToBigNumber(totalEstimation).div(marketRefPriceInUsd).toNumber()}
+                value={valueToBigNumber(totalEstimation)
+                  .multipliedBy(marketRefPriceInUsd)
+                  .toNumber()}
                 symbol="USD"
               />
             </div>
