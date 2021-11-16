@@ -80,8 +80,8 @@ export default function routeParamValidationHOC({
       }
 
       const walletBalance = valueToBigNumber(
-        walletData[poolReserve.underlyingAsset] || '0'
-      ).dividedBy(valueToBigNumber(10).pow(poolReserve.decimals));
+        walletData[poolReserve.underlyingAsset]?.amount || '0'
+      );
       let isWalletBalanceEnough = true;
 
       let amount = undefined;

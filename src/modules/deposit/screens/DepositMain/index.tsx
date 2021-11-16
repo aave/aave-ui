@@ -65,11 +65,9 @@ export default function DepositsMain() {
           (userRes) => userRes.reserve.symbol === reserve.symbol
         );
         const walletBalance =
-          walletData[reserve.underlyingAsset] === '0'
+          walletData[reserve.underlyingAsset].amount === '0'
             ? valueToBigNumber('0')
-            : valueToBigNumber(walletData[reserve.underlyingAsset] || '0').dividedBy(
-                valueToBigNumber('10').pow(reserve.decimals)
-              );
+            : valueToBigNumber(walletData[reserve.underlyingAsset].amount || '0');
         const walletBalanceInUSD = walletBalance
           .multipliedBy(reserve.priceInMarketReferenceCurrency)
           .multipliedBy(marketRefPriceInUsd)

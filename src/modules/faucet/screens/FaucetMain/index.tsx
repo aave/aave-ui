@@ -25,9 +25,9 @@ export default function FaucetMain() {
     )
     .map<FaucetTableItem>((reserve) => {
       const walletBalance =
-        walletData[reserve.underlyingAsset] === '0'
+        walletData[reserve.underlyingAsset]?.amount === '0'
           ? valueToBigNumber('0')
-          : valueToBigNumber(walletData[reserve.underlyingAsset] || '0').dividedBy(
+          : valueToBigNumber(walletData[reserve.underlyingAsset].amount).dividedBy(
               valueToBigNumber('10').pow(reserve.decimals)
             );
       return {

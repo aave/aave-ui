@@ -12,6 +12,7 @@ import { usePoolData } from '../hooks/use-pool-data';
 import { ReserveDataHumanized, UserReserveDataHumanized } from '@aave/contract-helpers';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { usePolling } from '../../hooks/use-polling';
+import { normalize } from '@aave/math-utils';
 
 /**
  * removes the marketPrefix from a symbol
@@ -39,7 +40,7 @@ export interface StaticPoolDataContextData {
   marketRefPriceInUsd: string;
   WrappedBaseNetworkAssetAddress: string;
   refresh: () => Promise<void>;
-  walletData: { [address: string]: string };
+  walletData: { [address: string]: { amount: string } };
   refetchWalletData: () => {};
 }
 
@@ -60,7 +61,7 @@ export function StaticPoolDataProvider({
   const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
-  const [walletData, setWalletsBalance] = useState<{ [address: string]: string }>({});
+  const [walletData, setWalletsBalance] = useState<{ [address: string]: { amount: string } }>({});
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
 
   const {
@@ -86,8 +87,11 @@ export function StaticPoolDataProvider({
     currentAccount
   );
 
+  const isLoading = rpcDataLoading || cachedDataLoading;
+  const activeData = isRPCActive && rpcData ? rpcData : cachedData;
+
   async function fetchWalletData() {
-    if (!currentAccount) return;
+    if (!currentAccount || !activeData?.reserves) return;
     const contract = new WalletBalanceProvider({
       walletBalanceProviderAddress: networkConfig.addresses.walletBalanceProvider,
       provider: getProvider(chainId),
@@ -98,18 +102,30 @@ export function StaticPoolDataProvider({
     );
 
     const aggregatedBalance = reserves.reduce((acc, reserve, i) => {
-      acc[reserve.toLowerCase()] = balances[i].toString();
+      const poolReserve = activeData.reserves?.reservesData.find((poolReserve) => {
+        if (reserve.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()) {
+          return (
+            poolReserve.underlyingAsset.toLowerCase() ===
+            networkConfig.baseAssetWrappedAddress?.toLowerCase()
+          );
+        }
+        return poolReserve.underlyingAsset.toLowerCase() === reserve.toLowerCase();
+      });
+      if (!poolReserve) throw new Error('bla');
+      acc[reserve.toLowerCase()] = {
+        amount: normalize(balances[i].toString(), poolReserve.decimals),
+      };
       return acc;
-    }, {} as { [address: string]: string });
+    }, {} as { [address: string]: { amount: string } });
     setWalletsBalance(aggregatedBalance);
   }
 
   usePolling(fetchWalletData, 30000, !currentAccount, [
     currentAccount,
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+    isLoading,
   ]);
 
-  const activeData = isRPCActive && rpcData ? rpcData : cachedData;
   if ((isRPCActive && rpcDataLoading && !rpcData) || (!isRPCActive && cachedDataLoading)) {
     return loader;
   }
