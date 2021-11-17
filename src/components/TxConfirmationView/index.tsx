@@ -174,7 +174,6 @@ export default function TxConfirmationView({
     if (provider && userId && unsignedPermitData && getPermitEnabledTransactionData) {
       try {
         setPermitLoading(true);
-        const signer = provider.getSigner(userId);
         const unsignedPermitDataObject = JSON.parse(unsignedPermitData);
         const typedData = {
           domain: unsignedPermitDataObject.domain,
@@ -183,14 +182,10 @@ export default function TxConfirmationView({
         };
         console.log('DATA TO SIGN');
         console.log(typedData);
-        const permitSignatureResponse = await signer._signTypedData(
-          unsignedPermitDataObject.domain,
-          unsignedPermitDataObject.types,
-          unsignedPermitDataObject.message
-        );
+        const signature = await provider.send('eth_signTypedData_v4', [userId, unsignedPermitData]);
         console.log('SIGNATURE RESPONSE');
-        console.log(permitSignatureResponse);
-        const supplyWithPermitTx = await getPermitEnabledTransactionData(permitSignatureResponse);
+        console.log(signature);
+        const supplyWithPermitTx = await getPermitEnabledTransactionData(signature);
         setActionTxData({
           txType: supplyWithPermitTx[0].txType,
           unsignedData: supplyWithPermitTx[0].tx,
