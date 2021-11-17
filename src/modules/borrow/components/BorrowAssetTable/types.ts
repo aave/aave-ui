@@ -17,4 +17,6 @@ export type BorrowTableItem = {
   aincentivesAPR: string;
   borrowCap: string;
   borrowCapUSD: string;
+  isIsolated: boolean;
+  borrowableInIsolation: boolean;
 };

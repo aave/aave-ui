@@ -29,6 +29,7 @@ export interface ComputedReserveData extends FormatReserveUSDResponse {
   avg30DaysVariableBorrowRate?: string;
   borrowCap: string;
   supplyCap: string;
+  borrowableInIsolation: boolean;
 }
 
 export interface UserSummary extends FormatUserSummaryResponse {
@@ -73,8 +74,6 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
     const fullReserve: ComputedReserveData = {
       ...reserve,
       ...formattedReserve,
-      borrowCap: reserve.borrowCap,
-      supplyCap: reserve.supplyCap,
       priceInMarketReferenceCurrency: normalize(
         reserve.priceInMarketReferenceCurrency,
         marketRefCurrencyDecimals
