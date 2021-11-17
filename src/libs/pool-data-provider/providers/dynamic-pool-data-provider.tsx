@@ -34,6 +34,7 @@ export interface ComputedReserveData extends FormatReserveUSDResponse {
 
 export interface UserSummary extends FormatUserSummaryResponse {
   id: string;
+  isInIsolationMode: boolean;
 }
 
 export interface DynamicPoolDataContextData {
@@ -61,7 +62,7 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
           currentTimestamp,
           marketRefPriceInUsd,
           marketRefCurrencyDecimals,
-          rawUserReserves: rawUserReserves,
+          rawUserReserves,
         })
       : undefined;
   const formattedPoolReserves: ComputedReserveData[] = rawReserves.map((reserve) => {
@@ -87,6 +88,9 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
     userSummary = {
       id: userId,
       ...computedUserData,
+      isInIsolationMode: !!rawUserReserves?.find(
+        (reserve) => reserve.reserve.debtCeiling !== '0' && reserve.usageAsCollateralEnabledOnUser
+      ),
     };
   }
   return (

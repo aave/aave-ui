@@ -44,11 +44,15 @@ export default function BorrowMain() {
   );
 
   const filteredReserves = reserves.filter(
-    ({ symbol, borrowingEnabled, isActive }) =>
-      symbol.toLowerCase().includes(searchValue.toLowerCase()) &&
-      borrowingEnabled &&
-      isActive &&
-      (!showOnlyStableCoins || isAssetStable(symbol))
+    ({ symbol, borrowingEnabled, isActive, borrowableInIsolation }) =>
+      (symbol.toLowerCase().includes(searchValue.toLowerCase()) &&
+        borrowingEnabled &&
+        isActive &&
+        // TODO: not sure of they should be filtered or somehow disabled & highlighted in the ui
+        !user?.isInIsolationMode) ||
+      (user?.isInIsolationMode &&
+        borrowableInIsolation &&
+        (!showOnlyStableCoins || isAssetStable(symbol)))
   );
 
   const listData = (withFilter: boolean) => {
