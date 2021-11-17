@@ -48,6 +48,7 @@ fragment ReserveDataFragment on ReserveData {
   eModeLiquidationBonus
   eModePriceSource
   eModeLabel
+  borrowableInIsolation
 }
 
 fragment BaseCurrencyDataFragment on BaseCurrencyData {
