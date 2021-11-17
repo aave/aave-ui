@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "debug": "node ./node_modules/.bin/wdio ./configs/debug.conf.js",
-    "local": "node ./node_modules/.bin/wdio ./configs/local.conf.js",
+    "lambdaTestDebug": "node ./node_modules/.bin/wdio ./configs/lambdaTestDebug.conf.js",
     "lambdaTest": "node ./node_modules/.bin/wdio ./configs/lambdaTest.conf.js"
   },
   "author": "",

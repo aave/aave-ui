@@ -1,32 +1,13 @@
-const spawn = require('child_process').spawn
-const fsExtra = require('fs-extra')
-const runHH = false;
-
-const replaceFreshCache=()=>{
-  let cashDir = __dirname + "/hardhat-node/cache"
-  let freshCashDir = __dirname + "/hardhat-node/fresh-cache"
-  try{
-    fsExtra.emptyDirSync(cashDir)
-    fsExtra.copySync(freshCashDir, cashDir)
-    console.log('Cache was updated successfully')
-  }catch(err){
-    console.log(`Cache wasn't updated, error: `+ err)
-  }
-}
-
-const runHardHat=()=>{
-  spawn('cd hardhat-node/; npx hardhat --max-memory 8000 node --hostname localhost --port 8545',
-    {shell:true})
-  setTimeout(() => {
-  }, 7000);
-}
-
-const stopHardHat=()=>{
-  spawn('kill -9 $(lsof -t -i:8545)', {shell:true})
-}
+const chai = require('chai');
+require('dotenv').config();
+const build = process.env.BUILD || 'Empty build'
+const LAMBDATEST_ACCOUNT = process.env.LAMBDATEST_ACCOUNT
+const LAMBDATEST_KEY = process.env.LAMBDATEST_KEY
 
 exports.config = {
-  runner: 'local',
+  updateJob: false,
+  user: LAMBDATEST_ACCOUNT,
+  key: LAMBDATEST_KEY,
   specs: [
     './e2e/specs/**/*.test.js',
   ],
@@ -69,45 +50,52 @@ exports.config = {
 
     './e2e/specs/mainMarket/stake.kovan.test.js',
   ],
-  maxInstances: 1,
+  maxInstances: 5,
+  specFileRetries: 2,
   capabilities: [{
-    maxInstances: 1,
-    browserName: 'chrome',
-    'goog:chromeOptions': {
-      args: [
-        '--window-size=1920,1080',
-        '--load-extension=./metamask/metamaskChrome',
-      ],
-    },
-    acceptInsecureCerts: true
+    alwaysMatch: {
+      browserName: "Chrome",
+      build: build,
+      platform: "Windows 10",
+      version: "88.0",
+      resolution: "1680x1050",
+      console: true,
+      'lambda:loadExtension': ["https://automation-prod-user-files.s3.amazonaws.com/extensions/orgId-466615/metamaskChrome.zip"],
+      'goog:chromeOptions': {
+        'args': [
+          '--window-size=1680x1050',
+        ],
+      },
+    }
   }],
+  sync: true,
   logLevel: 'error',
-  bail: 0,
-  waitforTimeout: 10000,
-  connectionRetryTimeout: 120000,
-  connectionRetryCount: 3,
-  services: ['chromedriver'],
-  framework: 'mocha',
-  reporters: ['spec'],
-  mochaOpts: {
-    ui: 'bdd',
-    timeout: 9000000,
+  coloredLogs: true,
+  baseUrl: '',
+  waitforTimeout: 600000,
+  connectionRetryTimeout: 300000,
+  connectionRetryCount: 5,
+  path: '/wd/hub',
+  hostname: 'hub.lambdatest.com',
+  port: 80,
+
+  beforeSession: function (config, capabilities, specs) {
+    capabilities.alwaysMatch.name=specs[0].split(/(\\|\/)/g).pop() || undefined
   },
-  onPrepare: function () {
-    if(runHH){
-      replaceFreshCache()
-      runHardHat()
-    }
-  },
-  onComplete: function () {
-    if(runHH) {
-      stopHardHat()
-    }
-  },
+
   beforeTest: function () {
     const chai = require('chai')
     global.assert = chai.assert
     global.should = chai.should
     global.expect = chai.expect
   },
+  after: function (result, capabilities, specs) {
+    driver.execute("lambda-status=".concat(result==0?"passed":"failed"),undefined);
+  },
+  reporters: ['spec'],
+  framework: 'mocha',
+  mochaOpts: {
+    ui: 'bdd',
+    timeout: 500000
+  }
 }

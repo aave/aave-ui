@@ -16,7 +16,6 @@ class DepositPage extends Page {
   }
 
   openAssetDepositPage(assetName){
-    MainPage.doWaitLoaderComplete()
     browser.waitUntil(
       () => {
         let _assetValue = this.assetTable.$(".//*[text()='"+assetName+"']/../../../..")
