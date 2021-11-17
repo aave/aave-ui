@@ -23,6 +23,8 @@ import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-confi
 
 import messages from './messages';
 import staticStyles from './style';
+import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 interface CurrencyOverviewProps
   extends Pick<ValidationWrapperComponentProps, 'poolReserve' | 'currencySymbol'> {
@@ -47,6 +49,7 @@ export default function CurrencyOverview({
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
   const { currentLangSlug } = useLanguageContext();
+  const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const asset = getAssetInfo(currencySymbol);
 
   // const { mode, setMode } = useReservesRateHistoryHelper({
@@ -56,7 +59,10 @@ export default function CurrencyOverview({
   const overviewData = {
     utilizationRate: Number(poolReserve.utilizationRate),
     availableLiquidity: poolReserve.availableLiquidity,
-    priceInUsd: valueToBigNumber(poolReserve.priceInMarketReferenceCurrency).toNumber(),
+    priceInUsd: valueToBigNumber(poolReserve.priceInMarketReferenceCurrency)
+      .multipliedBy(marketRefPriceInUsd)
+      .shiftedBy(-USD_DECIMALS)
+      .toNumber(),
     depositApy: Number(poolReserve.supplyAPY),
     avg30DaysLiquidityRate: Number(poolReserve.avg30DaysLiquidityRate),
     stableRate: Number(poolReserve.stableBorrowAPY),

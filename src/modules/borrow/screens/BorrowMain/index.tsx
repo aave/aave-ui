@@ -24,10 +24,11 @@ import { BorrowTableItem } from '../../components/BorrowAssetTable/types';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 export default function BorrowMain() {
   const intl = useIntl();
-  const { marketRefPriceInUsd, marketRefCurrencyDecimals } = useStaticPoolDataContext();
+  const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
   const { reserveIncentives } = useIncentivesDataContext();
   const { sm } = useThemeContext();
@@ -67,7 +68,7 @@ export default function BorrowMain() {
         const availableBorrowsInUSD = valueToBigNumber(availableBorrows)
           .multipliedBy(reserve.priceInMarketReferenceCurrency)
           .multipliedBy(marketRefPriceInUsd)
-          .shiftedBy(-marketRefCurrencyDecimals)
+          .shiftedBy(-USD_DECIMALS)
           .toString();
         const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
         return {

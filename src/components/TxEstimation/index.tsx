@@ -8,6 +8,7 @@ import Value from '../basic/Value';
 
 import messages from './messages';
 import staticStyles from './style';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 const INTERVAL = 10000;
 
@@ -97,7 +98,10 @@ export default function TxEstimation({ getTransactionsData, amount }: TxEstimati
       <div className="TxEstimation__values">
         <Value value={Number(estimatedTx)} symbol={'ETH'} /> /
         <Value
-          value={valueToBigNumber(estimatedTx).multipliedBy(marketRefPriceInUsd).toNumber()}
+          value={valueToBigNumber(estimatedTx)
+            .multipliedBy(marketRefPriceInUsd)
+            .shiftedBy(-USD_DECIMALS)
+            .toNumber()}
           symbol={'USD'}
         />
       </div>
