@@ -1,10 +1,8 @@
-import { BigNumber } from '@aave/protocol-js';
-
 export type DepositTableItem = {
   id: string;
   underlyingAsset: string;
   symbol: string;
-  walletBalance: BigNumber;
+  walletBalance: string;
   walletBalanceInUSD: number | string;
   underlyingBalance: number | string;
   underlyingBalanceInUSD: number | string;

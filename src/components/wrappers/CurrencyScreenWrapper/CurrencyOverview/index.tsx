@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { valueToBigNumber } from '@aave/protocol-js';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
 
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useLanguageContext } from '../../../../libs/language-provider';
 // import { useReservesRateHistoryHelper } from '../../../../helpers/use-reserve-rates-history';
 import Row from '../../../basic/Row';
@@ -24,6 +23,8 @@ import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-confi
 
 import messages from './messages';
 import staticStyles from './style';
+import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 interface CurrencyOverviewProps
   extends Pick<ValidationWrapperComponentProps, 'poolReserve' | 'currencySymbol'> {
@@ -47,8 +48,8 @@ export default function CurrencyOverview({
 }: CurrencyOverviewProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { currentLangSlug } = useLanguageContext();
+  const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const asset = getAssetInfo(currencySymbol);
 
   // const { mode, setMode } = useReservesRateHistoryHelper({
@@ -60,6 +61,7 @@ export default function CurrencyOverview({
     availableLiquidity: poolReserve.availableLiquidity,
     priceInUsd: valueToBigNumber(poolReserve.priceInMarketReferenceCurrency)
       .multipliedBy(marketRefPriceInUsd)
+      .shiftedBy(-USD_DECIMALS)
       .toNumber(),
     depositApy: Number(poolReserve.supplyAPY),
     avg30DaysLiquidityRate: Number(poolReserve.avg30DaysLiquidityRate),

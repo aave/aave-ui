@@ -18,6 +18,7 @@ import HistoryContent from '../../components/HistoryContent';
 
 import messages from './messages';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 const ITEMS_PER_PAGE = 50;
 
@@ -142,6 +143,7 @@ export default function History() {
             ? valueToBigNumber(amount)
                 .multipliedBy(reserveETHPrice)
                 .multipliedBy(marketRefPriceInUsd)
+                .shiftedBy(-USD_DECIMALS)
             : undefined;
 
         return {

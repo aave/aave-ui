@@ -31,6 +31,10 @@ export interface MarketTableItemProps {
   stableBorrowRateEnabled?: boolean;
   isFreezed?: boolean;
   isPriceInUSD?: boolean;
+  borrowCap: string;
+  borrowCapUSD: string;
+  supplyCap: string;
+  supplyCapUSD: string;
 }
 
 export default function MarketTableItem({
@@ -53,6 +57,10 @@ export default function MarketTableItem({
   stableBorrowRateEnabled,
   isFreezed,
   isPriceInUSD,
+  borrowCap,
+  borrowCapUSD,
+  supplyCap,
+  supplyCapUSD,
 }: MarketTableItemProps) {
   const history = useHistory();
 
@@ -84,6 +92,9 @@ export default function MarketTableItem({
           tokenIcon={isPriceInUSD}
           className="MarketTableItem__value"
         />
+        {
+          supplyCap !== '0' ? (isPriceInUSD ? supplyCapUSD : supplyCap) : undefined // TODO: design
+        }
       </TableColumn>
       <TableColumn className="MarketTableItem__column">
         {borrowingEnabled ? (
@@ -100,6 +111,9 @@ export default function MarketTableItem({
         ) : (
           <NoData color="dark" />
         )}
+        {
+          borrowCap !== '0' ? (isPriceInUSD ? borrowCapUSD : borrowCap) : undefined // TODO: design
+        }
       </TableColumn>
 
       {!isFreezed && (
