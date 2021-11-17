@@ -12,6 +12,7 @@ import { PoolInterface } from '@aave/contract-helpers';
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
+import RepayContentWrapper from '../../components/RepayContentWrapper';
 import Row from '../../../../components/basic/Row';
 import NoDataPanel from '../../../../components/NoDataPanel';
 import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationView';
@@ -154,75 +155,79 @@ function RepayConfirmation({
       : walletBalance.lt(maxAmountToRepay));
 
   return (
-    <PoolTxConfirmationView
-      mainTxName={intl.formatMessage(defaultMessages.repay)}
-      caption={intl.formatMessage(messages.caption)}
-      boxTitle={intl.formatMessage(defaultMessages.repay)}
-      boxDescription={intl.formatMessage(messages.boxDescription)}
-      approveDescription={intl.formatMessage(messages.approveDescription)}
-      getTransactionsData={repayWithATokens ? handleGetATokenTransactions : handleGetTransactions}
-      onMainTxExecuted={handleMainTxExecuted}
-      blockingError={blockingError}
-      goToAfterSuccess="/dashboard/borrowings"
-      warningMessage={warningMessage}
-    >
-      <Row title={intl.formatMessage(messages.rowTitle)} withMargin={true}>
-        <Value
-          symbol={currencySymbol}
-          value={displayAmountToRepay.toString()}
-          tokenIcon={true}
-          subValue={displayAmountToRepayInUsd.toString()}
-          subSymbol="USD"
-          maximumValueDecimals={isAssetStable(currencySymbol) ? 4 : 12}
-          maximumSubValueDecimals={4}
-          updateCondition={isTxExecuted}
-          tooltipId={poolReserve.underlyingAsset}
-        />
-      </Row>
-
-      <Row
-        title={intl.formatMessage(messages.secondRowTitle)}
-        subTitle={
-          isNotHaveEnoughFunds && (
-            <NotHaveEnoughFundsToRepayHelpModal
-              text={intl.formatMessage(messages.secondRowTitleSubTitle)}
-            />
-          )
-        }
-        withMargin={true}
+    <RepayContentWrapper>
+      <PoolTxConfirmationView
+        mainTxName={intl.formatMessage(defaultMessages.repay)}
+        caption={intl.formatMessage(messages.caption)}
+        boxTitle={intl.formatMessage(defaultMessages.repay)}
+        boxDescription={intl.formatMessage(messages.boxDescription)}
+        approveDescription={intl.formatMessage(messages.approveDescription)}
+        getTransactionsData={repayWithATokens ? handleGetATokenTransactions : handleGetTransactions}
+        onMainTxExecuted={handleMainTxExecuted}
+        blockingError={blockingError}
+        goToAfterSuccess="/dashboard/borrowings"
+        warningMessage={warningMessage}
       >
-        <Value
-          symbol={currencySymbol}
-          value={Number(displayAmountAfterRepay) > 0 ? Number(displayAmountAfterRepay) : 0}
-          subValue={
-            Number(displayAmountAfterRepayInUsd) > 0 ? Number(displayAmountAfterRepayInUsd) : 0
+        <Row title={intl.formatMessage(messages.rowTitle)} withMargin={true}>
+          <Value
+            symbol={currencySymbol}
+            value={displayAmountToRepay.toString()}
+            tokenIcon={true}
+            subValue={displayAmountToRepayInUsd.toString()}
+            subSymbol="USD"
+            maximumValueDecimals={isAssetStable(currencySymbol) ? 4 : 12}
+            maximumSubValueDecimals={4}
+            updateCondition={isTxExecuted}
+            tooltipId={poolReserve.underlyingAsset}
+          />
+        </Row>
+
+        <Row
+          title={intl.formatMessage(messages.secondRowTitle)}
+          subTitle={
+            isNotHaveEnoughFunds && (
+              <NotHaveEnoughFundsToRepayHelpModal
+                text={intl.formatMessage(messages.secondRowTitleSubTitle)}
+              />
+            )
           }
-          subSymbol="USD"
-          maximumSubValueDecimals={4}
-          tokenIcon={true}
-          maximumValueDecimals={isNotHaveEnoughFunds ? 14 : isAssetStable(currencySymbol) ? 4 : 12}
+          withMargin={true}
+        >
+          <Value
+            symbol={currencySymbol}
+            value={Number(displayAmountAfterRepay) > 0 ? Number(displayAmountAfterRepay) : 0}
+            subValue={
+              Number(displayAmountAfterRepayInUsd) > 0 ? Number(displayAmountAfterRepayInUsd) : 0
+            }
+            subSymbol="USD"
+            maximumSubValueDecimals={4}
+            tokenIcon={true}
+            maximumValueDecimals={
+              isNotHaveEnoughFunds ? 14 : isAssetStable(currencySymbol) ? 4 : 12
+            }
+            updateCondition={isTxExecuted}
+            tooltipId={poolReserve.id}
+            withSmallDecimals={isNotHaveEnoughFunds}
+            isSmallValueCenterEllipsis={isNotHaveEnoughFunds}
+          />
+        </Row>
+
+        <HealthFactor
+          title={intl.formatMessage(messages.currentHealthFactor)}
+          value={user.healthFactor}
           updateCondition={isTxExecuted}
-          tooltipId={poolReserve.id}
-          withSmallDecimals={isNotHaveEnoughFunds}
-          isSmallValueCenterEllipsis={isNotHaveEnoughFunds}
+          titleColor="dark"
         />
-      </Row>
 
-      <HealthFactor
-        title={intl.formatMessage(messages.currentHealthFactor)}
-        value={user.healthFactor}
-        updateCondition={isTxExecuted}
-        titleColor="dark"
-      />
-
-      <HealthFactor
-        value={healthFactorAfterRepay.toString()}
-        title={intl.formatMessage(messages.nextHealthFactor)}
-        withoutModal={true}
-        updateCondition={isTxExecuted}
-        titleColor="dark"
-      />
-    </PoolTxConfirmationView>
+        <HealthFactor
+          value={healthFactorAfterRepay.toString()}
+          title={intl.formatMessage(messages.nextHealthFactor)}
+          withoutModal={true}
+          updateCondition={isTxExecuted}
+          titleColor="dark"
+        />
+      </PoolTxConfirmationView>
+    </RepayContentWrapper>
   );
 }
 

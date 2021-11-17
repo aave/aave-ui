@@ -7,6 +7,9 @@ import { PoolInterface } from '@aave/contract-helpers';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
+import RepayContentWrapper from '../../components/RepayContentWrapper';
+import RightPanelWrapper from '../../../../components/wrappers/RightPanelWrapper';
+import HFChangeValue from '../../../../components/HFChangeValue';
 import BasicForm from '../../../../components/forms/BasicForm';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
@@ -18,6 +21,7 @@ import RepayInfoPanel from '../../components/RepayInfoPanel';
 import messages from './messages';
 
 function RepayAmount({
+  user,
   currencySymbol,
   userReserve,
   poolReserve,
@@ -120,7 +124,16 @@ function RepayAmount({
   // console.log('asset:: ', asset);
 
   return (
-    <>
+    <RepayContentWrapper
+      rightPanel={
+        <RightPanelWrapper title={intl.formatMessage(messages.rightPanelTitle)}>
+          <HFChangeValue
+            healthFactor={user?.healthFactor || '0'}
+            hfAfterSwap={'2'} // TODO: need calculate or remove right panel
+          />
+        </RightPanelWrapper>
+      }
+    >
       <BasicForm
         title={intl.formatMessage(messages.formTitle)}
         description={intl.formatMessage(
@@ -152,7 +165,7 @@ function RepayAmount({
           </InfoPanel>
         )}
       </InfoWrapper>
-    </>
+    </RepayContentWrapper>
   );
 }
 

@@ -1,6 +1,7 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
+  rightPanelTitle: 'Repay details',
   formTitle: 'Repay from wallet balance',
   formDescription: 'Set the amount to repay',
   formDescriptionWithSelect: 'Select an asset and set the amount to repay',
