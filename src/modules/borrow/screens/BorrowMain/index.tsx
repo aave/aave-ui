@@ -24,6 +24,7 @@ import { BorrowTableItem } from '../../components/BorrowAssetTable/types';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 export default function BorrowMain() {
   const intl = useIntl();
@@ -43,11 +44,15 @@ export default function BorrowMain() {
   );
 
   const filteredReserves = reserves.filter(
-    ({ symbol, borrowingEnabled, isActive }) =>
-      symbol.toLowerCase().includes(searchValue.toLowerCase()) &&
-      borrowingEnabled &&
-      isActive &&
-      (!showOnlyStableCoins || isAssetStable(symbol))
+    ({ symbol, borrowingEnabled, isActive, borrowableInIsolation }) =>
+      (symbol.toLowerCase().includes(searchValue.toLowerCase()) &&
+        borrowingEnabled &&
+        isActive &&
+        // TODO: not sure of they should be filtered or somehow disabled & highlighted in the ui
+        !user?.isInIsolationMode) ||
+      (user?.isInIsolationMode &&
+        borrowableInIsolation &&
+        (!showOnlyStableCoins || isAssetStable(symbol)))
   );
 
   const listData = (withFilter: boolean) => {
@@ -67,6 +72,7 @@ export default function BorrowMain() {
         const availableBorrowsInUSD = valueToBigNumber(availableBorrows)
           .multipliedBy(reserve.priceInMarketReferenceCurrency)
           .multipliedBy(marketRefPriceInUsd)
+          .shiftedBy(-USD_DECIMALS)
           .toString();
         const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
         return {

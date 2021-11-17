@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import BigNumber from 'bignumber.js';
 
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import { usePayments } from '../../../../helpers/payments';
@@ -54,6 +55,14 @@ function DepositAmount({
     // keep it for tx gas cost
     maxAmountToDeposit = maxAmountToDeposit.minus('0.001');
   }
+
+  if (poolReserve.supplyCap !== '0') {
+    maxAmountToDeposit = BigNumber.min(
+      maxAmountToDeposit,
+      new BigNumber(poolReserve.supplyCap).minus(poolReserve.totalLiquidity).multipliedBy('0.995')
+    );
+  }
+
   if (maxAmountToDeposit.lte(0)) {
     maxAmountToDeposit = valueToBigNumber('0');
   }

@@ -7,6 +7,7 @@ import Value from '../../basic/Value';
 
 import messages from './messages';
 import staticStyles from './style';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 interface SummaryProps {
   visible: boolean;
@@ -46,7 +47,10 @@ export default function Summary({
         <div className="TxEstimationEditor__values">
           <Value value={Number(estimationCost)} symbol="ETH" /> /
           <Value
-            value={valueToBigNumber(estimationCost).div(marketRefPriceInUsd).toNumber()}
+            value={valueToBigNumber(estimationCost)
+              .multipliedBy(marketRefPriceInUsd)
+              .shiftedBy(-USD_DECIMALS)
+              .toNumber()}
             symbol="USD"
           />
         </div>

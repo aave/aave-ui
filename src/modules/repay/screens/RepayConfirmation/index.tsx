@@ -24,6 +24,7 @@ import { getAssetInfo, isAssetStable } from '../../../../helpers/config/assets-c
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 function RepayConfirmation({
   currencySymbol,
@@ -75,13 +76,15 @@ function RepayConfirmation({
   const displayAmountToRepay = BigNumber.min(amountToRepayUI, maxAmountToRepay);
   const displayAmountToRepayInUsd = displayAmountToRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd);
+    .multipliedBy(marketRefPriceInUsd)
+    .shiftedBy(-USD_DECIMALS);
 
   const amountAfterRepay = maxAmountToRepay.minus(amountToRepayUI).toString();
   const displayAmountAfterRepay = BigNumber.min(amountAfterRepay, maxAmountToRepay);
   const displayAmountAfterRepayInUsd = displayAmountAfterRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd);
+    .multipliedBy(marketRefPriceInUsd)
+    .shiftedBy(-USD_DECIMALS);
 
   const healthFactorAfterRepay = calculateHealthFactorFromBalancesBigUnits(
     user.totalCollateralUSD,

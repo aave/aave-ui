@@ -21,6 +21,7 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import { Pool } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 function DepositConfirmation({
   currencySymbol,
@@ -63,7 +64,7 @@ function DepositConfirmation({
   }
 
   const amountIntEth = amount.multipliedBy(poolReserve.priceInMarketReferenceCurrency);
-  const amountInUsd = amountIntEth.multipliedBy(marketRefPriceInUsd);
+  const amountInUsd = amountIntEth.multipliedBy(marketRefPriceInUsd).shiftedBy(-USD_DECIMALS);
   const totalCollateralMarketReferenceCurrencyAfter = valueToBigNumber(
     user.totalCollateralMarketReferenceCurrency
   ).plus(amountIntEth);
@@ -127,11 +128,20 @@ function DepositConfirmation({
   const notShowHealthFactor =
     user.totalBorrowsMarketReferenceCurrency !== '0' && poolReserve.usageAsCollateralEnabled;
 
+  // if the reserve is isolated the deposit will only be collateral enabled when there's no other deposit with collateral enabled
+  const isIsolated = poolReserve.isIsolated;
+  const hasDifferentCollateral = user.userReservesData.find(
+    (reserve) => reserve.usageAsCollateralEnabledOnUser && reserve.reserve.id !== poolReserve.id
+  );
+
+  // TODO: show dialog or sth, that isolation mode is entered
+
   const usageAsCollateralEnabledOnDeposit =
     poolReserve.usageAsCollateralEnabled &&
     (!userReserve?.underlyingBalance ||
       userReserve.underlyingBalance === '0' ||
-      userReserve.usageAsCollateralEnabledOnUser);
+      userReserve.usageAsCollateralEnabledOnUser) &&
+    (!isIsolated || (isIsolated && !hasDifferentCollateral));
 
   return (
     <DepositCurrencyWrapper

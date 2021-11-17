@@ -3,14 +3,14 @@ import React, { PropsWithChildren, useContext, useEffect, useState } from 'react
 import { useCurrentTimestamp } from '../hooks/use-current-timestamp';
 import { useStaticPoolDataContext } from './static-pool-data-provider';
 import {
-  FormatReserveResponse,
+  FormatReserveUSDResponse,
   formatReserveUSD,
   formatUserSummary,
   FormatUserSummaryResponse,
   normalize,
 } from '@aave/math-utils';
 
-export interface ComputedReserveData extends FormatReserveResponse {
+export interface ComputedReserveData extends FormatReserveUSDResponse {
   id: string;
   underlyingAsset: string;
   name: string;
@@ -29,19 +29,21 @@ export interface ComputedReserveData extends FormatReserveResponse {
   avg30DaysVariableBorrowRate?: string;
   // new fields, will not be optional once use-pool-data uses a single UiPoolDataProvider
   isPaused?: boolean;
-  debtCeiling?: string;
   eModeCategoryId?: number;
-  borrowCap?: string;
-  supplyCap?: string;
   eModeLtv?: number;
   eModeLiquidationThreshold?: number;
   eModeLiquidationBonus?: number;
   eModePriceSource?: string;
   eModeLabel?: string;
+  debtCeiling: string;
+  borrowCap: string;
+  supplyCap: string;
+  borrowableInIsolation: boolean;
 }
 
 export interface UserSummary extends FormatUserSummaryResponse {
   id: string;
+  isInIsolationMode: boolean;
 }
 
 export interface DynamicPoolDataContextData {
@@ -69,7 +71,7 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
           currentTimestamp,
           marketRefPriceInUsd,
           marketRefCurrencyDecimals,
-          rawUserReserves: rawUserReserves,
+          rawUserReserves,
         })
       : undefined;
   const formattedPoolReserves: ComputedReserveData[] = rawReserves.map((reserve) => {
@@ -86,6 +88,7 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
         reserve.priceInMarketReferenceCurrency,
         marketRefCurrencyDecimals
       ),
+      borrowableInIsolation: reserve.borrowableInIsolation ? reserve.borrowableInIsolation : false,
     };
     return fullReserve;
   });
@@ -95,6 +98,9 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
     userSummary = {
       id: userId,
       ...computedUserData,
+      isInIsolationMode: !!rawUserReserves?.find(
+        (reserve) => reserve.reserve.debtCeiling !== '0' && reserve.usageAsCollateralEnabledOnUser
+      ),
     };
   }
   return (

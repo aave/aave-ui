@@ -175,6 +175,7 @@ export type BaseCurrencyData = {
 export type Block_Height = {
   hash?: Maybe<Scalars['Bytes']>;
   number?: Maybe<Scalars['Int']>;
+  number_gte?: Maybe<Scalars['Int']>;
 };
 
 export type Borrow = UserTransaction & {
@@ -3611,6 +3612,7 @@ export type ReserveData = {
   averageStableRate: Scalars['String'];
   baseLTVasCollateral: Scalars['String'];
   borrowCap: Scalars['String'];
+  borrowableInIsolation: Scalars['Boolean'];
   borrowingEnabled: Scalars['Boolean'];
   debtCeiling: Scalars['String'];
   debtCeilingDecimals: Scalars['Float'];
@@ -7205,6 +7207,8 @@ export type _Block_ = {
   hash?: Maybe<Scalars['Bytes']>;
   /** The block number */
   number: Scalars['Int'];
+  /** The minimum block number */
+  number_gte: Scalars['Int'];
 };
 
 /** The type for the top-level _meta field */
@@ -7415,6 +7419,7 @@ export type ReserveDataFragmentFragment = {
   eModeLiquidationBonus: number;
   eModePriceSource: string;
   eModeLabel: string;
+  borrowableInIsolation: boolean;
 };
 
 export type BaseCurrencyDataFragmentFragment = {
@@ -7483,6 +7488,7 @@ export type C_ProtocolDataQuery = {
       eModeLiquidationBonus: number;
       eModePriceSource: string;
       eModeLabel: string;
+      borrowableInIsolation: boolean;
     }>;
     baseCurrencyData: {
       __typename?: 'BaseCurrencyData';
@@ -7552,6 +7558,7 @@ export type C_ProtocolDataUpdateSubscription = {
       eModeLiquidationBonus: number;
       eModePriceSource: string;
       eModeLabel: string;
+      borrowableInIsolation: boolean;
     }>;
     baseCurrencyData: {
       __typename?: 'BaseCurrencyData';
@@ -7943,6 +7950,7 @@ export const ReserveDataFragmentFragmentDoc = gql`
     eModeLiquidationBonus
     eModePriceSource
     eModeLabel
+    borrowableInIsolation
   }
 `;
 export const BaseCurrencyDataFragmentFragmentDoc = gql`

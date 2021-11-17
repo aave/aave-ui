@@ -47,7 +47,12 @@ function BorrowAmount({
     user?.availableBorrowsMarketReferenceCurrency || 0
   ).div(poolReserve.priceInMarketReferenceCurrency);
   let maxAmountToBorrow = BigNumber.max(
-    BigNumber.min(poolReserve.availableLiquidity, maxUserAmountToBorrow),
+    BigNumber.min(
+      poolReserve.borrowCap
+        ? new BigNumber(poolReserve.availableLiquidity).multipliedBy('0.995')
+        : poolReserve.availableLiquidity,
+      maxUserAmountToBorrow
+    ),
     0
   );
   if (
