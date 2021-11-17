@@ -69,6 +69,7 @@ export default function Markets() {
         borrowCapUSD: reserve.borrowCapUSD,
         supplyCap: reserve.supplyCap,
         supplyCapUSD: reserve.supplyCapUSD,
+        isIsolated: reserve.isIsolated,
       };
     });
 

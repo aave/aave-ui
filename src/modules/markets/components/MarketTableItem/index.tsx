@@ -35,6 +35,7 @@ export interface MarketTableItemProps {
   borrowCapUSD: string;
   supplyCap: string;
   supplyCapUSD: string;
+  isIsolated: boolean;
 }
 
 export default function MarketTableItem({
@@ -61,6 +62,7 @@ export default function MarketTableItem({
   borrowCapUSD,
   supplyCap,
   supplyCapUSD,
+  isIsolated,
 }: MarketTableItemProps) {
   const history = useHistory();
 
@@ -80,6 +82,7 @@ export default function MarketTableItem({
           tokenFullName={asset.name}
           className="MarketTableItem__token"
         />
+        {isIsolated && <div>Is-isolated</div>}
       </TableColumn>
       <TableColumn className="MarketTableItem__column">
         <Value
