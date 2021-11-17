@@ -46,7 +46,7 @@ export default function Summary({
         <div className="TxEstimationEditor__values">
           <Value value={Number(estimationCost)} symbol="ETH" /> /
           <Value
-            value={valueToBigNumber(estimationCost).div(marketRefPriceInUsd).toNumber()}
+            value={valueToBigNumber(estimationCost).multipliedBy(marketRefPriceInUsd).toNumber()}
             symbol="USD"
           />
         </div>
