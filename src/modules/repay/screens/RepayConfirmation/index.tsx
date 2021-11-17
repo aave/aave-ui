@@ -40,8 +40,11 @@ function RepayConfirmation({
   const { marketRefPriceInUsd, networkConfig } = useStaticPoolDataContext();
   const { currentMarketData } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
+
   const [isTxExecuted, setIsTxExecuted] = useState(false);
+
   const assetDetails = getAssetInfo(poolReserve.symbol);
+
   const query = queryString.parse(location.search);
   const debtType = query.debtType ? (query.debtType as InterestRate) : InterestRate.Variable;
   const assetAddress = query.assetAddress ? (query.assetAddress as string) : '';
@@ -62,6 +65,8 @@ function RepayConfirmation({
     return null;
   }
 
+  const { underlyingBalance } = userReserve;
+
   const maxAmountToRepay = valueToBigNumber(
     debtType === InterestRate.Stable ? userReserve.stableBorrows : userReserve.variableBorrows
   );
@@ -71,12 +76,20 @@ function RepayConfirmation({
   let amountToRepay = amount.toString();
   let amountToRepayUI = amount;
   if (amountToRepay === '-1') {
-    amountToRepayUI = BigNumber.min(walletBalance, safeAmountToRepayAll);
+    amountToRepayUI = BigNumber.min(
+      repayWithATokens ? underlyingBalance : walletBalance,
+      safeAmountToRepayAll
+    );
     if (
       userReserve.reserve.symbol.toUpperCase() === networkConfig.baseAsset ||
-      walletBalance.eq(amountToRepayUI)
+      (repayWithATokens
+        ? valueToBigNumber(underlyingBalance).eq(amountToRepayUI)
+        : walletBalance.eq(amountToRepayUI))
     ) {
-      amountToRepay = BigNumber.min(walletBalance, safeAmountToRepayAll).toString();
+      amountToRepay = BigNumber.min(
+        repayWithATokens ? underlyingBalance : walletBalance,
+        safeAmountToRepayAll
+      ).toString();
     }
   }
 
@@ -115,12 +128,17 @@ function RepayConfirmation({
 
   const handleMainTxExecuted = () => setIsTxExecuted(true);
 
-  const blockingError =
-    walletBalance.eq('0') || walletBalance.lt(amount)
-      ? intl.formatMessage(messages.error, {
-          userReserveSymbol: assetDetails.formattedSymbol || assetDetails.symbol,
-        })
-      : '';
+  const blockingError = (
+    repayWithATokens
+      ? valueToBigNumber(underlyingBalance).eq(0)
+      : walletBalance.eq('0') || repayWithATokens
+      ? valueToBigNumber(underlyingBalance).lt(amount)
+      : walletBalance.lt(amount)
+  )
+    ? intl.formatMessage(messages.error, {
+        userReserveSymbol: assetDetails.formattedSymbol || assetDetails.symbol,
+      })
+    : '';
 
   const warningMessage =
     amount.eq('-1') &&
@@ -129,7 +147,11 @@ function RepayConfirmation({
       ? intl.formatMessage(messages.warningMessage)
       : '';
 
-  const isNotHaveEnoughFunds = amount.toString() === '-1' && walletBalance.lt(maxAmountToRepay);
+  const isNotHaveEnoughFunds =
+    amount.toString() === '-1' &&
+    (repayWithATokens
+      ? valueToBigNumber(underlyingBalance).lt(maxAmountToRepay)
+      : walletBalance.lt(maxAmountToRepay));
 
   return (
     <PoolTxConfirmationView
@@ -138,7 +160,7 @@ function RepayConfirmation({
       boxTitle={intl.formatMessage(defaultMessages.repay)}
       boxDescription={intl.formatMessage(messages.boxDescription)}
       approveDescription={intl.formatMessage(messages.approveDescription)}
-      getTransactionsData={repayWithATokens ? handleGetTransactions : handleGetATokenTransactions}
+      getTransactionsData={repayWithATokens ? handleGetATokenTransactions : handleGetTransactions}
       onMainTxExecuted={handleMainTxExecuted}
       blockingError={blockingError}
       goToAfterSuccess="/dashboard/borrowings"
