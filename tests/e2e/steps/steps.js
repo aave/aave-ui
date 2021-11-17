@@ -199,6 +199,78 @@ module.exports.changeBorrowType= ({asset, aprType, newAPR, hasApproval = true}, 
   })
 }
 
+module.exports.changeCollateral = ({asset, amount, aprType, hasApproval = true}, skip, updateSkipStatus = false) =>{
+  let _shortName =asset.shortName
+  let _fullName =asset.fullName
+  return describe(`Check that borrowing without collateral is impossible ${_shortName}`, () => {
+    let _passed = false
+    before(function(){
+      if(skip.get()){
+        this.skip()
+      }
+    })
+      it(`Turn off the collateral for ${_shortName}`, () => {
+        DashboardPage.open()
+        DashboardPage.doChangeCollateral(_shortName)
+      })
+      it(`Make approve for ${_shortName}, on confirmation page`, () => {
+        ConfirmationPage.doApproveProcess(hasApproval)
+        _passed = true
+      })
+      it(`Check borrowing is off when there is no collateral`, () => {
+        BorrowPage.open()
+        BorrowPage.doTryBorrowAsset(_fullName)
+        BorrowPage.doCheckBorrowErrorMessage()
+      })
+      it(`Turn collateral back on`, () => {
+        DashboardPage.open()
+        DashboardPage.doChangeCollateral(_shortName)
+      })
+      it(`Make approve for ${_shortName}, on confirmation page`, () => {
+        ConfirmationPage.doApproveProcess(hasApproval)
+        _passed = true
+      })
+  })
+}
+module.exports.confirmCollateralError= ({asset}, skip, updateSkipStatus = false) =>{
+  let _shortName =asset.shortName
+  return describe(`Check that changing collateral is disabled when ${_shortName} is borrowed`, () => {
+    let _passed = false
+    before(function(){
+      if(skip.get()){
+        this.skip()
+      }
+    })
+    it(`Try to turn off the collateral for ${_shortName}`, () => {
+      DashboardPage.open()
+      DashboardPage.doChangeCollateral(_shortName)
+    })
+    it(`Confirm you can't turn collateral off when asset is borrowed `, () => {
+      BorrowPage.doCheckCollateralErrorMessage()
+    })
+    after(() => {
+      if (!_passed && updateSkipStatus) {
+        skip.set(true)
+      }
+    })
+  })
+}
+module.exports.checkUsdtCollateral = ({asset}, skip, updateSkipStatus = false) =>{
+  let _shortName =asset.shortName
+  return describe(`Check that changing collateral for ${_shortName} is disabled`, () => {
+    let _passed = false
+    before(function(){
+      if(skip.get()){
+        this.skip()
+      }
+    })
+    it(`Confirm collateral swiper is disabled for ${_shortName}`, ()=>{
+      DashboardPage.open()
+      DashboardPage.doCheckCollateralSwiperIsDisabled(_shortName)
+    })
+  })
+}
+
 module.exports.swap= ({fromAsset, toAsset, amount, hasApproval = true}, skip, updateSkipStatus = false) =>{
   let _shortNameFrom = fromAsset.shortName
   let _shortNameTo = toAsset.shortName

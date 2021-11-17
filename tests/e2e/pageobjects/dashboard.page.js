@@ -1,6 +1,7 @@
 const Page = require('./page');
 const elemUtil = require('../util/elementUtil')
 const mathUtil = require('../util/mathUtil')
+const MainPage = require('../pageobjects/main.page');
 
 const locators = {
   depositTable: {
@@ -10,7 +11,9 @@ const locators = {
     swapBtn: ".//*[text()='Swap']",
     balanceBox: ".//p[contains(@class, 'Value__value')]/..",
     collateralTypeBox: ".//p[contains(@class, 'Switcher__label')]",
-    emptyContentMessage: "//div[contains(@class, 'MainDashboardTable__left-inner')]//div[@class='NoDataPanel']"
+    emptyContentMessage: "//div[contains(@class, 'MainDashboardTable__left-inner')]//div[@class='NoDataPanel']",
+    collateralSwitcher: ".//div[contains(@class, 'Switcher__swiper')]",
+    disabledCollateralSwithcer: ".//div[contains(@class, 'Switcher__swiper Switcher__swiperDisabled')]"
   },
   borrowsTable:{
     table: "//div[contains(@class, 'MainDashboardTable__right-inner')]",
@@ -77,6 +80,15 @@ class DashboardPage extends Page {
     browser.pause(2000)
     let _aprSwitcher = this.borrowRow(asset, aprType).$(locators.borrowsTable.aprSwitcher)
     elemUtil.doClickWithRedirect(_aprSwitcher)
+  }
+
+  doChangeCollateral(asset) {
+    let _collateralSwitcher = this.depositRow(asset).$(locators.depositTable.collateralSwitcher)
+    elemUtil.doClickWithRedirect(_collateralSwitcher)
+  }
+  doCheckCollateralSwiperIsDisabled(asset) {
+    let _collateralSwitcher = this.depositRow(asset).$(locators.depositTable.disabledCollateralSwithcer)
+    elemUtil.doIsDisplayed(_collateralSwitcher)
   }
 
   open() {

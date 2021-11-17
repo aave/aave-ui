@@ -1,6 +1,6 @@
 const{configTestWithTenderlyMainnetFork} = require('../../../steps/configuration-steps')
 const {skipState} = require('../../../steps/common')
-const {deposit, borrow, repay, withdraw, changeBorrowType} = require('../../../steps/steps')
+const {deposit, borrow, repay, withdraw, changeBorrowType, checkUsdtCollateral} = require('../../../steps/steps')
 const { dashboardAssetValuesVerification } = require('../../../steps/verification-steps')
 const constants= require('../../../fixtures/consts.json')
 const assets = require('../../../fixtures/assets.json')
@@ -64,6 +64,9 @@ const testData ={
       amount: 10,
       hasApproval: true
     },
+    checkUsdtCollateral:{
+      asset: assets.aaveMarket.USDT
+    },
   },
   verifications:{
     finalDashboard:[
@@ -112,6 +115,11 @@ describe('USDT INTEGRATION SPEC',  ()=>{
   })
   deposit(
     testData.testCases.deposit,
+    skipTestState,
+    true
+  )
+  checkUsdtCollateral(
+    testData.testCases.checkUsdtCollateral,
     skipTestState,
     true
   )
