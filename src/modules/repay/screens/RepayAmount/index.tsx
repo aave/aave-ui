@@ -85,7 +85,7 @@ function RepayAmount({
   const handleGetATokenTransactions = (userId: string) => async () =>
     await (lendingPool as PoolInterface).repayWithATokens({
       user: userId,
-      reserve: poolReserve.aTokenAddress,
+      reserve: poolReserve.underlyingAsset,
       amount: '-1',
       rateMode: debtType as InterestRate,
     });

@@ -10,13 +10,11 @@ import FaucetAssetTable from '../../components/FaucetAssetTable';
 import messages from './messages';
 
 import { FaucetTableItem } from '../../components/FaucetAssetTable/types';
-import { useWalletBalanceProviderContext } from '../../../../libs/wallet-balance-provider/WalletBalanceProvider';
 
 export default function FaucetMain() {
   const intl = useIntl();
-  const { userId, rawReserves, networkConfig } = useStaticPoolDataContext();
+  const { userId, rawReserves, networkConfig, walletData } = useStaticPoolDataContext();
 
-  const { walletData } = useWalletBalanceProviderContext();
   if (!walletData) {
     return <Preloader />;
   }
@@ -26,12 +24,7 @@ export default function FaucetMain() {
       (reserve) => reserve.symbol.toUpperCase() !== networkConfig.baseAsset && !reserve.isFrozen
     )
     .map<FaucetTableItem>((reserve) => {
-      const walletBalance =
-        walletData[reserve.underlyingAsset] === '0'
-          ? valueToBigNumber('0')
-          : valueToBigNumber(walletData[reserve.underlyingAsset] || '0').dividedBy(
-              valueToBigNumber('10').pow(reserve.decimals)
-            );
+      const walletBalance = valueToBigNumber(walletData[reserve.underlyingAsset]?.amount || '0');
       return {
         ...reserve,
         walletBalance,

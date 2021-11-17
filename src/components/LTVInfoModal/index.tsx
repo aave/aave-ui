@@ -14,6 +14,7 @@ import { getAssetColor, isAssetStable, TokenIcon } from '../../helpers/config/as
 
 import messages from './messages';
 import staticStyles from './style';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 interface LTVInfoModalProps {
   visible: boolean;
@@ -113,8 +114,12 @@ export default function LTVInfoModal({ visible, setVisible }: LTVInfoModalProps)
 
   const liquidationPriceUSD = new BigNumber(liquidationPrice)
     .multipliedBy(marketRefPriceInUsd)
+    .shiftedBy(-USD_DECIMALS)
     .toString();
-  const unitPriceUsd = new BigNumber(unitPrice).multipliedBy(marketRefPriceInUsd).toString();
+  const unitPriceUsd = new BigNumber(unitPrice)
+    .multipliedBy(marketRefPriceInUsd)
+    .shiftedBy(-USD_DECIMALS)
+    .toString();
 
   return (
     <BasicModal

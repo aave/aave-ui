@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { PERMISSION } from '@aave/contract-helpers';
 
@@ -22,14 +21,13 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { DepositTableItem } from '../../components/DepositAssetsTable/types';
-import { useWalletBalanceProviderContext } from '../../../../libs/wallet-balance-provider/WalletBalanceProvider';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 
 export default function DepositsMain() {
   const intl = useIntl();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { walletData } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
   const { reserveIncentives } = useIncentivesDataContext();
   const { sm } = useThemeContext();
@@ -39,8 +37,6 @@ export default function DepositsMain() {
 
   const [sortName, setSortName] = useState('');
   const [sortDesc, setSortDesc] = useState(false);
-
-  const { walletData } = useWalletBalanceProviderContext();
 
   if (!walletData) {
     return <Preloader withText={true} />;
@@ -67,16 +63,8 @@ export default function DepositsMain() {
         const userReserve = user?.userReservesData.find(
           (userRes) => userRes.reserve.symbol === reserve.symbol
         );
-        const walletBalance =
-          walletData[reserve.underlyingAsset] === '0'
-            ? valueToBigNumber('0')
-            : valueToBigNumber(walletData[reserve.underlyingAsset] || '0').dividedBy(
-                valueToBigNumber('10').pow(reserve.decimals)
-              );
-        const walletBalanceInUSD = walletBalance
-          .multipliedBy(reserve.priceInMarketReferenceCurrency)
-          .multipliedBy(marketRefPriceInUsd)
-          .toString();
+        const walletBalance = walletData[reserve.underlyingAsset]?.amount || '0';
+        const walletBalanceInUSD = walletData[reserve.underlyingAsset]?.amountUSD || '0';
         const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
         return {
           ...reserve,

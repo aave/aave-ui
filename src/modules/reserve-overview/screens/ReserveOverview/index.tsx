@@ -7,7 +7,6 @@ import routeParamValidationHOC, {
 } from '../../../../components/RouteParamsValidationWrapper';
 import { getLPTokenPoolLink } from '../../../../helpers/lp-tokens';
 import { RATES_HISTORY_ENDPOINT } from '../../../../helpers/config/misc-config';
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
@@ -56,7 +55,6 @@ function ReserveOverview({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const asset = getAssetInfo(currencySymbol);
 
   const poolLink = getLPTokenPoolLink({
@@ -123,11 +121,7 @@ function ReserveOverview({
         )}
 
         <div className="ReserveOverview__content-wrapper">
-          <ReserveInformation
-            poolReserve={poolReserve}
-            marketRefPriceInUsd={marketRefPriceInUsd}
-            symbol={currencySymbol}
-          />
+          <ReserveInformation poolReserve={poolReserve} symbol={currencySymbol} />
 
           <div className="ReserveOverview__information ReserveOverview__user-information">
             <h3 className="ReserveOverview__information-title">

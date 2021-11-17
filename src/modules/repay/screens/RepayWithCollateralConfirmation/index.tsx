@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { valueToBigNumber, BigNumber, InterestRate, API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
-import { ChainId } from '@aave/contract-helpers';
-
 import {
   useDynamicPoolDataContext,
   useStaticPoolDataContext,
@@ -25,6 +23,8 @@ import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
+import { ChainId } from '@aave/contract-helpers';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 interface QueryParams {
   fromAsset?: string;
@@ -116,13 +116,15 @@ function RepayWithCollateralConfirmation({
   const displayAmountToRepay = BigNumber.min(debtToRepay, maxDebtToRepay);
   const displayAmountToRepayInUsd = displayAmountToRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd);
+    .multipliedBy(marketRefPriceInUsd)
+    .shiftedBy(-USD_DECIMALS);
 
   const amountAfterRepay = maxDebtToRepay.minus(debtToRepay).toString();
   const displayAmountAfterRepay = BigNumber.min(amountAfterRepay, maxDebtToRepay);
   const displayAmountAfterRepayInUsd = displayAmountAfterRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd);
+    .multipliedBy(marketRefPriceInUsd)
+    .shiftedBy(-USD_DECIMALS);
 
   const { hfAfterSwap, hfInitialEffectOfFromAmount } = calculateHFAfterRepay(
     fromAmountQuery,

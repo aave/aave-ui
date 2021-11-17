@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useContext } from 'react';
+import React, { ReactElement, ReactNode, useContext, useState } from 'react';
 import { API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useUserWalletDataContext } from '../../web3-data-provider';
@@ -7,10 +7,13 @@ import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/
 import { useApolloConfigContext } from '../../apollo-config';
 import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
 import { assetsOrder } from '../../../ui-config/assets';
-import { ChainId } from '@aave/contract-helpers';
+import { ChainId, WalletBalanceProvider } from '@aave/contract-helpers';
 import { usePoolData } from '../hooks/use-pool-data';
 import { ReserveDataHumanized, UserReserveDataHumanized } from '@aave/contract-helpers';
-import { normalize } from '@aave/math-utils';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
+import { usePolling } from '../../hooks/use-polling';
+import { nativeToUSD, normalize } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
 
 /**
  * removes the marketPrefix from a symbol
@@ -38,6 +41,8 @@ export interface StaticPoolDataContextData {
   marketRefPriceInUsd: string;
   WrappedBaseNetworkAssetAddress: string;
   refresh: () => Promise<void>;
+  walletData: { [address: string]: { amount: string; amountUSD: string } };
+  refetchWalletData: () => {};
 }
 
 const StaticPoolDataContext = React.createContext({} as StaticPoolDataContextData);
@@ -57,6 +62,9 @@ export function StaticPoolDataProvider({
   const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
+  const [walletData, setWalletsBalance] = useState<{
+    [address: string]: { amount: string; amountUSD: string };
+  }>({});
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
 
   const {
@@ -82,7 +90,54 @@ export function StaticPoolDataProvider({
     currentAccount
   );
 
+  const isLoading = rpcDataLoading || cachedDataLoading;
   const activeData = isRPCActive && rpcData ? rpcData : cachedData;
+
+  async function fetchWalletData() {
+    if (!currentAccount || !activeData?.reserves) return;
+    const contract = new WalletBalanceProvider({
+      walletBalanceProviderAddress: networkConfig.addresses.walletBalanceProvider,
+      provider: getProvider(chainId),
+    });
+    const { 0: reserves, 1: balances } = await contract.getUserWalletBalancesForLendingPoolProvider(
+      currentAccount,
+      currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER
+    );
+
+    const aggregatedBalance = reserves.reduce((acc, reserve, i) => {
+      const poolReserve = activeData.reserves?.reservesData.find((poolReserve) => {
+        // TODO: not 100% sure this is correct
+        if (reserve.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()) {
+          return (
+            poolReserve.underlyingAsset.toLowerCase() ===
+            networkConfig.baseAssetWrappedAddress?.toLowerCase()
+          );
+        }
+        return poolReserve.underlyingAsset.toLowerCase() === reserve.toLowerCase();
+      });
+      if (poolReserve) {
+        acc[reserve.toLowerCase()] = {
+          amount: normalize(balances[i].toString(), poolReserve.decimals),
+          amountUSD: nativeToUSD({
+            amount: new BigNumber(balances[i].toString()),
+            currencyDecimals: poolReserve.decimals,
+            priceInMarketReferenceCurrency: poolReserve.priceInMarketReferenceCurrency,
+            marketRefCurrencyDecimals,
+            marketRefPriceInUsd,
+          }),
+        };
+      }
+      return acc;
+    }, {} as { [address: string]: { amount: string; amountUSD: string } });
+    setWalletsBalance(aggregatedBalance);
+  }
+
+  usePolling(fetchWalletData, 30000, !currentAccount, [
+    currentAccount,
+    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+    isLoading,
+  ]);
+
   if ((isRPCActive && rpcDataLoading && !rpcData) || (!isRPCActive && cachedDataLoading)) {
     return loader;
   }
@@ -160,6 +215,7 @@ export function StaticPoolDataProvider({
     ?.marketReferenceCurrencyDecimals
     ? activeData.reserves.baseCurrencyData?.marketReferenceCurrencyDecimals
     : 18;
+
   return (
     <StaticPoolDataContext.Provider
       value={{
@@ -174,9 +230,11 @@ export function StaticPoolDataProvider({
         rawUserReserves: userReservesWithFixedUnderlying,
         rawReservesWithBase: reserves ? reserves : [],
         rawUserReservesWithBase: userReserves,
-        marketRefPriceInUsd: normalize(marketRefPriceInUsd, 8),
+        marketRefPriceInUsd: marketRefPriceInUsd,
         marketRefCurrencyDecimals,
         isUserHasDeposits,
+        walletData,
+        refetchWalletData: fetchWalletData,
       }}
     >
       {children}

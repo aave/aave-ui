@@ -12,6 +12,7 @@ import ValuePercent from '../ValuePercent';
 
 import messages from './messages';
 import staticStyles from './style';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 interface RiskBarProps {
   value: number;
@@ -36,7 +37,8 @@ export default function RiskBar({ value, onChange, maxAmount, currencySymbol }: 
 
   const amountToBorrowInUsd = valueToBigNumber(value)
     .multipliedBy(reserveETHPrice || '0')
-    .multipliedBy(marketRefPriceInUsd);
+    .multipliedBy(marketRefPriceInUsd)
+    .shiftedBy(-USD_DECIMALS);
 
   const newHealthFactor = calculateHealthFactorFromBalancesBigUnits(
     user.totalCollateralUSD,
