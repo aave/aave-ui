@@ -20,6 +20,7 @@ import { getAssetInfo } from '../../../../helpers/config/assets-config';
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import { Pool } from '@aave/contract-helpers';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
 function DepositConfirmation({
   currencySymbol,
@@ -32,6 +33,7 @@ function DepositConfirmation({
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { currentMarketData } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
   const aTokenData = getAtokenInfo({
     address: poolReserve.aTokenAddress,
@@ -79,7 +81,7 @@ function DepositConfirmation({
 
   // Get approve and supply transactions without using permit flow
   const handleGetTransactions = async () => {
-    if (poolReserve.supplyCap || poolReserve.supplyCap === '') {
+    if (currentMarketData.v3) {
       // TO-DO: No need for this cast once a single Pool type is used in use-tx-builder-context
       const newPool: Pool = lendingPool as Pool;
       return await newPool.supply({
@@ -131,8 +133,6 @@ function DepositConfirmation({
       userReserve.underlyingBalance === '0' ||
       userReserve.usageAsCollateralEnabledOnUser);
 
-  const permitEnabled = Boolean(poolReserve.supplyCap) || poolReserve.supplyCap === '';
-
   return (
     <DepositCurrencyWrapper
       currencySymbol={currencySymbol}
@@ -147,14 +147,14 @@ function DepositConfirmation({
         boxTitle={intl.formatMessage(defaultMessages.deposit)}
         boxDescription={intl.formatMessage(messages.boxDescription)}
         approveDescription={
-          permitEnabled
+          currentMarketData.v3
             ? intl.formatMessage(messages.approveOrPermitDescription)
             : intl.formatMessage(messages.approveDescription)
         }
         getTransactionsData={handleGetTransactions}
         getPermitSignatureRequest={handleGetPermitSignatureRequest}
         getPermitEnabledTransactionData={handleGetPermitSupply}
-        permitEnabled={permitEnabled}
+        permitEnabled={currentMarketData.v3}
         blockingError={blockingError}
         aTokenData={aTokenData}
       >
