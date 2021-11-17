@@ -72,12 +72,13 @@ class MM {
         if($$(MetamaskPage.networkXpath()).length != 0)
           _located = true
         else
+          console.log("!!!!!!!!!!")
           browser.refresh()
         return _located
       },
       {
         timeout: 25000,
-        interval: 5000, // need to fix unknown mm problem in CI
+        interval: 2000, // need to fix unknown mm problem in CI
         timeoutMsg: "network button not exist"
       }
     ) // need to fix unknown mm problem in CI

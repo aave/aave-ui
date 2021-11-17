@@ -18,8 +18,7 @@ class DepositPage extends Page {
   openAssetDepositPage(assetName){
     browser.waitUntil(
       () => {
-        let _assetValue = this.assetTable.$(".//*[text()='"+assetName+"']/../../../..")
-          .$(".//*[contains(@class, 'Value__value')]")
+        let _assetValue = this.assetTable.$(".//*[text()='"+assetName+"']/../../../..//*[contains(@class, 'Value__value')]")
         let _value = elemUtil.doGetText(_assetValue)
         if(_value === "-"){
           return false
