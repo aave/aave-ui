@@ -55,10 +55,10 @@ module.exports = class TenderlyFork {
   }
 
   async getTopHolder(token){
-    const res = await axios.get(
+    const res = (await axios.get(
       `https://ethplorer.io/service/service.php?data=${token}&page=tab%3Dtab-holders%26pageSize%3D10%26holders%3D1`
-    );
-    return res.data.holders[0].address;
+    )).data.holders[0].address;
+    return res;
   };
 
   async deleteFork() {
