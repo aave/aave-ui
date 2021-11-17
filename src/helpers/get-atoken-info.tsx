@@ -1,6 +1,7 @@
 import { TokenMetadataType } from '@aave/protocol-js';
 import { getAssetInfo } from '@aave/aave-ui-kit';
 import { tEthereumAddress } from '@aave/protocol-js/dist/tx-builder/types';
+import { assetsList } from '../ui-config/assets';
 
 interface ATokenInfoParams {
   address: tEthereumAddress;
@@ -36,5 +37,26 @@ export function getAtokenInfo({
     icon: formattedSymbol ? asset.icon : asset.aIcon || asset.icon,
     decimals: decimals,
     formattedSymbol,
+  };
+}
+
+export function isAtoken(aTokenPrefix: string, symbol: string) {
+  const aTokenPrefixLength = aTokenPrefix.length;
+  const aTokenPrefixFromSymbol = symbol.substr(0, aTokenPrefixLength);
+
+  if (aTokenPrefixFromSymbol.toUpperCase() === aTokenPrefix.toUpperCase()) {
+    const normalSymbol = symbol.substr(aTokenPrefixLength, symbol.length);
+    if (symbol.length !== normalSymbol.length) {
+      if (assetsList.some((asset) => asset.symbol === normalSymbol)) {
+        return {
+          symbol: normalSymbol,
+          isAtoken: true,
+        };
+      }
+    }
+  }
+  return {
+    symbol,
+    isAtoken: false,
   };
 }

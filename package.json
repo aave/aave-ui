@@ -5,7 +5,7 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@0x/subproviders": "^6.5.4",
-    "@aave/aave-ui-kit": "^0.1.14",
+    "@aave/aave-ui-kit": "0.1.15-611285a8df3d9346f52e0a1911b2281007269765.0",
     "@aave/math-utils": "0.25.5-6bfda5a0925e64a4a248b75ef4329db00a950604.0+6bfda5a",
     "@aave/contract-helpers": "0.25.5-6bfda5a0925e64a4a248b75ef4329db00a950604.0+6bfda5a",
     "@aave/protocol-js": "4.3.0",
