@@ -339,7 +339,7 @@ export default function TxConfirmationView({
                     />
                   )}
 
-                {permitEnabled && approveTxData && selectedStep === 1 && (
+                {permitEnabled && approveTxData && selectedStep === 1 && unsignedPermitData && (
                   <ActionExecutionBox
                     title={`${selectedStep}/${numberOfSteps + 1} ${
                       backendNotAvailable
