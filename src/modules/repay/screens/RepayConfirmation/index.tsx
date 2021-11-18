@@ -7,7 +7,7 @@ import {
   BigNumber,
   InterestRate,
 } from '@aave/protocol-js';
-import { PoolInterface } from '@aave/contract-helpers';
+import { Pool, PoolInterface } from '@aave/contract-helpers';
 
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
@@ -115,13 +115,49 @@ function RepayConfirmation({
     user.currentLiquidationThreshold
   );
 
-  const handleGetTransactions = async () =>
-    await lendingPool.repay({
+  const handleGetTransactions = async () => {
+    if (currentMarketData.v3) {
+      // TO-DO: No need for this cast once a single Pool type is used in use-tx-builder-context
+      const newPool: Pool = lendingPool as Pool;
+      return await newPool.repay({
+        user: user.id,
+        reserve: poolReserve.underlyingAsset,
+        amount: amountToRepay.toString(),
+        interestRateMode: debtType as InterestRate,
+      });
+    } else {
+      return await lendingPool.repay({
+        user: user.id,
+        reserve: poolReserve.underlyingAsset,
+        amount: amountToRepay.toString(),
+        interestRateMode: debtType as InterestRate,
+      });
+    }
+  };
+
+  // Generate signature request payload
+  const handleGetPermitSignatureRequest = async () => {
+    // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
+    const newPool: Pool = lendingPool as Pool;
+    return await newPool.signERC20Approval({
       user: user.id,
       reserve: poolReserve.underlyingAsset,
-      amount: amountToRepay.toString(),
-      interestRateMode: debtType as InterestRate,
+      amount: amount.toString(),
     });
+  };
+
+  // Generate supply transaction with signed permit
+  const handleGetPermitRepay = async (signature: string) => {
+    // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
+    const newPool: Pool = lendingPool as Pool;
+    return await newPool.repayWithPermit({
+      user: user.id,
+      reserve: poolReserve.underlyingAsset,
+      amount: amount.toString(),
+      interestRateMode: debtType as InterestRate,
+      signature,
+    });
+  };
 
   const handleGetATokenTransactions = async () =>
     await (lendingPool as PoolInterface).repayWithATokens({
@@ -165,8 +201,15 @@ function RepayConfirmation({
         caption={intl.formatMessage(messages.caption)}
         boxTitle={intl.formatMessage(defaultMessages.repay)}
         boxDescription={intl.formatMessage(messages.boxDescription)}
-        approveDescription={intl.formatMessage(messages.approveDescription)}
+        approveDescription={
+          currentMarketData.v3
+            ? intl.formatMessage(messages.approveOrPermitDescription)
+            : intl.formatMessage(messages.approveDescription)
+        }
         getTransactionsData={repayWithATokens ? handleGetATokenTransactions : handleGetTransactions}
+        getPermitSignatureRequest={handleGetPermitSignatureRequest}
+        getPermitEnabledTransactionData={handleGetPermitRepay}
+        permitEnabled={currentMarketData.v3}
         onMainTxExecuted={handleMainTxExecuted}
         blockingError={blockingError}
         goToAfterSuccess="/dashboard/borrowings"
