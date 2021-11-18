@@ -1,16 +1,17 @@
-import { useState, useEffect } from 'react';
-import { Proposal, normalize, AaveGovernanceV2Interface, Network } from '@aave/protocol-js';
+import { useState } from 'react';
+import { Proposal, normalize } from '@aave/protocol-js';
 import { providers } from 'ethers';
 
 import { ProposalItem } from '../types';
 import { getProposalExpiry } from '../helper';
 
 import { useStateLoading, LOADING_STATE } from '../../hooks/use-state-loading';
-import { usePooling } from '../../hooks/use-pooling';
+import { usePolling } from '../../hooks/use-polling';
 import { IpfsMeta } from '../types';
 
 import fm from 'front-matter';
-import { getProvider } from '../../../helpers/markets/markets-data';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
+import { AaveGovernanceService, ChainId } from '@aave/contract-helpers';
 
 const MemorizeStartTimestamp: { [id: string]: number } = {};
 const MemorizeProposalTimestamp: { [id: string]: number } = {};
@@ -109,12 +110,12 @@ const useGetProposalsRPC = ({
   skip = false,
   averageNetworkBlockTime,
   governanceService,
-  network,
+  chainId,
 }: {
   skip: boolean;
   averageNetworkBlockTime: number;
-  governanceService: AaveGovernanceV2Interface;
-  network: Network;
+  governanceService: AaveGovernanceService;
+  chainId: ChainId;
 }) => {
   const [proposals, setProposals] = useState<ProposalItem[]>([]);
   const { loading, setLoading } = useStateLoading();
@@ -124,7 +125,7 @@ const useGetProposalsRPC = ({
     try {
       const rawProposals = await governanceService.getProposals({ skip: 0, limit: 100 });
       setProposals(
-        await parserProposals(rawProposals, getProvider(network), averageNetworkBlockTime)
+        await parserProposals(rawProposals, getProvider(chainId), averageNetworkBlockTime)
       );
     } catch (e) {
       console.error(`ERROR Proposals RPC : ${e.message}`);
@@ -132,12 +133,7 @@ const useGetProposalsRPC = ({
     setLoading(LOADING_STATE.FINISHED);
   };
 
-  useEffect(() => {
-    !skip && getProposals();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [skip, network]);
-
-  usePooling(getProposals, INTERVAL_POOL, skip, [skip, network]);
+  usePolling(getProposals, INTERVAL_POOL, skip, [skip, chainId]);
 
   return { proposals, loading };
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Network } from '@aave/protocol-js';
 import { useIntl } from 'react-intl';
 
 import Link from '../basic/Link';
@@ -9,7 +8,7 @@ import messages from './messages';
 import staticStyles from './style';
 
 interface BridgeBannerProps {
-  networkName: Network;
+  networkName: string;
   name: string;
   url: string;
   brandColor: string;
@@ -38,7 +37,7 @@ export default function BridgeBanner({
       </div>
       <div className="BridgeBanner__title">
         {intl.formatMessage(messages.title, {
-          networkName: networkName[0].toUpperCase() + networkName.slice(1),
+          networkName,
           bridge: (
             <Link to={url} inNewWindow={true} absolute={true} color="white" bold={true}>
               {name}

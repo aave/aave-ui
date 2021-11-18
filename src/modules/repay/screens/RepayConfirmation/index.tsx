@@ -21,7 +21,7 @@ import RepayContentWrapper from '../../components/RepayContentWrapper';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
-import { getAssetInfo, isAssetStable } from '../../../../helpers/markets/assets';
+import { getAssetInfo, isAssetStable } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -75,14 +75,14 @@ function RepayConfirmation({
 
   const displayAmountToRepay = BigNumber.min(amountToRepayUI, maxAmountToRepay);
   const displayAmountToRepayInUsd = displayAmountToRepay
-    .multipliedBy(poolReserve.price.priceInEth)
-    .dividedBy(marketRefPriceInUsd);
+    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
+    .multipliedBy(marketRefPriceInUsd);
 
   const amountAfterRepay = maxAmountToRepay.minus(amountToRepayUI).toString();
   const displayAmountAfterRepay = BigNumber.min(amountAfterRepay, maxAmountToRepay);
   const displayAmountAfterRepayInUsd = displayAmountAfterRepay
-    .multipliedBy(poolReserve.price.priceInEth)
-    .dividedBy(marketRefPriceInUsd);
+    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
+    .multipliedBy(marketRefPriceInUsd);
 
   const healthFactorAfterRepay = calculateHealthFactorFromBalancesBigUnits(
     user.totalCollateralUSD,

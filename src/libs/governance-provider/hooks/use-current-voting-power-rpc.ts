@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
-import {
-  normalize,
-  valueToBigNumber,
-  tEthereumAddress,
-  AaveGovernanceV2Interface,
-} from '@aave/protocol-js';
+import { normalize, valueToBigNumber, tEthereumAddress } from '@aave/protocol-js';
 
 import { useStateLoading, LOADING_STATE } from '../../hooks/use-state-loading';
 import { GovernanceConfig } from '../../../ui-config';
+import { AaveGovernanceService } from '@aave/contract-helpers';
 
 interface PowersState {
   votingPower: string;
@@ -20,7 +16,7 @@ interface PowersState {
 
 export function useCurrentVotingPowerRPC(
   userAddress: tEthereumAddress,
-  governanceService: AaveGovernanceV2Interface,
+  governanceService: AaveGovernanceService,
   governanceConfig: GovernanceConfig
 ) {
   const { aaveTokenAddress, stkAaveTokenAddress } = governanceConfig;

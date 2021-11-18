@@ -1,13 +1,5 @@
 import React, { ReactNode, useContext, useState } from 'react';
-import {
-  normalize,
-  StakingInterface,
-  Stake,
-  TxBuilderV2,
-  Network,
-  valueToBigNumber,
-  TxBuilderConfig,
-} from '@aave/protocol-js';
+import { normalize, Stake, valueToBigNumber } from '@aave/protocol-js';
 
 import { useLocation } from 'react-router-dom';
 
@@ -30,7 +22,8 @@ import {
 } from '../../connection-status-provider';
 import { useApolloConfigContext } from '../../apollo-config';
 import { StakeConfig } from '../../../ui-config';
-import { getProvider } from '../../../helpers/markets/markets-data';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
+import { ChainId, StakingService } from '@aave/contract-helpers';
 
 export function computeStakeData(data: StakeData): ComputedStakeData {
   return {
@@ -67,20 +60,22 @@ const StakeDataContext = React.createContext<{
   stakeConfig: StakeConfig;
   selectedStake: Stake;
   selectedStakeData: ComputedStakeData;
+  STAKING_REWARD_TOKEN: string;
   data: ComputedStakesData;
   usdPriceEth: string;
   refresh: () => void;
-  txBuilder: StakingInterface;
+  stakingService: StakingService;
   cooldownStep: number;
   setCooldownStep: (value: number) => void;
 }>({
   stakeConfig: {} as StakeConfig,
   selectedStake: Stake.aave,
+  STAKING_REWARD_TOKEN: '',
   selectedStakeData: {} as ComputedStakeData,
   data: {} as ComputedStakesData,
   usdPriceEth: '0',
   refresh: () => {},
-  txBuilder: {} as StakingInterface,
+  stakingService: {} as StakingService,
   cooldownStep: 0,
   setCooldownStep: () => {},
 });
@@ -96,32 +91,28 @@ export function StakeDataProvider({
   const location = useLocation();
   const [cooldownStep, setCooldownStep] = useState(0);
   const { preferredConnectionMode } = useConnectionStatusContext();
-  const { network, networkConfig } = useProtocolDataContext();
-  const { network: apolloClientNetwork } = useApolloConfigContext();
-  const RPC_ONLY_MODE = networkConfig.rpcOnly;
+  const { chainId, networkConfig } = useProtocolDataContext();
+  const { chainId: apolloClientChainId } = useApolloConfigContext();
+  const isStakeFork =
+    networkConfig.isFork && networkConfig.underlyingChainId === stakeConfig.chainId;
+  const RPC_ONLY_MODE =
+    networkConfig.rpcOnly || preferredConnectionMode === ConnectionMode.rpc || isStakeFork;
+
+  const rpcProvider = isStakeFork ? getProvider(chainId) : getProvider(stakeConfig.chainId);
 
   const selectedStake =
     location.pathname.split('/')[2]?.toLowerCase() === Stake.aave ? Stake.aave : Stake.bpt;
-  const config: TxBuilderConfig = {
-    staking: {
-      [stakeConfig.network]: stakeConfig.tokens,
-    },
-  };
-  const txBuilder = new TxBuilderV2(
-    stakeConfig.network,
-    getProvider(stakeConfig.network),
-    undefined,
-    config
-  ).getStaking(selectedStake === Stake.aave ? Stake.aave : Stake.bpt);
+  const selectedStakeAddresses = stakeConfig.tokens[selectedStake];
+  const stakingService = new StakingService(rpcProvider, {
+    TOKEN_STAKING_ADDRESS: selectedStakeAddresses.TOKEN_STAKING,
+    STAKING_HELPER_ADDRESS: selectedStakeAddresses.STAKING_HELPER,
+  });
 
   const {
     loading: cachedDataLoading,
     data: cachedData,
     usdPriceEth: usdPriceEthCached,
-  } = useCachedStakeData(
-    userId,
-    preferredConnectionMode === ConnectionMode.rpc || network !== apolloClientNetwork
-  );
+  } = useCachedStakeData(userId, chainId !== apolloClientChainId || RPC_ONLY_MODE);
 
   const wsNetworkError = useNetworkCachedServerWsGraphCheck();
   const wsMainnetError = useMainnetCachedServerWsGraphCheck();
@@ -129,9 +120,9 @@ export function StakeDataProvider({
 
   const isRPCMandatory =
     RPC_ONLY_MODE ||
-    (wsNetworkError.wsErrorCount >= WS_ATTEMPTS_LIMIT && network === Network.mainnet) ||
-    (wsMainnetError.wsErrorCount >= WS_ATTEMPTS_LIMIT && network !== Network.mainnet) ||
-    network === Network.fork ||
+    (wsNetworkError.wsErrorCount >= WS_ATTEMPTS_LIMIT && chainId === ChainId.mainnet) ||
+    (wsMainnetError.wsErrorCount >= WS_ATTEMPTS_LIMIT && chainId !== ChainId.mainnet) ||
+    networkConfig.isFork ||
     (!cachedData && !cachedDataLoading) ||
     queryError.queryErrorCount >= 1;
   const isRPCActive = preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory;
@@ -141,7 +132,12 @@ export function StakeDataProvider({
     data: rpcData,
     usdPriceEth: usdPriceEthRpc,
     refresh,
-  } = useStakeDataWithRpc(stakeConfig.stakeDataProvider, stakeConfig.network, userId, !isRPCActive);
+  } = useStakeDataWithRpc(
+    stakeConfig.stakeDataProvider,
+    isStakeFork ? chainId : stakeConfig.chainId,
+    userId,
+    !isRPCActive
+  );
 
   if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
     return <Preloader withText={true} />;
@@ -163,7 +159,8 @@ export function StakeDataProvider({
       value={{
         stakeConfig,
         selectedStake,
-        txBuilder,
+        STAKING_REWARD_TOKEN: selectedStakeAddresses.STAKING_REWARD_TOKEN,
+        stakingService,
         selectedStakeData: computedData[selectedStake],
         usdPriceEth,
         data: computedData,

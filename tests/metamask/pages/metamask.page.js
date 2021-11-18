@@ -16,7 +16,7 @@ const locators = {
   },
   closePopUpBtn: '//*[@title="Close"]',
   network:{
-      listBtn:'//*[@class="network-indicator"]',
+      listBtn:'//*[text()="Ethereum Mainnet"]',
       ropstenLI:'//*[text()="Ropsten Test Network"]'
   },
   account:{
@@ -118,6 +118,8 @@ class MetamaskPage {
   get networkForm_saveBtn(){return $(locators.customNetworkForm.saveBtn)}
 
   get logo(){return $(locators.logo)}
+
+  networkXpath() {return locators.network.listBtn}
 }
 
 module.exports = new MetamaskPage();

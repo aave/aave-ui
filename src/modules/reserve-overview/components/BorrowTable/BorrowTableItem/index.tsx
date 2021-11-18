@@ -1,12 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import {
-  ComputedUserReserve,
-  ReserveData,
-  valueToBigNumber,
-  InterestRate,
-} from '@aave/protocol-js';
+import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { BorrowRateMode } from '../../../../../libs/pool-data-provider/graphql';
@@ -16,15 +11,17 @@ import Value from '../../../../../components/basic/Value';
 import Link from '../../../../../components/basic/Link';
 import DefaultButton from '../../../../../components/basic/DefaultButton';
 import CustomSwitch from '../../../../../components/basic/CustomSwitch';
-import { TokenIcon } from '../../../../../helpers/markets/assets';
+import { TokenIcon } from '../../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../../defaultMessages';
 import messages from './messages';
 import staticStyles from './style';
+import { ComputedUserReserve } from '@aave/math-utils';
+import { ComputedReserveData } from '../../../../../libs/pool-data-provider';
 
 interface BorrowTableItemProps {
   symbol: string;
-  poolReserve: ReserveData;
+  poolReserve: ComputedReserveData;
   userReserve?: ComputedUserReserve;
   type: 'stable' | 'variable';
   availableBorrows: number;

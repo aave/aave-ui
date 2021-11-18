@@ -20,143 +20,157 @@ export type Scalars = {
 
 export type AToken = {
   __typename?: 'AToken';
-  /** AToken address */
+  /**
+   * AToken address
+   *
+   */
   id: Scalars['ID'];
   pool: Pool;
+  tokenContractImpl: Scalars['Bytes'];
   underlyingAssetAddress: Scalars['Bytes'];
   underlyingAssetDecimals: Scalars['Int'];
-  tokenContractImpl: Scalars['Bytes'];
 };
 
 export type ATokenBalanceHistoryItem = {
   __typename?: 'ATokenBalanceHistoryItem';
-  /** userReserve + txHash */
-  id: Scalars['ID'];
-  userReserve: UserReserve;
-  timestamp: Scalars['Int'];
-  scaledATokenBalance: Scalars['BigInt'];
   currentATokenBalance: Scalars['BigInt'];
+  /**
+   * userReserve + txHash
+   *
+   */
+  id: Scalars['ID'];
   index: Scalars['BigInt'];
+  scaledATokenBalance: Scalars['BigInt'];
+  timestamp: Scalars['Int'];
+  userReserve: UserReserve;
 };
 
 export type ATokenBalanceHistoryItem_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  userReserve?: Maybe<Scalars['String']>;
-  userReserve_not?: Maybe<Scalars['String']>;
-  userReserve_gt?: Maybe<Scalars['String']>;
-  userReserve_lt?: Maybe<Scalars['String']>;
-  userReserve_gte?: Maybe<Scalars['String']>;
-  userReserve_lte?: Maybe<Scalars['String']>;
-  userReserve_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_contains?: Maybe<Scalars['String']>;
-  userReserve_not_contains?: Maybe<Scalars['String']>;
-  userReserve_starts_with?: Maybe<Scalars['String']>;
-  userReserve_not_starts_with?: Maybe<Scalars['String']>;
-  userReserve_ends_with?: Maybe<Scalars['String']>;
-  userReserve_not_ends_with?: Maybe<Scalars['String']>;
-  timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
-  timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
-  timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
-  timestamp_in?: Maybe<Array<Scalars['Int']>>;
-  timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
-  scaledATokenBalance?: Maybe<Scalars['BigInt']>;
-  scaledATokenBalance_not?: Maybe<Scalars['BigInt']>;
-  scaledATokenBalance_gt?: Maybe<Scalars['BigInt']>;
-  scaledATokenBalance_lt?: Maybe<Scalars['BigInt']>;
-  scaledATokenBalance_gte?: Maybe<Scalars['BigInt']>;
-  scaledATokenBalance_lte?: Maybe<Scalars['BigInt']>;
-  scaledATokenBalance_in?: Maybe<Array<Scalars['BigInt']>>;
-  scaledATokenBalance_not_in?: Maybe<Array<Scalars['BigInt']>>;
   currentATokenBalance?: Maybe<Scalars['BigInt']>;
-  currentATokenBalance_not?: Maybe<Scalars['BigInt']>;
   currentATokenBalance_gt?: Maybe<Scalars['BigInt']>;
-  currentATokenBalance_lt?: Maybe<Scalars['BigInt']>;
   currentATokenBalance_gte?: Maybe<Scalars['BigInt']>;
-  currentATokenBalance_lte?: Maybe<Scalars['BigInt']>;
   currentATokenBalance_in?: Maybe<Array<Scalars['BigInt']>>;
+  currentATokenBalance_lt?: Maybe<Scalars['BigInt']>;
+  currentATokenBalance_lte?: Maybe<Scalars['BigInt']>;
+  currentATokenBalance_not?: Maybe<Scalars['BigInt']>;
   currentATokenBalance_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
   index?: Maybe<Scalars['BigInt']>;
-  index_not?: Maybe<Scalars['BigInt']>;
   index_gt?: Maybe<Scalars['BigInt']>;
-  index_lt?: Maybe<Scalars['BigInt']>;
   index_gte?: Maybe<Scalars['BigInt']>;
-  index_lte?: Maybe<Scalars['BigInt']>;
   index_in?: Maybe<Array<Scalars['BigInt']>>;
+  index_lt?: Maybe<Scalars['BigInt']>;
+  index_lte?: Maybe<Scalars['BigInt']>;
+  index_not?: Maybe<Scalars['BigInt']>;
   index_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  scaledATokenBalance?: Maybe<Scalars['BigInt']>;
+  scaledATokenBalance_gt?: Maybe<Scalars['BigInt']>;
+  scaledATokenBalance_gte?: Maybe<Scalars['BigInt']>;
+  scaledATokenBalance_in?: Maybe<Array<Scalars['BigInt']>>;
+  scaledATokenBalance_lt?: Maybe<Scalars['BigInt']>;
+  scaledATokenBalance_lte?: Maybe<Scalars['BigInt']>;
+  scaledATokenBalance_not?: Maybe<Scalars['BigInt']>;
+  scaledATokenBalance_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  timestamp?: Maybe<Scalars['Int']>;
+  timestamp_gt?: Maybe<Scalars['Int']>;
+  timestamp_gte?: Maybe<Scalars['Int']>;
+  timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
+  timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  userReserve?: Maybe<Scalars['String']>;
+  userReserve_contains?: Maybe<Scalars['String']>;
+  userReserve_ends_with?: Maybe<Scalars['String']>;
+  userReserve_gt?: Maybe<Scalars['String']>;
+  userReserve_gte?: Maybe<Scalars['String']>;
+  userReserve_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_lt?: Maybe<Scalars['String']>;
+  userReserve_lte?: Maybe<Scalars['String']>;
+  userReserve_not?: Maybe<Scalars['String']>;
+  userReserve_not_contains?: Maybe<Scalars['String']>;
+  userReserve_not_ends_with?: Maybe<Scalars['String']>;
+  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_not_starts_with?: Maybe<Scalars['String']>;
+  userReserve_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum ATokenBalanceHistoryItem_OrderBy {
-  Id = 'id',
-  UserReserve = 'userReserve',
-  Timestamp = 'timestamp',
-  ScaledATokenBalance = 'scaledATokenBalance',
   CurrentATokenBalance = 'currentATokenBalance',
+  Id = 'id',
   Index = 'index',
+  ScaledATokenBalance = 'scaledATokenBalance',
+  Timestamp = 'timestamp',
+  UserReserve = 'userReserve',
 }
 
 export type AToken_Filter = {
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
   pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
   pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
   pool_not_ends_with?: Maybe<Scalars['String']>;
-  underlyingAssetAddress?: Maybe<Scalars['Bytes']>;
-  underlyingAssetAddress_not?: Maybe<Scalars['Bytes']>;
-  underlyingAssetAddress_in?: Maybe<Array<Scalars['Bytes']>>;
-  underlyingAssetAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  underlyingAssetAddress_contains?: Maybe<Scalars['Bytes']>;
-  underlyingAssetAddress_not_contains?: Maybe<Scalars['Bytes']>;
-  underlyingAssetDecimals?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_not?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_gt?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_lt?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_gte?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_lte?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_in?: Maybe<Array<Scalars['Int']>>;
-  underlyingAssetDecimals_not_in?: Maybe<Array<Scalars['Int']>>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
   tokenContractImpl?: Maybe<Scalars['Bytes']>;
-  tokenContractImpl_not?: Maybe<Scalars['Bytes']>;
-  tokenContractImpl_in?: Maybe<Array<Scalars['Bytes']>>;
-  tokenContractImpl_not_in?: Maybe<Array<Scalars['Bytes']>>;
   tokenContractImpl_contains?: Maybe<Scalars['Bytes']>;
+  tokenContractImpl_in?: Maybe<Array<Scalars['Bytes']>>;
+  tokenContractImpl_not?: Maybe<Scalars['Bytes']>;
   tokenContractImpl_not_contains?: Maybe<Scalars['Bytes']>;
+  tokenContractImpl_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  underlyingAssetAddress?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_in?: Maybe<Array<Scalars['Bytes']>>;
+  underlyingAssetAddress_not?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_not_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  underlyingAssetDecimals?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_gt?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_gte?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_in?: Maybe<Array<Scalars['Int']>>;
+  underlyingAssetDecimals_lt?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_lte?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_not?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_not_in?: Maybe<Array<Scalars['Int']>>;
 };
 
 export enum AToken_OrderBy {
   Id = 'id',
   Pool = 'pool',
+  TokenContractImpl = 'tokenContractImpl',
   UnderlyingAssetAddress = 'underlyingAssetAddress',
   UnderlyingAssetDecimals = 'underlyingAssetDecimals',
-  TokenContractImpl = 'tokenContractImpl',
 }
+
+export type BaseCurrencyData = {
+  __typename?: 'BaseCurrencyData';
+  marketReferenceCurrencyDecimals: Scalars['Float'];
+  marketReferenceCurrencyPriceInUsd: Scalars['String'];
+  networkBaseTokenPriceDecimals: Scalars['Float'];
+  networkBaseTokenPriceInUsd: Scalars['String'];
+};
 
 export type Block_Height = {
   hash?: Maybe<Scalars['Bytes']>;
@@ -165,19 +179,22 @@ export type Block_Height = {
 
 export type Borrow = UserTransaction & {
   __typename?: 'Borrow';
-  /** tx hash */
-  id: Scalars['ID'];
-  pool: Pool;
-  user: User;
-  onBehalfOf: User;
-  reserve: Reserve;
-  userReserve: UserReserve;
   amount: Scalars['BigInt'];
   borrowRate: Scalars['BigInt'];
   borrowRateMode: BorrowRateMode;
+  /**
+   * tx hash
+   *
+   */
+  id: Scalars['ID'];
+  onBehalfOf: User;
+  pool: Pool;
   referrer?: Maybe<Referrer>;
-  timestamp: Scalars['Int'];
+  reserve: Reserve;
   stableTokenDebt: Scalars['BigInt'];
+  timestamp: Scalars['Int'];
+  user: User;
+  userReserve: UserReserve;
   variableTokenDebt: Scalars['BigInt'];
 };
 
@@ -188,155 +205,157 @@ export enum BorrowRateMode {
 }
 
 export type Borrow_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
-  pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
-  pool_ends_with?: Maybe<Scalars['String']>;
-  pool_not_ends_with?: Maybe<Scalars['String']>;
-  user?: Maybe<Scalars['String']>;
-  user_not?: Maybe<Scalars['String']>;
-  user_gt?: Maybe<Scalars['String']>;
-  user_lt?: Maybe<Scalars['String']>;
-  user_gte?: Maybe<Scalars['String']>;
-  user_lte?: Maybe<Scalars['String']>;
-  user_in?: Maybe<Array<Scalars['String']>>;
-  user_not_in?: Maybe<Array<Scalars['String']>>;
-  user_contains?: Maybe<Scalars['String']>;
-  user_not_contains?: Maybe<Scalars['String']>;
-  user_starts_with?: Maybe<Scalars['String']>;
-  user_not_starts_with?: Maybe<Scalars['String']>;
-  user_ends_with?: Maybe<Scalars['String']>;
-  user_not_ends_with?: Maybe<Scalars['String']>;
-  onBehalfOf?: Maybe<Scalars['String']>;
-  onBehalfOf_not?: Maybe<Scalars['String']>;
-  onBehalfOf_gt?: Maybe<Scalars['String']>;
-  onBehalfOf_lt?: Maybe<Scalars['String']>;
-  onBehalfOf_gte?: Maybe<Scalars['String']>;
-  onBehalfOf_lte?: Maybe<Scalars['String']>;
-  onBehalfOf_in?: Maybe<Array<Scalars['String']>>;
-  onBehalfOf_not_in?: Maybe<Array<Scalars['String']>>;
-  onBehalfOf_contains?: Maybe<Scalars['String']>;
-  onBehalfOf_not_contains?: Maybe<Scalars['String']>;
-  onBehalfOf_starts_with?: Maybe<Scalars['String']>;
-  onBehalfOf_not_starts_with?: Maybe<Scalars['String']>;
-  onBehalfOf_ends_with?: Maybe<Scalars['String']>;
-  onBehalfOf_not_ends_with?: Maybe<Scalars['String']>;
-  reserve?: Maybe<Scalars['String']>;
-  reserve_not?: Maybe<Scalars['String']>;
-  reserve_gt?: Maybe<Scalars['String']>;
-  reserve_lt?: Maybe<Scalars['String']>;
-  reserve_gte?: Maybe<Scalars['String']>;
-  reserve_lte?: Maybe<Scalars['String']>;
-  reserve_in?: Maybe<Array<Scalars['String']>>;
-  reserve_not_in?: Maybe<Array<Scalars['String']>>;
-  reserve_contains?: Maybe<Scalars['String']>;
-  reserve_not_contains?: Maybe<Scalars['String']>;
-  reserve_starts_with?: Maybe<Scalars['String']>;
-  reserve_not_starts_with?: Maybe<Scalars['String']>;
-  reserve_ends_with?: Maybe<Scalars['String']>;
-  reserve_not_ends_with?: Maybe<Scalars['String']>;
-  userReserve?: Maybe<Scalars['String']>;
-  userReserve_not?: Maybe<Scalars['String']>;
-  userReserve_gt?: Maybe<Scalars['String']>;
-  userReserve_lt?: Maybe<Scalars['String']>;
-  userReserve_gte?: Maybe<Scalars['String']>;
-  userReserve_lte?: Maybe<Scalars['String']>;
-  userReserve_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_contains?: Maybe<Scalars['String']>;
-  userReserve_not_contains?: Maybe<Scalars['String']>;
-  userReserve_starts_with?: Maybe<Scalars['String']>;
-  userReserve_not_starts_with?: Maybe<Scalars['String']>;
-  userReserve_ends_with?: Maybe<Scalars['String']>;
-  userReserve_not_ends_with?: Maybe<Scalars['String']>;
   amount?: Maybe<Scalars['BigInt']>;
-  amount_not?: Maybe<Scalars['BigInt']>;
   amount_gt?: Maybe<Scalars['BigInt']>;
-  amount_lt?: Maybe<Scalars['BigInt']>;
   amount_gte?: Maybe<Scalars['BigInt']>;
-  amount_lte?: Maybe<Scalars['BigInt']>;
   amount_in?: Maybe<Array<Scalars['BigInt']>>;
+  amount_lt?: Maybe<Scalars['BigInt']>;
+  amount_lte?: Maybe<Scalars['BigInt']>;
+  amount_not?: Maybe<Scalars['BigInt']>;
   amount_not_in?: Maybe<Array<Scalars['BigInt']>>;
   borrowRate?: Maybe<Scalars['BigInt']>;
-  borrowRate_not?: Maybe<Scalars['BigInt']>;
-  borrowRate_gt?: Maybe<Scalars['BigInt']>;
-  borrowRate_lt?: Maybe<Scalars['BigInt']>;
-  borrowRate_gte?: Maybe<Scalars['BigInt']>;
-  borrowRate_lte?: Maybe<Scalars['BigInt']>;
-  borrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
-  borrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
   borrowRateMode?: Maybe<BorrowRateMode>;
+  borrowRateMode_in?: Maybe<Array<BorrowRateMode>>;
   borrowRateMode_not?: Maybe<BorrowRateMode>;
+  borrowRateMode_not_in?: Maybe<Array<BorrowRateMode>>;
+  borrowRate_gt?: Maybe<Scalars['BigInt']>;
+  borrowRate_gte?: Maybe<Scalars['BigInt']>;
+  borrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  borrowRate_lt?: Maybe<Scalars['BigInt']>;
+  borrowRate_lte?: Maybe<Scalars['BigInt']>;
+  borrowRate_not?: Maybe<Scalars['BigInt']>;
+  borrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  onBehalfOf?: Maybe<Scalars['String']>;
+  onBehalfOf_contains?: Maybe<Scalars['String']>;
+  onBehalfOf_ends_with?: Maybe<Scalars['String']>;
+  onBehalfOf_gt?: Maybe<Scalars['String']>;
+  onBehalfOf_gte?: Maybe<Scalars['String']>;
+  onBehalfOf_in?: Maybe<Array<Scalars['String']>>;
+  onBehalfOf_lt?: Maybe<Scalars['String']>;
+  onBehalfOf_lte?: Maybe<Scalars['String']>;
+  onBehalfOf_not?: Maybe<Scalars['String']>;
+  onBehalfOf_not_contains?: Maybe<Scalars['String']>;
+  onBehalfOf_not_ends_with?: Maybe<Scalars['String']>;
+  onBehalfOf_not_in?: Maybe<Array<Scalars['String']>>;
+  onBehalfOf_not_starts_with?: Maybe<Scalars['String']>;
+  onBehalfOf_starts_with?: Maybe<Scalars['String']>;
+  pool?: Maybe<Scalars['String']>;
+  pool_contains?: Maybe<Scalars['String']>;
+  pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
+  pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
   referrer?: Maybe<Scalars['String']>;
-  referrer_not?: Maybe<Scalars['String']>;
-  referrer_gt?: Maybe<Scalars['String']>;
-  referrer_lt?: Maybe<Scalars['String']>;
-  referrer_gte?: Maybe<Scalars['String']>;
-  referrer_lte?: Maybe<Scalars['String']>;
-  referrer_in?: Maybe<Array<Scalars['String']>>;
-  referrer_not_in?: Maybe<Array<Scalars['String']>>;
   referrer_contains?: Maybe<Scalars['String']>;
-  referrer_not_contains?: Maybe<Scalars['String']>;
-  referrer_starts_with?: Maybe<Scalars['String']>;
-  referrer_not_starts_with?: Maybe<Scalars['String']>;
   referrer_ends_with?: Maybe<Scalars['String']>;
+  referrer_gt?: Maybe<Scalars['String']>;
+  referrer_gte?: Maybe<Scalars['String']>;
+  referrer_in?: Maybe<Array<Scalars['String']>>;
+  referrer_lt?: Maybe<Scalars['String']>;
+  referrer_lte?: Maybe<Scalars['String']>;
+  referrer_not?: Maybe<Scalars['String']>;
+  referrer_not_contains?: Maybe<Scalars['String']>;
   referrer_not_ends_with?: Maybe<Scalars['String']>;
-  timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
-  timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
-  timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
-  timestamp_in?: Maybe<Array<Scalars['Int']>>;
-  timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  referrer_not_in?: Maybe<Array<Scalars['String']>>;
+  referrer_not_starts_with?: Maybe<Scalars['String']>;
+  referrer_starts_with?: Maybe<Scalars['String']>;
+  reserve?: Maybe<Scalars['String']>;
+  reserve_contains?: Maybe<Scalars['String']>;
+  reserve_ends_with?: Maybe<Scalars['String']>;
+  reserve_gt?: Maybe<Scalars['String']>;
+  reserve_gte?: Maybe<Scalars['String']>;
+  reserve_in?: Maybe<Array<Scalars['String']>>;
+  reserve_lt?: Maybe<Scalars['String']>;
+  reserve_lte?: Maybe<Scalars['String']>;
+  reserve_not?: Maybe<Scalars['String']>;
+  reserve_not_contains?: Maybe<Scalars['String']>;
+  reserve_not_ends_with?: Maybe<Scalars['String']>;
+  reserve_not_in?: Maybe<Array<Scalars['String']>>;
+  reserve_not_starts_with?: Maybe<Scalars['String']>;
+  reserve_starts_with?: Maybe<Scalars['String']>;
   stableTokenDebt?: Maybe<Scalars['BigInt']>;
-  stableTokenDebt_not?: Maybe<Scalars['BigInt']>;
   stableTokenDebt_gt?: Maybe<Scalars['BigInt']>;
-  stableTokenDebt_lt?: Maybe<Scalars['BigInt']>;
   stableTokenDebt_gte?: Maybe<Scalars['BigInt']>;
-  stableTokenDebt_lte?: Maybe<Scalars['BigInt']>;
   stableTokenDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  stableTokenDebt_lt?: Maybe<Scalars['BigInt']>;
+  stableTokenDebt_lte?: Maybe<Scalars['BigInt']>;
+  stableTokenDebt_not?: Maybe<Scalars['BigInt']>;
   stableTokenDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  timestamp?: Maybe<Scalars['Int']>;
+  timestamp_gt?: Maybe<Scalars['Int']>;
+  timestamp_gte?: Maybe<Scalars['Int']>;
+  timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
+  timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  user?: Maybe<Scalars['String']>;
+  userReserve?: Maybe<Scalars['String']>;
+  userReserve_contains?: Maybe<Scalars['String']>;
+  userReserve_ends_with?: Maybe<Scalars['String']>;
+  userReserve_gt?: Maybe<Scalars['String']>;
+  userReserve_gte?: Maybe<Scalars['String']>;
+  userReserve_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_lt?: Maybe<Scalars['String']>;
+  userReserve_lte?: Maybe<Scalars['String']>;
+  userReserve_not?: Maybe<Scalars['String']>;
+  userReserve_not_contains?: Maybe<Scalars['String']>;
+  userReserve_not_ends_with?: Maybe<Scalars['String']>;
+  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_not_starts_with?: Maybe<Scalars['String']>;
+  userReserve_starts_with?: Maybe<Scalars['String']>;
+  user_contains?: Maybe<Scalars['String']>;
+  user_ends_with?: Maybe<Scalars['String']>;
+  user_gt?: Maybe<Scalars['String']>;
+  user_gte?: Maybe<Scalars['String']>;
+  user_in?: Maybe<Array<Scalars['String']>>;
+  user_lt?: Maybe<Scalars['String']>;
+  user_lte?: Maybe<Scalars['String']>;
+  user_not?: Maybe<Scalars['String']>;
+  user_not_contains?: Maybe<Scalars['String']>;
+  user_not_ends_with?: Maybe<Scalars['String']>;
+  user_not_in?: Maybe<Array<Scalars['String']>>;
+  user_not_starts_with?: Maybe<Scalars['String']>;
+  user_starts_with?: Maybe<Scalars['String']>;
   variableTokenDebt?: Maybe<Scalars['BigInt']>;
-  variableTokenDebt_not?: Maybe<Scalars['BigInt']>;
   variableTokenDebt_gt?: Maybe<Scalars['BigInt']>;
-  variableTokenDebt_lt?: Maybe<Scalars['BigInt']>;
   variableTokenDebt_gte?: Maybe<Scalars['BigInt']>;
-  variableTokenDebt_lte?: Maybe<Scalars['BigInt']>;
   variableTokenDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  variableTokenDebt_lt?: Maybe<Scalars['BigInt']>;
+  variableTokenDebt_lte?: Maybe<Scalars['BigInt']>;
+  variableTokenDebt_not?: Maybe<Scalars['BigInt']>;
   variableTokenDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
 };
 
 export enum Borrow_OrderBy {
-  Id = 'id',
-  Pool = 'pool',
-  User = 'user',
-  OnBehalfOf = 'onBehalfOf',
-  Reserve = 'reserve',
-  UserReserve = 'userReserve',
   Amount = 'amount',
   BorrowRate = 'borrowRate',
   BorrowRateMode = 'borrowRateMode',
+  Id = 'id',
+  OnBehalfOf = 'onBehalfOf',
+  Pool = 'pool',
   Referrer = 'referrer',
-  Timestamp = 'timestamp',
+  Reserve = 'reserve',
   StableTokenDebt = 'stableTokenDebt',
+  Timestamp = 'timestamp',
+  User = 'user',
+  UserReserve = 'userReserve',
   VariableTokenDebt = 'variableTokenDebt',
 }
 
@@ -348,27 +367,27 @@ export type ChainlinkAggregator = {
 
 export type ChainlinkAggregator_Filter = {
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   oracleAsset?: Maybe<Scalars['String']>;
-  oracleAsset_not?: Maybe<Scalars['String']>;
-  oracleAsset_gt?: Maybe<Scalars['String']>;
-  oracleAsset_lt?: Maybe<Scalars['String']>;
-  oracleAsset_gte?: Maybe<Scalars['String']>;
-  oracleAsset_lte?: Maybe<Scalars['String']>;
-  oracleAsset_in?: Maybe<Array<Scalars['String']>>;
-  oracleAsset_not_in?: Maybe<Array<Scalars['String']>>;
   oracleAsset_contains?: Maybe<Scalars['String']>;
-  oracleAsset_not_contains?: Maybe<Scalars['String']>;
-  oracleAsset_starts_with?: Maybe<Scalars['String']>;
-  oracleAsset_not_starts_with?: Maybe<Scalars['String']>;
   oracleAsset_ends_with?: Maybe<Scalars['String']>;
+  oracleAsset_gt?: Maybe<Scalars['String']>;
+  oracleAsset_gte?: Maybe<Scalars['String']>;
+  oracleAsset_in?: Maybe<Array<Scalars['String']>>;
+  oracleAsset_lt?: Maybe<Scalars['String']>;
+  oracleAsset_lte?: Maybe<Scalars['String']>;
+  oracleAsset_not?: Maybe<Scalars['String']>;
+  oracleAsset_not_contains?: Maybe<Scalars['String']>;
   oracleAsset_not_ends_with?: Maybe<Scalars['String']>;
+  oracleAsset_not_in?: Maybe<Array<Scalars['String']>>;
+  oracleAsset_not_starts_with?: Maybe<Scalars['String']>;
+  oracleAsset_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum ChainlinkAggregator_OrderBy {
@@ -378,121 +397,124 @@ export enum ChainlinkAggregator_OrderBy {
 
 export type ChainlinkEns = {
   __typename?: 'ChainlinkENS';
-  /** id is the node hash */
-  id: Scalars['ID'];
   /** address of the aggregator */
   aggregatorAddress: Scalars['Bytes'];
-  /** token address represented with this aggregator */
-  underlyingAddress: Scalars['Bytes'];
+  /** id is the node hash */
+  id: Scalars['ID'];
   /** symbol of the token represented on the aggregator */
   symbol: Scalars['String'];
+  /** token address represented with this aggregator */
+  underlyingAddress: Scalars['Bytes'];
 };
 
 export type ChainlinkEns_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
   aggregatorAddress?: Maybe<Scalars['Bytes']>;
-  aggregatorAddress_not?: Maybe<Scalars['Bytes']>;
-  aggregatorAddress_in?: Maybe<Array<Scalars['Bytes']>>;
-  aggregatorAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
   aggregatorAddress_contains?: Maybe<Scalars['Bytes']>;
+  aggregatorAddress_in?: Maybe<Array<Scalars['Bytes']>>;
+  aggregatorAddress_not?: Maybe<Scalars['Bytes']>;
   aggregatorAddress_not_contains?: Maybe<Scalars['Bytes']>;
-  underlyingAddress?: Maybe<Scalars['Bytes']>;
-  underlyingAddress_not?: Maybe<Scalars['Bytes']>;
-  underlyingAddress_in?: Maybe<Array<Scalars['Bytes']>>;
-  underlyingAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  underlyingAddress_contains?: Maybe<Scalars['Bytes']>;
-  underlyingAddress_not_contains?: Maybe<Scalars['Bytes']>;
+  aggregatorAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
   symbol?: Maybe<Scalars['String']>;
-  symbol_not?: Maybe<Scalars['String']>;
-  symbol_gt?: Maybe<Scalars['String']>;
-  symbol_lt?: Maybe<Scalars['String']>;
-  symbol_gte?: Maybe<Scalars['String']>;
-  symbol_lte?: Maybe<Scalars['String']>;
-  symbol_in?: Maybe<Array<Scalars['String']>>;
-  symbol_not_in?: Maybe<Array<Scalars['String']>>;
   symbol_contains?: Maybe<Scalars['String']>;
-  symbol_not_contains?: Maybe<Scalars['String']>;
-  symbol_starts_with?: Maybe<Scalars['String']>;
-  symbol_not_starts_with?: Maybe<Scalars['String']>;
   symbol_ends_with?: Maybe<Scalars['String']>;
+  symbol_gt?: Maybe<Scalars['String']>;
+  symbol_gte?: Maybe<Scalars['String']>;
+  symbol_in?: Maybe<Array<Scalars['String']>>;
+  symbol_lt?: Maybe<Scalars['String']>;
+  symbol_lte?: Maybe<Scalars['String']>;
+  symbol_not?: Maybe<Scalars['String']>;
+  symbol_not_contains?: Maybe<Scalars['String']>;
   symbol_not_ends_with?: Maybe<Scalars['String']>;
+  symbol_not_in?: Maybe<Array<Scalars['String']>>;
+  symbol_not_starts_with?: Maybe<Scalars['String']>;
+  symbol_starts_with?: Maybe<Scalars['String']>;
+  underlyingAddress?: Maybe<Scalars['Bytes']>;
+  underlyingAddress_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAddress_in?: Maybe<Array<Scalars['Bytes']>>;
+  underlyingAddress_not?: Maybe<Scalars['Bytes']>;
+  underlyingAddress_not_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
 };
 
 export enum ChainlinkEns_OrderBy {
-  Id = 'id',
   AggregatorAddress = 'aggregatorAddress',
-  UnderlyingAddress = 'underlyingAddress',
+  Id = 'id',
   Symbol = 'symbol',
+  UnderlyingAddress = 'underlyingAddress',
 }
 
 export type ClaimIncentiveCall = {
   __typename?: 'ClaimIncentiveCall';
-  /** txHash */
+  amount: Scalars['BigInt'];
+  /**
+   * txHash
+   *
+   */
   id: Scalars['ID'];
   incentivesController: IncentivesController;
   user: User;
-  amount: Scalars['BigInt'];
 };
 
 export type ClaimIncentiveCall_Filter = {
+  amount?: Maybe<Scalars['BigInt']>;
+  amount_gt?: Maybe<Scalars['BigInt']>;
+  amount_gte?: Maybe<Scalars['BigInt']>;
+  amount_in?: Maybe<Array<Scalars['BigInt']>>;
+  amount_lt?: Maybe<Scalars['BigInt']>;
+  amount_lte?: Maybe<Scalars['BigInt']>;
+  amount_not?: Maybe<Scalars['BigInt']>;
+  amount_not_in?: Maybe<Array<Scalars['BigInt']>>;
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   incentivesController?: Maybe<Scalars['String']>;
-  incentivesController_not?: Maybe<Scalars['String']>;
-  incentivesController_gt?: Maybe<Scalars['String']>;
-  incentivesController_lt?: Maybe<Scalars['String']>;
-  incentivesController_gte?: Maybe<Scalars['String']>;
-  incentivesController_lte?: Maybe<Scalars['String']>;
-  incentivesController_in?: Maybe<Array<Scalars['String']>>;
-  incentivesController_not_in?: Maybe<Array<Scalars['String']>>;
   incentivesController_contains?: Maybe<Scalars['String']>;
-  incentivesController_not_contains?: Maybe<Scalars['String']>;
-  incentivesController_starts_with?: Maybe<Scalars['String']>;
-  incentivesController_not_starts_with?: Maybe<Scalars['String']>;
   incentivesController_ends_with?: Maybe<Scalars['String']>;
+  incentivesController_gt?: Maybe<Scalars['String']>;
+  incentivesController_gte?: Maybe<Scalars['String']>;
+  incentivesController_in?: Maybe<Array<Scalars['String']>>;
+  incentivesController_lt?: Maybe<Scalars['String']>;
+  incentivesController_lte?: Maybe<Scalars['String']>;
+  incentivesController_not?: Maybe<Scalars['String']>;
+  incentivesController_not_contains?: Maybe<Scalars['String']>;
   incentivesController_not_ends_with?: Maybe<Scalars['String']>;
+  incentivesController_not_in?: Maybe<Array<Scalars['String']>>;
+  incentivesController_not_starts_with?: Maybe<Scalars['String']>;
+  incentivesController_starts_with?: Maybe<Scalars['String']>;
   user?: Maybe<Scalars['String']>;
-  user_not?: Maybe<Scalars['String']>;
-  user_gt?: Maybe<Scalars['String']>;
-  user_lt?: Maybe<Scalars['String']>;
-  user_gte?: Maybe<Scalars['String']>;
-  user_lte?: Maybe<Scalars['String']>;
-  user_in?: Maybe<Array<Scalars['String']>>;
-  user_not_in?: Maybe<Array<Scalars['String']>>;
   user_contains?: Maybe<Scalars['String']>;
-  user_not_contains?: Maybe<Scalars['String']>;
-  user_starts_with?: Maybe<Scalars['String']>;
-  user_not_starts_with?: Maybe<Scalars['String']>;
   user_ends_with?: Maybe<Scalars['String']>;
+  user_gt?: Maybe<Scalars['String']>;
+  user_gte?: Maybe<Scalars['String']>;
+  user_in?: Maybe<Array<Scalars['String']>>;
+  user_lt?: Maybe<Scalars['String']>;
+  user_lte?: Maybe<Scalars['String']>;
+  user_not?: Maybe<Scalars['String']>;
+  user_not_contains?: Maybe<Scalars['String']>;
   user_not_ends_with?: Maybe<Scalars['String']>;
-  amount?: Maybe<Scalars['BigInt']>;
-  amount_not?: Maybe<Scalars['BigInt']>;
-  amount_gt?: Maybe<Scalars['BigInt']>;
-  amount_lt?: Maybe<Scalars['BigInt']>;
-  amount_gte?: Maybe<Scalars['BigInt']>;
-  amount_lte?: Maybe<Scalars['BigInt']>;
-  amount_in?: Maybe<Array<Scalars['BigInt']>>;
-  amount_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  user_not_in?: Maybe<Array<Scalars['String']>>;
+  user_not_starts_with?: Maybe<Scalars['String']>;
+  user_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum ClaimIncentiveCall_OrderBy {
+  Amount = 'amount',
   Id = 'id',
   IncentivesController = 'incentivesController',
   User = 'user',
-  Amount = 'amount',
 }
 
 export type ContractToPoolMapping = {
@@ -503,27 +525,27 @@ export type ContractToPoolMapping = {
 
 export type ContractToPoolMapping_Filter = {
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
   pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
   pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
   pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum ContractToPoolMapping_OrderBy {
@@ -533,564 +555,598 @@ export enum ContractToPoolMapping_OrderBy {
 
 export type Deposit = UserTransaction & {
   __typename?: 'Deposit';
-  /** tx hash */
-  id: Scalars['ID'];
-  pool: Pool;
-  user: User;
-  onBehalfOf: User;
-  reserve: Reserve;
-  userReserve: UserReserve;
   amount: Scalars['BigInt'];
+  /**
+   * tx hash
+   *
+   */
+  id: Scalars['ID'];
+  onBehalfOf: User;
+  pool: Pool;
   referrer?: Maybe<Referrer>;
+  reserve: Reserve;
   timestamp: Scalars['Int'];
+  user: User;
+  userReserve: UserReserve;
 };
 
 export type Deposit_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
-  pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
-  pool_ends_with?: Maybe<Scalars['String']>;
-  pool_not_ends_with?: Maybe<Scalars['String']>;
-  user?: Maybe<Scalars['String']>;
-  user_not?: Maybe<Scalars['String']>;
-  user_gt?: Maybe<Scalars['String']>;
-  user_lt?: Maybe<Scalars['String']>;
-  user_gte?: Maybe<Scalars['String']>;
-  user_lte?: Maybe<Scalars['String']>;
-  user_in?: Maybe<Array<Scalars['String']>>;
-  user_not_in?: Maybe<Array<Scalars['String']>>;
-  user_contains?: Maybe<Scalars['String']>;
-  user_not_contains?: Maybe<Scalars['String']>;
-  user_starts_with?: Maybe<Scalars['String']>;
-  user_not_starts_with?: Maybe<Scalars['String']>;
-  user_ends_with?: Maybe<Scalars['String']>;
-  user_not_ends_with?: Maybe<Scalars['String']>;
-  onBehalfOf?: Maybe<Scalars['String']>;
-  onBehalfOf_not?: Maybe<Scalars['String']>;
-  onBehalfOf_gt?: Maybe<Scalars['String']>;
-  onBehalfOf_lt?: Maybe<Scalars['String']>;
-  onBehalfOf_gte?: Maybe<Scalars['String']>;
-  onBehalfOf_lte?: Maybe<Scalars['String']>;
-  onBehalfOf_in?: Maybe<Array<Scalars['String']>>;
-  onBehalfOf_not_in?: Maybe<Array<Scalars['String']>>;
-  onBehalfOf_contains?: Maybe<Scalars['String']>;
-  onBehalfOf_not_contains?: Maybe<Scalars['String']>;
-  onBehalfOf_starts_with?: Maybe<Scalars['String']>;
-  onBehalfOf_not_starts_with?: Maybe<Scalars['String']>;
-  onBehalfOf_ends_with?: Maybe<Scalars['String']>;
-  onBehalfOf_not_ends_with?: Maybe<Scalars['String']>;
-  reserve?: Maybe<Scalars['String']>;
-  reserve_not?: Maybe<Scalars['String']>;
-  reserve_gt?: Maybe<Scalars['String']>;
-  reserve_lt?: Maybe<Scalars['String']>;
-  reserve_gte?: Maybe<Scalars['String']>;
-  reserve_lte?: Maybe<Scalars['String']>;
-  reserve_in?: Maybe<Array<Scalars['String']>>;
-  reserve_not_in?: Maybe<Array<Scalars['String']>>;
-  reserve_contains?: Maybe<Scalars['String']>;
-  reserve_not_contains?: Maybe<Scalars['String']>;
-  reserve_starts_with?: Maybe<Scalars['String']>;
-  reserve_not_starts_with?: Maybe<Scalars['String']>;
-  reserve_ends_with?: Maybe<Scalars['String']>;
-  reserve_not_ends_with?: Maybe<Scalars['String']>;
-  userReserve?: Maybe<Scalars['String']>;
-  userReserve_not?: Maybe<Scalars['String']>;
-  userReserve_gt?: Maybe<Scalars['String']>;
-  userReserve_lt?: Maybe<Scalars['String']>;
-  userReserve_gte?: Maybe<Scalars['String']>;
-  userReserve_lte?: Maybe<Scalars['String']>;
-  userReserve_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_contains?: Maybe<Scalars['String']>;
-  userReserve_not_contains?: Maybe<Scalars['String']>;
-  userReserve_starts_with?: Maybe<Scalars['String']>;
-  userReserve_not_starts_with?: Maybe<Scalars['String']>;
-  userReserve_ends_with?: Maybe<Scalars['String']>;
-  userReserve_not_ends_with?: Maybe<Scalars['String']>;
   amount?: Maybe<Scalars['BigInt']>;
-  amount_not?: Maybe<Scalars['BigInt']>;
   amount_gt?: Maybe<Scalars['BigInt']>;
-  amount_lt?: Maybe<Scalars['BigInt']>;
   amount_gte?: Maybe<Scalars['BigInt']>;
-  amount_lte?: Maybe<Scalars['BigInt']>;
   amount_in?: Maybe<Array<Scalars['BigInt']>>;
+  amount_lt?: Maybe<Scalars['BigInt']>;
+  amount_lte?: Maybe<Scalars['BigInt']>;
+  amount_not?: Maybe<Scalars['BigInt']>;
   amount_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  onBehalfOf?: Maybe<Scalars['String']>;
+  onBehalfOf_contains?: Maybe<Scalars['String']>;
+  onBehalfOf_ends_with?: Maybe<Scalars['String']>;
+  onBehalfOf_gt?: Maybe<Scalars['String']>;
+  onBehalfOf_gte?: Maybe<Scalars['String']>;
+  onBehalfOf_in?: Maybe<Array<Scalars['String']>>;
+  onBehalfOf_lt?: Maybe<Scalars['String']>;
+  onBehalfOf_lte?: Maybe<Scalars['String']>;
+  onBehalfOf_not?: Maybe<Scalars['String']>;
+  onBehalfOf_not_contains?: Maybe<Scalars['String']>;
+  onBehalfOf_not_ends_with?: Maybe<Scalars['String']>;
+  onBehalfOf_not_in?: Maybe<Array<Scalars['String']>>;
+  onBehalfOf_not_starts_with?: Maybe<Scalars['String']>;
+  onBehalfOf_starts_with?: Maybe<Scalars['String']>;
+  pool?: Maybe<Scalars['String']>;
+  pool_contains?: Maybe<Scalars['String']>;
+  pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
+  pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
   referrer?: Maybe<Scalars['String']>;
-  referrer_not?: Maybe<Scalars['String']>;
-  referrer_gt?: Maybe<Scalars['String']>;
-  referrer_lt?: Maybe<Scalars['String']>;
-  referrer_gte?: Maybe<Scalars['String']>;
-  referrer_lte?: Maybe<Scalars['String']>;
-  referrer_in?: Maybe<Array<Scalars['String']>>;
-  referrer_not_in?: Maybe<Array<Scalars['String']>>;
   referrer_contains?: Maybe<Scalars['String']>;
-  referrer_not_contains?: Maybe<Scalars['String']>;
-  referrer_starts_with?: Maybe<Scalars['String']>;
-  referrer_not_starts_with?: Maybe<Scalars['String']>;
   referrer_ends_with?: Maybe<Scalars['String']>;
+  referrer_gt?: Maybe<Scalars['String']>;
+  referrer_gte?: Maybe<Scalars['String']>;
+  referrer_in?: Maybe<Array<Scalars['String']>>;
+  referrer_lt?: Maybe<Scalars['String']>;
+  referrer_lte?: Maybe<Scalars['String']>;
+  referrer_not?: Maybe<Scalars['String']>;
+  referrer_not_contains?: Maybe<Scalars['String']>;
   referrer_not_ends_with?: Maybe<Scalars['String']>;
+  referrer_not_in?: Maybe<Array<Scalars['String']>>;
+  referrer_not_starts_with?: Maybe<Scalars['String']>;
+  referrer_starts_with?: Maybe<Scalars['String']>;
+  reserve?: Maybe<Scalars['String']>;
+  reserve_contains?: Maybe<Scalars['String']>;
+  reserve_ends_with?: Maybe<Scalars['String']>;
+  reserve_gt?: Maybe<Scalars['String']>;
+  reserve_gte?: Maybe<Scalars['String']>;
+  reserve_in?: Maybe<Array<Scalars['String']>>;
+  reserve_lt?: Maybe<Scalars['String']>;
+  reserve_lte?: Maybe<Scalars['String']>;
+  reserve_not?: Maybe<Scalars['String']>;
+  reserve_not_contains?: Maybe<Scalars['String']>;
+  reserve_not_ends_with?: Maybe<Scalars['String']>;
+  reserve_not_in?: Maybe<Array<Scalars['String']>>;
+  reserve_not_starts_with?: Maybe<Scalars['String']>;
+  reserve_starts_with?: Maybe<Scalars['String']>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  user?: Maybe<Scalars['String']>;
+  userReserve?: Maybe<Scalars['String']>;
+  userReserve_contains?: Maybe<Scalars['String']>;
+  userReserve_ends_with?: Maybe<Scalars['String']>;
+  userReserve_gt?: Maybe<Scalars['String']>;
+  userReserve_gte?: Maybe<Scalars['String']>;
+  userReserve_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_lt?: Maybe<Scalars['String']>;
+  userReserve_lte?: Maybe<Scalars['String']>;
+  userReserve_not?: Maybe<Scalars['String']>;
+  userReserve_not_contains?: Maybe<Scalars['String']>;
+  userReserve_not_ends_with?: Maybe<Scalars['String']>;
+  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_not_starts_with?: Maybe<Scalars['String']>;
+  userReserve_starts_with?: Maybe<Scalars['String']>;
+  user_contains?: Maybe<Scalars['String']>;
+  user_ends_with?: Maybe<Scalars['String']>;
+  user_gt?: Maybe<Scalars['String']>;
+  user_gte?: Maybe<Scalars['String']>;
+  user_in?: Maybe<Array<Scalars['String']>>;
+  user_lt?: Maybe<Scalars['String']>;
+  user_lte?: Maybe<Scalars['String']>;
+  user_not?: Maybe<Scalars['String']>;
+  user_not_contains?: Maybe<Scalars['String']>;
+  user_not_ends_with?: Maybe<Scalars['String']>;
+  user_not_in?: Maybe<Array<Scalars['String']>>;
+  user_not_starts_with?: Maybe<Scalars['String']>;
+  user_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum Deposit_OrderBy {
-  Id = 'id',
-  Pool = 'pool',
-  User = 'user',
-  OnBehalfOf = 'onBehalfOf',
-  Reserve = 'reserve',
-  UserReserve = 'userReserve',
   Amount = 'amount',
+  Id = 'id',
+  OnBehalfOf = 'onBehalfOf',
+  Pool = 'pool',
   Referrer = 'referrer',
+  Reserve = 'reserve',
   Timestamp = 'timestamp',
+  User = 'user',
+  UserReserve = 'userReserve',
 }
 
 export type FlashLoan = {
   __typename?: 'FlashLoan';
-  /** tx hash */
+  amount: Scalars['BigInt'];
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
+  initiator: User;
   pool: Pool;
   reserve: Reserve;
   target: Scalars['Bytes'];
-  amount: Scalars['BigInt'];
-  totalFee: Scalars['BigInt'];
-  initiator: User;
   timestamp: Scalars['Int'];
+  totalFee: Scalars['BigInt'];
 };
 
 export type FlashLoan_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
-  pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
-  pool_ends_with?: Maybe<Scalars['String']>;
-  pool_not_ends_with?: Maybe<Scalars['String']>;
-  reserve?: Maybe<Scalars['String']>;
-  reserve_not?: Maybe<Scalars['String']>;
-  reserve_gt?: Maybe<Scalars['String']>;
-  reserve_lt?: Maybe<Scalars['String']>;
-  reserve_gte?: Maybe<Scalars['String']>;
-  reserve_lte?: Maybe<Scalars['String']>;
-  reserve_in?: Maybe<Array<Scalars['String']>>;
-  reserve_not_in?: Maybe<Array<Scalars['String']>>;
-  reserve_contains?: Maybe<Scalars['String']>;
-  reserve_not_contains?: Maybe<Scalars['String']>;
-  reserve_starts_with?: Maybe<Scalars['String']>;
-  reserve_not_starts_with?: Maybe<Scalars['String']>;
-  reserve_ends_with?: Maybe<Scalars['String']>;
-  reserve_not_ends_with?: Maybe<Scalars['String']>;
-  target?: Maybe<Scalars['Bytes']>;
-  target_not?: Maybe<Scalars['Bytes']>;
-  target_in?: Maybe<Array<Scalars['Bytes']>>;
-  target_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  target_contains?: Maybe<Scalars['Bytes']>;
-  target_not_contains?: Maybe<Scalars['Bytes']>;
   amount?: Maybe<Scalars['BigInt']>;
-  amount_not?: Maybe<Scalars['BigInt']>;
   amount_gt?: Maybe<Scalars['BigInt']>;
-  amount_lt?: Maybe<Scalars['BigInt']>;
   amount_gte?: Maybe<Scalars['BigInt']>;
-  amount_lte?: Maybe<Scalars['BigInt']>;
   amount_in?: Maybe<Array<Scalars['BigInt']>>;
+  amount_lt?: Maybe<Scalars['BigInt']>;
+  amount_lte?: Maybe<Scalars['BigInt']>;
+  amount_not?: Maybe<Scalars['BigInt']>;
   amount_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalFee?: Maybe<Scalars['BigInt']>;
-  totalFee_not?: Maybe<Scalars['BigInt']>;
-  totalFee_gt?: Maybe<Scalars['BigInt']>;
-  totalFee_lt?: Maybe<Scalars['BigInt']>;
-  totalFee_gte?: Maybe<Scalars['BigInt']>;
-  totalFee_lte?: Maybe<Scalars['BigInt']>;
-  totalFee_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalFee_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
   initiator?: Maybe<Scalars['String']>;
-  initiator_not?: Maybe<Scalars['String']>;
-  initiator_gt?: Maybe<Scalars['String']>;
-  initiator_lt?: Maybe<Scalars['String']>;
-  initiator_gte?: Maybe<Scalars['String']>;
-  initiator_lte?: Maybe<Scalars['String']>;
-  initiator_in?: Maybe<Array<Scalars['String']>>;
-  initiator_not_in?: Maybe<Array<Scalars['String']>>;
   initiator_contains?: Maybe<Scalars['String']>;
-  initiator_not_contains?: Maybe<Scalars['String']>;
-  initiator_starts_with?: Maybe<Scalars['String']>;
-  initiator_not_starts_with?: Maybe<Scalars['String']>;
   initiator_ends_with?: Maybe<Scalars['String']>;
+  initiator_gt?: Maybe<Scalars['String']>;
+  initiator_gte?: Maybe<Scalars['String']>;
+  initiator_in?: Maybe<Array<Scalars['String']>>;
+  initiator_lt?: Maybe<Scalars['String']>;
+  initiator_lte?: Maybe<Scalars['String']>;
+  initiator_not?: Maybe<Scalars['String']>;
+  initiator_not_contains?: Maybe<Scalars['String']>;
   initiator_not_ends_with?: Maybe<Scalars['String']>;
+  initiator_not_in?: Maybe<Array<Scalars['String']>>;
+  initiator_not_starts_with?: Maybe<Scalars['String']>;
+  initiator_starts_with?: Maybe<Scalars['String']>;
+  pool?: Maybe<Scalars['String']>;
+  pool_contains?: Maybe<Scalars['String']>;
+  pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
+  pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
+  reserve?: Maybe<Scalars['String']>;
+  reserve_contains?: Maybe<Scalars['String']>;
+  reserve_ends_with?: Maybe<Scalars['String']>;
+  reserve_gt?: Maybe<Scalars['String']>;
+  reserve_gte?: Maybe<Scalars['String']>;
+  reserve_in?: Maybe<Array<Scalars['String']>>;
+  reserve_lt?: Maybe<Scalars['String']>;
+  reserve_lte?: Maybe<Scalars['String']>;
+  reserve_not?: Maybe<Scalars['String']>;
+  reserve_not_contains?: Maybe<Scalars['String']>;
+  reserve_not_ends_with?: Maybe<Scalars['String']>;
+  reserve_not_in?: Maybe<Array<Scalars['String']>>;
+  reserve_not_starts_with?: Maybe<Scalars['String']>;
+  reserve_starts_with?: Maybe<Scalars['String']>;
+  target?: Maybe<Scalars['Bytes']>;
+  target_contains?: Maybe<Scalars['Bytes']>;
+  target_in?: Maybe<Array<Scalars['Bytes']>>;
+  target_not?: Maybe<Scalars['Bytes']>;
+  target_not_contains?: Maybe<Scalars['Bytes']>;
+  target_not_in?: Maybe<Array<Scalars['Bytes']>>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  totalFee?: Maybe<Scalars['BigInt']>;
+  totalFee_gt?: Maybe<Scalars['BigInt']>;
+  totalFee_gte?: Maybe<Scalars['BigInt']>;
+  totalFee_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalFee_lt?: Maybe<Scalars['BigInt']>;
+  totalFee_lte?: Maybe<Scalars['BigInt']>;
+  totalFee_not?: Maybe<Scalars['BigInt']>;
+  totalFee_not_in?: Maybe<Array<Scalars['BigInt']>>;
 };
 
 export enum FlashLoan_OrderBy {
+  Amount = 'amount',
   Id = 'id',
+  Initiator = 'initiator',
   Pool = 'pool',
   Reserve = 'reserve',
   Target = 'target',
-  Amount = 'amount',
-  TotalFee = 'totalFee',
-  Initiator = 'initiator',
   Timestamp = 'timestamp',
+  TotalFee = 'totalFee',
 }
 
 export type IncentivesController = {
   __typename?: 'IncentivesController';
-  /** address of the incentives controller */
+  claimIncentives: Array<ClaimIncentiveCall>;
+  emissionEndTimestamp: Scalars['Int'];
+  /**
+   * address of the incentives controller
+   *
+   */
   id: Scalars['ID'];
+  incentivizedActions: Array<IncentivizedAction>;
+  precision: Scalars['Int'];
   rewardToken: Scalars['Bytes'];
   rewardTokenDecimals: Scalars['Int'];
   rewardTokenSymbol: Scalars['String'];
-  precision: Scalars['Int'];
-  emissionEndTimestamp: Scalars['Int'];
-  incentivizedActions: Array<IncentivizedAction>;
-  claimIncentives: Array<ClaimIncentiveCall>;
-};
-
-export type IncentivesControllerIncentivizedActionsArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<IncentivizedAction_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<IncentivizedAction_Filter>;
 };
 
 export type IncentivesControllerClaimIncentivesArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ClaimIncentiveCall_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<ClaimIncentiveCall_Filter>;
 };
 
+export type IncentivesControllerIncentivizedActionsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<IncentivizedAction_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<IncentivizedAction_Filter>;
+};
+
 export type IncentivesController_Filter = {
+  emissionEndTimestamp?: Maybe<Scalars['Int']>;
+  emissionEndTimestamp_gt?: Maybe<Scalars['Int']>;
+  emissionEndTimestamp_gte?: Maybe<Scalars['Int']>;
+  emissionEndTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  emissionEndTimestamp_lt?: Maybe<Scalars['Int']>;
+  emissionEndTimestamp_lte?: Maybe<Scalars['Int']>;
+  emissionEndTimestamp_not?: Maybe<Scalars['Int']>;
+  emissionEndTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
+  precision?: Maybe<Scalars['Int']>;
+  precision_gt?: Maybe<Scalars['Int']>;
+  precision_gte?: Maybe<Scalars['Int']>;
+  precision_in?: Maybe<Array<Scalars['Int']>>;
+  precision_lt?: Maybe<Scalars['Int']>;
+  precision_lte?: Maybe<Scalars['Int']>;
+  precision_not?: Maybe<Scalars['Int']>;
+  precision_not_in?: Maybe<Array<Scalars['Int']>>;
   rewardToken?: Maybe<Scalars['Bytes']>;
-  rewardToken_not?: Maybe<Scalars['Bytes']>;
-  rewardToken_in?: Maybe<Array<Scalars['Bytes']>>;
-  rewardToken_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  rewardToken_contains?: Maybe<Scalars['Bytes']>;
-  rewardToken_not_contains?: Maybe<Scalars['Bytes']>;
   rewardTokenDecimals?: Maybe<Scalars['Int']>;
-  rewardTokenDecimals_not?: Maybe<Scalars['Int']>;
   rewardTokenDecimals_gt?: Maybe<Scalars['Int']>;
-  rewardTokenDecimals_lt?: Maybe<Scalars['Int']>;
   rewardTokenDecimals_gte?: Maybe<Scalars['Int']>;
-  rewardTokenDecimals_lte?: Maybe<Scalars['Int']>;
   rewardTokenDecimals_in?: Maybe<Array<Scalars['Int']>>;
+  rewardTokenDecimals_lt?: Maybe<Scalars['Int']>;
+  rewardTokenDecimals_lte?: Maybe<Scalars['Int']>;
+  rewardTokenDecimals_not?: Maybe<Scalars['Int']>;
   rewardTokenDecimals_not_in?: Maybe<Array<Scalars['Int']>>;
   rewardTokenSymbol?: Maybe<Scalars['String']>;
-  rewardTokenSymbol_not?: Maybe<Scalars['String']>;
-  rewardTokenSymbol_gt?: Maybe<Scalars['String']>;
-  rewardTokenSymbol_lt?: Maybe<Scalars['String']>;
-  rewardTokenSymbol_gte?: Maybe<Scalars['String']>;
-  rewardTokenSymbol_lte?: Maybe<Scalars['String']>;
-  rewardTokenSymbol_in?: Maybe<Array<Scalars['String']>>;
-  rewardTokenSymbol_not_in?: Maybe<Array<Scalars['String']>>;
   rewardTokenSymbol_contains?: Maybe<Scalars['String']>;
-  rewardTokenSymbol_not_contains?: Maybe<Scalars['String']>;
-  rewardTokenSymbol_starts_with?: Maybe<Scalars['String']>;
-  rewardTokenSymbol_not_starts_with?: Maybe<Scalars['String']>;
   rewardTokenSymbol_ends_with?: Maybe<Scalars['String']>;
+  rewardTokenSymbol_gt?: Maybe<Scalars['String']>;
+  rewardTokenSymbol_gte?: Maybe<Scalars['String']>;
+  rewardTokenSymbol_in?: Maybe<Array<Scalars['String']>>;
+  rewardTokenSymbol_lt?: Maybe<Scalars['String']>;
+  rewardTokenSymbol_lte?: Maybe<Scalars['String']>;
+  rewardTokenSymbol_not?: Maybe<Scalars['String']>;
+  rewardTokenSymbol_not_contains?: Maybe<Scalars['String']>;
   rewardTokenSymbol_not_ends_with?: Maybe<Scalars['String']>;
-  precision?: Maybe<Scalars['Int']>;
-  precision_not?: Maybe<Scalars['Int']>;
-  precision_gt?: Maybe<Scalars['Int']>;
-  precision_lt?: Maybe<Scalars['Int']>;
-  precision_gte?: Maybe<Scalars['Int']>;
-  precision_lte?: Maybe<Scalars['Int']>;
-  precision_in?: Maybe<Array<Scalars['Int']>>;
-  precision_not_in?: Maybe<Array<Scalars['Int']>>;
-  emissionEndTimestamp?: Maybe<Scalars['Int']>;
-  emissionEndTimestamp_not?: Maybe<Scalars['Int']>;
-  emissionEndTimestamp_gt?: Maybe<Scalars['Int']>;
-  emissionEndTimestamp_lt?: Maybe<Scalars['Int']>;
-  emissionEndTimestamp_gte?: Maybe<Scalars['Int']>;
-  emissionEndTimestamp_lte?: Maybe<Scalars['Int']>;
-  emissionEndTimestamp_in?: Maybe<Array<Scalars['Int']>>;
-  emissionEndTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  rewardTokenSymbol_not_in?: Maybe<Array<Scalars['String']>>;
+  rewardTokenSymbol_not_starts_with?: Maybe<Scalars['String']>;
+  rewardTokenSymbol_starts_with?: Maybe<Scalars['String']>;
+  rewardToken_contains?: Maybe<Scalars['Bytes']>;
+  rewardToken_in?: Maybe<Array<Scalars['Bytes']>>;
+  rewardToken_not?: Maybe<Scalars['Bytes']>;
+  rewardToken_not_contains?: Maybe<Scalars['Bytes']>;
+  rewardToken_not_in?: Maybe<Array<Scalars['Bytes']>>;
 };
 
 export enum IncentivesController_OrderBy {
+  ClaimIncentives = 'claimIncentives',
+  EmissionEndTimestamp = 'emissionEndTimestamp',
   Id = 'id',
+  IncentivizedActions = 'incentivizedActions',
+  Precision = 'precision',
   RewardToken = 'rewardToken',
   RewardTokenDecimals = 'rewardTokenDecimals',
   RewardTokenSymbol = 'rewardTokenSymbol',
-  Precision = 'precision',
-  EmissionEndTimestamp = 'emissionEndTimestamp',
-  IncentivizedActions = 'incentivizedActions',
-  ClaimIncentives = 'claimIncentives',
 }
+
+export type IncentivesData = {
+  __typename?: 'IncentivesData';
+  emissionEndTimestamp: Scalars['Float'];
+  emissionPerSecond: Scalars['String'];
+  incentiveControllerAddress: Scalars['String'];
+  incentivesLastUpdateTimestamp: Scalars['Float'];
+  precision: Scalars['Float'];
+  priceFeed: Scalars['String'];
+  priceFeedDecimals: Scalars['Float'];
+  priceFeedTimestamp: Scalars['Float'];
+  rewardTokenAddress: Scalars['String'];
+  rewardTokenDecimals: Scalars['Float'];
+  tokenAddress: Scalars['String'];
+  tokenIncentivesIndex: Scalars['String'];
+};
 
 export type IncentivizedAction = {
   __typename?: 'IncentivizedAction';
-  /** txHash */
+  amount: Scalars['BigInt'];
+  /**
+   * txHash
+   *
+   */
   id: Scalars['ID'];
   incentivesController: IncentivesController;
   user: User;
-  amount: Scalars['BigInt'];
 };
 
 export type IncentivizedAction_Filter = {
+  amount?: Maybe<Scalars['BigInt']>;
+  amount_gt?: Maybe<Scalars['BigInt']>;
+  amount_gte?: Maybe<Scalars['BigInt']>;
+  amount_in?: Maybe<Array<Scalars['BigInt']>>;
+  amount_lt?: Maybe<Scalars['BigInt']>;
+  amount_lte?: Maybe<Scalars['BigInt']>;
+  amount_not?: Maybe<Scalars['BigInt']>;
+  amount_not_in?: Maybe<Array<Scalars['BigInt']>>;
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   incentivesController?: Maybe<Scalars['String']>;
-  incentivesController_not?: Maybe<Scalars['String']>;
-  incentivesController_gt?: Maybe<Scalars['String']>;
-  incentivesController_lt?: Maybe<Scalars['String']>;
-  incentivesController_gte?: Maybe<Scalars['String']>;
-  incentivesController_lte?: Maybe<Scalars['String']>;
-  incentivesController_in?: Maybe<Array<Scalars['String']>>;
-  incentivesController_not_in?: Maybe<Array<Scalars['String']>>;
   incentivesController_contains?: Maybe<Scalars['String']>;
-  incentivesController_not_contains?: Maybe<Scalars['String']>;
-  incentivesController_starts_with?: Maybe<Scalars['String']>;
-  incentivesController_not_starts_with?: Maybe<Scalars['String']>;
   incentivesController_ends_with?: Maybe<Scalars['String']>;
+  incentivesController_gt?: Maybe<Scalars['String']>;
+  incentivesController_gte?: Maybe<Scalars['String']>;
+  incentivesController_in?: Maybe<Array<Scalars['String']>>;
+  incentivesController_lt?: Maybe<Scalars['String']>;
+  incentivesController_lte?: Maybe<Scalars['String']>;
+  incentivesController_not?: Maybe<Scalars['String']>;
+  incentivesController_not_contains?: Maybe<Scalars['String']>;
   incentivesController_not_ends_with?: Maybe<Scalars['String']>;
+  incentivesController_not_in?: Maybe<Array<Scalars['String']>>;
+  incentivesController_not_starts_with?: Maybe<Scalars['String']>;
+  incentivesController_starts_with?: Maybe<Scalars['String']>;
   user?: Maybe<Scalars['String']>;
-  user_not?: Maybe<Scalars['String']>;
-  user_gt?: Maybe<Scalars['String']>;
-  user_lt?: Maybe<Scalars['String']>;
-  user_gte?: Maybe<Scalars['String']>;
-  user_lte?: Maybe<Scalars['String']>;
-  user_in?: Maybe<Array<Scalars['String']>>;
-  user_not_in?: Maybe<Array<Scalars['String']>>;
   user_contains?: Maybe<Scalars['String']>;
-  user_not_contains?: Maybe<Scalars['String']>;
-  user_starts_with?: Maybe<Scalars['String']>;
-  user_not_starts_with?: Maybe<Scalars['String']>;
   user_ends_with?: Maybe<Scalars['String']>;
+  user_gt?: Maybe<Scalars['String']>;
+  user_gte?: Maybe<Scalars['String']>;
+  user_in?: Maybe<Array<Scalars['String']>>;
+  user_lt?: Maybe<Scalars['String']>;
+  user_lte?: Maybe<Scalars['String']>;
+  user_not?: Maybe<Scalars['String']>;
+  user_not_contains?: Maybe<Scalars['String']>;
   user_not_ends_with?: Maybe<Scalars['String']>;
-  amount?: Maybe<Scalars['BigInt']>;
-  amount_not?: Maybe<Scalars['BigInt']>;
-  amount_gt?: Maybe<Scalars['BigInt']>;
-  amount_lt?: Maybe<Scalars['BigInt']>;
-  amount_gte?: Maybe<Scalars['BigInt']>;
-  amount_lte?: Maybe<Scalars['BigInt']>;
-  amount_in?: Maybe<Array<Scalars['BigInt']>>;
-  amount_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  user_not_in?: Maybe<Array<Scalars['String']>>;
+  user_not_starts_with?: Maybe<Scalars['String']>;
+  user_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum IncentivizedAction_OrderBy {
+  Amount = 'amount',
   Id = 'id',
   IncentivesController = 'incentivesController',
   User = 'user',
-  Amount = 'amount',
 }
 
 export type LiquidationCall = UserTransaction & {
   __typename?: 'LiquidationCall';
-  /** tx hash */
-  id: Scalars['ID'];
-  pool: Pool;
-  user: User;
+  collateralAmount: Scalars['BigInt'];
   collateralReserve: Reserve;
   collateralUserReserve: UserReserve;
-  collateralAmount: Scalars['BigInt'];
+  /**
+   * tx hash
+   *
+   */
+  id: Scalars['ID'];
+  liquidator: Scalars['Bytes'];
+  pool: Pool;
+  principalAmount: Scalars['BigInt'];
   principalReserve: Reserve;
   principalUserReserve: UserReserve;
-  principalAmount: Scalars['BigInt'];
-  liquidator: Scalars['Bytes'];
   timestamp: Scalars['Int'];
+  user: User;
 };
 
 export type LiquidationCall_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
-  pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
-  pool_ends_with?: Maybe<Scalars['String']>;
-  pool_not_ends_with?: Maybe<Scalars['String']>;
-  user?: Maybe<Scalars['String']>;
-  user_not?: Maybe<Scalars['String']>;
-  user_gt?: Maybe<Scalars['String']>;
-  user_lt?: Maybe<Scalars['String']>;
-  user_gte?: Maybe<Scalars['String']>;
-  user_lte?: Maybe<Scalars['String']>;
-  user_in?: Maybe<Array<Scalars['String']>>;
-  user_not_in?: Maybe<Array<Scalars['String']>>;
-  user_contains?: Maybe<Scalars['String']>;
-  user_not_contains?: Maybe<Scalars['String']>;
-  user_starts_with?: Maybe<Scalars['String']>;
-  user_not_starts_with?: Maybe<Scalars['String']>;
-  user_ends_with?: Maybe<Scalars['String']>;
-  user_not_ends_with?: Maybe<Scalars['String']>;
-  collateralReserve?: Maybe<Scalars['String']>;
-  collateralReserve_not?: Maybe<Scalars['String']>;
-  collateralReserve_gt?: Maybe<Scalars['String']>;
-  collateralReserve_lt?: Maybe<Scalars['String']>;
-  collateralReserve_gte?: Maybe<Scalars['String']>;
-  collateralReserve_lte?: Maybe<Scalars['String']>;
-  collateralReserve_in?: Maybe<Array<Scalars['String']>>;
-  collateralReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  collateralReserve_contains?: Maybe<Scalars['String']>;
-  collateralReserve_not_contains?: Maybe<Scalars['String']>;
-  collateralReserve_starts_with?: Maybe<Scalars['String']>;
-  collateralReserve_not_starts_with?: Maybe<Scalars['String']>;
-  collateralReserve_ends_with?: Maybe<Scalars['String']>;
-  collateralReserve_not_ends_with?: Maybe<Scalars['String']>;
-  collateralUserReserve?: Maybe<Scalars['String']>;
-  collateralUserReserve_not?: Maybe<Scalars['String']>;
-  collateralUserReserve_gt?: Maybe<Scalars['String']>;
-  collateralUserReserve_lt?: Maybe<Scalars['String']>;
-  collateralUserReserve_gte?: Maybe<Scalars['String']>;
-  collateralUserReserve_lte?: Maybe<Scalars['String']>;
-  collateralUserReserve_in?: Maybe<Array<Scalars['String']>>;
-  collateralUserReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  collateralUserReserve_contains?: Maybe<Scalars['String']>;
-  collateralUserReserve_not_contains?: Maybe<Scalars['String']>;
-  collateralUserReserve_starts_with?: Maybe<Scalars['String']>;
-  collateralUserReserve_not_starts_with?: Maybe<Scalars['String']>;
-  collateralUserReserve_ends_with?: Maybe<Scalars['String']>;
-  collateralUserReserve_not_ends_with?: Maybe<Scalars['String']>;
   collateralAmount?: Maybe<Scalars['BigInt']>;
-  collateralAmount_not?: Maybe<Scalars['BigInt']>;
   collateralAmount_gt?: Maybe<Scalars['BigInt']>;
-  collateralAmount_lt?: Maybe<Scalars['BigInt']>;
   collateralAmount_gte?: Maybe<Scalars['BigInt']>;
-  collateralAmount_lte?: Maybe<Scalars['BigInt']>;
   collateralAmount_in?: Maybe<Array<Scalars['BigInt']>>;
+  collateralAmount_lt?: Maybe<Scalars['BigInt']>;
+  collateralAmount_lte?: Maybe<Scalars['BigInt']>;
+  collateralAmount_not?: Maybe<Scalars['BigInt']>;
   collateralAmount_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  principalReserve?: Maybe<Scalars['String']>;
-  principalReserve_not?: Maybe<Scalars['String']>;
-  principalReserve_gt?: Maybe<Scalars['String']>;
-  principalReserve_lt?: Maybe<Scalars['String']>;
-  principalReserve_gte?: Maybe<Scalars['String']>;
-  principalReserve_lte?: Maybe<Scalars['String']>;
-  principalReserve_in?: Maybe<Array<Scalars['String']>>;
-  principalReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  principalReserve_contains?: Maybe<Scalars['String']>;
-  principalReserve_not_contains?: Maybe<Scalars['String']>;
-  principalReserve_starts_with?: Maybe<Scalars['String']>;
-  principalReserve_not_starts_with?: Maybe<Scalars['String']>;
-  principalReserve_ends_with?: Maybe<Scalars['String']>;
-  principalReserve_not_ends_with?: Maybe<Scalars['String']>;
-  principalUserReserve?: Maybe<Scalars['String']>;
-  principalUserReserve_not?: Maybe<Scalars['String']>;
-  principalUserReserve_gt?: Maybe<Scalars['String']>;
-  principalUserReserve_lt?: Maybe<Scalars['String']>;
-  principalUserReserve_gte?: Maybe<Scalars['String']>;
-  principalUserReserve_lte?: Maybe<Scalars['String']>;
-  principalUserReserve_in?: Maybe<Array<Scalars['String']>>;
-  principalUserReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  principalUserReserve_contains?: Maybe<Scalars['String']>;
-  principalUserReserve_not_contains?: Maybe<Scalars['String']>;
-  principalUserReserve_starts_with?: Maybe<Scalars['String']>;
-  principalUserReserve_not_starts_with?: Maybe<Scalars['String']>;
-  principalUserReserve_ends_with?: Maybe<Scalars['String']>;
-  principalUserReserve_not_ends_with?: Maybe<Scalars['String']>;
-  principalAmount?: Maybe<Scalars['BigInt']>;
-  principalAmount_not?: Maybe<Scalars['BigInt']>;
-  principalAmount_gt?: Maybe<Scalars['BigInt']>;
-  principalAmount_lt?: Maybe<Scalars['BigInt']>;
-  principalAmount_gte?: Maybe<Scalars['BigInt']>;
-  principalAmount_lte?: Maybe<Scalars['BigInt']>;
-  principalAmount_in?: Maybe<Array<Scalars['BigInt']>>;
-  principalAmount_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  collateralReserve?: Maybe<Scalars['String']>;
+  collateralReserve_contains?: Maybe<Scalars['String']>;
+  collateralReserve_ends_with?: Maybe<Scalars['String']>;
+  collateralReserve_gt?: Maybe<Scalars['String']>;
+  collateralReserve_gte?: Maybe<Scalars['String']>;
+  collateralReserve_in?: Maybe<Array<Scalars['String']>>;
+  collateralReserve_lt?: Maybe<Scalars['String']>;
+  collateralReserve_lte?: Maybe<Scalars['String']>;
+  collateralReserve_not?: Maybe<Scalars['String']>;
+  collateralReserve_not_contains?: Maybe<Scalars['String']>;
+  collateralReserve_not_ends_with?: Maybe<Scalars['String']>;
+  collateralReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  collateralReserve_not_starts_with?: Maybe<Scalars['String']>;
+  collateralReserve_starts_with?: Maybe<Scalars['String']>;
+  collateralUserReserve?: Maybe<Scalars['String']>;
+  collateralUserReserve_contains?: Maybe<Scalars['String']>;
+  collateralUserReserve_ends_with?: Maybe<Scalars['String']>;
+  collateralUserReserve_gt?: Maybe<Scalars['String']>;
+  collateralUserReserve_gte?: Maybe<Scalars['String']>;
+  collateralUserReserve_in?: Maybe<Array<Scalars['String']>>;
+  collateralUserReserve_lt?: Maybe<Scalars['String']>;
+  collateralUserReserve_lte?: Maybe<Scalars['String']>;
+  collateralUserReserve_not?: Maybe<Scalars['String']>;
+  collateralUserReserve_not_contains?: Maybe<Scalars['String']>;
+  collateralUserReserve_not_ends_with?: Maybe<Scalars['String']>;
+  collateralUserReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  collateralUserReserve_not_starts_with?: Maybe<Scalars['String']>;
+  collateralUserReserve_starts_with?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
   liquidator?: Maybe<Scalars['Bytes']>;
-  liquidator_not?: Maybe<Scalars['Bytes']>;
-  liquidator_in?: Maybe<Array<Scalars['Bytes']>>;
-  liquidator_not_in?: Maybe<Array<Scalars['Bytes']>>;
   liquidator_contains?: Maybe<Scalars['Bytes']>;
+  liquidator_in?: Maybe<Array<Scalars['Bytes']>>;
+  liquidator_not?: Maybe<Scalars['Bytes']>;
   liquidator_not_contains?: Maybe<Scalars['Bytes']>;
+  liquidator_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  pool?: Maybe<Scalars['String']>;
+  pool_contains?: Maybe<Scalars['String']>;
+  pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
+  pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
+  principalAmount?: Maybe<Scalars['BigInt']>;
+  principalAmount_gt?: Maybe<Scalars['BigInt']>;
+  principalAmount_gte?: Maybe<Scalars['BigInt']>;
+  principalAmount_in?: Maybe<Array<Scalars['BigInt']>>;
+  principalAmount_lt?: Maybe<Scalars['BigInt']>;
+  principalAmount_lte?: Maybe<Scalars['BigInt']>;
+  principalAmount_not?: Maybe<Scalars['BigInt']>;
+  principalAmount_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  principalReserve?: Maybe<Scalars['String']>;
+  principalReserve_contains?: Maybe<Scalars['String']>;
+  principalReserve_ends_with?: Maybe<Scalars['String']>;
+  principalReserve_gt?: Maybe<Scalars['String']>;
+  principalReserve_gte?: Maybe<Scalars['String']>;
+  principalReserve_in?: Maybe<Array<Scalars['String']>>;
+  principalReserve_lt?: Maybe<Scalars['String']>;
+  principalReserve_lte?: Maybe<Scalars['String']>;
+  principalReserve_not?: Maybe<Scalars['String']>;
+  principalReserve_not_contains?: Maybe<Scalars['String']>;
+  principalReserve_not_ends_with?: Maybe<Scalars['String']>;
+  principalReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  principalReserve_not_starts_with?: Maybe<Scalars['String']>;
+  principalReserve_starts_with?: Maybe<Scalars['String']>;
+  principalUserReserve?: Maybe<Scalars['String']>;
+  principalUserReserve_contains?: Maybe<Scalars['String']>;
+  principalUserReserve_ends_with?: Maybe<Scalars['String']>;
+  principalUserReserve_gt?: Maybe<Scalars['String']>;
+  principalUserReserve_gte?: Maybe<Scalars['String']>;
+  principalUserReserve_in?: Maybe<Array<Scalars['String']>>;
+  principalUserReserve_lt?: Maybe<Scalars['String']>;
+  principalUserReserve_lte?: Maybe<Scalars['String']>;
+  principalUserReserve_not?: Maybe<Scalars['String']>;
+  principalUserReserve_not_contains?: Maybe<Scalars['String']>;
+  principalUserReserve_not_ends_with?: Maybe<Scalars['String']>;
+  principalUserReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  principalUserReserve_not_starts_with?: Maybe<Scalars['String']>;
+  principalUserReserve_starts_with?: Maybe<Scalars['String']>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  user?: Maybe<Scalars['String']>;
+  user_contains?: Maybe<Scalars['String']>;
+  user_ends_with?: Maybe<Scalars['String']>;
+  user_gt?: Maybe<Scalars['String']>;
+  user_gte?: Maybe<Scalars['String']>;
+  user_in?: Maybe<Array<Scalars['String']>>;
+  user_lt?: Maybe<Scalars['String']>;
+  user_lte?: Maybe<Scalars['String']>;
+  user_not?: Maybe<Scalars['String']>;
+  user_not_contains?: Maybe<Scalars['String']>;
+  user_not_ends_with?: Maybe<Scalars['String']>;
+  user_not_in?: Maybe<Array<Scalars['String']>>;
+  user_not_starts_with?: Maybe<Scalars['String']>;
+  user_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum LiquidationCall_OrderBy {
-  Id = 'id',
-  Pool = 'pool',
-  User = 'user',
+  CollateralAmount = 'collateralAmount',
   CollateralReserve = 'collateralReserve',
   CollateralUserReserve = 'collateralUserReserve',
-  CollateralAmount = 'collateralAmount',
+  Id = 'id',
+  Liquidator = 'liquidator',
+  Pool = 'pool',
+  PrincipalAmount = 'principalAmount',
   PrincipalReserve = 'principalReserve',
   PrincipalUserReserve = 'principalUserReserve',
-  PrincipalAmount = 'principalAmount',
-  Liquidator = 'liquidator',
   Timestamp = 'timestamp',
+  User = 'user',
 }
 
 export type MapAssetPool = {
   __typename?: 'MapAssetPool';
-  /** address of a /s /v token */
+  /**
+   * address of a /s /v token
+   *
+   */
   id: Scalars['ID'];
   pool: Scalars['String'];
   underlyingAsset: Scalars['Bytes'];
@@ -1098,33 +1154,33 @@ export type MapAssetPool = {
 
 export type MapAssetPool_Filter = {
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
   pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
   pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
   pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
   underlyingAsset?: Maybe<Scalars['Bytes']>;
-  underlyingAsset_not?: Maybe<Scalars['Bytes']>;
-  underlyingAsset_in?: Maybe<Array<Scalars['Bytes']>>;
-  underlyingAsset_not_in?: Maybe<Array<Scalars['Bytes']>>;
   underlyingAsset_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAsset_in?: Maybe<Array<Scalars['Bytes']>>;
+  underlyingAsset_not?: Maybe<Scalars['Bytes']>;
   underlyingAsset_not_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAsset_not_in?: Maybe<Array<Scalars['Bytes']>>;
 };
 
 export enum MapAssetPool_OrderBy {
@@ -1140,663 +1196,664 @@ export enum OrderDirection {
 
 export type OriginationFeeLiquidation = UserTransaction & {
   __typename?: 'OriginationFeeLiquidation';
-  /** tx hash */
-  id: Scalars['ID'];
-  pool: Pool;
-  user: User;
   collateralReserve: Reserve;
   collateralUserReserve: UserReserve;
+  feeLiquidated: Scalars['BigInt'];
+  /**
+   * tx hash
+   *
+   */
+  id: Scalars['ID'];
+  liquidatedCollateralForFee: Scalars['BigInt'];
+  pool: Pool;
   principalReserve: Reserve;
   principalUserReserve: UserReserve;
-  feeLiquidated: Scalars['BigInt'];
-  liquidatedCollateralForFee: Scalars['BigInt'];
   timestamp: Scalars['Int'];
+  user: User;
 };
 
 export type OriginationFeeLiquidation_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
-  pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
-  pool_ends_with?: Maybe<Scalars['String']>;
-  pool_not_ends_with?: Maybe<Scalars['String']>;
-  user?: Maybe<Scalars['String']>;
-  user_not?: Maybe<Scalars['String']>;
-  user_gt?: Maybe<Scalars['String']>;
-  user_lt?: Maybe<Scalars['String']>;
-  user_gte?: Maybe<Scalars['String']>;
-  user_lte?: Maybe<Scalars['String']>;
-  user_in?: Maybe<Array<Scalars['String']>>;
-  user_not_in?: Maybe<Array<Scalars['String']>>;
-  user_contains?: Maybe<Scalars['String']>;
-  user_not_contains?: Maybe<Scalars['String']>;
-  user_starts_with?: Maybe<Scalars['String']>;
-  user_not_starts_with?: Maybe<Scalars['String']>;
-  user_ends_with?: Maybe<Scalars['String']>;
-  user_not_ends_with?: Maybe<Scalars['String']>;
   collateralReserve?: Maybe<Scalars['String']>;
-  collateralReserve_not?: Maybe<Scalars['String']>;
-  collateralReserve_gt?: Maybe<Scalars['String']>;
-  collateralReserve_lt?: Maybe<Scalars['String']>;
-  collateralReserve_gte?: Maybe<Scalars['String']>;
-  collateralReserve_lte?: Maybe<Scalars['String']>;
-  collateralReserve_in?: Maybe<Array<Scalars['String']>>;
-  collateralReserve_not_in?: Maybe<Array<Scalars['String']>>;
   collateralReserve_contains?: Maybe<Scalars['String']>;
-  collateralReserve_not_contains?: Maybe<Scalars['String']>;
-  collateralReserve_starts_with?: Maybe<Scalars['String']>;
-  collateralReserve_not_starts_with?: Maybe<Scalars['String']>;
   collateralReserve_ends_with?: Maybe<Scalars['String']>;
+  collateralReserve_gt?: Maybe<Scalars['String']>;
+  collateralReserve_gte?: Maybe<Scalars['String']>;
+  collateralReserve_in?: Maybe<Array<Scalars['String']>>;
+  collateralReserve_lt?: Maybe<Scalars['String']>;
+  collateralReserve_lte?: Maybe<Scalars['String']>;
+  collateralReserve_not?: Maybe<Scalars['String']>;
+  collateralReserve_not_contains?: Maybe<Scalars['String']>;
   collateralReserve_not_ends_with?: Maybe<Scalars['String']>;
+  collateralReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  collateralReserve_not_starts_with?: Maybe<Scalars['String']>;
+  collateralReserve_starts_with?: Maybe<Scalars['String']>;
   collateralUserReserve?: Maybe<Scalars['String']>;
-  collateralUserReserve_not?: Maybe<Scalars['String']>;
-  collateralUserReserve_gt?: Maybe<Scalars['String']>;
-  collateralUserReserve_lt?: Maybe<Scalars['String']>;
-  collateralUserReserve_gte?: Maybe<Scalars['String']>;
-  collateralUserReserve_lte?: Maybe<Scalars['String']>;
-  collateralUserReserve_in?: Maybe<Array<Scalars['String']>>;
-  collateralUserReserve_not_in?: Maybe<Array<Scalars['String']>>;
   collateralUserReserve_contains?: Maybe<Scalars['String']>;
-  collateralUserReserve_not_contains?: Maybe<Scalars['String']>;
-  collateralUserReserve_starts_with?: Maybe<Scalars['String']>;
-  collateralUserReserve_not_starts_with?: Maybe<Scalars['String']>;
   collateralUserReserve_ends_with?: Maybe<Scalars['String']>;
+  collateralUserReserve_gt?: Maybe<Scalars['String']>;
+  collateralUserReserve_gte?: Maybe<Scalars['String']>;
+  collateralUserReserve_in?: Maybe<Array<Scalars['String']>>;
+  collateralUserReserve_lt?: Maybe<Scalars['String']>;
+  collateralUserReserve_lte?: Maybe<Scalars['String']>;
+  collateralUserReserve_not?: Maybe<Scalars['String']>;
+  collateralUserReserve_not_contains?: Maybe<Scalars['String']>;
   collateralUserReserve_not_ends_with?: Maybe<Scalars['String']>;
-  principalReserve?: Maybe<Scalars['String']>;
-  principalReserve_not?: Maybe<Scalars['String']>;
-  principalReserve_gt?: Maybe<Scalars['String']>;
-  principalReserve_lt?: Maybe<Scalars['String']>;
-  principalReserve_gte?: Maybe<Scalars['String']>;
-  principalReserve_lte?: Maybe<Scalars['String']>;
-  principalReserve_in?: Maybe<Array<Scalars['String']>>;
-  principalReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  principalReserve_contains?: Maybe<Scalars['String']>;
-  principalReserve_not_contains?: Maybe<Scalars['String']>;
-  principalReserve_starts_with?: Maybe<Scalars['String']>;
-  principalReserve_not_starts_with?: Maybe<Scalars['String']>;
-  principalReserve_ends_with?: Maybe<Scalars['String']>;
-  principalReserve_not_ends_with?: Maybe<Scalars['String']>;
-  principalUserReserve?: Maybe<Scalars['String']>;
-  principalUserReserve_not?: Maybe<Scalars['String']>;
-  principalUserReserve_gt?: Maybe<Scalars['String']>;
-  principalUserReserve_lt?: Maybe<Scalars['String']>;
-  principalUserReserve_gte?: Maybe<Scalars['String']>;
-  principalUserReserve_lte?: Maybe<Scalars['String']>;
-  principalUserReserve_in?: Maybe<Array<Scalars['String']>>;
-  principalUserReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  principalUserReserve_contains?: Maybe<Scalars['String']>;
-  principalUserReserve_not_contains?: Maybe<Scalars['String']>;
-  principalUserReserve_starts_with?: Maybe<Scalars['String']>;
-  principalUserReserve_not_starts_with?: Maybe<Scalars['String']>;
-  principalUserReserve_ends_with?: Maybe<Scalars['String']>;
-  principalUserReserve_not_ends_with?: Maybe<Scalars['String']>;
+  collateralUserReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  collateralUserReserve_not_starts_with?: Maybe<Scalars['String']>;
+  collateralUserReserve_starts_with?: Maybe<Scalars['String']>;
   feeLiquidated?: Maybe<Scalars['BigInt']>;
-  feeLiquidated_not?: Maybe<Scalars['BigInt']>;
   feeLiquidated_gt?: Maybe<Scalars['BigInt']>;
-  feeLiquidated_lt?: Maybe<Scalars['BigInt']>;
   feeLiquidated_gte?: Maybe<Scalars['BigInt']>;
-  feeLiquidated_lte?: Maybe<Scalars['BigInt']>;
   feeLiquidated_in?: Maybe<Array<Scalars['BigInt']>>;
+  feeLiquidated_lt?: Maybe<Scalars['BigInt']>;
+  feeLiquidated_lte?: Maybe<Scalars['BigInt']>;
+  feeLiquidated_not?: Maybe<Scalars['BigInt']>;
   feeLiquidated_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
   liquidatedCollateralForFee?: Maybe<Scalars['BigInt']>;
-  liquidatedCollateralForFee_not?: Maybe<Scalars['BigInt']>;
   liquidatedCollateralForFee_gt?: Maybe<Scalars['BigInt']>;
-  liquidatedCollateralForFee_lt?: Maybe<Scalars['BigInt']>;
   liquidatedCollateralForFee_gte?: Maybe<Scalars['BigInt']>;
-  liquidatedCollateralForFee_lte?: Maybe<Scalars['BigInt']>;
   liquidatedCollateralForFee_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidatedCollateralForFee_lt?: Maybe<Scalars['BigInt']>;
+  liquidatedCollateralForFee_lte?: Maybe<Scalars['BigInt']>;
+  liquidatedCollateralForFee_not?: Maybe<Scalars['BigInt']>;
   liquidatedCollateralForFee_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  pool?: Maybe<Scalars['String']>;
+  pool_contains?: Maybe<Scalars['String']>;
+  pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
+  pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
+  principalReserve?: Maybe<Scalars['String']>;
+  principalReserve_contains?: Maybe<Scalars['String']>;
+  principalReserve_ends_with?: Maybe<Scalars['String']>;
+  principalReserve_gt?: Maybe<Scalars['String']>;
+  principalReserve_gte?: Maybe<Scalars['String']>;
+  principalReserve_in?: Maybe<Array<Scalars['String']>>;
+  principalReserve_lt?: Maybe<Scalars['String']>;
+  principalReserve_lte?: Maybe<Scalars['String']>;
+  principalReserve_not?: Maybe<Scalars['String']>;
+  principalReserve_not_contains?: Maybe<Scalars['String']>;
+  principalReserve_not_ends_with?: Maybe<Scalars['String']>;
+  principalReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  principalReserve_not_starts_with?: Maybe<Scalars['String']>;
+  principalReserve_starts_with?: Maybe<Scalars['String']>;
+  principalUserReserve?: Maybe<Scalars['String']>;
+  principalUserReserve_contains?: Maybe<Scalars['String']>;
+  principalUserReserve_ends_with?: Maybe<Scalars['String']>;
+  principalUserReserve_gt?: Maybe<Scalars['String']>;
+  principalUserReserve_gte?: Maybe<Scalars['String']>;
+  principalUserReserve_in?: Maybe<Array<Scalars['String']>>;
+  principalUserReserve_lt?: Maybe<Scalars['String']>;
+  principalUserReserve_lte?: Maybe<Scalars['String']>;
+  principalUserReserve_not?: Maybe<Scalars['String']>;
+  principalUserReserve_not_contains?: Maybe<Scalars['String']>;
+  principalUserReserve_not_ends_with?: Maybe<Scalars['String']>;
+  principalUserReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  principalUserReserve_not_starts_with?: Maybe<Scalars['String']>;
+  principalUserReserve_starts_with?: Maybe<Scalars['String']>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  user?: Maybe<Scalars['String']>;
+  user_contains?: Maybe<Scalars['String']>;
+  user_ends_with?: Maybe<Scalars['String']>;
+  user_gt?: Maybe<Scalars['String']>;
+  user_gte?: Maybe<Scalars['String']>;
+  user_in?: Maybe<Array<Scalars['String']>>;
+  user_lt?: Maybe<Scalars['String']>;
+  user_lte?: Maybe<Scalars['String']>;
+  user_not?: Maybe<Scalars['String']>;
+  user_not_contains?: Maybe<Scalars['String']>;
+  user_not_ends_with?: Maybe<Scalars['String']>;
+  user_not_in?: Maybe<Array<Scalars['String']>>;
+  user_not_starts_with?: Maybe<Scalars['String']>;
+  user_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum OriginationFeeLiquidation_OrderBy {
-  Id = 'id',
-  Pool = 'pool',
-  User = 'user',
   CollateralReserve = 'collateralReserve',
   CollateralUserReserve = 'collateralUserReserve',
+  FeeLiquidated = 'feeLiquidated',
+  Id = 'id',
+  LiquidatedCollateralForFee = 'liquidatedCollateralForFee',
+  Pool = 'pool',
   PrincipalReserve = 'principalReserve',
   PrincipalUserReserve = 'principalUserReserve',
-  FeeLiquidated = 'feeLiquidated',
-  LiquidatedCollateralForFee = 'liquidatedCollateralForFee',
   Timestamp = 'timestamp',
+  User = 'user',
 }
 
 export type Pool = {
   __typename?: 'Pool';
+  active: Scalars['Boolean'];
+  borrowHistory: Array<Borrow>;
+  configurationAdmin?: Maybe<Scalars['Bytes']>;
+  depositHistory: Array<Deposit>;
+  emergencyAdmin?: Maybe<Scalars['Bytes']>;
+  ethereumAddress?: Maybe<Scalars['Bytes']>;
+  flashLoanHistory: Array<FlashLoan>;
+  history: Array<PoolConfigurationHistoryItem>;
   id: Scalars['ID'];
-  protocol: Protocol;
+  lastUpdateTimestamp: Scalars['Int'];
   lendingPool?: Maybe<Scalars['Bytes']>;
   lendingPoolCollateralManager?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfigurator?: Maybe<Scalars['Bytes']>;
   lendingPoolConfiguratorImpl?: Maybe<Scalars['Bytes']>;
   lendingPoolImpl?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfigurator?: Maybe<Scalars['Bytes']>;
-  proxyPriceProvider?: Maybe<Scalars['Bytes']>;
   lendingRateOracle?: Maybe<Scalars['Bytes']>;
-  configurationAdmin?: Maybe<Scalars['Bytes']>;
-  ethereumAddress?: Maybe<Scalars['Bytes']>;
-  emergencyAdmin?: Maybe<Scalars['Bytes']>;
-  history: Array<PoolConfigurationHistoryItem>;
-  lastUpdateTimestamp: Scalars['Int'];
-  reserves: Array<Reserve>;
-  depositHistory: Array<Deposit>;
-  redeemUnderlyingHistory: Array<RedeemUnderlying>;
-  borrowHistory: Array<Borrow>;
-  swapHistory: Array<Swap>;
-  usageAsCollateralHistory: Array<UsageAsCollateral>;
-  rebalanceStableBorrowRateHistory: Array<RebalanceStableBorrowRate>;
-  repayHistory: Array<Repay>;
-  flashLoanHistory: Array<FlashLoan>;
   liquidationCallHistory: Array<LiquidationCall>;
   originationFeeLiquidationHistory: Array<OriginationFeeLiquidation>;
-  active: Scalars['Boolean'];
   paused: Scalars['Boolean'];
-};
-
-export type PoolHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<PoolConfigurationHistoryItem_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<PoolConfigurationHistoryItem_Filter>;
-};
-
-export type PoolReservesArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Reserve_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Reserve_Filter>;
-};
-
-export type PoolDepositHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Deposit_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Deposit_Filter>;
-};
-
-export type PoolRedeemUnderlyingHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<RedeemUnderlying_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<RedeemUnderlying_Filter>;
+  protocol: Protocol;
+  proxyPriceProvider?: Maybe<Scalars['Bytes']>;
+  rebalanceStableBorrowRateHistory: Array<RebalanceStableBorrowRate>;
+  redeemUnderlyingHistory: Array<RedeemUnderlying>;
+  repayHistory: Array<Repay>;
+  reserves: Array<Reserve>;
+  swapHistory: Array<Swap>;
+  usageAsCollateralHistory: Array<UsageAsCollateral>;
 };
 
 export type PoolBorrowHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Borrow_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<Borrow_Filter>;
 };
 
-export type PoolSwapHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
+export type PoolDepositHistoryArgs = {
   first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Swap_OrderBy>;
+  orderBy?: Maybe<Deposit_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Swap_Filter>;
-};
-
-export type PoolUsageAsCollateralHistoryArgs = {
   skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<UsageAsCollateral_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<UsageAsCollateral_Filter>;
-};
-
-export type PoolRebalanceStableBorrowRateHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<RebalanceStableBorrowRate_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<RebalanceStableBorrowRate_Filter>;
-};
-
-export type PoolRepayHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Repay_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Repay_Filter>;
+  where?: Maybe<Deposit_Filter>;
 };
 
 export type PoolFlashLoanHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<FlashLoan_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<FlashLoan_Filter>;
 };
 
-export type PoolLiquidationCallHistoryArgs = {
+export type PoolHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<PoolConfigurationHistoryItem_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<PoolConfigurationHistoryItem_Filter>;
+};
+
+export type PoolLiquidationCallHistoryArgs = {
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<LiquidationCall_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<LiquidationCall_Filter>;
 };
 
 export type PoolOriginationFeeLiquidationHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<OriginationFeeLiquidation_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<OriginationFeeLiquidation_Filter>;
+};
+
+export type PoolRebalanceStableBorrowRateHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<RebalanceStableBorrowRate_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<RebalanceStableBorrowRate_Filter>;
+};
+
+export type PoolRedeemUnderlyingHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<RedeemUnderlying_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<RedeemUnderlying_Filter>;
+};
+
+export type PoolRepayHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Repay_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Repay_Filter>;
+};
+
+export type PoolReservesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Reserve_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Reserve_Filter>;
+};
+
+export type PoolSwapHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Swap_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Swap_Filter>;
+};
+
+export type PoolUsageAsCollateralHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<UsageAsCollateral_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<UsageAsCollateral_Filter>;
 };
 
 export type PoolConfigurationHistoryItem = {
   __typename?: 'PoolConfigurationHistoryItem';
-  /** tx hash */
-  id: Scalars['ID'];
   active?: Maybe<Scalars['Boolean']>;
-  pool: Pool;
+  configurationAdmin?: Maybe<Scalars['Bytes']>;
+  /**
+   * tx hash
+   *
+   */
+  id: Scalars['ID'];
   lendingPool?: Maybe<Scalars['Bytes']>;
   lendingPoolCollateralManager?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfigurator?: Maybe<Scalars['Bytes']>;
   lendingPoolConfiguratorImpl?: Maybe<Scalars['Bytes']>;
   lendingPoolImpl?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfigurator?: Maybe<Scalars['Bytes']>;
-  proxyPriceProvider?: Maybe<Scalars['Bytes']>;
   lendingRateOracle?: Maybe<Scalars['Bytes']>;
-  configurationAdmin?: Maybe<Scalars['Bytes']>;
+  pool: Pool;
+  proxyPriceProvider?: Maybe<Scalars['Bytes']>;
   timestamp: Scalars['Int'];
 };
 
 export type PoolConfigurationHistoryItem_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
   active?: Maybe<Scalars['Boolean']>;
-  active_not?: Maybe<Scalars['Boolean']>;
   active_in?: Maybe<Array<Scalars['Boolean']>>;
+  active_not?: Maybe<Scalars['Boolean']>;
   active_not_in?: Maybe<Array<Scalars['Boolean']>>;
-  pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
-  pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
-  pool_ends_with?: Maybe<Scalars['String']>;
-  pool_not_ends_with?: Maybe<Scalars['String']>;
-  lendingPool?: Maybe<Scalars['Bytes']>;
-  lendingPool_not?: Maybe<Scalars['Bytes']>;
-  lendingPool_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPool_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPool_contains?: Maybe<Scalars['Bytes']>;
-  lendingPool_not_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolCollateralManager?: Maybe<Scalars['Bytes']>;
-  lendingPoolCollateralManager_not?: Maybe<Scalars['Bytes']>;
-  lendingPoolCollateralManager_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolCollateralManager_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolCollateralManager_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolCollateralManager_not_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfiguratorImpl?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfiguratorImpl_not?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfiguratorImpl_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolConfiguratorImpl_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolConfiguratorImpl_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfiguratorImpl_not_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolImpl?: Maybe<Scalars['Bytes']>;
-  lendingPoolImpl_not?: Maybe<Scalars['Bytes']>;
-  lendingPoolImpl_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolImpl_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolImpl_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolImpl_not_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfigurator?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfigurator_not?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfigurator_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolConfigurator_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolConfigurator_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfigurator_not_contains?: Maybe<Scalars['Bytes']>;
-  proxyPriceProvider?: Maybe<Scalars['Bytes']>;
-  proxyPriceProvider_not?: Maybe<Scalars['Bytes']>;
-  proxyPriceProvider_in?: Maybe<Array<Scalars['Bytes']>>;
-  proxyPriceProvider_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  proxyPriceProvider_contains?: Maybe<Scalars['Bytes']>;
-  proxyPriceProvider_not_contains?: Maybe<Scalars['Bytes']>;
-  lendingRateOracle?: Maybe<Scalars['Bytes']>;
-  lendingRateOracle_not?: Maybe<Scalars['Bytes']>;
-  lendingRateOracle_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingRateOracle_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingRateOracle_contains?: Maybe<Scalars['Bytes']>;
-  lendingRateOracle_not_contains?: Maybe<Scalars['Bytes']>;
   configurationAdmin?: Maybe<Scalars['Bytes']>;
-  configurationAdmin_not?: Maybe<Scalars['Bytes']>;
-  configurationAdmin_in?: Maybe<Array<Scalars['Bytes']>>;
-  configurationAdmin_not_in?: Maybe<Array<Scalars['Bytes']>>;
   configurationAdmin_contains?: Maybe<Scalars['Bytes']>;
+  configurationAdmin_in?: Maybe<Array<Scalars['Bytes']>>;
+  configurationAdmin_not?: Maybe<Scalars['Bytes']>;
   configurationAdmin_not_contains?: Maybe<Scalars['Bytes']>;
+  configurationAdmin_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  lendingPool?: Maybe<Scalars['Bytes']>;
+  lendingPoolCollateralManager?: Maybe<Scalars['Bytes']>;
+  lendingPoolCollateralManager_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolCollateralManager_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPoolCollateralManager_not?: Maybe<Scalars['Bytes']>;
+  lendingPoolCollateralManager_not_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolCollateralManager_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPoolConfigurator?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfiguratorImpl?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfiguratorImpl_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfiguratorImpl_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPoolConfiguratorImpl_not?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfiguratorImpl_not_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfiguratorImpl_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPoolConfigurator_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfigurator_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPoolConfigurator_not?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfigurator_not_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfigurator_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPoolImpl?: Maybe<Scalars['Bytes']>;
+  lendingPoolImpl_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolImpl_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPoolImpl_not?: Maybe<Scalars['Bytes']>;
+  lendingPoolImpl_not_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolImpl_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPool_contains?: Maybe<Scalars['Bytes']>;
+  lendingPool_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPool_not?: Maybe<Scalars['Bytes']>;
+  lendingPool_not_contains?: Maybe<Scalars['Bytes']>;
+  lendingPool_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingRateOracle?: Maybe<Scalars['Bytes']>;
+  lendingRateOracle_contains?: Maybe<Scalars['Bytes']>;
+  lendingRateOracle_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingRateOracle_not?: Maybe<Scalars['Bytes']>;
+  lendingRateOracle_not_contains?: Maybe<Scalars['Bytes']>;
+  lendingRateOracle_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  pool?: Maybe<Scalars['String']>;
+  pool_contains?: Maybe<Scalars['String']>;
+  pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
+  pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
+  proxyPriceProvider?: Maybe<Scalars['Bytes']>;
+  proxyPriceProvider_contains?: Maybe<Scalars['Bytes']>;
+  proxyPriceProvider_in?: Maybe<Array<Scalars['Bytes']>>;
+  proxyPriceProvider_not?: Maybe<Scalars['Bytes']>;
+  proxyPriceProvider_not_contains?: Maybe<Scalars['Bytes']>;
+  proxyPriceProvider_not_in?: Maybe<Array<Scalars['Bytes']>>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
 };
 
 export enum PoolConfigurationHistoryItem_OrderBy {
-  Id = 'id',
   Active = 'active',
-  Pool = 'pool',
+  ConfigurationAdmin = 'configurationAdmin',
+  Id = 'id',
   LendingPool = 'lendingPool',
   LendingPoolCollateralManager = 'lendingPoolCollateralManager',
+  LendingPoolConfigurator = 'lendingPoolConfigurator',
   LendingPoolConfiguratorImpl = 'lendingPoolConfiguratorImpl',
   LendingPoolImpl = 'lendingPoolImpl',
-  LendingPoolConfigurator = 'lendingPoolConfigurator',
-  ProxyPriceProvider = 'proxyPriceProvider',
   LendingRateOracle = 'lendingRateOracle',
-  ConfigurationAdmin = 'configurationAdmin',
+  Pool = 'pool',
+  ProxyPriceProvider = 'proxyPriceProvider',
   Timestamp = 'timestamp',
 }
 
 export type Pool_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  protocol?: Maybe<Scalars['String']>;
-  protocol_not?: Maybe<Scalars['String']>;
-  protocol_gt?: Maybe<Scalars['String']>;
-  protocol_lt?: Maybe<Scalars['String']>;
-  protocol_gte?: Maybe<Scalars['String']>;
-  protocol_lte?: Maybe<Scalars['String']>;
-  protocol_in?: Maybe<Array<Scalars['String']>>;
-  protocol_not_in?: Maybe<Array<Scalars['String']>>;
-  protocol_contains?: Maybe<Scalars['String']>;
-  protocol_not_contains?: Maybe<Scalars['String']>;
-  protocol_starts_with?: Maybe<Scalars['String']>;
-  protocol_not_starts_with?: Maybe<Scalars['String']>;
-  protocol_ends_with?: Maybe<Scalars['String']>;
-  protocol_not_ends_with?: Maybe<Scalars['String']>;
-  lendingPool?: Maybe<Scalars['Bytes']>;
-  lendingPool_not?: Maybe<Scalars['Bytes']>;
-  lendingPool_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPool_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPool_contains?: Maybe<Scalars['Bytes']>;
-  lendingPool_not_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolCollateralManager?: Maybe<Scalars['Bytes']>;
-  lendingPoolCollateralManager_not?: Maybe<Scalars['Bytes']>;
-  lendingPoolCollateralManager_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolCollateralManager_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolCollateralManager_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolCollateralManager_not_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfiguratorImpl?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfiguratorImpl_not?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfiguratorImpl_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolConfiguratorImpl_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolConfiguratorImpl_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfiguratorImpl_not_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolImpl?: Maybe<Scalars['Bytes']>;
-  lendingPoolImpl_not?: Maybe<Scalars['Bytes']>;
-  lendingPoolImpl_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolImpl_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolImpl_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolImpl_not_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfigurator?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfigurator_not?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfigurator_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolConfigurator_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingPoolConfigurator_contains?: Maybe<Scalars['Bytes']>;
-  lendingPoolConfigurator_not_contains?: Maybe<Scalars['Bytes']>;
-  proxyPriceProvider?: Maybe<Scalars['Bytes']>;
-  proxyPriceProvider_not?: Maybe<Scalars['Bytes']>;
-  proxyPriceProvider_in?: Maybe<Array<Scalars['Bytes']>>;
-  proxyPriceProvider_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  proxyPriceProvider_contains?: Maybe<Scalars['Bytes']>;
-  proxyPriceProvider_not_contains?: Maybe<Scalars['Bytes']>;
-  lendingRateOracle?: Maybe<Scalars['Bytes']>;
-  lendingRateOracle_not?: Maybe<Scalars['Bytes']>;
-  lendingRateOracle_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingRateOracle_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  lendingRateOracle_contains?: Maybe<Scalars['Bytes']>;
-  lendingRateOracle_not_contains?: Maybe<Scalars['Bytes']>;
-  configurationAdmin?: Maybe<Scalars['Bytes']>;
-  configurationAdmin_not?: Maybe<Scalars['Bytes']>;
-  configurationAdmin_in?: Maybe<Array<Scalars['Bytes']>>;
-  configurationAdmin_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  configurationAdmin_contains?: Maybe<Scalars['Bytes']>;
-  configurationAdmin_not_contains?: Maybe<Scalars['Bytes']>;
-  ethereumAddress?: Maybe<Scalars['Bytes']>;
-  ethereumAddress_not?: Maybe<Scalars['Bytes']>;
-  ethereumAddress_in?: Maybe<Array<Scalars['Bytes']>>;
-  ethereumAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  ethereumAddress_contains?: Maybe<Scalars['Bytes']>;
-  ethereumAddress_not_contains?: Maybe<Scalars['Bytes']>;
-  emergencyAdmin?: Maybe<Scalars['Bytes']>;
-  emergencyAdmin_not?: Maybe<Scalars['Bytes']>;
-  emergencyAdmin_in?: Maybe<Array<Scalars['Bytes']>>;
-  emergencyAdmin_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  emergencyAdmin_contains?: Maybe<Scalars['Bytes']>;
-  emergencyAdmin_not_contains?: Maybe<Scalars['Bytes']>;
-  lastUpdateTimestamp?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
-  lastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
   active?: Maybe<Scalars['Boolean']>;
-  active_not?: Maybe<Scalars['Boolean']>;
   active_in?: Maybe<Array<Scalars['Boolean']>>;
+  active_not?: Maybe<Scalars['Boolean']>;
   active_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  configurationAdmin?: Maybe<Scalars['Bytes']>;
+  configurationAdmin_contains?: Maybe<Scalars['Bytes']>;
+  configurationAdmin_in?: Maybe<Array<Scalars['Bytes']>>;
+  configurationAdmin_not?: Maybe<Scalars['Bytes']>;
+  configurationAdmin_not_contains?: Maybe<Scalars['Bytes']>;
+  configurationAdmin_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  emergencyAdmin?: Maybe<Scalars['Bytes']>;
+  emergencyAdmin_contains?: Maybe<Scalars['Bytes']>;
+  emergencyAdmin_in?: Maybe<Array<Scalars['Bytes']>>;
+  emergencyAdmin_not?: Maybe<Scalars['Bytes']>;
+  emergencyAdmin_not_contains?: Maybe<Scalars['Bytes']>;
+  emergencyAdmin_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  ethereumAddress?: Maybe<Scalars['Bytes']>;
+  ethereumAddress_contains?: Maybe<Scalars['Bytes']>;
+  ethereumAddress_in?: Maybe<Array<Scalars['Bytes']>>;
+  ethereumAddress_not?: Maybe<Scalars['Bytes']>;
+  ethereumAddress_not_contains?: Maybe<Scalars['Bytes']>;
+  ethereumAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  lastUpdateTimestamp?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  lastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  lendingPool?: Maybe<Scalars['Bytes']>;
+  lendingPoolCollateralManager?: Maybe<Scalars['Bytes']>;
+  lendingPoolCollateralManager_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolCollateralManager_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPoolCollateralManager_not?: Maybe<Scalars['Bytes']>;
+  lendingPoolCollateralManager_not_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolCollateralManager_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPoolConfigurator?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfiguratorImpl?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfiguratorImpl_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfiguratorImpl_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPoolConfiguratorImpl_not?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfiguratorImpl_not_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfiguratorImpl_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPoolConfigurator_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfigurator_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPoolConfigurator_not?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfigurator_not_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolConfigurator_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPoolImpl?: Maybe<Scalars['Bytes']>;
+  lendingPoolImpl_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolImpl_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPoolImpl_not?: Maybe<Scalars['Bytes']>;
+  lendingPoolImpl_not_contains?: Maybe<Scalars['Bytes']>;
+  lendingPoolImpl_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPool_contains?: Maybe<Scalars['Bytes']>;
+  lendingPool_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingPool_not?: Maybe<Scalars['Bytes']>;
+  lendingPool_not_contains?: Maybe<Scalars['Bytes']>;
+  lendingPool_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingRateOracle?: Maybe<Scalars['Bytes']>;
+  lendingRateOracle_contains?: Maybe<Scalars['Bytes']>;
+  lendingRateOracle_in?: Maybe<Array<Scalars['Bytes']>>;
+  lendingRateOracle_not?: Maybe<Scalars['Bytes']>;
+  lendingRateOracle_not_contains?: Maybe<Scalars['Bytes']>;
+  lendingRateOracle_not_in?: Maybe<Array<Scalars['Bytes']>>;
   paused?: Maybe<Scalars['Boolean']>;
-  paused_not?: Maybe<Scalars['Boolean']>;
   paused_in?: Maybe<Array<Scalars['Boolean']>>;
+  paused_not?: Maybe<Scalars['Boolean']>;
   paused_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  protocol?: Maybe<Scalars['String']>;
+  protocol_contains?: Maybe<Scalars['String']>;
+  protocol_ends_with?: Maybe<Scalars['String']>;
+  protocol_gt?: Maybe<Scalars['String']>;
+  protocol_gte?: Maybe<Scalars['String']>;
+  protocol_in?: Maybe<Array<Scalars['String']>>;
+  protocol_lt?: Maybe<Scalars['String']>;
+  protocol_lte?: Maybe<Scalars['String']>;
+  protocol_not?: Maybe<Scalars['String']>;
+  protocol_not_contains?: Maybe<Scalars['String']>;
+  protocol_not_ends_with?: Maybe<Scalars['String']>;
+  protocol_not_in?: Maybe<Array<Scalars['String']>>;
+  protocol_not_starts_with?: Maybe<Scalars['String']>;
+  protocol_starts_with?: Maybe<Scalars['String']>;
+  proxyPriceProvider?: Maybe<Scalars['Bytes']>;
+  proxyPriceProvider_contains?: Maybe<Scalars['Bytes']>;
+  proxyPriceProvider_in?: Maybe<Array<Scalars['Bytes']>>;
+  proxyPriceProvider_not?: Maybe<Scalars['Bytes']>;
+  proxyPriceProvider_not_contains?: Maybe<Scalars['Bytes']>;
+  proxyPriceProvider_not_in?: Maybe<Array<Scalars['Bytes']>>;
 };
 
 export enum Pool_OrderBy {
+  Active = 'active',
+  BorrowHistory = 'borrowHistory',
+  ConfigurationAdmin = 'configurationAdmin',
+  DepositHistory = 'depositHistory',
+  EmergencyAdmin = 'emergencyAdmin',
+  EthereumAddress = 'ethereumAddress',
+  FlashLoanHistory = 'flashLoanHistory',
+  History = 'history',
   Id = 'id',
-  Protocol = 'protocol',
+  LastUpdateTimestamp = 'lastUpdateTimestamp',
   LendingPool = 'lendingPool',
   LendingPoolCollateralManager = 'lendingPoolCollateralManager',
+  LendingPoolConfigurator = 'lendingPoolConfigurator',
   LendingPoolConfiguratorImpl = 'lendingPoolConfiguratorImpl',
   LendingPoolImpl = 'lendingPoolImpl',
-  LendingPoolConfigurator = 'lendingPoolConfigurator',
-  ProxyPriceProvider = 'proxyPriceProvider',
   LendingRateOracle = 'lendingRateOracle',
-  ConfigurationAdmin = 'configurationAdmin',
-  EthereumAddress = 'ethereumAddress',
-  EmergencyAdmin = 'emergencyAdmin',
-  History = 'history',
-  LastUpdateTimestamp = 'lastUpdateTimestamp',
-  Reserves = 'reserves',
-  DepositHistory = 'depositHistory',
-  RedeemUnderlyingHistory = 'redeemUnderlyingHistory',
-  BorrowHistory = 'borrowHistory',
-  SwapHistory = 'swapHistory',
-  UsageAsCollateralHistory = 'usageAsCollateralHistory',
-  RebalanceStableBorrowRateHistory = 'rebalanceStableBorrowRateHistory',
-  RepayHistory = 'repayHistory',
-  FlashLoanHistory = 'flashLoanHistory',
   LiquidationCallHistory = 'liquidationCallHistory',
   OriginationFeeLiquidationHistory = 'originationFeeLiquidationHistory',
-  Active = 'active',
   Paused = 'paused',
+  Protocol = 'protocol',
+  ProxyPriceProvider = 'proxyPriceProvider',
+  RebalanceStableBorrowRateHistory = 'rebalanceStableBorrowRateHistory',
+  RedeemUnderlyingHistory = 'redeemUnderlyingHistory',
+  RepayHistory = 'repayHistory',
+  Reserves = 'reserves',
+  SwapHistory = 'swapHistory',
+  UsageAsCollateralHistory = 'usageAsCollateralHistory',
 }
-
-export type PriceData = {
-  __typename?: 'PriceData';
-  priceInEth: Scalars['String'];
-};
 
 export type PriceHistoryItem = {
   __typename?: 'PriceHistoryItem';
-  id: Scalars['ID'];
   asset: PriceOracleAsset;
+  id: Scalars['ID'];
   price: Scalars['BigInt'];
   timestamp: Scalars['Int'];
 };
 
 export type PriceHistoryItem_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
   asset?: Maybe<Scalars['String']>;
-  asset_not?: Maybe<Scalars['String']>;
-  asset_gt?: Maybe<Scalars['String']>;
-  asset_lt?: Maybe<Scalars['String']>;
-  asset_gte?: Maybe<Scalars['String']>;
-  asset_lte?: Maybe<Scalars['String']>;
-  asset_in?: Maybe<Array<Scalars['String']>>;
-  asset_not_in?: Maybe<Array<Scalars['String']>>;
   asset_contains?: Maybe<Scalars['String']>;
-  asset_not_contains?: Maybe<Scalars['String']>;
-  asset_starts_with?: Maybe<Scalars['String']>;
-  asset_not_starts_with?: Maybe<Scalars['String']>;
   asset_ends_with?: Maybe<Scalars['String']>;
+  asset_gt?: Maybe<Scalars['String']>;
+  asset_gte?: Maybe<Scalars['String']>;
+  asset_in?: Maybe<Array<Scalars['String']>>;
+  asset_lt?: Maybe<Scalars['String']>;
+  asset_lte?: Maybe<Scalars['String']>;
+  asset_not?: Maybe<Scalars['String']>;
+  asset_not_contains?: Maybe<Scalars['String']>;
   asset_not_ends_with?: Maybe<Scalars['String']>;
+  asset_not_in?: Maybe<Array<Scalars['String']>>;
+  asset_not_starts_with?: Maybe<Scalars['String']>;
+  asset_starts_with?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
   price?: Maybe<Scalars['BigInt']>;
-  price_not?: Maybe<Scalars['BigInt']>;
   price_gt?: Maybe<Scalars['BigInt']>;
-  price_lt?: Maybe<Scalars['BigInt']>;
   price_gte?: Maybe<Scalars['BigInt']>;
-  price_lte?: Maybe<Scalars['BigInt']>;
   price_in?: Maybe<Array<Scalars['BigInt']>>;
+  price_lt?: Maybe<Scalars['BigInt']>;
+  price_lte?: Maybe<Scalars['BigInt']>;
+  price_not?: Maybe<Scalars['BigInt']>;
   price_not_in?: Maybe<Array<Scalars['BigInt']>>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
 };
 
 export enum PriceHistoryItem_OrderBy {
-  Id = 'id',
   Asset = 'asset',
+  Id = 'id',
   Price = 'price',
   Timestamp = 'timestamp',
 }
 
 export type PriceOracle = {
   __typename?: 'PriceOracle';
-  id: Scalars['ID'];
-  proxyPriceProvider: Scalars['Bytes'];
-  usdPriceEth: Scalars['BigInt'];
-  usdPriceEthMainSource: Scalars['Bytes'];
-  usdPriceEthFallbackRequired: Scalars['Boolean'];
-  usdDependentAssets: Array<PriceOracleAsset>;
   fallbackPriceOracle: Scalars['Bytes'];
-  tokens: Array<PriceOracleAsset>;
-  usdPriceEthHistory: Array<UsdEthPriceHistoryItem>;
-  tokensWithFallback: Array<PriceOracleAsset>;
+  id: Scalars['ID'];
   lastUpdateTimestamp: Scalars['Int'];
+  proxyPriceProvider: Scalars['Bytes'];
+  tokens: Array<PriceOracleAsset>;
+  tokensWithFallback: Array<PriceOracleAsset>;
+  usdDependentAssets: Array<PriceOracleAsset>;
+  usdPriceEth: Scalars['BigInt'];
+  usdPriceEthFallbackRequired: Scalars['Boolean'];
+  usdPriceEthHistory: Array<UsdEthPriceHistoryItem>;
+  usdPriceEthMainSource: Scalars['Bytes'];
   version: Scalars['Int'];
 };
 
-export type PriceOracleUsdDependentAssetsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+export type PriceOracleTokensArgs = {
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<PriceOracleAsset_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<PriceOracleAsset_Filter>;
 };
 
-export type PriceOracleTokensArgs = {
-  skip?: Maybe<Scalars['Int']>;
+export type PriceOracleTokensWithFallbackArgs = {
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<PriceOracleAsset_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<PriceOracleAsset_Filter>;
+};
+
+export type PriceOracleUsdDependentAssetsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<PriceOracleAsset_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<PriceOracleAsset_Filter>;
 };
 
 export type PriceOracleUsdPriceEthHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<UsdEthPriceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<UsdEthPriceHistoryItem_Filter>;
-};
-
-export type PriceOracleTokensWithFallbackArgs = {
   skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<PriceOracleAsset_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<PriceOracleAsset_Filter>;
+  where?: Maybe<UsdEthPriceHistoryItem_Filter>;
 };
 
 export type PriceOracleAsset = {
   __typename?: 'PriceOracleAsset';
+  dependentAssets: Array<PriceOracleAsset>;
+  fromChainlinkSourcesRegistry: Scalars['Boolean'];
   id: Scalars['ID'];
+  isFallbackRequired: Scalars['Boolean'];
+  lastUpdateTimestamp: Scalars['Int'];
   oracle: PriceOracle;
+  platform: PriceOracleAssetPlatform;
+  priceHistory: Array<PriceHistoryItem>;
   priceInEth: Scalars['BigInt'];
   priceSource: Scalars['Bytes'];
-  isFallbackRequired: Scalars['Boolean'];
   type: PriceOracleAssetType;
-  platform: PriceOracleAssetPlatform;
-  dependentAssets: Array<PriceOracleAsset>;
-  lastUpdateTimestamp: Scalars['Int'];
-  priceHistory: Array<PriceHistoryItem>;
-  fromChainlinkSourcesRegistry: Scalars['Boolean'];
 };
 
 export type PriceOracleAssetDependentAssetsArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<PriceOracleAsset_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<PriceOracleAsset_Filter>;
 };
 
 export type PriceOracleAssetPriceHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<PriceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<PriceHistoryItem_Filter>;
 };
 
@@ -1806,164 +1863,168 @@ export enum PriceOracleAssetPlatform {
 }
 
 export enum PriceOracleAssetType {
-  Simple = 'Simple',
   Composite = 'Composite',
+  Simple = 'Simple',
 }
 
 export type PriceOracleAsset_Filter = {
+  dependentAssets?: Maybe<Array<Scalars['String']>>;
+  dependentAssets_contains?: Maybe<Array<Scalars['String']>>;
+  dependentAssets_not?: Maybe<Array<Scalars['String']>>;
+  dependentAssets_not_contains?: Maybe<Array<Scalars['String']>>;
+  fromChainlinkSourcesRegistry?: Maybe<Scalars['Boolean']>;
+  fromChainlinkSourcesRegistry_in?: Maybe<Array<Scalars['Boolean']>>;
+  fromChainlinkSourcesRegistry_not?: Maybe<Scalars['Boolean']>;
+  fromChainlinkSourcesRegistry_not_in?: Maybe<Array<Scalars['Boolean']>>;
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
+  isFallbackRequired?: Maybe<Scalars['Boolean']>;
+  isFallbackRequired_in?: Maybe<Array<Scalars['Boolean']>>;
+  isFallbackRequired_not?: Maybe<Scalars['Boolean']>;
+  isFallbackRequired_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  lastUpdateTimestamp?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  lastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
   oracle?: Maybe<Scalars['String']>;
-  oracle_not?: Maybe<Scalars['String']>;
-  oracle_gt?: Maybe<Scalars['String']>;
-  oracle_lt?: Maybe<Scalars['String']>;
-  oracle_gte?: Maybe<Scalars['String']>;
-  oracle_lte?: Maybe<Scalars['String']>;
-  oracle_in?: Maybe<Array<Scalars['String']>>;
-  oracle_not_in?: Maybe<Array<Scalars['String']>>;
   oracle_contains?: Maybe<Scalars['String']>;
-  oracle_not_contains?: Maybe<Scalars['String']>;
-  oracle_starts_with?: Maybe<Scalars['String']>;
-  oracle_not_starts_with?: Maybe<Scalars['String']>;
   oracle_ends_with?: Maybe<Scalars['String']>;
+  oracle_gt?: Maybe<Scalars['String']>;
+  oracle_gte?: Maybe<Scalars['String']>;
+  oracle_in?: Maybe<Array<Scalars['String']>>;
+  oracle_lt?: Maybe<Scalars['String']>;
+  oracle_lte?: Maybe<Scalars['String']>;
+  oracle_not?: Maybe<Scalars['String']>;
+  oracle_not_contains?: Maybe<Scalars['String']>;
   oracle_not_ends_with?: Maybe<Scalars['String']>;
+  oracle_not_in?: Maybe<Array<Scalars['String']>>;
+  oracle_not_starts_with?: Maybe<Scalars['String']>;
+  oracle_starts_with?: Maybe<Scalars['String']>;
+  platform?: Maybe<PriceOracleAssetPlatform>;
+  platform_in?: Maybe<Array<PriceOracleAssetPlatform>>;
+  platform_not?: Maybe<PriceOracleAssetPlatform>;
+  platform_not_in?: Maybe<Array<PriceOracleAssetPlatform>>;
   priceInEth?: Maybe<Scalars['BigInt']>;
-  priceInEth_not?: Maybe<Scalars['BigInt']>;
   priceInEth_gt?: Maybe<Scalars['BigInt']>;
-  priceInEth_lt?: Maybe<Scalars['BigInt']>;
   priceInEth_gte?: Maybe<Scalars['BigInt']>;
-  priceInEth_lte?: Maybe<Scalars['BigInt']>;
   priceInEth_in?: Maybe<Array<Scalars['BigInt']>>;
+  priceInEth_lt?: Maybe<Scalars['BigInt']>;
+  priceInEth_lte?: Maybe<Scalars['BigInt']>;
+  priceInEth_not?: Maybe<Scalars['BigInt']>;
   priceInEth_not_in?: Maybe<Array<Scalars['BigInt']>>;
   priceSource?: Maybe<Scalars['Bytes']>;
-  priceSource_not?: Maybe<Scalars['Bytes']>;
-  priceSource_in?: Maybe<Array<Scalars['Bytes']>>;
-  priceSource_not_in?: Maybe<Array<Scalars['Bytes']>>;
   priceSource_contains?: Maybe<Scalars['Bytes']>;
+  priceSource_in?: Maybe<Array<Scalars['Bytes']>>;
+  priceSource_not?: Maybe<Scalars['Bytes']>;
   priceSource_not_contains?: Maybe<Scalars['Bytes']>;
-  isFallbackRequired?: Maybe<Scalars['Boolean']>;
-  isFallbackRequired_not?: Maybe<Scalars['Boolean']>;
-  isFallbackRequired_in?: Maybe<Array<Scalars['Boolean']>>;
-  isFallbackRequired_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  priceSource_not_in?: Maybe<Array<Scalars['Bytes']>>;
   type?: Maybe<PriceOracleAssetType>;
+  type_in?: Maybe<Array<PriceOracleAssetType>>;
   type_not?: Maybe<PriceOracleAssetType>;
-  platform?: Maybe<PriceOracleAssetPlatform>;
-  platform_not?: Maybe<PriceOracleAssetPlatform>;
-  dependentAssets?: Maybe<Array<Scalars['String']>>;
-  dependentAssets_not?: Maybe<Array<Scalars['String']>>;
-  dependentAssets_contains?: Maybe<Array<Scalars['String']>>;
-  dependentAssets_not_contains?: Maybe<Array<Scalars['String']>>;
-  lastUpdateTimestamp?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
-  lastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
-  fromChainlinkSourcesRegistry?: Maybe<Scalars['Boolean']>;
-  fromChainlinkSourcesRegistry_not?: Maybe<Scalars['Boolean']>;
-  fromChainlinkSourcesRegistry_in?: Maybe<Array<Scalars['Boolean']>>;
-  fromChainlinkSourcesRegistry_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  type_not_in?: Maybe<Array<PriceOracleAssetType>>;
 };
 
 export enum PriceOracleAsset_OrderBy {
+  DependentAssets = 'dependentAssets',
+  FromChainlinkSourcesRegistry = 'fromChainlinkSourcesRegistry',
   Id = 'id',
+  IsFallbackRequired = 'isFallbackRequired',
+  LastUpdateTimestamp = 'lastUpdateTimestamp',
   Oracle = 'oracle',
+  Platform = 'platform',
+  PriceHistory = 'priceHistory',
   PriceInEth = 'priceInEth',
   PriceSource = 'priceSource',
-  IsFallbackRequired = 'isFallbackRequired',
   Type = 'type',
-  Platform = 'platform',
-  DependentAssets = 'dependentAssets',
-  LastUpdateTimestamp = 'lastUpdateTimestamp',
-  PriceHistory = 'priceHistory',
-  FromChainlinkSourcesRegistry = 'fromChainlinkSourcesRegistry',
 }
 
 export type PriceOracle_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  proxyPriceProvider?: Maybe<Scalars['Bytes']>;
-  proxyPriceProvider_not?: Maybe<Scalars['Bytes']>;
-  proxyPriceProvider_in?: Maybe<Array<Scalars['Bytes']>>;
-  proxyPriceProvider_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  proxyPriceProvider_contains?: Maybe<Scalars['Bytes']>;
-  proxyPriceProvider_not_contains?: Maybe<Scalars['Bytes']>;
-  usdPriceEth?: Maybe<Scalars['BigInt']>;
-  usdPriceEth_not?: Maybe<Scalars['BigInt']>;
-  usdPriceEth_gt?: Maybe<Scalars['BigInt']>;
-  usdPriceEth_lt?: Maybe<Scalars['BigInt']>;
-  usdPriceEth_gte?: Maybe<Scalars['BigInt']>;
-  usdPriceEth_lte?: Maybe<Scalars['BigInt']>;
-  usdPriceEth_in?: Maybe<Array<Scalars['BigInt']>>;
-  usdPriceEth_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  usdPriceEthMainSource?: Maybe<Scalars['Bytes']>;
-  usdPriceEthMainSource_not?: Maybe<Scalars['Bytes']>;
-  usdPriceEthMainSource_in?: Maybe<Array<Scalars['Bytes']>>;
-  usdPriceEthMainSource_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  usdPriceEthMainSource_contains?: Maybe<Scalars['Bytes']>;
-  usdPriceEthMainSource_not_contains?: Maybe<Scalars['Bytes']>;
-  usdPriceEthFallbackRequired?: Maybe<Scalars['Boolean']>;
-  usdPriceEthFallbackRequired_not?: Maybe<Scalars['Boolean']>;
-  usdPriceEthFallbackRequired_in?: Maybe<Array<Scalars['Boolean']>>;
-  usdPriceEthFallbackRequired_not_in?: Maybe<Array<Scalars['Boolean']>>;
-  usdDependentAssets?: Maybe<Array<Scalars['String']>>;
-  usdDependentAssets_not?: Maybe<Array<Scalars['String']>>;
-  usdDependentAssets_contains?: Maybe<Array<Scalars['String']>>;
-  usdDependentAssets_not_contains?: Maybe<Array<Scalars['String']>>;
   fallbackPriceOracle?: Maybe<Scalars['Bytes']>;
-  fallbackPriceOracle_not?: Maybe<Scalars['Bytes']>;
-  fallbackPriceOracle_in?: Maybe<Array<Scalars['Bytes']>>;
-  fallbackPriceOracle_not_in?: Maybe<Array<Scalars['Bytes']>>;
   fallbackPriceOracle_contains?: Maybe<Scalars['Bytes']>;
+  fallbackPriceOracle_in?: Maybe<Array<Scalars['Bytes']>>;
+  fallbackPriceOracle_not?: Maybe<Scalars['Bytes']>;
   fallbackPriceOracle_not_contains?: Maybe<Scalars['Bytes']>;
-  tokensWithFallback?: Maybe<Array<Scalars['String']>>;
-  tokensWithFallback_not?: Maybe<Array<Scalars['String']>>;
-  tokensWithFallback_contains?: Maybe<Array<Scalars['String']>>;
-  tokensWithFallback_not_contains?: Maybe<Array<Scalars['String']>>;
+  fallbackPriceOracle_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
   lastUpdateTimestamp?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
   lastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
   lastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
   lastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  lastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
   lastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  proxyPriceProvider?: Maybe<Scalars['Bytes']>;
+  proxyPriceProvider_contains?: Maybe<Scalars['Bytes']>;
+  proxyPriceProvider_in?: Maybe<Array<Scalars['Bytes']>>;
+  proxyPriceProvider_not?: Maybe<Scalars['Bytes']>;
+  proxyPriceProvider_not_contains?: Maybe<Scalars['Bytes']>;
+  proxyPriceProvider_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  tokensWithFallback?: Maybe<Array<Scalars['String']>>;
+  tokensWithFallback_contains?: Maybe<Array<Scalars['String']>>;
+  tokensWithFallback_not?: Maybe<Array<Scalars['String']>>;
+  tokensWithFallback_not_contains?: Maybe<Array<Scalars['String']>>;
+  usdDependentAssets?: Maybe<Array<Scalars['String']>>;
+  usdDependentAssets_contains?: Maybe<Array<Scalars['String']>>;
+  usdDependentAssets_not?: Maybe<Array<Scalars['String']>>;
+  usdDependentAssets_not_contains?: Maybe<Array<Scalars['String']>>;
+  usdPriceEth?: Maybe<Scalars['BigInt']>;
+  usdPriceEthFallbackRequired?: Maybe<Scalars['Boolean']>;
+  usdPriceEthFallbackRequired_in?: Maybe<Array<Scalars['Boolean']>>;
+  usdPriceEthFallbackRequired_not?: Maybe<Scalars['Boolean']>;
+  usdPriceEthFallbackRequired_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  usdPriceEthMainSource?: Maybe<Scalars['Bytes']>;
+  usdPriceEthMainSource_contains?: Maybe<Scalars['Bytes']>;
+  usdPriceEthMainSource_in?: Maybe<Array<Scalars['Bytes']>>;
+  usdPriceEthMainSource_not?: Maybe<Scalars['Bytes']>;
+  usdPriceEthMainSource_not_contains?: Maybe<Scalars['Bytes']>;
+  usdPriceEthMainSource_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  usdPriceEth_gt?: Maybe<Scalars['BigInt']>;
+  usdPriceEth_gte?: Maybe<Scalars['BigInt']>;
+  usdPriceEth_in?: Maybe<Array<Scalars['BigInt']>>;
+  usdPriceEth_lt?: Maybe<Scalars['BigInt']>;
+  usdPriceEth_lte?: Maybe<Scalars['BigInt']>;
+  usdPriceEth_not?: Maybe<Scalars['BigInt']>;
+  usdPriceEth_not_in?: Maybe<Array<Scalars['BigInt']>>;
   version?: Maybe<Scalars['Int']>;
-  version_not?: Maybe<Scalars['Int']>;
   version_gt?: Maybe<Scalars['Int']>;
-  version_lt?: Maybe<Scalars['Int']>;
   version_gte?: Maybe<Scalars['Int']>;
-  version_lte?: Maybe<Scalars['Int']>;
   version_in?: Maybe<Array<Scalars['Int']>>;
+  version_lt?: Maybe<Scalars['Int']>;
+  version_lte?: Maybe<Scalars['Int']>;
+  version_not?: Maybe<Scalars['Int']>;
   version_not_in?: Maybe<Array<Scalars['Int']>>;
 };
 
 export enum PriceOracle_OrderBy {
-  Id = 'id',
-  ProxyPriceProvider = 'proxyPriceProvider',
-  UsdPriceEth = 'usdPriceEth',
-  UsdPriceEthMainSource = 'usdPriceEthMainSource',
-  UsdPriceEthFallbackRequired = 'usdPriceEthFallbackRequired',
-  UsdDependentAssets = 'usdDependentAssets',
   FallbackPriceOracle = 'fallbackPriceOracle',
-  Tokens = 'tokens',
-  UsdPriceEthHistory = 'usdPriceEthHistory',
-  TokensWithFallback = 'tokensWithFallback',
+  Id = 'id',
   LastUpdateTimestamp = 'lastUpdateTimestamp',
+  ProxyPriceProvider = 'proxyPriceProvider',
+  Tokens = 'tokens',
+  TokensWithFallback = 'tokensWithFallback',
+  UsdDependentAssets = 'usdDependentAssets',
+  UsdPriceEth = 'usdPriceEth',
+  UsdPriceEthFallbackRequired = 'usdPriceEthFallbackRequired',
+  UsdPriceEthHistory = 'usdPriceEthHistory',
+  UsdPriceEthMainSource = 'usdPriceEthMainSource',
   Version = 'version',
 }
 
@@ -1974,28 +2035,27 @@ export type Protocol = {
 };
 
 export type ProtocolPoolsArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Pool_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<Pool_Filter>;
 };
 
 export type ProtocolData = {
   __typename?: 'ProtocolData';
+  baseCurrencyData: BaseCurrencyData;
   reserves: Array<ReserveData>;
-  usdPriceEth: Scalars['String'];
-  emissionEndTimestamp: Scalars['Float'];
 };
 
 export type Protocol_Filter = {
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
 };
 
@@ -2064,6 +2124,7 @@ export type Query = {
   reserveParamsHistoryItem?: Maybe<ReserveParamsHistoryItem>;
   reserveParamsHistoryItems: Array<ReserveParamsHistoryItem>;
   reserves: Array<Reserve>;
+  reservesIncentives: Array<ReserveIncentivesData>;
   stableDebtToken?: Maybe<StableDebtToken>;
   stableDebtTokens: Array<StableDebtToken>;
   stableTokenDelegatedAllowance?: Maybe<StableTokenDelegatedAllowance>;
@@ -2083,7 +2144,8 @@ export type Query = {
   usdEthPriceHistoryItem?: Maybe<UsdEthPriceHistoryItem>;
   usdEthPriceHistoryItems: Array<UsdEthPriceHistoryItem>;
   user?: Maybe<User>;
-  userData: UserData;
+  userData: Array<UserReserveData>;
+  userIncentives: Array<UserIncentivesData>;
   userReserve?: Maybe<UserReserve>;
   userReserves: Array<UserReserve>;
   userTransaction?: Maybe<UserTransaction>;
@@ -2106,413 +2168,477 @@ export type Query_MetaArgs = {
 };
 
 export type QueryAtokenArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryAtokenBalanceHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryAtokenBalanceHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ATokenBalanceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ATokenBalanceHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryAtokensArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<AToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<AToken_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryBorrowArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryBorrowsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Borrow_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Borrow_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryChainlinkAggregatorArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryChainlinkAggregatorsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ChainlinkAggregator_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ChainlinkAggregator_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryChainlinkEnsArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryChainlinkEnSsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ChainlinkEns_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ChainlinkEns_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryClaimIncentiveCallArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryClaimIncentiveCallsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ClaimIncentiveCall_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ClaimIncentiveCall_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryContractToPoolMappingArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryContractToPoolMappingsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ContractToPoolMapping_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ContractToPoolMapping_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryDepositArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryDepositsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Deposit_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Deposit_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryFlashLoanArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryFlashLoansArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<FlashLoan_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<FlashLoan_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryIncentivesControllerArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryIncentivesControllersArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<IncentivesController_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<IncentivesController_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryIncentivizedActionArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryIncentivizedActionsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<IncentivizedAction_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<IncentivizedAction_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryLiquidationCallArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryLiquidationCallsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<LiquidationCall_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<LiquidationCall_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryMapAssetPoolArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryMapAssetPoolsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<MapAssetPool_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<MapAssetPool_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryOriginationFeeLiquidationArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryOriginationFeeLiquidationsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<OriginationFeeLiquidation_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<OriginationFeeLiquidation_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryPoolArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryPoolConfigurationHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryPoolConfigurationHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<PoolConfigurationHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PoolConfigurationHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryPoolsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Pool_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Pool_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryPriceHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryPriceHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<PriceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PriceHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryPriceOracleArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryPriceOracleAssetArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryPriceOracleAssetsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<PriceOracleAsset_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PriceOracleAsset_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryPriceOraclesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<PriceOracle_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PriceOracle_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryProtocolArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryProtocolDataArgs = {
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 };
 
 export type QueryProtocolsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Protocol_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Protocol_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryRebalanceStableBorrowRateArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryRebalanceStableBorrowRatesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<RebalanceStableBorrowRate_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<RebalanceStableBorrowRate_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryRedeemUnderlyingArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryRedeemUnderlyingsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<RedeemUnderlying_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<RedeemUnderlying_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryReferrerArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryReferrersArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Referrer_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Referrer_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryRepayArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryRepaysArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Repay_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Repay_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryReserveArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryReserveConfigurationHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryReserveConfigurationHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ReserveConfigurationHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ReserveConfigurationHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryReserveParamsHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryReserveParamsHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ReserveParamsHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ReserveParamsHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryReservesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Reserve_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Reserve_Filter>;
-  block?: Maybe<Block_Height>;
+};
+
+export type QueryReservesIncentivesArgs = {
+  chainlinkFeedsRegistry: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
+  quote: Scalars['String'];
 };
 
 export type QueryStableDebtTokenArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryStableDebtTokensArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<StableDebtToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<StableDebtToken_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryStableTokenDelegatedAllowanceArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryStableTokenDelegatedAllowancesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<StableTokenDelegatedAllowance_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<StableTokenDelegatedAllowance_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryStakeUserUiDataArgs = {
@@ -2520,2045 +2646,2105 @@ export type QueryStakeUserUiDataArgs = {
 };
 
 export type QueryStokenArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryStokenBalanceHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryStokenBalanceHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<STokenBalanceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<STokenBalanceHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryStokensArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<SToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<SToken_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QuerySwapArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QuerySwapHistoriesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<SwapHistory_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<SwapHistory_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QuerySwapHistoryArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QuerySwapsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Swap_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Swap_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryUsageAsCollateralArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryUsageAsCollateralsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<UsageAsCollateral_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UsageAsCollateral_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryUsdEthPriceHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryUsdEthPriceHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<UsdEthPriceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UsdEthPriceHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryUserArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryUserDataArgs = {
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
+  userAddress: Scalars['String'];
+};
+
+export type QueryUserIncentivesArgs = {
+  chainlinkFeedsRegistry: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
+  quote: Scalars['String'];
   userAddress: Scalars['String'];
 };
 
 export type QueryUserReserveArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryUserReservesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<UserReserve_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UserReserve_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryUserTransactionArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryUserTransactionsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<UserTransaction_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UserTransaction_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryUsersArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<User_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<User_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryVariableDebtTokenArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryVariableDebtTokensArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<VariableDebtToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VariableDebtToken_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryVariableTokenDelegatedAllowanceArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryVariableTokenDelegatedAllowancesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<VariableTokenDelegatedAllowance_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VariableTokenDelegatedAllowance_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryVtokenArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryVtokenBalanceHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryVtokenBalanceHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<VTokenBalanceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VTokenBalanceHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryVtokensArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<VToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VToken_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type QueryWethreserveArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryWethreservesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<WethReserve_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<WethReserve_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type RebalanceStableBorrowRate = UserTransaction & {
   __typename?: 'RebalanceStableBorrowRate';
-  /** tx hash */
-  id: Scalars['ID'];
-  pool: Pool;
-  user: User;
-  reserve: Reserve;
-  userReserve: UserReserve;
   borrowRateFrom: Scalars['BigInt'];
   borrowRateTo: Scalars['BigInt'];
+  /**
+   * tx hash
+   *
+   */
+  id: Scalars['ID'];
+  pool: Pool;
+  reserve: Reserve;
   timestamp: Scalars['Int'];
+  user: User;
+  userReserve: UserReserve;
 };
 
 export type RebalanceStableBorrowRate_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
-  pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
-  pool_ends_with?: Maybe<Scalars['String']>;
-  pool_not_ends_with?: Maybe<Scalars['String']>;
-  user?: Maybe<Scalars['String']>;
-  user_not?: Maybe<Scalars['String']>;
-  user_gt?: Maybe<Scalars['String']>;
-  user_lt?: Maybe<Scalars['String']>;
-  user_gte?: Maybe<Scalars['String']>;
-  user_lte?: Maybe<Scalars['String']>;
-  user_in?: Maybe<Array<Scalars['String']>>;
-  user_not_in?: Maybe<Array<Scalars['String']>>;
-  user_contains?: Maybe<Scalars['String']>;
-  user_not_contains?: Maybe<Scalars['String']>;
-  user_starts_with?: Maybe<Scalars['String']>;
-  user_not_starts_with?: Maybe<Scalars['String']>;
-  user_ends_with?: Maybe<Scalars['String']>;
-  user_not_ends_with?: Maybe<Scalars['String']>;
-  reserve?: Maybe<Scalars['String']>;
-  reserve_not?: Maybe<Scalars['String']>;
-  reserve_gt?: Maybe<Scalars['String']>;
-  reserve_lt?: Maybe<Scalars['String']>;
-  reserve_gte?: Maybe<Scalars['String']>;
-  reserve_lte?: Maybe<Scalars['String']>;
-  reserve_in?: Maybe<Array<Scalars['String']>>;
-  reserve_not_in?: Maybe<Array<Scalars['String']>>;
-  reserve_contains?: Maybe<Scalars['String']>;
-  reserve_not_contains?: Maybe<Scalars['String']>;
-  reserve_starts_with?: Maybe<Scalars['String']>;
-  reserve_not_starts_with?: Maybe<Scalars['String']>;
-  reserve_ends_with?: Maybe<Scalars['String']>;
-  reserve_not_ends_with?: Maybe<Scalars['String']>;
-  userReserve?: Maybe<Scalars['String']>;
-  userReserve_not?: Maybe<Scalars['String']>;
-  userReserve_gt?: Maybe<Scalars['String']>;
-  userReserve_lt?: Maybe<Scalars['String']>;
-  userReserve_gte?: Maybe<Scalars['String']>;
-  userReserve_lte?: Maybe<Scalars['String']>;
-  userReserve_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_contains?: Maybe<Scalars['String']>;
-  userReserve_not_contains?: Maybe<Scalars['String']>;
-  userReserve_starts_with?: Maybe<Scalars['String']>;
-  userReserve_not_starts_with?: Maybe<Scalars['String']>;
-  userReserve_ends_with?: Maybe<Scalars['String']>;
-  userReserve_not_ends_with?: Maybe<Scalars['String']>;
   borrowRateFrom?: Maybe<Scalars['BigInt']>;
-  borrowRateFrom_not?: Maybe<Scalars['BigInt']>;
   borrowRateFrom_gt?: Maybe<Scalars['BigInt']>;
-  borrowRateFrom_lt?: Maybe<Scalars['BigInt']>;
   borrowRateFrom_gte?: Maybe<Scalars['BigInt']>;
-  borrowRateFrom_lte?: Maybe<Scalars['BigInt']>;
   borrowRateFrom_in?: Maybe<Array<Scalars['BigInt']>>;
+  borrowRateFrom_lt?: Maybe<Scalars['BigInt']>;
+  borrowRateFrom_lte?: Maybe<Scalars['BigInt']>;
+  borrowRateFrom_not?: Maybe<Scalars['BigInt']>;
   borrowRateFrom_not_in?: Maybe<Array<Scalars['BigInt']>>;
   borrowRateTo?: Maybe<Scalars['BigInt']>;
-  borrowRateTo_not?: Maybe<Scalars['BigInt']>;
   borrowRateTo_gt?: Maybe<Scalars['BigInt']>;
-  borrowRateTo_lt?: Maybe<Scalars['BigInt']>;
   borrowRateTo_gte?: Maybe<Scalars['BigInt']>;
-  borrowRateTo_lte?: Maybe<Scalars['BigInt']>;
   borrowRateTo_in?: Maybe<Array<Scalars['BigInt']>>;
+  borrowRateTo_lt?: Maybe<Scalars['BigInt']>;
+  borrowRateTo_lte?: Maybe<Scalars['BigInt']>;
+  borrowRateTo_not?: Maybe<Scalars['BigInt']>;
   borrowRateTo_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  pool?: Maybe<Scalars['String']>;
+  pool_contains?: Maybe<Scalars['String']>;
+  pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
+  pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
+  reserve?: Maybe<Scalars['String']>;
+  reserve_contains?: Maybe<Scalars['String']>;
+  reserve_ends_with?: Maybe<Scalars['String']>;
+  reserve_gt?: Maybe<Scalars['String']>;
+  reserve_gte?: Maybe<Scalars['String']>;
+  reserve_in?: Maybe<Array<Scalars['String']>>;
+  reserve_lt?: Maybe<Scalars['String']>;
+  reserve_lte?: Maybe<Scalars['String']>;
+  reserve_not?: Maybe<Scalars['String']>;
+  reserve_not_contains?: Maybe<Scalars['String']>;
+  reserve_not_ends_with?: Maybe<Scalars['String']>;
+  reserve_not_in?: Maybe<Array<Scalars['String']>>;
+  reserve_not_starts_with?: Maybe<Scalars['String']>;
+  reserve_starts_with?: Maybe<Scalars['String']>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  user?: Maybe<Scalars['String']>;
+  userReserve?: Maybe<Scalars['String']>;
+  userReserve_contains?: Maybe<Scalars['String']>;
+  userReserve_ends_with?: Maybe<Scalars['String']>;
+  userReserve_gt?: Maybe<Scalars['String']>;
+  userReserve_gte?: Maybe<Scalars['String']>;
+  userReserve_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_lt?: Maybe<Scalars['String']>;
+  userReserve_lte?: Maybe<Scalars['String']>;
+  userReserve_not?: Maybe<Scalars['String']>;
+  userReserve_not_contains?: Maybe<Scalars['String']>;
+  userReserve_not_ends_with?: Maybe<Scalars['String']>;
+  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_not_starts_with?: Maybe<Scalars['String']>;
+  userReserve_starts_with?: Maybe<Scalars['String']>;
+  user_contains?: Maybe<Scalars['String']>;
+  user_ends_with?: Maybe<Scalars['String']>;
+  user_gt?: Maybe<Scalars['String']>;
+  user_gte?: Maybe<Scalars['String']>;
+  user_in?: Maybe<Array<Scalars['String']>>;
+  user_lt?: Maybe<Scalars['String']>;
+  user_lte?: Maybe<Scalars['String']>;
+  user_not?: Maybe<Scalars['String']>;
+  user_not_contains?: Maybe<Scalars['String']>;
+  user_not_ends_with?: Maybe<Scalars['String']>;
+  user_not_in?: Maybe<Array<Scalars['String']>>;
+  user_not_starts_with?: Maybe<Scalars['String']>;
+  user_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum RebalanceStableBorrowRate_OrderBy {
-  Id = 'id',
-  Pool = 'pool',
-  User = 'user',
-  Reserve = 'reserve',
-  UserReserve = 'userReserve',
   BorrowRateFrom = 'borrowRateFrom',
   BorrowRateTo = 'borrowRateTo',
+  Id = 'id',
+  Pool = 'pool',
+  Reserve = 'reserve',
   Timestamp = 'timestamp',
+  User = 'user',
+  UserReserve = 'userReserve',
 }
 
 export type RedeemUnderlying = UserTransaction & {
   __typename?: 'RedeemUnderlying';
-  /** tx hash */
-  id: Scalars['ID'];
-  pool: Pool;
-  user: User;
-  onBehalfOf: User;
-  reserve: Reserve;
-  userReserve: UserReserve;
   amount: Scalars['BigInt'];
+  /**
+   * tx hash
+   *
+   */
+  id: Scalars['ID'];
+  onBehalfOf: User;
+  pool: Pool;
+  reserve: Reserve;
   timestamp: Scalars['Int'];
+  user: User;
+  userReserve: UserReserve;
 };
 
 export type RedeemUnderlying_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
-  pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
-  pool_ends_with?: Maybe<Scalars['String']>;
-  pool_not_ends_with?: Maybe<Scalars['String']>;
-  user?: Maybe<Scalars['String']>;
-  user_not?: Maybe<Scalars['String']>;
-  user_gt?: Maybe<Scalars['String']>;
-  user_lt?: Maybe<Scalars['String']>;
-  user_gte?: Maybe<Scalars['String']>;
-  user_lte?: Maybe<Scalars['String']>;
-  user_in?: Maybe<Array<Scalars['String']>>;
-  user_not_in?: Maybe<Array<Scalars['String']>>;
-  user_contains?: Maybe<Scalars['String']>;
-  user_not_contains?: Maybe<Scalars['String']>;
-  user_starts_with?: Maybe<Scalars['String']>;
-  user_not_starts_with?: Maybe<Scalars['String']>;
-  user_ends_with?: Maybe<Scalars['String']>;
-  user_not_ends_with?: Maybe<Scalars['String']>;
-  onBehalfOf?: Maybe<Scalars['String']>;
-  onBehalfOf_not?: Maybe<Scalars['String']>;
-  onBehalfOf_gt?: Maybe<Scalars['String']>;
-  onBehalfOf_lt?: Maybe<Scalars['String']>;
-  onBehalfOf_gte?: Maybe<Scalars['String']>;
-  onBehalfOf_lte?: Maybe<Scalars['String']>;
-  onBehalfOf_in?: Maybe<Array<Scalars['String']>>;
-  onBehalfOf_not_in?: Maybe<Array<Scalars['String']>>;
-  onBehalfOf_contains?: Maybe<Scalars['String']>;
-  onBehalfOf_not_contains?: Maybe<Scalars['String']>;
-  onBehalfOf_starts_with?: Maybe<Scalars['String']>;
-  onBehalfOf_not_starts_with?: Maybe<Scalars['String']>;
-  onBehalfOf_ends_with?: Maybe<Scalars['String']>;
-  onBehalfOf_not_ends_with?: Maybe<Scalars['String']>;
-  reserve?: Maybe<Scalars['String']>;
-  reserve_not?: Maybe<Scalars['String']>;
-  reserve_gt?: Maybe<Scalars['String']>;
-  reserve_lt?: Maybe<Scalars['String']>;
-  reserve_gte?: Maybe<Scalars['String']>;
-  reserve_lte?: Maybe<Scalars['String']>;
-  reserve_in?: Maybe<Array<Scalars['String']>>;
-  reserve_not_in?: Maybe<Array<Scalars['String']>>;
-  reserve_contains?: Maybe<Scalars['String']>;
-  reserve_not_contains?: Maybe<Scalars['String']>;
-  reserve_starts_with?: Maybe<Scalars['String']>;
-  reserve_not_starts_with?: Maybe<Scalars['String']>;
-  reserve_ends_with?: Maybe<Scalars['String']>;
-  reserve_not_ends_with?: Maybe<Scalars['String']>;
-  userReserve?: Maybe<Scalars['String']>;
-  userReserve_not?: Maybe<Scalars['String']>;
-  userReserve_gt?: Maybe<Scalars['String']>;
-  userReserve_lt?: Maybe<Scalars['String']>;
-  userReserve_gte?: Maybe<Scalars['String']>;
-  userReserve_lte?: Maybe<Scalars['String']>;
-  userReserve_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_contains?: Maybe<Scalars['String']>;
-  userReserve_not_contains?: Maybe<Scalars['String']>;
-  userReserve_starts_with?: Maybe<Scalars['String']>;
-  userReserve_not_starts_with?: Maybe<Scalars['String']>;
-  userReserve_ends_with?: Maybe<Scalars['String']>;
-  userReserve_not_ends_with?: Maybe<Scalars['String']>;
   amount?: Maybe<Scalars['BigInt']>;
-  amount_not?: Maybe<Scalars['BigInt']>;
   amount_gt?: Maybe<Scalars['BigInt']>;
-  amount_lt?: Maybe<Scalars['BigInt']>;
   amount_gte?: Maybe<Scalars['BigInt']>;
-  amount_lte?: Maybe<Scalars['BigInt']>;
   amount_in?: Maybe<Array<Scalars['BigInt']>>;
+  amount_lt?: Maybe<Scalars['BigInt']>;
+  amount_lte?: Maybe<Scalars['BigInt']>;
+  amount_not?: Maybe<Scalars['BigInt']>;
   amount_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  onBehalfOf?: Maybe<Scalars['String']>;
+  onBehalfOf_contains?: Maybe<Scalars['String']>;
+  onBehalfOf_ends_with?: Maybe<Scalars['String']>;
+  onBehalfOf_gt?: Maybe<Scalars['String']>;
+  onBehalfOf_gte?: Maybe<Scalars['String']>;
+  onBehalfOf_in?: Maybe<Array<Scalars['String']>>;
+  onBehalfOf_lt?: Maybe<Scalars['String']>;
+  onBehalfOf_lte?: Maybe<Scalars['String']>;
+  onBehalfOf_not?: Maybe<Scalars['String']>;
+  onBehalfOf_not_contains?: Maybe<Scalars['String']>;
+  onBehalfOf_not_ends_with?: Maybe<Scalars['String']>;
+  onBehalfOf_not_in?: Maybe<Array<Scalars['String']>>;
+  onBehalfOf_not_starts_with?: Maybe<Scalars['String']>;
+  onBehalfOf_starts_with?: Maybe<Scalars['String']>;
+  pool?: Maybe<Scalars['String']>;
+  pool_contains?: Maybe<Scalars['String']>;
+  pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
+  pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
+  reserve?: Maybe<Scalars['String']>;
+  reserve_contains?: Maybe<Scalars['String']>;
+  reserve_ends_with?: Maybe<Scalars['String']>;
+  reserve_gt?: Maybe<Scalars['String']>;
+  reserve_gte?: Maybe<Scalars['String']>;
+  reserve_in?: Maybe<Array<Scalars['String']>>;
+  reserve_lt?: Maybe<Scalars['String']>;
+  reserve_lte?: Maybe<Scalars['String']>;
+  reserve_not?: Maybe<Scalars['String']>;
+  reserve_not_contains?: Maybe<Scalars['String']>;
+  reserve_not_ends_with?: Maybe<Scalars['String']>;
+  reserve_not_in?: Maybe<Array<Scalars['String']>>;
+  reserve_not_starts_with?: Maybe<Scalars['String']>;
+  reserve_starts_with?: Maybe<Scalars['String']>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  user?: Maybe<Scalars['String']>;
+  userReserve?: Maybe<Scalars['String']>;
+  userReserve_contains?: Maybe<Scalars['String']>;
+  userReserve_ends_with?: Maybe<Scalars['String']>;
+  userReserve_gt?: Maybe<Scalars['String']>;
+  userReserve_gte?: Maybe<Scalars['String']>;
+  userReserve_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_lt?: Maybe<Scalars['String']>;
+  userReserve_lte?: Maybe<Scalars['String']>;
+  userReserve_not?: Maybe<Scalars['String']>;
+  userReserve_not_contains?: Maybe<Scalars['String']>;
+  userReserve_not_ends_with?: Maybe<Scalars['String']>;
+  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_not_starts_with?: Maybe<Scalars['String']>;
+  userReserve_starts_with?: Maybe<Scalars['String']>;
+  user_contains?: Maybe<Scalars['String']>;
+  user_ends_with?: Maybe<Scalars['String']>;
+  user_gt?: Maybe<Scalars['String']>;
+  user_gte?: Maybe<Scalars['String']>;
+  user_in?: Maybe<Array<Scalars['String']>>;
+  user_lt?: Maybe<Scalars['String']>;
+  user_lte?: Maybe<Scalars['String']>;
+  user_not?: Maybe<Scalars['String']>;
+  user_not_contains?: Maybe<Scalars['String']>;
+  user_not_ends_with?: Maybe<Scalars['String']>;
+  user_not_in?: Maybe<Array<Scalars['String']>>;
+  user_not_starts_with?: Maybe<Scalars['String']>;
+  user_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum RedeemUnderlying_OrderBy {
-  Id = 'id',
-  Pool = 'pool',
-  User = 'user',
-  OnBehalfOf = 'onBehalfOf',
-  Reserve = 'reserve',
-  UserReserve = 'userReserve',
   Amount = 'amount',
+  Id = 'id',
+  OnBehalfOf = 'onBehalfOf',
+  Pool = 'pool',
+  Reserve = 'reserve',
   Timestamp = 'timestamp',
+  User = 'user',
+  UserReserve = 'userReserve',
 }
 
 export type Referrer = {
   __typename?: 'Referrer';
-  id: Scalars['ID'];
-  deposits: Array<Deposit>;
   borrows: Array<Borrow>;
-};
-
-export type ReferrerDepositsArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Deposit_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Deposit_Filter>;
+  deposits: Array<Deposit>;
+  id: Scalars['ID'];
 };
 
 export type ReferrerBorrowsArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Borrow_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<Borrow_Filter>;
+};
+
+export type ReferrerDepositsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Deposit_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Deposit_Filter>;
 };
 
 export type Referrer_Filter = {
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
 };
 
 export enum Referrer_OrderBy {
-  Id = 'id',
-  Deposits = 'deposits',
   Borrows = 'borrows',
+  Deposits = 'deposits',
+  Id = 'id',
 }
 
 export type Repay = UserTransaction & {
   __typename?: 'Repay';
-  /** tx hash */
-  id: Scalars['ID'];
-  pool: Pool;
-  user: User;
-  onBehalfOf: User;
-  reserve: Reserve;
-  userReserve: UserReserve;
   amount: Scalars['BigInt'];
+  /**
+   * tx hash
+   *
+   */
+  id: Scalars['ID'];
+  onBehalfOf: User;
+  pool: Pool;
+  reserve: Reserve;
   timestamp: Scalars['Int'];
+  user: User;
+  userReserve: UserReserve;
 };
 
 export type Repay_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
-  pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
-  pool_ends_with?: Maybe<Scalars['String']>;
-  pool_not_ends_with?: Maybe<Scalars['String']>;
-  user?: Maybe<Scalars['String']>;
-  user_not?: Maybe<Scalars['String']>;
-  user_gt?: Maybe<Scalars['String']>;
-  user_lt?: Maybe<Scalars['String']>;
-  user_gte?: Maybe<Scalars['String']>;
-  user_lte?: Maybe<Scalars['String']>;
-  user_in?: Maybe<Array<Scalars['String']>>;
-  user_not_in?: Maybe<Array<Scalars['String']>>;
-  user_contains?: Maybe<Scalars['String']>;
-  user_not_contains?: Maybe<Scalars['String']>;
-  user_starts_with?: Maybe<Scalars['String']>;
-  user_not_starts_with?: Maybe<Scalars['String']>;
-  user_ends_with?: Maybe<Scalars['String']>;
-  user_not_ends_with?: Maybe<Scalars['String']>;
-  onBehalfOf?: Maybe<Scalars['String']>;
-  onBehalfOf_not?: Maybe<Scalars['String']>;
-  onBehalfOf_gt?: Maybe<Scalars['String']>;
-  onBehalfOf_lt?: Maybe<Scalars['String']>;
-  onBehalfOf_gte?: Maybe<Scalars['String']>;
-  onBehalfOf_lte?: Maybe<Scalars['String']>;
-  onBehalfOf_in?: Maybe<Array<Scalars['String']>>;
-  onBehalfOf_not_in?: Maybe<Array<Scalars['String']>>;
-  onBehalfOf_contains?: Maybe<Scalars['String']>;
-  onBehalfOf_not_contains?: Maybe<Scalars['String']>;
-  onBehalfOf_starts_with?: Maybe<Scalars['String']>;
-  onBehalfOf_not_starts_with?: Maybe<Scalars['String']>;
-  onBehalfOf_ends_with?: Maybe<Scalars['String']>;
-  onBehalfOf_not_ends_with?: Maybe<Scalars['String']>;
-  reserve?: Maybe<Scalars['String']>;
-  reserve_not?: Maybe<Scalars['String']>;
-  reserve_gt?: Maybe<Scalars['String']>;
-  reserve_lt?: Maybe<Scalars['String']>;
-  reserve_gte?: Maybe<Scalars['String']>;
-  reserve_lte?: Maybe<Scalars['String']>;
-  reserve_in?: Maybe<Array<Scalars['String']>>;
-  reserve_not_in?: Maybe<Array<Scalars['String']>>;
-  reserve_contains?: Maybe<Scalars['String']>;
-  reserve_not_contains?: Maybe<Scalars['String']>;
-  reserve_starts_with?: Maybe<Scalars['String']>;
-  reserve_not_starts_with?: Maybe<Scalars['String']>;
-  reserve_ends_with?: Maybe<Scalars['String']>;
-  reserve_not_ends_with?: Maybe<Scalars['String']>;
-  userReserve?: Maybe<Scalars['String']>;
-  userReserve_not?: Maybe<Scalars['String']>;
-  userReserve_gt?: Maybe<Scalars['String']>;
-  userReserve_lt?: Maybe<Scalars['String']>;
-  userReserve_gte?: Maybe<Scalars['String']>;
-  userReserve_lte?: Maybe<Scalars['String']>;
-  userReserve_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_contains?: Maybe<Scalars['String']>;
-  userReserve_not_contains?: Maybe<Scalars['String']>;
-  userReserve_starts_with?: Maybe<Scalars['String']>;
-  userReserve_not_starts_with?: Maybe<Scalars['String']>;
-  userReserve_ends_with?: Maybe<Scalars['String']>;
-  userReserve_not_ends_with?: Maybe<Scalars['String']>;
   amount?: Maybe<Scalars['BigInt']>;
-  amount_not?: Maybe<Scalars['BigInt']>;
   amount_gt?: Maybe<Scalars['BigInt']>;
-  amount_lt?: Maybe<Scalars['BigInt']>;
   amount_gte?: Maybe<Scalars['BigInt']>;
-  amount_lte?: Maybe<Scalars['BigInt']>;
   amount_in?: Maybe<Array<Scalars['BigInt']>>;
+  amount_lt?: Maybe<Scalars['BigInt']>;
+  amount_lte?: Maybe<Scalars['BigInt']>;
+  amount_not?: Maybe<Scalars['BigInt']>;
   amount_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  onBehalfOf?: Maybe<Scalars['String']>;
+  onBehalfOf_contains?: Maybe<Scalars['String']>;
+  onBehalfOf_ends_with?: Maybe<Scalars['String']>;
+  onBehalfOf_gt?: Maybe<Scalars['String']>;
+  onBehalfOf_gte?: Maybe<Scalars['String']>;
+  onBehalfOf_in?: Maybe<Array<Scalars['String']>>;
+  onBehalfOf_lt?: Maybe<Scalars['String']>;
+  onBehalfOf_lte?: Maybe<Scalars['String']>;
+  onBehalfOf_not?: Maybe<Scalars['String']>;
+  onBehalfOf_not_contains?: Maybe<Scalars['String']>;
+  onBehalfOf_not_ends_with?: Maybe<Scalars['String']>;
+  onBehalfOf_not_in?: Maybe<Array<Scalars['String']>>;
+  onBehalfOf_not_starts_with?: Maybe<Scalars['String']>;
+  onBehalfOf_starts_with?: Maybe<Scalars['String']>;
+  pool?: Maybe<Scalars['String']>;
+  pool_contains?: Maybe<Scalars['String']>;
+  pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
+  pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
+  reserve?: Maybe<Scalars['String']>;
+  reserve_contains?: Maybe<Scalars['String']>;
+  reserve_ends_with?: Maybe<Scalars['String']>;
+  reserve_gt?: Maybe<Scalars['String']>;
+  reserve_gte?: Maybe<Scalars['String']>;
+  reserve_in?: Maybe<Array<Scalars['String']>>;
+  reserve_lt?: Maybe<Scalars['String']>;
+  reserve_lte?: Maybe<Scalars['String']>;
+  reserve_not?: Maybe<Scalars['String']>;
+  reserve_not_contains?: Maybe<Scalars['String']>;
+  reserve_not_ends_with?: Maybe<Scalars['String']>;
+  reserve_not_in?: Maybe<Array<Scalars['String']>>;
+  reserve_not_starts_with?: Maybe<Scalars['String']>;
+  reserve_starts_with?: Maybe<Scalars['String']>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  user?: Maybe<Scalars['String']>;
+  userReserve?: Maybe<Scalars['String']>;
+  userReserve_contains?: Maybe<Scalars['String']>;
+  userReserve_ends_with?: Maybe<Scalars['String']>;
+  userReserve_gt?: Maybe<Scalars['String']>;
+  userReserve_gte?: Maybe<Scalars['String']>;
+  userReserve_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_lt?: Maybe<Scalars['String']>;
+  userReserve_lte?: Maybe<Scalars['String']>;
+  userReserve_not?: Maybe<Scalars['String']>;
+  userReserve_not_contains?: Maybe<Scalars['String']>;
+  userReserve_not_ends_with?: Maybe<Scalars['String']>;
+  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_not_starts_with?: Maybe<Scalars['String']>;
+  userReserve_starts_with?: Maybe<Scalars['String']>;
+  user_contains?: Maybe<Scalars['String']>;
+  user_ends_with?: Maybe<Scalars['String']>;
+  user_gt?: Maybe<Scalars['String']>;
+  user_gte?: Maybe<Scalars['String']>;
+  user_in?: Maybe<Array<Scalars['String']>>;
+  user_lt?: Maybe<Scalars['String']>;
+  user_lte?: Maybe<Scalars['String']>;
+  user_not?: Maybe<Scalars['String']>;
+  user_not_contains?: Maybe<Scalars['String']>;
+  user_not_ends_with?: Maybe<Scalars['String']>;
+  user_not_in?: Maybe<Array<Scalars['String']>>;
+  user_not_starts_with?: Maybe<Scalars['String']>;
+  user_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum Repay_OrderBy {
-  Id = 'id',
-  Pool = 'pool',
-  User = 'user',
-  OnBehalfOf = 'onBehalfOf',
-  Reserve = 'reserve',
-  UserReserve = 'userReserve',
   Amount = 'amount',
+  Id = 'id',
+  OnBehalfOf = 'onBehalfOf',
+  Pool = 'pool',
+  Reserve = 'reserve',
   Timestamp = 'timestamp',
+  User = 'user',
+  UserReserve = 'userReserve',
 }
 
 export type Reserve = {
   __typename?: 'Reserve';
-  /** Reserve address */
-  id: Scalars['ID'];
-  underlyingAsset: Scalars['Bytes'];
-  pool: Pool;
-  symbol: Scalars['String'];
-  name: Scalars['String'];
-  decimals: Scalars['Int'];
-  usageAsCollateralEnabled: Scalars['Boolean'];
+  aEmissionPerSecond: Scalars['BigInt'];
+  aIncentivesLastUpdateTimestamp: Scalars['Int'];
+  aToken: AToken;
+  aTokenIncentivesIndex: Scalars['BigInt'];
+  availableLiquidity: Scalars['BigInt'];
+  averageStableRate: Scalars['BigInt'];
+  baseLTVasCollateral: Scalars['BigInt'];
+  baseVariableBorrowRate: Scalars['BigInt'];
+  borrowHistory: Array<Borrow>;
   borrowingEnabled: Scalars['Boolean'];
-  stableBorrowRateEnabled: Scalars['Boolean'];
+  configurationHistory: Array<ReserveConfigurationHistoryItem>;
+  decimals: Scalars['Int'];
+  depositHistory: Array<Deposit>;
+  deposits: Array<Deposit>;
+  flashLoanHistory: Array<FlashLoan>;
+  /**
+   * Reserve address
+   *
+   */
+  id: Scalars['ID'];
   isActive: Scalars['Boolean'];
   isFrozen: Scalars['Boolean'];
-  price: PriceOracleAsset;
-  reserveInterestRateStrategy: Scalars['Bytes'];
-  optimalUtilisationRate: Scalars['BigInt'];
-  variableRateSlope1: Scalars['BigInt'];
-  variableRateSlope2: Scalars['BigInt'];
-  stableRateSlope1: Scalars['BigInt'];
-  stableRateSlope2: Scalars['BigInt'];
-  baseVariableBorrowRate: Scalars['BigInt'];
-  baseLTVasCollateral: Scalars['BigInt'];
-  reserveLiquidationThreshold: Scalars['BigInt'];
-  reserveLiquidationBonus: Scalars['BigInt'];
-  utilizationRate: Scalars['BigDecimal'];
-  totalLiquidity: Scalars['BigInt'];
-  totalATokenSupply: Scalars['BigInt'];
-  totalLiquidityAsCollateral: Scalars['BigInt'];
-  availableLiquidity: Scalars['BigInt'];
-  totalPrincipalStableDebt: Scalars['BigInt'];
-  totalScaledVariableDebt: Scalars['BigInt'];
-  totalCurrentVariableDebt: Scalars['BigInt'];
-  totalDeposits: Scalars['BigInt'];
-  liquidityRate: Scalars['BigInt'];
-  averageStableRate: Scalars['BigInt'];
-  variableBorrowRate: Scalars['BigInt'];
-  stableBorrowRate: Scalars['BigInt'];
-  liquidityIndex: Scalars['BigInt'];
-  variableBorrowIndex: Scalars['BigInt'];
-  aToken: AToken;
-  vToken: VToken;
-  sToken: SToken;
-  reserveFactor: Scalars['BigInt'];
   lastUpdateTimestamp: Scalars['Int'];
-  stableDebtLastUpdateTimestamp: Scalars['Int'];
-  aEmissionPerSecond: Scalars['BigInt'];
-  vEmissionPerSecond: Scalars['BigInt'];
-  sEmissionPerSecond: Scalars['BigInt'];
-  aTokenIncentivesIndex: Scalars['BigInt'];
-  vTokenIncentivesIndex: Scalars['BigInt'];
-  sTokenIncentivesIndex: Scalars['BigInt'];
-  aIncentivesLastUpdateTimestamp: Scalars['Int'];
-  vIncentivesLastUpdateTimestamp: Scalars['Int'];
-  sIncentivesLastUpdateTimestamp: Scalars['Int'];
+  lifetimeBorrows: Scalars['BigInt'];
+  lifetimeCurrentVariableDebt: Scalars['BigInt'];
+  lifetimeDepositorsInterestEarned: Scalars['BigInt'];
+  lifetimeFlashLoanPremium: Scalars['BigInt'];
+  lifetimeFlashLoans: Scalars['BigInt'];
+  lifetimeLiquidated: Scalars['BigInt'];
   lifetimeLiquidity: Scalars['BigInt'];
   lifetimePrincipalStableDebt: Scalars['BigInt'];
-  lifetimeScaledVariableDebt: Scalars['BigInt'];
-  lifetimeCurrentVariableDebt: Scalars['BigInt'];
   lifetimeRepayments: Scalars['BigInt'];
-  lifetimeWithdrawals: Scalars['BigInt'];
-  lifetimeBorrows: Scalars['BigInt'];
-  lifetimeLiquidated: Scalars['BigInt'];
-  lifetimeFlashLoans: Scalars['BigInt'];
-  lifetimeFlashLoanPremium: Scalars['BigInt'];
-  lifetimeDepositorsInterestEarned: Scalars['BigInt'];
   lifetimeReserveFactorAccrued: Scalars['BigInt'];
-  userReserves: Array<UserReserve>;
-  depositHistory: Array<Deposit>;
-  redeemUnderlyingHistory: Array<RedeemUnderlying>;
-  borrowHistory: Array<Borrow>;
-  usageAsCollateralHistory: Array<UsageAsCollateral>;
-  swapHistory: Array<Swap>;
-  rebalanceStableBorrowRateHistory: Array<RebalanceStableBorrowRate>;
-  repayHistory: Array<Repay>;
-  flashLoanHistory: Array<FlashLoan>;
+  lifetimeScaledVariableDebt: Scalars['BigInt'];
+  lifetimeWithdrawals: Scalars['BigInt'];
   liquidationCallHistory: Array<LiquidationCall>;
+  liquidityIndex: Scalars['BigInt'];
+  liquidityRate: Scalars['BigInt'];
+  name: Scalars['String'];
+  optimalUtilisationRate: Scalars['BigInt'];
   originationFeeLiquidationHistory: Array<OriginationFeeLiquidation>;
   paramsHistory: Array<ReserveParamsHistoryItem>;
-  configurationHistory: Array<ReserveConfigurationHistoryItem>;
-  deposits: Array<Deposit>;
-};
-
-export type ReserveUserReservesArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<UserReserve_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<UserReserve_Filter>;
-};
-
-export type ReserveDepositHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Deposit_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Deposit_Filter>;
-};
-
-export type ReserveRedeemUnderlyingHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<RedeemUnderlying_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<RedeemUnderlying_Filter>;
+  pool: Pool;
+  price: PriceOracleAsset;
+  rebalanceStableBorrowRateHistory: Array<RebalanceStableBorrowRate>;
+  redeemUnderlyingHistory: Array<RedeemUnderlying>;
+  repayHistory: Array<Repay>;
+  reserveFactor: Scalars['BigInt'];
+  reserveInterestRateStrategy: Scalars['Bytes'];
+  reserveLiquidationBonus: Scalars['BigInt'];
+  reserveLiquidationThreshold: Scalars['BigInt'];
+  sEmissionPerSecond: Scalars['BigInt'];
+  sIncentivesLastUpdateTimestamp: Scalars['Int'];
+  sToken: SToken;
+  sTokenIncentivesIndex: Scalars['BigInt'];
+  stableBorrowRate: Scalars['BigInt'];
+  stableBorrowRateEnabled: Scalars['Boolean'];
+  stableDebtLastUpdateTimestamp: Scalars['Int'];
+  stableRateSlope1: Scalars['BigInt'];
+  stableRateSlope2: Scalars['BigInt'];
+  swapHistory: Array<Swap>;
+  symbol: Scalars['String'];
+  totalATokenSupply: Scalars['BigInt'];
+  totalCurrentVariableDebt: Scalars['BigInt'];
+  totalDeposits: Scalars['BigInt'];
+  totalLiquidity: Scalars['BigInt'];
+  totalLiquidityAsCollateral: Scalars['BigInt'];
+  totalPrincipalStableDebt: Scalars['BigInt'];
+  totalScaledVariableDebt: Scalars['BigInt'];
+  underlyingAsset: Scalars['Bytes'];
+  usageAsCollateralEnabled: Scalars['Boolean'];
+  usageAsCollateralHistory: Array<UsageAsCollateral>;
+  userReserves: Array<UserReserve>;
+  utilizationRate: Scalars['BigDecimal'];
+  vEmissionPerSecond: Scalars['BigInt'];
+  vIncentivesLastUpdateTimestamp: Scalars['Int'];
+  vToken: VToken;
+  vTokenIncentivesIndex: Scalars['BigInt'];
+  variableBorrowIndex: Scalars['BigInt'];
+  variableBorrowRate: Scalars['BigInt'];
+  variableRateSlope1: Scalars['BigInt'];
+  variableRateSlope2: Scalars['BigInt'];
 };
 
 export type ReserveBorrowHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Borrow_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<Borrow_Filter>;
 };
 
-export type ReserveUsageAsCollateralHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
+export type ReserveConfigurationHistoryArgs = {
   first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<UsageAsCollateral_OrderBy>;
+  orderBy?: Maybe<ReserveConfigurationHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<UsageAsCollateral_Filter>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<ReserveConfigurationHistoryItem_Filter>;
 };
 
-export type ReserveSwapHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
+export type ReserveDepositHistoryArgs = {
   first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Swap_OrderBy>;
+  orderBy?: Maybe<Deposit_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Swap_Filter>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Deposit_Filter>;
 };
 
-export type ReserveRebalanceStableBorrowRateHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
+export type ReserveDepositsArgs = {
   first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<RebalanceStableBorrowRate_OrderBy>;
+  orderBy?: Maybe<Deposit_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<RebalanceStableBorrowRate_Filter>;
-};
-
-export type ReserveRepayHistoryArgs = {
   skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Repay_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Repay_Filter>;
+  where?: Maybe<Deposit_Filter>;
 };
 
 export type ReserveFlashLoanHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<FlashLoan_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<FlashLoan_Filter>;
 };
 
 export type ReserveLiquidationCallHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<LiquidationCall_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<LiquidationCall_Filter>;
 };
 
 export type ReserveOriginationFeeLiquidationHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<OriginationFeeLiquidation_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<OriginationFeeLiquidation_Filter>;
 };
 
 export type ReserveParamsHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ReserveParamsHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<ReserveParamsHistoryItem_Filter>;
 };
 
-export type ReserveConfigurationHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
+export type ReserveRebalanceStableBorrowRateHistoryArgs = {
   first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<ReserveConfigurationHistoryItem_OrderBy>;
+  orderBy?: Maybe<RebalanceStableBorrowRate_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<ReserveConfigurationHistoryItem_Filter>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<RebalanceStableBorrowRate_Filter>;
 };
 
-export type ReserveDepositsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+export type ReserveRedeemUnderlyingHistoryArgs = {
   first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Deposit_OrderBy>;
+  orderBy?: Maybe<RedeemUnderlying_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Deposit_Filter>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<RedeemUnderlying_Filter>;
+};
+
+export type ReserveRepayHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Repay_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Repay_Filter>;
+};
+
+export type ReserveSwapHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Swap_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Swap_Filter>;
+};
+
+export type ReserveUsageAsCollateralHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<UsageAsCollateral_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<UsageAsCollateral_Filter>;
+};
+
+export type ReserveUserReservesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<UserReserve_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<UserReserve_Filter>;
 };
 
 export type ReserveConfigurationHistoryItem = {
   __typename?: 'ReserveConfigurationHistoryItem';
-  /** tx hash */
-  id: Scalars['ID'];
-  reserve: Reserve;
-  usageAsCollateralEnabled: Scalars['Boolean'];
+  baseLTVasCollateral: Scalars['BigInt'];
   borrowingEnabled: Scalars['Boolean'];
-  stableBorrowRateEnabled: Scalars['Boolean'];
+  /**
+   * tx hash
+   *
+   */
+  id: Scalars['ID'];
   isActive: Scalars['Boolean'];
   isFrozen: Scalars['Boolean'];
+  reserve: Reserve;
   reserveInterestRateStrategy: Scalars['Bytes'];
-  baseLTVasCollateral: Scalars['BigInt'];
-  reserveLiquidationThreshold: Scalars['BigInt'];
   reserveLiquidationBonus: Scalars['BigInt'];
+  reserveLiquidationThreshold: Scalars['BigInt'];
+  stableBorrowRateEnabled: Scalars['Boolean'];
   timestamp: Scalars['Int'];
+  usageAsCollateralEnabled: Scalars['Boolean'];
 };
 
 export type ReserveConfigurationHistoryItem_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  reserve?: Maybe<Scalars['String']>;
-  reserve_not?: Maybe<Scalars['String']>;
-  reserve_gt?: Maybe<Scalars['String']>;
-  reserve_lt?: Maybe<Scalars['String']>;
-  reserve_gte?: Maybe<Scalars['String']>;
-  reserve_lte?: Maybe<Scalars['String']>;
-  reserve_in?: Maybe<Array<Scalars['String']>>;
-  reserve_not_in?: Maybe<Array<Scalars['String']>>;
-  reserve_contains?: Maybe<Scalars['String']>;
-  reserve_not_contains?: Maybe<Scalars['String']>;
-  reserve_starts_with?: Maybe<Scalars['String']>;
-  reserve_not_starts_with?: Maybe<Scalars['String']>;
-  reserve_ends_with?: Maybe<Scalars['String']>;
-  reserve_not_ends_with?: Maybe<Scalars['String']>;
-  usageAsCollateralEnabled?: Maybe<Scalars['Boolean']>;
-  usageAsCollateralEnabled_not?: Maybe<Scalars['Boolean']>;
-  usageAsCollateralEnabled_in?: Maybe<Array<Scalars['Boolean']>>;
-  usageAsCollateralEnabled_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  baseLTVasCollateral?: Maybe<Scalars['BigInt']>;
+  baseLTVasCollateral_gt?: Maybe<Scalars['BigInt']>;
+  baseLTVasCollateral_gte?: Maybe<Scalars['BigInt']>;
+  baseLTVasCollateral_in?: Maybe<Array<Scalars['BigInt']>>;
+  baseLTVasCollateral_lt?: Maybe<Scalars['BigInt']>;
+  baseLTVasCollateral_lte?: Maybe<Scalars['BigInt']>;
+  baseLTVasCollateral_not?: Maybe<Scalars['BigInt']>;
+  baseLTVasCollateral_not_in?: Maybe<Array<Scalars['BigInt']>>;
   borrowingEnabled?: Maybe<Scalars['Boolean']>;
-  borrowingEnabled_not?: Maybe<Scalars['Boolean']>;
   borrowingEnabled_in?: Maybe<Array<Scalars['Boolean']>>;
+  borrowingEnabled_not?: Maybe<Scalars['Boolean']>;
   borrowingEnabled_not_in?: Maybe<Array<Scalars['Boolean']>>;
-  stableBorrowRateEnabled?: Maybe<Scalars['Boolean']>;
-  stableBorrowRateEnabled_not?: Maybe<Scalars['Boolean']>;
-  stableBorrowRateEnabled_in?: Maybe<Array<Scalars['Boolean']>>;
-  stableBorrowRateEnabled_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
   isActive?: Maybe<Scalars['Boolean']>;
-  isActive_not?: Maybe<Scalars['Boolean']>;
   isActive_in?: Maybe<Array<Scalars['Boolean']>>;
+  isActive_not?: Maybe<Scalars['Boolean']>;
   isActive_not_in?: Maybe<Array<Scalars['Boolean']>>;
   isFrozen?: Maybe<Scalars['Boolean']>;
-  isFrozen_not?: Maybe<Scalars['Boolean']>;
   isFrozen_in?: Maybe<Array<Scalars['Boolean']>>;
+  isFrozen_not?: Maybe<Scalars['Boolean']>;
   isFrozen_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  reserve?: Maybe<Scalars['String']>;
   reserveInterestRateStrategy?: Maybe<Scalars['Bytes']>;
-  reserveInterestRateStrategy_not?: Maybe<Scalars['Bytes']>;
-  reserveInterestRateStrategy_in?: Maybe<Array<Scalars['Bytes']>>;
-  reserveInterestRateStrategy_not_in?: Maybe<Array<Scalars['Bytes']>>;
   reserveInterestRateStrategy_contains?: Maybe<Scalars['Bytes']>;
+  reserveInterestRateStrategy_in?: Maybe<Array<Scalars['Bytes']>>;
+  reserveInterestRateStrategy_not?: Maybe<Scalars['Bytes']>;
   reserveInterestRateStrategy_not_contains?: Maybe<Scalars['Bytes']>;
-  baseLTVasCollateral?: Maybe<Scalars['BigInt']>;
-  baseLTVasCollateral_not?: Maybe<Scalars['BigInt']>;
-  baseLTVasCollateral_gt?: Maybe<Scalars['BigInt']>;
-  baseLTVasCollateral_lt?: Maybe<Scalars['BigInt']>;
-  baseLTVasCollateral_gte?: Maybe<Scalars['BigInt']>;
-  baseLTVasCollateral_lte?: Maybe<Scalars['BigInt']>;
-  baseLTVasCollateral_in?: Maybe<Array<Scalars['BigInt']>>;
-  baseLTVasCollateral_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  reserveLiquidationThreshold?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationThreshold_not?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationThreshold_gt?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationThreshold_lt?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationThreshold_gte?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationThreshold_lte?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationThreshold_in?: Maybe<Array<Scalars['BigInt']>>;
-  reserveLiquidationThreshold_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  reserveInterestRateStrategy_not_in?: Maybe<Array<Scalars['Bytes']>>;
   reserveLiquidationBonus?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationBonus_not?: Maybe<Scalars['BigInt']>;
   reserveLiquidationBonus_gt?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationBonus_lt?: Maybe<Scalars['BigInt']>;
   reserveLiquidationBonus_gte?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationBonus_lte?: Maybe<Scalars['BigInt']>;
   reserveLiquidationBonus_in?: Maybe<Array<Scalars['BigInt']>>;
+  reserveLiquidationBonus_lt?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationBonus_lte?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationBonus_not?: Maybe<Scalars['BigInt']>;
   reserveLiquidationBonus_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  reserveLiquidationThreshold?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationThreshold_gt?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationThreshold_gte?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationThreshold_in?: Maybe<Array<Scalars['BigInt']>>;
+  reserveLiquidationThreshold_lt?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationThreshold_lte?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationThreshold_not?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationThreshold_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  reserve_contains?: Maybe<Scalars['String']>;
+  reserve_ends_with?: Maybe<Scalars['String']>;
+  reserve_gt?: Maybe<Scalars['String']>;
+  reserve_gte?: Maybe<Scalars['String']>;
+  reserve_in?: Maybe<Array<Scalars['String']>>;
+  reserve_lt?: Maybe<Scalars['String']>;
+  reserve_lte?: Maybe<Scalars['String']>;
+  reserve_not?: Maybe<Scalars['String']>;
+  reserve_not_contains?: Maybe<Scalars['String']>;
+  reserve_not_ends_with?: Maybe<Scalars['String']>;
+  reserve_not_in?: Maybe<Array<Scalars['String']>>;
+  reserve_not_starts_with?: Maybe<Scalars['String']>;
+  reserve_starts_with?: Maybe<Scalars['String']>;
+  stableBorrowRateEnabled?: Maybe<Scalars['Boolean']>;
+  stableBorrowRateEnabled_in?: Maybe<Array<Scalars['Boolean']>>;
+  stableBorrowRateEnabled_not?: Maybe<Scalars['Boolean']>;
+  stableBorrowRateEnabled_not_in?: Maybe<Array<Scalars['Boolean']>>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  usageAsCollateralEnabled?: Maybe<Scalars['Boolean']>;
+  usageAsCollateralEnabled_in?: Maybe<Array<Scalars['Boolean']>>;
+  usageAsCollateralEnabled_not?: Maybe<Scalars['Boolean']>;
+  usageAsCollateralEnabled_not_in?: Maybe<Array<Scalars['Boolean']>>;
 };
 
 export enum ReserveConfigurationHistoryItem_OrderBy {
-  Id = 'id',
-  Reserve = 'reserve',
-  UsageAsCollateralEnabled = 'usageAsCollateralEnabled',
+  BaseLtVasCollateral = 'baseLTVasCollateral',
   BorrowingEnabled = 'borrowingEnabled',
-  StableBorrowRateEnabled = 'stableBorrowRateEnabled',
+  Id = 'id',
   IsActive = 'isActive',
   IsFrozen = 'isFrozen',
+  Reserve = 'reserve',
   ReserveInterestRateStrategy = 'reserveInterestRateStrategy',
-  BaseLtVasCollateral = 'baseLTVasCollateral',
-  ReserveLiquidationThreshold = 'reserveLiquidationThreshold',
   ReserveLiquidationBonus = 'reserveLiquidationBonus',
+  ReserveLiquidationThreshold = 'reserveLiquidationThreshold',
+  StableBorrowRateEnabled = 'stableBorrowRateEnabled',
   Timestamp = 'timestamp',
+  UsageAsCollateralEnabled = 'usageAsCollateralEnabled',
 }
 
 export type ReserveData = {
   __typename?: 'ReserveData';
-  id: Scalars['String'];
-  underlyingAsset: Scalars['String'];
-  name: Scalars['String'];
-  symbol: Scalars['String'];
+  aTokenAddress: Scalars['String'];
+  availableLiquidity: Scalars['String'];
+  averageStableRate: Scalars['String'];
+  baseLTVasCollateral: Scalars['String'];
+  borrowingEnabled: Scalars['Boolean'];
   decimals: Scalars['Float'];
+  id: Scalars['String'];
+  interestRateStrategyAddress: Scalars['String'];
   isActive: Scalars['Boolean'];
   isFrozen: Scalars['Boolean'];
-  usageAsCollateralEnabled: Scalars['Boolean'];
-  aTokenAddress: Scalars['String'];
-  stableDebtTokenAddress: Scalars['String'];
-  variableDebtTokenAddress: Scalars['String'];
-  borrowingEnabled: Scalars['Boolean'];
-  stableBorrowRateEnabled: Scalars['Boolean'];
+  lastUpdateTimestamp: Scalars['Float'];
+  liquidityIndex: Scalars['String'];
+  liquidityRate: Scalars['String'];
+  name: Scalars['String'];
+  priceInMarketReferenceCurrency: Scalars['String'];
   reserveFactor: Scalars['String'];
-  baseLTVasCollateral: Scalars['String'];
-  optimalUtilisationRate: Scalars['String'];
+  reserveLiquidationBonus: Scalars['String'];
+  reserveLiquidationThreshold: Scalars['String'];
+  stableBorrowRate: Scalars['String'];
+  stableBorrowRateEnabled: Scalars['Boolean'];
+  stableDebtLastUpdateTimestamp: Scalars['Float'];
+  stableDebtTokenAddress: Scalars['String'];
   stableRateSlope1: Scalars['String'];
   stableRateSlope2: Scalars['String'];
-  averageStableRate: Scalars['String'];
-  stableDebtLastUpdateTimestamp: Scalars['Float'];
-  baseVariableBorrowRate: Scalars['String'];
-  variableRateSlope1: Scalars['String'];
-  variableRateSlope2: Scalars['String'];
-  liquidityIndex: Scalars['String'];
-  reserveLiquidationThreshold: Scalars['String'];
-  reserveLiquidationBonus: Scalars['String'];
-  variableBorrowIndex: Scalars['String'];
-  variableBorrowRate: Scalars['String'];
-  availableLiquidity: Scalars['String'];
-  stableBorrowRate: Scalars['String'];
-  liquidityRate: Scalars['String'];
+  symbol: Scalars['String'];
   totalPrincipalStableDebt: Scalars['String'];
   totalScaledVariableDebt: Scalars['String'];
-  lastUpdateTimestamp: Scalars['Float'];
-  aEmissionPerSecond: Scalars['String'];
-  vEmissionPerSecond: Scalars['String'];
-  sEmissionPerSecond: Scalars['String'];
-  aIncentivesLastUpdateTimestamp: Scalars['Float'];
-  vIncentivesLastUpdateTimestamp: Scalars['Float'];
-  sIncentivesLastUpdateTimestamp: Scalars['Float'];
-  aTokenIncentivesIndex: Scalars['String'];
-  vTokenIncentivesIndex: Scalars['String'];
-  sTokenIncentivesIndex: Scalars['String'];
-  price: PriceData;
+  underlyingAsset: Scalars['String'];
+  usageAsCollateralEnabled: Scalars['Boolean'];
+  variableBorrowIndex: Scalars['String'];
+  variableBorrowRate: Scalars['String'];
+  variableDebtTokenAddress: Scalars['String'];
+  variableRateSlope1: Scalars['String'];
+  variableRateSlope2: Scalars['String'];
+};
+
+export type ReserveIncentivesData = {
+  __typename?: 'ReserveIncentivesData';
+  aIncentiveData: IncentivesData;
+  sIncentiveData: IncentivesData;
+  underlyingAsset: Scalars['String'];
+  vIncentiveData: IncentivesData;
 };
 
 export type ReserveParamsHistoryItem = {
   __typename?: 'ReserveParamsHistoryItem';
-  /** tx hash */
-  id: Scalars['ID'];
-  reserve: Reserve;
-  variableBorrowRate: Scalars['BigInt'];
-  variableBorrowIndex: Scalars['BigInt'];
-  utilizationRate: Scalars['BigDecimal'];
-  stableBorrowRate: Scalars['BigInt'];
+  availableLiquidity: Scalars['BigInt'];
   averageStableBorrowRate: Scalars['BigInt'];
+  /**
+   * tx hash
+   *
+   */
+  id: Scalars['ID'];
+  lifetimeBorrows: Scalars['BigInt'];
+  lifetimeCurrentVariableDebt: Scalars['BigInt'];
+  lifetimeDepositorsInterestEarned: Scalars['BigInt'];
+  lifetimeFlashLoanPremium: Scalars['BigInt'];
+  lifetimeFlashLoans: Scalars['BigInt'];
+  lifetimeLiquidated: Scalars['BigInt'];
+  lifetimeLiquidity: Scalars['BigInt'];
+  lifetimePrincipalStableDebt: Scalars['BigInt'];
+  lifetimeRepayments: Scalars['BigInt'];
+  lifetimeReserveFactorAccrued: Scalars['BigInt'];
+  lifetimeScaledVariableDebt: Scalars['BigInt'];
+  lifetimeWithdrawals: Scalars['BigInt'];
   liquidityIndex: Scalars['BigInt'];
   liquidityRate: Scalars['BigInt'];
-  totalLiquidity: Scalars['BigInt'];
-  totalATokenSupply: Scalars['BigInt'];
-  totalLiquidityAsCollateral: Scalars['BigInt'];
-  availableLiquidity: Scalars['BigInt'];
   priceInEth: Scalars['BigInt'];
   priceInUsd: Scalars['BigDecimal'];
+  reserve: Reserve;
+  stableBorrowRate: Scalars['BigInt'];
   timestamp: Scalars['Int'];
-  totalScaledVariableDebt: Scalars['BigInt'];
+  totalATokenSupply: Scalars['BigInt'];
   totalCurrentVariableDebt: Scalars['BigInt'];
+  totalLiquidity: Scalars['BigInt'];
+  totalLiquidityAsCollateral: Scalars['BigInt'];
   totalPrincipalStableDebt: Scalars['BigInt'];
-  lifetimePrincipalStableDebt: Scalars['BigInt'];
-  lifetimeScaledVariableDebt: Scalars['BigInt'];
-  lifetimeCurrentVariableDebt: Scalars['BigInt'];
-  lifetimeLiquidity: Scalars['BigInt'];
-  lifetimeRepayments: Scalars['BigInt'];
-  lifetimeWithdrawals: Scalars['BigInt'];
-  lifetimeBorrows: Scalars['BigInt'];
-  lifetimeLiquidated: Scalars['BigInt'];
-  lifetimeFlashLoans: Scalars['BigInt'];
-  lifetimeFlashLoanPremium: Scalars['BigInt'];
-  lifetimeReserveFactorAccrued: Scalars['BigInt'];
-  lifetimeDepositorsInterestEarned: Scalars['BigInt'];
+  totalScaledVariableDebt: Scalars['BigInt'];
+  utilizationRate: Scalars['BigDecimal'];
+  variableBorrowIndex: Scalars['BigInt'];
+  variableBorrowRate: Scalars['BigInt'];
 };
 
 export type ReserveParamsHistoryItem_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  reserve?: Maybe<Scalars['String']>;
-  reserve_not?: Maybe<Scalars['String']>;
-  reserve_gt?: Maybe<Scalars['String']>;
-  reserve_lt?: Maybe<Scalars['String']>;
-  reserve_gte?: Maybe<Scalars['String']>;
-  reserve_lte?: Maybe<Scalars['String']>;
-  reserve_in?: Maybe<Array<Scalars['String']>>;
-  reserve_not_in?: Maybe<Array<Scalars['String']>>;
-  reserve_contains?: Maybe<Scalars['String']>;
-  reserve_not_contains?: Maybe<Scalars['String']>;
-  reserve_starts_with?: Maybe<Scalars['String']>;
-  reserve_not_starts_with?: Maybe<Scalars['String']>;
-  reserve_ends_with?: Maybe<Scalars['String']>;
-  reserve_not_ends_with?: Maybe<Scalars['String']>;
-  variableBorrowRate?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_not?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
-  variableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  variableBorrowIndex?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_not?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_gt?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_lt?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_gte?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_lte?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_in?: Maybe<Array<Scalars['BigInt']>>;
-  variableBorrowIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  utilizationRate?: Maybe<Scalars['BigDecimal']>;
-  utilizationRate_not?: Maybe<Scalars['BigDecimal']>;
-  utilizationRate_gt?: Maybe<Scalars['BigDecimal']>;
-  utilizationRate_lt?: Maybe<Scalars['BigDecimal']>;
-  utilizationRate_gte?: Maybe<Scalars['BigDecimal']>;
-  utilizationRate_lte?: Maybe<Scalars['BigDecimal']>;
-  utilizationRate_in?: Maybe<Array<Scalars['BigDecimal']>>;
-  utilizationRate_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
-  stableBorrowRate?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_not?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
-  stableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  availableLiquidity?: Maybe<Scalars['BigInt']>;
+  availableLiquidity_gt?: Maybe<Scalars['BigInt']>;
+  availableLiquidity_gte?: Maybe<Scalars['BigInt']>;
+  availableLiquidity_in?: Maybe<Array<Scalars['BigInt']>>;
+  availableLiquidity_lt?: Maybe<Scalars['BigInt']>;
+  availableLiquidity_lte?: Maybe<Scalars['BigInt']>;
+  availableLiquidity_not?: Maybe<Scalars['BigInt']>;
+  availableLiquidity_not_in?: Maybe<Array<Scalars['BigInt']>>;
   averageStableBorrowRate?: Maybe<Scalars['BigInt']>;
-  averageStableBorrowRate_not?: Maybe<Scalars['BigInt']>;
   averageStableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
-  averageStableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
   averageStableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
-  averageStableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
   averageStableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  averageStableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
+  averageStableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
+  averageStableBorrowRate_not?: Maybe<Scalars['BigInt']>;
   averageStableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  lifetimeBorrows?: Maybe<Scalars['BigInt']>;
+  lifetimeBorrows_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeBorrows_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeBorrows_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeBorrows_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeBorrows_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeBorrows_not?: Maybe<Scalars['BigInt']>;
+  lifetimeBorrows_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeCurrentVariableDebt?: Maybe<Scalars['BigInt']>;
+  lifetimeCurrentVariableDebt_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeCurrentVariableDebt_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeCurrentVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeCurrentVariableDebt_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeCurrentVariableDebt_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeCurrentVariableDebt_not?: Maybe<Scalars['BigInt']>;
+  lifetimeCurrentVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeDepositorsInterestEarned?: Maybe<Scalars['BigInt']>;
+  lifetimeDepositorsInterestEarned_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeDepositorsInterestEarned_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeDepositorsInterestEarned_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeDepositorsInterestEarned_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeDepositorsInterestEarned_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeDepositorsInterestEarned_not?: Maybe<Scalars['BigInt']>;
+  lifetimeDepositorsInterestEarned_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeFlashLoanPremium?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoanPremium_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoanPremium_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoanPremium_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeFlashLoanPremium_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoanPremium_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoanPremium_not?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoanPremium_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeFlashLoans?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoans_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoans_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoans_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeFlashLoans_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoans_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoans_not?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoans_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeLiquidated?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidated_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidated_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidated_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeLiquidated_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidated_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidated_not?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidated_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeLiquidity?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidity_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidity_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidity_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeLiquidity_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidity_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidity_not?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidity_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimePrincipalStableDebt?: Maybe<Scalars['BigInt']>;
+  lifetimePrincipalStableDebt_gt?: Maybe<Scalars['BigInt']>;
+  lifetimePrincipalStableDebt_gte?: Maybe<Scalars['BigInt']>;
+  lifetimePrincipalStableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimePrincipalStableDebt_lt?: Maybe<Scalars['BigInt']>;
+  lifetimePrincipalStableDebt_lte?: Maybe<Scalars['BigInt']>;
+  lifetimePrincipalStableDebt_not?: Maybe<Scalars['BigInt']>;
+  lifetimePrincipalStableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeRepayments?: Maybe<Scalars['BigInt']>;
+  lifetimeRepayments_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeRepayments_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeRepayments_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeRepayments_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeRepayments_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeRepayments_not?: Maybe<Scalars['BigInt']>;
+  lifetimeRepayments_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeReserveFactorAccrued?: Maybe<Scalars['BigInt']>;
+  lifetimeReserveFactorAccrued_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeReserveFactorAccrued_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeReserveFactorAccrued_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeReserveFactorAccrued_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeReserveFactorAccrued_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeReserveFactorAccrued_not?: Maybe<Scalars['BigInt']>;
+  lifetimeReserveFactorAccrued_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeScaledVariableDebt?: Maybe<Scalars['BigInt']>;
+  lifetimeScaledVariableDebt_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeScaledVariableDebt_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeScaledVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeScaledVariableDebt_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeScaledVariableDebt_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeScaledVariableDebt_not?: Maybe<Scalars['BigInt']>;
+  lifetimeScaledVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeWithdrawals?: Maybe<Scalars['BigInt']>;
+  lifetimeWithdrawals_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeWithdrawals_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeWithdrawals_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeWithdrawals_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeWithdrawals_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeWithdrawals_not?: Maybe<Scalars['BigInt']>;
+  lifetimeWithdrawals_not_in?: Maybe<Array<Scalars['BigInt']>>;
   liquidityIndex?: Maybe<Scalars['BigInt']>;
-  liquidityIndex_not?: Maybe<Scalars['BigInt']>;
   liquidityIndex_gt?: Maybe<Scalars['BigInt']>;
-  liquidityIndex_lt?: Maybe<Scalars['BigInt']>;
   liquidityIndex_gte?: Maybe<Scalars['BigInt']>;
-  liquidityIndex_lte?: Maybe<Scalars['BigInt']>;
   liquidityIndex_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidityIndex_lt?: Maybe<Scalars['BigInt']>;
+  liquidityIndex_lte?: Maybe<Scalars['BigInt']>;
+  liquidityIndex_not?: Maybe<Scalars['BigInt']>;
   liquidityIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
   liquidityRate?: Maybe<Scalars['BigInt']>;
-  liquidityRate_not?: Maybe<Scalars['BigInt']>;
   liquidityRate_gt?: Maybe<Scalars['BigInt']>;
-  liquidityRate_lt?: Maybe<Scalars['BigInt']>;
   liquidityRate_gte?: Maybe<Scalars['BigInt']>;
-  liquidityRate_lte?: Maybe<Scalars['BigInt']>;
   liquidityRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidityRate_lt?: Maybe<Scalars['BigInt']>;
+  liquidityRate_lte?: Maybe<Scalars['BigInt']>;
+  liquidityRate_not?: Maybe<Scalars['BigInt']>;
   liquidityRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalLiquidity?: Maybe<Scalars['BigInt']>;
-  totalLiquidity_not?: Maybe<Scalars['BigInt']>;
-  totalLiquidity_gt?: Maybe<Scalars['BigInt']>;
-  totalLiquidity_lt?: Maybe<Scalars['BigInt']>;
-  totalLiquidity_gte?: Maybe<Scalars['BigInt']>;
-  totalLiquidity_lte?: Maybe<Scalars['BigInt']>;
-  totalLiquidity_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalLiquidity_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalATokenSupply?: Maybe<Scalars['BigInt']>;
-  totalATokenSupply_not?: Maybe<Scalars['BigInt']>;
-  totalATokenSupply_gt?: Maybe<Scalars['BigInt']>;
-  totalATokenSupply_lt?: Maybe<Scalars['BigInt']>;
-  totalATokenSupply_gte?: Maybe<Scalars['BigInt']>;
-  totalATokenSupply_lte?: Maybe<Scalars['BigInt']>;
-  totalATokenSupply_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalATokenSupply_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalLiquidityAsCollateral?: Maybe<Scalars['BigInt']>;
-  totalLiquidityAsCollateral_not?: Maybe<Scalars['BigInt']>;
-  totalLiquidityAsCollateral_gt?: Maybe<Scalars['BigInt']>;
-  totalLiquidityAsCollateral_lt?: Maybe<Scalars['BigInt']>;
-  totalLiquidityAsCollateral_gte?: Maybe<Scalars['BigInt']>;
-  totalLiquidityAsCollateral_lte?: Maybe<Scalars['BigInt']>;
-  totalLiquidityAsCollateral_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalLiquidityAsCollateral_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  availableLiquidity?: Maybe<Scalars['BigInt']>;
-  availableLiquidity_not?: Maybe<Scalars['BigInt']>;
-  availableLiquidity_gt?: Maybe<Scalars['BigInt']>;
-  availableLiquidity_lt?: Maybe<Scalars['BigInt']>;
-  availableLiquidity_gte?: Maybe<Scalars['BigInt']>;
-  availableLiquidity_lte?: Maybe<Scalars['BigInt']>;
-  availableLiquidity_in?: Maybe<Array<Scalars['BigInt']>>;
-  availableLiquidity_not_in?: Maybe<Array<Scalars['BigInt']>>;
   priceInEth?: Maybe<Scalars['BigInt']>;
-  priceInEth_not?: Maybe<Scalars['BigInt']>;
   priceInEth_gt?: Maybe<Scalars['BigInt']>;
-  priceInEth_lt?: Maybe<Scalars['BigInt']>;
   priceInEth_gte?: Maybe<Scalars['BigInt']>;
-  priceInEth_lte?: Maybe<Scalars['BigInt']>;
   priceInEth_in?: Maybe<Array<Scalars['BigInt']>>;
+  priceInEth_lt?: Maybe<Scalars['BigInt']>;
+  priceInEth_lte?: Maybe<Scalars['BigInt']>;
+  priceInEth_not?: Maybe<Scalars['BigInt']>;
   priceInEth_not_in?: Maybe<Array<Scalars['BigInt']>>;
   priceInUsd?: Maybe<Scalars['BigDecimal']>;
-  priceInUsd_not?: Maybe<Scalars['BigDecimal']>;
   priceInUsd_gt?: Maybe<Scalars['BigDecimal']>;
-  priceInUsd_lt?: Maybe<Scalars['BigDecimal']>;
   priceInUsd_gte?: Maybe<Scalars['BigDecimal']>;
-  priceInUsd_lte?: Maybe<Scalars['BigDecimal']>;
   priceInUsd_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  priceInUsd_lt?: Maybe<Scalars['BigDecimal']>;
+  priceInUsd_lte?: Maybe<Scalars['BigDecimal']>;
+  priceInUsd_not?: Maybe<Scalars['BigDecimal']>;
   priceInUsd_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  reserve?: Maybe<Scalars['String']>;
+  reserve_contains?: Maybe<Scalars['String']>;
+  reserve_ends_with?: Maybe<Scalars['String']>;
+  reserve_gt?: Maybe<Scalars['String']>;
+  reserve_gte?: Maybe<Scalars['String']>;
+  reserve_in?: Maybe<Array<Scalars['String']>>;
+  reserve_lt?: Maybe<Scalars['String']>;
+  reserve_lte?: Maybe<Scalars['String']>;
+  reserve_not?: Maybe<Scalars['String']>;
+  reserve_not_contains?: Maybe<Scalars['String']>;
+  reserve_not_ends_with?: Maybe<Scalars['String']>;
+  reserve_not_in?: Maybe<Array<Scalars['String']>>;
+  reserve_not_starts_with?: Maybe<Scalars['String']>;
+  reserve_starts_with?: Maybe<Scalars['String']>;
+  stableBorrowRate?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  stableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_not?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
-  totalScaledVariableDebt?: Maybe<Scalars['BigInt']>;
-  totalScaledVariableDebt_not?: Maybe<Scalars['BigInt']>;
-  totalScaledVariableDebt_gt?: Maybe<Scalars['BigInt']>;
-  totalScaledVariableDebt_lt?: Maybe<Scalars['BigInt']>;
-  totalScaledVariableDebt_gte?: Maybe<Scalars['BigInt']>;
-  totalScaledVariableDebt_lte?: Maybe<Scalars['BigInt']>;
-  totalScaledVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalScaledVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalATokenSupply?: Maybe<Scalars['BigInt']>;
+  totalATokenSupply_gt?: Maybe<Scalars['BigInt']>;
+  totalATokenSupply_gte?: Maybe<Scalars['BigInt']>;
+  totalATokenSupply_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalATokenSupply_lt?: Maybe<Scalars['BigInt']>;
+  totalATokenSupply_lte?: Maybe<Scalars['BigInt']>;
+  totalATokenSupply_not?: Maybe<Scalars['BigInt']>;
+  totalATokenSupply_not_in?: Maybe<Array<Scalars['BigInt']>>;
   totalCurrentVariableDebt?: Maybe<Scalars['BigInt']>;
-  totalCurrentVariableDebt_not?: Maybe<Scalars['BigInt']>;
   totalCurrentVariableDebt_gt?: Maybe<Scalars['BigInt']>;
-  totalCurrentVariableDebt_lt?: Maybe<Scalars['BigInt']>;
   totalCurrentVariableDebt_gte?: Maybe<Scalars['BigInt']>;
-  totalCurrentVariableDebt_lte?: Maybe<Scalars['BigInt']>;
   totalCurrentVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalCurrentVariableDebt_lt?: Maybe<Scalars['BigInt']>;
+  totalCurrentVariableDebt_lte?: Maybe<Scalars['BigInt']>;
+  totalCurrentVariableDebt_not?: Maybe<Scalars['BigInt']>;
   totalCurrentVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalLiquidity?: Maybe<Scalars['BigInt']>;
+  totalLiquidityAsCollateral?: Maybe<Scalars['BigInt']>;
+  totalLiquidityAsCollateral_gt?: Maybe<Scalars['BigInt']>;
+  totalLiquidityAsCollateral_gte?: Maybe<Scalars['BigInt']>;
+  totalLiquidityAsCollateral_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalLiquidityAsCollateral_lt?: Maybe<Scalars['BigInt']>;
+  totalLiquidityAsCollateral_lte?: Maybe<Scalars['BigInt']>;
+  totalLiquidityAsCollateral_not?: Maybe<Scalars['BigInt']>;
+  totalLiquidityAsCollateral_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalLiquidity_gt?: Maybe<Scalars['BigInt']>;
+  totalLiquidity_gte?: Maybe<Scalars['BigInt']>;
+  totalLiquidity_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalLiquidity_lt?: Maybe<Scalars['BigInt']>;
+  totalLiquidity_lte?: Maybe<Scalars['BigInt']>;
+  totalLiquidity_not?: Maybe<Scalars['BigInt']>;
+  totalLiquidity_not_in?: Maybe<Array<Scalars['BigInt']>>;
   totalPrincipalStableDebt?: Maybe<Scalars['BigInt']>;
-  totalPrincipalStableDebt_not?: Maybe<Scalars['BigInt']>;
   totalPrincipalStableDebt_gt?: Maybe<Scalars['BigInt']>;
-  totalPrincipalStableDebt_lt?: Maybe<Scalars['BigInt']>;
   totalPrincipalStableDebt_gte?: Maybe<Scalars['BigInt']>;
-  totalPrincipalStableDebt_lte?: Maybe<Scalars['BigInt']>;
   totalPrincipalStableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalPrincipalStableDebt_lt?: Maybe<Scalars['BigInt']>;
+  totalPrincipalStableDebt_lte?: Maybe<Scalars['BigInt']>;
+  totalPrincipalStableDebt_not?: Maybe<Scalars['BigInt']>;
   totalPrincipalStableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimePrincipalStableDebt?: Maybe<Scalars['BigInt']>;
-  lifetimePrincipalStableDebt_not?: Maybe<Scalars['BigInt']>;
-  lifetimePrincipalStableDebt_gt?: Maybe<Scalars['BigInt']>;
-  lifetimePrincipalStableDebt_lt?: Maybe<Scalars['BigInt']>;
-  lifetimePrincipalStableDebt_gte?: Maybe<Scalars['BigInt']>;
-  lifetimePrincipalStableDebt_lte?: Maybe<Scalars['BigInt']>;
-  lifetimePrincipalStableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimePrincipalStableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeScaledVariableDebt?: Maybe<Scalars['BigInt']>;
-  lifetimeScaledVariableDebt_not?: Maybe<Scalars['BigInt']>;
-  lifetimeScaledVariableDebt_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeScaledVariableDebt_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeScaledVariableDebt_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeScaledVariableDebt_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeScaledVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeScaledVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeCurrentVariableDebt?: Maybe<Scalars['BigInt']>;
-  lifetimeCurrentVariableDebt_not?: Maybe<Scalars['BigInt']>;
-  lifetimeCurrentVariableDebt_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeCurrentVariableDebt_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeCurrentVariableDebt_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeCurrentVariableDebt_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeCurrentVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeCurrentVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeLiquidity?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidity_not?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidity_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidity_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidity_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidity_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidity_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeLiquidity_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeRepayments?: Maybe<Scalars['BigInt']>;
-  lifetimeRepayments_not?: Maybe<Scalars['BigInt']>;
-  lifetimeRepayments_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeRepayments_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeRepayments_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeRepayments_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeRepayments_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeRepayments_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeWithdrawals?: Maybe<Scalars['BigInt']>;
-  lifetimeWithdrawals_not?: Maybe<Scalars['BigInt']>;
-  lifetimeWithdrawals_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeWithdrawals_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeWithdrawals_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeWithdrawals_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeWithdrawals_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeWithdrawals_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeBorrows?: Maybe<Scalars['BigInt']>;
-  lifetimeBorrows_not?: Maybe<Scalars['BigInt']>;
-  lifetimeBorrows_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeBorrows_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeBorrows_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeBorrows_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeBorrows_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeBorrows_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeLiquidated?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidated_not?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidated_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidated_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidated_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidated_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidated_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeLiquidated_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeFlashLoans?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoans_not?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoans_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoans_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoans_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoans_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoans_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeFlashLoans_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeFlashLoanPremium?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoanPremium_not?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoanPremium_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoanPremium_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoanPremium_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoanPremium_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoanPremium_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeFlashLoanPremium_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeReserveFactorAccrued?: Maybe<Scalars['BigInt']>;
-  lifetimeReserveFactorAccrued_not?: Maybe<Scalars['BigInt']>;
-  lifetimeReserveFactorAccrued_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeReserveFactorAccrued_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeReserveFactorAccrued_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeReserveFactorAccrued_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeReserveFactorAccrued_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeReserveFactorAccrued_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeDepositorsInterestEarned?: Maybe<Scalars['BigInt']>;
-  lifetimeDepositorsInterestEarned_not?: Maybe<Scalars['BigInt']>;
-  lifetimeDepositorsInterestEarned_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeDepositorsInterestEarned_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeDepositorsInterestEarned_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeDepositorsInterestEarned_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeDepositorsInterestEarned_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeDepositorsInterestEarned_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalScaledVariableDebt?: Maybe<Scalars['BigInt']>;
+  totalScaledVariableDebt_gt?: Maybe<Scalars['BigInt']>;
+  totalScaledVariableDebt_gte?: Maybe<Scalars['BigInt']>;
+  totalScaledVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalScaledVariableDebt_lt?: Maybe<Scalars['BigInt']>;
+  totalScaledVariableDebt_lte?: Maybe<Scalars['BigInt']>;
+  totalScaledVariableDebt_not?: Maybe<Scalars['BigInt']>;
+  totalScaledVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  utilizationRate?: Maybe<Scalars['BigDecimal']>;
+  utilizationRate_gt?: Maybe<Scalars['BigDecimal']>;
+  utilizationRate_gte?: Maybe<Scalars['BigDecimal']>;
+  utilizationRate_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  utilizationRate_lt?: Maybe<Scalars['BigDecimal']>;
+  utilizationRate_lte?: Maybe<Scalars['BigDecimal']>;
+  utilizationRate_not?: Maybe<Scalars['BigDecimal']>;
+  utilizationRate_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  variableBorrowIndex?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_gt?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_gte?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_in?: Maybe<Array<Scalars['BigInt']>>;
+  variableBorrowIndex_lt?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_lte?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_not?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  variableBorrowRate?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  variableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_not?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
 };
 
 export enum ReserveParamsHistoryItem_OrderBy {
-  Id = 'id',
-  Reserve = 'reserve',
-  VariableBorrowRate = 'variableBorrowRate',
-  VariableBorrowIndex = 'variableBorrowIndex',
-  UtilizationRate = 'utilizationRate',
-  StableBorrowRate = 'stableBorrowRate',
+  AvailableLiquidity = 'availableLiquidity',
   AverageStableBorrowRate = 'averageStableBorrowRate',
+  Id = 'id',
+  LifetimeBorrows = 'lifetimeBorrows',
+  LifetimeCurrentVariableDebt = 'lifetimeCurrentVariableDebt',
+  LifetimeDepositorsInterestEarned = 'lifetimeDepositorsInterestEarned',
+  LifetimeFlashLoanPremium = 'lifetimeFlashLoanPremium',
+  LifetimeFlashLoans = 'lifetimeFlashLoans',
+  LifetimeLiquidated = 'lifetimeLiquidated',
+  LifetimeLiquidity = 'lifetimeLiquidity',
+  LifetimePrincipalStableDebt = 'lifetimePrincipalStableDebt',
+  LifetimeRepayments = 'lifetimeRepayments',
+  LifetimeReserveFactorAccrued = 'lifetimeReserveFactorAccrued',
+  LifetimeScaledVariableDebt = 'lifetimeScaledVariableDebt',
+  LifetimeWithdrawals = 'lifetimeWithdrawals',
   LiquidityIndex = 'liquidityIndex',
   LiquidityRate = 'liquidityRate',
-  TotalLiquidity = 'totalLiquidity',
-  TotalATokenSupply = 'totalATokenSupply',
-  TotalLiquidityAsCollateral = 'totalLiquidityAsCollateral',
-  AvailableLiquidity = 'availableLiquidity',
   PriceInEth = 'priceInEth',
   PriceInUsd = 'priceInUsd',
+  Reserve = 'reserve',
+  StableBorrowRate = 'stableBorrowRate',
   Timestamp = 'timestamp',
-  TotalScaledVariableDebt = 'totalScaledVariableDebt',
+  TotalATokenSupply = 'totalATokenSupply',
   TotalCurrentVariableDebt = 'totalCurrentVariableDebt',
+  TotalLiquidity = 'totalLiquidity',
+  TotalLiquidityAsCollateral = 'totalLiquidityAsCollateral',
   TotalPrincipalStableDebt = 'totalPrincipalStableDebt',
-  LifetimePrincipalStableDebt = 'lifetimePrincipalStableDebt',
-  LifetimeScaledVariableDebt = 'lifetimeScaledVariableDebt',
-  LifetimeCurrentVariableDebt = 'lifetimeCurrentVariableDebt',
-  LifetimeLiquidity = 'lifetimeLiquidity',
-  LifetimeRepayments = 'lifetimeRepayments',
-  LifetimeWithdrawals = 'lifetimeWithdrawals',
-  LifetimeBorrows = 'lifetimeBorrows',
-  LifetimeLiquidated = 'lifetimeLiquidated',
-  LifetimeFlashLoans = 'lifetimeFlashLoans',
-  LifetimeFlashLoanPremium = 'lifetimeFlashLoanPremium',
-  LifetimeReserveFactorAccrued = 'lifetimeReserveFactorAccrued',
-  LifetimeDepositorsInterestEarned = 'lifetimeDepositorsInterestEarned',
+  TotalScaledVariableDebt = 'totalScaledVariableDebt',
+  UtilizationRate = 'utilizationRate',
+  VariableBorrowIndex = 'variableBorrowIndex',
+  VariableBorrowRate = 'variableBorrowRate',
 }
 
 export type Reserve_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  underlyingAsset?: Maybe<Scalars['Bytes']>;
-  underlyingAsset_not?: Maybe<Scalars['Bytes']>;
-  underlyingAsset_in?: Maybe<Array<Scalars['Bytes']>>;
-  underlyingAsset_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  underlyingAsset_contains?: Maybe<Scalars['Bytes']>;
-  underlyingAsset_not_contains?: Maybe<Scalars['Bytes']>;
-  pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
-  pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
-  pool_ends_with?: Maybe<Scalars['String']>;
-  pool_not_ends_with?: Maybe<Scalars['String']>;
-  symbol?: Maybe<Scalars['String']>;
-  symbol_not?: Maybe<Scalars['String']>;
-  symbol_gt?: Maybe<Scalars['String']>;
-  symbol_lt?: Maybe<Scalars['String']>;
-  symbol_gte?: Maybe<Scalars['String']>;
-  symbol_lte?: Maybe<Scalars['String']>;
-  symbol_in?: Maybe<Array<Scalars['String']>>;
-  symbol_not_in?: Maybe<Array<Scalars['String']>>;
-  symbol_contains?: Maybe<Scalars['String']>;
-  symbol_not_contains?: Maybe<Scalars['String']>;
-  symbol_starts_with?: Maybe<Scalars['String']>;
-  symbol_not_starts_with?: Maybe<Scalars['String']>;
-  symbol_ends_with?: Maybe<Scalars['String']>;
-  symbol_not_ends_with?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  name_not?: Maybe<Scalars['String']>;
-  name_gt?: Maybe<Scalars['String']>;
-  name_lt?: Maybe<Scalars['String']>;
-  name_gte?: Maybe<Scalars['String']>;
-  name_lte?: Maybe<Scalars['String']>;
-  name_in?: Maybe<Array<Scalars['String']>>;
-  name_not_in?: Maybe<Array<Scalars['String']>>;
-  name_contains?: Maybe<Scalars['String']>;
-  name_not_contains?: Maybe<Scalars['String']>;
-  name_starts_with?: Maybe<Scalars['String']>;
-  name_not_starts_with?: Maybe<Scalars['String']>;
-  name_ends_with?: Maybe<Scalars['String']>;
-  name_not_ends_with?: Maybe<Scalars['String']>;
-  decimals?: Maybe<Scalars['Int']>;
-  decimals_not?: Maybe<Scalars['Int']>;
-  decimals_gt?: Maybe<Scalars['Int']>;
-  decimals_lt?: Maybe<Scalars['Int']>;
-  decimals_gte?: Maybe<Scalars['Int']>;
-  decimals_lte?: Maybe<Scalars['Int']>;
-  decimals_in?: Maybe<Array<Scalars['Int']>>;
-  decimals_not_in?: Maybe<Array<Scalars['Int']>>;
-  usageAsCollateralEnabled?: Maybe<Scalars['Boolean']>;
-  usageAsCollateralEnabled_not?: Maybe<Scalars['Boolean']>;
-  usageAsCollateralEnabled_in?: Maybe<Array<Scalars['Boolean']>>;
-  usageAsCollateralEnabled_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  aEmissionPerSecond?: Maybe<Scalars['BigInt']>;
+  aEmissionPerSecond_gt?: Maybe<Scalars['BigInt']>;
+  aEmissionPerSecond_gte?: Maybe<Scalars['BigInt']>;
+  aEmissionPerSecond_in?: Maybe<Array<Scalars['BigInt']>>;
+  aEmissionPerSecond_lt?: Maybe<Scalars['BigInt']>;
+  aEmissionPerSecond_lte?: Maybe<Scalars['BigInt']>;
+  aEmissionPerSecond_not?: Maybe<Scalars['BigInt']>;
+  aEmissionPerSecond_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  aIncentivesLastUpdateTimestamp?: Maybe<Scalars['Int']>;
+  aIncentivesLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
+  aIncentivesLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
+  aIncentivesLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  aIncentivesLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
+  aIncentivesLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
+  aIncentivesLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
+  aIncentivesLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  aToken?: Maybe<Scalars['String']>;
+  aTokenIncentivesIndex?: Maybe<Scalars['BigInt']>;
+  aTokenIncentivesIndex_gt?: Maybe<Scalars['BigInt']>;
+  aTokenIncentivesIndex_gte?: Maybe<Scalars['BigInt']>;
+  aTokenIncentivesIndex_in?: Maybe<Array<Scalars['BigInt']>>;
+  aTokenIncentivesIndex_lt?: Maybe<Scalars['BigInt']>;
+  aTokenIncentivesIndex_lte?: Maybe<Scalars['BigInt']>;
+  aTokenIncentivesIndex_not?: Maybe<Scalars['BigInt']>;
+  aTokenIncentivesIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  aToken_contains?: Maybe<Scalars['String']>;
+  aToken_ends_with?: Maybe<Scalars['String']>;
+  aToken_gt?: Maybe<Scalars['String']>;
+  aToken_gte?: Maybe<Scalars['String']>;
+  aToken_in?: Maybe<Array<Scalars['String']>>;
+  aToken_lt?: Maybe<Scalars['String']>;
+  aToken_lte?: Maybe<Scalars['String']>;
+  aToken_not?: Maybe<Scalars['String']>;
+  aToken_not_contains?: Maybe<Scalars['String']>;
+  aToken_not_ends_with?: Maybe<Scalars['String']>;
+  aToken_not_in?: Maybe<Array<Scalars['String']>>;
+  aToken_not_starts_with?: Maybe<Scalars['String']>;
+  aToken_starts_with?: Maybe<Scalars['String']>;
+  availableLiquidity?: Maybe<Scalars['BigInt']>;
+  availableLiquidity_gt?: Maybe<Scalars['BigInt']>;
+  availableLiquidity_gte?: Maybe<Scalars['BigInt']>;
+  availableLiquidity_in?: Maybe<Array<Scalars['BigInt']>>;
+  availableLiquidity_lt?: Maybe<Scalars['BigInt']>;
+  availableLiquidity_lte?: Maybe<Scalars['BigInt']>;
+  availableLiquidity_not?: Maybe<Scalars['BigInt']>;
+  availableLiquidity_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  averageStableRate?: Maybe<Scalars['BigInt']>;
+  averageStableRate_gt?: Maybe<Scalars['BigInt']>;
+  averageStableRate_gte?: Maybe<Scalars['BigInt']>;
+  averageStableRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  averageStableRate_lt?: Maybe<Scalars['BigInt']>;
+  averageStableRate_lte?: Maybe<Scalars['BigInt']>;
+  averageStableRate_not?: Maybe<Scalars['BigInt']>;
+  averageStableRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  baseLTVasCollateral?: Maybe<Scalars['BigInt']>;
+  baseLTVasCollateral_gt?: Maybe<Scalars['BigInt']>;
+  baseLTVasCollateral_gte?: Maybe<Scalars['BigInt']>;
+  baseLTVasCollateral_in?: Maybe<Array<Scalars['BigInt']>>;
+  baseLTVasCollateral_lt?: Maybe<Scalars['BigInt']>;
+  baseLTVasCollateral_lte?: Maybe<Scalars['BigInt']>;
+  baseLTVasCollateral_not?: Maybe<Scalars['BigInt']>;
+  baseLTVasCollateral_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  baseVariableBorrowRate?: Maybe<Scalars['BigInt']>;
+  baseVariableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
+  baseVariableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
+  baseVariableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  baseVariableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
+  baseVariableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
+  baseVariableBorrowRate_not?: Maybe<Scalars['BigInt']>;
+  baseVariableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
   borrowingEnabled?: Maybe<Scalars['Boolean']>;
-  borrowingEnabled_not?: Maybe<Scalars['Boolean']>;
   borrowingEnabled_in?: Maybe<Array<Scalars['Boolean']>>;
+  borrowingEnabled_not?: Maybe<Scalars['Boolean']>;
   borrowingEnabled_not_in?: Maybe<Array<Scalars['Boolean']>>;
-  stableBorrowRateEnabled?: Maybe<Scalars['Boolean']>;
-  stableBorrowRateEnabled_not?: Maybe<Scalars['Boolean']>;
-  stableBorrowRateEnabled_in?: Maybe<Array<Scalars['Boolean']>>;
-  stableBorrowRateEnabled_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  decimals?: Maybe<Scalars['Int']>;
+  decimals_gt?: Maybe<Scalars['Int']>;
+  decimals_gte?: Maybe<Scalars['Int']>;
+  decimals_in?: Maybe<Array<Scalars['Int']>>;
+  decimals_lt?: Maybe<Scalars['Int']>;
+  decimals_lte?: Maybe<Scalars['Int']>;
+  decimals_not?: Maybe<Scalars['Int']>;
+  decimals_not_in?: Maybe<Array<Scalars['Int']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
   isActive?: Maybe<Scalars['Boolean']>;
-  isActive_not?: Maybe<Scalars['Boolean']>;
   isActive_in?: Maybe<Array<Scalars['Boolean']>>;
+  isActive_not?: Maybe<Scalars['Boolean']>;
   isActive_not_in?: Maybe<Array<Scalars['Boolean']>>;
   isFrozen?: Maybe<Scalars['Boolean']>;
-  isFrozen_not?: Maybe<Scalars['Boolean']>;
   isFrozen_in?: Maybe<Array<Scalars['Boolean']>>;
+  isFrozen_not?: Maybe<Scalars['Boolean']>;
   isFrozen_not_in?: Maybe<Array<Scalars['Boolean']>>;
-  price?: Maybe<Scalars['String']>;
-  price_not?: Maybe<Scalars['String']>;
-  price_gt?: Maybe<Scalars['String']>;
-  price_lt?: Maybe<Scalars['String']>;
-  price_gte?: Maybe<Scalars['String']>;
-  price_lte?: Maybe<Scalars['String']>;
-  price_in?: Maybe<Array<Scalars['String']>>;
-  price_not_in?: Maybe<Array<Scalars['String']>>;
-  price_contains?: Maybe<Scalars['String']>;
-  price_not_contains?: Maybe<Scalars['String']>;
-  price_starts_with?: Maybe<Scalars['String']>;
-  price_not_starts_with?: Maybe<Scalars['String']>;
-  price_ends_with?: Maybe<Scalars['String']>;
-  price_not_ends_with?: Maybe<Scalars['String']>;
-  reserveInterestRateStrategy?: Maybe<Scalars['Bytes']>;
-  reserveInterestRateStrategy_not?: Maybe<Scalars['Bytes']>;
-  reserveInterestRateStrategy_in?: Maybe<Array<Scalars['Bytes']>>;
-  reserveInterestRateStrategy_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  reserveInterestRateStrategy_contains?: Maybe<Scalars['Bytes']>;
-  reserveInterestRateStrategy_not_contains?: Maybe<Scalars['Bytes']>;
-  optimalUtilisationRate?: Maybe<Scalars['BigInt']>;
-  optimalUtilisationRate_not?: Maybe<Scalars['BigInt']>;
-  optimalUtilisationRate_gt?: Maybe<Scalars['BigInt']>;
-  optimalUtilisationRate_lt?: Maybe<Scalars['BigInt']>;
-  optimalUtilisationRate_gte?: Maybe<Scalars['BigInt']>;
-  optimalUtilisationRate_lte?: Maybe<Scalars['BigInt']>;
-  optimalUtilisationRate_in?: Maybe<Array<Scalars['BigInt']>>;
-  optimalUtilisationRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  variableRateSlope1?: Maybe<Scalars['BigInt']>;
-  variableRateSlope1_not?: Maybe<Scalars['BigInt']>;
-  variableRateSlope1_gt?: Maybe<Scalars['BigInt']>;
-  variableRateSlope1_lt?: Maybe<Scalars['BigInt']>;
-  variableRateSlope1_gte?: Maybe<Scalars['BigInt']>;
-  variableRateSlope1_lte?: Maybe<Scalars['BigInt']>;
-  variableRateSlope1_in?: Maybe<Array<Scalars['BigInt']>>;
-  variableRateSlope1_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  variableRateSlope2?: Maybe<Scalars['BigInt']>;
-  variableRateSlope2_not?: Maybe<Scalars['BigInt']>;
-  variableRateSlope2_gt?: Maybe<Scalars['BigInt']>;
-  variableRateSlope2_lt?: Maybe<Scalars['BigInt']>;
-  variableRateSlope2_gte?: Maybe<Scalars['BigInt']>;
-  variableRateSlope2_lte?: Maybe<Scalars['BigInt']>;
-  variableRateSlope2_in?: Maybe<Array<Scalars['BigInt']>>;
-  variableRateSlope2_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  stableRateSlope1?: Maybe<Scalars['BigInt']>;
-  stableRateSlope1_not?: Maybe<Scalars['BigInt']>;
-  stableRateSlope1_gt?: Maybe<Scalars['BigInt']>;
-  stableRateSlope1_lt?: Maybe<Scalars['BigInt']>;
-  stableRateSlope1_gte?: Maybe<Scalars['BigInt']>;
-  stableRateSlope1_lte?: Maybe<Scalars['BigInt']>;
-  stableRateSlope1_in?: Maybe<Array<Scalars['BigInt']>>;
-  stableRateSlope1_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  stableRateSlope2?: Maybe<Scalars['BigInt']>;
-  stableRateSlope2_not?: Maybe<Scalars['BigInt']>;
-  stableRateSlope2_gt?: Maybe<Scalars['BigInt']>;
-  stableRateSlope2_lt?: Maybe<Scalars['BigInt']>;
-  stableRateSlope2_gte?: Maybe<Scalars['BigInt']>;
-  stableRateSlope2_lte?: Maybe<Scalars['BigInt']>;
-  stableRateSlope2_in?: Maybe<Array<Scalars['BigInt']>>;
-  stableRateSlope2_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  baseVariableBorrowRate?: Maybe<Scalars['BigInt']>;
-  baseVariableBorrowRate_not?: Maybe<Scalars['BigInt']>;
-  baseVariableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
-  baseVariableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
-  baseVariableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
-  baseVariableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
-  baseVariableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
-  baseVariableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  baseLTVasCollateral?: Maybe<Scalars['BigInt']>;
-  baseLTVasCollateral_not?: Maybe<Scalars['BigInt']>;
-  baseLTVasCollateral_gt?: Maybe<Scalars['BigInt']>;
-  baseLTVasCollateral_lt?: Maybe<Scalars['BigInt']>;
-  baseLTVasCollateral_gte?: Maybe<Scalars['BigInt']>;
-  baseLTVasCollateral_lte?: Maybe<Scalars['BigInt']>;
-  baseLTVasCollateral_in?: Maybe<Array<Scalars['BigInt']>>;
-  baseLTVasCollateral_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  reserveLiquidationThreshold?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationThreshold_not?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationThreshold_gt?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationThreshold_lt?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationThreshold_gte?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationThreshold_lte?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationThreshold_in?: Maybe<Array<Scalars['BigInt']>>;
-  reserveLiquidationThreshold_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  reserveLiquidationBonus?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationBonus_not?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationBonus_gt?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationBonus_lt?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationBonus_gte?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationBonus_lte?: Maybe<Scalars['BigInt']>;
-  reserveLiquidationBonus_in?: Maybe<Array<Scalars['BigInt']>>;
-  reserveLiquidationBonus_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  utilizationRate?: Maybe<Scalars['BigDecimal']>;
-  utilizationRate_not?: Maybe<Scalars['BigDecimal']>;
-  utilizationRate_gt?: Maybe<Scalars['BigDecimal']>;
-  utilizationRate_lt?: Maybe<Scalars['BigDecimal']>;
-  utilizationRate_gte?: Maybe<Scalars['BigDecimal']>;
-  utilizationRate_lte?: Maybe<Scalars['BigDecimal']>;
-  utilizationRate_in?: Maybe<Array<Scalars['BigDecimal']>>;
-  utilizationRate_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
-  totalLiquidity?: Maybe<Scalars['BigInt']>;
-  totalLiquidity_not?: Maybe<Scalars['BigInt']>;
-  totalLiquidity_gt?: Maybe<Scalars['BigInt']>;
-  totalLiquidity_lt?: Maybe<Scalars['BigInt']>;
-  totalLiquidity_gte?: Maybe<Scalars['BigInt']>;
-  totalLiquidity_lte?: Maybe<Scalars['BigInt']>;
-  totalLiquidity_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalLiquidity_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalATokenSupply?: Maybe<Scalars['BigInt']>;
-  totalATokenSupply_not?: Maybe<Scalars['BigInt']>;
-  totalATokenSupply_gt?: Maybe<Scalars['BigInt']>;
-  totalATokenSupply_lt?: Maybe<Scalars['BigInt']>;
-  totalATokenSupply_gte?: Maybe<Scalars['BigInt']>;
-  totalATokenSupply_lte?: Maybe<Scalars['BigInt']>;
-  totalATokenSupply_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalATokenSupply_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalLiquidityAsCollateral?: Maybe<Scalars['BigInt']>;
-  totalLiquidityAsCollateral_not?: Maybe<Scalars['BigInt']>;
-  totalLiquidityAsCollateral_gt?: Maybe<Scalars['BigInt']>;
-  totalLiquidityAsCollateral_lt?: Maybe<Scalars['BigInt']>;
-  totalLiquidityAsCollateral_gte?: Maybe<Scalars['BigInt']>;
-  totalLiquidityAsCollateral_lte?: Maybe<Scalars['BigInt']>;
-  totalLiquidityAsCollateral_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalLiquidityAsCollateral_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  availableLiquidity?: Maybe<Scalars['BigInt']>;
-  availableLiquidity_not?: Maybe<Scalars['BigInt']>;
-  availableLiquidity_gt?: Maybe<Scalars['BigInt']>;
-  availableLiquidity_lt?: Maybe<Scalars['BigInt']>;
-  availableLiquidity_gte?: Maybe<Scalars['BigInt']>;
-  availableLiquidity_lte?: Maybe<Scalars['BigInt']>;
-  availableLiquidity_in?: Maybe<Array<Scalars['BigInt']>>;
-  availableLiquidity_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalPrincipalStableDebt?: Maybe<Scalars['BigInt']>;
-  totalPrincipalStableDebt_not?: Maybe<Scalars['BigInt']>;
-  totalPrincipalStableDebt_gt?: Maybe<Scalars['BigInt']>;
-  totalPrincipalStableDebt_lt?: Maybe<Scalars['BigInt']>;
-  totalPrincipalStableDebt_gte?: Maybe<Scalars['BigInt']>;
-  totalPrincipalStableDebt_lte?: Maybe<Scalars['BigInt']>;
-  totalPrincipalStableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalPrincipalStableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalScaledVariableDebt?: Maybe<Scalars['BigInt']>;
-  totalScaledVariableDebt_not?: Maybe<Scalars['BigInt']>;
-  totalScaledVariableDebt_gt?: Maybe<Scalars['BigInt']>;
-  totalScaledVariableDebt_lt?: Maybe<Scalars['BigInt']>;
-  totalScaledVariableDebt_gte?: Maybe<Scalars['BigInt']>;
-  totalScaledVariableDebt_lte?: Maybe<Scalars['BigInt']>;
-  totalScaledVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalScaledVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalCurrentVariableDebt?: Maybe<Scalars['BigInt']>;
-  totalCurrentVariableDebt_not?: Maybe<Scalars['BigInt']>;
-  totalCurrentVariableDebt_gt?: Maybe<Scalars['BigInt']>;
-  totalCurrentVariableDebt_lt?: Maybe<Scalars['BigInt']>;
-  totalCurrentVariableDebt_gte?: Maybe<Scalars['BigInt']>;
-  totalCurrentVariableDebt_lte?: Maybe<Scalars['BigInt']>;
-  totalCurrentVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalCurrentVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalDeposits?: Maybe<Scalars['BigInt']>;
-  totalDeposits_not?: Maybe<Scalars['BigInt']>;
-  totalDeposits_gt?: Maybe<Scalars['BigInt']>;
-  totalDeposits_lt?: Maybe<Scalars['BigInt']>;
-  totalDeposits_gte?: Maybe<Scalars['BigInt']>;
-  totalDeposits_lte?: Maybe<Scalars['BigInt']>;
-  totalDeposits_in?: Maybe<Array<Scalars['BigInt']>>;
-  totalDeposits_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  liquidityRate?: Maybe<Scalars['BigInt']>;
-  liquidityRate_not?: Maybe<Scalars['BigInt']>;
-  liquidityRate_gt?: Maybe<Scalars['BigInt']>;
-  liquidityRate_lt?: Maybe<Scalars['BigInt']>;
-  liquidityRate_gte?: Maybe<Scalars['BigInt']>;
-  liquidityRate_lte?: Maybe<Scalars['BigInt']>;
-  liquidityRate_in?: Maybe<Array<Scalars['BigInt']>>;
-  liquidityRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  averageStableRate?: Maybe<Scalars['BigInt']>;
-  averageStableRate_not?: Maybe<Scalars['BigInt']>;
-  averageStableRate_gt?: Maybe<Scalars['BigInt']>;
-  averageStableRate_lt?: Maybe<Scalars['BigInt']>;
-  averageStableRate_gte?: Maybe<Scalars['BigInt']>;
-  averageStableRate_lte?: Maybe<Scalars['BigInt']>;
-  averageStableRate_in?: Maybe<Array<Scalars['BigInt']>>;
-  averageStableRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  variableBorrowRate?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_not?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
-  variableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  stableBorrowRate?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_not?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
-  stableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  liquidityIndex?: Maybe<Scalars['BigInt']>;
-  liquidityIndex_not?: Maybe<Scalars['BigInt']>;
-  liquidityIndex_gt?: Maybe<Scalars['BigInt']>;
-  liquidityIndex_lt?: Maybe<Scalars['BigInt']>;
-  liquidityIndex_gte?: Maybe<Scalars['BigInt']>;
-  liquidityIndex_lte?: Maybe<Scalars['BigInt']>;
-  liquidityIndex_in?: Maybe<Array<Scalars['BigInt']>>;
-  liquidityIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  variableBorrowIndex?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_not?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_gt?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_lt?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_gte?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_lte?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_in?: Maybe<Array<Scalars['BigInt']>>;
-  variableBorrowIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  aToken?: Maybe<Scalars['String']>;
-  aToken_not?: Maybe<Scalars['String']>;
-  aToken_gt?: Maybe<Scalars['String']>;
-  aToken_lt?: Maybe<Scalars['String']>;
-  aToken_gte?: Maybe<Scalars['String']>;
-  aToken_lte?: Maybe<Scalars['String']>;
-  aToken_in?: Maybe<Array<Scalars['String']>>;
-  aToken_not_in?: Maybe<Array<Scalars['String']>>;
-  aToken_contains?: Maybe<Scalars['String']>;
-  aToken_not_contains?: Maybe<Scalars['String']>;
-  aToken_starts_with?: Maybe<Scalars['String']>;
-  aToken_not_starts_with?: Maybe<Scalars['String']>;
-  aToken_ends_with?: Maybe<Scalars['String']>;
-  aToken_not_ends_with?: Maybe<Scalars['String']>;
-  vToken?: Maybe<Scalars['String']>;
-  vToken_not?: Maybe<Scalars['String']>;
-  vToken_gt?: Maybe<Scalars['String']>;
-  vToken_lt?: Maybe<Scalars['String']>;
-  vToken_gte?: Maybe<Scalars['String']>;
-  vToken_lte?: Maybe<Scalars['String']>;
-  vToken_in?: Maybe<Array<Scalars['String']>>;
-  vToken_not_in?: Maybe<Array<Scalars['String']>>;
-  vToken_contains?: Maybe<Scalars['String']>;
-  vToken_not_contains?: Maybe<Scalars['String']>;
-  vToken_starts_with?: Maybe<Scalars['String']>;
-  vToken_not_starts_with?: Maybe<Scalars['String']>;
-  vToken_ends_with?: Maybe<Scalars['String']>;
-  vToken_not_ends_with?: Maybe<Scalars['String']>;
-  sToken?: Maybe<Scalars['String']>;
-  sToken_not?: Maybe<Scalars['String']>;
-  sToken_gt?: Maybe<Scalars['String']>;
-  sToken_lt?: Maybe<Scalars['String']>;
-  sToken_gte?: Maybe<Scalars['String']>;
-  sToken_lte?: Maybe<Scalars['String']>;
-  sToken_in?: Maybe<Array<Scalars['String']>>;
-  sToken_not_in?: Maybe<Array<Scalars['String']>>;
-  sToken_contains?: Maybe<Scalars['String']>;
-  sToken_not_contains?: Maybe<Scalars['String']>;
-  sToken_starts_with?: Maybe<Scalars['String']>;
-  sToken_not_starts_with?: Maybe<Scalars['String']>;
-  sToken_ends_with?: Maybe<Scalars['String']>;
-  sToken_not_ends_with?: Maybe<Scalars['String']>;
-  reserveFactor?: Maybe<Scalars['BigInt']>;
-  reserveFactor_not?: Maybe<Scalars['BigInt']>;
-  reserveFactor_gt?: Maybe<Scalars['BigInt']>;
-  reserveFactor_lt?: Maybe<Scalars['BigInt']>;
-  reserveFactor_gte?: Maybe<Scalars['BigInt']>;
-  reserveFactor_lte?: Maybe<Scalars['BigInt']>;
-  reserveFactor_in?: Maybe<Array<Scalars['BigInt']>>;
-  reserveFactor_not_in?: Maybe<Array<Scalars['BigInt']>>;
   lastUpdateTimestamp?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
   lastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
   lastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
   lastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  lastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
   lastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
-  stableDebtLastUpdateTimestamp?: Maybe<Scalars['Int']>;
-  stableDebtLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
-  stableDebtLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
-  stableDebtLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
-  stableDebtLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
-  stableDebtLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
-  stableDebtLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
-  stableDebtLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
-  aEmissionPerSecond?: Maybe<Scalars['BigInt']>;
-  aEmissionPerSecond_not?: Maybe<Scalars['BigInt']>;
-  aEmissionPerSecond_gt?: Maybe<Scalars['BigInt']>;
-  aEmissionPerSecond_lt?: Maybe<Scalars['BigInt']>;
-  aEmissionPerSecond_gte?: Maybe<Scalars['BigInt']>;
-  aEmissionPerSecond_lte?: Maybe<Scalars['BigInt']>;
-  aEmissionPerSecond_in?: Maybe<Array<Scalars['BigInt']>>;
-  aEmissionPerSecond_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  vEmissionPerSecond?: Maybe<Scalars['BigInt']>;
-  vEmissionPerSecond_not?: Maybe<Scalars['BigInt']>;
-  vEmissionPerSecond_gt?: Maybe<Scalars['BigInt']>;
-  vEmissionPerSecond_lt?: Maybe<Scalars['BigInt']>;
-  vEmissionPerSecond_gte?: Maybe<Scalars['BigInt']>;
-  vEmissionPerSecond_lte?: Maybe<Scalars['BigInt']>;
-  vEmissionPerSecond_in?: Maybe<Array<Scalars['BigInt']>>;
-  vEmissionPerSecond_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  sEmissionPerSecond?: Maybe<Scalars['BigInt']>;
-  sEmissionPerSecond_not?: Maybe<Scalars['BigInt']>;
-  sEmissionPerSecond_gt?: Maybe<Scalars['BigInt']>;
-  sEmissionPerSecond_lt?: Maybe<Scalars['BigInt']>;
-  sEmissionPerSecond_gte?: Maybe<Scalars['BigInt']>;
-  sEmissionPerSecond_lte?: Maybe<Scalars['BigInt']>;
-  sEmissionPerSecond_in?: Maybe<Array<Scalars['BigInt']>>;
-  sEmissionPerSecond_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  aTokenIncentivesIndex?: Maybe<Scalars['BigInt']>;
-  aTokenIncentivesIndex_not?: Maybe<Scalars['BigInt']>;
-  aTokenIncentivesIndex_gt?: Maybe<Scalars['BigInt']>;
-  aTokenIncentivesIndex_lt?: Maybe<Scalars['BigInt']>;
-  aTokenIncentivesIndex_gte?: Maybe<Scalars['BigInt']>;
-  aTokenIncentivesIndex_lte?: Maybe<Scalars['BigInt']>;
-  aTokenIncentivesIndex_in?: Maybe<Array<Scalars['BigInt']>>;
-  aTokenIncentivesIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  vTokenIncentivesIndex?: Maybe<Scalars['BigInt']>;
-  vTokenIncentivesIndex_not?: Maybe<Scalars['BigInt']>;
-  vTokenIncentivesIndex_gt?: Maybe<Scalars['BigInt']>;
-  vTokenIncentivesIndex_lt?: Maybe<Scalars['BigInt']>;
-  vTokenIncentivesIndex_gte?: Maybe<Scalars['BigInt']>;
-  vTokenIncentivesIndex_lte?: Maybe<Scalars['BigInt']>;
-  vTokenIncentivesIndex_in?: Maybe<Array<Scalars['BigInt']>>;
-  vTokenIncentivesIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  sTokenIncentivesIndex?: Maybe<Scalars['BigInt']>;
-  sTokenIncentivesIndex_not?: Maybe<Scalars['BigInt']>;
-  sTokenIncentivesIndex_gt?: Maybe<Scalars['BigInt']>;
-  sTokenIncentivesIndex_lt?: Maybe<Scalars['BigInt']>;
-  sTokenIncentivesIndex_gte?: Maybe<Scalars['BigInt']>;
-  sTokenIncentivesIndex_lte?: Maybe<Scalars['BigInt']>;
-  sTokenIncentivesIndex_in?: Maybe<Array<Scalars['BigInt']>>;
-  sTokenIncentivesIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  aIncentivesLastUpdateTimestamp?: Maybe<Scalars['Int']>;
-  aIncentivesLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
-  aIncentivesLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
-  aIncentivesLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
-  aIncentivesLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
-  aIncentivesLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
-  aIncentivesLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
-  aIncentivesLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
-  vIncentivesLastUpdateTimestamp?: Maybe<Scalars['Int']>;
-  vIncentivesLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
-  vIncentivesLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
-  vIncentivesLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
-  vIncentivesLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
-  vIncentivesLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
-  vIncentivesLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
-  vIncentivesLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
-  sIncentivesLastUpdateTimestamp?: Maybe<Scalars['Int']>;
-  sIncentivesLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
-  sIncentivesLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
-  sIncentivesLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
-  sIncentivesLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
-  sIncentivesLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
-  sIncentivesLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
-  sIncentivesLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  lifetimeBorrows?: Maybe<Scalars['BigInt']>;
+  lifetimeBorrows_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeBorrows_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeBorrows_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeBorrows_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeBorrows_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeBorrows_not?: Maybe<Scalars['BigInt']>;
+  lifetimeBorrows_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeCurrentVariableDebt?: Maybe<Scalars['BigInt']>;
+  lifetimeCurrentVariableDebt_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeCurrentVariableDebt_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeCurrentVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeCurrentVariableDebt_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeCurrentVariableDebt_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeCurrentVariableDebt_not?: Maybe<Scalars['BigInt']>;
+  lifetimeCurrentVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeDepositorsInterestEarned?: Maybe<Scalars['BigInt']>;
+  lifetimeDepositorsInterestEarned_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeDepositorsInterestEarned_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeDepositorsInterestEarned_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeDepositorsInterestEarned_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeDepositorsInterestEarned_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeDepositorsInterestEarned_not?: Maybe<Scalars['BigInt']>;
+  lifetimeDepositorsInterestEarned_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeFlashLoanPremium?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoanPremium_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoanPremium_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoanPremium_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeFlashLoanPremium_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoanPremium_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoanPremium_not?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoanPremium_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeFlashLoans?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoans_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoans_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoans_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeFlashLoans_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoans_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoans_not?: Maybe<Scalars['BigInt']>;
+  lifetimeFlashLoans_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeLiquidated?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidated_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidated_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidated_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeLiquidated_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidated_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidated_not?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidated_not_in?: Maybe<Array<Scalars['BigInt']>>;
   lifetimeLiquidity?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidity_not?: Maybe<Scalars['BigInt']>;
   lifetimeLiquidity_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidity_lt?: Maybe<Scalars['BigInt']>;
   lifetimeLiquidity_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidity_lte?: Maybe<Scalars['BigInt']>;
   lifetimeLiquidity_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeLiquidity_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidity_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeLiquidity_not?: Maybe<Scalars['BigInt']>;
   lifetimeLiquidity_not_in?: Maybe<Array<Scalars['BigInt']>>;
   lifetimePrincipalStableDebt?: Maybe<Scalars['BigInt']>;
-  lifetimePrincipalStableDebt_not?: Maybe<Scalars['BigInt']>;
   lifetimePrincipalStableDebt_gt?: Maybe<Scalars['BigInt']>;
-  lifetimePrincipalStableDebt_lt?: Maybe<Scalars['BigInt']>;
   lifetimePrincipalStableDebt_gte?: Maybe<Scalars['BigInt']>;
-  lifetimePrincipalStableDebt_lte?: Maybe<Scalars['BigInt']>;
   lifetimePrincipalStableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimePrincipalStableDebt_lt?: Maybe<Scalars['BigInt']>;
+  lifetimePrincipalStableDebt_lte?: Maybe<Scalars['BigInt']>;
+  lifetimePrincipalStableDebt_not?: Maybe<Scalars['BigInt']>;
   lifetimePrincipalStableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeScaledVariableDebt?: Maybe<Scalars['BigInt']>;
-  lifetimeScaledVariableDebt_not?: Maybe<Scalars['BigInt']>;
-  lifetimeScaledVariableDebt_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeScaledVariableDebt_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeScaledVariableDebt_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeScaledVariableDebt_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeScaledVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeScaledVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeCurrentVariableDebt?: Maybe<Scalars['BigInt']>;
-  lifetimeCurrentVariableDebt_not?: Maybe<Scalars['BigInt']>;
-  lifetimeCurrentVariableDebt_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeCurrentVariableDebt_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeCurrentVariableDebt_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeCurrentVariableDebt_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeCurrentVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeCurrentVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
   lifetimeRepayments?: Maybe<Scalars['BigInt']>;
-  lifetimeRepayments_not?: Maybe<Scalars['BigInt']>;
   lifetimeRepayments_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeRepayments_lt?: Maybe<Scalars['BigInt']>;
   lifetimeRepayments_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeRepayments_lte?: Maybe<Scalars['BigInt']>;
   lifetimeRepayments_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeRepayments_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeRepayments_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeRepayments_not?: Maybe<Scalars['BigInt']>;
   lifetimeRepayments_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeWithdrawals?: Maybe<Scalars['BigInt']>;
-  lifetimeWithdrawals_not?: Maybe<Scalars['BigInt']>;
-  lifetimeWithdrawals_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeWithdrawals_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeWithdrawals_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeWithdrawals_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeWithdrawals_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeWithdrawals_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeBorrows?: Maybe<Scalars['BigInt']>;
-  lifetimeBorrows_not?: Maybe<Scalars['BigInt']>;
-  lifetimeBorrows_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeBorrows_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeBorrows_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeBorrows_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeBorrows_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeBorrows_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeLiquidated?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidated_not?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidated_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidated_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidated_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidated_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeLiquidated_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeLiquidated_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeFlashLoans?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoans_not?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoans_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoans_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoans_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoans_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoans_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeFlashLoans_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeFlashLoanPremium?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoanPremium_not?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoanPremium_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoanPremium_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoanPremium_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoanPremium_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeFlashLoanPremium_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeFlashLoanPremium_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeDepositorsInterestEarned?: Maybe<Scalars['BigInt']>;
-  lifetimeDepositorsInterestEarned_not?: Maybe<Scalars['BigInt']>;
-  lifetimeDepositorsInterestEarned_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeDepositorsInterestEarned_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeDepositorsInterestEarned_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeDepositorsInterestEarned_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeDepositorsInterestEarned_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeDepositorsInterestEarned_not_in?: Maybe<Array<Scalars['BigInt']>>;
   lifetimeReserveFactorAccrued?: Maybe<Scalars['BigInt']>;
-  lifetimeReserveFactorAccrued_not?: Maybe<Scalars['BigInt']>;
   lifetimeReserveFactorAccrued_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeReserveFactorAccrued_lt?: Maybe<Scalars['BigInt']>;
   lifetimeReserveFactorAccrued_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeReserveFactorAccrued_lte?: Maybe<Scalars['BigInt']>;
   lifetimeReserveFactorAccrued_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeReserveFactorAccrued_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeReserveFactorAccrued_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeReserveFactorAccrued_not?: Maybe<Scalars['BigInt']>;
   lifetimeReserveFactorAccrued_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeScaledVariableDebt?: Maybe<Scalars['BigInt']>;
+  lifetimeScaledVariableDebt_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeScaledVariableDebt_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeScaledVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeScaledVariableDebt_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeScaledVariableDebt_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeScaledVariableDebt_not?: Maybe<Scalars['BigInt']>;
+  lifetimeScaledVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeWithdrawals?: Maybe<Scalars['BigInt']>;
+  lifetimeWithdrawals_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeWithdrawals_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeWithdrawals_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeWithdrawals_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeWithdrawals_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeWithdrawals_not?: Maybe<Scalars['BigInt']>;
+  lifetimeWithdrawals_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidityIndex?: Maybe<Scalars['BigInt']>;
+  liquidityIndex_gt?: Maybe<Scalars['BigInt']>;
+  liquidityIndex_gte?: Maybe<Scalars['BigInt']>;
+  liquidityIndex_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidityIndex_lt?: Maybe<Scalars['BigInt']>;
+  liquidityIndex_lte?: Maybe<Scalars['BigInt']>;
+  liquidityIndex_not?: Maybe<Scalars['BigInt']>;
+  liquidityIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidityRate?: Maybe<Scalars['BigInt']>;
+  liquidityRate_gt?: Maybe<Scalars['BigInt']>;
+  liquidityRate_gte?: Maybe<Scalars['BigInt']>;
+  liquidityRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidityRate_lt?: Maybe<Scalars['BigInt']>;
+  liquidityRate_lte?: Maybe<Scalars['BigInt']>;
+  liquidityRate_not?: Maybe<Scalars['BigInt']>;
+  liquidityRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  name?: Maybe<Scalars['String']>;
+  name_contains?: Maybe<Scalars['String']>;
+  name_ends_with?: Maybe<Scalars['String']>;
+  name_gt?: Maybe<Scalars['String']>;
+  name_gte?: Maybe<Scalars['String']>;
+  name_in?: Maybe<Array<Scalars['String']>>;
+  name_lt?: Maybe<Scalars['String']>;
+  name_lte?: Maybe<Scalars['String']>;
+  name_not?: Maybe<Scalars['String']>;
+  name_not_contains?: Maybe<Scalars['String']>;
+  name_not_ends_with?: Maybe<Scalars['String']>;
+  name_not_in?: Maybe<Array<Scalars['String']>>;
+  name_not_starts_with?: Maybe<Scalars['String']>;
+  name_starts_with?: Maybe<Scalars['String']>;
+  optimalUtilisationRate?: Maybe<Scalars['BigInt']>;
+  optimalUtilisationRate_gt?: Maybe<Scalars['BigInt']>;
+  optimalUtilisationRate_gte?: Maybe<Scalars['BigInt']>;
+  optimalUtilisationRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  optimalUtilisationRate_lt?: Maybe<Scalars['BigInt']>;
+  optimalUtilisationRate_lte?: Maybe<Scalars['BigInt']>;
+  optimalUtilisationRate_not?: Maybe<Scalars['BigInt']>;
+  optimalUtilisationRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  pool?: Maybe<Scalars['String']>;
+  pool_contains?: Maybe<Scalars['String']>;
+  pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
+  pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['String']>;
+  price_contains?: Maybe<Scalars['String']>;
+  price_ends_with?: Maybe<Scalars['String']>;
+  price_gt?: Maybe<Scalars['String']>;
+  price_gte?: Maybe<Scalars['String']>;
+  price_in?: Maybe<Array<Scalars['String']>>;
+  price_lt?: Maybe<Scalars['String']>;
+  price_lte?: Maybe<Scalars['String']>;
+  price_not?: Maybe<Scalars['String']>;
+  price_not_contains?: Maybe<Scalars['String']>;
+  price_not_ends_with?: Maybe<Scalars['String']>;
+  price_not_in?: Maybe<Array<Scalars['String']>>;
+  price_not_starts_with?: Maybe<Scalars['String']>;
+  price_starts_with?: Maybe<Scalars['String']>;
+  reserveFactor?: Maybe<Scalars['BigInt']>;
+  reserveFactor_gt?: Maybe<Scalars['BigInt']>;
+  reserveFactor_gte?: Maybe<Scalars['BigInt']>;
+  reserveFactor_in?: Maybe<Array<Scalars['BigInt']>>;
+  reserveFactor_lt?: Maybe<Scalars['BigInt']>;
+  reserveFactor_lte?: Maybe<Scalars['BigInt']>;
+  reserveFactor_not?: Maybe<Scalars['BigInt']>;
+  reserveFactor_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  reserveInterestRateStrategy?: Maybe<Scalars['Bytes']>;
+  reserveInterestRateStrategy_contains?: Maybe<Scalars['Bytes']>;
+  reserveInterestRateStrategy_in?: Maybe<Array<Scalars['Bytes']>>;
+  reserveInterestRateStrategy_not?: Maybe<Scalars['Bytes']>;
+  reserveInterestRateStrategy_not_contains?: Maybe<Scalars['Bytes']>;
+  reserveInterestRateStrategy_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  reserveLiquidationBonus?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationBonus_gt?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationBonus_gte?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationBonus_in?: Maybe<Array<Scalars['BigInt']>>;
+  reserveLiquidationBonus_lt?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationBonus_lte?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationBonus_not?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationBonus_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  reserveLiquidationThreshold?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationThreshold_gt?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationThreshold_gte?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationThreshold_in?: Maybe<Array<Scalars['BigInt']>>;
+  reserveLiquidationThreshold_lt?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationThreshold_lte?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationThreshold_not?: Maybe<Scalars['BigInt']>;
+  reserveLiquidationThreshold_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  sEmissionPerSecond?: Maybe<Scalars['BigInt']>;
+  sEmissionPerSecond_gt?: Maybe<Scalars['BigInt']>;
+  sEmissionPerSecond_gte?: Maybe<Scalars['BigInt']>;
+  sEmissionPerSecond_in?: Maybe<Array<Scalars['BigInt']>>;
+  sEmissionPerSecond_lt?: Maybe<Scalars['BigInt']>;
+  sEmissionPerSecond_lte?: Maybe<Scalars['BigInt']>;
+  sEmissionPerSecond_not?: Maybe<Scalars['BigInt']>;
+  sEmissionPerSecond_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  sIncentivesLastUpdateTimestamp?: Maybe<Scalars['Int']>;
+  sIncentivesLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
+  sIncentivesLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
+  sIncentivesLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  sIncentivesLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
+  sIncentivesLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
+  sIncentivesLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
+  sIncentivesLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  sToken?: Maybe<Scalars['String']>;
+  sTokenIncentivesIndex?: Maybe<Scalars['BigInt']>;
+  sTokenIncentivesIndex_gt?: Maybe<Scalars['BigInt']>;
+  sTokenIncentivesIndex_gte?: Maybe<Scalars['BigInt']>;
+  sTokenIncentivesIndex_in?: Maybe<Array<Scalars['BigInt']>>;
+  sTokenIncentivesIndex_lt?: Maybe<Scalars['BigInt']>;
+  sTokenIncentivesIndex_lte?: Maybe<Scalars['BigInt']>;
+  sTokenIncentivesIndex_not?: Maybe<Scalars['BigInt']>;
+  sTokenIncentivesIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  sToken_contains?: Maybe<Scalars['String']>;
+  sToken_ends_with?: Maybe<Scalars['String']>;
+  sToken_gt?: Maybe<Scalars['String']>;
+  sToken_gte?: Maybe<Scalars['String']>;
+  sToken_in?: Maybe<Array<Scalars['String']>>;
+  sToken_lt?: Maybe<Scalars['String']>;
+  sToken_lte?: Maybe<Scalars['String']>;
+  sToken_not?: Maybe<Scalars['String']>;
+  sToken_not_contains?: Maybe<Scalars['String']>;
+  sToken_not_ends_with?: Maybe<Scalars['String']>;
+  sToken_not_in?: Maybe<Array<Scalars['String']>>;
+  sToken_not_starts_with?: Maybe<Scalars['String']>;
+  sToken_starts_with?: Maybe<Scalars['String']>;
+  stableBorrowRate?: Maybe<Scalars['BigInt']>;
+  stableBorrowRateEnabled?: Maybe<Scalars['Boolean']>;
+  stableBorrowRateEnabled_in?: Maybe<Array<Scalars['Boolean']>>;
+  stableBorrowRateEnabled_not?: Maybe<Scalars['Boolean']>;
+  stableBorrowRateEnabled_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  stableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  stableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_not?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  stableDebtLastUpdateTimestamp?: Maybe<Scalars['Int']>;
+  stableDebtLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
+  stableDebtLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
+  stableDebtLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  stableDebtLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
+  stableDebtLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
+  stableDebtLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
+  stableDebtLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  stableRateSlope1?: Maybe<Scalars['BigInt']>;
+  stableRateSlope1_gt?: Maybe<Scalars['BigInt']>;
+  stableRateSlope1_gte?: Maybe<Scalars['BigInt']>;
+  stableRateSlope1_in?: Maybe<Array<Scalars['BigInt']>>;
+  stableRateSlope1_lt?: Maybe<Scalars['BigInt']>;
+  stableRateSlope1_lte?: Maybe<Scalars['BigInt']>;
+  stableRateSlope1_not?: Maybe<Scalars['BigInt']>;
+  stableRateSlope1_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  stableRateSlope2?: Maybe<Scalars['BigInt']>;
+  stableRateSlope2_gt?: Maybe<Scalars['BigInt']>;
+  stableRateSlope2_gte?: Maybe<Scalars['BigInt']>;
+  stableRateSlope2_in?: Maybe<Array<Scalars['BigInt']>>;
+  stableRateSlope2_lt?: Maybe<Scalars['BigInt']>;
+  stableRateSlope2_lte?: Maybe<Scalars['BigInt']>;
+  stableRateSlope2_not?: Maybe<Scalars['BigInt']>;
+  stableRateSlope2_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  symbol?: Maybe<Scalars['String']>;
+  symbol_contains?: Maybe<Scalars['String']>;
+  symbol_ends_with?: Maybe<Scalars['String']>;
+  symbol_gt?: Maybe<Scalars['String']>;
+  symbol_gte?: Maybe<Scalars['String']>;
+  symbol_in?: Maybe<Array<Scalars['String']>>;
+  symbol_lt?: Maybe<Scalars['String']>;
+  symbol_lte?: Maybe<Scalars['String']>;
+  symbol_not?: Maybe<Scalars['String']>;
+  symbol_not_contains?: Maybe<Scalars['String']>;
+  symbol_not_ends_with?: Maybe<Scalars['String']>;
+  symbol_not_in?: Maybe<Array<Scalars['String']>>;
+  symbol_not_starts_with?: Maybe<Scalars['String']>;
+  symbol_starts_with?: Maybe<Scalars['String']>;
+  totalATokenSupply?: Maybe<Scalars['BigInt']>;
+  totalATokenSupply_gt?: Maybe<Scalars['BigInt']>;
+  totalATokenSupply_gte?: Maybe<Scalars['BigInt']>;
+  totalATokenSupply_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalATokenSupply_lt?: Maybe<Scalars['BigInt']>;
+  totalATokenSupply_lte?: Maybe<Scalars['BigInt']>;
+  totalATokenSupply_not?: Maybe<Scalars['BigInt']>;
+  totalATokenSupply_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalCurrentVariableDebt?: Maybe<Scalars['BigInt']>;
+  totalCurrentVariableDebt_gt?: Maybe<Scalars['BigInt']>;
+  totalCurrentVariableDebt_gte?: Maybe<Scalars['BigInt']>;
+  totalCurrentVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalCurrentVariableDebt_lt?: Maybe<Scalars['BigInt']>;
+  totalCurrentVariableDebt_lte?: Maybe<Scalars['BigInt']>;
+  totalCurrentVariableDebt_not?: Maybe<Scalars['BigInt']>;
+  totalCurrentVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalDeposits?: Maybe<Scalars['BigInt']>;
+  totalDeposits_gt?: Maybe<Scalars['BigInt']>;
+  totalDeposits_gte?: Maybe<Scalars['BigInt']>;
+  totalDeposits_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalDeposits_lt?: Maybe<Scalars['BigInt']>;
+  totalDeposits_lte?: Maybe<Scalars['BigInt']>;
+  totalDeposits_not?: Maybe<Scalars['BigInt']>;
+  totalDeposits_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalLiquidity?: Maybe<Scalars['BigInt']>;
+  totalLiquidityAsCollateral?: Maybe<Scalars['BigInt']>;
+  totalLiquidityAsCollateral_gt?: Maybe<Scalars['BigInt']>;
+  totalLiquidityAsCollateral_gte?: Maybe<Scalars['BigInt']>;
+  totalLiquidityAsCollateral_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalLiquidityAsCollateral_lt?: Maybe<Scalars['BigInt']>;
+  totalLiquidityAsCollateral_lte?: Maybe<Scalars['BigInt']>;
+  totalLiquidityAsCollateral_not?: Maybe<Scalars['BigInt']>;
+  totalLiquidityAsCollateral_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalLiquidity_gt?: Maybe<Scalars['BigInt']>;
+  totalLiquidity_gte?: Maybe<Scalars['BigInt']>;
+  totalLiquidity_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalLiquidity_lt?: Maybe<Scalars['BigInt']>;
+  totalLiquidity_lte?: Maybe<Scalars['BigInt']>;
+  totalLiquidity_not?: Maybe<Scalars['BigInt']>;
+  totalLiquidity_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalPrincipalStableDebt?: Maybe<Scalars['BigInt']>;
+  totalPrincipalStableDebt_gt?: Maybe<Scalars['BigInt']>;
+  totalPrincipalStableDebt_gte?: Maybe<Scalars['BigInt']>;
+  totalPrincipalStableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalPrincipalStableDebt_lt?: Maybe<Scalars['BigInt']>;
+  totalPrincipalStableDebt_lte?: Maybe<Scalars['BigInt']>;
+  totalPrincipalStableDebt_not?: Maybe<Scalars['BigInt']>;
+  totalPrincipalStableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalScaledVariableDebt?: Maybe<Scalars['BigInt']>;
+  totalScaledVariableDebt_gt?: Maybe<Scalars['BigInt']>;
+  totalScaledVariableDebt_gte?: Maybe<Scalars['BigInt']>;
+  totalScaledVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  totalScaledVariableDebt_lt?: Maybe<Scalars['BigInt']>;
+  totalScaledVariableDebt_lte?: Maybe<Scalars['BigInt']>;
+  totalScaledVariableDebt_not?: Maybe<Scalars['BigInt']>;
+  totalScaledVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  underlyingAsset?: Maybe<Scalars['Bytes']>;
+  underlyingAsset_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAsset_in?: Maybe<Array<Scalars['Bytes']>>;
+  underlyingAsset_not?: Maybe<Scalars['Bytes']>;
+  underlyingAsset_not_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAsset_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  usageAsCollateralEnabled?: Maybe<Scalars['Boolean']>;
+  usageAsCollateralEnabled_in?: Maybe<Array<Scalars['Boolean']>>;
+  usageAsCollateralEnabled_not?: Maybe<Scalars['Boolean']>;
+  usageAsCollateralEnabled_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  utilizationRate?: Maybe<Scalars['BigDecimal']>;
+  utilizationRate_gt?: Maybe<Scalars['BigDecimal']>;
+  utilizationRate_gte?: Maybe<Scalars['BigDecimal']>;
+  utilizationRate_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  utilizationRate_lt?: Maybe<Scalars['BigDecimal']>;
+  utilizationRate_lte?: Maybe<Scalars['BigDecimal']>;
+  utilizationRate_not?: Maybe<Scalars['BigDecimal']>;
+  utilizationRate_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+  vEmissionPerSecond?: Maybe<Scalars['BigInt']>;
+  vEmissionPerSecond_gt?: Maybe<Scalars['BigInt']>;
+  vEmissionPerSecond_gte?: Maybe<Scalars['BigInt']>;
+  vEmissionPerSecond_in?: Maybe<Array<Scalars['BigInt']>>;
+  vEmissionPerSecond_lt?: Maybe<Scalars['BigInt']>;
+  vEmissionPerSecond_lte?: Maybe<Scalars['BigInt']>;
+  vEmissionPerSecond_not?: Maybe<Scalars['BigInt']>;
+  vEmissionPerSecond_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  vIncentivesLastUpdateTimestamp?: Maybe<Scalars['Int']>;
+  vIncentivesLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
+  vIncentivesLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
+  vIncentivesLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  vIncentivesLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
+  vIncentivesLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
+  vIncentivesLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
+  vIncentivesLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  vToken?: Maybe<Scalars['String']>;
+  vTokenIncentivesIndex?: Maybe<Scalars['BigInt']>;
+  vTokenIncentivesIndex_gt?: Maybe<Scalars['BigInt']>;
+  vTokenIncentivesIndex_gte?: Maybe<Scalars['BigInt']>;
+  vTokenIncentivesIndex_in?: Maybe<Array<Scalars['BigInt']>>;
+  vTokenIncentivesIndex_lt?: Maybe<Scalars['BigInt']>;
+  vTokenIncentivesIndex_lte?: Maybe<Scalars['BigInt']>;
+  vTokenIncentivesIndex_not?: Maybe<Scalars['BigInt']>;
+  vTokenIncentivesIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  vToken_contains?: Maybe<Scalars['String']>;
+  vToken_ends_with?: Maybe<Scalars['String']>;
+  vToken_gt?: Maybe<Scalars['String']>;
+  vToken_gte?: Maybe<Scalars['String']>;
+  vToken_in?: Maybe<Array<Scalars['String']>>;
+  vToken_lt?: Maybe<Scalars['String']>;
+  vToken_lte?: Maybe<Scalars['String']>;
+  vToken_not?: Maybe<Scalars['String']>;
+  vToken_not_contains?: Maybe<Scalars['String']>;
+  vToken_not_ends_with?: Maybe<Scalars['String']>;
+  vToken_not_in?: Maybe<Array<Scalars['String']>>;
+  vToken_not_starts_with?: Maybe<Scalars['String']>;
+  vToken_starts_with?: Maybe<Scalars['String']>;
+  variableBorrowIndex?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_gt?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_gte?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_in?: Maybe<Array<Scalars['BigInt']>>;
+  variableBorrowIndex_lt?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_lte?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_not?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  variableBorrowRate?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  variableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_not?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  variableRateSlope1?: Maybe<Scalars['BigInt']>;
+  variableRateSlope1_gt?: Maybe<Scalars['BigInt']>;
+  variableRateSlope1_gte?: Maybe<Scalars['BigInt']>;
+  variableRateSlope1_in?: Maybe<Array<Scalars['BigInt']>>;
+  variableRateSlope1_lt?: Maybe<Scalars['BigInt']>;
+  variableRateSlope1_lte?: Maybe<Scalars['BigInt']>;
+  variableRateSlope1_not?: Maybe<Scalars['BigInt']>;
+  variableRateSlope1_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  variableRateSlope2?: Maybe<Scalars['BigInt']>;
+  variableRateSlope2_gt?: Maybe<Scalars['BigInt']>;
+  variableRateSlope2_gte?: Maybe<Scalars['BigInt']>;
+  variableRateSlope2_in?: Maybe<Array<Scalars['BigInt']>>;
+  variableRateSlope2_lt?: Maybe<Scalars['BigInt']>;
+  variableRateSlope2_lte?: Maybe<Scalars['BigInt']>;
+  variableRateSlope2_not?: Maybe<Scalars['BigInt']>;
+  variableRateSlope2_not_in?: Maybe<Array<Scalars['BigInt']>>;
 };
 
 export enum Reserve_OrderBy {
-  Id = 'id',
-  UnderlyingAsset = 'underlyingAsset',
-  Pool = 'pool',
-  Symbol = 'symbol',
-  Name = 'name',
-  Decimals = 'decimals',
-  UsageAsCollateralEnabled = 'usageAsCollateralEnabled',
+  AEmissionPerSecond = 'aEmissionPerSecond',
+  AIncentivesLastUpdateTimestamp = 'aIncentivesLastUpdateTimestamp',
+  AToken = 'aToken',
+  ATokenIncentivesIndex = 'aTokenIncentivesIndex',
+  AvailableLiquidity = 'availableLiquidity',
+  AverageStableRate = 'averageStableRate',
+  BaseLtVasCollateral = 'baseLTVasCollateral',
+  BaseVariableBorrowRate = 'baseVariableBorrowRate',
+  BorrowHistory = 'borrowHistory',
   BorrowingEnabled = 'borrowingEnabled',
-  StableBorrowRateEnabled = 'stableBorrowRateEnabled',
+  ConfigurationHistory = 'configurationHistory',
+  Decimals = 'decimals',
+  DepositHistory = 'depositHistory',
+  Deposits = 'deposits',
+  FlashLoanHistory = 'flashLoanHistory',
+  Id = 'id',
   IsActive = 'isActive',
   IsFrozen = 'isFrozen',
-  Price = 'price',
-  ReserveInterestRateStrategy = 'reserveInterestRateStrategy',
-  OptimalUtilisationRate = 'optimalUtilisationRate',
-  VariableRateSlope1 = 'variableRateSlope1',
-  VariableRateSlope2 = 'variableRateSlope2',
-  StableRateSlope1 = 'stableRateSlope1',
-  StableRateSlope2 = 'stableRateSlope2',
-  BaseVariableBorrowRate = 'baseVariableBorrowRate',
-  BaseLtVasCollateral = 'baseLTVasCollateral',
-  ReserveLiquidationThreshold = 'reserveLiquidationThreshold',
-  ReserveLiquidationBonus = 'reserveLiquidationBonus',
-  UtilizationRate = 'utilizationRate',
-  TotalLiquidity = 'totalLiquidity',
-  TotalATokenSupply = 'totalATokenSupply',
-  TotalLiquidityAsCollateral = 'totalLiquidityAsCollateral',
-  AvailableLiquidity = 'availableLiquidity',
-  TotalPrincipalStableDebt = 'totalPrincipalStableDebt',
-  TotalScaledVariableDebt = 'totalScaledVariableDebt',
-  TotalCurrentVariableDebt = 'totalCurrentVariableDebt',
-  TotalDeposits = 'totalDeposits',
-  LiquidityRate = 'liquidityRate',
-  AverageStableRate = 'averageStableRate',
-  VariableBorrowRate = 'variableBorrowRate',
-  StableBorrowRate = 'stableBorrowRate',
-  LiquidityIndex = 'liquidityIndex',
-  VariableBorrowIndex = 'variableBorrowIndex',
-  AToken = 'aToken',
-  VToken = 'vToken',
-  SToken = 'sToken',
-  ReserveFactor = 'reserveFactor',
   LastUpdateTimestamp = 'lastUpdateTimestamp',
-  StableDebtLastUpdateTimestamp = 'stableDebtLastUpdateTimestamp',
-  AEmissionPerSecond = 'aEmissionPerSecond',
-  VEmissionPerSecond = 'vEmissionPerSecond',
-  SEmissionPerSecond = 'sEmissionPerSecond',
-  ATokenIncentivesIndex = 'aTokenIncentivesIndex',
-  VTokenIncentivesIndex = 'vTokenIncentivesIndex',
-  STokenIncentivesIndex = 'sTokenIncentivesIndex',
-  AIncentivesLastUpdateTimestamp = 'aIncentivesLastUpdateTimestamp',
-  VIncentivesLastUpdateTimestamp = 'vIncentivesLastUpdateTimestamp',
-  SIncentivesLastUpdateTimestamp = 'sIncentivesLastUpdateTimestamp',
+  LifetimeBorrows = 'lifetimeBorrows',
+  LifetimeCurrentVariableDebt = 'lifetimeCurrentVariableDebt',
+  LifetimeDepositorsInterestEarned = 'lifetimeDepositorsInterestEarned',
+  LifetimeFlashLoanPremium = 'lifetimeFlashLoanPremium',
+  LifetimeFlashLoans = 'lifetimeFlashLoans',
+  LifetimeLiquidated = 'lifetimeLiquidated',
   LifetimeLiquidity = 'lifetimeLiquidity',
   LifetimePrincipalStableDebt = 'lifetimePrincipalStableDebt',
-  LifetimeScaledVariableDebt = 'lifetimeScaledVariableDebt',
-  LifetimeCurrentVariableDebt = 'lifetimeCurrentVariableDebt',
   LifetimeRepayments = 'lifetimeRepayments',
-  LifetimeWithdrawals = 'lifetimeWithdrawals',
-  LifetimeBorrows = 'lifetimeBorrows',
-  LifetimeLiquidated = 'lifetimeLiquidated',
-  LifetimeFlashLoans = 'lifetimeFlashLoans',
-  LifetimeFlashLoanPremium = 'lifetimeFlashLoanPremium',
-  LifetimeDepositorsInterestEarned = 'lifetimeDepositorsInterestEarned',
   LifetimeReserveFactorAccrued = 'lifetimeReserveFactorAccrued',
-  UserReserves = 'userReserves',
-  DepositHistory = 'depositHistory',
-  RedeemUnderlyingHistory = 'redeemUnderlyingHistory',
-  BorrowHistory = 'borrowHistory',
-  UsageAsCollateralHistory = 'usageAsCollateralHistory',
-  SwapHistory = 'swapHistory',
-  RebalanceStableBorrowRateHistory = 'rebalanceStableBorrowRateHistory',
-  RepayHistory = 'repayHistory',
-  FlashLoanHistory = 'flashLoanHistory',
+  LifetimeScaledVariableDebt = 'lifetimeScaledVariableDebt',
+  LifetimeWithdrawals = 'lifetimeWithdrawals',
   LiquidationCallHistory = 'liquidationCallHistory',
+  LiquidityIndex = 'liquidityIndex',
+  LiquidityRate = 'liquidityRate',
+  Name = 'name',
+  OptimalUtilisationRate = 'optimalUtilisationRate',
   OriginationFeeLiquidationHistory = 'originationFeeLiquidationHistory',
   ParamsHistory = 'paramsHistory',
-  ConfigurationHistory = 'configurationHistory',
-  Deposits = 'deposits',
+  Pool = 'pool',
+  Price = 'price',
+  RebalanceStableBorrowRateHistory = 'rebalanceStableBorrowRateHistory',
+  RedeemUnderlyingHistory = 'redeemUnderlyingHistory',
+  RepayHistory = 'repayHistory',
+  ReserveFactor = 'reserveFactor',
+  ReserveInterestRateStrategy = 'reserveInterestRateStrategy',
+  ReserveLiquidationBonus = 'reserveLiquidationBonus',
+  ReserveLiquidationThreshold = 'reserveLiquidationThreshold',
+  SEmissionPerSecond = 'sEmissionPerSecond',
+  SIncentivesLastUpdateTimestamp = 'sIncentivesLastUpdateTimestamp',
+  SToken = 'sToken',
+  STokenIncentivesIndex = 'sTokenIncentivesIndex',
+  StableBorrowRate = 'stableBorrowRate',
+  StableBorrowRateEnabled = 'stableBorrowRateEnabled',
+  StableDebtLastUpdateTimestamp = 'stableDebtLastUpdateTimestamp',
+  StableRateSlope1 = 'stableRateSlope1',
+  StableRateSlope2 = 'stableRateSlope2',
+  SwapHistory = 'swapHistory',
+  Symbol = 'symbol',
+  TotalATokenSupply = 'totalATokenSupply',
+  TotalCurrentVariableDebt = 'totalCurrentVariableDebt',
+  TotalDeposits = 'totalDeposits',
+  TotalLiquidity = 'totalLiquidity',
+  TotalLiquidityAsCollateral = 'totalLiquidityAsCollateral',
+  TotalPrincipalStableDebt = 'totalPrincipalStableDebt',
+  TotalScaledVariableDebt = 'totalScaledVariableDebt',
+  UnderlyingAsset = 'underlyingAsset',
+  UsageAsCollateralEnabled = 'usageAsCollateralEnabled',
+  UsageAsCollateralHistory = 'usageAsCollateralHistory',
+  UserReserves = 'userReserves',
+  UtilizationRate = 'utilizationRate',
+  VEmissionPerSecond = 'vEmissionPerSecond',
+  VIncentivesLastUpdateTimestamp = 'vIncentivesLastUpdateTimestamp',
+  VToken = 'vToken',
+  VTokenIncentivesIndex = 'vTokenIncentivesIndex',
+  VariableBorrowIndex = 'variableBorrowIndex',
+  VariableBorrowRate = 'variableBorrowRate',
+  VariableRateSlope1 = 'variableRateSlope1',
+  VariableRateSlope2 = 'variableRateSlope2',
 }
 
 export type SToken = {
   __typename?: 'SToken';
-  /** SToken address */
+  /**
+   * SToken address
+   *
+   */
   id: Scalars['ID'];
   pool: Pool;
+  tokenContractImpl: Scalars['Bytes'];
   underlyingAssetAddress: Scalars['Bytes'];
   underlyingAssetDecimals: Scalars['Int'];
-  tokenContractImpl: Scalars['Bytes'];
 };
 
 export type STokenBalanceHistoryItem = {
   __typename?: 'STokenBalanceHistoryItem';
-  /** userReserve + txHash */
-  id: Scalars['ID'];
-  userReserve: UserReserve;
-  principalStableDebt: Scalars['BigInt'];
-  currentStableDebt: Scalars['BigInt'];
-  timestamp: Scalars['Int'];
   avgStableBorrowRate: Scalars['BigInt'];
+  currentStableDebt: Scalars['BigInt'];
+  /**
+   * userReserve + txHash
+   *
+   */
+  id: Scalars['ID'];
+  principalStableDebt: Scalars['BigInt'];
+  timestamp: Scalars['Int'];
+  userReserve: UserReserve;
 };
 
 export type STokenBalanceHistoryItem_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  userReserve?: Maybe<Scalars['String']>;
-  userReserve_not?: Maybe<Scalars['String']>;
-  userReserve_gt?: Maybe<Scalars['String']>;
-  userReserve_lt?: Maybe<Scalars['String']>;
-  userReserve_gte?: Maybe<Scalars['String']>;
-  userReserve_lte?: Maybe<Scalars['String']>;
-  userReserve_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_contains?: Maybe<Scalars['String']>;
-  userReserve_not_contains?: Maybe<Scalars['String']>;
-  userReserve_starts_with?: Maybe<Scalars['String']>;
-  userReserve_not_starts_with?: Maybe<Scalars['String']>;
-  userReserve_ends_with?: Maybe<Scalars['String']>;
-  userReserve_not_ends_with?: Maybe<Scalars['String']>;
-  principalStableDebt?: Maybe<Scalars['BigInt']>;
-  principalStableDebt_not?: Maybe<Scalars['BigInt']>;
-  principalStableDebt_gt?: Maybe<Scalars['BigInt']>;
-  principalStableDebt_lt?: Maybe<Scalars['BigInt']>;
-  principalStableDebt_gte?: Maybe<Scalars['BigInt']>;
-  principalStableDebt_lte?: Maybe<Scalars['BigInt']>;
-  principalStableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  principalStableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  currentStableDebt?: Maybe<Scalars['BigInt']>;
-  currentStableDebt_not?: Maybe<Scalars['BigInt']>;
-  currentStableDebt_gt?: Maybe<Scalars['BigInt']>;
-  currentStableDebt_lt?: Maybe<Scalars['BigInt']>;
-  currentStableDebt_gte?: Maybe<Scalars['BigInt']>;
-  currentStableDebt_lte?: Maybe<Scalars['BigInt']>;
-  currentStableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  currentStableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
-  timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
-  timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
-  timestamp_in?: Maybe<Array<Scalars['Int']>>;
-  timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
   avgStableBorrowRate?: Maybe<Scalars['BigInt']>;
-  avgStableBorrowRate_not?: Maybe<Scalars['BigInt']>;
   avgStableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
-  avgStableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
   avgStableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
-  avgStableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
   avgStableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  avgStableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
+  avgStableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
+  avgStableBorrowRate_not?: Maybe<Scalars['BigInt']>;
   avgStableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  currentStableDebt?: Maybe<Scalars['BigInt']>;
+  currentStableDebt_gt?: Maybe<Scalars['BigInt']>;
+  currentStableDebt_gte?: Maybe<Scalars['BigInt']>;
+  currentStableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  currentStableDebt_lt?: Maybe<Scalars['BigInt']>;
+  currentStableDebt_lte?: Maybe<Scalars['BigInt']>;
+  currentStableDebt_not?: Maybe<Scalars['BigInt']>;
+  currentStableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  principalStableDebt?: Maybe<Scalars['BigInt']>;
+  principalStableDebt_gt?: Maybe<Scalars['BigInt']>;
+  principalStableDebt_gte?: Maybe<Scalars['BigInt']>;
+  principalStableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  principalStableDebt_lt?: Maybe<Scalars['BigInt']>;
+  principalStableDebt_lte?: Maybe<Scalars['BigInt']>;
+  principalStableDebt_not?: Maybe<Scalars['BigInt']>;
+  principalStableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  timestamp?: Maybe<Scalars['Int']>;
+  timestamp_gt?: Maybe<Scalars['Int']>;
+  timestamp_gte?: Maybe<Scalars['Int']>;
+  timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
+  timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  userReserve?: Maybe<Scalars['String']>;
+  userReserve_contains?: Maybe<Scalars['String']>;
+  userReserve_ends_with?: Maybe<Scalars['String']>;
+  userReserve_gt?: Maybe<Scalars['String']>;
+  userReserve_gte?: Maybe<Scalars['String']>;
+  userReserve_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_lt?: Maybe<Scalars['String']>;
+  userReserve_lte?: Maybe<Scalars['String']>;
+  userReserve_not?: Maybe<Scalars['String']>;
+  userReserve_not_contains?: Maybe<Scalars['String']>;
+  userReserve_not_ends_with?: Maybe<Scalars['String']>;
+  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_not_starts_with?: Maybe<Scalars['String']>;
+  userReserve_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum STokenBalanceHistoryItem_OrderBy {
-  Id = 'id',
-  UserReserve = 'userReserve',
-  PrincipalStableDebt = 'principalStableDebt',
-  CurrentStableDebt = 'currentStableDebt',
-  Timestamp = 'timestamp',
   AvgStableBorrowRate = 'avgStableBorrowRate',
+  CurrentStableDebt = 'currentStableDebt',
+  Id = 'id',
+  PrincipalStableDebt = 'principalStableDebt',
+  Timestamp = 'timestamp',
+  UserReserve = 'userReserve',
 }
 
 export type SToken_Filter = {
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
   pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
   pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
   pool_not_ends_with?: Maybe<Scalars['String']>;
-  underlyingAssetAddress?: Maybe<Scalars['Bytes']>;
-  underlyingAssetAddress_not?: Maybe<Scalars['Bytes']>;
-  underlyingAssetAddress_in?: Maybe<Array<Scalars['Bytes']>>;
-  underlyingAssetAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  underlyingAssetAddress_contains?: Maybe<Scalars['Bytes']>;
-  underlyingAssetAddress_not_contains?: Maybe<Scalars['Bytes']>;
-  underlyingAssetDecimals?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_not?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_gt?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_lt?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_gte?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_lte?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_in?: Maybe<Array<Scalars['Int']>>;
-  underlyingAssetDecimals_not_in?: Maybe<Array<Scalars['Int']>>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
   tokenContractImpl?: Maybe<Scalars['Bytes']>;
-  tokenContractImpl_not?: Maybe<Scalars['Bytes']>;
-  tokenContractImpl_in?: Maybe<Array<Scalars['Bytes']>>;
-  tokenContractImpl_not_in?: Maybe<Array<Scalars['Bytes']>>;
   tokenContractImpl_contains?: Maybe<Scalars['Bytes']>;
+  tokenContractImpl_in?: Maybe<Array<Scalars['Bytes']>>;
+  tokenContractImpl_not?: Maybe<Scalars['Bytes']>;
   tokenContractImpl_not_contains?: Maybe<Scalars['Bytes']>;
+  tokenContractImpl_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  underlyingAssetAddress?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_in?: Maybe<Array<Scalars['Bytes']>>;
+  underlyingAssetAddress_not?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_not_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  underlyingAssetDecimals?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_gt?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_gte?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_in?: Maybe<Array<Scalars['Int']>>;
+  underlyingAssetDecimals_lt?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_lte?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_not?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_not_in?: Maybe<Array<Scalars['Int']>>;
 };
 
 export enum SToken_OrderBy {
   Id = 'id',
   Pool = 'pool',
+  TokenContractImpl = 'tokenContractImpl',
   UnderlyingAssetAddress = 'underlyingAssetAddress',
   UnderlyingAssetDecimals = 'underlyingAssetDecimals',
-  TokenContractImpl = 'tokenContractImpl',
 }
 
 export type StableDebtToken = {
   __typename?: 'StableDebtToken';
-  /** StableDebtToken address */
+  /**
+   * StableDebtToken address
+   *
+   */
   id: Scalars['ID'];
   pool: Pool;
   underlyingAssetAddress: Scalars['Bytes'];
@@ -4567,40 +4753,40 @@ export type StableDebtToken = {
 
 export type StableDebtToken_Filter = {
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
   pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
   pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
   pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
   underlyingAssetAddress?: Maybe<Scalars['Bytes']>;
-  underlyingAssetAddress_not?: Maybe<Scalars['Bytes']>;
-  underlyingAssetAddress_in?: Maybe<Array<Scalars['Bytes']>>;
-  underlyingAssetAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
   underlyingAssetAddress_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_in?: Maybe<Array<Scalars['Bytes']>>;
+  underlyingAssetAddress_not?: Maybe<Scalars['Bytes']>;
   underlyingAssetAddress_not_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
   underlyingAssetDecimals?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_not?: Maybe<Scalars['Int']>;
   underlyingAssetDecimals_gt?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_lt?: Maybe<Scalars['Int']>;
   underlyingAssetDecimals_gte?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_lte?: Maybe<Scalars['Int']>;
   underlyingAssetDecimals_in?: Maybe<Array<Scalars['Int']>>;
+  underlyingAssetDecimals_lt?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_lte?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_not?: Maybe<Scalars['Int']>;
   underlyingAssetDecimals_not_in?: Maybe<Array<Scalars['Int']>>;
 };
 
@@ -4613,93 +4799,96 @@ export enum StableDebtToken_OrderBy {
 
 export type StableTokenDelegatedAllowance = {
   __typename?: 'StableTokenDelegatedAllowance';
-  /** stable + fromuser address + touser address+ reserve address */
-  id: Scalars['ID'];
-  fromUser: User;
-  toUser: User;
   amountAllowed: Scalars['BigInt'];
+  fromUser: User;
+  /**
+   * stable + fromuser address + touser address+ reserve address
+   *
+   */
+  id: Scalars['ID'];
+  toUser: User;
   userReserve: UserReserve;
 };
 
 export type StableTokenDelegatedAllowance_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  fromUser?: Maybe<Scalars['String']>;
-  fromUser_not?: Maybe<Scalars['String']>;
-  fromUser_gt?: Maybe<Scalars['String']>;
-  fromUser_lt?: Maybe<Scalars['String']>;
-  fromUser_gte?: Maybe<Scalars['String']>;
-  fromUser_lte?: Maybe<Scalars['String']>;
-  fromUser_in?: Maybe<Array<Scalars['String']>>;
-  fromUser_not_in?: Maybe<Array<Scalars['String']>>;
-  fromUser_contains?: Maybe<Scalars['String']>;
-  fromUser_not_contains?: Maybe<Scalars['String']>;
-  fromUser_starts_with?: Maybe<Scalars['String']>;
-  fromUser_not_starts_with?: Maybe<Scalars['String']>;
-  fromUser_ends_with?: Maybe<Scalars['String']>;
-  fromUser_not_ends_with?: Maybe<Scalars['String']>;
-  toUser?: Maybe<Scalars['String']>;
-  toUser_not?: Maybe<Scalars['String']>;
-  toUser_gt?: Maybe<Scalars['String']>;
-  toUser_lt?: Maybe<Scalars['String']>;
-  toUser_gte?: Maybe<Scalars['String']>;
-  toUser_lte?: Maybe<Scalars['String']>;
-  toUser_in?: Maybe<Array<Scalars['String']>>;
-  toUser_not_in?: Maybe<Array<Scalars['String']>>;
-  toUser_contains?: Maybe<Scalars['String']>;
-  toUser_not_contains?: Maybe<Scalars['String']>;
-  toUser_starts_with?: Maybe<Scalars['String']>;
-  toUser_not_starts_with?: Maybe<Scalars['String']>;
-  toUser_ends_with?: Maybe<Scalars['String']>;
-  toUser_not_ends_with?: Maybe<Scalars['String']>;
   amountAllowed?: Maybe<Scalars['BigInt']>;
-  amountAllowed_not?: Maybe<Scalars['BigInt']>;
   amountAllowed_gt?: Maybe<Scalars['BigInt']>;
-  amountAllowed_lt?: Maybe<Scalars['BigInt']>;
   amountAllowed_gte?: Maybe<Scalars['BigInt']>;
-  amountAllowed_lte?: Maybe<Scalars['BigInt']>;
   amountAllowed_in?: Maybe<Array<Scalars['BigInt']>>;
+  amountAllowed_lt?: Maybe<Scalars['BigInt']>;
+  amountAllowed_lte?: Maybe<Scalars['BigInt']>;
+  amountAllowed_not?: Maybe<Scalars['BigInt']>;
   amountAllowed_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  fromUser?: Maybe<Scalars['String']>;
+  fromUser_contains?: Maybe<Scalars['String']>;
+  fromUser_ends_with?: Maybe<Scalars['String']>;
+  fromUser_gt?: Maybe<Scalars['String']>;
+  fromUser_gte?: Maybe<Scalars['String']>;
+  fromUser_in?: Maybe<Array<Scalars['String']>>;
+  fromUser_lt?: Maybe<Scalars['String']>;
+  fromUser_lte?: Maybe<Scalars['String']>;
+  fromUser_not?: Maybe<Scalars['String']>;
+  fromUser_not_contains?: Maybe<Scalars['String']>;
+  fromUser_not_ends_with?: Maybe<Scalars['String']>;
+  fromUser_not_in?: Maybe<Array<Scalars['String']>>;
+  fromUser_not_starts_with?: Maybe<Scalars['String']>;
+  fromUser_starts_with?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  toUser?: Maybe<Scalars['String']>;
+  toUser_contains?: Maybe<Scalars['String']>;
+  toUser_ends_with?: Maybe<Scalars['String']>;
+  toUser_gt?: Maybe<Scalars['String']>;
+  toUser_gte?: Maybe<Scalars['String']>;
+  toUser_in?: Maybe<Array<Scalars['String']>>;
+  toUser_lt?: Maybe<Scalars['String']>;
+  toUser_lte?: Maybe<Scalars['String']>;
+  toUser_not?: Maybe<Scalars['String']>;
+  toUser_not_contains?: Maybe<Scalars['String']>;
+  toUser_not_ends_with?: Maybe<Scalars['String']>;
+  toUser_not_in?: Maybe<Array<Scalars['String']>>;
+  toUser_not_starts_with?: Maybe<Scalars['String']>;
+  toUser_starts_with?: Maybe<Scalars['String']>;
   userReserve?: Maybe<Scalars['String']>;
-  userReserve_not?: Maybe<Scalars['String']>;
-  userReserve_gt?: Maybe<Scalars['String']>;
-  userReserve_lt?: Maybe<Scalars['String']>;
-  userReserve_gte?: Maybe<Scalars['String']>;
-  userReserve_lte?: Maybe<Scalars['String']>;
-  userReserve_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
   userReserve_contains?: Maybe<Scalars['String']>;
-  userReserve_not_contains?: Maybe<Scalars['String']>;
-  userReserve_starts_with?: Maybe<Scalars['String']>;
-  userReserve_not_starts_with?: Maybe<Scalars['String']>;
   userReserve_ends_with?: Maybe<Scalars['String']>;
+  userReserve_gt?: Maybe<Scalars['String']>;
+  userReserve_gte?: Maybe<Scalars['String']>;
+  userReserve_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_lt?: Maybe<Scalars['String']>;
+  userReserve_lte?: Maybe<Scalars['String']>;
+  userReserve_not?: Maybe<Scalars['String']>;
+  userReserve_not_contains?: Maybe<Scalars['String']>;
   userReserve_not_ends_with?: Maybe<Scalars['String']>;
+  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_not_starts_with?: Maybe<Scalars['String']>;
+  userReserve_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum StableTokenDelegatedAllowance_OrderBy {
-  Id = 'id',
-  FromUser = 'fromUser',
-  ToUser = 'toUser',
   AmountAllowed = 'amountAllowed',
+  FromUser = 'fromUser',
+  Id = 'id',
+  ToUser = 'toUser',
   UserReserve = 'userReserve',
 }
 
 export type StakeGeneralData = {
   __typename?: 'StakeGeneralData';
-  stakeTokenTotalSupply: Scalars['String'];
-  stakeCooldownSeconds: Scalars['Float'];
-  stakeUnstakeWindow: Scalars['Float'];
-  stakeTokenPriceEth: Scalars['String'];
+  distributionEnd: Scalars['String'];
+  distributionPerSecond: Scalars['String'];
   rewardTokenPriceEth: Scalars['String'];
   stakeApy: Scalars['String'];
-  distributionPerSecond: Scalars['String'];
-  distributionEnd: Scalars['String'];
+  stakeCooldownSeconds: Scalars['Float'];
+  stakeTokenPriceEth: Scalars['String'];
+  stakeTokenTotalSupply: Scalars['String'];
+  stakeUnstakeWindow: Scalars['Float'];
 };
 
 export type StakeGeneralUiData = {
@@ -4760,6 +4949,7 @@ export type Subscription = {
   pool?: Maybe<Pool>;
   poolConfigurationHistoryItem?: Maybe<PoolConfigurationHistoryItem>;
   poolConfigurationHistoryItems: Array<PoolConfigurationHistoryItem>;
+  poolIncentivesDataUpdate: Array<ReserveIncentivesData>;
   pools: Array<Pool>;
   priceHistoryItem?: Maybe<PriceHistoryItem>;
   priceHistoryItems: Array<PriceHistoryItem>;
@@ -4803,7 +4993,8 @@ export type Subscription = {
   usdEthPriceHistoryItem?: Maybe<UsdEthPriceHistoryItem>;
   usdEthPriceHistoryItems: Array<UsdEthPriceHistoryItem>;
   user?: Maybe<User>;
-  userDataUpdate: UserData;
+  userDataUpdate: Array<UserReserveData>;
+  userPoolIncentivesDataUpdate: Array<UserIncentivesData>;
   userReserve?: Maybe<UserReserve>;
   userReserves: Array<UserReserve>;
   userTransaction?: Maybe<UserTransaction>;
@@ -4826,413 +5017,477 @@ export type Subscription_MetaArgs = {
 };
 
 export type SubscriptionAtokenArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionAtokenBalanceHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionAtokenBalanceHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ATokenBalanceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ATokenBalanceHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionAtokensArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<AToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<AToken_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionBorrowArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionBorrowsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Borrow_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Borrow_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionChainlinkAggregatorArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionChainlinkAggregatorsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ChainlinkAggregator_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ChainlinkAggregator_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionChainlinkEnsArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionChainlinkEnSsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ChainlinkEns_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ChainlinkEns_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionClaimIncentiveCallArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionClaimIncentiveCallsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ClaimIncentiveCall_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ClaimIncentiveCall_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionContractToPoolMappingArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionContractToPoolMappingsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ContractToPoolMapping_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ContractToPoolMapping_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionDepositArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionDepositsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Deposit_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Deposit_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionFlashLoanArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionFlashLoansArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<FlashLoan_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<FlashLoan_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionIncentivesControllerArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionIncentivesControllersArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<IncentivesController_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<IncentivesController_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionIncentivizedActionArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionIncentivizedActionsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<IncentivizedAction_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<IncentivizedAction_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionLiquidationCallArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionLiquidationCallsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<LiquidationCall_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<LiquidationCall_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionMapAssetPoolArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionMapAssetPoolsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<MapAssetPool_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<MapAssetPool_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionOriginationFeeLiquidationArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionOriginationFeeLiquidationsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<OriginationFeeLiquidation_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<OriginationFeeLiquidation_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionPoolArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionPoolConfigurationHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionPoolConfigurationHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<PoolConfigurationHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PoolConfigurationHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
+};
+
+export type SubscriptionPoolIncentivesDataUpdateArgs = {
+  chainlinkFeedsRegistry: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
+  quote: Scalars['String'];
 };
 
 export type SubscriptionPoolsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Pool_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Pool_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionPriceHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionPriceHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<PriceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PriceHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionPriceOracleArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionPriceOracleAssetArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionPriceOracleAssetsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<PriceOracleAsset_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PriceOracleAsset_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionPriceOraclesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<PriceOracle_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PriceOracle_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionProtocolArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionProtocolDataUpdateArgs = {
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 };
 
 export type SubscriptionProtocolsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Protocol_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Protocol_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionRebalanceStableBorrowRateArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionRebalanceStableBorrowRatesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<RebalanceStableBorrowRate_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<RebalanceStableBorrowRate_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionRedeemUnderlyingArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionRedeemUnderlyingsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<RedeemUnderlying_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<RedeemUnderlying_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionReferrerArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionReferrersArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Referrer_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Referrer_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionRepayArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionRepaysArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Repay_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Repay_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionReserveArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionReserveConfigurationHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionReserveConfigurationHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ReserveConfigurationHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ReserveConfigurationHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionReserveParamsHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionReserveParamsHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ReserveParamsHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ReserveParamsHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionReservesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Reserve_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Reserve_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionStableDebtTokenArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionStableDebtTokensArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<StableDebtToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<StableDebtToken_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionStableTokenDelegatedAllowanceArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionStableTokenDelegatedAllowancesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<StableTokenDelegatedAllowance_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<StableTokenDelegatedAllowance_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionStakeUserUiDataUpdateArgs = {
@@ -5240,523 +5495,581 @@ export type SubscriptionStakeUserUiDataUpdateArgs = {
 };
 
 export type SubscriptionStokenArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionStokenBalanceHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionStokenBalanceHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<STokenBalanceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<STokenBalanceHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionStokensArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<SToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<SToken_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionSwapArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionSwapHistoriesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<SwapHistory_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<SwapHistory_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionSwapHistoryArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionSwapsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Swap_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Swap_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionUsageAsCollateralArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionUsageAsCollateralsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<UsageAsCollateral_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UsageAsCollateral_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionUsdEthPriceHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionUsdEthPriceHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<UsdEthPriceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UsdEthPriceHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionUserArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionUserDataUpdateArgs = {
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
+  userAddress: Scalars['String'];
+};
+
+export type SubscriptionUserPoolIncentivesDataUpdateArgs = {
+  chainlinkFeedsRegistry: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
+  quote: Scalars['String'];
   userAddress: Scalars['String'];
 };
 
 export type SubscriptionUserReserveArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionUserReservesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<UserReserve_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UserReserve_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionUserTransactionArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionUserTransactionsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<UserTransaction_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UserTransaction_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionUsersArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<User_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<User_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionVariableDebtTokenArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionVariableDebtTokensArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<VariableDebtToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VariableDebtToken_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionVariableTokenDelegatedAllowanceArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionVariableTokenDelegatedAllowancesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<VariableTokenDelegatedAllowance_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VariableTokenDelegatedAllowance_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionVtokenArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionVtokenBalanceHistoryItemArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionVtokenBalanceHistoryItemsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<VTokenBalanceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VTokenBalanceHistoryItem_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionVtokensArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<VToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VToken_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type SubscriptionWethreserveArgs = {
-  id: Scalars['ID'];
   block?: Maybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionWethreservesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+  block?: Maybe<Block_Height>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<WethReserve_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<WethReserve_Filter>;
-  block?: Maybe<Block_Height>;
 };
 
 export type Swap = UserTransaction & {
   __typename?: 'Swap';
-  /** tx hash */
-  id: Scalars['ID'];
-  pool: Pool;
-  user: User;
-  reserve: Reserve;
-  userReserve: UserReserve;
   borrowRateModeFrom: BorrowRateMode;
   borrowRateModeTo: BorrowRateMode;
+  /**
+   * tx hash
+   *
+   */
+  id: Scalars['ID'];
+  pool: Pool;
+  reserve: Reserve;
   stableBorrowRate: Scalars['BigInt'];
-  variableBorrowRate: Scalars['BigInt'];
   timestamp: Scalars['Int'];
+  user: User;
+  userReserve: UserReserve;
+  variableBorrowRate: Scalars['BigInt'];
 };
 
 export type SwapHistory = {
   __typename?: 'SwapHistory';
-  /** tx hash */
-  id: Scalars['ID'];
-  fromAsset: Scalars['String'];
-  toAsset: Scalars['String'];
   fromAmount: Scalars['BigInt'];
+  fromAsset: Scalars['String'];
+  /**
+   * tx hash
+   *
+   */
+  id: Scalars['ID'];
   receivedAmount: Scalars['BigInt'];
   swapType: Scalars['String'];
+  toAsset: Scalars['String'];
 };
 
 export type SwapHistory_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  fromAsset?: Maybe<Scalars['String']>;
-  fromAsset_not?: Maybe<Scalars['String']>;
-  fromAsset_gt?: Maybe<Scalars['String']>;
-  fromAsset_lt?: Maybe<Scalars['String']>;
-  fromAsset_gte?: Maybe<Scalars['String']>;
-  fromAsset_lte?: Maybe<Scalars['String']>;
-  fromAsset_in?: Maybe<Array<Scalars['String']>>;
-  fromAsset_not_in?: Maybe<Array<Scalars['String']>>;
-  fromAsset_contains?: Maybe<Scalars['String']>;
-  fromAsset_not_contains?: Maybe<Scalars['String']>;
-  fromAsset_starts_with?: Maybe<Scalars['String']>;
-  fromAsset_not_starts_with?: Maybe<Scalars['String']>;
-  fromAsset_ends_with?: Maybe<Scalars['String']>;
-  fromAsset_not_ends_with?: Maybe<Scalars['String']>;
-  toAsset?: Maybe<Scalars['String']>;
-  toAsset_not?: Maybe<Scalars['String']>;
-  toAsset_gt?: Maybe<Scalars['String']>;
-  toAsset_lt?: Maybe<Scalars['String']>;
-  toAsset_gte?: Maybe<Scalars['String']>;
-  toAsset_lte?: Maybe<Scalars['String']>;
-  toAsset_in?: Maybe<Array<Scalars['String']>>;
-  toAsset_not_in?: Maybe<Array<Scalars['String']>>;
-  toAsset_contains?: Maybe<Scalars['String']>;
-  toAsset_not_contains?: Maybe<Scalars['String']>;
-  toAsset_starts_with?: Maybe<Scalars['String']>;
-  toAsset_not_starts_with?: Maybe<Scalars['String']>;
-  toAsset_ends_with?: Maybe<Scalars['String']>;
-  toAsset_not_ends_with?: Maybe<Scalars['String']>;
   fromAmount?: Maybe<Scalars['BigInt']>;
-  fromAmount_not?: Maybe<Scalars['BigInt']>;
   fromAmount_gt?: Maybe<Scalars['BigInt']>;
-  fromAmount_lt?: Maybe<Scalars['BigInt']>;
   fromAmount_gte?: Maybe<Scalars['BigInt']>;
-  fromAmount_lte?: Maybe<Scalars['BigInt']>;
   fromAmount_in?: Maybe<Array<Scalars['BigInt']>>;
+  fromAmount_lt?: Maybe<Scalars['BigInt']>;
+  fromAmount_lte?: Maybe<Scalars['BigInt']>;
+  fromAmount_not?: Maybe<Scalars['BigInt']>;
   fromAmount_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  fromAsset?: Maybe<Scalars['String']>;
+  fromAsset_contains?: Maybe<Scalars['String']>;
+  fromAsset_ends_with?: Maybe<Scalars['String']>;
+  fromAsset_gt?: Maybe<Scalars['String']>;
+  fromAsset_gte?: Maybe<Scalars['String']>;
+  fromAsset_in?: Maybe<Array<Scalars['String']>>;
+  fromAsset_lt?: Maybe<Scalars['String']>;
+  fromAsset_lte?: Maybe<Scalars['String']>;
+  fromAsset_not?: Maybe<Scalars['String']>;
+  fromAsset_not_contains?: Maybe<Scalars['String']>;
+  fromAsset_not_ends_with?: Maybe<Scalars['String']>;
+  fromAsset_not_in?: Maybe<Array<Scalars['String']>>;
+  fromAsset_not_starts_with?: Maybe<Scalars['String']>;
+  fromAsset_starts_with?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
   receivedAmount?: Maybe<Scalars['BigInt']>;
-  receivedAmount_not?: Maybe<Scalars['BigInt']>;
   receivedAmount_gt?: Maybe<Scalars['BigInt']>;
-  receivedAmount_lt?: Maybe<Scalars['BigInt']>;
   receivedAmount_gte?: Maybe<Scalars['BigInt']>;
-  receivedAmount_lte?: Maybe<Scalars['BigInt']>;
   receivedAmount_in?: Maybe<Array<Scalars['BigInt']>>;
+  receivedAmount_lt?: Maybe<Scalars['BigInt']>;
+  receivedAmount_lte?: Maybe<Scalars['BigInt']>;
+  receivedAmount_not?: Maybe<Scalars['BigInt']>;
   receivedAmount_not_in?: Maybe<Array<Scalars['BigInt']>>;
   swapType?: Maybe<Scalars['String']>;
-  swapType_not?: Maybe<Scalars['String']>;
-  swapType_gt?: Maybe<Scalars['String']>;
-  swapType_lt?: Maybe<Scalars['String']>;
-  swapType_gte?: Maybe<Scalars['String']>;
-  swapType_lte?: Maybe<Scalars['String']>;
-  swapType_in?: Maybe<Array<Scalars['String']>>;
-  swapType_not_in?: Maybe<Array<Scalars['String']>>;
   swapType_contains?: Maybe<Scalars['String']>;
-  swapType_not_contains?: Maybe<Scalars['String']>;
-  swapType_starts_with?: Maybe<Scalars['String']>;
-  swapType_not_starts_with?: Maybe<Scalars['String']>;
   swapType_ends_with?: Maybe<Scalars['String']>;
+  swapType_gt?: Maybe<Scalars['String']>;
+  swapType_gte?: Maybe<Scalars['String']>;
+  swapType_in?: Maybe<Array<Scalars['String']>>;
+  swapType_lt?: Maybe<Scalars['String']>;
+  swapType_lte?: Maybe<Scalars['String']>;
+  swapType_not?: Maybe<Scalars['String']>;
+  swapType_not_contains?: Maybe<Scalars['String']>;
   swapType_not_ends_with?: Maybe<Scalars['String']>;
+  swapType_not_in?: Maybe<Array<Scalars['String']>>;
+  swapType_not_starts_with?: Maybe<Scalars['String']>;
+  swapType_starts_with?: Maybe<Scalars['String']>;
+  toAsset?: Maybe<Scalars['String']>;
+  toAsset_contains?: Maybe<Scalars['String']>;
+  toAsset_ends_with?: Maybe<Scalars['String']>;
+  toAsset_gt?: Maybe<Scalars['String']>;
+  toAsset_gte?: Maybe<Scalars['String']>;
+  toAsset_in?: Maybe<Array<Scalars['String']>>;
+  toAsset_lt?: Maybe<Scalars['String']>;
+  toAsset_lte?: Maybe<Scalars['String']>;
+  toAsset_not?: Maybe<Scalars['String']>;
+  toAsset_not_contains?: Maybe<Scalars['String']>;
+  toAsset_not_ends_with?: Maybe<Scalars['String']>;
+  toAsset_not_in?: Maybe<Array<Scalars['String']>>;
+  toAsset_not_starts_with?: Maybe<Scalars['String']>;
+  toAsset_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum SwapHistory_OrderBy {
-  Id = 'id',
-  FromAsset = 'fromAsset',
-  ToAsset = 'toAsset',
   FromAmount = 'fromAmount',
+  FromAsset = 'fromAsset',
+  Id = 'id',
   ReceivedAmount = 'receivedAmount',
   SwapType = 'swapType',
+  ToAsset = 'toAsset',
 }
 
 export type Swap_Filter = {
+  borrowRateModeFrom?: Maybe<BorrowRateMode>;
+  borrowRateModeFrom_in?: Maybe<Array<BorrowRateMode>>;
+  borrowRateModeFrom_not?: Maybe<BorrowRateMode>;
+  borrowRateModeFrom_not_in?: Maybe<Array<BorrowRateMode>>;
+  borrowRateModeTo?: Maybe<BorrowRateMode>;
+  borrowRateModeTo_in?: Maybe<Array<BorrowRateMode>>;
+  borrowRateModeTo_not?: Maybe<BorrowRateMode>;
+  borrowRateModeTo_not_in?: Maybe<Array<BorrowRateMode>>;
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
   pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
   pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
   pool_not_ends_with?: Maybe<Scalars['String']>;
-  user?: Maybe<Scalars['String']>;
-  user_not?: Maybe<Scalars['String']>;
-  user_gt?: Maybe<Scalars['String']>;
-  user_lt?: Maybe<Scalars['String']>;
-  user_gte?: Maybe<Scalars['String']>;
-  user_lte?: Maybe<Scalars['String']>;
-  user_in?: Maybe<Array<Scalars['String']>>;
-  user_not_in?: Maybe<Array<Scalars['String']>>;
-  user_contains?: Maybe<Scalars['String']>;
-  user_not_contains?: Maybe<Scalars['String']>;
-  user_starts_with?: Maybe<Scalars['String']>;
-  user_not_starts_with?: Maybe<Scalars['String']>;
-  user_ends_with?: Maybe<Scalars['String']>;
-  user_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
   reserve?: Maybe<Scalars['String']>;
-  reserve_not?: Maybe<Scalars['String']>;
-  reserve_gt?: Maybe<Scalars['String']>;
-  reserve_lt?: Maybe<Scalars['String']>;
-  reserve_gte?: Maybe<Scalars['String']>;
-  reserve_lte?: Maybe<Scalars['String']>;
-  reserve_in?: Maybe<Array<Scalars['String']>>;
-  reserve_not_in?: Maybe<Array<Scalars['String']>>;
   reserve_contains?: Maybe<Scalars['String']>;
-  reserve_not_contains?: Maybe<Scalars['String']>;
-  reserve_starts_with?: Maybe<Scalars['String']>;
-  reserve_not_starts_with?: Maybe<Scalars['String']>;
   reserve_ends_with?: Maybe<Scalars['String']>;
+  reserve_gt?: Maybe<Scalars['String']>;
+  reserve_gte?: Maybe<Scalars['String']>;
+  reserve_in?: Maybe<Array<Scalars['String']>>;
+  reserve_lt?: Maybe<Scalars['String']>;
+  reserve_lte?: Maybe<Scalars['String']>;
+  reserve_not?: Maybe<Scalars['String']>;
+  reserve_not_contains?: Maybe<Scalars['String']>;
   reserve_not_ends_with?: Maybe<Scalars['String']>;
-  userReserve?: Maybe<Scalars['String']>;
-  userReserve_not?: Maybe<Scalars['String']>;
-  userReserve_gt?: Maybe<Scalars['String']>;
-  userReserve_lt?: Maybe<Scalars['String']>;
-  userReserve_gte?: Maybe<Scalars['String']>;
-  userReserve_lte?: Maybe<Scalars['String']>;
-  userReserve_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_contains?: Maybe<Scalars['String']>;
-  userReserve_not_contains?: Maybe<Scalars['String']>;
-  userReserve_starts_with?: Maybe<Scalars['String']>;
-  userReserve_not_starts_with?: Maybe<Scalars['String']>;
-  userReserve_ends_with?: Maybe<Scalars['String']>;
-  userReserve_not_ends_with?: Maybe<Scalars['String']>;
-  borrowRateModeFrom?: Maybe<BorrowRateMode>;
-  borrowRateModeFrom_not?: Maybe<BorrowRateMode>;
-  borrowRateModeTo?: Maybe<BorrowRateMode>;
-  borrowRateModeTo_not?: Maybe<BorrowRateMode>;
+  reserve_not_in?: Maybe<Array<Scalars['String']>>;
+  reserve_not_starts_with?: Maybe<Scalars['String']>;
+  reserve_starts_with?: Maybe<Scalars['String']>;
   stableBorrowRate?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_not?: Maybe<Scalars['BigInt']>;
   stableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
   stableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
   stableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  stableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_not?: Maybe<Scalars['BigInt']>;
   stableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  variableBorrowRate?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_not?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
-  variableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
-  variableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  user?: Maybe<Scalars['String']>;
+  userReserve?: Maybe<Scalars['String']>;
+  userReserve_contains?: Maybe<Scalars['String']>;
+  userReserve_ends_with?: Maybe<Scalars['String']>;
+  userReserve_gt?: Maybe<Scalars['String']>;
+  userReserve_gte?: Maybe<Scalars['String']>;
+  userReserve_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_lt?: Maybe<Scalars['String']>;
+  userReserve_lte?: Maybe<Scalars['String']>;
+  userReserve_not?: Maybe<Scalars['String']>;
+  userReserve_not_contains?: Maybe<Scalars['String']>;
+  userReserve_not_ends_with?: Maybe<Scalars['String']>;
+  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_not_starts_with?: Maybe<Scalars['String']>;
+  userReserve_starts_with?: Maybe<Scalars['String']>;
+  user_contains?: Maybe<Scalars['String']>;
+  user_ends_with?: Maybe<Scalars['String']>;
+  user_gt?: Maybe<Scalars['String']>;
+  user_gte?: Maybe<Scalars['String']>;
+  user_in?: Maybe<Array<Scalars['String']>>;
+  user_lt?: Maybe<Scalars['String']>;
+  user_lte?: Maybe<Scalars['String']>;
+  user_not?: Maybe<Scalars['String']>;
+  user_not_contains?: Maybe<Scalars['String']>;
+  user_not_ends_with?: Maybe<Scalars['String']>;
+  user_not_in?: Maybe<Array<Scalars['String']>>;
+  user_not_starts_with?: Maybe<Scalars['String']>;
+  user_starts_with?: Maybe<Scalars['String']>;
+  variableBorrowRate?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  variableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_not?: Maybe<Scalars['BigInt']>;
+  variableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
 };
 
 export enum Swap_OrderBy {
-  Id = 'id',
-  Pool = 'pool',
-  User = 'user',
-  Reserve = 'reserve',
-  UserReserve = 'userReserve',
   BorrowRateModeFrom = 'borrowRateModeFrom',
   BorrowRateModeTo = 'borrowRateModeTo',
+  Id = 'id',
+  Pool = 'pool',
+  Reserve = 'reserve',
   StableBorrowRate = 'stableBorrowRate',
-  VariableBorrowRate = 'variableBorrowRate',
   Timestamp = 'timestamp',
+  User = 'user',
+  UserReserve = 'userReserve',
+  VariableBorrowRate = 'variableBorrowRate',
 }
+
+export type TokenIncentivesUserData = {
+  __typename?: 'TokenIncentivesUserData';
+  incentiveControllerAddress: Scalars['String'];
+  rewardTokenAddress: Scalars['String'];
+  rewardTokenDecimals: Scalars['Float'];
+  tokenAddress: Scalars['String'];
+  tokenIncentivesUserIndex: Scalars['String'];
+  userUnclaimedRewards: Scalars['String'];
+};
 
 export type UsageAsCollateral = UserTransaction & {
   __typename?: 'UsageAsCollateral';
-  /** tx hash */
+  fromState: Scalars['Boolean'];
+  /**
+   * tx hash
+   *
+   */
   id: Scalars['ID'];
   pool: Pool;
-  user: User;
   reserve: Reserve;
-  userReserve: UserReserve;
-  fromState: Scalars['Boolean'];
-  toState: Scalars['Boolean'];
   timestamp: Scalars['Int'];
+  toState: Scalars['Boolean'];
+  user: User;
+  userReserve: UserReserve;
 };
 
 export type UsageAsCollateral_Filter = {
+  fromState?: Maybe<Scalars['Boolean']>;
+  fromState_in?: Maybe<Array<Scalars['Boolean']>>;
+  fromState_not?: Maybe<Scalars['Boolean']>;
+  fromState_not_in?: Maybe<Array<Scalars['Boolean']>>;
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
   pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
   pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
   pool_not_ends_with?: Maybe<Scalars['String']>;
-  user?: Maybe<Scalars['String']>;
-  user_not?: Maybe<Scalars['String']>;
-  user_gt?: Maybe<Scalars['String']>;
-  user_lt?: Maybe<Scalars['String']>;
-  user_gte?: Maybe<Scalars['String']>;
-  user_lte?: Maybe<Scalars['String']>;
-  user_in?: Maybe<Array<Scalars['String']>>;
-  user_not_in?: Maybe<Array<Scalars['String']>>;
-  user_contains?: Maybe<Scalars['String']>;
-  user_not_contains?: Maybe<Scalars['String']>;
-  user_starts_with?: Maybe<Scalars['String']>;
-  user_not_starts_with?: Maybe<Scalars['String']>;
-  user_ends_with?: Maybe<Scalars['String']>;
-  user_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
   reserve?: Maybe<Scalars['String']>;
-  reserve_not?: Maybe<Scalars['String']>;
-  reserve_gt?: Maybe<Scalars['String']>;
-  reserve_lt?: Maybe<Scalars['String']>;
-  reserve_gte?: Maybe<Scalars['String']>;
-  reserve_lte?: Maybe<Scalars['String']>;
-  reserve_in?: Maybe<Array<Scalars['String']>>;
-  reserve_not_in?: Maybe<Array<Scalars['String']>>;
   reserve_contains?: Maybe<Scalars['String']>;
-  reserve_not_contains?: Maybe<Scalars['String']>;
-  reserve_starts_with?: Maybe<Scalars['String']>;
-  reserve_not_starts_with?: Maybe<Scalars['String']>;
   reserve_ends_with?: Maybe<Scalars['String']>;
+  reserve_gt?: Maybe<Scalars['String']>;
+  reserve_gte?: Maybe<Scalars['String']>;
+  reserve_in?: Maybe<Array<Scalars['String']>>;
+  reserve_lt?: Maybe<Scalars['String']>;
+  reserve_lte?: Maybe<Scalars['String']>;
+  reserve_not?: Maybe<Scalars['String']>;
+  reserve_not_contains?: Maybe<Scalars['String']>;
   reserve_not_ends_with?: Maybe<Scalars['String']>;
-  userReserve?: Maybe<Scalars['String']>;
-  userReserve_not?: Maybe<Scalars['String']>;
-  userReserve_gt?: Maybe<Scalars['String']>;
-  userReserve_lt?: Maybe<Scalars['String']>;
-  userReserve_gte?: Maybe<Scalars['String']>;
-  userReserve_lte?: Maybe<Scalars['String']>;
-  userReserve_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_contains?: Maybe<Scalars['String']>;
-  userReserve_not_contains?: Maybe<Scalars['String']>;
-  userReserve_starts_with?: Maybe<Scalars['String']>;
-  userReserve_not_starts_with?: Maybe<Scalars['String']>;
-  userReserve_ends_with?: Maybe<Scalars['String']>;
-  userReserve_not_ends_with?: Maybe<Scalars['String']>;
-  fromState?: Maybe<Scalars['Boolean']>;
-  fromState_not?: Maybe<Scalars['Boolean']>;
-  fromState_in?: Maybe<Array<Scalars['Boolean']>>;
-  fromState_not_in?: Maybe<Array<Scalars['Boolean']>>;
-  toState?: Maybe<Scalars['Boolean']>;
-  toState_not?: Maybe<Scalars['Boolean']>;
-  toState_in?: Maybe<Array<Scalars['Boolean']>>;
-  toState_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  reserve_not_in?: Maybe<Array<Scalars['String']>>;
+  reserve_not_starts_with?: Maybe<Scalars['String']>;
+  reserve_starts_with?: Maybe<Scalars['String']>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  toState?: Maybe<Scalars['Boolean']>;
+  toState_in?: Maybe<Array<Scalars['Boolean']>>;
+  toState_not?: Maybe<Scalars['Boolean']>;
+  toState_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  user?: Maybe<Scalars['String']>;
+  userReserve?: Maybe<Scalars['String']>;
+  userReserve_contains?: Maybe<Scalars['String']>;
+  userReserve_ends_with?: Maybe<Scalars['String']>;
+  userReserve_gt?: Maybe<Scalars['String']>;
+  userReserve_gte?: Maybe<Scalars['String']>;
+  userReserve_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_lt?: Maybe<Scalars['String']>;
+  userReserve_lte?: Maybe<Scalars['String']>;
+  userReserve_not?: Maybe<Scalars['String']>;
+  userReserve_not_contains?: Maybe<Scalars['String']>;
+  userReserve_not_ends_with?: Maybe<Scalars['String']>;
+  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_not_starts_with?: Maybe<Scalars['String']>;
+  userReserve_starts_with?: Maybe<Scalars['String']>;
+  user_contains?: Maybe<Scalars['String']>;
+  user_ends_with?: Maybe<Scalars['String']>;
+  user_gt?: Maybe<Scalars['String']>;
+  user_gte?: Maybe<Scalars['String']>;
+  user_in?: Maybe<Array<Scalars['String']>>;
+  user_lt?: Maybe<Scalars['String']>;
+  user_lte?: Maybe<Scalars['String']>;
+  user_not?: Maybe<Scalars['String']>;
+  user_not_contains?: Maybe<Scalars['String']>;
+  user_not_ends_with?: Maybe<Scalars['String']>;
+  user_not_in?: Maybe<Array<Scalars['String']>>;
+  user_not_starts_with?: Maybe<Scalars['String']>;
+  user_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum UsageAsCollateral_OrderBy {
+  FromState = 'fromState',
   Id = 'id',
   Pool = 'pool',
-  User = 'user',
   Reserve = 'reserve',
-  UserReserve = 'userReserve',
-  FromState = 'fromState',
-  ToState = 'toState',
   Timestamp = 'timestamp',
+  ToState = 'toState',
+  User = 'user',
+  UserReserve = 'userReserve',
 }
 
 export type UsdEthPriceHistoryItem = {
@@ -5769,42 +6082,42 @@ export type UsdEthPriceHistoryItem = {
 
 export type UsdEthPriceHistoryItem_Filter = {
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   oracle?: Maybe<Scalars['String']>;
-  oracle_not?: Maybe<Scalars['String']>;
-  oracle_gt?: Maybe<Scalars['String']>;
-  oracle_lt?: Maybe<Scalars['String']>;
-  oracle_gte?: Maybe<Scalars['String']>;
-  oracle_lte?: Maybe<Scalars['String']>;
-  oracle_in?: Maybe<Array<Scalars['String']>>;
-  oracle_not_in?: Maybe<Array<Scalars['String']>>;
   oracle_contains?: Maybe<Scalars['String']>;
-  oracle_not_contains?: Maybe<Scalars['String']>;
-  oracle_starts_with?: Maybe<Scalars['String']>;
-  oracle_not_starts_with?: Maybe<Scalars['String']>;
   oracle_ends_with?: Maybe<Scalars['String']>;
+  oracle_gt?: Maybe<Scalars['String']>;
+  oracle_gte?: Maybe<Scalars['String']>;
+  oracle_in?: Maybe<Array<Scalars['String']>>;
+  oracle_lt?: Maybe<Scalars['String']>;
+  oracle_lte?: Maybe<Scalars['String']>;
+  oracle_not?: Maybe<Scalars['String']>;
+  oracle_not_contains?: Maybe<Scalars['String']>;
   oracle_not_ends_with?: Maybe<Scalars['String']>;
+  oracle_not_in?: Maybe<Array<Scalars['String']>>;
+  oracle_not_starts_with?: Maybe<Scalars['String']>;
+  oracle_starts_with?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['BigInt']>;
-  price_not?: Maybe<Scalars['BigInt']>;
   price_gt?: Maybe<Scalars['BigInt']>;
-  price_lt?: Maybe<Scalars['BigInt']>;
   price_gte?: Maybe<Scalars['BigInt']>;
-  price_lte?: Maybe<Scalars['BigInt']>;
   price_in?: Maybe<Array<Scalars['BigInt']>>;
+  price_lt?: Maybe<Scalars['BigInt']>;
+  price_lte?: Maybe<Scalars['BigInt']>;
+  price_not?: Maybe<Scalars['BigInt']>;
   price_not_in?: Maybe<Array<Scalars['BigInt']>>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
 };
 
@@ -5817,816 +6130,832 @@ export enum UsdEthPriceHistoryItem_OrderBy {
 
 export type User = {
   __typename?: 'User';
-  /** user address */
-  id: Scalars['ID'];
-  borrowedReservesCount: Scalars['Int'];
-  unclaimedRewards: Scalars['BigInt'];
-  lifetimeRewards: Scalars['BigInt'];
-  incentivesLastUpdated: Scalars['Int'];
-  reserves: Array<UserReserve>;
-  depositHistory: Array<Deposit>;
-  redeemUnderlyingHistory: Array<RedeemUnderlying>;
-  usageAsCollateralHistory: Array<UsageAsCollateral>;
   borrowHistory: Array<Borrow>;
-  swapHistory: Array<Swap>;
-  rebalanceStableBorrowRateHistory: Array<RebalanceStableBorrowRate>;
-  repayHistory: Array<Repay>;
+  borrowedReservesCount: Scalars['Int'];
+  claimIncentives: Array<ClaimIncentiveCall>;
+  depositHistory: Array<Deposit>;
+  /**
+   * user address
+   *
+   */
+  id: Scalars['ID'];
+  incentivesLastUpdated: Scalars['Int'];
+  incentivizedActions: Array<IncentivizedAction>;
+  lifetimeRewards: Scalars['BigInt'];
   liquidationCallHistory: Array<LiquidationCall>;
   originationFeeLiquidationHistory: Array<OriginationFeeLiquidation>;
-  incentivizedActions: Array<IncentivizedAction>;
-  claimIncentives: Array<ClaimIncentiveCall>;
-};
-
-export type UserReservesArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<UserReserve_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<UserReserve_Filter>;
-};
-
-export type UserDepositHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Deposit_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Deposit_Filter>;
-};
-
-export type UserRedeemUnderlyingHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<RedeemUnderlying_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<RedeemUnderlying_Filter>;
-};
-
-export type UserUsageAsCollateralHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<UsageAsCollateral_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<UsageAsCollateral_Filter>;
+  rebalanceStableBorrowRateHistory: Array<RebalanceStableBorrowRate>;
+  redeemUnderlyingHistory: Array<RedeemUnderlying>;
+  repayHistory: Array<Repay>;
+  reserves: Array<UserReserve>;
+  swapHistory: Array<Swap>;
+  unclaimedRewards: Scalars['BigInt'];
+  usageAsCollateralHistory: Array<UsageAsCollateral>;
 };
 
 export type UserBorrowHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Borrow_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<Borrow_Filter>;
 };
 
-export type UserSwapHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
+export type UserClaimIncentivesArgs = {
   first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Swap_OrderBy>;
+  orderBy?: Maybe<ClaimIncentiveCall_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Swap_Filter>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<ClaimIncentiveCall_Filter>;
 };
 
-export type UserRebalanceStableBorrowRateHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
+export type UserDepositHistoryArgs = {
   first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<RebalanceStableBorrowRate_OrderBy>;
+  orderBy?: Maybe<Deposit_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<RebalanceStableBorrowRate_Filter>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Deposit_Filter>;
 };
 
-export type UserRepayHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
+export type UserIncentivizedActionsArgs = {
   first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Repay_OrderBy>;
+  orderBy?: Maybe<IncentivizedAction_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Repay_Filter>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<IncentivizedAction_Filter>;
 };
 
 export type UserLiquidationCallHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<LiquidationCall_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<LiquidationCall_Filter>;
 };
 
 export type UserOriginationFeeLiquidationHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<OriginationFeeLiquidation_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<OriginationFeeLiquidation_Filter>;
 };
 
-export type UserIncentivizedActionsArgs = {
-  skip?: Maybe<Scalars['Int']>;
+export type UserRebalanceStableBorrowRateHistoryArgs = {
   first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<IncentivizedAction_OrderBy>;
+  orderBy?: Maybe<RebalanceStableBorrowRate_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<IncentivizedAction_Filter>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<RebalanceStableBorrowRate_Filter>;
 };
 
-export type UserClaimIncentivesArgs = {
-  skip?: Maybe<Scalars['Int']>;
+export type UserRedeemUnderlyingHistoryArgs = {
   first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<ClaimIncentiveCall_OrderBy>;
+  orderBy?: Maybe<RedeemUnderlying_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<ClaimIncentiveCall_Filter>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<RedeemUnderlying_Filter>;
 };
 
-export type UserData = {
-  __typename?: 'UserData';
-  userReserves: Array<UserReserveData>;
-  userUnclaimedRewards: Scalars['String'];
+export type UserRepayHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Repay_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Repay_Filter>;
+};
+
+export type UserReservesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<UserReserve_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<UserReserve_Filter>;
+};
+
+export type UserSwapHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Swap_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Swap_Filter>;
+};
+
+export type UserUsageAsCollateralHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<UsageAsCollateral_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<UsageAsCollateral_Filter>;
+};
+
+export type UserIncentivesData = {
+  __typename?: 'UserIncentivesData';
+  aTokenIncentivesUserData: TokenIncentivesUserData;
+  sTokenIncentivesUserData: TokenIncentivesUserData;
+  underlyingAsset: Scalars['String'];
+  vTokenIncentivesUserData: TokenIncentivesUserData;
 };
 
 export type UserReserve = {
   __typename?: 'UserReserve';
-  /** user address + reserve address */
-  id: Scalars['ID'];
-  pool: Pool;
-  reserve: Reserve;
-  user: User;
-  usageAsCollateralEnabledOnUser: Scalars['Boolean'];
-  scaledATokenBalance: Scalars['BigInt'];
+  aIncentivesLastUpdateTimestamp: Scalars['Int'];
+  aTokenBalanceHistory: Array<ATokenBalanceHistoryItem>;
+  aTokenincentivesUserIndex: Scalars['BigInt'];
+  borrowHistory: Array<Borrow>;
   currentATokenBalance: Scalars['BigInt'];
-  scaledVariableDebt: Scalars['BigInt'];
-  currentVariableDebt: Scalars['BigInt'];
-  principalStableDebt: Scalars['BigInt'];
   currentStableDebt: Scalars['BigInt'];
   currentTotalDebt: Scalars['BigInt'];
-  stableBorrowRate: Scalars['BigInt'];
-  oldStableBorrowRate: Scalars['BigInt'];
-  liquidityRate: Scalars['BigInt'];
-  stableBorrowLastUpdateTimestamp: Scalars['Int'];
-  variableBorrowIndex: Scalars['BigInt'];
-  aTokenincentivesUserIndex: Scalars['BigInt'];
-  vTokenincentivesUserIndex: Scalars['BigInt'];
-  sTokenincentivesUserIndex: Scalars['BigInt'];
-  aIncentivesLastUpdateTimestamp: Scalars['Int'];
-  vIncentivesLastUpdateTimestamp: Scalars['Int'];
-  sIncentivesLastUpdateTimestamp: Scalars['Int'];
-  /** Amount in currency units included as fee */
-  lastUpdateTimestamp: Scalars['Int'];
-  stableTokenDelegatedAllowances: Array<StableTokenDelegatedAllowance>;
-  variableTokenDelegatedAllowances: Array<VariableTokenDelegatedAllowance>;
-  aTokenBalanceHistory: Array<ATokenBalanceHistoryItem>;
-  vTokenBalanceHistory: Array<VTokenBalanceHistoryItem>;
-  sTokenBalanceHistory: Array<STokenBalanceHistoryItem>;
-  usageAsCollateralHistory: Array<UsageAsCollateral>;
+  currentVariableDebt: Scalars['BigInt'];
   depositHistory: Array<Deposit>;
-  redeemUnderlyingHistory: Array<RedeemUnderlying>;
-  borrowHistory: Array<Borrow>;
-  swapHistory: Array<Swap>;
-  rebalanceStableBorrowRateHistory: Array<RebalanceStableBorrowRate>;
-  repayHistory: Array<Repay>;
+  /**
+   * user address + reserve address
+   *
+   */
+  id: Scalars['ID'];
+  /**
+   * Amount in currency units included as fee
+   *
+   */
+  lastUpdateTimestamp: Scalars['Int'];
   liquidationCallHistory: Array<LiquidationCall>;
+  liquidityRate: Scalars['BigInt'];
+  oldStableBorrowRate: Scalars['BigInt'];
   originationFeeLiquidationHistory: Array<OriginationFeeLiquidation>;
-};
-
-export type UserReserveStableTokenDelegatedAllowancesArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<StableTokenDelegatedAllowance_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<StableTokenDelegatedAllowance_Filter>;
-};
-
-export type UserReserveVariableTokenDelegatedAllowancesArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<VariableTokenDelegatedAllowance_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<VariableTokenDelegatedAllowance_Filter>;
+  pool: Pool;
+  principalStableDebt: Scalars['BigInt'];
+  rebalanceStableBorrowRateHistory: Array<RebalanceStableBorrowRate>;
+  redeemUnderlyingHistory: Array<RedeemUnderlying>;
+  repayHistory: Array<Repay>;
+  reserve: Reserve;
+  sIncentivesLastUpdateTimestamp: Scalars['Int'];
+  sTokenBalanceHistory: Array<STokenBalanceHistoryItem>;
+  sTokenincentivesUserIndex: Scalars['BigInt'];
+  scaledATokenBalance: Scalars['BigInt'];
+  scaledVariableDebt: Scalars['BigInt'];
+  stableBorrowLastUpdateTimestamp: Scalars['Int'];
+  stableBorrowRate: Scalars['BigInt'];
+  stableTokenDelegatedAllowances: Array<StableTokenDelegatedAllowance>;
+  swapHistory: Array<Swap>;
+  usageAsCollateralEnabledOnUser: Scalars['Boolean'];
+  usageAsCollateralHistory: Array<UsageAsCollateral>;
+  user: User;
+  vIncentivesLastUpdateTimestamp: Scalars['Int'];
+  vTokenBalanceHistory: Array<VTokenBalanceHistoryItem>;
+  vTokenincentivesUserIndex: Scalars['BigInt'];
+  variableBorrowIndex: Scalars['BigInt'];
+  variableTokenDelegatedAllowances: Array<VariableTokenDelegatedAllowance>;
 };
 
 export type UserReserveATokenBalanceHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<ATokenBalanceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<ATokenBalanceHistoryItem_Filter>;
 };
 
-export type UserReserveVTokenBalanceHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<VTokenBalanceHistoryItem_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<VTokenBalanceHistoryItem_Filter>;
-};
-
-export type UserReserveSTokenBalanceHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<STokenBalanceHistoryItem_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<STokenBalanceHistoryItem_Filter>;
-};
-
-export type UserReserveUsageAsCollateralHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<UsageAsCollateral_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<UsageAsCollateral_Filter>;
-};
-
-export type UserReserveDepositHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Deposit_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Deposit_Filter>;
-};
-
-export type UserReserveRedeemUnderlyingHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<RedeemUnderlying_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<RedeemUnderlying_Filter>;
-};
-
 export type UserReserveBorrowHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Borrow_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<Borrow_Filter>;
 };
 
-export type UserReserveSwapHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
+export type UserReserveDepositHistoryArgs = {
   first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Swap_OrderBy>;
+  orderBy?: Maybe<Deposit_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Swap_Filter>;
-};
-
-export type UserReserveRebalanceStableBorrowRateHistoryArgs = {
   skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<RebalanceStableBorrowRate_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<RebalanceStableBorrowRate_Filter>;
-};
-
-export type UserReserveRepayHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
-  first?: Maybe<Scalars['Int']>;
-  orderBy?: Maybe<Repay_OrderBy>;
-  orderDirection?: Maybe<OrderDirection>;
-  where?: Maybe<Repay_Filter>;
+  where?: Maybe<Deposit_Filter>;
 };
 
 export type UserReserveLiquidationCallHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<LiquidationCall_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<LiquidationCall_Filter>;
 };
 
 export type UserReserveOriginationFeeLiquidationHistoryArgs = {
-  skip?: Maybe<Scalars['Int']>;
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<OriginationFeeLiquidation_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
   where?: Maybe<OriginationFeeLiquidation_Filter>;
+};
+
+export type UserReserveRebalanceStableBorrowRateHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<RebalanceStableBorrowRate_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<RebalanceStableBorrowRate_Filter>;
+};
+
+export type UserReserveRedeemUnderlyingHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<RedeemUnderlying_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<RedeemUnderlying_Filter>;
+};
+
+export type UserReserveRepayHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Repay_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Repay_Filter>;
+};
+
+export type UserReserveSTokenBalanceHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<STokenBalanceHistoryItem_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<STokenBalanceHistoryItem_Filter>;
+};
+
+export type UserReserveStableTokenDelegatedAllowancesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<StableTokenDelegatedAllowance_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<StableTokenDelegatedAllowance_Filter>;
+};
+
+export type UserReserveSwapHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Swap_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<Swap_Filter>;
+};
+
+export type UserReserveUsageAsCollateralHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<UsageAsCollateral_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<UsageAsCollateral_Filter>;
+};
+
+export type UserReserveVTokenBalanceHistoryArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<VTokenBalanceHistoryItem_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<VTokenBalanceHistoryItem_Filter>;
+};
+
+export type UserReserveVariableTokenDelegatedAllowancesArgs = {
+  first?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<VariableTokenDelegatedAllowance_OrderBy>;
+  orderDirection?: Maybe<OrderDirection>;
+  skip?: Maybe<Scalars['Int']>;
+  where?: Maybe<VariableTokenDelegatedAllowance_Filter>;
 };
 
 export type UserReserveData = {
   __typename?: 'UserReserveData';
-  underlyingAsset: Scalars['String'];
-  scaledATokenBalance: Scalars['String'];
-  usageAsCollateralEnabledOnUser: Scalars['Boolean'];
-  scaledVariableDebt: Scalars['String'];
-  variableBorrowIndex: Scalars['String'];
-  stableBorrowRate: Scalars['String'];
   principalStableDebt: Scalars['String'];
+  scaledATokenBalance: Scalars['String'];
+  scaledVariableDebt: Scalars['String'];
   stableBorrowLastUpdateTimestamp: Scalars['Float'];
-  aTokenincentivesUserIndex: Scalars['String'];
-  vTokenincentivesUserIndex: Scalars['String'];
-  sTokenincentivesUserIndex: Scalars['String'];
+  stableBorrowRate: Scalars['String'];
+  underlyingAsset: Scalars['String'];
+  usageAsCollateralEnabledOnUser: Scalars['Boolean'];
 };
 
 export type UserReserve_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
-  pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
-  pool_ends_with?: Maybe<Scalars['String']>;
-  pool_not_ends_with?: Maybe<Scalars['String']>;
-  reserve?: Maybe<Scalars['String']>;
-  reserve_not?: Maybe<Scalars['String']>;
-  reserve_gt?: Maybe<Scalars['String']>;
-  reserve_lt?: Maybe<Scalars['String']>;
-  reserve_gte?: Maybe<Scalars['String']>;
-  reserve_lte?: Maybe<Scalars['String']>;
-  reserve_in?: Maybe<Array<Scalars['String']>>;
-  reserve_not_in?: Maybe<Array<Scalars['String']>>;
-  reserve_contains?: Maybe<Scalars['String']>;
-  reserve_not_contains?: Maybe<Scalars['String']>;
-  reserve_starts_with?: Maybe<Scalars['String']>;
-  reserve_not_starts_with?: Maybe<Scalars['String']>;
-  reserve_ends_with?: Maybe<Scalars['String']>;
-  reserve_not_ends_with?: Maybe<Scalars['String']>;
-  user?: Maybe<Scalars['String']>;
-  user_not?: Maybe<Scalars['String']>;
-  user_gt?: Maybe<Scalars['String']>;
-  user_lt?: Maybe<Scalars['String']>;
-  user_gte?: Maybe<Scalars['String']>;
-  user_lte?: Maybe<Scalars['String']>;
-  user_in?: Maybe<Array<Scalars['String']>>;
-  user_not_in?: Maybe<Array<Scalars['String']>>;
-  user_contains?: Maybe<Scalars['String']>;
-  user_not_contains?: Maybe<Scalars['String']>;
-  user_starts_with?: Maybe<Scalars['String']>;
-  user_not_starts_with?: Maybe<Scalars['String']>;
-  user_ends_with?: Maybe<Scalars['String']>;
-  user_not_ends_with?: Maybe<Scalars['String']>;
-  usageAsCollateralEnabledOnUser?: Maybe<Scalars['Boolean']>;
-  usageAsCollateralEnabledOnUser_not?: Maybe<Scalars['Boolean']>;
-  usageAsCollateralEnabledOnUser_in?: Maybe<Array<Scalars['Boolean']>>;
-  usageAsCollateralEnabledOnUser_not_in?: Maybe<Array<Scalars['Boolean']>>;
-  scaledATokenBalance?: Maybe<Scalars['BigInt']>;
-  scaledATokenBalance_not?: Maybe<Scalars['BigInt']>;
-  scaledATokenBalance_gt?: Maybe<Scalars['BigInt']>;
-  scaledATokenBalance_lt?: Maybe<Scalars['BigInt']>;
-  scaledATokenBalance_gte?: Maybe<Scalars['BigInt']>;
-  scaledATokenBalance_lte?: Maybe<Scalars['BigInt']>;
-  scaledATokenBalance_in?: Maybe<Array<Scalars['BigInt']>>;
-  scaledATokenBalance_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  aIncentivesLastUpdateTimestamp?: Maybe<Scalars['Int']>;
+  aIncentivesLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
+  aIncentivesLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
+  aIncentivesLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  aIncentivesLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
+  aIncentivesLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
+  aIncentivesLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
+  aIncentivesLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  aTokenincentivesUserIndex?: Maybe<Scalars['BigInt']>;
+  aTokenincentivesUserIndex_gt?: Maybe<Scalars['BigInt']>;
+  aTokenincentivesUserIndex_gte?: Maybe<Scalars['BigInt']>;
+  aTokenincentivesUserIndex_in?: Maybe<Array<Scalars['BigInt']>>;
+  aTokenincentivesUserIndex_lt?: Maybe<Scalars['BigInt']>;
+  aTokenincentivesUserIndex_lte?: Maybe<Scalars['BigInt']>;
+  aTokenincentivesUserIndex_not?: Maybe<Scalars['BigInt']>;
+  aTokenincentivesUserIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
   currentATokenBalance?: Maybe<Scalars['BigInt']>;
-  currentATokenBalance_not?: Maybe<Scalars['BigInt']>;
   currentATokenBalance_gt?: Maybe<Scalars['BigInt']>;
-  currentATokenBalance_lt?: Maybe<Scalars['BigInt']>;
   currentATokenBalance_gte?: Maybe<Scalars['BigInt']>;
-  currentATokenBalance_lte?: Maybe<Scalars['BigInt']>;
   currentATokenBalance_in?: Maybe<Array<Scalars['BigInt']>>;
+  currentATokenBalance_lt?: Maybe<Scalars['BigInt']>;
+  currentATokenBalance_lte?: Maybe<Scalars['BigInt']>;
+  currentATokenBalance_not?: Maybe<Scalars['BigInt']>;
   currentATokenBalance_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  scaledVariableDebt?: Maybe<Scalars['BigInt']>;
-  scaledVariableDebt_not?: Maybe<Scalars['BigInt']>;
-  scaledVariableDebt_gt?: Maybe<Scalars['BigInt']>;
-  scaledVariableDebt_lt?: Maybe<Scalars['BigInt']>;
-  scaledVariableDebt_gte?: Maybe<Scalars['BigInt']>;
-  scaledVariableDebt_lte?: Maybe<Scalars['BigInt']>;
-  scaledVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  scaledVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  currentVariableDebt?: Maybe<Scalars['BigInt']>;
-  currentVariableDebt_not?: Maybe<Scalars['BigInt']>;
-  currentVariableDebt_gt?: Maybe<Scalars['BigInt']>;
-  currentVariableDebt_lt?: Maybe<Scalars['BigInt']>;
-  currentVariableDebt_gte?: Maybe<Scalars['BigInt']>;
-  currentVariableDebt_lte?: Maybe<Scalars['BigInt']>;
-  currentVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  currentVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  principalStableDebt?: Maybe<Scalars['BigInt']>;
-  principalStableDebt_not?: Maybe<Scalars['BigInt']>;
-  principalStableDebt_gt?: Maybe<Scalars['BigInt']>;
-  principalStableDebt_lt?: Maybe<Scalars['BigInt']>;
-  principalStableDebt_gte?: Maybe<Scalars['BigInt']>;
-  principalStableDebt_lte?: Maybe<Scalars['BigInt']>;
-  principalStableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  principalStableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
   currentStableDebt?: Maybe<Scalars['BigInt']>;
-  currentStableDebt_not?: Maybe<Scalars['BigInt']>;
   currentStableDebt_gt?: Maybe<Scalars['BigInt']>;
-  currentStableDebt_lt?: Maybe<Scalars['BigInt']>;
   currentStableDebt_gte?: Maybe<Scalars['BigInt']>;
-  currentStableDebt_lte?: Maybe<Scalars['BigInt']>;
   currentStableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  currentStableDebt_lt?: Maybe<Scalars['BigInt']>;
+  currentStableDebt_lte?: Maybe<Scalars['BigInt']>;
+  currentStableDebt_not?: Maybe<Scalars['BigInt']>;
   currentStableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
   currentTotalDebt?: Maybe<Scalars['BigInt']>;
-  currentTotalDebt_not?: Maybe<Scalars['BigInt']>;
   currentTotalDebt_gt?: Maybe<Scalars['BigInt']>;
-  currentTotalDebt_lt?: Maybe<Scalars['BigInt']>;
   currentTotalDebt_gte?: Maybe<Scalars['BigInt']>;
-  currentTotalDebt_lte?: Maybe<Scalars['BigInt']>;
   currentTotalDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  currentTotalDebt_lt?: Maybe<Scalars['BigInt']>;
+  currentTotalDebt_lte?: Maybe<Scalars['BigInt']>;
+  currentTotalDebt_not?: Maybe<Scalars['BigInt']>;
   currentTotalDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  stableBorrowRate?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_not?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
-  stableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
-  stableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  oldStableBorrowRate?: Maybe<Scalars['BigInt']>;
-  oldStableBorrowRate_not?: Maybe<Scalars['BigInt']>;
-  oldStableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
-  oldStableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
-  oldStableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
-  oldStableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
-  oldStableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
-  oldStableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  liquidityRate?: Maybe<Scalars['BigInt']>;
-  liquidityRate_not?: Maybe<Scalars['BigInt']>;
-  liquidityRate_gt?: Maybe<Scalars['BigInt']>;
-  liquidityRate_lt?: Maybe<Scalars['BigInt']>;
-  liquidityRate_gte?: Maybe<Scalars['BigInt']>;
-  liquidityRate_lte?: Maybe<Scalars['BigInt']>;
-  liquidityRate_in?: Maybe<Array<Scalars['BigInt']>>;
-  liquidityRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  stableBorrowLastUpdateTimestamp?: Maybe<Scalars['Int']>;
-  stableBorrowLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
-  stableBorrowLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
-  stableBorrowLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
-  stableBorrowLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
-  stableBorrowLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
-  stableBorrowLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
-  stableBorrowLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
-  variableBorrowIndex?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_not?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_gt?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_lt?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_gte?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_lte?: Maybe<Scalars['BigInt']>;
-  variableBorrowIndex_in?: Maybe<Array<Scalars['BigInt']>>;
-  variableBorrowIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  aTokenincentivesUserIndex?: Maybe<Scalars['BigInt']>;
-  aTokenincentivesUserIndex_not?: Maybe<Scalars['BigInt']>;
-  aTokenincentivesUserIndex_gt?: Maybe<Scalars['BigInt']>;
-  aTokenincentivesUserIndex_lt?: Maybe<Scalars['BigInt']>;
-  aTokenincentivesUserIndex_gte?: Maybe<Scalars['BigInt']>;
-  aTokenincentivesUserIndex_lte?: Maybe<Scalars['BigInt']>;
-  aTokenincentivesUserIndex_in?: Maybe<Array<Scalars['BigInt']>>;
-  aTokenincentivesUserIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  vTokenincentivesUserIndex?: Maybe<Scalars['BigInt']>;
-  vTokenincentivesUserIndex_not?: Maybe<Scalars['BigInt']>;
-  vTokenincentivesUserIndex_gt?: Maybe<Scalars['BigInt']>;
-  vTokenincentivesUserIndex_lt?: Maybe<Scalars['BigInt']>;
-  vTokenincentivesUserIndex_gte?: Maybe<Scalars['BigInt']>;
-  vTokenincentivesUserIndex_lte?: Maybe<Scalars['BigInt']>;
-  vTokenincentivesUserIndex_in?: Maybe<Array<Scalars['BigInt']>>;
-  vTokenincentivesUserIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  sTokenincentivesUserIndex?: Maybe<Scalars['BigInt']>;
-  sTokenincentivesUserIndex_not?: Maybe<Scalars['BigInt']>;
-  sTokenincentivesUserIndex_gt?: Maybe<Scalars['BigInt']>;
-  sTokenincentivesUserIndex_lt?: Maybe<Scalars['BigInt']>;
-  sTokenincentivesUserIndex_gte?: Maybe<Scalars['BigInt']>;
-  sTokenincentivesUserIndex_lte?: Maybe<Scalars['BigInt']>;
-  sTokenincentivesUserIndex_in?: Maybe<Array<Scalars['BigInt']>>;
-  sTokenincentivesUserIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  aIncentivesLastUpdateTimestamp?: Maybe<Scalars['Int']>;
-  aIncentivesLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
-  aIncentivesLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
-  aIncentivesLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
-  aIncentivesLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
-  aIncentivesLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
-  aIncentivesLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
-  aIncentivesLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
-  vIncentivesLastUpdateTimestamp?: Maybe<Scalars['Int']>;
-  vIncentivesLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
-  vIncentivesLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
-  vIncentivesLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
-  vIncentivesLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
-  vIncentivesLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
-  vIncentivesLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
-  vIncentivesLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
-  sIncentivesLastUpdateTimestamp?: Maybe<Scalars['Int']>;
-  sIncentivesLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
-  sIncentivesLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
-  sIncentivesLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
-  sIncentivesLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
-  sIncentivesLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
-  sIncentivesLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
-  sIncentivesLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  currentVariableDebt?: Maybe<Scalars['BigInt']>;
+  currentVariableDebt_gt?: Maybe<Scalars['BigInt']>;
+  currentVariableDebt_gte?: Maybe<Scalars['BigInt']>;
+  currentVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  currentVariableDebt_lt?: Maybe<Scalars['BigInt']>;
+  currentVariableDebt_lte?: Maybe<Scalars['BigInt']>;
+  currentVariableDebt_not?: Maybe<Scalars['BigInt']>;
+  currentVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
   lastUpdateTimestamp?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
   lastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
   lastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
-  lastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
   lastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  lastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
+  lastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
   lastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  liquidityRate?: Maybe<Scalars['BigInt']>;
+  liquidityRate_gt?: Maybe<Scalars['BigInt']>;
+  liquidityRate_gte?: Maybe<Scalars['BigInt']>;
+  liquidityRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  liquidityRate_lt?: Maybe<Scalars['BigInt']>;
+  liquidityRate_lte?: Maybe<Scalars['BigInt']>;
+  liquidityRate_not?: Maybe<Scalars['BigInt']>;
+  liquidityRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  oldStableBorrowRate?: Maybe<Scalars['BigInt']>;
+  oldStableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
+  oldStableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
+  oldStableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  oldStableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
+  oldStableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
+  oldStableBorrowRate_not?: Maybe<Scalars['BigInt']>;
+  oldStableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  pool?: Maybe<Scalars['String']>;
+  pool_contains?: Maybe<Scalars['String']>;
+  pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
+  pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
+  principalStableDebt?: Maybe<Scalars['BigInt']>;
+  principalStableDebt_gt?: Maybe<Scalars['BigInt']>;
+  principalStableDebt_gte?: Maybe<Scalars['BigInt']>;
+  principalStableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  principalStableDebt_lt?: Maybe<Scalars['BigInt']>;
+  principalStableDebt_lte?: Maybe<Scalars['BigInt']>;
+  principalStableDebt_not?: Maybe<Scalars['BigInt']>;
+  principalStableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  reserve?: Maybe<Scalars['String']>;
+  reserve_contains?: Maybe<Scalars['String']>;
+  reserve_ends_with?: Maybe<Scalars['String']>;
+  reserve_gt?: Maybe<Scalars['String']>;
+  reserve_gte?: Maybe<Scalars['String']>;
+  reserve_in?: Maybe<Array<Scalars['String']>>;
+  reserve_lt?: Maybe<Scalars['String']>;
+  reserve_lte?: Maybe<Scalars['String']>;
+  reserve_not?: Maybe<Scalars['String']>;
+  reserve_not_contains?: Maybe<Scalars['String']>;
+  reserve_not_ends_with?: Maybe<Scalars['String']>;
+  reserve_not_in?: Maybe<Array<Scalars['String']>>;
+  reserve_not_starts_with?: Maybe<Scalars['String']>;
+  reserve_starts_with?: Maybe<Scalars['String']>;
+  sIncentivesLastUpdateTimestamp?: Maybe<Scalars['Int']>;
+  sIncentivesLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
+  sIncentivesLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
+  sIncentivesLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  sIncentivesLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
+  sIncentivesLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
+  sIncentivesLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
+  sIncentivesLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  sTokenincentivesUserIndex?: Maybe<Scalars['BigInt']>;
+  sTokenincentivesUserIndex_gt?: Maybe<Scalars['BigInt']>;
+  sTokenincentivesUserIndex_gte?: Maybe<Scalars['BigInt']>;
+  sTokenincentivesUserIndex_in?: Maybe<Array<Scalars['BigInt']>>;
+  sTokenincentivesUserIndex_lt?: Maybe<Scalars['BigInt']>;
+  sTokenincentivesUserIndex_lte?: Maybe<Scalars['BigInt']>;
+  sTokenincentivesUserIndex_not?: Maybe<Scalars['BigInt']>;
+  sTokenincentivesUserIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  scaledATokenBalance?: Maybe<Scalars['BigInt']>;
+  scaledATokenBalance_gt?: Maybe<Scalars['BigInt']>;
+  scaledATokenBalance_gte?: Maybe<Scalars['BigInt']>;
+  scaledATokenBalance_in?: Maybe<Array<Scalars['BigInt']>>;
+  scaledATokenBalance_lt?: Maybe<Scalars['BigInt']>;
+  scaledATokenBalance_lte?: Maybe<Scalars['BigInt']>;
+  scaledATokenBalance_not?: Maybe<Scalars['BigInt']>;
+  scaledATokenBalance_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  scaledVariableDebt?: Maybe<Scalars['BigInt']>;
+  scaledVariableDebt_gt?: Maybe<Scalars['BigInt']>;
+  scaledVariableDebt_gte?: Maybe<Scalars['BigInt']>;
+  scaledVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  scaledVariableDebt_lt?: Maybe<Scalars['BigInt']>;
+  scaledVariableDebt_lte?: Maybe<Scalars['BigInt']>;
+  scaledVariableDebt_not?: Maybe<Scalars['BigInt']>;
+  scaledVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  stableBorrowLastUpdateTimestamp?: Maybe<Scalars['Int']>;
+  stableBorrowLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
+  stableBorrowLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
+  stableBorrowLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  stableBorrowLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
+  stableBorrowLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
+  stableBorrowLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
+  stableBorrowLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  stableBorrowRate?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_gt?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_gte?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_in?: Maybe<Array<Scalars['BigInt']>>;
+  stableBorrowRate_lt?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_lte?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_not?: Maybe<Scalars['BigInt']>;
+  stableBorrowRate_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  usageAsCollateralEnabledOnUser?: Maybe<Scalars['Boolean']>;
+  usageAsCollateralEnabledOnUser_in?: Maybe<Array<Scalars['Boolean']>>;
+  usageAsCollateralEnabledOnUser_not?: Maybe<Scalars['Boolean']>;
+  usageAsCollateralEnabledOnUser_not_in?: Maybe<Array<Scalars['Boolean']>>;
+  user?: Maybe<Scalars['String']>;
+  user_contains?: Maybe<Scalars['String']>;
+  user_ends_with?: Maybe<Scalars['String']>;
+  user_gt?: Maybe<Scalars['String']>;
+  user_gte?: Maybe<Scalars['String']>;
+  user_in?: Maybe<Array<Scalars['String']>>;
+  user_lt?: Maybe<Scalars['String']>;
+  user_lte?: Maybe<Scalars['String']>;
+  user_not?: Maybe<Scalars['String']>;
+  user_not_contains?: Maybe<Scalars['String']>;
+  user_not_ends_with?: Maybe<Scalars['String']>;
+  user_not_in?: Maybe<Array<Scalars['String']>>;
+  user_not_starts_with?: Maybe<Scalars['String']>;
+  user_starts_with?: Maybe<Scalars['String']>;
+  vIncentivesLastUpdateTimestamp?: Maybe<Scalars['Int']>;
+  vIncentivesLastUpdateTimestamp_gt?: Maybe<Scalars['Int']>;
+  vIncentivesLastUpdateTimestamp_gte?: Maybe<Scalars['Int']>;
+  vIncentivesLastUpdateTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  vIncentivesLastUpdateTimestamp_lt?: Maybe<Scalars['Int']>;
+  vIncentivesLastUpdateTimestamp_lte?: Maybe<Scalars['Int']>;
+  vIncentivesLastUpdateTimestamp_not?: Maybe<Scalars['Int']>;
+  vIncentivesLastUpdateTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  vTokenincentivesUserIndex?: Maybe<Scalars['BigInt']>;
+  vTokenincentivesUserIndex_gt?: Maybe<Scalars['BigInt']>;
+  vTokenincentivesUserIndex_gte?: Maybe<Scalars['BigInt']>;
+  vTokenincentivesUserIndex_in?: Maybe<Array<Scalars['BigInt']>>;
+  vTokenincentivesUserIndex_lt?: Maybe<Scalars['BigInt']>;
+  vTokenincentivesUserIndex_lte?: Maybe<Scalars['BigInt']>;
+  vTokenincentivesUserIndex_not?: Maybe<Scalars['BigInt']>;
+  vTokenincentivesUserIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  variableBorrowIndex?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_gt?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_gte?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_in?: Maybe<Array<Scalars['BigInt']>>;
+  variableBorrowIndex_lt?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_lte?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_not?: Maybe<Scalars['BigInt']>;
+  variableBorrowIndex_not_in?: Maybe<Array<Scalars['BigInt']>>;
 };
 
 export enum UserReserve_OrderBy {
-  Id = 'id',
-  Pool = 'pool',
-  Reserve = 'reserve',
-  User = 'user',
-  UsageAsCollateralEnabledOnUser = 'usageAsCollateralEnabledOnUser',
-  ScaledATokenBalance = 'scaledATokenBalance',
+  AIncentivesLastUpdateTimestamp = 'aIncentivesLastUpdateTimestamp',
+  ATokenBalanceHistory = 'aTokenBalanceHistory',
+  ATokenincentivesUserIndex = 'aTokenincentivesUserIndex',
+  BorrowHistory = 'borrowHistory',
   CurrentATokenBalance = 'currentATokenBalance',
-  ScaledVariableDebt = 'scaledVariableDebt',
-  CurrentVariableDebt = 'currentVariableDebt',
-  PrincipalStableDebt = 'principalStableDebt',
   CurrentStableDebt = 'currentStableDebt',
   CurrentTotalDebt = 'currentTotalDebt',
-  StableBorrowRate = 'stableBorrowRate',
-  OldStableBorrowRate = 'oldStableBorrowRate',
-  LiquidityRate = 'liquidityRate',
-  StableBorrowLastUpdateTimestamp = 'stableBorrowLastUpdateTimestamp',
-  VariableBorrowIndex = 'variableBorrowIndex',
-  ATokenincentivesUserIndex = 'aTokenincentivesUserIndex',
-  VTokenincentivesUserIndex = 'vTokenincentivesUserIndex',
-  STokenincentivesUserIndex = 'sTokenincentivesUserIndex',
-  AIncentivesLastUpdateTimestamp = 'aIncentivesLastUpdateTimestamp',
-  VIncentivesLastUpdateTimestamp = 'vIncentivesLastUpdateTimestamp',
-  SIncentivesLastUpdateTimestamp = 'sIncentivesLastUpdateTimestamp',
-  LastUpdateTimestamp = 'lastUpdateTimestamp',
-  StableTokenDelegatedAllowances = 'stableTokenDelegatedAllowances',
-  VariableTokenDelegatedAllowances = 'variableTokenDelegatedAllowances',
-  ATokenBalanceHistory = 'aTokenBalanceHistory',
-  VTokenBalanceHistory = 'vTokenBalanceHistory',
-  STokenBalanceHistory = 'sTokenBalanceHistory',
-  UsageAsCollateralHistory = 'usageAsCollateralHistory',
+  CurrentVariableDebt = 'currentVariableDebt',
   DepositHistory = 'depositHistory',
-  RedeemUnderlyingHistory = 'redeemUnderlyingHistory',
-  BorrowHistory = 'borrowHistory',
-  SwapHistory = 'swapHistory',
-  RebalanceStableBorrowRateHistory = 'rebalanceStableBorrowRateHistory',
-  RepayHistory = 'repayHistory',
+  Id = 'id',
+  LastUpdateTimestamp = 'lastUpdateTimestamp',
   LiquidationCallHistory = 'liquidationCallHistory',
+  LiquidityRate = 'liquidityRate',
+  OldStableBorrowRate = 'oldStableBorrowRate',
   OriginationFeeLiquidationHistory = 'originationFeeLiquidationHistory',
+  Pool = 'pool',
+  PrincipalStableDebt = 'principalStableDebt',
+  RebalanceStableBorrowRateHistory = 'rebalanceStableBorrowRateHistory',
+  RedeemUnderlyingHistory = 'redeemUnderlyingHistory',
+  RepayHistory = 'repayHistory',
+  Reserve = 'reserve',
+  SIncentivesLastUpdateTimestamp = 'sIncentivesLastUpdateTimestamp',
+  STokenBalanceHistory = 'sTokenBalanceHistory',
+  STokenincentivesUserIndex = 'sTokenincentivesUserIndex',
+  ScaledATokenBalance = 'scaledATokenBalance',
+  ScaledVariableDebt = 'scaledVariableDebt',
+  StableBorrowLastUpdateTimestamp = 'stableBorrowLastUpdateTimestamp',
+  StableBorrowRate = 'stableBorrowRate',
+  StableTokenDelegatedAllowances = 'stableTokenDelegatedAllowances',
+  SwapHistory = 'swapHistory',
+  UsageAsCollateralEnabledOnUser = 'usageAsCollateralEnabledOnUser',
+  UsageAsCollateralHistory = 'usageAsCollateralHistory',
+  User = 'user',
+  VIncentivesLastUpdateTimestamp = 'vIncentivesLastUpdateTimestamp',
+  VTokenBalanceHistory = 'vTokenBalanceHistory',
+  VTokenincentivesUserIndex = 'vTokenincentivesUserIndex',
+  VariableBorrowIndex = 'variableBorrowIndex',
+  VariableTokenDelegatedAllowances = 'variableTokenDelegatedAllowances',
 }
 
 export type UserTransaction = {
   id: Scalars['ID'];
   pool: Pool;
-  user: User;
   timestamp: Scalars['Int'];
+  user: User;
 };
 
 export type UserTransaction_Filter = {
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
   pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
   pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
   pool_not_ends_with?: Maybe<Scalars['String']>;
-  user?: Maybe<Scalars['String']>;
-  user_not?: Maybe<Scalars['String']>;
-  user_gt?: Maybe<Scalars['String']>;
-  user_lt?: Maybe<Scalars['String']>;
-  user_gte?: Maybe<Scalars['String']>;
-  user_lte?: Maybe<Scalars['String']>;
-  user_in?: Maybe<Array<Scalars['String']>>;
-  user_not_in?: Maybe<Array<Scalars['String']>>;
-  user_contains?: Maybe<Scalars['String']>;
-  user_not_contains?: Maybe<Scalars['String']>;
-  user_starts_with?: Maybe<Scalars['String']>;
-  user_not_starts_with?: Maybe<Scalars['String']>;
-  user_ends_with?: Maybe<Scalars['String']>;
-  user_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
   timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
   timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
   timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
   timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  user?: Maybe<Scalars['String']>;
+  user_contains?: Maybe<Scalars['String']>;
+  user_ends_with?: Maybe<Scalars['String']>;
+  user_gt?: Maybe<Scalars['String']>;
+  user_gte?: Maybe<Scalars['String']>;
+  user_in?: Maybe<Array<Scalars['String']>>;
+  user_lt?: Maybe<Scalars['String']>;
+  user_lte?: Maybe<Scalars['String']>;
+  user_not?: Maybe<Scalars['String']>;
+  user_not_contains?: Maybe<Scalars['String']>;
+  user_not_ends_with?: Maybe<Scalars['String']>;
+  user_not_in?: Maybe<Array<Scalars['String']>>;
+  user_not_starts_with?: Maybe<Scalars['String']>;
+  user_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum UserTransaction_OrderBy {
   Id = 'id',
   Pool = 'pool',
-  User = 'user',
   Timestamp = 'timestamp',
+  User = 'user',
 }
 
 export type User_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
   borrowedReservesCount?: Maybe<Scalars['Int']>;
-  borrowedReservesCount_not?: Maybe<Scalars['Int']>;
   borrowedReservesCount_gt?: Maybe<Scalars['Int']>;
-  borrowedReservesCount_lt?: Maybe<Scalars['Int']>;
   borrowedReservesCount_gte?: Maybe<Scalars['Int']>;
-  borrowedReservesCount_lte?: Maybe<Scalars['Int']>;
   borrowedReservesCount_in?: Maybe<Array<Scalars['Int']>>;
+  borrowedReservesCount_lt?: Maybe<Scalars['Int']>;
+  borrowedReservesCount_lte?: Maybe<Scalars['Int']>;
+  borrowedReservesCount_not?: Maybe<Scalars['Int']>;
   borrowedReservesCount_not_in?: Maybe<Array<Scalars['Int']>>;
-  unclaimedRewards?: Maybe<Scalars['BigInt']>;
-  unclaimedRewards_not?: Maybe<Scalars['BigInt']>;
-  unclaimedRewards_gt?: Maybe<Scalars['BigInt']>;
-  unclaimedRewards_lt?: Maybe<Scalars['BigInt']>;
-  unclaimedRewards_gte?: Maybe<Scalars['BigInt']>;
-  unclaimedRewards_lte?: Maybe<Scalars['BigInt']>;
-  unclaimedRewards_in?: Maybe<Array<Scalars['BigInt']>>;
-  unclaimedRewards_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeRewards?: Maybe<Scalars['BigInt']>;
-  lifetimeRewards_not?: Maybe<Scalars['BigInt']>;
-  lifetimeRewards_gt?: Maybe<Scalars['BigInt']>;
-  lifetimeRewards_lt?: Maybe<Scalars['BigInt']>;
-  lifetimeRewards_gte?: Maybe<Scalars['BigInt']>;
-  lifetimeRewards_lte?: Maybe<Scalars['BigInt']>;
-  lifetimeRewards_in?: Maybe<Array<Scalars['BigInt']>>;
-  lifetimeRewards_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
   incentivesLastUpdated?: Maybe<Scalars['Int']>;
-  incentivesLastUpdated_not?: Maybe<Scalars['Int']>;
   incentivesLastUpdated_gt?: Maybe<Scalars['Int']>;
-  incentivesLastUpdated_lt?: Maybe<Scalars['Int']>;
   incentivesLastUpdated_gte?: Maybe<Scalars['Int']>;
-  incentivesLastUpdated_lte?: Maybe<Scalars['Int']>;
   incentivesLastUpdated_in?: Maybe<Array<Scalars['Int']>>;
+  incentivesLastUpdated_lt?: Maybe<Scalars['Int']>;
+  incentivesLastUpdated_lte?: Maybe<Scalars['Int']>;
+  incentivesLastUpdated_not?: Maybe<Scalars['Int']>;
   incentivesLastUpdated_not_in?: Maybe<Array<Scalars['Int']>>;
+  lifetimeRewards?: Maybe<Scalars['BigInt']>;
+  lifetimeRewards_gt?: Maybe<Scalars['BigInt']>;
+  lifetimeRewards_gte?: Maybe<Scalars['BigInt']>;
+  lifetimeRewards_in?: Maybe<Array<Scalars['BigInt']>>;
+  lifetimeRewards_lt?: Maybe<Scalars['BigInt']>;
+  lifetimeRewards_lte?: Maybe<Scalars['BigInt']>;
+  lifetimeRewards_not?: Maybe<Scalars['BigInt']>;
+  lifetimeRewards_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  unclaimedRewards?: Maybe<Scalars['BigInt']>;
+  unclaimedRewards_gt?: Maybe<Scalars['BigInt']>;
+  unclaimedRewards_gte?: Maybe<Scalars['BigInt']>;
+  unclaimedRewards_in?: Maybe<Array<Scalars['BigInt']>>;
+  unclaimedRewards_lt?: Maybe<Scalars['BigInt']>;
+  unclaimedRewards_lte?: Maybe<Scalars['BigInt']>;
+  unclaimedRewards_not?: Maybe<Scalars['BigInt']>;
+  unclaimedRewards_not_in?: Maybe<Array<Scalars['BigInt']>>;
 };
 
 export enum User_OrderBy {
-  Id = 'id',
-  BorrowedReservesCount = 'borrowedReservesCount',
-  UnclaimedRewards = 'unclaimedRewards',
-  LifetimeRewards = 'lifetimeRewards',
-  IncentivesLastUpdated = 'incentivesLastUpdated',
-  Reserves = 'reserves',
-  DepositHistory = 'depositHistory',
-  RedeemUnderlyingHistory = 'redeemUnderlyingHistory',
-  UsageAsCollateralHistory = 'usageAsCollateralHistory',
   BorrowHistory = 'borrowHistory',
-  SwapHistory = 'swapHistory',
-  RebalanceStableBorrowRateHistory = 'rebalanceStableBorrowRateHistory',
-  RepayHistory = 'repayHistory',
+  BorrowedReservesCount = 'borrowedReservesCount',
+  ClaimIncentives = 'claimIncentives',
+  DepositHistory = 'depositHistory',
+  Id = 'id',
+  IncentivesLastUpdated = 'incentivesLastUpdated',
+  IncentivizedActions = 'incentivizedActions',
+  LifetimeRewards = 'lifetimeRewards',
   LiquidationCallHistory = 'liquidationCallHistory',
   OriginationFeeLiquidationHistory = 'originationFeeLiquidationHistory',
-  IncentivizedActions = 'incentivizedActions',
-  ClaimIncentives = 'claimIncentives',
+  RebalanceStableBorrowRateHistory = 'rebalanceStableBorrowRateHistory',
+  RedeemUnderlyingHistory = 'redeemUnderlyingHistory',
+  RepayHistory = 'repayHistory',
+  Reserves = 'reserves',
+  SwapHistory = 'swapHistory',
+  UnclaimedRewards = 'unclaimedRewards',
+  UsageAsCollateralHistory = 'usageAsCollateralHistory',
 }
 
 export type VToken = {
   __typename?: 'VToken';
-  /** VToken address */
+  /**
+   * VToken address
+   *
+   */
   id: Scalars['ID'];
   pool: Pool;
+  tokenContractImpl: Scalars['Bytes'];
   underlyingAssetAddress: Scalars['Bytes'];
   underlyingAssetDecimals: Scalars['Int'];
-  tokenContractImpl: Scalars['Bytes'];
 };
 
 export type VTokenBalanceHistoryItem = {
   __typename?: 'VTokenBalanceHistoryItem';
-  /** userReserve + txHash */
-  id: Scalars['ID'];
-  userReserve: UserReserve;
-  scaledVariableDebt: Scalars['BigInt'];
   currentVariableDebt: Scalars['BigInt'];
-  timestamp: Scalars['Int'];
+  /**
+   * userReserve + txHash
+   *
+   */
+  id: Scalars['ID'];
   index: Scalars['BigInt'];
+  scaledVariableDebt: Scalars['BigInt'];
+  timestamp: Scalars['Int'];
+  userReserve: UserReserve;
 };
 
 export type VTokenBalanceHistoryItem_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  userReserve?: Maybe<Scalars['String']>;
-  userReserve_not?: Maybe<Scalars['String']>;
-  userReserve_gt?: Maybe<Scalars['String']>;
-  userReserve_lt?: Maybe<Scalars['String']>;
-  userReserve_gte?: Maybe<Scalars['String']>;
-  userReserve_lte?: Maybe<Scalars['String']>;
-  userReserve_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_contains?: Maybe<Scalars['String']>;
-  userReserve_not_contains?: Maybe<Scalars['String']>;
-  userReserve_starts_with?: Maybe<Scalars['String']>;
-  userReserve_not_starts_with?: Maybe<Scalars['String']>;
-  userReserve_ends_with?: Maybe<Scalars['String']>;
-  userReserve_not_ends_with?: Maybe<Scalars['String']>;
-  scaledVariableDebt?: Maybe<Scalars['BigInt']>;
-  scaledVariableDebt_not?: Maybe<Scalars['BigInt']>;
-  scaledVariableDebt_gt?: Maybe<Scalars['BigInt']>;
-  scaledVariableDebt_lt?: Maybe<Scalars['BigInt']>;
-  scaledVariableDebt_gte?: Maybe<Scalars['BigInt']>;
-  scaledVariableDebt_lte?: Maybe<Scalars['BigInt']>;
-  scaledVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
-  scaledVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
   currentVariableDebt?: Maybe<Scalars['BigInt']>;
-  currentVariableDebt_not?: Maybe<Scalars['BigInt']>;
   currentVariableDebt_gt?: Maybe<Scalars['BigInt']>;
-  currentVariableDebt_lt?: Maybe<Scalars['BigInt']>;
   currentVariableDebt_gte?: Maybe<Scalars['BigInt']>;
-  currentVariableDebt_lte?: Maybe<Scalars['BigInt']>;
   currentVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  currentVariableDebt_lt?: Maybe<Scalars['BigInt']>;
+  currentVariableDebt_lte?: Maybe<Scalars['BigInt']>;
+  currentVariableDebt_not?: Maybe<Scalars['BigInt']>;
   currentVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
-  timestamp?: Maybe<Scalars['Int']>;
-  timestamp_not?: Maybe<Scalars['Int']>;
-  timestamp_gt?: Maybe<Scalars['Int']>;
-  timestamp_lt?: Maybe<Scalars['Int']>;
-  timestamp_gte?: Maybe<Scalars['Int']>;
-  timestamp_lte?: Maybe<Scalars['Int']>;
-  timestamp_in?: Maybe<Array<Scalars['Int']>>;
-  timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
   index?: Maybe<Scalars['BigInt']>;
-  index_not?: Maybe<Scalars['BigInt']>;
   index_gt?: Maybe<Scalars['BigInt']>;
-  index_lt?: Maybe<Scalars['BigInt']>;
   index_gte?: Maybe<Scalars['BigInt']>;
-  index_lte?: Maybe<Scalars['BigInt']>;
   index_in?: Maybe<Array<Scalars['BigInt']>>;
+  index_lt?: Maybe<Scalars['BigInt']>;
+  index_lte?: Maybe<Scalars['BigInt']>;
+  index_not?: Maybe<Scalars['BigInt']>;
   index_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  scaledVariableDebt?: Maybe<Scalars['BigInt']>;
+  scaledVariableDebt_gt?: Maybe<Scalars['BigInt']>;
+  scaledVariableDebt_gte?: Maybe<Scalars['BigInt']>;
+  scaledVariableDebt_in?: Maybe<Array<Scalars['BigInt']>>;
+  scaledVariableDebt_lt?: Maybe<Scalars['BigInt']>;
+  scaledVariableDebt_lte?: Maybe<Scalars['BigInt']>;
+  scaledVariableDebt_not?: Maybe<Scalars['BigInt']>;
+  scaledVariableDebt_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  timestamp?: Maybe<Scalars['Int']>;
+  timestamp_gt?: Maybe<Scalars['Int']>;
+  timestamp_gte?: Maybe<Scalars['Int']>;
+  timestamp_in?: Maybe<Array<Scalars['Int']>>;
+  timestamp_lt?: Maybe<Scalars['Int']>;
+  timestamp_lte?: Maybe<Scalars['Int']>;
+  timestamp_not?: Maybe<Scalars['Int']>;
+  timestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  userReserve?: Maybe<Scalars['String']>;
+  userReserve_contains?: Maybe<Scalars['String']>;
+  userReserve_ends_with?: Maybe<Scalars['String']>;
+  userReserve_gt?: Maybe<Scalars['String']>;
+  userReserve_gte?: Maybe<Scalars['String']>;
+  userReserve_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_lt?: Maybe<Scalars['String']>;
+  userReserve_lte?: Maybe<Scalars['String']>;
+  userReserve_not?: Maybe<Scalars['String']>;
+  userReserve_not_contains?: Maybe<Scalars['String']>;
+  userReserve_not_ends_with?: Maybe<Scalars['String']>;
+  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_not_starts_with?: Maybe<Scalars['String']>;
+  userReserve_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum VTokenBalanceHistoryItem_OrderBy {
-  Id = 'id',
-  UserReserve = 'userReserve',
-  ScaledVariableDebt = 'scaledVariableDebt',
   CurrentVariableDebt = 'currentVariableDebt',
-  Timestamp = 'timestamp',
+  Id = 'id',
   Index = 'index',
+  ScaledVariableDebt = 'scaledVariableDebt',
+  Timestamp = 'timestamp',
+  UserReserve = 'userReserve',
 }
 
 export type VToken_Filter = {
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
   pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
   pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
   pool_not_ends_with?: Maybe<Scalars['String']>;
-  underlyingAssetAddress?: Maybe<Scalars['Bytes']>;
-  underlyingAssetAddress_not?: Maybe<Scalars['Bytes']>;
-  underlyingAssetAddress_in?: Maybe<Array<Scalars['Bytes']>>;
-  underlyingAssetAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
-  underlyingAssetAddress_contains?: Maybe<Scalars['Bytes']>;
-  underlyingAssetAddress_not_contains?: Maybe<Scalars['Bytes']>;
-  underlyingAssetDecimals?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_not?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_gt?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_lt?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_gte?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_lte?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_in?: Maybe<Array<Scalars['Int']>>;
-  underlyingAssetDecimals_not_in?: Maybe<Array<Scalars['Int']>>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
   tokenContractImpl?: Maybe<Scalars['Bytes']>;
-  tokenContractImpl_not?: Maybe<Scalars['Bytes']>;
-  tokenContractImpl_in?: Maybe<Array<Scalars['Bytes']>>;
-  tokenContractImpl_not_in?: Maybe<Array<Scalars['Bytes']>>;
   tokenContractImpl_contains?: Maybe<Scalars['Bytes']>;
+  tokenContractImpl_in?: Maybe<Array<Scalars['Bytes']>>;
+  tokenContractImpl_not?: Maybe<Scalars['Bytes']>;
   tokenContractImpl_not_contains?: Maybe<Scalars['Bytes']>;
+  tokenContractImpl_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  underlyingAssetAddress?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_in?: Maybe<Array<Scalars['Bytes']>>;
+  underlyingAssetAddress_not?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_not_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
+  underlyingAssetDecimals?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_gt?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_gte?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_in?: Maybe<Array<Scalars['Int']>>;
+  underlyingAssetDecimals_lt?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_lte?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_not?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_not_in?: Maybe<Array<Scalars['Int']>>;
 };
 
 export enum VToken_OrderBy {
   Id = 'id',
   Pool = 'pool',
+  TokenContractImpl = 'tokenContractImpl',
   UnderlyingAssetAddress = 'underlyingAssetAddress',
   UnderlyingAssetDecimals = 'underlyingAssetDecimals',
-  TokenContractImpl = 'tokenContractImpl',
 }
 
 export type VariableDebtToken = {
   __typename?: 'VariableDebtToken';
-  /** VariableDebtToken address */
+  /**
+   * VariableDebtToken address
+   *
+   */
   id: Scalars['ID'];
   pool: Pool;
   underlyingAssetAddress: Scalars['Bytes'];
@@ -6635,40 +6964,40 @@ export type VariableDebtToken = {
 
 export type VariableDebtToken_Filter = {
   id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
   id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
   id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
   id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
   id_not_in?: Maybe<Array<Scalars['ID']>>;
   pool?: Maybe<Scalars['String']>;
-  pool_not?: Maybe<Scalars['String']>;
-  pool_gt?: Maybe<Scalars['String']>;
-  pool_lt?: Maybe<Scalars['String']>;
-  pool_gte?: Maybe<Scalars['String']>;
-  pool_lte?: Maybe<Scalars['String']>;
-  pool_in?: Maybe<Array<Scalars['String']>>;
-  pool_not_in?: Maybe<Array<Scalars['String']>>;
   pool_contains?: Maybe<Scalars['String']>;
-  pool_not_contains?: Maybe<Scalars['String']>;
-  pool_starts_with?: Maybe<Scalars['String']>;
-  pool_not_starts_with?: Maybe<Scalars['String']>;
   pool_ends_with?: Maybe<Scalars['String']>;
+  pool_gt?: Maybe<Scalars['String']>;
+  pool_gte?: Maybe<Scalars['String']>;
+  pool_in?: Maybe<Array<Scalars['String']>>;
+  pool_lt?: Maybe<Scalars['String']>;
+  pool_lte?: Maybe<Scalars['String']>;
+  pool_not?: Maybe<Scalars['String']>;
+  pool_not_contains?: Maybe<Scalars['String']>;
   pool_not_ends_with?: Maybe<Scalars['String']>;
+  pool_not_in?: Maybe<Array<Scalars['String']>>;
+  pool_not_starts_with?: Maybe<Scalars['String']>;
+  pool_starts_with?: Maybe<Scalars['String']>;
   underlyingAssetAddress?: Maybe<Scalars['Bytes']>;
-  underlyingAssetAddress_not?: Maybe<Scalars['Bytes']>;
-  underlyingAssetAddress_in?: Maybe<Array<Scalars['Bytes']>>;
-  underlyingAssetAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
   underlyingAssetAddress_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_in?: Maybe<Array<Scalars['Bytes']>>;
+  underlyingAssetAddress_not?: Maybe<Scalars['Bytes']>;
   underlyingAssetAddress_not_contains?: Maybe<Scalars['Bytes']>;
+  underlyingAssetAddress_not_in?: Maybe<Array<Scalars['Bytes']>>;
   underlyingAssetDecimals?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_not?: Maybe<Scalars['Int']>;
   underlyingAssetDecimals_gt?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_lt?: Maybe<Scalars['Int']>;
   underlyingAssetDecimals_gte?: Maybe<Scalars['Int']>;
-  underlyingAssetDecimals_lte?: Maybe<Scalars['Int']>;
   underlyingAssetDecimals_in?: Maybe<Array<Scalars['Int']>>;
+  underlyingAssetDecimals_lt?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_lte?: Maybe<Scalars['Int']>;
+  underlyingAssetDecimals_not?: Maybe<Scalars['Int']>;
   underlyingAssetDecimals_not_in?: Maybe<Array<Scalars['Int']>>;
 };
 
@@ -6681,172 +7010,178 @@ export enum VariableDebtToken_OrderBy {
 
 export type VariableTokenDelegatedAllowance = {
   __typename?: 'VariableTokenDelegatedAllowance';
-  /** variable + fromuser address + touser address+ reserve address */
-  id: Scalars['ID'];
-  fromUser: User;
-  toUser: User;
   amountAllowed: Scalars['BigInt'];
+  fromUser: User;
+  /**
+   * variable + fromuser address + touser address+ reserve address
+   *
+   */
+  id: Scalars['ID'];
+  toUser: User;
   userReserve: UserReserve;
 };
 
 export type VariableTokenDelegatedAllowance_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
-  fromUser?: Maybe<Scalars['String']>;
-  fromUser_not?: Maybe<Scalars['String']>;
-  fromUser_gt?: Maybe<Scalars['String']>;
-  fromUser_lt?: Maybe<Scalars['String']>;
-  fromUser_gte?: Maybe<Scalars['String']>;
-  fromUser_lte?: Maybe<Scalars['String']>;
-  fromUser_in?: Maybe<Array<Scalars['String']>>;
-  fromUser_not_in?: Maybe<Array<Scalars['String']>>;
-  fromUser_contains?: Maybe<Scalars['String']>;
-  fromUser_not_contains?: Maybe<Scalars['String']>;
-  fromUser_starts_with?: Maybe<Scalars['String']>;
-  fromUser_not_starts_with?: Maybe<Scalars['String']>;
-  fromUser_ends_with?: Maybe<Scalars['String']>;
-  fromUser_not_ends_with?: Maybe<Scalars['String']>;
-  toUser?: Maybe<Scalars['String']>;
-  toUser_not?: Maybe<Scalars['String']>;
-  toUser_gt?: Maybe<Scalars['String']>;
-  toUser_lt?: Maybe<Scalars['String']>;
-  toUser_gte?: Maybe<Scalars['String']>;
-  toUser_lte?: Maybe<Scalars['String']>;
-  toUser_in?: Maybe<Array<Scalars['String']>>;
-  toUser_not_in?: Maybe<Array<Scalars['String']>>;
-  toUser_contains?: Maybe<Scalars['String']>;
-  toUser_not_contains?: Maybe<Scalars['String']>;
-  toUser_starts_with?: Maybe<Scalars['String']>;
-  toUser_not_starts_with?: Maybe<Scalars['String']>;
-  toUser_ends_with?: Maybe<Scalars['String']>;
-  toUser_not_ends_with?: Maybe<Scalars['String']>;
   amountAllowed?: Maybe<Scalars['BigInt']>;
-  amountAllowed_not?: Maybe<Scalars['BigInt']>;
   amountAllowed_gt?: Maybe<Scalars['BigInt']>;
-  amountAllowed_lt?: Maybe<Scalars['BigInt']>;
   amountAllowed_gte?: Maybe<Scalars['BigInt']>;
-  amountAllowed_lte?: Maybe<Scalars['BigInt']>;
   amountAllowed_in?: Maybe<Array<Scalars['BigInt']>>;
+  amountAllowed_lt?: Maybe<Scalars['BigInt']>;
+  amountAllowed_lte?: Maybe<Scalars['BigInt']>;
+  amountAllowed_not?: Maybe<Scalars['BigInt']>;
   amountAllowed_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  fromUser?: Maybe<Scalars['String']>;
+  fromUser_contains?: Maybe<Scalars['String']>;
+  fromUser_ends_with?: Maybe<Scalars['String']>;
+  fromUser_gt?: Maybe<Scalars['String']>;
+  fromUser_gte?: Maybe<Scalars['String']>;
+  fromUser_in?: Maybe<Array<Scalars['String']>>;
+  fromUser_lt?: Maybe<Scalars['String']>;
+  fromUser_lte?: Maybe<Scalars['String']>;
+  fromUser_not?: Maybe<Scalars['String']>;
+  fromUser_not_contains?: Maybe<Scalars['String']>;
+  fromUser_not_ends_with?: Maybe<Scalars['String']>;
+  fromUser_not_in?: Maybe<Array<Scalars['String']>>;
+  fromUser_not_starts_with?: Maybe<Scalars['String']>;
+  fromUser_starts_with?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  toUser?: Maybe<Scalars['String']>;
+  toUser_contains?: Maybe<Scalars['String']>;
+  toUser_ends_with?: Maybe<Scalars['String']>;
+  toUser_gt?: Maybe<Scalars['String']>;
+  toUser_gte?: Maybe<Scalars['String']>;
+  toUser_in?: Maybe<Array<Scalars['String']>>;
+  toUser_lt?: Maybe<Scalars['String']>;
+  toUser_lte?: Maybe<Scalars['String']>;
+  toUser_not?: Maybe<Scalars['String']>;
+  toUser_not_contains?: Maybe<Scalars['String']>;
+  toUser_not_ends_with?: Maybe<Scalars['String']>;
+  toUser_not_in?: Maybe<Array<Scalars['String']>>;
+  toUser_not_starts_with?: Maybe<Scalars['String']>;
+  toUser_starts_with?: Maybe<Scalars['String']>;
   userReserve?: Maybe<Scalars['String']>;
-  userReserve_not?: Maybe<Scalars['String']>;
-  userReserve_gt?: Maybe<Scalars['String']>;
-  userReserve_lt?: Maybe<Scalars['String']>;
-  userReserve_gte?: Maybe<Scalars['String']>;
-  userReserve_lte?: Maybe<Scalars['String']>;
-  userReserve_in?: Maybe<Array<Scalars['String']>>;
-  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
   userReserve_contains?: Maybe<Scalars['String']>;
-  userReserve_not_contains?: Maybe<Scalars['String']>;
-  userReserve_starts_with?: Maybe<Scalars['String']>;
-  userReserve_not_starts_with?: Maybe<Scalars['String']>;
   userReserve_ends_with?: Maybe<Scalars['String']>;
+  userReserve_gt?: Maybe<Scalars['String']>;
+  userReserve_gte?: Maybe<Scalars['String']>;
+  userReserve_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_lt?: Maybe<Scalars['String']>;
+  userReserve_lte?: Maybe<Scalars['String']>;
+  userReserve_not?: Maybe<Scalars['String']>;
+  userReserve_not_contains?: Maybe<Scalars['String']>;
   userReserve_not_ends_with?: Maybe<Scalars['String']>;
+  userReserve_not_in?: Maybe<Array<Scalars['String']>>;
+  userReserve_not_starts_with?: Maybe<Scalars['String']>;
+  userReserve_starts_with?: Maybe<Scalars['String']>;
 };
 
 export enum VariableTokenDelegatedAllowance_OrderBy {
-  Id = 'id',
-  FromUser = 'fromUser',
-  ToUser = 'toUser',
   AmountAllowed = 'amountAllowed',
+  FromUser = 'fromUser',
+  Id = 'id',
+  ToUser = 'toUser',
   UserReserve = 'userReserve',
 }
 
 export type WethReserve = {
   __typename?: 'WETHReserve';
-  /** weth address */
-  id: Scalars['ID'];
   address: Scalars['Bytes'];
-  symbol: Scalars['String'];
-  name: Scalars['String'];
   decimals: Scalars['Int'];
-  updatedTimestamp: Scalars['Int'];
+  /**
+   * weth address
+   *
+   */
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  symbol: Scalars['String'];
   updatedBlockNumber: Scalars['BigInt'];
+  updatedTimestamp: Scalars['Int'];
 };
 
 export type WethReserve_Filter = {
-  id?: Maybe<Scalars['ID']>;
-  id_not?: Maybe<Scalars['ID']>;
-  id_gt?: Maybe<Scalars['ID']>;
-  id_lt?: Maybe<Scalars['ID']>;
-  id_gte?: Maybe<Scalars['ID']>;
-  id_lte?: Maybe<Scalars['ID']>;
-  id_in?: Maybe<Array<Scalars['ID']>>;
-  id_not_in?: Maybe<Array<Scalars['ID']>>;
   address?: Maybe<Scalars['Bytes']>;
-  address_not?: Maybe<Scalars['Bytes']>;
-  address_in?: Maybe<Array<Scalars['Bytes']>>;
-  address_not_in?: Maybe<Array<Scalars['Bytes']>>;
   address_contains?: Maybe<Scalars['Bytes']>;
+  address_in?: Maybe<Array<Scalars['Bytes']>>;
+  address_not?: Maybe<Scalars['Bytes']>;
   address_not_contains?: Maybe<Scalars['Bytes']>;
-  symbol?: Maybe<Scalars['String']>;
-  symbol_not?: Maybe<Scalars['String']>;
-  symbol_gt?: Maybe<Scalars['String']>;
-  symbol_lt?: Maybe<Scalars['String']>;
-  symbol_gte?: Maybe<Scalars['String']>;
-  symbol_lte?: Maybe<Scalars['String']>;
-  symbol_in?: Maybe<Array<Scalars['String']>>;
-  symbol_not_in?: Maybe<Array<Scalars['String']>>;
-  symbol_contains?: Maybe<Scalars['String']>;
-  symbol_not_contains?: Maybe<Scalars['String']>;
-  symbol_starts_with?: Maybe<Scalars['String']>;
-  symbol_not_starts_with?: Maybe<Scalars['String']>;
-  symbol_ends_with?: Maybe<Scalars['String']>;
-  symbol_not_ends_with?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  name_not?: Maybe<Scalars['String']>;
-  name_gt?: Maybe<Scalars['String']>;
-  name_lt?: Maybe<Scalars['String']>;
-  name_gte?: Maybe<Scalars['String']>;
-  name_lte?: Maybe<Scalars['String']>;
-  name_in?: Maybe<Array<Scalars['String']>>;
-  name_not_in?: Maybe<Array<Scalars['String']>>;
-  name_contains?: Maybe<Scalars['String']>;
-  name_not_contains?: Maybe<Scalars['String']>;
-  name_starts_with?: Maybe<Scalars['String']>;
-  name_not_starts_with?: Maybe<Scalars['String']>;
-  name_ends_with?: Maybe<Scalars['String']>;
-  name_not_ends_with?: Maybe<Scalars['String']>;
+  address_not_in?: Maybe<Array<Scalars['Bytes']>>;
   decimals?: Maybe<Scalars['Int']>;
-  decimals_not?: Maybe<Scalars['Int']>;
   decimals_gt?: Maybe<Scalars['Int']>;
-  decimals_lt?: Maybe<Scalars['Int']>;
   decimals_gte?: Maybe<Scalars['Int']>;
-  decimals_lte?: Maybe<Scalars['Int']>;
   decimals_in?: Maybe<Array<Scalars['Int']>>;
+  decimals_lt?: Maybe<Scalars['Int']>;
+  decimals_lte?: Maybe<Scalars['Int']>;
+  decimals_not?: Maybe<Scalars['Int']>;
   decimals_not_in?: Maybe<Array<Scalars['Int']>>;
-  updatedTimestamp?: Maybe<Scalars['Int']>;
-  updatedTimestamp_not?: Maybe<Scalars['Int']>;
-  updatedTimestamp_gt?: Maybe<Scalars['Int']>;
-  updatedTimestamp_lt?: Maybe<Scalars['Int']>;
-  updatedTimestamp_gte?: Maybe<Scalars['Int']>;
-  updatedTimestamp_lte?: Maybe<Scalars['Int']>;
-  updatedTimestamp_in?: Maybe<Array<Scalars['Int']>>;
-  updatedTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
+  id?: Maybe<Scalars['ID']>;
+  id_gt?: Maybe<Scalars['ID']>;
+  id_gte?: Maybe<Scalars['ID']>;
+  id_in?: Maybe<Array<Scalars['ID']>>;
+  id_lt?: Maybe<Scalars['ID']>;
+  id_lte?: Maybe<Scalars['ID']>;
+  id_not?: Maybe<Scalars['ID']>;
+  id_not_in?: Maybe<Array<Scalars['ID']>>;
+  name?: Maybe<Scalars['String']>;
+  name_contains?: Maybe<Scalars['String']>;
+  name_ends_with?: Maybe<Scalars['String']>;
+  name_gt?: Maybe<Scalars['String']>;
+  name_gte?: Maybe<Scalars['String']>;
+  name_in?: Maybe<Array<Scalars['String']>>;
+  name_lt?: Maybe<Scalars['String']>;
+  name_lte?: Maybe<Scalars['String']>;
+  name_not?: Maybe<Scalars['String']>;
+  name_not_contains?: Maybe<Scalars['String']>;
+  name_not_ends_with?: Maybe<Scalars['String']>;
+  name_not_in?: Maybe<Array<Scalars['String']>>;
+  name_not_starts_with?: Maybe<Scalars['String']>;
+  name_starts_with?: Maybe<Scalars['String']>;
+  symbol?: Maybe<Scalars['String']>;
+  symbol_contains?: Maybe<Scalars['String']>;
+  symbol_ends_with?: Maybe<Scalars['String']>;
+  symbol_gt?: Maybe<Scalars['String']>;
+  symbol_gte?: Maybe<Scalars['String']>;
+  symbol_in?: Maybe<Array<Scalars['String']>>;
+  symbol_lt?: Maybe<Scalars['String']>;
+  symbol_lte?: Maybe<Scalars['String']>;
+  symbol_not?: Maybe<Scalars['String']>;
+  symbol_not_contains?: Maybe<Scalars['String']>;
+  symbol_not_ends_with?: Maybe<Scalars['String']>;
+  symbol_not_in?: Maybe<Array<Scalars['String']>>;
+  symbol_not_starts_with?: Maybe<Scalars['String']>;
+  symbol_starts_with?: Maybe<Scalars['String']>;
   updatedBlockNumber?: Maybe<Scalars['BigInt']>;
-  updatedBlockNumber_not?: Maybe<Scalars['BigInt']>;
   updatedBlockNumber_gt?: Maybe<Scalars['BigInt']>;
-  updatedBlockNumber_lt?: Maybe<Scalars['BigInt']>;
   updatedBlockNumber_gte?: Maybe<Scalars['BigInt']>;
-  updatedBlockNumber_lte?: Maybe<Scalars['BigInt']>;
   updatedBlockNumber_in?: Maybe<Array<Scalars['BigInt']>>;
+  updatedBlockNumber_lt?: Maybe<Scalars['BigInt']>;
+  updatedBlockNumber_lte?: Maybe<Scalars['BigInt']>;
+  updatedBlockNumber_not?: Maybe<Scalars['BigInt']>;
   updatedBlockNumber_not_in?: Maybe<Array<Scalars['BigInt']>>;
+  updatedTimestamp?: Maybe<Scalars['Int']>;
+  updatedTimestamp_gt?: Maybe<Scalars['Int']>;
+  updatedTimestamp_gte?: Maybe<Scalars['Int']>;
+  updatedTimestamp_in?: Maybe<Array<Scalars['Int']>>;
+  updatedTimestamp_lt?: Maybe<Scalars['Int']>;
+  updatedTimestamp_lte?: Maybe<Scalars['Int']>;
+  updatedTimestamp_not?: Maybe<Scalars['Int']>;
+  updatedTimestamp_not_in?: Maybe<Array<Scalars['Int']>>;
 };
 
 export enum WethReserve_OrderBy {
-  Id = 'id',
   Address = 'address',
-  Symbol = 'symbol',
-  Name = 'name',
   Decimals = 'decimals',
-  UpdatedTimestamp = 'updatedTimestamp',
+  Id = 'id',
+  Name = 'name',
+  Symbol = 'symbol',
   UpdatedBlockNumber = 'updatedBlockNumber',
+  UpdatedTimestamp = 'updatedTimestamp',
 }
 
 export type _Block_ = {
@@ -6865,6 +7200,7 @@ export type _Meta_ = {
    * will be null if the _meta field has a block constraint that asks for
    * a block number. It will be filled if the _meta field has no block constraint
    * and therefore asks for the latest  block
+   *
    */
   block: _Block_;
   /** The deployment ID */
@@ -6880,248 +7216,667 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny',
 }
 
-export type ProtocolDataFragmentFragment = { __typename?: 'ProtocolData' } & Pick<
-  ProtocolData,
-  'usdPriceEth' | 'emissionEndTimestamp'
-> & {
-    reserves: Array<
-      { __typename?: 'ReserveData' } & Pick<
-        ReserveData,
-        | 'id'
-        | 'underlyingAsset'
-        | 'name'
-        | 'symbol'
-        | 'decimals'
-        | 'isActive'
-        | 'isFrozen'
-        | 'usageAsCollateralEnabled'
-        | 'aTokenAddress'
-        | 'stableDebtTokenAddress'
-        | 'variableDebtTokenAddress'
-        | 'borrowingEnabled'
-        | 'stableBorrowRateEnabled'
-        | 'reserveFactor'
-        | 'baseLTVasCollateral'
-        | 'optimalUtilisationRate'
-        | 'stableRateSlope1'
-        | 'stableRateSlope2'
-        | 'averageStableRate'
-        | 'stableDebtLastUpdateTimestamp'
-        | 'baseVariableBorrowRate'
-        | 'variableRateSlope1'
-        | 'variableRateSlope2'
-        | 'liquidityIndex'
-        | 'reserveLiquidationThreshold'
-        | 'reserveLiquidationBonus'
-        | 'variableBorrowIndex'
-        | 'variableBorrowRate'
-        | 'availableLiquidity'
-        | 'stableBorrowRate'
-        | 'liquidityRate'
-        | 'totalPrincipalStableDebt'
-        | 'totalScaledVariableDebt'
-        | 'lastUpdateTimestamp'
-        | 'aEmissionPerSecond'
-        | 'vEmissionPerSecond'
-        | 'sEmissionPerSecond'
-        | 'aIncentivesLastUpdateTimestamp'
-        | 'vIncentivesLastUpdateTimestamp'
-        | 'sIncentivesLastUpdateTimestamp'
-        | 'aTokenIncentivesIndex'
-        | 'vTokenIncentivesIndex'
-        | 'sTokenIncentivesIndex'
-      > & { price: { __typename?: 'PriceData' } & Pick<PriceData, 'priceInEth'> }
-    >;
-  };
+export type IncentivesDataFragmentFragment = {
+  __typename?: 'IncentivesData';
+  emissionPerSecond: string;
+  incentivesLastUpdateTimestamp: number;
+  tokenIncentivesIndex: string;
+  emissionEndTimestamp: number;
+  tokenAddress: string;
+  rewardTokenAddress: string;
+  rewardTokenDecimals: number;
+  incentiveControllerAddress: string;
+  precision: number;
+  priceFeed: string;
+  priceFeedDecimals: number;
+  priceFeedTimestamp: number;
+};
 
-export type C_ProtocolDataQueryVariables = Exact<{
-  poolAddress: Scalars['String'];
+export type C_ReservesIncentivesQueryVariables = Exact<{
+  lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
 }>;
 
-export type C_ProtocolDataQuery = { __typename?: 'Query' } & {
-  protocolData: { __typename?: 'ProtocolData' } & ProtocolDataFragmentFragment;
+export type C_ReservesIncentivesQuery = {
+  __typename?: 'Query';
+  reservesIncentives: Array<{
+    __typename?: 'ReserveIncentivesData';
+    underlyingAsset: string;
+    aIncentiveData: {
+      __typename?: 'IncentivesData';
+      emissionPerSecond: string;
+      incentivesLastUpdateTimestamp: number;
+      tokenIncentivesIndex: string;
+      emissionEndTimestamp: number;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+      precision: number;
+      priceFeed: string;
+      priceFeedDecimals: number;
+      priceFeedTimestamp: number;
+    };
+    vIncentiveData: {
+      __typename?: 'IncentivesData';
+      emissionPerSecond: string;
+      incentivesLastUpdateTimestamp: number;
+      tokenIncentivesIndex: string;
+      emissionEndTimestamp: number;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+      precision: number;
+      priceFeed: string;
+      priceFeedDecimals: number;
+      priceFeedTimestamp: number;
+    };
+    sIncentiveData: {
+      __typename?: 'IncentivesData';
+      emissionPerSecond: string;
+      incentivesLastUpdateTimestamp: number;
+      tokenIncentivesIndex: string;
+      emissionEndTimestamp: number;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+      precision: number;
+      priceFeed: string;
+      priceFeedDecimals: number;
+      priceFeedTimestamp: number;
+    };
+  }>;
+};
+
+export type C_PoolIncentivesDataUpdateSubscriptionVariables = Exact<{
+  lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
+}>;
+
+export type C_PoolIncentivesDataUpdateSubscription = {
+  __typename?: 'Subscription';
+  poolIncentivesDataUpdate: Array<{
+    __typename?: 'ReserveIncentivesData';
+    underlyingAsset: string;
+    aIncentiveData: {
+      __typename?: 'IncentivesData';
+      emissionPerSecond: string;
+      incentivesLastUpdateTimestamp: number;
+      tokenIncentivesIndex: string;
+      emissionEndTimestamp: number;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+      precision: number;
+      priceFeed: string;
+      priceFeedDecimals: number;
+      priceFeedTimestamp: number;
+    };
+    vIncentiveData: {
+      __typename?: 'IncentivesData';
+      emissionPerSecond: string;
+      incentivesLastUpdateTimestamp: number;
+      tokenIncentivesIndex: string;
+      emissionEndTimestamp: number;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+      precision: number;
+      priceFeed: string;
+      priceFeedDecimals: number;
+      priceFeedTimestamp: number;
+    };
+    sIncentiveData: {
+      __typename?: 'IncentivesData';
+      emissionPerSecond: string;
+      incentivesLastUpdateTimestamp: number;
+      tokenIncentivesIndex: string;
+      emissionEndTimestamp: number;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+      precision: number;
+      priceFeed: string;
+      priceFeedDecimals: number;
+      priceFeedTimestamp: number;
+    };
+  }>;
+};
+
+export type ReserveDataFragmentFragment = {
+  __typename?: 'ReserveData';
+  id: string;
+  underlyingAsset: string;
+  name: string;
+  symbol: string;
+  decimals: number;
+  isActive: boolean;
+  isFrozen: boolean;
+  usageAsCollateralEnabled: boolean;
+  aTokenAddress: string;
+  stableDebtTokenAddress: string;
+  variableDebtTokenAddress: string;
+  borrowingEnabled: boolean;
+  stableBorrowRateEnabled: boolean;
+  reserveFactor: string;
+  interestRateStrategyAddress: string;
+  baseLTVasCollateral: string;
+  stableRateSlope1: string;
+  stableRateSlope2: string;
+  averageStableRate: string;
+  stableDebtLastUpdateTimestamp: number;
+  variableRateSlope1: string;
+  variableRateSlope2: string;
+  liquidityIndex: string;
+  reserveLiquidationThreshold: string;
+  reserveLiquidationBonus: string;
+  variableBorrowIndex: string;
+  variableBorrowRate: string;
+  availableLiquidity: string;
+  stableBorrowRate: string;
+  liquidityRate: string;
+  totalPrincipalStableDebt: string;
+  totalScaledVariableDebt: string;
+  lastUpdateTimestamp: number;
+  priceInMarketReferenceCurrency: string;
+};
+
+export type BaseCurrencyDataFragmentFragment = {
+  __typename?: 'BaseCurrencyData';
+  marketReferenceCurrencyDecimals: number;
+  marketReferenceCurrencyPriceInUsd: string;
+  networkBaseTokenPriceInUsd: string;
+  networkBaseTokenPriceDecimals: number;
+};
+
+export type C_ProtocolDataQueryVariables = Exact<{
+  lendingPoolAddressProvider: Scalars['String'];
+}>;
+
+export type C_ProtocolDataQuery = {
+  __typename?: 'Query';
+  protocolData: {
+    __typename?: 'ProtocolData';
+    reserves: Array<{
+      __typename?: 'ReserveData';
+      id: string;
+      underlyingAsset: string;
+      name: string;
+      symbol: string;
+      decimals: number;
+      isActive: boolean;
+      isFrozen: boolean;
+      usageAsCollateralEnabled: boolean;
+      aTokenAddress: string;
+      stableDebtTokenAddress: string;
+      variableDebtTokenAddress: string;
+      borrowingEnabled: boolean;
+      stableBorrowRateEnabled: boolean;
+      reserveFactor: string;
+      interestRateStrategyAddress: string;
+      baseLTVasCollateral: string;
+      stableRateSlope1: string;
+      stableRateSlope2: string;
+      averageStableRate: string;
+      stableDebtLastUpdateTimestamp: number;
+      variableRateSlope1: string;
+      variableRateSlope2: string;
+      liquidityIndex: string;
+      reserveLiquidationThreshold: string;
+      reserveLiquidationBonus: string;
+      variableBorrowIndex: string;
+      variableBorrowRate: string;
+      availableLiquidity: string;
+      stableBorrowRate: string;
+      liquidityRate: string;
+      totalPrincipalStableDebt: string;
+      totalScaledVariableDebt: string;
+      lastUpdateTimestamp: number;
+      priceInMarketReferenceCurrency: string;
+    }>;
+    baseCurrencyData: {
+      __typename?: 'BaseCurrencyData';
+      marketReferenceCurrencyDecimals: number;
+      marketReferenceCurrencyPriceInUsd: string;
+      networkBaseTokenPriceInUsd: string;
+      networkBaseTokenPriceDecimals: number;
+    };
+  };
 };
 
 export type C_ProtocolDataUpdateSubscriptionVariables = Exact<{
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 }>;
 
-export type C_ProtocolDataUpdateSubscription = { __typename?: 'Subscription' } & {
-  protocolDataUpdate: { __typename?: 'ProtocolData' } & ProtocolDataFragmentFragment;
+export type C_ProtocolDataUpdateSubscription = {
+  __typename?: 'Subscription';
+  protocolDataUpdate: {
+    __typename?: 'ProtocolData';
+    reserves: Array<{
+      __typename?: 'ReserveData';
+      id: string;
+      underlyingAsset: string;
+      name: string;
+      symbol: string;
+      decimals: number;
+      isActive: boolean;
+      isFrozen: boolean;
+      usageAsCollateralEnabled: boolean;
+      aTokenAddress: string;
+      stableDebtTokenAddress: string;
+      variableDebtTokenAddress: string;
+      borrowingEnabled: boolean;
+      stableBorrowRateEnabled: boolean;
+      reserveFactor: string;
+      interestRateStrategyAddress: string;
+      baseLTVasCollateral: string;
+      stableRateSlope1: string;
+      stableRateSlope2: string;
+      averageStableRate: string;
+      stableDebtLastUpdateTimestamp: number;
+      variableRateSlope1: string;
+      variableRateSlope2: string;
+      liquidityIndex: string;
+      reserveLiquidationThreshold: string;
+      reserveLiquidationBonus: string;
+      variableBorrowIndex: string;
+      variableBorrowRate: string;
+      availableLiquidity: string;
+      stableBorrowRate: string;
+      liquidityRate: string;
+      totalPrincipalStableDebt: string;
+      totalScaledVariableDebt: string;
+      lastUpdateTimestamp: number;
+      priceInMarketReferenceCurrency: string;
+    }>;
+    baseCurrencyData: {
+      __typename?: 'BaseCurrencyData';
+      marketReferenceCurrencyDecimals: number;
+      marketReferenceCurrencyPriceInUsd: string;
+      networkBaseTokenPriceInUsd: string;
+      networkBaseTokenPriceDecimals: number;
+    };
+  };
 };
 
-export type StakeGeneralUiDataFragmentFragment = { __typename?: 'StakeGeneralUIData' } & Pick<
-  StakeGeneralUiData,
-  'usdPriceEth'
-> & {
-    aave: { __typename?: 'StakeGeneralData' } & Pick<
-      StakeGeneralData,
-      | 'stakeTokenTotalSupply'
-      | 'stakeCooldownSeconds'
-      | 'stakeUnstakeWindow'
-      | 'stakeTokenPriceEth'
-      | 'rewardTokenPriceEth'
-      | 'stakeApy'
-      | 'distributionPerSecond'
-      | 'distributionEnd'
-    >;
-    bpt: { __typename?: 'StakeGeneralData' } & Pick<
-      StakeGeneralData,
-      | 'stakeTokenTotalSupply'
-      | 'stakeCooldownSeconds'
-      | 'stakeUnstakeWindow'
-      | 'stakeTokenPriceEth'
-      | 'rewardTokenPriceEth'
-      | 'stakeApy'
-      | 'distributionPerSecond'
-      | 'distributionEnd'
-    >;
+export type StakeGeneralUiDataFragmentFragment = {
+  __typename?: 'StakeGeneralUIData';
+  usdPriceEth: string;
+  aave: {
+    __typename?: 'StakeGeneralData';
+    stakeTokenTotalSupply: string;
+    stakeCooldownSeconds: number;
+    stakeUnstakeWindow: number;
+    stakeTokenPriceEth: string;
+    rewardTokenPriceEth: string;
+    stakeApy: string;
+    distributionPerSecond: string;
+    distributionEnd: string;
   };
+  bpt: {
+    __typename?: 'StakeGeneralData';
+    stakeTokenTotalSupply: string;
+    stakeCooldownSeconds: number;
+    stakeUnstakeWindow: number;
+    stakeTokenPriceEth: string;
+    rewardTokenPriceEth: string;
+    stakeApy: string;
+    distributionPerSecond: string;
+    distributionEnd: string;
+  };
+};
 
 export type C_StakeGeneralUiDataQueryVariables = Exact<{ [key: string]: never }>;
 
-export type C_StakeGeneralUiDataQuery = { __typename?: 'Query' } & {
-  stakeGeneralUIData: { __typename?: 'StakeGeneralUIData' } & StakeGeneralUiDataFragmentFragment;
+export type C_StakeGeneralUiDataQuery = {
+  __typename?: 'Query';
+  stakeGeneralUIData: {
+    __typename?: 'StakeGeneralUIData';
+    usdPriceEth: string;
+    aave: {
+      __typename?: 'StakeGeneralData';
+      stakeTokenTotalSupply: string;
+      stakeCooldownSeconds: number;
+      stakeUnstakeWindow: number;
+      stakeTokenPriceEth: string;
+      rewardTokenPriceEth: string;
+      stakeApy: string;
+      distributionPerSecond: string;
+      distributionEnd: string;
+    };
+    bpt: {
+      __typename?: 'StakeGeneralData';
+      stakeTokenTotalSupply: string;
+      stakeCooldownSeconds: number;
+      stakeUnstakeWindow: number;
+      stakeTokenPriceEth: string;
+      rewardTokenPriceEth: string;
+      stakeApy: string;
+      distributionPerSecond: string;
+      distributionEnd: string;
+    };
+  };
 };
 
 export type C_StakeGeneralUiDataUpdateSubscriptionVariables = Exact<{ [key: string]: never }>;
 
-export type C_StakeGeneralUiDataUpdateSubscription = { __typename?: 'Subscription' } & {
+export type C_StakeGeneralUiDataUpdateSubscription = {
+  __typename?: 'Subscription';
   stakeGeneralUIDataUpdate: {
     __typename?: 'StakeGeneralUIData';
-  } & StakeGeneralUiDataFragmentFragment;
+    usdPriceEth: string;
+    aave: {
+      __typename?: 'StakeGeneralData';
+      stakeTokenTotalSupply: string;
+      stakeCooldownSeconds: number;
+      stakeUnstakeWindow: number;
+      stakeTokenPriceEth: string;
+      rewardTokenPriceEth: string;
+      stakeApy: string;
+      distributionPerSecond: string;
+      distributionEnd: string;
+    };
+    bpt: {
+      __typename?: 'StakeGeneralData';
+      stakeTokenTotalSupply: string;
+      stakeCooldownSeconds: number;
+      stakeUnstakeWindow: number;
+      stakeTokenPriceEth: string;
+      rewardTokenPriceEth: string;
+      stakeApy: string;
+      distributionPerSecond: string;
+      distributionEnd: string;
+    };
+  };
 };
 
-export type StakeUserUiDataFragmentFragment = { __typename?: 'StakeUserUIData' } & Pick<
-  StakeUserUiData,
-  'usdPriceEth'
-> & {
-    aave: { __typename?: 'StakeUserData' } & Pick<
-      StakeUserData,
-      | 'stakeTokenUserBalance'
-      | 'underlyingTokenUserBalance'
-      | 'userCooldown'
-      | 'userIncentivesToClaim'
-      | 'userPermitNonce'
-    >;
-    bpt: { __typename?: 'StakeUserData' } & Pick<
-      StakeUserData,
-      | 'stakeTokenUserBalance'
-      | 'underlyingTokenUserBalance'
-      | 'userCooldown'
-      | 'userIncentivesToClaim'
-      | 'userPermitNonce'
-    >;
+export type StakeUserUiDataFragmentFragment = {
+  __typename?: 'StakeUserUIData';
+  usdPriceEth: string;
+  aave: {
+    __typename?: 'StakeUserData';
+    stakeTokenUserBalance: string;
+    underlyingTokenUserBalance: string;
+    userCooldown: number;
+    userIncentivesToClaim: string;
+    userPermitNonce: string;
   };
+  bpt: {
+    __typename?: 'StakeUserData';
+    stakeTokenUserBalance: string;
+    underlyingTokenUserBalance: string;
+    userCooldown: number;
+    userIncentivesToClaim: string;
+    userPermitNonce: string;
+  };
+};
 
 export type C_StakeUserUiDataQueryVariables = Exact<{
   userAddress: Scalars['String'];
 }>;
 
-export type C_StakeUserUiDataQuery = { __typename?: 'Query' } & {
-  stakeUserUIData: { __typename?: 'StakeUserUIData' } & StakeUserUiDataFragmentFragment;
+export type C_StakeUserUiDataQuery = {
+  __typename?: 'Query';
+  stakeUserUIData: {
+    __typename?: 'StakeUserUIData';
+    usdPriceEth: string;
+    aave: {
+      __typename?: 'StakeUserData';
+      stakeTokenUserBalance: string;
+      underlyingTokenUserBalance: string;
+      userCooldown: number;
+      userIncentivesToClaim: string;
+      userPermitNonce: string;
+    };
+    bpt: {
+      __typename?: 'StakeUserData';
+      stakeTokenUserBalance: string;
+      underlyingTokenUserBalance: string;
+      userCooldown: number;
+      userIncentivesToClaim: string;
+      userPermitNonce: string;
+    };
+  };
 };
 
 export type C_StakeUserUiDataUpdateSubscriptionVariables = Exact<{
   userAddress: Scalars['String'];
 }>;
 
-export type C_StakeUserUiDataUpdateSubscription = { __typename?: 'Subscription' } & {
-  stakeUserUIDataUpdate: { __typename?: 'StakeUserUIData' } & StakeUserUiDataFragmentFragment;
+export type C_StakeUserUiDataUpdateSubscription = {
+  __typename?: 'Subscription';
+  stakeUserUIDataUpdate: {
+    __typename?: 'StakeUserUIData';
+    usdPriceEth: string;
+    aave: {
+      __typename?: 'StakeUserData';
+      stakeTokenUserBalance: string;
+      underlyingTokenUserBalance: string;
+      userCooldown: number;
+      userIncentivesToClaim: string;
+      userPermitNonce: string;
+    };
+    bpt: {
+      __typename?: 'StakeUserData';
+      stakeTokenUserBalance: string;
+      underlyingTokenUserBalance: string;
+      userCooldown: number;
+      userIncentivesToClaim: string;
+      userPermitNonce: string;
+    };
+  };
 };
 
-export type UserDataFragmentFragment = { __typename?: 'UserData' } & Pick<
-  UserData,
-  'userUnclaimedRewards'
-> & {
-    userReserves: Array<
-      { __typename?: 'UserReserveData' } & Pick<
-        UserReserveData,
-        | 'underlyingAsset'
-        | 'scaledATokenBalance'
-        | 'usageAsCollateralEnabledOnUser'
-        | 'scaledVariableDebt'
-        | 'variableBorrowIndex'
-        | 'stableBorrowRate'
-        | 'principalStableDebt'
-        | 'stableBorrowLastUpdateTimestamp'
-        | 'aTokenincentivesUserIndex'
-        | 'vTokenincentivesUserIndex'
-        | 'sTokenincentivesUserIndex'
-      >
-    >;
-  };
+export type UserReserveDataFragmentFragment = {
+  __typename?: 'UserReserveData';
+  underlyingAsset: string;
+  scaledATokenBalance: string;
+  usageAsCollateralEnabledOnUser: boolean;
+  scaledVariableDebt: string;
+  stableBorrowRate: string;
+  principalStableDebt: string;
+  stableBorrowLastUpdateTimestamp: number;
+};
 
 export type C_UserDataQueryVariables = Exact<{
   userAddress: Scalars['String'];
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 }>;
 
-export type C_UserDataQuery = { __typename?: 'Query' } & {
-  userData: { __typename?: 'UserData' } & UserDataFragmentFragment;
+export type C_UserDataQuery = {
+  __typename?: 'Query';
+  userData: Array<{
+    __typename?: 'UserReserveData';
+    underlyingAsset: string;
+    scaledATokenBalance: string;
+    usageAsCollateralEnabledOnUser: boolean;
+    scaledVariableDebt: string;
+    stableBorrowRate: string;
+    principalStableDebt: string;
+    stableBorrowLastUpdateTimestamp: number;
+  }>;
 };
 
 export type C_UserDataUpdateSubscriptionVariables = Exact<{
   userAddress: Scalars['String'];
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 }>;
 
-export type C_UserDataUpdateSubscription = { __typename?: 'Subscription' } & {
-  userDataUpdate: { __typename?: 'UserData' } & UserDataFragmentFragment;
+export type C_UserDataUpdateSubscription = {
+  __typename?: 'Subscription';
+  userDataUpdate: Array<{
+    __typename?: 'UserReserveData';
+    underlyingAsset: string;
+    scaledATokenBalance: string;
+    usageAsCollateralEnabledOnUser: boolean;
+    scaledVariableDebt: string;
+    stableBorrowRate: string;
+    principalStableDebt: string;
+    stableBorrowLastUpdateTimestamp: number;
+  }>;
 };
 
-export const ProtocolDataFragmentFragmentDoc = gql`
-  fragment ProtocolDataFragment on ProtocolData {
-    reserves {
-      id
-      underlyingAsset
-      name
-      symbol
-      decimals
-      isActive
-      isFrozen
-      usageAsCollateralEnabled
-      aTokenAddress
-      stableDebtTokenAddress
-      variableDebtTokenAddress
-      borrowingEnabled
-      stableBorrowRateEnabled
-      reserveFactor
-      baseLTVasCollateral
-      optimalUtilisationRate
-      stableRateSlope1
-      stableRateSlope2
-      averageStableRate
-      stableDebtLastUpdateTimestamp
-      baseVariableBorrowRate
-      variableRateSlope1
-      variableRateSlope2
-      liquidityIndex
-      reserveLiquidationThreshold
-      reserveLiquidationBonus
-      variableBorrowIndex
-      variableBorrowRate
-      availableLiquidity
-      stableBorrowRate
-      liquidityRate
-      totalPrincipalStableDebt
-      totalScaledVariableDebt
-      lastUpdateTimestamp
-      aEmissionPerSecond
-      vEmissionPerSecond
-      sEmissionPerSecond
-      aIncentivesLastUpdateTimestamp
-      vIncentivesLastUpdateTimestamp
-      sIncentivesLastUpdateTimestamp
-      aTokenIncentivesIndex
-      vTokenIncentivesIndex
-      sTokenIncentivesIndex
-      price {
-        priceInEth
-      }
-    }
-    usdPriceEth
+export type TokenIncentivesUserDataFragmentFragment = {
+  __typename?: 'TokenIncentivesUserData';
+  tokenIncentivesUserIndex: string;
+  userUnclaimedRewards: string;
+  tokenAddress: string;
+  rewardTokenAddress: string;
+  rewardTokenDecimals: number;
+  incentiveControllerAddress: string;
+};
+
+export type C_UserIncentivesQueryVariables = Exact<{
+  userAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
+}>;
+
+export type C_UserIncentivesQuery = {
+  __typename?: 'Query';
+  userIncentives: Array<{
+    __typename?: 'UserIncentivesData';
+    underlyingAsset: string;
+    aTokenIncentivesUserData: {
+      __typename?: 'TokenIncentivesUserData';
+      tokenIncentivesUserIndex: string;
+      userUnclaimedRewards: string;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+    };
+    vTokenIncentivesUserData: {
+      __typename?: 'TokenIncentivesUserData';
+      tokenIncentivesUserIndex: string;
+      userUnclaimedRewards: string;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+    };
+    sTokenIncentivesUserData: {
+      __typename?: 'TokenIncentivesUserData';
+      tokenIncentivesUserIndex: string;
+      userUnclaimedRewards: string;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+    };
+  }>;
+};
+
+export type C_UserPoolIncentivesDataUpdateSubscriptionVariables = Exact<{
+  userAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
+}>;
+
+export type C_UserPoolIncentivesDataUpdateSubscription = {
+  __typename?: 'Subscription';
+  userPoolIncentivesDataUpdate: Array<{
+    __typename?: 'UserIncentivesData';
+    underlyingAsset: string;
+    aTokenIncentivesUserData: {
+      __typename?: 'TokenIncentivesUserData';
+      tokenIncentivesUserIndex: string;
+      userUnclaimedRewards: string;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+    };
+    vTokenIncentivesUserData: {
+      __typename?: 'TokenIncentivesUserData';
+      tokenIncentivesUserIndex: string;
+      userUnclaimedRewards: string;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+    };
+    sTokenIncentivesUserData: {
+      __typename?: 'TokenIncentivesUserData';
+      tokenIncentivesUserIndex: string;
+      userUnclaimedRewards: string;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+    };
+  }>;
+};
+
+export const IncentivesDataFragmentFragmentDoc = gql`
+  fragment IncentivesDataFragment on IncentivesData {
+    emissionPerSecond
+    incentivesLastUpdateTimestamp
+    tokenIncentivesIndex
     emissionEndTimestamp
+    tokenAddress
+    rewardTokenAddress
+    rewardTokenDecimals
+    incentiveControllerAddress
+    precision
+    priceFeed
+    priceFeedDecimals
+    priceFeedTimestamp
+  }
+`;
+export const ReserveDataFragmentFragmentDoc = gql`
+  fragment ReserveDataFragment on ReserveData {
+    id
+    underlyingAsset
+    name
+    symbol
+    decimals
+    isActive
+    isFrozen
+    usageAsCollateralEnabled
+    aTokenAddress
+    stableDebtTokenAddress
+    variableDebtTokenAddress
+    borrowingEnabled
+    stableBorrowRateEnabled
+    reserveFactor
+    interestRateStrategyAddress
+    baseLTVasCollateral
+    stableRateSlope1
+    stableRateSlope2
+    averageStableRate
+    stableDebtLastUpdateTimestamp
+    variableRateSlope1
+    variableRateSlope2
+    liquidityIndex
+    reserveLiquidationThreshold
+    reserveLiquidationBonus
+    variableBorrowIndex
+    variableBorrowRate
+    availableLiquidity
+    stableBorrowRate
+    liquidityRate
+    totalPrincipalStableDebt
+    totalScaledVariableDebt
+    lastUpdateTimestamp
+    priceInMarketReferenceCurrency
+  }
+`;
+export const BaseCurrencyDataFragmentFragmentDoc = gql`
+  fragment BaseCurrencyDataFragment on BaseCurrencyData {
+    marketReferenceCurrencyDecimals
+    marketReferenceCurrencyPriceInUsd
+    networkBaseTokenPriceInUsd
+    networkBaseTokenPriceDecimals
   }
 `;
 export const StakeGeneralUiDataFragmentFragmentDoc = gql`
@@ -7168,31 +7923,177 @@ export const StakeUserUiDataFragmentFragmentDoc = gql`
     usdPriceEth
   }
 `;
-export const UserDataFragmentFragmentDoc = gql`
-  fragment UserDataFragment on UserData {
-    userReserves {
-      underlyingAsset
-      scaledATokenBalance
-      usageAsCollateralEnabledOnUser
-      scaledVariableDebt
-      variableBorrowIndex
-      stableBorrowRate
-      principalStableDebt
-      stableBorrowLastUpdateTimestamp
-      aTokenincentivesUserIndex
-      vTokenincentivesUserIndex
-      sTokenincentivesUserIndex
-    }
-    userUnclaimedRewards
+export const UserReserveDataFragmentFragmentDoc = gql`
+  fragment UserReserveDataFragment on UserReserveData {
+    underlyingAsset
+    scaledATokenBalance
+    usageAsCollateralEnabledOnUser
+    scaledVariableDebt
+    stableBorrowRate
+    principalStableDebt
+    stableBorrowLastUpdateTimestamp
   }
 `;
-export const C_ProtocolDataDocument = gql`
-  query C_ProtocolData($poolAddress: String!) {
-    protocolData(poolAddress: $poolAddress) {
-      ...ProtocolDataFragment
+export const TokenIncentivesUserDataFragmentFragmentDoc = gql`
+  fragment TokenIncentivesUserDataFragment on TokenIncentivesUserData {
+    tokenIncentivesUserIndex
+    userUnclaimedRewards
+    tokenAddress
+    rewardTokenAddress
+    rewardTokenDecimals
+    incentiveControllerAddress
+  }
+`;
+export const C_ReservesIncentivesDocument = gql`
+  query C_ReservesIncentives(
+    $lendingPoolAddressProvider: String!
+    $chainlinkFeedsRegistry: String!
+    $quote: String!
+  ) {
+    reservesIncentives(
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+      chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+      quote: $quote
+    ) {
+      underlyingAsset
+      aIncentiveData {
+        ...IncentivesDataFragment
+      }
+      vIncentiveData {
+        ...IncentivesDataFragment
+      }
+      sIncentiveData {
+        ...IncentivesDataFragment
+      }
     }
   }
-  ${ProtocolDataFragmentFragmentDoc}
+  ${IncentivesDataFragmentFragmentDoc}
+`;
+
+/**
+ * __useC_ReservesIncentivesQuery__
+ *
+ * To run a query within a React component, call `useC_ReservesIncentivesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useC_ReservesIncentivesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useC_ReservesIncentivesQuery({
+ *   variables: {
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *      chainlinkFeedsRegistry: // value for 'chainlinkFeedsRegistry'
+ *      quote: // value for 'quote'
+ *   },
+ * });
+ */
+export function useC_ReservesIncentivesQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    C_ReservesIncentivesQuery,
+    C_ReservesIncentivesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<C_ReservesIncentivesQuery, C_ReservesIncentivesQueryVariables>(
+    C_ReservesIncentivesDocument,
+    options
+  );
+}
+export function useC_ReservesIncentivesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    C_ReservesIncentivesQuery,
+    C_ReservesIncentivesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<
+    C_ReservesIncentivesQuery,
+    C_ReservesIncentivesQueryVariables
+  >(C_ReservesIncentivesDocument, options);
+}
+export type C_ReservesIncentivesQueryHookResult = ReturnType<typeof useC_ReservesIncentivesQuery>;
+export type C_ReservesIncentivesLazyQueryHookResult = ReturnType<
+  typeof useC_ReservesIncentivesLazyQuery
+>;
+export type C_ReservesIncentivesQueryResult = ApolloReactCommon.QueryResult<
+  C_ReservesIncentivesQuery,
+  C_ReservesIncentivesQueryVariables
+>;
+export const C_PoolIncentivesDataUpdateDocument = gql`
+  subscription C_PoolIncentivesDataUpdate(
+    $lendingPoolAddressProvider: String!
+    $chainlinkFeedsRegistry: String!
+    $quote: String!
+  ) {
+    poolIncentivesDataUpdate(
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+      chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+      quote: $quote
+    ) {
+      underlyingAsset
+      aIncentiveData {
+        ...IncentivesDataFragment
+      }
+      vIncentiveData {
+        ...IncentivesDataFragment
+      }
+      sIncentiveData {
+        ...IncentivesDataFragment
+      }
+    }
+  }
+  ${IncentivesDataFragmentFragmentDoc}
+`;
+
+/**
+ * __useC_PoolIncentivesDataUpdateSubscription__
+ *
+ * To run a query within a React component, call `useC_PoolIncentivesDataUpdateSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useC_PoolIncentivesDataUpdateSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useC_PoolIncentivesDataUpdateSubscription({
+ *   variables: {
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *      chainlinkFeedsRegistry: // value for 'chainlinkFeedsRegistry'
+ *      quote: // value for 'quote'
+ *   },
+ * });
+ */
+export function useC_PoolIncentivesDataUpdateSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    C_PoolIncentivesDataUpdateSubscription,
+    C_PoolIncentivesDataUpdateSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    C_PoolIncentivesDataUpdateSubscription,
+    C_PoolIncentivesDataUpdateSubscriptionVariables
+  >(C_PoolIncentivesDataUpdateDocument, options);
+}
+export type C_PoolIncentivesDataUpdateSubscriptionHookResult = ReturnType<
+  typeof useC_PoolIncentivesDataUpdateSubscription
+>;
+export type C_PoolIncentivesDataUpdateSubscriptionResult =
+  ApolloReactCommon.SubscriptionResult<C_PoolIncentivesDataUpdateSubscription>;
+export const C_ProtocolDataDocument = gql`
+  query C_ProtocolData($lendingPoolAddressProvider: String!) {
+    protocolData(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
+      reserves {
+        ...ReserveDataFragment
+      }
+      baseCurrencyData {
+        ...BaseCurrencyDataFragment
+      }
+    }
+  }
+  ${ReserveDataFragmentFragmentDoc}
+  ${BaseCurrencyDataFragmentFragmentDoc}
 `;
 
 /**
@@ -7207,7 +8108,7 @@ export const C_ProtocolDataDocument = gql`
  * @example
  * const { data, loading, error } = useC_ProtocolDataQuery({
  *   variables: {
- *      poolAddress: // value for 'poolAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
  *   },
  * });
  */
@@ -7239,12 +8140,18 @@ export type C_ProtocolDataQueryResult = ApolloReactCommon.QueryResult<
   C_ProtocolDataQueryVariables
 >;
 export const C_ProtocolDataUpdateDocument = gql`
-  subscription C_ProtocolDataUpdate($poolAddress: String!) {
-    protocolDataUpdate(poolAddress: $poolAddress) {
-      ...ProtocolDataFragment
+  subscription C_ProtocolDataUpdate($lendingPoolAddressProvider: String!) {
+    protocolDataUpdate(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
+      reserves {
+        ...ReserveDataFragment
+      }
+      baseCurrencyData {
+        ...BaseCurrencyDataFragment
+      }
     }
   }
-  ${ProtocolDataFragmentFragmentDoc}
+  ${ReserveDataFragmentFragmentDoc}
+  ${BaseCurrencyDataFragmentFragmentDoc}
 `;
 
 /**
@@ -7259,7 +8166,7 @@ export const C_ProtocolDataUpdateDocument = gql`
  * @example
  * const { data, loading, error } = useC_ProtocolDataUpdateSubscription({
  *   variables: {
- *      poolAddress: // value for 'poolAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
  *   },
  * });
  */
@@ -7475,12 +8382,12 @@ export type C_StakeUserUiDataUpdateSubscriptionHookResult = ReturnType<
 export type C_StakeUserUiDataUpdateSubscriptionResult =
   ApolloReactCommon.SubscriptionResult<C_StakeUserUiDataUpdateSubscription>;
 export const C_UserDataDocument = gql`
-  query C_UserData($userAddress: String!, $poolAddress: String!) {
-    userData(userAddress: $userAddress, poolAddress: $poolAddress) {
-      ...UserDataFragment
+  query C_UserData($userAddress: String!, $lendingPoolAddressProvider: String!) {
+    userData(userAddress: $userAddress, lendingPoolAddressProvider: $lendingPoolAddressProvider) {
+      ...UserReserveDataFragment
     }
   }
-  ${UserDataFragmentFragmentDoc}
+  ${UserReserveDataFragmentFragmentDoc}
 `;
 
 /**
@@ -7496,7 +8403,7 @@ export const C_UserDataDocument = gql`
  * const { data, loading, error } = useC_UserDataQuery({
  *   variables: {
  *      userAddress: // value for 'userAddress'
- *      poolAddress: // value for 'poolAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
  *   },
  * });
  */
@@ -7525,12 +8432,15 @@ export type C_UserDataQueryResult = ApolloReactCommon.QueryResult<
   C_UserDataQueryVariables
 >;
 export const C_UserDataUpdateDocument = gql`
-  subscription C_UserDataUpdate($userAddress: String!, $poolAddress: String!) {
-    userDataUpdate(userAddress: $userAddress, poolAddress: $poolAddress) {
-      ...UserDataFragment
+  subscription C_UserDataUpdate($userAddress: String!, $lendingPoolAddressProvider: String!) {
+    userDataUpdate(
+      userAddress: $userAddress
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+    ) {
+      ...UserReserveDataFragment
     }
   }
-  ${UserDataFragmentFragmentDoc}
+  ${UserReserveDataFragmentFragmentDoc}
 `;
 
 /**
@@ -7546,7 +8456,7 @@ export const C_UserDataUpdateDocument = gql`
  * const { data, loading, error } = useC_UserDataUpdateSubscription({
  *   variables: {
  *      userAddress: // value for 'userAddress'
- *      poolAddress: // value for 'poolAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
  *   },
  * });
  */
@@ -7567,3 +8477,144 @@ export type C_UserDataUpdateSubscriptionHookResult = ReturnType<
 >;
 export type C_UserDataUpdateSubscriptionResult =
   ApolloReactCommon.SubscriptionResult<C_UserDataUpdateSubscription>;
+export const C_UserIncentivesDocument = gql`
+  query C_UserIncentives(
+    $userAddress: String!
+    $lendingPoolAddressProvider: String!
+    $chainlinkFeedsRegistry: String!
+    $quote: String!
+  ) {
+    userIncentives(
+      userAddress: $userAddress
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+      chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+      quote: $quote
+    ) {
+      underlyingAsset
+      aTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+      vTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+      sTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+    }
+  }
+  ${TokenIncentivesUserDataFragmentFragmentDoc}
+`;
+
+/**
+ * __useC_UserIncentivesQuery__
+ *
+ * To run a query within a React component, call `useC_UserIncentivesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useC_UserIncentivesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useC_UserIncentivesQuery({
+ *   variables: {
+ *      userAddress: // value for 'userAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *      chainlinkFeedsRegistry: // value for 'chainlinkFeedsRegistry'
+ *      quote: // value for 'quote'
+ *   },
+ * });
+ */
+export function useC_UserIncentivesQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    C_UserIncentivesQuery,
+    C_UserIncentivesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<C_UserIncentivesQuery, C_UserIncentivesQueryVariables>(
+    C_UserIncentivesDocument,
+    options
+  );
+}
+export function useC_UserIncentivesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    C_UserIncentivesQuery,
+    C_UserIncentivesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<C_UserIncentivesQuery, C_UserIncentivesQueryVariables>(
+    C_UserIncentivesDocument,
+    options
+  );
+}
+export type C_UserIncentivesQueryHookResult = ReturnType<typeof useC_UserIncentivesQuery>;
+export type C_UserIncentivesLazyQueryHookResult = ReturnType<typeof useC_UserIncentivesLazyQuery>;
+export type C_UserIncentivesQueryResult = ApolloReactCommon.QueryResult<
+  C_UserIncentivesQuery,
+  C_UserIncentivesQueryVariables
+>;
+export const C_UserPoolIncentivesDataUpdateDocument = gql`
+  subscription C_UserPoolIncentivesDataUpdate(
+    $userAddress: String!
+    $lendingPoolAddressProvider: String!
+    $chainlinkFeedsRegistry: String!
+    $quote: String!
+  ) {
+    userPoolIncentivesDataUpdate(
+      userAddress: $userAddress
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+      chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+      quote: $quote
+    ) {
+      underlyingAsset
+      aTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+      vTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+      sTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+    }
+  }
+  ${TokenIncentivesUserDataFragmentFragmentDoc}
+`;
+
+/**
+ * __useC_UserPoolIncentivesDataUpdateSubscription__
+ *
+ * To run a query within a React component, call `useC_UserPoolIncentivesDataUpdateSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useC_UserPoolIncentivesDataUpdateSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useC_UserPoolIncentivesDataUpdateSubscription({
+ *   variables: {
+ *      userAddress: // value for 'userAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *      chainlinkFeedsRegistry: // value for 'chainlinkFeedsRegistry'
+ *      quote: // value for 'quote'
+ *   },
+ * });
+ */
+export function useC_UserPoolIncentivesDataUpdateSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    C_UserPoolIncentivesDataUpdateSubscription,
+    C_UserPoolIncentivesDataUpdateSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    C_UserPoolIncentivesDataUpdateSubscription,
+    C_UserPoolIncentivesDataUpdateSubscriptionVariables
+  >(C_UserPoolIncentivesDataUpdateDocument, options);
+}
+export type C_UserPoolIncentivesDataUpdateSubscriptionHookResult = ReturnType<
+  typeof useC_UserPoolIncentivesDataUpdateSubscription
+>;
+export type C_UserPoolIncentivesDataUpdateSubscriptionResult =
+  ApolloReactCommon.SubscriptionResult<C_UserPoolIncentivesDataUpdateSubscription>;

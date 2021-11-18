@@ -3,7 +3,6 @@ import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-import { marketsData } from '../../../../ui-config';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import Caption from '../../../../components/basic/Caption';
 import MarketSelectButton from '../../../../components/market/MarketSelectButton';
@@ -12,7 +11,10 @@ import DefaultButton from '../../../../components/basic/DefaultButton';
 
 import messages from './messages';
 import staticStyles from './style';
-import { availableMarkets } from '../../../../config';
+import {
+  availableMarkets,
+  marketsData,
+} from '../../../../helpers/config/markets-and-network-config';
 
 export default function DashboardNoData() {
   const intl = useIntl();
@@ -33,7 +35,7 @@ export default function DashboardNoData() {
             <MarketSelectButton
               onClick={() => setCurrentMarket(market)}
               logo={isCurrentThemeDark ? marketData.logo : marketData.activeLogo || marketData.logo}
-              network={marketData.network}
+              chainId={marketData.chainId}
               subLogo={marketData.subLogo}
               disabled={market === currentMarket}
               key={market}

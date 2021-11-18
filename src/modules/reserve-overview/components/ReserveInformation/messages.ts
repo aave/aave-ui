@@ -8,9 +8,10 @@ export default defineMessages({
   utilisationRate: 'Utilisation rate',
 
   depositAPY: 'Deposit APY',
-  pastThirtyDayAvg: 'Past 30D Avg.',
+  depositAPR: 'Deposit APR',
   variableBorrowing: 'Variable borrowing',
   borrowAPY: 'Borrow APY',
+  borrowAPR: 'Borrow APR',
   overTotal: '% over total',
 
   maximumLTV: 'Maximum LTV',

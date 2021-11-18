@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
-import {
-  valueToBigNumber,
-  BigNumber,
-  InterestRate,
-  API_ETH_MOCK_ADDRESS,
-  Network,
-} from '@aave/protocol-js';
+import { valueToBigNumber, BigNumber, InterestRate, API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 
 import {
   useDynamicPoolDataContext,
@@ -26,10 +20,11 @@ import RepayContentWrapper from '../../components/RepayContentWrapper';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
+import { ChainId } from '@aave/contract-helpers';
 
 interface QueryParams {
   fromAsset?: string;
@@ -89,7 +84,7 @@ function RepayWithCollateralConfirmation({
     );
   }
 
-  const fromAssetUserData = user.reservesData.find(
+  const fromAssetUserData = user.userReservesData.find(
     (res) => res.reserve.underlyingAsset.toLowerCase() === fromAsset?.toLowerCase()
   );
 
@@ -120,14 +115,14 @@ function RepayWithCollateralConfirmation({
 
   const displayAmountToRepay = BigNumber.min(debtToRepay, maxDebtToRepay);
   const displayAmountToRepayInUsd = displayAmountToRepay
-    .multipliedBy(poolReserve.price.priceInEth)
-    .dividedBy(marketRefPriceInUsd);
+    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
+    .multipliedBy(marketRefPriceInUsd);
 
   const amountAfterRepay = maxDebtToRepay.minus(debtToRepay).toString();
   const displayAmountAfterRepay = BigNumber.min(amountAfterRepay, maxDebtToRepay);
   const displayAmountAfterRepayInUsd = displayAmountAfterRepay
-    .multipliedBy(poolReserve.price.priceInEth)
-    .dividedBy(marketRefPriceInUsd);
+    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
+    .multipliedBy(marketRefPriceInUsd);
 
   const { hfAfterSwap, hfInitialEffectOfFromAmount } = calculateHFAfterRepay(
     fromAmountQuery,
@@ -189,9 +184,27 @@ function RepayWithCollateralConfirmation({
         goToAfterSuccess="/dashboard/borrowings"
         warningMessage={warningMessage}
         dangerousMessage={intl.formatMessage(messages.dangerousMessage)}
-        allowedNetworks={[Network.mainnet, Network.fork, Network.kovan]}
+        allowedChainIds={[ChainId.mainnet, ChainId.kovan]}
       >
         <Row title={intl.formatMessage(messages.rowTitle)} withMargin={true}>
+          <Value
+            symbol={fromAssetData?.symbol}
+            value={fromAmountQuery.toString()}
+            tokenIcon={true}
+            subValue={fromAmountUsdQuery.toString()}
+            subSymbol="USD"
+            maximumValueDecimals={isAssetStable(fromAssetData?.symbol || '') ? 4 : 12}
+            maximumSubValueDecimals={4}
+            updateCondition={isTxExecuted}
+            tooltipId={fromAssetData?.symbol}
+          />
+        </Row>
+
+        <Row
+          title={intl.formatMessage(messages.rowTitle)}
+          subTitle={intl.formatMessage(messages.inBorrowCurrency)}
+          withMargin={true}
+        >
           <Value
             symbol={fromAssetData?.symbol}
             value={fromAmountQuery.toString()}

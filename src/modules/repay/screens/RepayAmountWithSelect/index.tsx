@@ -77,7 +77,7 @@ export function RepayAmountWithSelect({
   const maxDebtToRepay =
     toAssetUserData[query.debtType === InterestRate.Stable ? 'stableBorrows' : 'variableBorrows'];
 
-  const availableDeposits = user.reservesData.filter(
+  const availableDeposits = user.userReservesData.filter(
     (res) =>
       res.underlyingBalance !== '0' &&
       res.reserve.symbol.toUpperCase() !== 'XSUSHI' &&
@@ -103,7 +103,7 @@ export function RepayAmountWithSelect({
     },
   ];
 
-  const fromAssetUserData = user.reservesData.find(
+  const fromAssetUserData = user.userReservesData.find(
     (res) => res.reserve.underlyingAsset === fromAsset
   );
 

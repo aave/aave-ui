@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
-import { valueToBigNumber, InterestRate, Network } from '@aave/protocol-js';
+import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import classNames from 'classnames';
 
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import { loanActionLinkComposer } from '../../../../helpers/loan-action-link-composer';
@@ -28,22 +29,24 @@ import MainDashboardTable from '../../components/MainDashboardTable';
 import MobileTopPanelWrapper from '../../components/MobileTopPanelWrapper';
 import DepositBorrowTopPanel from '../../../../components/DepositBorrowTopPanel';
 import ApproximateBalanceHelpModal from '../../../../components/HelpModal/ApproximateBalanceHelpModal';
-import TopIncentiveBalance from '../../../../components/TopIncentiveBalance';
+import IncentiveWrapper from '../../../../components/wrappers/IncentiveWrapper';
 import DashboardNoData from '../../components/DashboardNoData';
 
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
 import { DashboardLeftTopLine } from '../../../../ui-config';
-import { getAssetColor } from '../../../../helpers/markets/assets';
+import { getAssetColor } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';
+import { ChainId } from '@aave/contract-helpers';
 
 export default function Dashboard() {
   const intl = useIntl();
   const history = useHistory();
-  const { network } = useProtocolDataContext();
+  const { chainId } = useProtocolDataContext();
   const { user, reserves } = useDynamicPoolDataContext();
+  const { reserveIncentives } = useIncentivesDataContext();
   const { currentTheme, sm } = useThemeContext();
 
   const [isLTVModalVisible, setLTVModalVisible] = useState(false);
@@ -51,35 +54,39 @@ export default function Dashboard() {
   const [isDepositMobileInfoVisible, setDepositMobileInfoVisible] = useState(false);
   const [isBorrowMobileInfoVisible, setBorrowMobileInfoVisible] = useState(false);
 
-  const maxBorrowAmount = valueToBigNumber(user?.totalBorrowsETH || '0').plus(
-    user?.availableBorrowsETH || '0'
+  const maxBorrowAmount = valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0').plus(
+    user?.availableBorrowsMarketReferenceCurrency || '0'
   );
   const collateralUsagePercent = maxBorrowAmount.eq(0)
     ? '1'
-    : valueToBigNumber(user?.totalBorrowsETH || '0')
+    : valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0')
         .div(maxBorrowAmount)
         .toFixed();
 
-  const loanToValue = valueToBigNumber(user?.totalBorrowsETH || '0')
-    .dividedBy(user?.totalCollateralETH || '1')
+  const loanToValue = valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0')
+    .dividedBy(user?.totalCollateralMarketReferenceCurrency || '1')
     .toFixed();
 
   const depositedPositions: DepositTableItem[] = [];
   const borrowedPositions: BorrowTableItem[] = [];
-
-  user?.reservesData.forEach((userReserve) => {
+  user?.userReservesData.forEach((userReserve) => {
     const poolReserve = reserves.find((res) => res.symbol === userReserve.reserve.symbol);
-
     if (!poolReserve) {
       throw new Error('data is inconsistent pool reserve is not available');
     }
+
+    const reserveIncentiveData =
+      reserveIncentives[userReserve.reserve.underlyingAsset.toLowerCase()];
     if (userReserve.underlyingBalance !== '0' || userReserve.totalBorrows !== '0') {
       const baseListData = {
         uiColor: getAssetColor(userReserve.reserve.symbol),
         isActive: poolReserve.isActive,
         isFrozen: poolReserve.isFrozen,
         stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
-        reserve: userReserve.reserve,
+        reserve: {
+          ...userReserve.reserve,
+          liquidityRate: poolReserve.supplyAPY,
+        },
       };
       if (userReserve.underlyingBalance !== '0') {
         depositedPositions.push({
@@ -90,7 +97,9 @@ export default function Dashboard() {
           usageAsCollateralEnabledOnUser: userReserve.usageAsCollateralEnabledOnUser,
           underlyingBalance: userReserve.underlyingBalance,
           underlyingBalanceUSD: userReserve.underlyingBalanceUSD,
-          aIncentivesAPY: poolReserve.aIncentivesAPY,
+          aincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.aIncentives.incentiveAPR
+            : '0',
           onToggleSwitch: () =>
             toggleUseAsCollateral(
               history,
@@ -108,9 +117,13 @@ export default function Dashboard() {
           currentBorrows: userReserve.variableBorrows,
           currentBorrowsUSD: userReserve.variableBorrowsUSD,
           borrowRateMode: InterestRate.Variable,
-          borrowRate: poolReserve.variableBorrowRate,
-          vIncentivesAPY: poolReserve.vIncentivesAPY,
-          sIncentivesAPY: poolReserve.sIncentivesAPY,
+          borrowRate: poolReserve.variableBorrowAPY,
+          vincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.vIncentives.incentiveAPR
+            : '0',
+          sincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.sIncentives.incentiveAPR
+            : '0',
           avg30DaysVariableRate: poolReserve.avg30DaysVariableBorrowRate,
           repayLink: loanActionLinkComposer(
             'repay',
@@ -140,9 +153,13 @@ export default function Dashboard() {
           currentBorrows: userReserve.stableBorrows,
           currentBorrowsUSD: userReserve.stableBorrowsUSD,
           borrowRateMode: InterestRate.Stable,
-          borrowRate: userReserve.stableBorrowRate,
-          vIncentivesAPY: poolReserve.vIncentivesAPY,
-          sIncentivesAPY: poolReserve.sIncentivesAPY,
+          borrowRate: userReserve.stableBorrowAPY,
+          vincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.vIncentives.incentiveAPR
+            : '0',
+          sincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.sIncentives.incentiveAPR
+            : '0',
           repayLink: loanActionLinkComposer(
             'repay',
             poolReserve.id,
@@ -172,10 +189,10 @@ export default function Dashboard() {
       <div
         className={classNames('Dashboard__mobileMigrate--inner', {
           Dashboard__mobileMigrateWithoutContent:
-            network !== Network.mainnet && !depositedPositions.length,
+            chainId !== ChainId.mainnet && !depositedPositions.length,
         })}
       >
-        <DashboardLeftTopLine intl={intl} network={network} onMobile={true} />
+        <DashboardLeftTopLine intl={intl} chainId={chainId} onMobile={true} />
       </div>
 
       {user && !!depositedPositions.length && (
@@ -196,9 +213,9 @@ export default function Dashboard() {
 
       <div className="Dashboard__top--line">
         <div className="ButtonLink">
-          <DashboardLeftTopLine intl={intl} network={network} />
+          <DashboardLeftTopLine intl={intl} chainId={chainId} />
         </div>
-        <TopIncentiveBalance />
+        <IncentiveWrapper />
       </div>
 
       <DepositBorrowTopPanel />
@@ -225,7 +242,7 @@ export default function Dashboard() {
                   symbol="USD"
                   tokenIcon={true}
                   withSmallDecimals={true}
-                  subValue={user.totalLiquidityETH}
+                  subValue={user.totalLiquidityMarketReferenceCurrency}
                   maximumSubValueDecimals={18}
                   subSymbol="ETH"
                   color="white"
@@ -259,7 +276,7 @@ export default function Dashboard() {
                     tokenIcon={true}
                     minimumValueDecimals={2}
                     maximumValueDecimals={2}
-                    subValue={user.totalBorrowsETH}
+                    subValue={user.totalBorrowsMarketReferenceCurrency}
                     subSymbol="ETH"
                     color="white"
                   />
@@ -290,7 +307,7 @@ export default function Dashboard() {
                 tokenIcon={true}
                 minimumValueDecimals={2}
                 maximumValueDecimals={2}
-                subValue={user.totalCollateralETH}
+                subValue={user.totalCollateralMarketReferenceCurrency}
                 subSymbol="ETH"
                 color="white"
               />
@@ -353,7 +370,7 @@ export default function Dashboard() {
         </MobileTopPanelWrapper>
       )}
 
-      {sm && <TopIncentiveBalance />}
+      {sm && <IncentiveWrapper />}
 
       {user ? (
         <>

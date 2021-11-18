@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const usePooling = (
+export const usePolling = (
   callback: () => Promise<void> | (() => void),
   time: number,
   skip: boolean,
@@ -13,6 +13,11 @@ export const usePooling = (
   useEffect(() => {
     savedCallback.current = callback;
   }, [callback]);
+
+  useEffect(() => {
+    // initial execution
+    if (!skip) callback();
+  }, [...deps]);
 
   useEffect(() => {
     let timeout: number;

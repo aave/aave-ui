@@ -104,16 +104,6 @@ export interface IpfsPropsal {
   body?: string;
   error?: string;
 }
-
-export type ProposalMetadata = {
-  title: string;
-  description: string;
-  shortDescription: string;
-  ipfsHash: string;
-  aip: number;
-  discussions: string;
-  author: string;
-};
 export interface IpfsMeta {
   title: string;
   author: string;

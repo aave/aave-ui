@@ -1,4 +1,7 @@
+require('dotenv').config();
 const build = process.env.BUILD || 'Empty build'
+const LAMBDATEST_ACCOUNT = process.env.LAMBDATEST_ACCOUNT
+const LAMBDATEST_KEY = process.env.LAMBDATEST_KEY
 
 const SPEC_LIST = {
   aaveMarket: {
@@ -16,15 +19,20 @@ const SPEC_LIST = {
       './e2e/specs/mainMarket/assets/bat.test.js',
     ],
     reward: './e2e/specs/mainMarket/reward.test.js',
-    stake: './e2e/specs/mainMarket/stake.kovan.test.js'
+    stake: './e2e/specs/mainMarket/stake.kovan.test.js',
+    swap: './e2e/specs/mainMarket/swap.test.js'
   },
   polygonMarket: {
     baseAsset: './e2e/specs/polygonMarket/assets/matic.polygon.test.js',
     otherAssets: [
       './e2e/specs/polygonMarket/assets/dai.polygon.test.js',
       './e2e/specs/polygonMarket/assets/usdc.polygon.test.js',
+      './e2e/specs/polygonMarket/assets/usdt.polygon.test.js',
+      './e2e/specs/polygonMarket/assets/wbtc.polygon.test.js',
+      './e2e/specs/polygonMarket/assets/weth.polygon.test.js',
     ],
-    reward: './e2e/specs/polygonMarket/reward.polygon.test.js'
+    reward: './e2e/specs/polygonMarket/reward.polygon.test.js',
+    swap: './e2e/specs/polygonMarket/swap.polygon.test.js'
   },
   ammMarket: {
     assets: [
@@ -44,6 +52,7 @@ const SPEC_LIST = {
       './e2e/specs/avalancheMarket/assets/wbtc.avalanche.test.js',
     ],
     reward:'./e2e/specs/avalancheMarket/reward.avalanche.test.js',
+    swap: './e2e/specs/avalancheMarket/swap.avalanche.test.js'
   }
 }
 
@@ -57,24 +66,28 @@ let executionList = () => {
   _specs.push(SPEC_LIST.aaveMarket.stableAssets[random(SPEC_LIST.aaveMarket.stableAssets.length)])
   _specs.push(SPEC_LIST.aaveMarket.variableAssets[random(SPEC_LIST.aaveMarket.variableAssets.length)])
   _specs.push(SPEC_LIST.aaveMarket.reward)
+  _specs.push(SPEC_LIST.aaveMarket.swap)
   // _specs.push(SPEC_LIST.aaveMarket.stake) - bugged
   _specs.push(SPEC_LIST.polygonMarket.baseAsset)
   _specs.push(SPEC_LIST.polygonMarket.otherAssets[random(SPEC_LIST.polygonMarket.otherAssets.length)])
   _specs.push(SPEC_LIST.polygonMarket.reward)
+  _specs.push(SPEC_LIST.polygonMarket.swap)
   _specs.push(SPEC_LIST.ammMarket.assets[random(SPEC_LIST.ammMarket.assets.length)])
   _specs.push(SPEC_LIST.avalancheMarket.baseAsset)
   _specs.push(SPEC_LIST.avalancheMarket.assets[random(SPEC_LIST.avalancheMarket.assets.length)])
   _specs.push(SPEC_LIST.avalancheMarket.reward)
+  _specs.push(SPEC_LIST.avalancheMarket.swap)
   return _specs
 }
 
 exports.config = {
   updateJob: false,
-  user: "nikitaaave",
-  key: "NwR8snfL3EIUt4xTjmUQ2mgqLio6DCDUZMctg2NN2UAx04rGmt",
+  user: LAMBDATEST_ACCOUNT,
+  key: LAMBDATEST_KEY,
   specs: executionList(),
   exclude: [],
   maxInstances: 5,
+  specFileRetries: 2,
   capabilities: [{
     alwaysMatch: {
       browserName: "Chrome",
@@ -95,11 +108,11 @@ exports.config = {
   logLevel: 'error',
   coloredLogs: true,
   baseUrl: '',
-  waitforTimeout: 400000,
+  waitforTimeout: 600000,
   connectionRetryTimeout: 300000,
   connectionRetryCount: 5,
   path: '/wd/hub',
-  hostname: '@eu-central-1-hub.lambdatest.com',
+  hostname: 'hub.lambdatest.com',
   port: 80,
 
   beforeSession: function (config, capabilities, specs) {
@@ -119,6 +132,6 @@ exports.config = {
   framework: 'mocha',
   mochaOpts: {
     ui: 'bdd',
-    timeout: 250000
+    timeout: 500000
   }
 }

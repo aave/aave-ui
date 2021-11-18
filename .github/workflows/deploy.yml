@@ -12,12 +12,6 @@ on:
 jobs:
   deploy_ipfs:
     runs-on: ubuntu-latest
-    env:
-      REACT_APP_SUPPORTED_ETHEREUM_NETWORKS: 'kovan,mumbai,fuji,mainnet,polygon,avalanche'
-      REACT_APP_DEFAULT_ETHEREUM_NETWORK: 'mainnet'
-      REACT_APP_ENABLE_CACHING_BACKEND: 'true'
-      REACT_APP_RATES_HISTORY_ENDPOINT: 'https://aave-api-v2.aave.com/data/rates-history'
-      REACT_APP_ENABLE_NASH: 'true'
     steps:
       - uses: actions/checkout@v2
 
@@ -29,7 +23,13 @@ jobs:
       - name: install
         run: npm ci
 
-      - name: Build and pinata upload
+      - name: prepare env
+        run: cp ${ENV:-'.github/.env.staging'} .env
+
+      - name: build
+        run: npm run build
+
+      - name: deploy
         id: deploy
         env:
           PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}

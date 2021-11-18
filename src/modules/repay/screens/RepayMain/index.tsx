@@ -13,7 +13,9 @@ import RepayContentWrapper from '../../components/RepayContentWrapper';
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import staticStyles from './style';
-import { isFeatureEnabled } from '../../../../helpers/markets/markets-data';
+import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
+import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
+import { PERMISSION } from '@aave/contract-helpers';
 
 export default function RepayMain() {
   const intl = useIntl();
@@ -60,40 +62,42 @@ export default function RepayMain() {
   );
 
   return (
-    <RepayContentWrapper>
-      <div className="RepayMain">
-        <Caption
-          title={intl.formatMessage(defaultMessages.repay)}
-          description={intl.formatMessage(messages.description)}
-        />
+    <PermissionWarning requiredPermission={PERMISSION.BORROWER}>
+      <RepayContentWrapper>
+        <div className="RepayMain">
+          <Caption
+            title={intl.formatMessage(defaultMessages.repay)}
+            description={intl.formatMessage(messages.description)}
+          />
 
-        <div className="RepayMain__buttons-inner">
-          {buttons.map((button, index) => (
-            <Link to={button.link} key={index} className="RepayMain__link ButtonLink">
-              <p>{intl.formatMessage(button.title)}</p>
-            </Link>
-          ))}
-        </div>
+          <div className="RepayMain__buttons-inner">
+            {buttons.map((button, index) => (
+              <Link to={button.link} key={index} className="RepayMain__link ButtonLink">
+                <p>{intl.formatMessage(button.title)}</p>
+              </Link>
+            ))}
+          </div>
 
-        <style jsx={true} global={true}>
-          {staticStyles}
-        </style>
-        <style jsx={true} global={true}>{`
-          .RepayMain {
-            &__buttons-inner {
-              .RepayMain__link {
-                color: ${currentTheme.darkBlue.hex};
-                &:after {
-                  background: ${gradientBackground};
-                }
-                p {
-                  background: ${currentTheme.white.hex};
+          <style jsx={true} global={true}>
+            {staticStyles}
+          </style>
+          <style jsx={true} global={true}>{`
+            .RepayMain {
+              &__buttons-inner {
+                .RepayMain__link {
+                  color: ${currentTheme.darkBlue.hex};
+                  &:after {
+                    background: ${gradientBackground};
+                  }
+                  p {
+                    background: ${currentTheme.white.hex};
+                  }
                 }
               }
             }
-          }
-        `}</style>
-      </div>
-    </RepayContentWrapper>
+          `}</style>
+        </div>
+      </RepayContentWrapper>
+    </PermissionWarning>
   );
 }

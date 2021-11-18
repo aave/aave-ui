@@ -1,11 +1,10 @@
+import { ComputedUserReserve } from '@aave/math-utils';
 import {
   calculateHealthFactorFromBalancesBigUnits,
-  ComputedReserveData,
-  ComputedUserReserve,
-  UserSummaryData,
   valueToBigNumber,
   BigNumberValue,
 } from '@aave/protocol-js';
+import { ComputedReserveData, UserSummary } from '../../libs/pool-data-provider';
 
 export function calculateHFAfterSwap(
   fromAmount: BigNumberValue | undefined,
@@ -14,7 +13,7 @@ export function calculateHFAfterSwap(
   toAmount: BigNumberValue | undefined,
   toAssetData: ComputedReserveData | undefined,
   toAssetUserData: ComputedUserReserve | undefined,
-  user: UserSummaryData,
+  user: UserSummary,
   maxSlippage: BigNumberValue
 ) {
   const hfEffectOfFromAmount =
@@ -23,8 +22,8 @@ export function calculateHFAfterSwap(
     fromAssetData.usageAsCollateralEnabled &&
     fromAssetUserData?.usageAsCollateralEnabledOnUser
       ? calculateHealthFactorFromBalancesBigUnits(
-          valueToBigNumber(fromAmount).multipliedBy(fromAssetData.price.priceInEth),
-          user.totalBorrowsETH,
+          valueToBigNumber(fromAmount).multipliedBy(fromAssetData.priceInMarketReferenceCurrency),
+          user.totalBorrowsMarketReferenceCurrency,
           fromAssetData.reserveLiquidationThreshold
         ).toString()
       : '0';
@@ -37,9 +36,9 @@ export function calculateHFAfterSwap(
       : true)
       ? calculateHealthFactorFromBalancesBigUnits(
           valueToBigNumber(toAmount)
-            .multipliedBy(toAssetData.price.priceInEth)
+            .multipliedBy(toAssetData.priceInMarketReferenceCurrency)
             .multipliedBy(1 - +maxSlippage / 100),
-          user.totalBorrowsETH,
+          user.totalBorrowsMarketReferenceCurrency,
           toAssetData.reserveLiquidationThreshold
         ).toString()
       : '0';

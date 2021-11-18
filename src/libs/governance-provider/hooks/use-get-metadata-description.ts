@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import fm from 'front-matter';
 import { IpfsMeta, IpfsPropsal } from '../types';
-import { getProposalMetadata } from '../helper';
+import { getProposalMetadata } from '@aave/contract-helpers';
 
 const useGetMetadataDescription = (idHash: string, skip: boolean) => {
   const [loading, setLoading] = useState(false);

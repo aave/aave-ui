@@ -7,7 +7,7 @@ import Row from '../../../../components/basic/Row';
 import NoData from '../../../../components/basic/NoData';
 import Value from '../../../../components/basic/Value';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 
@@ -24,7 +24,7 @@ export default function DepositMobileCard({
   userId,
   borrowingEnabled,
   isFreezed,
-  aIncentivesAPY,
+  aincentivesAPR,
 }: DepositTableItem) {
   const intl = useIntl();
   const history = useHistory();
@@ -60,7 +60,7 @@ export default function DepositMobileCard({
               symbol={symbol}
               value={liquidityRate}
               thirtyDaysValue={avg30DaysLiquidityRate}
-              liquidityMiningValue={aIncentivesAPY}
+              liquidityMiningValue={aincentivesAPR}
               type="deposit"
             />
           ) : (

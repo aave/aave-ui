@@ -1,6 +1,6 @@
 import React, { FormEvent, ReactNode, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ComputedUserReserve, ReserveData, valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/protocol-js';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
 import Caption from '../../../../components/basic/Caption';
@@ -13,10 +13,12 @@ import messages from './messages';
 import staticStyles from './style';
 
 import { BorrowRateMode } from '../../../../libs/pool-data-provider/graphql';
+import { ComputedReserveData } from '../../../../libs/pool-data-provider';
+import { ComputedUserReserve } from '@aave/math-utils';
 
 interface BorrowInterestRateFormProps {
   amountToBorrow: string;
-  poolReserve: ReserveData;
+  poolReserve: ComputedReserveData;
   userReserve?: ComputedUserReserve;
   onSubmit: (rateMode: string) => void;
 }
@@ -80,7 +82,7 @@ export default function BorrowInterestRateForm({
             title={intl.formatMessage(messages.stable)}
             type="stable"
             disabled={!isStableBorrowRateAllowed}
-            percent={Number(poolReserve.stableBorrowRate)}
+            percent={Number(poolReserve.stableBorrowAPY)}
             isActive={rateMode === BorrowRateMode.Stable}
             onClick={() => setRateMode(BorrowRateMode.Stable)}
           />
@@ -88,7 +90,7 @@ export default function BorrowInterestRateForm({
         <InterestRateButton
           title={intl.formatMessage(messages.variable)}
           type="variable"
-          percent={Number(poolReserve.variableBorrowRate)}
+          percent={Number(poolReserve.variableBorrowAPY)}
           isActive={rateMode === BorrowRateMode.Variable}
           onClick={() => setRateMode(BorrowRateMode.Variable)}
         />

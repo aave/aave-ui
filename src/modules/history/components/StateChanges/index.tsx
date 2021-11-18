@@ -5,7 +5,7 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import TailArrow from '../../../../components/basic/TailArrow';
 import { HistoryItemTypes } from '../../types';
-import { getAssetInfo, TokenIcon } from '../../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';

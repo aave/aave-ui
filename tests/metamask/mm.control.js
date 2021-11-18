@@ -2,7 +2,7 @@ const MetamaskPage = require('./pages/metamask.page')
 const elemUtil = require('./util/element.util')
 const exec = require('child_process').exec;
 
-const data ={
+const data = {
   seedPhrase: "diary enrich solar frown choose chest fiction farm risk approve corn upon",
   password: "12345678",
 }
@@ -54,13 +54,34 @@ class MM {
     elemUtil.doClick(MetamaskPage.logo)
   }
 
+  doOpenMMNewTab(){
+    browser.newWindow(this.extensionUrl)
+    browser.url(this.extensionUrl.replace("#", ""))
+  }
+
   doSetupProfile(){
     this.doSwitchNetwork("Localhost 8545")
     this.doImportAccount()
   }
 
   doSwitchNetwork(name){
-    elemUtil.doClick(MetamaskPage.networkListBtn)
+    browser.pause(2000) // need to fix unknown mm problem in CI
+    browser.waitUntil(
+      () => {
+        let _located = false
+        if($$(MetamaskPage.networkXpath()).length != 0)
+          _located = true
+        else
+          browser.refresh()
+        return _located
+      },
+      {
+        timeout: 25000,
+        interval: 5000, // need to fix unknown mm problem in CI
+        timeoutMsg: "network button not exist"
+      }
+    ) // need to fix unknown mm problem in CI
+    elemUtil.doClick($(MetamaskPage.networkXpath()))
     let liXpath = '//li//*[text()="'+name+'"]'
     elemUtil.doClick($(liXpath))
   }

@@ -1,7 +1,11 @@
 import { BigNumber } from 'ethers';
 import React, { useContext, useEffect, useMemo } from 'react';
-import { CustomMarket, marketsData } from '../../ui-config';
-import { getNetworkConfig, getProvider } from '../../helpers/markets/markets-data';
+import {
+  marketsData,
+  getNetworkConfig,
+  getProvider,
+  CustomMarket,
+} from '../../helpers/config/markets-and-network-config';
 import { WalletBalanceProviderFactory } from '../pool-data-provider/contracts/WalletBalanceProviderContract';
 import { useProtocolDataContext } from '../protocol-data-provider';
 import { useUserWalletDataContext } from '../web3-data-provider';
@@ -29,13 +33,11 @@ const Context = React.createContext<WalletBalanceProviderContext>(
 
 export const WalletBalanceProvider: React.FC = ({ children }) => {
   const { currentAccount: walletAddress } = useUserWalletDataContext();
-  const [markets, setMarkets] = React.useState<
-    {
-      [key in keyof typeof CustomMarket]?: {
-        [address: string]: string;
-      };
-    }
-  >({});
+  const [markets, setMarkets] = React.useState<{
+    [key in keyof typeof CustomMarket]?: {
+      [address: string]: string;
+    };
+  }>({});
   const [marketsLoading, setMarketsLoading] = React.useState(false);
   const [observedMarkets, setObservedMarkets] = React.useState<CustomMarket[]>([]);
 
@@ -54,10 +56,10 @@ export const WalletBalanceProvider: React.FC = ({ children }) => {
   const fetchFunctions = useMemo(() => {
     return uniqueMarkets.map((market) => {
       const marketData = marketsData[market];
-      const networkConfig = getNetworkConfig(marketData.network);
-      const provider = getProvider(marketData.network);
+      const networkConfig = getNetworkConfig(marketData.chainId);
+      const provider = getProvider(marketData.chainId);
       const contract = WalletBalanceProviderFactory.connect(
-        networkConfig.walletBalanceProvider,
+        networkConfig.addresses.walletBalanceProvider,
         provider
       );
 

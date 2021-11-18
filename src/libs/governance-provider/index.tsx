@@ -1,69 +1,78 @@
 import React, { useContext, PropsWithChildren } from 'react';
-import { AaveGovernanceV2Interface, TxBuilderConfig, TxBuilderV2 } from '@aave/protocol-js';
-import GovernanceDelegationToken from '@aave/protocol-js/dist/tx-builder/interfaces/v2/GovernanceDelegationToken';
 
 import useGetProposals from './hooks/use-get-proposals';
 import useGetProposalsRPC from './hooks/use-get-proposals-rpc';
 import { GovernanceConfig } from '../../ui-config';
-import { getNetworkConfig, getProvider, NetworkConfig } from '../../helpers/markets/markets-data';
+import { NetworkConfig } from '../../helpers/config/types';
+import { getNetworkConfig, getProvider } from '../../helpers/config/markets-and-network-config';
 
 import { ProposalItem } from './types';
 import Preloader from '../../components/basic/Preloader';
+import {
+  ConnectionMode,
+  useConnectionStatusContext,
+  WS_ATTEMPTS_LIMIT,
+} from '../connection-status-provider';
+import { useMainnetCachedServerWsGraphCheck } from '../pool-data-provider/hooks/use-graph-check';
+import {
+  ChainId,
+  AaveGovernanceService,
+  GovernancePowerDelegationTokenService,
+} from '@aave/contract-helpers';
+import { useProtocolDataContext } from '../protocol-data-provider';
 
 export interface ProtocolContextDataType {
   governanceConfig: GovernanceConfig;
   governanceNetworkConfig: NetworkConfig;
-  governanceService: AaveGovernanceV2Interface;
-  powerDelegation: GovernanceDelegationToken;
+  governanceService: AaveGovernanceService;
+  powerDelegation: GovernancePowerDelegationTokenService;
   proposals: ProposalItem[];
 }
 
 const GovernanceProviderContext = React.createContext({} as ProtocolContextDataType);
 
-const RPC_ONLY_MODE = false;
-
 export function GovernanceDataProvider({
   children,
   governanceConfig,
 }: PropsWithChildren<{ governanceConfig: GovernanceConfig }>) {
-  const governanceNetworkConfig = getNetworkConfig(governanceConfig.network);
-  const config: TxBuilderConfig = {
-    governance: {
-      [governanceConfig.network]: {
-        AAVE_GOVERNANCE_V2: governanceConfig.addresses.AAVE_GOVERNANCE_V2,
-        AAVE_GOVERNANCE_V2_EXECUTOR_SHORT:
-          governanceConfig.addresses.AAVE_GOVERNANCE_V2_EXECUTOR_SHORT,
-        AAVE_GOVERNANCE_V2_EXECUTOR_LONG:
-          governanceConfig.addresses.AAVE_GOVERNANCE_V2_EXECUTOR_LONG,
-        AAVE_GOVERNANCE_V2_HELPER: governanceConfig.addresses.AAVE_GOVERNANCE_V2_HELPER,
-      },
-    },
-  };
+  const { chainId, networkConfig } = useProtocolDataContext();
+  const governanceNetworkConfig = getNetworkConfig(governanceConfig.chainId);
+  const { preferredConnectionMode } = useConnectionStatusContext();
+  const wsMainnetError = useMainnetCachedServerWsGraphCheck();
+  const isRPCMandatory =
+    governanceNetworkConfig.rpcOnly ||
+    (wsMainnetError.wsErrorCount >= WS_ATTEMPTS_LIMIT &&
+      governanceConfig.chainId === ChainId.mainnet);
+  const isGovernanceFork =
+    networkConfig.isFork && networkConfig.underlyingChainId === governanceConfig.chainId;
+  const isRPCActive =
+    preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory || isGovernanceFork;
 
-  const txBuilder = new TxBuilderV2(
-    governanceConfig.network,
-    getProvider(governanceConfig.network),
-    undefined,
-    config
-  );
-  const governanceService = txBuilder.aaveGovernanceV2Service;
-  const powerDelegation = txBuilder.governanceDelegationTokenService;
+  const rpcProvider = isGovernanceFork
+    ? getProvider(chainId)
+    : getProvider(governanceConfig.chainId);
+
+  const governanceService = new AaveGovernanceService(rpcProvider, {
+    GOVERNANCE_ADDRESS: governanceConfig.addresses.AAVE_GOVERNANCE_V2,
+    GOVERNANCE_HELPER_ADDRESS: governanceConfig.addresses.AAVE_GOVERNANCE_V2_HELPER,
+  });
+  const powerDelegation = new GovernancePowerDelegationTokenService(rpcProvider);
 
   const {
     proposals: propGraph,
     loading: loadingGraph,
     error,
   } = useGetProposals({
-    skip: RPC_ONLY_MODE,
-    network: governanceConfig.network,
+    skip: !!isRPCActive,
+    chainId: isGovernanceFork ? chainId : governanceConfig.chainId,
     averageNetworkBlockTime: governanceConfig.averageNetworkBlockTime,
   });
 
-  const skipRPC = !(RPC_ONLY_MODE || !!error);
+  const skipRPC = !(isRPCActive || !!error);
 
   const { proposals: propRPC, loading: loadingRPC } = useGetProposalsRPC({
     skip: skipRPC,
-    network: governanceConfig.network,
+    chainId: isGovernanceFork ? chainId : governanceConfig.chainId,
     governanceService,
     averageNetworkBlockTime: governanceConfig.averageNetworkBlockTime,
   });
@@ -78,6 +87,9 @@ export function GovernanceDataProvider({
   proposals.forEach((proposal) => {
     if (proposal.id === 25) {
       proposal.title = 'Dynamic Risk Parameters';
+    }
+    if (proposal.id === 48) {
+      proposal.aip = 48;
     }
   });
 

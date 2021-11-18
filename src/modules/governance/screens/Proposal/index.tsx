@@ -15,7 +15,7 @@ import { ProposalItem, ProposalParams, Vote } from '../../../../libs/governance-
 export interface ProtocolContextDataType {
   proposal: ProposalItem | undefined;
   parsedBody: IpfsPropsal | undefined;
-  proposalId: string;
+  proposalId: number;
   proposalHash: string;
   loading: boolean;
   voteData: Vote | undefined;
@@ -30,10 +30,11 @@ export const useProposalDataContext = () => useContext(ProposalProviderContext);
 export default function Proposal() {
   const location = useLocation();
 
-  const { proposalId, proposalHash } = useParams<ProposalParams>();
+  const { proposalId: _proposalId, proposalHash } = useParams<ProposalParams>();
+  const proposalId = Number(_proposalId);
   const { userId } = useStaticPoolDataContext();
   const { proposals, governanceService } = useGovernanceDataContext();
-  const proposal = proposals.find((prop) => prop.id === Number(proposalId));
+  const proposal = proposals.find((prop) => prop.id === proposalId);
 
   const { body, loading } = useGetMetadataDescription(proposalHash, !!proposal?.description);
   const parsedBody = proposal?.description ? proposal?.description : body;

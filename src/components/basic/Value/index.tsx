@@ -7,7 +7,7 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 import { CompactNumber } from '../CompactNumber';
 import SubValue from './SubValue';
 import ValueWithSmallDecimals from './ValueWithSmallDecimals';
-import { getAssetInfo, TokenIcon } from '../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import staticStyles from './style';
 

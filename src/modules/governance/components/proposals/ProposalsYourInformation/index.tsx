@@ -15,7 +15,7 @@ import Link from '../../../../../components/basic/Link';
 import DefaultButton from '../../../../../components/basic/DefaultButton';
 import VoteBalance from '../../VoteBalance';
 import { useGovernanceDataContext } from '../../../../../libs/governance-provider';
-import { TokenIcon } from '../../../../../helpers/markets/assets';
+import { TokenIcon } from '../../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';

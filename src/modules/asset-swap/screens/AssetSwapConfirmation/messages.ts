@@ -20,5 +20,5 @@ export default defineMessages({
   healthDropBellow: 'Health factor can drop bellow one after swap',
 
   warningMessage:
-    'The transaction may fail unless sufficient gas price is used to confirm the transaction in time. Failed transactions are also subject to a fee by the Ethereum network. Use the fast gas price option to reduce the likelihood of the transaction failing.',
+    'The transaction may fail unless sufficient gas price is used to confirm the transaction in time. Failed transactions are also subject to a fee by the network. Use the fast gas price option to reduce the likelihood of the transaction failing.',
 });

@@ -2,7 +2,6 @@ import React, { PropsWithChildren, useCallback, useContext, useEffect, useState 
 import { IntlShape, useIntl } from 'react-intl';
 import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
-import { Network } from '@aave/protocol-js';
 import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
 
 import AddressModal from '../../components/AddressModal';
@@ -21,6 +20,7 @@ import {
 } from '../referral-handler';
 
 import messages from './messages';
+import { ChainId } from '@aave/contract-helpers';
 
 interface UserWalletData {
   availableAccounts: string[];
@@ -29,12 +29,12 @@ interface UserWalletData {
   displaySwitchAccountModal: (reloadAccounts?: boolean) => void;
   showSelectWalletModal: () => void;
   currentProviderName: AvailableWeb3Connectors | undefined;
-  handleNetworkChange: (network: Network) => void;
+  handleNetworkChange: (network: ChainId) => void;
 }
 
 const formattingError = (
   error: Error | undefined,
-  supportedNetworks: Network[],
+  supportedChainIds: ChainId[],
   intl: IntlShape
 ) => {
   if (!error || !error.message) {
@@ -43,7 +43,7 @@ const formattingError = (
   // Unsupported chain
   if (error.message.includes('Unsupported chain id:')) {
     return intl.formatMessage(messages.unsupportedNetwork, {
-      supportedNetworks: supportedNetworks.join(', '),
+      supportedChainIds: supportedChainIds.join(', '),
     });
   }
   // Disconnected or locked ledger
@@ -85,13 +85,13 @@ export interface UnlockWalletPreloaderProps {
 }
 
 export interface ConnectWalletModalProps {
-  preferredNetwork: Network;
-  onSelectPreferredNetwork: (network: Network) => void;
-  supportedNetworks: Network[];
+  preferredChainId: ChainId;
+  onSelectPreferredChainId: (chainId: ChainId) => void;
+  supportedChainIds: ChainId[];
   onUnlockExternalWallet: (
     providerName: AvailableWeb3Connectors,
-    network: Network,
-    availableNetworks: Network[],
+    chainId: ChainId,
+    availableChainIds: ChainId[],
     connectorConfig: ConnectorOptionalConfig,
     skipLoad?: boolean
   ) => void;
@@ -103,16 +103,16 @@ export interface ConnectWalletModalProps {
 }
 
 interface Web3ProviderProps {
-  defaultNetwork: Network;
-  supportedNetworks: Network[];
+  defaultChainId: ChainId;
+  supportedChainIds: ChainId[];
   preloader: (props: { currentProviderName?: AvailableWeb3Connectors }) => JSX.Element;
   connectWalletModal: (props: ConnectWalletModalProps) => JSX.Element;
 }
 
 export function Web3Provider({
   children,
-  defaultNetwork,
-  supportedNetworks,
+  defaultChainId,
+  supportedChainIds,
   preloader: Preloader,
   connectWalletModal: ConnectWalletModal,
 }: PropsWithChildren<Web3ProviderProps>) {
@@ -124,13 +124,13 @@ export function Web3Provider({
     AvailableWeb3Connectors | undefined
   >();
   const [preferredNetwork, setPreferredNetwork] = useState(
-    (localStorage.getItem('preferredNetwork') as Network | null) || defaultNetwork
+    Number(localStorage.getItem('preferredNetwork') || defaultChainId) as ChainId
   );
   const [activating, setActivation] = useState(true);
   const [isSelectWalletModalVisible, setSelectWalletModalVisible] = useState(false);
   const [isErrorDetected, setErrorDetected] = useState(false);
 
-  const formattedError = formattingError(error, supportedNetworks, intl);
+  const formattedError = formattingError(error, supportedChainIds, intl);
 
   const [availableAccounts, setAvailableAccounts] = useState<string[]>([]);
   const [displaySwitchAccountModal, setDisplaySwitchAccountModal] = useState(false);
@@ -147,14 +147,15 @@ export function Web3Provider({
   /** Handlers */
   const handleActivation = async (
     connectorName: AvailableWeb3Connectors,
-    network: Network,
-    availableNetworks: Network[],
+    network: ChainId,
+    availableNetworks: ChainId[],
     connectorConfig: ConnectorOptionalConfig
   ): Promise<boolean> => {
     let isSuccessful = false;
     setActivation(true);
+    console.log(network);
     //TODO: maybe next line is useless
-    localStorage.setItem('preferredNetwork', network);
+    localStorage.setItem('preferredNetwork', network as unknown as string);
     try {
       await activate(
         getWeb3Connector(connectorName, network, availableNetworks, connectorConfig),
@@ -171,14 +172,14 @@ export function Web3Provider({
     return isSuccessful;
   };
 
-  const handleNetworkChange = async (network: Network) => {
+  const handleNetworkChange = async (network: ChainId) => {
     setPreferredNetwork(network);
-    localStorage.setItem('preferredNetwork', network);
+    localStorage.setItem('preferredNetwork', network as unknown as string);
     if (currentProviderName && library) {
       return await handleActivation(
         currentProviderName,
         network,
-        supportedNetworks,
+        supportedChainIds,
         connectorOptionalConfig
       );
     }
@@ -186,11 +187,11 @@ export function Web3Provider({
   const handleUnlockWallet = useCallback(
     async (
       connectorName: AvailableWeb3Connectors,
-      network: Network,
-      availableNetworks: Network[],
+      chainId: ChainId,
+      availableChainIds: ChainId[],
       connectorConfig: ConnectorOptionalConfig
     ) => {
-      if (await handleActivation(connectorName, network, availableNetworks, connectorConfig)) {
+      if (await handleActivation(connectorName, chainId, availableChainIds, connectorConfig)) {
         setSelectWalletModalVisible(false);
       }
     },
@@ -263,7 +264,7 @@ export function Web3Provider({
 
   const handleConnectorConfigUpdate = (updatedConfig: ConnectorOptionalConfig) => {
     if (currentProviderName) {
-      handleUnlockWallet(currentProviderName, preferredNetwork, supportedNetworks, updatedConfig);
+      handleUnlockWallet(currentProviderName, preferredNetwork, supportedChainIds, updatedConfig);
     }
     setConnectorOptionalConfig(updatedConfig);
   };
@@ -281,7 +282,7 @@ export function Web3Provider({
             handleActivation(
               currentProviderName,
               preferredNetwork,
-              supportedNetworks,
+              supportedChainIds,
               updatedConfig
             );
           }
@@ -338,7 +339,7 @@ export function Web3Provider({
         handleUnlockWallet(
           storedProviderName,
           preferredNetwork,
-          supportedNetworks,
+          supportedChainIds,
           connectorOptionalConfig
         );
       } else {
@@ -358,7 +359,7 @@ export function Web3Provider({
   //     handleUnlockWallet(
   //       currentProviderName,
   //       preferredNetwork,
-  //       supportedNetworks,
+  //       supportedChainIds,
   //       connectorOptionalConfig
   //     );
   //   }
@@ -437,9 +438,9 @@ export function Web3Provider({
 
       {(!account || !library || !currentAccount) && (
         <ConnectWalletModal
-          preferredNetwork={preferredNetwork}
-          onSelectPreferredNetwork={handleNetworkChange}
-          supportedNetworks={supportedNetworks}
+          preferredChainId={preferredNetwork}
+          onSelectPreferredChainId={handleNetworkChange}
+          supportedChainIds={supportedChainIds}
           onUnlockExternalWallet={handleUnlockWallet}
           connectorConfig={connectorOptionalConfig}
           error={formattedError}

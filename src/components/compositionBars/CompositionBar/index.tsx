@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { TokenIcon } from '../../../helpers/markets/assets';
+import { TokenIcon } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';
