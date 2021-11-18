@@ -68,23 +68,22 @@ class MM {
     browser.pause(2000) // need to fix unknown mm problem in CI
     browser.waitUntil(
       () => {
+        elemUtil.doClick($(MetamaskPage.networkXpath()))
+        browser.pause(1000)
         let _located = false
-        if($$(MetamaskPage.networkXpath()).length != 0)
+        if($$(`//div[@class="menu-droppo"]`).length != 0)
           _located = true
-        else
-          console.log("!!!!!!!!!!")
-          browser.refresh()
         return _located
       },
       {
         timeout: 25000,
-        interval: 2000, // need to fix unknown mm problem in CI
+        interval: 10000, // need to fix unknown mm problem in CI
         timeoutMsg: "network button not exist"
       }
     ) // need to fix unknown mm problem in CI
-    elemUtil.doClick($(MetamaskPage.networkXpath()))
     let liXpath = '//li//*[text()="'+name+'"]'
     elemUtil.doClick($(liXpath))
+
   }
 
   doImportAccount(privatKey){
