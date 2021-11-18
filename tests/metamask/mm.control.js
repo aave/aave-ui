@@ -19,10 +19,6 @@ class MM {
     elemUtil.doClick(MetamaskPage.setupImportSeedTermsAgree)
     elemUtil.doClickWithRedirect(MetamaskPage.setupImportSeedImportBtn)
     elemUtil.doClickWithRedirect(MetamaskPage.setupAllDoneBtn)
-    //need to delete try
-    try{
-      elemUtil.doClick(MetamaskPage.closePopUpBtn)
-    }catch(err){}
     this.doClosePopup()
     this.extensionUrl = browser.getUrl()
   }
@@ -39,10 +35,7 @@ class MM {
   }
 
   doClosePopup(){
-    // need to delete try
-    try{
       elemUtil.doClick(MetamaskPage.closePopUpBtn)
-    }catch(err){}
   }
 
   doCloseMetamaskTab(){
