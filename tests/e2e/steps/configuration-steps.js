@@ -3,6 +3,7 @@ const MM = require('../../metamask/mm.control');
 const MainPage = require('../pageobjects/main.page');
 const TenderlyFork = require('../helpers/tenderly');
 const Page = require('../pageobjects/page');
+const JsUtil = require('../util/jsUtil')
 const constants = require('../fixtures/consts.json');
 const { TENDERLY_ACCOUNT, TENDERLY_KEY, TENDERLY_PROJECT, DOMAIN } = process.env;
 
@@ -117,7 +118,7 @@ let configAave = (market, forkNetworkID = null, forkRPCUrl = null) => {
   MainPage.doSwitchToAave();
 };
 
-let configEnvWithTenderly = ({ setupOptions, market, account }) => {
+let configEnvWithTenderly = ({ setupOptions, market, account, ERC20Tokens = [] }) => {
   const _networkOptions = {
     ...setupOptions,
     ...TENDERLY_SETUP,
@@ -128,6 +129,11 @@ let configEnvWithTenderly = ({ setupOptions, market, account }) => {
   before('setup tenderly', async () => {
     await tenderlyFork.init();
     await tenderlyFork.add_balance(account.address, 10000);
+    await JsUtil.asyncForEach(ERC20Tokens, async (tokens) => {
+      await tenderlyFork.getERC20Token(account.address, tokens.address)
+    });
+
+
   });
   before(() => {
     console.log('ENV: ' + config.URL);
@@ -152,11 +158,13 @@ let configEnvWithTenderly = ({ setupOptions, market, account }) => {
 module.exports.configTestWithTenderlyMainnetFork = ({
   market = constants.markets.aaveV2Fork,
   account = DEFAULT_TEST_ACCOUNT,
+  ERC20Tokens = []
 }) => {
   configEnvWithTenderly({
     setupOptions: TENDERLY_SETUP_OPTIONS_ETH_MAINNET,
     market: market,
     account: account,
+    ERC20Tokens: ERC20Tokens
   });
 };
 
@@ -169,7 +177,6 @@ module.exports.configTestWithTenderlyPolygonFork = (account = DEFAULT_TEST_ACCOU
 };
 
 module.exports.configTestWithTenderlyAvalancheFork = (account = DEFAULT_TEST_ACCOUNT) => {
-  console.log('avalanche ' + DEFAULT_TEST_ACCOUNT.address);
   configEnvWithTenderly({
     setupOptions: TENDERLY_SETUP_OPTIONS_AVALANCHE_MAINNET,
     market: constants.markets.avalancheFork,
