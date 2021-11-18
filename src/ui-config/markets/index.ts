@@ -22,7 +22,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: ExtendedMarketDa
       governance: false,
       staking: false,
       collateralRepay: false,
-      incentives: false,
+      incentives: true,
       permissions: true,
     },
     DAIAddress: '0xff795577d9ac8bd7d90ee22b6c1703490b6512fd',
