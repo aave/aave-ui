@@ -38,6 +38,10 @@ const staticStyles = css.global`
         margin-bottom: 50px;
       }
     }
+
+    .AmountFieldWithSelect {
+      margin: 0;
+    }
   }
 `;
 

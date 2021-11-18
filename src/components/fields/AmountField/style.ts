@@ -37,6 +37,12 @@ const staticStyles = css.global`
           font-size: $medium;
         }
       }
+      .Row__title-inner .Row__title {
+        padding-right: 0;
+      }
+      .Value .Value__value {
+        padding-left: 5px;
+      }
     }
 
     &__wrapper {

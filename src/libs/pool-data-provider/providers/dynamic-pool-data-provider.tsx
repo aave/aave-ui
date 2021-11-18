@@ -9,6 +9,7 @@ import {
   FormatUserSummaryResponse,
   normalize,
 } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
 
 export interface ComputedReserveData extends FormatReserveUSDResponse {
   id: string;
@@ -44,6 +45,7 @@ export interface ComputedReserveData extends FormatReserveUSDResponse {
 export interface UserSummary extends FormatUserSummaryResponse {
   id: string;
   isInIsolationMode: boolean;
+  // isolatedAvailableBorrows: string;
 }
 
 export interface DynamicPoolDataContextData {
@@ -95,12 +97,22 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
 
   let userSummary: UserSummary | undefined = undefined;
   if (computedUserData && userId) {
+    const isolatedReserve = rawUserReserves?.find(
+      (reserve) => reserve.reserve.debtCeiling !== '0' && reserve.usageAsCollateralEnabledOnUser
+    );
+    const isolatedAvailableBorrows = !!isolatedReserve
+      ? normalize(
+          new BigNumber(isolatedReserve.reserve.debtCeiling).minus(
+            isolatedReserve.reserve.isolationModeTotalDebt
+          ),
+          isolatedReserve.reserve.debtCeilingDecimals
+        )
+      : computedUserData.availableBorrowsMarketReferenceCurrency;
     userSummary = {
       id: userId,
       ...computedUserData,
-      isInIsolationMode: !!rawUserReserves?.find(
-        (reserve) => reserve.reserve.debtCeiling !== '0' && reserve.usageAsCollateralEnabledOnUser
-      ),
+      isInIsolationMode: !!isolatedReserve,
+      availableBorrowsMarketReferenceCurrency: isolatedAvailableBorrows,
     };
   }
   return (

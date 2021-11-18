@@ -151,7 +151,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     logo: logos.aaveLogo,
     activeLogo: logos.aaveActiveLogo,
     subLogo: logos.arbitrium,
-    aTokenPrefix: '',
+    aTokenPrefix: 'AA',
     enabledFeatures: {
       faucet: true,
       incentives: false,

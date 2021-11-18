@@ -7,9 +7,12 @@ import {
   BigNumber,
   InterestRate,
 } from '@aave/protocol-js';
+import { PoolInterface } from '@aave/contract-helpers';
 
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
+import RepayContentWrapper from '../../components/RepayContentWrapper';
 import Row from '../../../../components/basic/Row';
 import NoDataPanel from '../../../../components/NoDataPanel';
 import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationView';
@@ -37,11 +40,18 @@ function RepayConfirmation({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { marketRefPriceInUsd, networkConfig } = useStaticPoolDataContext();
+  const { currentMarketData } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
+
   const [isTxExecuted, setIsTxExecuted] = useState(false);
+
   const assetDetails = getAssetInfo(poolReserve.symbol);
+
   const query = queryString.parse(location.search);
   const debtType = query.debtType ? (query.debtType as InterestRate) : InterestRate.Variable;
+  const assetAddress = query.assetAddress ? (query.assetAddress as string) : '';
+
+  const repayWithATokens = assetAddress === poolReserve.aTokenAddress && currentMarketData.v3;
 
   if (!user) {
     return (
@@ -52,24 +62,37 @@ function RepayConfirmation({
       />
     );
   }
+
   if (!amount || !userReserve) {
     return null;
   }
+
+  const { underlyingBalance } = userReserve;
+
   const maxAmountToRepay = valueToBigNumber(
     debtType === InterestRate.Stable ? userReserve.stableBorrows : userReserve.variableBorrows
   );
 
   const safeAmountToRepayAll = valueToBigNumber(maxAmountToRepay).multipliedBy('1.0025');
 
+  // TODO: discuss why not -1?????
   let amountToRepay = amount.toString();
   let amountToRepayUI = amount;
   if (amountToRepay === '-1') {
-    amountToRepayUI = BigNumber.min(walletBalance, safeAmountToRepayAll);
+    amountToRepayUI = BigNumber.min(
+      repayWithATokens ? underlyingBalance : walletBalance,
+      safeAmountToRepayAll
+    );
     if (
       userReserve.reserve.symbol.toUpperCase() === networkConfig.baseAsset ||
-      walletBalance.eq(amountToRepayUI)
+      (repayWithATokens
+        ? valueToBigNumber(underlyingBalance).eq(amountToRepayUI)
+        : walletBalance.eq(amountToRepayUI))
     ) {
-      amountToRepay = BigNumber.min(walletBalance, safeAmountToRepayAll).toString();
+      amountToRepay = BigNumber.min(
+        repayWithATokens ? underlyingBalance : walletBalance,
+        safeAmountToRepayAll
+      ).toString();
     }
   }
 
@@ -97,17 +120,30 @@ function RepayConfirmation({
       user: user.id,
       reserve: poolReserve.underlyingAsset,
       amount: amountToRepay.toString(),
-      interestRateMode: debtType,
+      interestRateMode: debtType as InterestRate,
+    });
+
+  const handleGetATokenTransactions = async () =>
+    await (lendingPool as PoolInterface).repayWithATokens({
+      user: user.id,
+      reserve: poolReserve.underlyingAsset,
+      amount: amountToRepay.toString(),
+      rateMode: debtType as InterestRate,
     });
 
   const handleMainTxExecuted = () => setIsTxExecuted(true);
 
-  const blockingError =
-    walletBalance.eq('0') || walletBalance.lt(amount)
-      ? intl.formatMessage(messages.error, {
-          userReserveSymbol: assetDetails.formattedSymbol || assetDetails.symbol,
-        })
-      : '';
+  const blockingError = (
+    repayWithATokens
+      ? valueToBigNumber(underlyingBalance).eq(0)
+      : walletBalance.eq('0') || repayWithATokens
+      ? valueToBigNumber(underlyingBalance).lt(amount)
+      : walletBalance.lt(amount)
+  )
+    ? intl.formatMessage(messages.error, {
+        userReserveSymbol: assetDetails.formattedSymbol || assetDetails.symbol,
+      })
+    : '';
 
   const warningMessage =
     amount.eq('-1') &&
@@ -116,78 +152,86 @@ function RepayConfirmation({
       ? intl.formatMessage(messages.warningMessage)
       : '';
 
-  const isNotHaveEnoughFunds = amount.toString() === '-1' && walletBalance.lt(maxAmountToRepay);
+  const isNotHaveEnoughFunds =
+    amount.toString() === '-1' &&
+    (repayWithATokens
+      ? valueToBigNumber(underlyingBalance).lt(maxAmountToRepay)
+      : walletBalance.lt(maxAmountToRepay));
 
   return (
-    <PoolTxConfirmationView
-      mainTxName={intl.formatMessage(defaultMessages.repay)}
-      caption={intl.formatMessage(messages.caption)}
-      boxTitle={intl.formatMessage(defaultMessages.repay)}
-      boxDescription={intl.formatMessage(messages.boxDescription)}
-      approveDescription={intl.formatMessage(messages.approveDescription)}
-      getTransactionsData={handleGetTransactions}
-      onMainTxExecuted={handleMainTxExecuted}
-      blockingError={blockingError}
-      goToAfterSuccess="/dashboard/borrowings"
-      warningMessage={warningMessage}
-    >
-      <Row title={intl.formatMessage(messages.rowTitle)} withMargin={true}>
-        <Value
-          symbol={currencySymbol}
-          value={displayAmountToRepay.toString()}
-          tokenIcon={true}
-          subValue={displayAmountToRepayInUsd.toString()}
-          subSymbol="USD"
-          maximumValueDecimals={isAssetStable(currencySymbol) ? 4 : 12}
-          maximumSubValueDecimals={4}
-          updateCondition={isTxExecuted}
-          tooltipId={poolReserve.underlyingAsset}
-        />
-      </Row>
-
-      <Row
-        title={intl.formatMessage(messages.secondRowTitle)}
-        subTitle={
-          isNotHaveEnoughFunds && (
-            <NotHaveEnoughFundsToRepayHelpModal
-              text={intl.formatMessage(messages.secondRowTitleSubTitle)}
-            />
-          )
-        }
-        withMargin={true}
+    <RepayContentWrapper>
+      <PoolTxConfirmationView
+        mainTxName={intl.formatMessage(defaultMessages.repay)}
+        caption={intl.formatMessage(messages.caption)}
+        boxTitle={intl.formatMessage(defaultMessages.repay)}
+        boxDescription={intl.formatMessage(messages.boxDescription)}
+        approveDescription={intl.formatMessage(messages.approveDescription)}
+        getTransactionsData={repayWithATokens ? handleGetATokenTransactions : handleGetTransactions}
+        onMainTxExecuted={handleMainTxExecuted}
+        blockingError={blockingError}
+        goToAfterSuccess="/dashboard/borrowings"
+        warningMessage={warningMessage}
       >
-        <Value
-          symbol={currencySymbol}
-          value={Number(displayAmountAfterRepay) > 0 ? Number(displayAmountAfterRepay) : 0}
-          subValue={
-            Number(displayAmountAfterRepayInUsd) > 0 ? Number(displayAmountAfterRepayInUsd) : 0
+        <Row title={intl.formatMessage(messages.rowTitle)} withMargin={true}>
+          <Value
+            symbol={currencySymbol}
+            value={displayAmountToRepay.toString()}
+            tokenIcon={true}
+            subValue={displayAmountToRepayInUsd.toString()}
+            subSymbol="USD"
+            maximumValueDecimals={isAssetStable(currencySymbol) ? 4 : 12}
+            maximumSubValueDecimals={4}
+            updateCondition={isTxExecuted}
+            tooltipId={poolReserve.underlyingAsset}
+          />
+        </Row>
+
+        <Row
+          title={intl.formatMessage(messages.secondRowTitle)}
+          subTitle={
+            isNotHaveEnoughFunds && (
+              <NotHaveEnoughFundsToRepayHelpModal
+                text={intl.formatMessage(messages.secondRowTitleSubTitle)}
+              />
+            )
           }
-          subSymbol="USD"
-          maximumSubValueDecimals={4}
-          tokenIcon={true}
-          maximumValueDecimals={isNotHaveEnoughFunds ? 14 : isAssetStable(currencySymbol) ? 4 : 12}
+          withMargin={true}
+        >
+          <Value
+            symbol={currencySymbol}
+            value={Number(displayAmountAfterRepay) > 0 ? Number(displayAmountAfterRepay) : 0}
+            subValue={
+              Number(displayAmountAfterRepayInUsd) > 0 ? Number(displayAmountAfterRepayInUsd) : 0
+            }
+            subSymbol="USD"
+            maximumSubValueDecimals={4}
+            tokenIcon={true}
+            maximumValueDecimals={
+              isNotHaveEnoughFunds ? 14 : isAssetStable(currencySymbol) ? 4 : 12
+            }
+            updateCondition={isTxExecuted}
+            tooltipId={poolReserve.id}
+            withSmallDecimals={isNotHaveEnoughFunds}
+            isSmallValueCenterEllipsis={isNotHaveEnoughFunds}
+          />
+        </Row>
+
+        <HealthFactor
+          title={intl.formatMessage(messages.currentHealthFactor)}
+          value={user.healthFactor}
           updateCondition={isTxExecuted}
-          tooltipId={poolReserve.id}
-          withSmallDecimals={isNotHaveEnoughFunds}
-          isSmallValueCenterEllipsis={isNotHaveEnoughFunds}
+          titleColor="dark"
         />
-      </Row>
 
-      <HealthFactor
-        title={intl.formatMessage(messages.currentHealthFactor)}
-        value={user.healthFactor}
-        updateCondition={isTxExecuted}
-        titleColor="dark"
-      />
-
-      <HealthFactor
-        value={healthFactorAfterRepay.toString()}
-        title={intl.formatMessage(messages.nextHealthFactor)}
-        withoutModal={true}
-        updateCondition={isTxExecuted}
-        titleColor="dark"
-      />
-    </PoolTxConfirmationView>
+        <HealthFactor
+          value={healthFactorAfterRepay.toString()}
+          title={intl.formatMessage(messages.nextHealthFactor)}
+          withoutModal={true}
+          updateCondition={isTxExecuted}
+          titleColor="dark"
+        />
+      </PoolTxConfirmationView>
+    </RepayContentWrapper>
   );
 }
 
