@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { EthereumTransactionTypeExtended } from '@aave/protocol-js';
 import { useWeb3React } from '@web3-react/core';
-import { ethers, providers } from 'ethers';
+import { providers } from 'ethers';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import {
@@ -171,26 +171,10 @@ export default function TxConfirmationView({
   // Create permit signature payload and trigger wallet sign
   // If successful, use signature to generate supplyWithPermit transaction
   const handleSubmitPermitSignature = async () => {
-    console.log('--------------')
-    console.log('provider: ', provider)
-    console.log('userId: ', userId)
-    console.log('unsignedPermitData: ', unsignedPermitData)
-    console.log('getPermitEnabledTransaction: ', getPermitEnabledTransactionData)
     if (provider && userId && unsignedPermitData && getPermitEnabledTransactionData) {
       try {
         setPermitLoading(true);
-        // const unsignedPermitDataObject = JSON.parse(unsignedPermitData);
-        // const typedData = {
-        //   domain: unsignedPermitDataObject.domain,
-        //   types: unsignedPermitDataObject.types,
-        //   value: unsignedPermitDataObject.message,
-        // };
-        console.log('DATA TO SIGN');
-        console.log('unsigned permit data: ', unsignedPermitData);
         const signature = await provider.send('eth_signTypedData_v4', [userId, unsignedPermitData]);
-        console.log('SIGNATURE RESPONSE');
-        console.log(signature);
-        console.log('sig:;: ', ethers.utils.splitSignature(signature));
         const supplyWithPermitTx = await getPermitEnabledTransactionData(signature);
         setActionTxData({
           txType: supplyWithPermitTx[0].txType,
@@ -242,7 +226,6 @@ export default function TxConfirmationView({
         });
       }
       if (permitEnabled && getPermitSignatureRequest) {
-        console.log('----llll')
         const permitTxResponse = await getPermitSignatureRequest();
         setUnsignedPermitData(permitTxResponse);
       }
