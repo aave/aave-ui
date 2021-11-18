@@ -39,7 +39,7 @@ exports.config = {
     './e2e/specs/mainMarket/assets/tusd.test.js',
     './e2e/specs/mainMarket/assets/mkr.test.js',
     './e2e/specs/mainMarket/assets/ren.test.js',
-    './e2e/specs/mainMarket/assets/mana.test.js',
+    // './e2e/specs/mainMarket/assets/mana.test.js',
     './e2e/specs/mainMarket/reward.test.js',
     './e2e/specs/mainMarket/swap.test.js',
     './e2e/specs/mainMarket/stake.test.js',
@@ -58,7 +58,7 @@ exports.config = {
     './e2e/specs/ammMarket/assets/dai.test.js',
     './e2e/specs/ammMarket/assets/usdt.test.js',
 
-    // './e2e/specs/avalancheMarket/assets/avax.avalanche.test.js',
+    './e2e/specs/avalancheMarket/assets/avax.avalanche.test.js',
     './e2e/specs/avalancheMarket/assets/dai.avalanche.test.js',
     './e2e/specs/avalancheMarket/assets/usdc.avalanche.test.js',
     './e2e/specs/avalancheMarket/assets/usdt.avalanche.test.js',
