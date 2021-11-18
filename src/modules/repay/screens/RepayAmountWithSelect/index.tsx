@@ -11,7 +11,7 @@ import routeParamValidationHOC, {
 import NoDataPanel from '../../../../components/NoDataPanel';
 import SwapForm, { DEFAULT_MAX_SLIPPAGE } from '../../../../components/forms/SwapForm';
 import AmountFieldWithSelect from '../../../../components/fields/AmountFieldWithSelect';
-
+import RepayContentWrapper from '../../components/RepayContentWrapper';
 import { useAssetSwap } from '../../../../libs/use-asset-swap';
 import { calculateHFAfterRepay } from '../../helpers';
 
@@ -198,65 +198,67 @@ export function RepayAmountWithSelect({
   };
 
   return (
-    <SwapForm
-      onSubmit={handleSubmit}
-      isSubmitButtonDisabled={isSubmitButtonDisabled}
-      maxSlippage={maxSlippage}
-      setMaxSlippage={setMaxSlippage}
-      caption={intl.formatMessage(defaultMessages.repay)}
-      description={intl.formatMessage(messages.description)}
-      error={fromAmountNotEnoughError || debtAmountNotEnoughError || swapLimitError}
-      healthFactor={user.healthFactor}
-      hfAfterSwap={hfAfterSwap.toString()}
-      buttonTitle={intl.formatMessage(messages.continue)}
-      withFees={true}
-      flashloanFees={flashloanFees}
-      helpText={intl.formatMessage(messages.helpText, {
-        increase: (
-          <strong style={{ color: `${currentTheme.green.hex}` }}>
-            {intl.formatMessage(messages.increase)}
-          </strong>
-        ),
-      })}
-      withoutSwapIcon={true}
-      leftField={
-        <AmountFieldWithSelect
-          asset={toAsset}
-          setAsset={onSetToAsset}
-          options={repayDestinationOption}
-          selectTitle={intl.formatMessage(messages.toTitle)}
-          amount={toAmount}
-          setMaxSelected={setIsMaxDebtSelected}
-          onChangeAmount={onSetToAmount}
-          maxAmount={maxDebtToRepay.toString()}
-          amountInUsd={toAmountInUSD}
-          amountTitle={intl.formatMessage(messages.availableToRepay)}
-          percentDifference={(+usdValueSlippage - +maxSlippage).toString()}
-          disabled={loading}
-          loading={loading}
-          maxDecimals={toAssetData?.decimals}
-        />
-      }
-      rightField={
-        <AmountFieldWithSelect
-          asset={fromAsset}
-          setAsset={onSetFromAsset}
-          options={availableDepositsOptions}
-          selectTitle={intl.formatMessage(messages.fromTitle)}
-          amount={fromAmountWithSlippage.toString(10)}
-          // setMaxSelected={setIsMaxDepositSelected}
-          onChangeAmount={onSetFromAmount}
-          maxAmount={maxAmountToSwap}
-          amountInUsd={fromAmountInUSDWithSlippage.toString(10)}
-          amountTitle={intl.formatMessage(messages.available)}
-          disabled={true}
-          selectReverseTitle={!md}
-          loading={loading}
-          error={fromAmountNotEnoughError}
-          maxDecimals={fromAssetData?.decimals}
-        />
-      }
-    />
+    <RepayContentWrapper>
+      <SwapForm
+        onSubmit={handleSubmit}
+        isSubmitButtonDisabled={isSubmitButtonDisabled}
+        maxSlippage={maxSlippage}
+        setMaxSlippage={setMaxSlippage}
+        caption={intl.formatMessage(defaultMessages.repay)}
+        description={intl.formatMessage(messages.description)}
+        error={fromAmountNotEnoughError || debtAmountNotEnoughError || swapLimitError}
+        healthFactor={user.healthFactor}
+        hfAfterSwap={hfAfterSwap.toString()}
+        buttonTitle={intl.formatMessage(messages.continue)}
+        withFees={true}
+        flashloanFees={flashloanFees}
+        helpText={intl.formatMessage(messages.helpText, {
+          increase: (
+            <strong style={{ color: `${currentTheme.green.hex}` }}>
+              {intl.formatMessage(messages.increase)}
+            </strong>
+          ),
+        })}
+        withoutSwapIcon={true}
+        leftField={
+          <AmountFieldWithSelect
+            asset={toAsset}
+            setAsset={onSetToAsset}
+            options={repayDestinationOption}
+            selectTitle={intl.formatMessage(messages.toTitle)}
+            amount={toAmount}
+            setMaxSelected={setIsMaxDebtSelected}
+            onChangeAmount={onSetToAmount}
+            maxAmount={maxDebtToRepay.toString()}
+            amountInUsd={toAmountInUSD}
+            amountTitle={intl.formatMessage(messages.availableToRepay)}
+            percentDifference={(+usdValueSlippage - +maxSlippage).toString()}
+            disabled={loading}
+            loading={loading}
+            maxDecimals={toAssetData?.decimals}
+          />
+        }
+        rightField={
+          <AmountFieldWithSelect
+            asset={fromAsset}
+            setAsset={onSetFromAsset}
+            options={availableDepositsOptions}
+            selectTitle={intl.formatMessage(messages.fromTitle)}
+            amount={fromAmountWithSlippage.toString(10)}
+            // setMaxSelected={setIsMaxDepositSelected}
+            onChangeAmount={onSetFromAmount}
+            maxAmount={maxAmountToSwap}
+            amountInUsd={fromAmountInUSDWithSlippage.toString(10)}
+            amountTitle={intl.formatMessage(messages.available)}
+            disabled={true}
+            selectReverseTitle={!md}
+            loading={loading}
+            error={fromAmountNotEnoughError}
+            maxDecimals={fromAssetData?.decimals}
+          />
+        }
+      />
+    </RepayContentWrapper>
   );
 }
 

@@ -1,11 +1,11 @@
 import React, { PropsWithChildren, useContext } from 'react';
-import { LendingPool, FaucetService, Pool } from '@aave/contract-helpers';
+import { LendingPool, FaucetService, Pool, PoolInterface } from '@aave/contract-helpers';
 
 import { useProtocolDataContext } from '../protocol-data-provider';
 import { getProvider } from '../../helpers/config/markets-and-network-config';
 
 export interface TxBuilderContextInterface {
-  lendingPool: LendingPool | Pool;
+  lendingPool: LendingPool | PoolInterface;
   faucetService: FaucetService;
 }
 

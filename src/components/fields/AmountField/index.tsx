@@ -25,6 +25,7 @@ type AmountFieldProps = {
   loading?: boolean;
   maxDecimals?: number;
   topDecimals?: number;
+  withSelect?: boolean;
 };
 
 export default function AmountField({
@@ -40,6 +41,7 @@ export default function AmountField({
   maxDecimals = 18,
   onMaxButtonClick,
   topDecimals,
+  withSelect,
 }: AmountFieldProps) {
   const intl = useIntl();
   const { currentTheme, lg, md, sm, isCurrentThemeDark } = useThemeContext();
@@ -84,7 +86,13 @@ export default function AmountField({
       )}
 
       <div className="AmountField__wrapper">
-        <TokenIcon tokenSymbol={symbol} width={lg && !md ? 24 : 30} height={lg && !md ? 24 : 30} />
+        {!withSelect && (
+          <TokenIcon
+            tokenSymbol={symbol}
+            width={lg && !md ? 24 : 30}
+            height={lg && !md ? 24 : 30}
+          />
+        )}
 
         <BasicField
           value={formattedValue}
