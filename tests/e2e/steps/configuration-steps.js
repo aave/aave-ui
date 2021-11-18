@@ -129,11 +129,6 @@ let configEnvWithTenderly = ({ setupOptions, market, account, ERC20Tokens = [] }
   before('setup tenderly', async () => {
     await tenderlyFork.init();
     await tenderlyFork.add_balance(account.address, 10000);
-    // await tenderlyFork.getERC20Token(account.address, ERC20Tokens[0].address)
-    // await tenderlyFork.getERC20Token(account.address, ERC20Tokens[1].address)
-    // for(let i = 0; i < ERC20Tokens; i++){
-    //   await tenderlyFork.getERC20Token(account.address, ERC20Tokens[i].address)
-    // }
     await JsUtil.asyncForEach(ERC20Tokens, async (tokens) => {
       await tenderlyFork.getERC20Token(account.address, tokens.address)
     });
@@ -182,7 +177,6 @@ module.exports.configTestWithTenderlyPolygonFork = (account = DEFAULT_TEST_ACCOU
 };
 
 module.exports.configTestWithTenderlyAvalancheFork = (account = DEFAULT_TEST_ACCOUNT) => {
-  console.log('avalanche ' + DEFAULT_TEST_ACCOUNT.address);
   configEnvWithTenderly({
     setupOptions: TENDERLY_SETUP_OPTIONS_AVALANCHE_MAINNET,
     market: constants.markets.avalancheFork,
