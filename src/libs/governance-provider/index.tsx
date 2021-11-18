@@ -97,6 +97,9 @@ export function GovernanceDataProvider({
     if (proposal.id === 25) {
       proposal.title = 'Dynamic Risk Parameters';
     }
+    if (proposal.id === 48) {
+      proposal.aip = 48;
+    }
   });
 
   return (

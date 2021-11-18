@@ -4,7 +4,12 @@ import ProposalTextContent from '../../components/proposal/ProposalTextContent';
 import { useProposalDataContext } from '../Proposal';
 
 export default function TextContent() {
-  const { parsedBody } = useProposalDataContext();
+  const { parsedBody, proposal } = useProposalDataContext();
 
-  return <ProposalTextContent parsedBody={parsedBody} />;
+  return (
+    <ProposalTextContent
+      parsedBody={parsedBody}
+      title={parsedBody?.attributes?.title || proposal?.title}
+    />
+  );
 }
