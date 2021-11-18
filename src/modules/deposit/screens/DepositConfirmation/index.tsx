@@ -4,7 +4,6 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
-import { getReferralCode } from '../../../../libs/referral-handler';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
@@ -89,14 +88,12 @@ function DepositConfirmation({
         user: user.id,
         reserve: poolReserve.underlyingAsset,
         amount: amount.toString(),
-        referralCode: undefined,
       });
     } else {
       return await lendingPool.deposit({
         user: user.id,
         reserve: poolReserve.underlyingAsset,
         amount: amount.toString(),
-        referralCode: getReferralCode(),
       });
     }
   };
@@ -120,7 +117,6 @@ function DepositConfirmation({
       user: user.id,
       reserve: poolReserve.underlyingAsset,
       amount: amount.toString(),
-      referralCode: undefined,
       signature,
     });
   };
