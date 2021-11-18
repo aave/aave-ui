@@ -75,6 +75,7 @@ function RepayConfirmation({
 
   const safeAmountToRepayAll = valueToBigNumber(maxAmountToRepay).multipliedBy('1.0025');
 
+  // TODO: discuss why not -1?????
   let amountToRepay = amount.toString();
   let amountToRepayUI = amount;
   if (amountToRepay === '-1') {

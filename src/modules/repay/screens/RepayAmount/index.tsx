@@ -51,7 +51,7 @@ function RepayAmount({
   // console.log('aTokenBalanceUSD: ', userReserve.underlyingBalanceUSD);
 
   const repayWithATokens = assetAddress === poolReserve.aTokenAddress && v3;
-
+  console.log('repaywithatokens:: ', repayWithATokens)
   useEffect(() => {
     const interestRate =
       debtType === InterestRate.Stable ? userReserve.stableBorrows : userReserve.variableBorrows;
@@ -99,8 +99,7 @@ function RepayAmount({
     withFormattedSymbol: true,
   });
 
-  const withAtokenBalance = +userReserve.underlyingBalance > 0;
-
+  const withAtokenBalance = +userReserve.scaledATokenBalance > 0;
   const options =
     withAtokenBalance && v3
       ? [
@@ -121,7 +120,7 @@ function RepayAmount({
     setAssetAddress(address);
   };
 
-  // console.log('asset:: ', asset);
+  console.log('asset:: ', options);
 
   return (
     <RepayContentWrapper
