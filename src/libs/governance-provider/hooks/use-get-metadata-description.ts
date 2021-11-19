@@ -10,7 +10,7 @@ const useGetMetadataDescription = (idHash: string, skip: boolean) => {
   const getMeta = async (idHash: string) => {
     setLoading(true);
     try {
-      const rawBody = await getProposalMetadata(idHash);
+      const rawBody = await getProposalMetadata(idHash, 'https://gateway.pinata.cloud/ipfs');
       // Fix Bug with the @
       const parsedDesc = !!rawBody.description
         ? rawBody.description.replace(/@/gi, '')
