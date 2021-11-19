@@ -21,6 +21,7 @@ import messages from './messages';
 import { Pool } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { USD_DECIMALS } from '@aave/math-utils';
+import { useState } from 'react';
 
 function DepositConfirmation({
   currencySymbol,
@@ -35,6 +36,9 @@ function DepositConfirmation({
   const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { currentMarketData } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
+
+  const [depositWithPermitEnabled, setDepositWithPermitEnable] = useState(currentMarketData.v3);
+  
   const aTokenData = getAtokenInfo({
     address: poolReserve.aTokenAddress,
     symbol: currencySymbol,
@@ -153,14 +157,15 @@ function DepositConfirmation({
         boxTitle={intl.formatMessage(defaultMessages.deposit)}
         boxDescription={intl.formatMessage(messages.boxDescription)}
         approveDescription={
-          currentMarketData.v3
-            ? intl.formatMessage(messages.approveOrPermitDescription)
+          depositWithPermitEnabled
+            ? intl.formatMessage(messages.permitDescription)
             : intl.formatMessage(messages.approveDescription)
         }
         getTransactionsData={handleGetTransactions}
         getPermitSignatureRequest={handleGetPermitSignatureRequest}
         getPermitEnabledTransactionData={handleGetPermitSupply}
-        permitEnabled={currentMarketData.v3}
+        permitEnabled={depositWithPermitEnabled}
+        togglePermit={setDepositWithPermitEnable}
         blockingError={blockingError}
         aTokenData={aTokenData}
       >

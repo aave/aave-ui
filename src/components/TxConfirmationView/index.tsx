@@ -1,4 +1,11 @@
-import React, { ReactNode, ReactNodeArray, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  ReactNode,
+  ReactNodeArray,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { EthereumTransactionTypeExtended } from '@aave/protocol-js';
@@ -70,6 +77,7 @@ export interface TxConfirmationViewProps {
     signature: string
   ) => Promise<EthereumTransactionTypeExtended[]>;
   permitEnabled?: boolean;
+  togglePermit?: Dispatch<SetStateAction<boolean | undefined>>;
 }
 
 export default function TxConfirmationView({
@@ -104,6 +112,7 @@ export default function TxConfirmationView({
   allowedChainIds: _allowedChainIds,
   aTokenData,
   permitEnabled,
+  togglePermit,
 }: TxConfirmationViewProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -232,6 +241,8 @@ export default function TxConfirmationView({
       setLoadingTxData(false);
     } catch (e) {
       console.log('Error on txs loading', e);
+      // TODO: show correct error if any???
+
       setBackendNotAvailable(true);
       setLoadingTxData(false);
     }
@@ -252,6 +263,12 @@ export default function TxConfirmationView({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [approveTxData?.error, actionTxData?.error]);
+
+  useEffect(() => {
+    if (uncheckedActionTxData.error && selectedStep === 2 && permitEnabled && togglePermit) {
+      setPermitError('Error with permit tx: ' + uncheckedActionTxData.error);
+    }
+  }, [uncheckedActionTxData]);
 
   useEffect(() => {
     if (!networkMismatch) {
@@ -311,7 +328,21 @@ export default function TxConfirmationView({
           >
             {(!blockingError || mainTxConfirmed) && (
               <>
-                {approveTxData &&
+                {permitEnabled && selectedStep === 1 && unsignedPermitData ? (
+                  <ActionExecutionBox
+                    title={`${selectedStep}/${numberOfSteps + 1} ${
+                      backendNotAvailable
+                        ? intl.formatMessage(messages.errorTitle)
+                        : intl.formatMessage(messages.permit)
+                    }`}
+                    description={approveDescription}
+                    onSubmitTransaction={async () => handleSubmitPermitSignature()}
+                    loading={permitLoading}
+                    failed={permitError}
+                    buttonTitle={intl.formatMessage(messages.permit)}
+                  />
+                ) : (
+                  approveTxData &&
                   selectedStep === 1 &&
                   approveTxData.txStatus !== TxStatusType.confirmed && (
                     <ActionExecutionBox
@@ -337,21 +368,7 @@ export default function TxConfirmationView({
                       failed={approveTxData.error}
                       buttonTitle={intl.formatMessage(messages.approve)}
                     />
-                  )}
-
-                {permitEnabled && approveTxData && selectedStep === 1 && unsignedPermitData && (
-                  <ActionExecutionBox
-                    title={`${selectedStep}/${numberOfSteps + 1} ${
-                      backendNotAvailable
-                        ? intl.formatMessage(messages.errorTitle)
-                        : intl.formatMessage(messages.permit)
-                    }`}
-                    description={approveDescription}
-                    onSubmitTransaction={async () => handleSubmitPermitSignature()}
-                    loading={permitLoading}
-                    failed={permitError}
-                    buttonTitle={intl.formatMessage(messages.permit)}
-                  />
+                  )
                 )}
 
                 {actionTxData && selectedStep === numberOfSteps && (
@@ -400,6 +417,18 @@ export default function TxConfirmationView({
                 error={backendNotAvailable || !!blockingError}
               />
             )}
+            {permitError && togglePermit && permitEnabled && selectedStep === 2 && (
+              <button
+                className="TxTopInfo__showError-button"
+                type="button"
+                onClick={() => {
+                  setSelectedStep(1);
+                  togglePermit(false);
+                }}
+              >
+                {intl.formatMessage(messages.tryApproval)}
+              </button>
+            )}
           </ActionsWrapper>
         )}
 
@@ -435,6 +464,9 @@ export default function TxConfirmationView({
             color: ${currentTheme.textDarkBlue.hex};
             background: ${currentTheme.whiteItem.hex};
             border: 1px solid ${currentTheme.darkBlue.hex};
+          }
+          &__showError-button {
+            color: ${currentTheme.primary.hex};
           }
         }
       `}</style>

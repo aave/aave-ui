@@ -8,7 +8,7 @@ export default defineMessages({
   caption: 'Repay overview',
   boxDescription: 'Please submit to repay',
   approveDescription: 'Please approve before repaying',
-  approveOrPermitDescription: 'Please approve or permit before depositing',
+  permitDescription: 'Please sign before repaying',
 
   rowTitle: 'Amount to repay',
   secondRowTitle: 'Remaining to repay',

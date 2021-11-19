@@ -9,6 +9,7 @@ export default defineMessages({
   approve: 'Approve',
   permit: 'Permit',
   goBack: 'Go back',
+  tryApproval: 'Try Approval Flow',
 
   checkboxText: 'Don’t ask me to approve again',
   goToDashboard: 'Go to dashboard',

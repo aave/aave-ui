@@ -44,7 +44,7 @@ function RepayConfirmation({
   const { lendingPool } = useTxBuilderContext();
 
   const [isTxExecuted, setIsTxExecuted] = useState(false);
-  const [repayWithPermit, setRepayWithPermit] = useState(true);
+  const [repayWithPermitEnabled, setRepayWithPermitEnable] = useState(currentMarketData.v3);
   const [signedAmount, setSignedAmount] = useState('0');
 
   const assetDetails = getAssetInfo(poolReserve.symbol);
@@ -89,7 +89,7 @@ function RepayConfirmation({
       (repayWithATokens
         ? valueToBigNumber(underlyingBalance).eq(amountToRepayUI)
         : walletBalance.eq(amountToRepayUI)) ||
-      repayWithPermit
+      repayWithPermitEnabled
     ) {
       amountToRepay = BigNumber.min(
         repayWithATokens ? underlyingBalance : walletBalance,
@@ -205,14 +205,15 @@ function RepayConfirmation({
         boxTitle={intl.formatMessage(defaultMessages.repay)}
         boxDescription={intl.formatMessage(messages.boxDescription)}
         approveDescription={
-          currentMarketData.v3
-            ? intl.formatMessage(messages.approveOrPermitDescription)
+          repayWithPermitEnabled
+            ? intl.formatMessage(messages.permitDescription)
             : intl.formatMessage(messages.approveDescription)
         }
         getTransactionsData={repayWithATokens ? handleGetATokenTransactions : handleGetTransactions}
         getPermitSignatureRequest={handleGetPermitSignatureRequest}
         getPermitEnabledTransactionData={handleGetPermitRepay}
-        permitEnabled={currentMarketData.v3}
+        permitEnabled={repayWithPermitEnabled}
+        togglePermit={setRepayWithPermitEnable}
         onMainTxExecuted={handleMainTxExecuted}
         blockingError={blockingError}
         goToAfterSuccess="/dashboard/borrowings"
