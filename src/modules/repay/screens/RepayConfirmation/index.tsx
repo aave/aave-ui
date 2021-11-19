@@ -44,6 +44,8 @@ function RepayConfirmation({
   const { lendingPool } = useTxBuilderContext();
 
   const [isTxExecuted, setIsTxExecuted] = useState(false);
+  const [repayWithPermit, setRepayWithPermit] = useState(true);
+  const [signedAmount, setSignedAmount] = useState('0');
 
   const assetDetails = getAssetInfo(poolReserve.symbol);
 
@@ -75,7 +77,6 @@ function RepayConfirmation({
 
   const safeAmountToRepayAll = valueToBigNumber(maxAmountToRepay).multipliedBy('1.0025');
 
-  // TODO: discuss why not -1?????
   let amountToRepay = amount.toString();
   let amountToRepayUI = amount;
   if (amountToRepay === '-1') {
@@ -87,7 +88,8 @@ function RepayConfirmation({
       userReserve.reserve.symbol.toUpperCase() === networkConfig.baseAsset ||
       (repayWithATokens
         ? valueToBigNumber(underlyingBalance).eq(amountToRepayUI)
-        : walletBalance.eq(amountToRepayUI))
+        : walletBalance.eq(amountToRepayUI)) ||
+      repayWithPermit
     ) {
       amountToRepay = BigNumber.min(
         repayWithATokens ? underlyingBalance : walletBalance,
@@ -138,6 +140,7 @@ function RepayConfirmation({
   // Generate signature request payload
   const handleGetPermitSignatureRequest = async () => {
     // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
+    setSignedAmount(amountToRepay.toString());
     const newPool: Pool = lendingPool as Pool;
     return await newPool.signERC20Approval({
       user: user.id,
@@ -153,7 +156,7 @@ function RepayConfirmation({
     return await newPool.repayWithPermit({
       user: user.id,
       reserve: poolReserve.underlyingAsset,
-      amount: amountToRepay.toString(),
+      amount: signedAmount, // amountToRepay.toString(),
       interestRateMode: debtType as InterestRate,
       signature,
     });
