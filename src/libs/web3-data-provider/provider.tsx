@@ -124,7 +124,7 @@ export function Web3Provider({
     AvailableWeb3Connectors | undefined
   >();
   const [preferredNetwork, setPreferredNetwork] = useState(
-    Number(localStorage.getItem('preferredNetwork') || defaultChainId) as ChainId
+    (Number(localStorage.getItem('preferredNetwork')) || defaultChainId) as ChainId
   );
   const [activating, setActivation] = useState(true);
   const [isSelectWalletModalVisible, setSelectWalletModalVisible] = useState(false);
