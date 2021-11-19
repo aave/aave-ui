@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 
 import { ProposalItem } from './types';
 
-const IPFS_ENDPOINT = 'https://cloudflare-ipfs.com/ipfs';
+const IPFS_ENDPOINT = 'https://gateway.pinata.cloud/ipfs';
 
 /**
  * Thegraph data is only up to date to the last emitted events.

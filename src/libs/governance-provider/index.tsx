@@ -55,6 +55,7 @@ export function GovernanceDataProvider({
   const governanceService = new AaveGovernanceService(rpcProvider, {
     GOVERNANCE_ADDRESS: governanceConfig.addresses.AAVE_GOVERNANCE_V2,
     GOVERNANCE_HELPER_ADDRESS: governanceConfig.addresses.AAVE_GOVERNANCE_V2_HELPER,
+    ipfsGateway: 'https://gateway.pinata.cloud/ipfs',
   });
   const powerDelegation = new GovernancePowerDelegationTokenService(rpcProvider);
 
