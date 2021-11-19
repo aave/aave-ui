@@ -27,9 +27,9 @@ export const marketsData: { [key in keyof typeof CustomMarket]: ExtendedMarketDa
     },
     DAIAddress: '0xff795577d9ac8bd7d90ee22b6c1703490b6512fd',
     addresses: {
-      LENDING_POOL_ADDRESS_PROVIDER: '0x056f9fe87288Ecd1b2f5daa0f90612e1AE30bC33'.toLowerCase(),
-      LENDING_POOL: '0x0A647896183716adB358c3daece672421114E746',
-      PERMISSION_MANAGER: '0xed7e2d35f8bE038B48F5d34AE28d8F4FF45fbF1A',
+      LENDING_POOL_ADDRESS_PROVIDER: '0xBE1c2487FBb4b56e7716B9e047f4c7dbd0Ab2722'.toLowerCase(),
+      LENDING_POOL: '0xF3480d5a0Bf0bc05B606b3781487A84f8EF4d6Ff',
+      PERMISSION_MANAGER: '0xcf75f0e91561F06b08476e8754a83DBF0379D4a6',
     },
   },
 } as const;
