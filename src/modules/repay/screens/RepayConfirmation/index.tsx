@@ -142,7 +142,7 @@ function RepayConfirmation({
     return await newPool.signERC20Approval({
       user: user.id,
       reserve: poolReserve.underlyingAsset,
-      amount: amount.toString(),
+      amount: amountToRepay.toString(),
     });
   };
 
@@ -153,7 +153,7 @@ function RepayConfirmation({
     return await newPool.repayWithPermit({
       user: user.id,
       reserve: poolReserve.underlyingAsset,
-      amount: amount.toString(),
+      amount: amountToRepay.toString(),
       interestRateMode: debtType as InterestRate,
       signature,
     });
