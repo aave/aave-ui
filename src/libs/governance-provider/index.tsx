@@ -20,6 +20,7 @@ import {
   GovernancePowerDelegationTokenService,
 } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../protocol-data-provider';
+import { IPFS_ENDPOINT } from './helper';
 
 export interface ProtocolContextDataType {
   governanceConfig: GovernanceConfig;
@@ -55,6 +56,7 @@ export function GovernanceDataProvider({
   const governanceService = new AaveGovernanceService(rpcProvider, {
     GOVERNANCE_ADDRESS: governanceConfig.addresses.AAVE_GOVERNANCE_V2,
     GOVERNANCE_HELPER_ADDRESS: governanceConfig.addresses.AAVE_GOVERNANCE_V2_HELPER,
+    ipfsGateway: IPFS_ENDPOINT,
   });
   const powerDelegation = new GovernancePowerDelegationTokenService(rpcProvider);
 

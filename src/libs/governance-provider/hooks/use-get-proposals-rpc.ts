@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Proposal, normalize } from '@aave/protocol-js';
+import { normalize } from '@aave/protocol-js';
 import { providers } from 'ethers';
 
 import { ProposalItem } from '../types';
-import { getProposalExpiry } from '../helper';
+import { getProposalExpiry, IPFS_ENDPOINT } from '../helper';
 
 import { useStateLoading, LOADING_STATE } from '../../hooks/use-state-loading';
 import { usePolling } from '../../hooks/use-polling';
@@ -11,7 +11,12 @@ import { IpfsMeta } from '../types';
 
 import fm from 'front-matter';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
-import { AaveGovernanceService, ChainId } from '@aave/contract-helpers';
+import {
+  AaveGovernanceService,
+  ChainId,
+  getProposalMetadata,
+  Proposal,
+} from '@aave/contract-helpers';
 
 const MemorizeStartTimestamp: { [id: string]: number } = {};
 const MemorizeProposalTimestamp: { [id: string]: number } = {};
@@ -33,15 +38,16 @@ const generateProposal = async (
       );
       MemorizeProposalTimestamp[memorizeId] = Number(proposalTimestamp);
     }
+    const meta = await getProposalMetadata(prop.ipfsHash, IPFS_ENDPOINT);
     // Fix Bug with the @
-    const parsedDesc = !!prop.description
-      ? prop.description.replace(/@/gi, '')
+    const parsedDesc = !!meta.description
+      ? meta.description.replace(/@/gi, '')
       : 'no description, or description loading failed';
     const processed = fm<IpfsMeta>(parsedDesc);
 
     const proposal: ProposalItem = {
       id: Number(prop.id),
-      title: prop.title || '',
+      title: meta.title || '',
       state: prop.state || '',
       ipfsHash: prop.ipfsHash,
       description: {
@@ -51,7 +57,7 @@ const generateProposal = async (
       },
       creator: prop.creator,
       executor: prop.executor,
-      shortDescription: prop.shortDescription,
+      shortDescription: meta.shortDescription,
       totalVotingSupply: normalize(prop.totalVotingSupply, 18),
       executionTime: prop.executionTime,
       startBlock: Number(prop.startBlock),
@@ -91,7 +97,7 @@ const parserProposals = async (
   provider: providers.Provider,
   averageNetworkBlockTime: number
 ) => {
-  const proposalPromises: Promise<ProposalItem | undefined>[] = data.map((prop: Proposal) =>
+  const proposalPromises: Promise<ProposalItem | undefined>[] = data.map((prop) =>
     generateProposal(prop, provider, averageNetworkBlockTime)
   );
   const results: (ProposalItem | undefined)[] = await Promise.all(proposalPromises);
