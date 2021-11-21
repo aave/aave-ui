@@ -11,8 +11,12 @@ import { IpfsMeta } from '../types';
 
 import fm from 'front-matter';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
-import { AaveGovernanceService, ChainId, getProposalMetadata } from '@aave/contract-helpers';
-import { Proposal } from '@aave/contract-helpers/dist/esm/governance-contract/types';
+import {
+  AaveGovernanceService,
+  ChainId,
+  getProposalMetadata,
+  Proposal,
+} from '@aave/contract-helpers';
 
 const MemorizeStartTimestamp: { [id: string]: number } = {};
 const MemorizeProposalTimestamp: { [id: string]: number } = {};
