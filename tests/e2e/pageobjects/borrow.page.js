@@ -7,7 +7,6 @@ const locators = {
   noCollateralMessage: "//div[contains(@class, 'jsx-2524701549 jsx-857932068 Caption__description')]",
 };
 
-
 class BorrowPage extends Page {
   get assetTable () { return $(locators.table) }
   get noColMsg () {return $(locators.noCollateralMessage)}
