@@ -246,7 +246,7 @@ module.exports.confirmCollateralError= ({asset}, skip, updateSkipStatus = false)
       DashboardPage.doChangeCollateral(_shortName)
     })
     it(`Confirm you can't turn collateral off when asset is borrowed `, () => {
-      BorrowPage.doCheckCollateralErrorMessage()
+      DashboardPage.doCheckCollateralErrorMessage()
     })
     after(() => {
       if (!_passed && updateSkipStatus) {
