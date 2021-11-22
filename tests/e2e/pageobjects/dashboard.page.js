@@ -89,16 +89,12 @@ class DashboardPage extends Page {
     let _collateralSwitcher = this.depositRow(asset).$(locators.depositTable.collateralSwitcher)
     elemUtil.doClickWithRedirect(_collateralSwitcher)
   }
+
   doCheckCollateralSwiperIsDisabled(asset) {
     let _collateralSwitcher = this.depositRow(asset).$(locators.depositTable.disabledCollateralSwithcer)
     elemUtil.doIsDisplayed(_collateralSwitcher)
   }
 
-  doCheckCollateralErrorMessage(){
-    let _locator = this.collOffErr
-    let _actualMessage = elemUtil.doGetText(_locator)
-    expect(_actualMessage).to.be.equal("You can't switch usage as collateral mode for this currency, because it will cause collateral call")
-  }
   open() {
     return super.open("/dashboard");
   }

@@ -209,27 +209,32 @@ module.exports.changeCollateral = ({asset, amount, aprType, hasApproval = true},
         this.skip()
       }
     })
-      it(`Turn off the collateral for ${_shortName}`, () => {
-        DashboardPage.open()
-        DashboardPage.doChangeCollateral(_shortName)
-      })
-      it(`Make approve for ${_shortName}, on confirmation page`, () => {
-        ConfirmationPage.doApproveProcess(hasApproval)
-        _passed = true
-      })
-      it(`Check borrowing is off when there is no collateral`, () => {
-        BorrowPage.open()
-        BorrowPage.doTryBorrowAsset(_fullName)
-        BorrowPage.doCheckBorrowErrorMessage()
-      })
-      it(`Turn collateral back on`, () => {
-        DashboardPage.open()
-        DashboardPage.doChangeCollateral(_shortName)
-      })
-      it(`Make approve for ${_shortName}, on confirmation page`, () => {
-        ConfirmationPage.doApproveProcess(hasApproval)
-        _passed = true
-      })
+    it(`Turn off the collateral for ${_shortName}`, () => {
+      DashboardPage.open()
+      DashboardPage.doChangeCollateral(_shortName)
+    })
+    it(`Make approve for ${_shortName}, on confirmation page`, () => {
+      ConfirmationPage.doApproveProcess(hasApproval)
+      _passed = true
+    })
+    it(`Check borrowing is off when there is no collateral`, () => {
+      BorrowPage.open()
+      BorrowPage.doTryBorrowAsset(_fullName)
+      BorrowPage.doCheckBorrowErrorMessage()
+    })
+    it(`Turn collateral back on`, () => {
+      DashboardPage.open()
+      DashboardPage.doChangeCollateral(_shortName)
+    })
+    it(`Make approve for ${_shortName}, on confirmation page`, () => {
+      ConfirmationPage.doApproveProcess(hasApproval)
+      _passed = true
+    })
+    after(()=>{
+      if(!_passed && updateSkipStatus){
+        skip.set(true)
+      }
+    })
   })
 }
 module.exports.confirmCollateralError= ({asset}, skip, updateSkipStatus = false) =>{
@@ -246,7 +251,8 @@ module.exports.confirmCollateralError= ({asset}, skip, updateSkipStatus = false)
       DashboardPage.doChangeCollateral(_shortName)
     })
     it(`Confirm you can't turn collateral off when asset is borrowed `, () => {
-      DashboardPage.doCheckCollateralErrorMessage()
+      ConfirmationPage.doCheckCollateralErrorMessage()
+      _passed = true
     })
     after(() => {
       if (!_passed && updateSkipStatus) {
@@ -267,6 +273,12 @@ module.exports.checkDisabledCollateral = ({asset}, skip, updateSkipStatus = fals
     it(`Confirm collateral swiper is disabled for ${_shortName}`, ()=>{
       DashboardPage.open()
       DashboardPage.doCheckCollateralSwiperIsDisabled(_shortName)
+      _passed = true
+    })
+    after(() => {
+      if (!_passed && updateSkipStatus) {
+        skip.set(true)
+      }
     })
   })
 }

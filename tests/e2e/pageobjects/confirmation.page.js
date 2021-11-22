@@ -73,6 +73,12 @@ class ConfirmationPage extends Page {
     }
     browser.pause(2000) // awaiting updating data on client
   }
+
+  doCheckCollateralErrorMessage(){
+    let _locator = this.collOffErr
+    let _actualMessage = elemUtil.doGetText(_locator)
+    expect(_actualMessage).to.be.equal("You can't switch usage as collateral mode for this currency, because it will cause collateral call")
+  }
 }
 
 module.exports = new ConfirmationPage();

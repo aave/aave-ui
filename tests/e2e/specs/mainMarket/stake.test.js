@@ -13,7 +13,6 @@ const testData = {
 }
 
 describe('STAKE INTEGRATION SPEC',  ()=> {
-  const skipTestState = skipState(false);
   configTestWithTenderlyMainnetFork({
     account: testData.testWallet,
     ERC20Tokens:[
@@ -22,13 +21,21 @@ describe('STAKE INTEGRATION SPEC',  ()=> {
     ]
   })
   describe('Stake AAVE', ()=>{
+    const skip = skipState(false);
+    let _passed = false
     describe('Stake Process', () =>{
+      beforeEach(function(){
+        if(skip.get()){
+          this.skip()
+        }
+      })
       it('Open stake page', () =>{
         StakePage.open()
       })
       it('Stake 1 AAVE', () =>{
         StakePage.doOpenStakeAAVEConfirmationPage("1")
         ConfirmationPage.doTwoStepProcess()
+        _passed = true
       })
       it('Check Staked amount', () => {
         browser.waitUntil(
@@ -38,10 +45,21 @@ describe('STAKE INTEGRATION SPEC',  ()=> {
             timeoutMsg: 'staked value after 10 sec is ' + StakePage.doGetStakedAmount() + ' but should be ' + "1"
           }
         )
+        _passed = true
+      })
+      afterEach(() => {
+        if (!_passed) {
+          skip.set(true)
+        }
       })
     })
 
     describe('Activate cooldown', () => {
+      beforeEach(function(){
+        if(skip.get()){
+          this.skip()
+        }
+      })
       it('Activate cooldown', ()=>{
         StakePage.doActivateCooldown()
       })
@@ -51,6 +69,11 @@ describe('STAKE INTEGRATION SPEC',  ()=> {
     })
 
     describe('Claim Reward', () =>{
+      beforeEach(function(){
+        if(skip.get()){
+          this.skip()
+        }
+      })
       it('Claim reward', () => {
         StakePage.open()
         StakePage.doClaimReward()
@@ -59,13 +82,21 @@ describe('STAKE INTEGRATION SPEC',  ()=> {
   })
 
   describe('Stake ABPT', ()=>{
+    const skip = skipState(false);
+    let _passed = false
     describe('Stake Process', () =>{
+      beforeEach(function(){
+        if(skip.get()){
+          this.skip()
+        }
+      })
       it('Open stake page', () =>{
         StakePage.open()
       })
       it('Stake 1 BPT', () =>{
         StakePage.doOpenStakeBPTConfirmationPage("1")
         ConfirmationPage.doTwoStepProcess()
+        _passed = true
       })
       it('Check Staked amount', () => {
         StakePage.doSwitchToBptInterface()
@@ -76,10 +107,21 @@ describe('STAKE INTEGRATION SPEC',  ()=> {
             timeoutMsg: 'staked value after 10 sec is ' + StakePage.doGetStakedAmount() + ' but should be ' + "1"
           }
         )
+        _passed = true
+      })
+      afterEach(() => {
+        if (!_passed) {
+          skip.set(true)
+        }
       })
     })
 
     describe('Activate cooldown', () => {
+      beforeEach(function(){
+        if(skip.get()){
+          this.skip()
+        }
+      })
       it('Activate cooldown', ()=>{
         StakePage.doActivateCooldown()
       })
@@ -89,11 +131,15 @@ describe('STAKE INTEGRATION SPEC',  ()=> {
     })
 
     describe('Claim Reward', () =>{
+      beforeEach(function(){
+        if(skip.get()){
+          this.skip()
+        }
+      })
       it('Claim reward', () => {
         StakePage.open()
         StakePage.doClaimReward()
       })
     })
   })
-
 })
