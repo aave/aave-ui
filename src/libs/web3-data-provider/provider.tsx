@@ -124,7 +124,7 @@ export function Web3Provider({
     AvailableWeb3Connectors | undefined
   >();
   const [preferredNetwork, setPreferredNetwork] = useState(
-    Number(localStorage.getItem('preferredNetwork') || defaultChainId) as ChainId
+    (Number(localStorage.getItem('preferredChainId')) || defaultChainId) as ChainId
   );
   const [activating, setActivation] = useState(true);
   const [isSelectWalletModalVisible, setSelectWalletModalVisible] = useState(false);
@@ -155,7 +155,7 @@ export function Web3Provider({
     setActivation(true);
     console.log(network);
     //TODO: maybe next line is useless
-    localStorage.setItem('preferredNetwork', network as unknown as string);
+    localStorage.setItem('preferredChainId', network as unknown as string);
     try {
       await activate(
         getWeb3Connector(connectorName, network, availableNetworks, connectorConfig),
@@ -174,7 +174,7 @@ export function Web3Provider({
 
   const handleNetworkChange = async (network: ChainId) => {
     setPreferredNetwork(network);
-    localStorage.setItem('preferredNetwork', network as unknown as string);
+    localStorage.setItem('preferredChainId', network as unknown as string);
     if (currentProviderName && library) {
       return await handleActivation(
         currentProviderName,

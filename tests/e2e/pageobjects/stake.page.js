@@ -6,16 +6,22 @@ const InputPage = require('../pageobjects/input.page')
 
 const locators = {
   mainScreen:{
-    stakeAAVEBtn: "//a[@href='/staking/aave']",
-    stakeBPTBtn: "//a[@href='/staking/bpt']",
+    stakeAAVEBtn: "//a[@href='#/staking/aave']",
+    stakeBPTBtn: "//a[@href='#/staking/bpt']",
   },
   stakeAmountInput: "//input[@placeholder='Amount']",
   iUnderstandBtn: "//*[text()='I understand']/../..",
-  coolDownBtn: "//a[@href='/staking/aave/activate-cooldown/confirmation']",
-  stakedAmountBox: "//a[@href='/staking/aave/activate-cooldown/confirmation']/../..//p[@data-tip='true']",
+  coolDownBtn: "//*[text()='Activate Cooldown']",
+  stakedAmountBox: "//*[text()='Activate Cooldown']/../../../..//p[@data-tip='true']",
   coolDownTimer: "//div[contains(@class, 'StakingWrapper__info-timerInner')]",
   unstakeBtn: "//*[text()='Unstake now']/../..",
-  claimRewardBtn: "//*[text()='Claim']/../.."
+  claimRewardBtn: "//*[text()='Claim']/../..",
+  coolDownTimer: "//span[@class='Timer StakingWrapper__timer']",
+  coolDownPopup:{
+    checkbox: "//*[text()='I understand how the cooldown (']",
+    agreeBtn: "//div[@role='dialog']//button//span[text()='Activate Cooldown']"
+  },
+  switchToBpt: "//button/p/span[text()='bpt']"
 };
 
 
@@ -30,6 +36,10 @@ class StakePage extends Page {
   get coolDownTimer () {return $(locators.coolDownTimer)}
   get unstakeBtn () {return $(locators.unstakeBtn)}
   get claimRewardBtn () {return $(locators.claimRewardBtn)}
+  get coolDownPopup_CheckBox () { return $(locators.coolDownPopup.checkbox)}
+  get coolDownPopup_Btn () { return $(locators.coolDownPopup.agreeBtn)}
+  get coolDownTimer () { return $(locators.coolDownTimer)}
+  get switchToBpt () { return $(locators.switchToBpt) }
 
   open() {
     return super.open("/staking");
@@ -41,14 +51,30 @@ class StakePage extends Page {
     elemUtil.doClickWithRedirect(this.iUnderstandBtn)
   }
 
+  doOpenStakeBPTConfirmationPage(amount){
+    elemUtil.doClickWithRedirect(this.mainScreen_stakeBPTBtn)
+    InputPage.doSubmitAmount(amount)
+    elemUtil.doClickWithRedirect(this.iUnderstandBtn)
+  }
+
   doGetStakedAmount(){
     browser.pause(2000)
     return elemUtil.doGetText(this.stakedAmountBox)
   }
 
+  doSwitchToBptInterface(){
+    elemUtil.doClick(this.switchToBpt)
+  }
+
   doActivateCooldown(){
-    elemUtil.doClickWithRedirect(this.coolDownBtn)
+    elemUtil.doClick(this.coolDownBtn)
+    elemUtil.doClick(this.coolDownPopup_CheckBox)
+    elemUtil.doClickWithRedirect(this.coolDownPopup_Btn)
     ConfirmationPage.doOneStepProcess()
+  }
+
+  doCheckCooldownActivated(){
+    browser.pause(1000)
     elemUtil.doIsDisplayed(this.coolDownTimer)
   }
 

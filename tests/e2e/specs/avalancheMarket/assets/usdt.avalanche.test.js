@@ -1,6 +1,6 @@
 const{configTestWithTenderlyAvalancheFork} = require('../../../steps/configuration-steps')
 const {skipState} = require('../../../steps/common')
-const {deposit, borrow, repay, withdraw,checkUsdtCollateral} = require('../../../steps/steps')
+const {deposit, borrow, repay, withdraw,checkDisabledCollateral} = require('../../../steps/steps')
 const { dashboardAssetValuesVerification } = require('../../../steps/verification-steps')
 const constants= require('../../../fixtures/consts.json')
 const assets = require('../../../fixtures/assets.json')
@@ -33,7 +33,7 @@ const testData ={
       amount: 1,
       hasApproval: true
     },
-    checkUsdtCollateral:{
+    checkDisabledCollateral:{
       asset: assets.avalancheMarket.USDT
     },
   },
@@ -90,7 +90,7 @@ describe('USDT INTEGRATION SPEC ON AVALANCHE',  ()=>{
       true
   )
 
-  checkUsdtCollateral(
+  checkDisabledCollateral(
     {
       asset:testData.asset.name,
     },

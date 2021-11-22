@@ -37,7 +37,7 @@ const testData ={
       asset:assets.aaveMarket.ETH.shortName,
       amount: 0.04,
       aprType: constants.borrowAPRType.variable,
-      hasApproval: false
+      hasApproval: true
     },
     confirmCollateralError:{
       asset:assets.aaveMarket.ETH.shortName,
@@ -78,11 +78,11 @@ describe('ETH INTEGRATION SPEC',  ()=>{
   changeCollateral(
     {
       asset:testData.asset.name,
-      amount: testData.asset.borrow.amount,
-      aprType: testData.asset.borrow.aprType,
-      hasApproval: testData.asset.borrow.hasApproval
+      amount: testData.asset.changeCollateral.amount,
+      hasApproval: testData.asset.changeCollateral.hasApproval
     },
     skipTestState,
+    true
   )
   (
     {

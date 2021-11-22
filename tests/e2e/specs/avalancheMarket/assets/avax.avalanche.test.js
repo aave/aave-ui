@@ -32,7 +32,7 @@ const testData ={
         asset: assets.avalancheMarket.AVAX,
         amount: 0.04,
         aprType: constants.borrowAPRType.variable,
-        hasApproval: false
+        hasApproval: true
       },
       confirmCollateralError:{
         asset:assets.avalancheMarket.AVAX,
@@ -72,11 +72,11 @@ describe('AVAX INTEGRATION SPEC ON AVALANCHE',  ()=>{
   changeCollateral(
     {
       asset:testData.asset.name,
-      amount: testData.asset.borrow.amount,
-      aprType: testData.asset.borrow.aprType,
-      hasApproval: testData.asset.borrow.hasApproval
+      amount: testData.asset.changeCollateral.amount,
+      hasApproval: testData.asset.changeCollateral.hasApproval
     },
     skipTestState,
+    true
   )
     borrow(
         {

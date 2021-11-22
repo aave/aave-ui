@@ -246,7 +246,7 @@ module.exports.confirmCollateralError= ({asset}, skip, updateSkipStatus = false)
       DashboardPage.doChangeCollateral(_shortName)
     })
     it(`Confirm you can't turn collateral off when asset is borrowed `, () => {
-      BorrowPage.doCheckCollateralErrorMessage()
+      DashboardPage.doCheckCollateralErrorMessage()
     })
     after(() => {
       if (!_passed && updateSkipStatus) {
@@ -255,7 +255,7 @@ module.exports.confirmCollateralError= ({asset}, skip, updateSkipStatus = false)
     })
   })
 }
-module.exports.checkUsdtCollateral = ({asset}, skip, updateSkipStatus = false) =>{
+module.exports.checkDisabledCollateral = ({asset}, skip, updateSkipStatus = false) =>{
   let _shortName =asset.shortName
   return describe(`Check that changing collateral for ${_shortName} is disabled`, () => {
     let _passed = false

@@ -13,7 +13,8 @@ const locators = {
     collateralTypeBox: ".//p[contains(@class, 'Switcher__label')]",
     emptyContentMessage: "//div[contains(@class, 'MainDashboardTable__left-inner')]//div[@class='NoDataPanel']",
     collateralSwitcher: ".//div[contains(@class, 'Switcher__swiper')]",
-    disabledCollateralSwithcer: ".//div[contains(@class, 'Switcher__swiper Switcher__swiperDisabled')]"
+    disabledCollateralSwithcer: ".//div[contains(@class, 'Switcher__swiper Switcher__swiperDisabled')]",
+    turnColOffError: "//span[contains(@class, 'jsx-1211318934 jsx-3764512250')]"
   },
   borrowsTable:{
     table: "//div[contains(@class, 'MainDashboardTable__right-inner')]",
@@ -43,6 +44,8 @@ class DashboardPage extends Page {
   get depositTableEmptyMessage() {return $(locators.depositTable.emptyContentMessage)}
   get borrowsTableEmptyMessage() {return $(locators.borrowsTable.emptyContentMessage)}
   get rewardAvailableText() {return $(locators.reward.availableText)}
+  get collOffErr () {return $(locators.depositTable.turnColOffError)}
+
 
 
 
@@ -91,6 +94,11 @@ class DashboardPage extends Page {
     elemUtil.doIsDisplayed(_collateralSwitcher)
   }
 
+  doCheckCollateralErrorMessage(){
+    let _locator = this.collOffErr
+    let _actualMessage = elemUtil.doGetText(_locator)
+    expect(_actualMessage).to.be.equal("You can't switch usage as collateral mode for this currency, because it will cause collateral call")
+  }
   open() {
     return super.open("/dashboard");
   }
