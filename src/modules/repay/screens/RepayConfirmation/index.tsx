@@ -7,7 +7,7 @@ import {
   BigNumber,
   InterestRate,
 } from '@aave/protocol-js';
-import { PoolInterface } from '@aave/contract-helpers';
+import { Pool, PoolInterface } from '@aave/contract-helpers';
 
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
@@ -44,6 +44,8 @@ function RepayConfirmation({
   const { lendingPool } = useTxBuilderContext();
 
   const [isTxExecuted, setIsTxExecuted] = useState(false);
+  const [repayWithPermitEnabled, setRepayWithPermitEnable] = useState(currentMarketData.v3);
+  const [signedAmount, setSignedAmount] = useState('0');
 
   const assetDetails = getAssetInfo(poolReserve.symbol);
 
@@ -75,7 +77,6 @@ function RepayConfirmation({
 
   const safeAmountToRepayAll = valueToBigNumber(maxAmountToRepay).multipliedBy('1.0025');
 
-  // TODO: discuss why not -1?????
   let amountToRepay = amount.toString();
   let amountToRepayUI = amount;
   if (amountToRepay === '-1') {
@@ -87,7 +88,8 @@ function RepayConfirmation({
       userReserve.reserve.symbol.toUpperCase() === networkConfig.baseAsset ||
       (repayWithATokens
         ? valueToBigNumber(underlyingBalance).eq(amountToRepayUI)
-        : walletBalance.eq(amountToRepayUI))
+        : walletBalance.eq(amountToRepayUI)) ||
+      repayWithPermitEnabled
     ) {
       amountToRepay = BigNumber.min(
         repayWithATokens ? underlyingBalance : walletBalance,
@@ -115,13 +117,50 @@ function RepayConfirmation({
     user.currentLiquidationThreshold
   );
 
-  const handleGetTransactions = async () =>
-    await lendingPool.repay({
+  const handleGetTransactions = async () => {
+    if (currentMarketData.v3) {
+      // TO-DO: No need for this cast once a single Pool type is used in use-tx-builder-context
+      const newPool: Pool = lendingPool as Pool;
+      return await newPool.repay({
+        user: user.id,
+        reserve: poolReserve.underlyingAsset,
+        amount: amountToRepay.toString(),
+        interestRateMode: debtType as InterestRate,
+      });
+    } else {
+      return await lendingPool.repay({
+        user: user.id,
+        reserve: poolReserve.underlyingAsset,
+        amount: amountToRepay.toString(),
+        interestRateMode: debtType as InterestRate,
+      });
+    }
+  };
+
+  // Generate signature request payload
+  const handleGetPermitSignatureRequest = async () => {
+    // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
+    setSignedAmount(amountToRepay.toString());
+    const newPool: Pool = lendingPool as Pool;
+    return await newPool.signERC20Approval({
       user: user.id,
       reserve: poolReserve.underlyingAsset,
       amount: amountToRepay.toString(),
-      interestRateMode: debtType as InterestRate,
     });
+  };
+
+  // Generate supply transaction with signed permit
+  const handleGetPermitRepay = async (signature: string) => {
+    // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
+    const newPool: Pool = lendingPool as Pool;
+    return await newPool.repayWithPermit({
+      user: user.id,
+      reserve: poolReserve.underlyingAsset,
+      amount: signedAmount, // amountToRepay.toString(),
+      interestRateMode: debtType as InterestRate,
+      signature,
+    });
+  };
 
   const handleGetATokenTransactions = async () =>
     await (lendingPool as PoolInterface).repayWithATokens({
@@ -165,8 +204,16 @@ function RepayConfirmation({
         caption={intl.formatMessage(messages.caption)}
         boxTitle={intl.formatMessage(defaultMessages.repay)}
         boxDescription={intl.formatMessage(messages.boxDescription)}
-        approveDescription={intl.formatMessage(messages.approveDescription)}
+        approveDescription={
+          repayWithPermitEnabled
+            ? intl.formatMessage(messages.permitDescription)
+            : intl.formatMessage(messages.approveDescription)
+        }
         getTransactionsData={repayWithATokens ? handleGetATokenTransactions : handleGetTransactions}
+        getPermitSignatureRequest={handleGetPermitSignatureRequest}
+        getPermitEnabledTransactionData={handleGetPermitRepay}
+        permitEnabled={repayWithPermitEnabled}
+        togglePermit={setRepayWithPermitEnable}
         onMainTxExecuted={handleMainTxExecuted}
         blockingError={blockingError}
         goToAfterSuccess="/dashboard/borrowings"

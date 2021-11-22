@@ -28,6 +28,15 @@ export interface ComputedReserveData extends FormatReserveUSDResponse {
   priceInMarketReferenceCurrency: string;
   avg30DaysLiquidityRate?: string;
   avg30DaysVariableBorrowRate?: string;
+  // new fields, will not be optional once use-pool-data uses a single UiPoolDataProvider
+  isPaused?: boolean;
+  eModeCategoryId?: number;
+  eModeLtv?: number;
+  eModeLiquidationThreshold?: number;
+  eModeLiquidationBonus?: number;
+  eModePriceSource?: string;
+  eModeLabel?: string;
+  debtCeiling: string;
   borrowCap: string;
   supplyCap: string;
   borrowableInIsolation: boolean;
@@ -81,6 +90,7 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
         reserve.priceInMarketReferenceCurrency,
         marketRefCurrencyDecimals
       ),
+      borrowableInIsolation: reserve.borrowableInIsolation ? reserve.borrowableInIsolation : false,
     };
     return fullReserve;
   });

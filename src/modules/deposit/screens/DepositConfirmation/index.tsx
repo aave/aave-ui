@@ -1,11 +1,9 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
 import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
-import { getReferralCode } from '../../../../libs/referral-handler';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
@@ -20,7 +18,10 @@ import { getAssetInfo } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
+import { Pool } from '@aave/contract-helpers';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { USD_DECIMALS } from '@aave/math-utils';
+import { useState } from 'react';
 
 function DepositConfirmation({
   currencySymbol,
@@ -33,7 +34,11 @@ function DepositConfirmation({
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { currentMarketData } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
+
+  const [depositWithPermitEnabled, setDepositWithPermitEnable] = useState(currentMarketData.v3);
+
   const aTokenData = getAtokenInfo({
     address: poolReserve.aTokenAddress,
     symbol: currencySymbol,
@@ -78,12 +83,45 @@ function DepositConfirmation({
     liquidationThresholdAfter
   );
 
+  // Get approve and supply transactions without using permit flow
   const handleGetTransactions = async () => {
-    return lendingPool.deposit({
+    if (currentMarketData.v3) {
+      // TO-DO: No need for this cast once a single Pool type is used in use-tx-builder-context
+      const newPool: Pool = lendingPool as Pool;
+      return await newPool.supply({
+        user: user.id,
+        reserve: poolReserve.underlyingAsset,
+        amount: amount.toString(),
+      });
+    } else {
+      return await lendingPool.deposit({
+        user: user.id,
+        reserve: poolReserve.underlyingAsset,
+        amount: amount.toString(),
+      });
+    }
+  };
+
+  // Generate signature request payload
+  const handleGetPermitSignatureRequest = async () => {
+    // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
+    const newPool: Pool = lendingPool as Pool;
+    return await newPool.signERC20Approval({
       user: user.id,
       reserve: poolReserve.underlyingAsset,
       amount: amount.toString(),
-      referralCode: getReferralCode(),
+    });
+  };
+
+  // Generate supply transaction with signed permit
+  const handleGetPermitSupply = async (signature: string) => {
+    // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
+    const newPool: Pool = lendingPool as Pool;
+    return await newPool.supplyWithPermit({
+      user: user.id,
+      reserve: poolReserve.underlyingAsset,
+      amount: amount.toString(),
+      signature,
     });
   };
 
@@ -118,8 +156,16 @@ function DepositConfirmation({
         caption={intl.formatMessage(messages.caption)}
         boxTitle={intl.formatMessage(defaultMessages.deposit)}
         boxDescription={intl.formatMessage(messages.boxDescription)}
-        approveDescription={intl.formatMessage(messages.approveDescription)}
+        approveDescription={
+          depositWithPermitEnabled
+            ? intl.formatMessage(messages.permitDescription)
+            : intl.formatMessage(messages.approveDescription)
+        }
         getTransactionsData={handleGetTransactions}
+        getPermitSignatureRequest={handleGetPermitSignatureRequest}
+        getPermitEnabledTransactionData={handleGetPermitSupply}
+        permitEnabled={depositWithPermitEnabled}
+        togglePermit={setDepositWithPermitEnable}
         blockingError={blockingError}
         aTokenData={aTokenData}
       >
