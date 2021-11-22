@@ -84,8 +84,7 @@ describe('ETH INTEGRATION SPEC',  ()=>{
     },
     skipTestState,
   )
-
-  borrow(
+  (
     {
       asset: testData.asset.name,
       amount: testData.asset.borrow.amount,

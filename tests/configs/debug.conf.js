@@ -31,7 +31,7 @@ exports.config = {
     './e2e/specs/**/*.test.js',
   ],
   exclude: [
-    './e2e/specs/mainMarket/assets/eth.test.js',
+    // './e2e/specs/mainMarket/assets/eth.test.js',
     './e2e/specs/mainMarket/assets/usdc.test.js',
     './e2e/specs/mainMarket/assets/dai.test.js',
     './e2e/specs/mainMarket/assets/bat.test.js',
@@ -43,7 +43,7 @@ exports.config = {
     './e2e/specs/mainMarket/reward.test.js',
     './e2e/specs/mainMarket/swap.test.js',
 
-    //'./e2e/specs/polygonMarket/assets/matic.polygon.test.js',
+    './e2e/specs/polygonMarket/assets/matic.polygon.test.js',
     './e2e/specs/polygonMarket/assets/dai.polygon.test.js',
     './e2e/specs/polygonMarket/assets/usdc.polygon.test.js',
     './e2e/specs/polygonMarket/assets/usdt.polygon.test.js',
