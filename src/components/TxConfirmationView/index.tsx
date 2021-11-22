@@ -129,7 +129,7 @@ export default function TxConfirmationView({
   const [selectedStep, setSelectedStep] = useState(1);
   const [unlockedSteps, setUnlockedSteps] = useState(1);
   const [unsignedPermitData, setUnsignedPermitData] = useState<string | undefined>(undefined);
-  const [permitLoading, setPermitLoading] = useState<boolean>(false);
+  const [permitStatus, setPermitStatus] = useState<TxStatusType | undefined>(undefined);
   const [permitError, setPermitError] = useState<string | undefined>(undefined);
 
   /**
@@ -182,7 +182,7 @@ export default function TxConfirmationView({
   const handleSubmitPermitSignature = async () => {
     if (provider && userId && unsignedPermitData && getPermitEnabledTransactionData) {
       try {
-        setPermitLoading(true);
+        setPermitStatus(TxStatusType.submitted);
         const signature = await provider.send('eth_signTypedData_v4', [userId, unsignedPermitData]);
         const supplyWithPermitTx = await getPermitEnabledTransactionData(signature);
         setActionTxData({
@@ -191,12 +191,13 @@ export default function TxConfirmationView({
           gas: supplyWithPermitTx[0].gas,
           name: mainTxName,
         });
-        setPermitLoading(false);
+        setPermitStatus(TxStatusType.confirmed);
         setPermitError(undefined);
+        setUnlockedSteps(2);
         setSelectedStep(2);
       } catch (e) {
         setPermitError('Error with permit signature: ' + e);
-        setPermitLoading(false);
+        setPermitStatus(TxStatusType.error);
       }
     } else {
       setPermitError('Error initializing permit signature');
@@ -324,6 +325,7 @@ export default function TxConfirmationView({
             setSelectedStep={setSelectedStep}
             numberOfSteps={numberOfSteps}
             unlockedSteps={unlockedSteps}
+            permitStatus={permitStatus}
             error={backendNotAvailable || !!blockingError}
           >
             {(!blockingError || mainTxConfirmed) && (
@@ -337,7 +339,7 @@ export default function TxConfirmationView({
                     }`}
                     description={approveDescription}
                     onSubmitTransaction={async () => handleSubmitPermitSignature()}
-                    loading={permitLoading}
+                    loading={permitStatus === TxStatusType.submitted}
                     failed={permitError}
                     buttonTitle={intl.formatMessage(messages.permit)}
                   />
