@@ -16,7 +16,7 @@ const locators = {
   },
   closePopUpBtn: '//*[@title="Close"]',
   network:{
-      listBtn:'//*[text()="Ethereum Mainnet"]',
+      listBtn:'//div[@class="network-indicator__down-arrow"]',
       ropstenLI:'//*[text()="Ropsten Test Network"]'
   },
   account:{
