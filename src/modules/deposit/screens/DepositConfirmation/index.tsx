@@ -38,7 +38,7 @@ function DepositConfirmation({
   const { lendingPool } = useTxBuilderContext();
 
   const [depositWithPermitEnabled, setDepositWithPermitEnable] = useState(currentMarketData.v3);
-  
+
   const aTokenData = getAtokenInfo({
     address: poolReserve.aTokenAddress,
     symbol: currencySymbol,
