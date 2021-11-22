@@ -28,7 +28,7 @@ import SwapUsageAsCollateralModeConfirmation from './modules/swap/SwapUsageAsCol
 import { RewardConfirm } from './modules/reward/screens/RewardConfirm';
 import { governanceConfig, stakeConfig } from './ui-config';
 import { useProtocolDataContext } from './libs/protocol-data-provider';
-import { isFeatureEnabled } from './helpers/markets/markets-data';
+import { isFeatureEnabled } from './helpers/config/markets-and-network-config';
 
 const staticStyles = css.global`
   .App {
@@ -87,7 +87,11 @@ function ModulesWithMenu() {
         {!!stakeConfig && [<Route path="/staking" component={Staking} key="Staking" />]}
 
         <Route path="/asset-swap" component={AssetSwap} key="AssetSwap" />
-        <Route path="/rewards/confirm" component={RewardConfirm} key="Reward confirm" />
+        <Route
+          path="/rewards/confirm/:incentivesControllerAddress"
+          component={RewardConfirm}
+          key="Reward confirm"
+        />
 
         {userId && [<Route exact={true} path="/history" component={History} key="History" />]}
 

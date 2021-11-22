@@ -46,7 +46,7 @@ function WithdrawAmount({
   if (
     userReserve.usageAsCollateralEnabledOnUser &&
     poolReserve.usageAsCollateralEnabled &&
-    user.totalBorrowsETH !== '0'
+    user.totalBorrowsMarketReferenceCurrency !== '0'
   ) {
     // if we have any borrowings we should check how much we can withdraw without liquidation
     // with 0.5% gap to avoid reverting of tx
@@ -54,14 +54,14 @@ function WithdrawAmount({
     const excessHF = valueToBigNumber(user.healthFactor).minus('1');
     if (excessHF.gt('0')) {
       totalCollateralToWithdrawInETH = excessHF
-        .multipliedBy(user.totalBorrowsETH)
+        .multipliedBy(user.totalBorrowsMarketReferenceCurrency)
         // because of the rounding issue on the contracts side this value still can be incorrect
         .div(Number(poolReserve.reserveLiquidationThreshold) + 0.01)
         .multipliedBy('0.99');
     }
     maxUserAmountToWithdraw = BigNumber.min(
       maxUserAmountToWithdraw,
-      totalCollateralToWithdrawInETH.dividedBy(poolReserve.price.priceInEth)
+      totalCollateralToWithdrawInETH.dividedBy(poolReserve.priceInMarketReferenceCurrency)
     ).toString();
   }
   maxUserAmountToWithdraw = BigNumber.max(maxUserAmountToWithdraw, 0).toString();

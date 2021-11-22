@@ -10,7 +10,7 @@ import Value from '../../../../components/basic/Value';
 import BorrowContent from './BorrowContent';
 import StateChangesContent from './StateChangesContent';
 import LiquidationContent from './LiquidationContent';
-import { getAssetInfo, TokenIcon } from '../../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 import { HistoryItemTypes } from '../../types';
 
 import messages from './messages';

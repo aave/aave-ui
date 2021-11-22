@@ -4,7 +4,7 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import TableCol from '../TableCol';
 import AMPLWarning from '../../../../../components/AMPLWarning';
-import { getAssetInfo, TokenIcon } from '../../../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../../../helpers/config/assets-config';
 
 import staticStyles from './style';
 

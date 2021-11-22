@@ -5,7 +5,7 @@ import TableColumn from '../../../../components/BasicTable/TableColumn';
 import Value from '../../../../components/basic/Value';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
 import NoData from '../../../../components/basic/NoData';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import { DepositTableItem } from './types';
 
@@ -20,7 +20,7 @@ export default function DepositItem({
   userId,
   borrowingEnabled,
   isFreezed,
-  aIncentivesAPY,
+  aincentivesAPR,
 }: DepositTableItem) {
   const url = `/deposit/${underlyingAsset}-${id}`;
 
@@ -46,7 +46,7 @@ export default function DepositItem({
           <LiquidityMiningCard
             value={liquidityRate}
             thirtyDaysValue={avg30DaysLiquidityRate}
-            liquidityMiningValue={aIncentivesAPY}
+            liquidityMiningValue={aincentivesAPR}
             symbol={symbol}
             type="deposit"
           />

@@ -12,7 +12,7 @@ import Link from '../../../../components/basic/Link';
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import staticStyles from './style';
-import { isFeatureEnabled } from '../../../../helpers/markets/markets-data';
+import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 import { PERMISSION } from '@aave/contract-helpers';
 

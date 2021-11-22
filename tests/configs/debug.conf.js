@@ -39,9 +39,10 @@ exports.config = {
     './e2e/specs/mainMarket/assets/tusd.test.js',
     './e2e/specs/mainMarket/assets/mkr.test.js',
     './e2e/specs/mainMarket/assets/ren.test.js',
-    './e2e/specs/mainMarket/assets/mana.test.js',
+    // './e2e/specs/mainMarket/assets/mana.test.js',
     './e2e/specs/mainMarket/reward.test.js',
     './e2e/specs/mainMarket/swap.test.js',
+    './e2e/specs/mainMarket/stake.test.js',
 
     './e2e/specs/polygonMarket/assets/matic.polygon.test.js',
     './e2e/specs/polygonMarket/assets/dai.polygon.test.js',

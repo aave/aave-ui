@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-import { isFeatureEnabled } from '../../../../helpers/markets/markets-data';
+import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
 import CustomSwitch from '../../../../components/basic/CustomSwitch';
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
 import Row from '../../../../components/basic/Row';
@@ -31,7 +31,7 @@ export default function DepositMobileCard({
   isFrozen,
   avg30DaysLiquidityRate,
   borrowingEnabled,
-  aIncentivesAPY,
+  aincentivesAPR,
 }: DepositTableItem) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -54,12 +54,12 @@ export default function DepositMobileCard({
         </Row>
 
         <Row title={intl.formatMessage(messages.apyRowTitle)} withMargin={true}>
-          {borrowingEnabled || aIncentivesAPY !== '0' ? (
+          {borrowingEnabled || aincentivesAPR !== '0' ? (
             <LiquidityMiningCard
               symbol={symbol}
               value={borrowingEnabled ? Number(liquidityRate) : 0}
               thirtyDaysValue={avg30DaysLiquidityRate}
-              liquidityMiningValue={aIncentivesAPY}
+              liquidityMiningValue={aincentivesAPR}
               type="deposit"
             />
           ) : (
@@ -118,13 +118,13 @@ export default function DepositMobileCard({
           <Link
             to={`/withdraw/${underlyingAsset}-${id}`}
             className="ButtonLink"
-            disabled={!isActive || isFrozen}
+            disabled={!isActive}
           >
             <DefaultButton
               title={intl.formatMessage(defaultMessages.withdraw)}
               color="dark"
               transparent={!isSwapButton}
-              disabled={!isActive || isFrozen}
+              disabled={!isActive}
             />
           </Link>
         </Row>

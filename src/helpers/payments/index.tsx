@@ -2,13 +2,13 @@ import { useWeb3React } from '@web3-react/core';
 import TransakSDK from '@transak/transak-sdk';
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk';
 import NashRamp from '@nash-io/ramp-widget-sdk';
-import { Network } from '@aave/protocol-js';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { useProtocolDataContext } from '../../libs/protocol-data-provider';
 
 import * as logos from './images';
-import { ENABLE_NASH, ONRAMP_API_KEY, TRANSAK_API_KEY } from '../../config';
+import { ENABLE_NASH, ONRAMP_API_KEY, TRANSAK_API_KEY } from '../config/onramp-config';
+import { ChainId } from '@aave/contract-helpers';
 
 enum PaymentName {
   nash = 'nash',
@@ -35,7 +35,7 @@ export function usePayments(): Payments {
   const { currentMarketData } = useProtocolDataContext();
 
   const isPolygonNetwork =
-    currentMarketData.network === Network.polygon || currentMarketData.network === Network.mumbai;
+    currentMarketData.chainId === ChainId.polygon || currentMarketData.chainId === ChainId.mumbai;
 
   const transakAvailableAssets = ['ETH', 'USDT', 'DAI', 'USDC', 'UNI', 'LINK', 'AAVE', 'MANA'];
   const polygonTransakAvailableAssets = ['MATIC', 'USDT', 'DAI', 'USDC', 'AAVE', 'WBTC', 'WETH'];
@@ -108,8 +108,8 @@ export function usePayments(): Payments {
   };
 
   const isPaymentNashNotOnMainMarket = (name: PaymentName) =>
-    (currentMarketData.network === Network.polygon ||
-      currentMarketData.network === Network.mumbai) &&
+    (currentMarketData.chainId === ChainId.polygon ||
+      currentMarketData.chainId === ChainId.mumbai) &&
     name === PaymentName.nash;
 
   return { payments, paymentClick, isPaymentNashNotOnMainMarket };

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import TableItemWrapper from '../../BasicTable/TableItemWrapper';
 import TableColumn from '../../BasicTable/TableColumn';
 import FreezedWarning from '../../FreezedWarning';
-import { getAssetInfo, TokenIcon } from '../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import staticStyles from './style';
 

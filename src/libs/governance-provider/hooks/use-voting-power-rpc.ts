@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { AaveGovernanceV2Interface, tEthereumAddress } from '@aave/protocol-js';
+import { tEthereumAddress } from '@aave/protocol-js';
 import { useStateLoading, LOADING_STATE } from '../../hooks/use-state-loading';
+import { AaveGovernanceService } from '@aave/contract-helpers';
 
 export function useVotingPowerLoader(
   startBlock: number | undefined,
   strategy: string | undefined,
-  governanceService: AaveGovernanceV2Interface,
+  governanceService: AaveGovernanceService,
   userAddress?: tEthereumAddress | undefined
 ) {
   const { loading, setLoading } = useStateLoading();

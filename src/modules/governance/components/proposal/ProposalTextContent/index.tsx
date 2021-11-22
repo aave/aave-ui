@@ -7,8 +7,10 @@ import { IpfsPropsal } from '../../../../../libs/governance-provider/types';
 
 export default function ProposalTextContent({
   parsedBody,
+  title,
 }: {
   parsedBody: IpfsPropsal | undefined;
+  title?: string;
 }) {
   const { currentTheme } = useThemeContext();
   let markdownSource = '### No description given';
@@ -25,9 +27,7 @@ export default function ProposalTextContent({
 
   return (
     <div className="ProposalTextContent">
-      <h2 className="ProposalTextContent__description-title">
-        {parsedBody?.attributes?.title || ''}
-      </h2>
+      <h2 className="ProposalTextContent__description-title">{title}</h2>
       <Markdown
         source={markdownSource}
         renderers={{

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber, BigNumber, ComputedReserveData } from '@aave/protocol-js';
+import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { PERMISSION } from '@aave/contract-helpers';
 
 import {
+  ComputedReserveData,
   useDynamicPoolDataContext,
   useStaticPoolDataContext,
 } from '../../../../libs/pool-data-provider';
@@ -20,13 +21,15 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { BorrowTableItem } from '../../components/BorrowAssetTable/types';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 
 export default function BorrowMain() {
   const intl = useIntl();
   const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
+  const { reserveIncentives } = useIncentivesDataContext();
   const { sm } = useThemeContext();
 
   const [searchValue, setSearchValue] = useState('');
@@ -35,7 +38,9 @@ export default function BorrowMain() {
   const [sortName, setSortName] = useState('');
   const [sortDesc, setSortDesc] = useState(false);
 
-  const availableBorrowsETH = valueToBigNumber(user?.availableBorrowsETH || 0);
+  const availableBorrowsMarketReferenceCurrency = valueToBigNumber(
+    user?.availableBorrowsMarketReferenceCurrency || 0
+  );
 
   const filteredReserves = reserves.filter(
     ({ symbol, borrowingEnabled, isActive }) =>
@@ -48,40 +53,48 @@ export default function BorrowMain() {
   const listData = (withFilter: boolean) => {
     const data = (reserves: ComputedReserveData[]) =>
       reserves.map<BorrowTableItem>((reserve) => {
-        const availableBorrows = availableBorrowsETH.gt(0)
+        const availableBorrows = availableBorrowsMarketReferenceCurrency.gt(0)
           ? BigNumber.min(
               // one percent margin to don't fail tx
-              availableBorrowsETH
-                .div(reserve.price.priceInEth)
-                .multipliedBy(user && user.totalBorrowsETH !== '0' ? '0.99' : '1'),
+              availableBorrowsMarketReferenceCurrency
+                .div(reserve.priceInMarketReferenceCurrency)
+                .multipliedBy(
+                  user && user.totalBorrowsMarketReferenceCurrency !== '0' ? '0.99' : '1'
+                ),
               reserve.availableLiquidity
             ).toNumber()
           : 0;
         const availableBorrowsInUSD = valueToBigNumber(availableBorrows)
-          .multipliedBy(reserve.price.priceInEth)
-          .dividedBy(marketRefPriceInUsd)
+          .multipliedBy(reserve.priceInMarketReferenceCurrency)
+          .multipliedBy(marketRefPriceInUsd)
           .toString();
-
+        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
         return {
           ...reserve,
           currentBorrows:
-            user?.reservesData.find((userReserve) => userReserve.reserve.id === reserve.id)
+            user?.userReservesData.find((userReserve) => userReserve.reserve.id === reserve.id)
               ?.totalBorrows || '0',
           currentBorrowsInUSD:
-            user?.reservesData.find((userReserve) => userReserve.reserve.id === reserve.id)
+            user?.userReservesData.find((userReserve) => userReserve.reserve.id === reserve.id)
               ?.totalBorrowsUSD || '0',
           availableBorrows,
           availableBorrowsInUSD,
           stableBorrowRate:
             reserve.stableBorrowRateEnabled && reserve.borrowingEnabled
-              ? Number(reserve.stableBorrowRate)
+              ? Number(reserve.stableBorrowAPY)
               : -1,
-          variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowRate) : -1,
+          variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowAPY) : -1,
           avg30DaysVariableRate: Number(reserve.avg30DaysVariableBorrowRate),
           interestHistory: [],
-          aIncentivesAPY: reserve.aIncentivesAPY,
-          vIncentivesAPY: reserve.vIncentivesAPY,
-          sIncentivesAPY: reserve.sIncentivesAPY,
+          aincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.aIncentives.incentiveAPR
+            : '0',
+          vincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.vIncentives.incentiveAPR
+            : '0',
+          sincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.sIncentives.incentiveAPR
+            : '0',
         };
       });
 

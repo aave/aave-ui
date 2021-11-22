@@ -19,10 +19,6 @@ class MM {
     elemUtil.doClick(MetamaskPage.setupImportSeedTermsAgree)
     elemUtil.doClickWithRedirect(MetamaskPage.setupImportSeedImportBtn)
     elemUtil.doClickWithRedirect(MetamaskPage.setupAllDoneBtn)
-    //need to delete try
-    try{
-      elemUtil.doClick(MetamaskPage.closePopUpBtn)
-    }catch(err){}
     this.doClosePopup()
     this.extensionUrl = browser.getUrl()
   }
@@ -39,10 +35,7 @@ class MM {
   }
 
   doClosePopup(){
-    // need to delete try
-    try{
       elemUtil.doClick(MetamaskPage.closePopUpBtn)
-    }catch(err){}
   }
 
   doCloseMetamaskTab(){
@@ -65,9 +58,25 @@ class MM {
   }
 
   doSwitchNetwork(name){
-    elemUtil.doClick(MetamaskPage.networkListBtn)
+    browser.pause(2000) // need to fix unknown mm problem in CI
+    browser.waitUntil(
+      () => {
+        elemUtil.doClick($(MetamaskPage.networkXpath()))
+        browser.pause(1000)
+        let _located = false
+        if($$(`//div[@class="menu-droppo"]`).length != 0)
+          _located = true
+        return _located
+      },
+      {
+        timeout: 25000,
+        interval: 10000, // need to fix unknown mm problem in CI
+        timeoutMsg: "network button not exist"
+      }
+    ) // need to fix unknown mm problem in CI
     let liXpath = '//li//*[text()="'+name+'"]'
     elemUtil.doClick($(liXpath))
+
   }
 
   doImportAccount(privatKey){

@@ -15,7 +15,7 @@ import HealthFactor from '../../../components/HealthFactor';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../components/RouteParamsValidationWrapper';
-import { getAssetInfo, TokenIcon } from '../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
 
@@ -59,15 +59,17 @@ function SwapUsageAsCollateralModeConfirmation({
       usageAsCollateral: query.asCollateral === 'true',
     });
   const usageAsCollateralModeAfterSwitch = !userReserve.usageAsCollateralEnabledOnUser;
-  const currentTotalCollateralETH = valueToBigNumber(user.totalCollateralETH);
+  const currenttotalCollateralMarketReferenceCurrency = valueToBigNumber(
+    user.totalCollateralMarketReferenceCurrency
+  );
 
-  const totalCollateralAfterSwitchETH = currentTotalCollateralETH[
+  const totalCollateralAfterSwitchETH = currenttotalCollateralMarketReferenceCurrency[
     usageAsCollateralModeAfterSwitch ? 'plus' : 'minus'
-  ](userReserve.underlyingBalanceETH);
+  ](userReserve.underlyingBalanceMarketReferenceCurrency);
 
   const healthFactorAfterSwitch = calculateHealthFactorFromBalancesBigUnits(
     totalCollateralAfterSwitchETH,
-    user.totalBorrowsETH,
+    user.totalBorrowsMarketReferenceCurrency,
     user.currentLiquidationThreshold
   );
 
@@ -84,7 +86,7 @@ function SwapUsageAsCollateralModeConfirmation({
 
   if (
     userReserve.usageAsCollateralEnabledOnUser &&
-    user.totalBorrowsETH !== '0' &&
+    user.totalBorrowsMarketReferenceCurrency !== '0' &&
     healthFactorAfterSwitch.lte('1')
   ) {
     blockingError = intl.formatMessage(messages.errorCanNotSwitchUsageAsCollateralMode);

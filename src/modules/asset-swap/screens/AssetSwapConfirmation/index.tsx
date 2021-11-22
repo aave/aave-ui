@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber, Network } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/protocol-js';
 import queryString from 'query-string';
 
 import {
@@ -20,8 +20,8 @@ import { calculateHFAfterSwap } from '../../helpers';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
+import { ChainId } from '@aave/contract-helpers';
 
 interface QueryParams {
   fromAsset?: string;
@@ -42,8 +42,7 @@ interface QueryParams {
 export default function AssetSwapConfirmation() {
   const intl = useIntl();
   const location = useLocation();
-  const { chainId } = useProtocolDataContext();
-  const { WrappedBaseNetworkAssetAddress, networkConfig } = useStaticPoolDataContext();
+  const { WrappedBaseNetworkAssetAddress, networkConfig, chainId } = useStaticPoolDataContext();
   const { user, reserves } = useDynamicPoolDataContext();
   const { lendingPool } = useTxBuilderContext();
   const query = queryString.parse(location.search) as QueryParams;
@@ -60,6 +59,11 @@ export default function AssetSwapConfirmation() {
   const maxSlippage = valueToBigNumber(query.maxSlippage || 0);
   const totalFees = valueToBigNumber(query.totalFees || 0);
   const swapAll = query.swapAll === 'true';
+
+  // paraswap has no api specifically for the fork you're running on, so we need to select the correct chainId
+  const underlyingChainId = (
+    networkConfig.isFork ? networkConfig.underlyingChainId : chainId
+  ) as number;
 
   const {
     error,
@@ -80,15 +84,15 @@ export default function AssetSwapConfirmation() {
     },
     variant: 'exactIn',
     max: swapAll,
-    chainId,
+    chainId: underlyingChainId,
   });
 
   const calcToAmount = valueToBigNumber(calcToAmountString);
 
-  const fromUserReserve = user?.reservesData.find(
+  const fromUserReserve = user?.userReservesData.find(
     (res) => res.reserve.underlyingAsset.toLowerCase() === fromAsset?.toLowerCase()
   );
-  const toUserReserve = user?.reservesData.find(
+  const toUserReserve = user?.userReservesData.find(
     (res) => res.reserve.underlyingAsset.toLowerCase() === toAsset?.toLowerCase()
   );
 
@@ -140,7 +144,7 @@ export default function AssetSwapConfirmation() {
       destDecimals: reserveOut.decimals,
       user: user?.id,
       route: priceRoute,
-      chainId,
+      chainId: underlyingChainId,
     });
     return lendingPool.swapCollateral({
       fromAsset:
@@ -197,7 +201,7 @@ export default function AssetSwapConfirmation() {
       approveDescription={intl.formatMessage(messages.approveDescription)}
       mainTxName={intl.formatMessage(defaultMessages.swap)}
       blockingError={error || blockingError}
-      allowedNetworks={[Network.mainnet, Network.fork, Network.polygon, Network.polygon_fork]}
+      allowedChainIds={[ChainId.mainnet, ChainId.polygon]}
       aTokenData={aTokenData}
       warningMessage={intl.formatMessage(messages.warningMessage)}
     >

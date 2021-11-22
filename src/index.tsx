@@ -27,12 +27,17 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 import globalStyle from './globalStyle';
 import { WalletBalanceProvider } from './libs/wallet-balance-provider/WalletBalanceProvider';
-import { getDefaultNetworkName, getSupportedNetworks, IPFS_MODE } from './config';
+import { IPFS_MODE } from './helpers/config/misc-config';
+import {
+  getDefaultChainId,
+  getSupportedChainIds,
+} from './helpers/config/markets-and-network-config';
 import { UnlockWalletPreloader } from './components/UnlockWalletPreloader';
 import ConnectWalletModal from './components/ConnectWalletModal';
 import { PermissionProvider } from './libs/use-permissions/usePermissions';
 import { DynamicPoolDataProvider } from './libs/pool-data-provider';
 import { ConnectionStatusProvider } from './libs/connection-status-provider';
+import { IncentivesDataProvider } from './libs/pool-data-provider/hooks/use-incentives-data-context';
 
 initSentry();
 Modal.setAppElement('#root');
@@ -62,8 +67,8 @@ ReactDOM.render(
                     <Web3ReactProvider getLibrary={getWeb3Library}>
                       <ErrorBoundary>
                         <Web3Provider
-                          defaultNetwork={getDefaultNetworkName()}
-                          supportedNetworks={getSupportedNetworks()}
+                          defaultChainId={getDefaultChainId()}
+                          supportedChainIds={getSupportedChainIds()}
                           preloader={UnlockWalletPreloader}
                           connectWalletModal={ConnectWalletModal}
                         >
@@ -71,9 +76,11 @@ ReactDOM.render(
                             <WalletBalanceProvider>
                               <StaticPoolDataProviderWrapper>
                                 <DynamicPoolDataProvider>
-                                  <TxBuilderProvider>
-                                    <App />
-                                  </TxBuilderProvider>
+                                  <IncentivesDataProvider>
+                                    <TxBuilderProvider>
+                                      <App />
+                                    </TxBuilderProvider>
+                                  </IncentivesDataProvider>
                                 </DynamicPoolDataProvider>
                               </StaticPoolDataProviderWrapper>
                             </WalletBalanceProvider>

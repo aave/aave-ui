@@ -7,7 +7,7 @@ import Value from '../../../../components/basic/Value';
 import FreezedWarning from '../../../../components/FreezedWarning';
 import NoData from '../../../../components/basic/NoData';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
-import { getAssetInfo, TokenIcon } from '../../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import staticStyles from './style';
 
@@ -20,9 +20,9 @@ export interface MarketTableItemProps {
   totalBorrows: number;
   totalBorrowsInUSD: number;
   depositAPY: number;
-  aIncentivesAPY?: string;
-  vIncentivesAPY?: string;
-  sIncentivesAPY?: string;
+  aincentivesAPR?: string;
+  vincentivesAPR?: string;
+  sincentivesAPR?: string;
   avg30DaysLiquidityRate: number;
   stableBorrowRate: number;
   variableBorrowRate: number;
@@ -42,9 +42,9 @@ export default function MarketTableItem({
   totalBorrows,
   totalBorrowsInUSD,
   depositAPY,
-  aIncentivesAPY,
-  vIncentivesAPY,
-  sIncentivesAPY,
+  aincentivesAPR,
+  vincentivesAPR,
+  sincentivesAPR,
   avg30DaysLiquidityRate,
   stableBorrowRate,
   variableBorrowRate,
@@ -108,7 +108,7 @@ export default function MarketTableItem({
             <LiquidityMiningCard
               value={depositAPY}
               thirtyDaysValue={avg30DaysLiquidityRate}
-              liquidityMiningValue={aIncentivesAPY}
+              liquidityMiningValue={aincentivesAPR}
               symbol={currencySymbol}
               type="deposit"
             />
@@ -119,7 +119,7 @@ export default function MarketTableItem({
               <LiquidityMiningCard
                 value={variableBorrowRate}
                 thirtyDaysValue={avg30DaysVariableRate}
-                liquidityMiningValue={vIncentivesAPY}
+                liquidityMiningValue={vincentivesAPR}
                 symbol={currencySymbol}
                 type="borrow-variable"
               />
@@ -132,7 +132,7 @@ export default function MarketTableItem({
             {stableBorrowRateEnabled && borrowingEnabled && stableBorrowRate >= 0 ? (
               <LiquidityMiningCard
                 value={stableBorrowRate}
-                liquidityMiningValue={sIncentivesAPY}
+                liquidityMiningValue={sincentivesAPR}
                 symbol={currencySymbol}
                 type="borrow-stable"
               />
