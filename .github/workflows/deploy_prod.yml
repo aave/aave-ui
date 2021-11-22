@@ -35,7 +35,7 @@ jobs:
         run: node scripts/pin-pinata.js
 
       - name: crust
-        uses: crustio/ipfs-crust-action@v2.0.3
+        uses: crustio/ipfs-crust-action@f51bf12d352d230e12bfd8fa00b07f1f6c7aa735
         continue-on-error: true
         timeout-minutes: 2
         with:
