@@ -1,6 +1,6 @@
 const{configTestWithTenderlyPolygonFork} = require('../../../steps/configuration-steps')
 const {skipState} = require('../../../steps/common')
-const {deposit, borrow, repay, withdraw, checkUsdtCollateral} = require('../../../steps/steps')
+const {deposit, borrow, repay, withdraw, checkDisabledCollateral} = require('../../../steps/steps')
 const { dashboardAssetValuesVerification } = require('../../../steps/verification-steps')
 const constants= require('../../../fixtures/consts.json')
 const assets = require('../../../fixtures/assets.json')
@@ -34,7 +34,7 @@ const testData ={
             hasApproval: true
         },
     },
-        checkUsdtCollateral:{
+  checkDisabledCollateral:{
           asset: assets.polygonMarket.USDT
   },
     verifications:{
@@ -90,7 +90,7 @@ describe('USDT INTEGRATION SPEC ON POLYGON',  ()=>{
         true
     )
 
-    checkUsdtCollateral(
+  checkDisabledCollateral(
         {
         asset:testData.asset.name,
     },
