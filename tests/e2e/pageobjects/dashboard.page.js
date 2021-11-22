@@ -14,7 +14,6 @@ const locators = {
     emptyContentMessage: "//div[contains(@class, 'MainDashboardTable__left-inner')]//div[@class='NoDataPanel']",
     collateralSwitcher: ".//div[contains(@class, 'Switcher__swiper')]",
     disabledCollateralSwithcer: ".//div[contains(@class, 'Switcher__swiper Switcher__swiperDisabled')]",
-    turnColOffError: "//span[contains(@class, 'jsx-1211318934 jsx-3764512250')]"
   },
   borrowsTable:{
     table: "//div[contains(@class, 'MainDashboardTable__right-inner')]",
@@ -44,10 +43,6 @@ class DashboardPage extends Page {
   get depositTableEmptyMessage() {return $(locators.depositTable.emptyContentMessage)}
   get borrowsTableEmptyMessage() {return $(locators.borrowsTable.emptyContentMessage)}
   get rewardAvailableText() {return $(locators.reward.availableText)}
-  get collOffErr () {return $(locators.depositTable.turnColOffError)}
-
-
-
 
   depositRow(asset, collateralType = null) {
     elemUtil.doIsDisplayed(this.depositTable, 20000)

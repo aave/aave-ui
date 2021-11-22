@@ -13,7 +13,8 @@ const locators = {
     successMessage:"//*[text()='Your action has been successfully executed']",
     jsonError:"//*[contains(text(),'Response has no error or result for request')]"
   },
-  pendingRow:"//div[contains(@class, 'DotStatus')]/*[text()='Pending']"
+  pendingRow:"//div[contains(@class, 'DotStatus')]/*[text()='Pending']",
+  turnColOffError: "//span[contains(@class, 'jsx-1211318934 jsx-3764512250')]"
 };
 
 
@@ -25,6 +26,7 @@ class ConfirmationPage extends Page {
   get successResult_successMessage() { return $(locators.successResult.successMessage)}
   get successResult_jsonError() { return $(locators.successResult.jsonError)}
   get pendingRow() {return $(locators.pendingRow)}
+  get collOffErr () {return $(locators.depositTable.turnColOffError)}
 
   doOneStepProcess() {
     elemUtil.doClick(this.submitBtn)

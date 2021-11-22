@@ -31,6 +31,7 @@ describe('STAKE INTEGRATION SPEC',  ()=> {
       })
       it('Open stake page', () =>{
         StakePage.open()
+        _passed = true
       })
       it('Stake 1 AAVE', () =>{
         StakePage.doOpenStakeAAVEConfirmationPage("1")
@@ -92,6 +93,7 @@ describe('STAKE INTEGRATION SPEC',  ()=> {
       })
       it('Open stake page', () =>{
         StakePage.open()
+        _passed = true
       })
       it('Stake 1 BPT', () =>{
         StakePage.doOpenStakeBPTConfirmationPage("1")
