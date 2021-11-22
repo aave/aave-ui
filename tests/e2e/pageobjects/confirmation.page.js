@@ -26,7 +26,7 @@ class ConfirmationPage extends Page {
   get successResult_successMessage() { return $(locators.successResult.successMessage)}
   get successResult_jsonError() { return $(locators.successResult.jsonError)}
   get pendingRow() {return $(locators.pendingRow)}
-  get collOffErr () {return $(locators.depositTable.turnColOffError)}
+  get collOffErr () {return $(locators.turnColOffError)}
 
   doOneStepProcess() {
     elemUtil.doClick(this.submitBtn)
@@ -77,8 +77,8 @@ class ConfirmationPage extends Page {
   }
 
   doCheckCollateralErrorMessage(){
-    let _locator = this.collOffErr
-    let _actualMessage = elemUtil.doGetText(_locator)
+    let _elem = this.collOffErr
+    let _actualMessage = elemUtil.doGetText(_elem)
     expect(_actualMessage).to.be.equal("You can't switch usage as collateral mode for this currency, because it will cause collateral call")
   }
 }
