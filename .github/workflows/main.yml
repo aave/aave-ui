@@ -11,7 +11,7 @@ jobs:
   deploy_ipfs:
     runs-on: ubuntu-latest
     outputs:
-      uri: ${{ steps.deploy.outputs.uri }}
+      uri: ${{ steps.pinata.outputs.uri }}
     steps:
       - uses: actions/checkout@v2
 
