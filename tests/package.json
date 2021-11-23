@@ -14,7 +14,7 @@
     "@wdio/cli": "^7.0.7",
     "chai": "^4.3.3",
     "fs-extra": "^9.1.0",
-    "webdriverio": "^7.16.3"
+    "webdriverio": "^7.7.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
