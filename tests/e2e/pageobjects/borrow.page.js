@@ -4,7 +4,7 @@ const elemUtil = require('../util/elementUtil')
 
 const locators = {
   table: "//div[contains(@class, 'BasicTable__content-inner')]",
-  noCollateralMessage: "//div[contains(@class, 'jsx-2524701549 jsx-857932068 Caption__description')]",
+  noCollateralMessage: "//*[contains(@id, 'ScreensWrapper__content-wrapper')]/section/div[4]/div[1]/div/div",
 };
 
 class BorrowPage extends Page {

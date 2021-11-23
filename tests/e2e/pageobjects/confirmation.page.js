@@ -14,7 +14,7 @@ const locators = {
     jsonError:"//*[contains(text(),'Response has no error or result for request')]"
   },
   pendingRow:"//div[contains(@class, 'DotStatus')]/*[text()='Pending']",
-  turnColOffError: "//span[contains(@class, 'jsx-1211318934 jsx-3764512250')]"
+  turnColOffError: "//*[contains(@id, 'ScreensWrapper__content-wrapper')]//div[2]/div/div[1]/span"
 };
 
 
