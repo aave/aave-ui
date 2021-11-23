@@ -28,7 +28,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     isTestnet: true,
   },
   [ChainId.mainnet]: {
-    name: 'Mainnet',
+    name: 'Ethereum mainnet',
     publicJsonRPCUrl: ['https://cloudflare-eth.com', 'https://eth-mainnet.alchemyapi.io/v2/demo'],
     publicJsonRPCWSUrl: 'wss://eth-mainnet.alchemyapi.io/v2/demo',
     addresses: {
