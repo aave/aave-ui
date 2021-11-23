@@ -9,7 +9,7 @@ import MaxLTVHelpModal from '../../../../components/HelpModal/MaxLTVHelpModal';
 import ValuePercent from '../../../../components/basic/ValuePercent';
 import RepayWithdrawWrapper from '../../../../components/wrappers/RepayWithdrawWrapper';
 import CollateralCompositionBar from '../../../../components/compositionBars/CollateralCompositionBar';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';
@@ -23,7 +23,7 @@ interface RepayScreenWrapperProps {
   walletBalance: string;
   walletBalanceInUSD: string;
   totalCollateralUSD: string;
-  totalCollateralETH: string;
+  totalCollateralMarketReferenceCurrency: string;
   healthFactor: string;
   loanToValue: string;
   children: ReactNode;
@@ -37,7 +37,7 @@ export default function RepayScreenWrapper({
   walletBalance,
   walletBalanceInUSD,
   totalCollateralUSD,
-  totalCollateralETH,
+  totalCollateralMarketReferenceCurrency,
   healthFactor,
   loanToValue,
   children,
@@ -82,7 +82,11 @@ export default function RepayScreenWrapper({
           <Row title={intl.formatMessage(messages.yourCollateral)} color="white" weight="light">
             <Value
               value={Number(totalCollateralUSD)}
-              subValue={!networkConfig.usdMarket ? Number(totalCollateralETH) : undefined}
+              subValue={
+                !networkConfig.usdMarket
+                  ? Number(totalCollateralMarketReferenceCurrency)
+                  : undefined
+              }
               color="white"
               symbol="USD"
               subSymbol="ETH"

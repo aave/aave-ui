@@ -16,6 +16,7 @@ const staticStyles = css.global`
 
     &__graphs-wrapper {
       width: 100%;
+      min-height: 50px;
       @include respond-to(md) {
         display: block;
         overflow-x: auto;
@@ -24,6 +25,7 @@ const staticStyles = css.global`
         padding: 3px 0 0 3px;
       }
       @include respond-to(sm) {
+        min-height: 0px;
         overflow: inherit;
         padding: 0;
       }

@@ -1,8 +1,8 @@
-import { Network } from '@aave/protocol-js';
+import { ChainId } from '@aave/contract-helpers';
 import { IntlShape } from 'react-intl/src/types';
 
-interface DashboardLeftTopLineProps {
-  network: Network;
+export interface DashboardLeftTopLineProps {
+  chainId: ChainId;
   intl: IntlShape;
   onMobile?: boolean;
 }

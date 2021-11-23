@@ -2,21 +2,21 @@ import React from 'react';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import queryString from 'query-string';
 import { useIntl } from 'react-intl';
-import {
-  ComputedUserReserve,
-  UserSummaryData,
-  ComputedReserveData,
-  BigNumber,
-  valueToBigNumber,
-} from '@aave/protocol-js';
+import { BigNumber, valueToBigNumber } from '@aave/protocol-js';
 
-import { useDynamicPoolDataContext, useStaticPoolDataContext } from '../../libs/pool-data-provider';
+import {
+  ComputedReserveData,
+  useDynamicPoolDataContext,
+  UserSummary,
+  useStaticPoolDataContext,
+} from '../../libs/pool-data-provider';
 import { CurrencyRouteParamsInterface } from '../../helpers/router-types';
 import Preloader from '../basic/Preloader';
 import ErrorPage from '../ErrorPage';
 
 import messages from './messages';
 import { useWalletBalanceProviderContext } from '../../libs/wallet-balance-provider/WalletBalanceProvider';
+import { ComputedUserReserve } from '@aave/math-utils';
 
 export interface ValidationWrapperComponentProps
   extends Pick<RouteComponentProps, 'history' | 'location'> {
@@ -25,7 +25,7 @@ export interface ValidationWrapperComponentProps
   walletBalance: BigNumber;
   walletBalanceUSD: BigNumber;
   isWalletBalanceEnough: boolean;
-  user?: UserSummaryData;
+  user?: UserSummary;
   poolReserve: ComputedReserveData;
   userReserve?: ComputedUserReserve;
 }
@@ -49,7 +49,7 @@ export default function routeParamValidationHOC({
       const underlyingAsset = match.params.underlyingAsset.toUpperCase();
       const reserveId = match.params.id;
 
-      const { usdPriceEth } = useStaticPoolDataContext();
+      const { marketRefPriceInUsd } = useStaticPoolDataContext();
       const { reserves, user } = useDynamicPoolDataContext();
 
       const poolReserve = reserves.find((res) =>
@@ -58,7 +58,7 @@ export default function routeParamValidationHOC({
           : res.underlyingAsset.toLowerCase() === underlyingAsset.toLowerCase()
       );
       const userReserve = user
-        ? user.reservesData.find((userReserve) =>
+        ? user.userReservesData.find((userReserve) =>
             reserveId
               ? userReserve.reserve.id === reserveId
               : userReserve.reserve.underlyingAsset.toLowerCase() === underlyingAsset.toLowerCase()
@@ -112,8 +112,8 @@ export default function routeParamValidationHOC({
       }
 
       const walletBalanceUSD = valueToBigNumber(walletBalance)
-        .multipliedBy(poolReserve.price.priceInEth)
-        .dividedBy(usdPriceEth);
+        .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
+        .multipliedBy(marketRefPriceInUsd);
 
       const props = {
         poolReserve,

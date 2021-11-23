@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { ParentSize } from '@visx/responsive';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { getAssetInfo, TokenIcon } from '../../../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../../../helpers/config/assets-config';
 import staticStyles from './style';
 import { PieChart } from '../../../../../components/compositionBars/PieChart';
 import messages from './messages';

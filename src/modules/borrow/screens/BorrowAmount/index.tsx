@@ -16,7 +16,7 @@ import messages from './messages';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
-import { getAssetInfo } from '../../../../helpers/markets/assets';
+import { getAssetInfo } from '../../../../helpers/config/assets-config';
 
 enum BorrowStep {
   AmountForm,
@@ -43,16 +43,16 @@ function BorrowAmount({
 
   const asset = getAssetInfo(currencySymbol);
 
-  const maxUserAmountToBorrow = valueToBigNumber(user?.availableBorrowsETH || 0).div(
-    poolReserve.price.priceInEth
-  );
+  const maxUserAmountToBorrow = valueToBigNumber(
+    user?.availableBorrowsMarketReferenceCurrency || 0
+  ).div(poolReserve.priceInMarketReferenceCurrency);
   let maxAmountToBorrow = BigNumber.max(
     BigNumber.min(poolReserve.availableLiquidity, maxUserAmountToBorrow),
     0
   );
   if (
     maxAmountToBorrow.gt(0) &&
-    user?.totalBorrowsETH !== '0' &&
+    user?.totalBorrowsMarketReferenceCurrency !== '0' &&
     maxUserAmountToBorrow.lt(valueToBigNumber(poolReserve.availableLiquidity).multipliedBy('1.01'))
   ) {
     maxAmountToBorrow = maxAmountToBorrow.multipliedBy('0.99');
@@ -123,7 +123,7 @@ function BorrowAmount({
               ? intl.formatMessage(messages.connectWallet)
               : poolReserve.availableLiquidity === '0'
               ? intl.formatMessage(messages.noLiquidityAvailableTitle)
-              : !user || user.totalLiquidityETH === '0'
+              : !user || user.totalLiquidityMarketReferenceCurrency === '0'
               ? intl.formatMessage(messages.noDataTitle)
               : intl.formatMessage(messages.healthFactorTooLowTitle)
           }
@@ -134,7 +134,7 @@ function BorrowAmount({
               ? intl.formatMessage(messages.noLiquidityAvailableDescription, {
                   symbol: asset.formattedName,
                 })
-              : !user || user.totalLiquidityETH === '0'
+              : !user || user.totalLiquidityMarketReferenceCurrency === '0'
               ? intl.formatMessage(messages.noDataDescription)
               : intl.formatMessage(messages.healthFactorTooLowDescription)
           }

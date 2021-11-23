@@ -5,7 +5,7 @@ import TableColumn from '../../../../components/BasicTable/TableColumn';
 import Value from '../../../../components/basic/Value';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
 import NoData from '../../../../components/basic/NoData';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import { BorrowTableItem } from './types';
 
@@ -21,8 +21,8 @@ export default function BorrowItem({
   stableBorrowRateEnabled,
   userId,
   isFreezed,
-  vIncentivesAPY,
-  sIncentivesAPY,
+  vincentivesAPR,
+  sincentivesAPR,
 }: BorrowTableItem) {
   const url = `/borrow/${underlyingAsset}-${id}`;
 
@@ -54,7 +54,7 @@ export default function BorrowItem({
           <LiquidityMiningCard
             value={variableBorrowRate}
             thirtyDaysValue={avg30DaysVariableRate}
-            liquidityMiningValue={vIncentivesAPY}
+            liquidityMiningValue={vincentivesAPR}
             symbol={symbol}
             type="borrow-variable"
           />
@@ -66,7 +66,7 @@ export default function BorrowItem({
           {stableBorrowRateEnabled ? (
             <LiquidityMiningCard
               value={stableBorrowRate}
-              liquidityMiningValue={sIncentivesAPY}
+              liquidityMiningValue={sincentivesAPR}
               symbol={symbol}
               type="borrow-stable"
             />

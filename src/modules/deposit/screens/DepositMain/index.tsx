@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { ComputedReserveData, valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { PERMISSION } from '@aave/contract-helpers';
 
 import {
+  ComputedReserveData,
   useDynamicPoolDataContext,
   useStaticPoolDataContext,
 } from '../../../../libs/pool-data-provider';
@@ -22,13 +23,15 @@ import messages from './messages';
 
 import { DepositTableItem } from '../../components/DepositAssetsTable/types';
 import { useWalletBalanceProviderContext } from '../../../../libs/wallet-balance-provider/WalletBalanceProvider';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 
 export default function DepositsMain() {
   const intl = useIntl();
   const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
+  const { reserveIncentives } = useIncentivesDataContext();
   const { sm } = useThemeContext();
 
   const [searchValue, setSearchValue] = useState('');
@@ -61,7 +64,7 @@ export default function DepositsMain() {
   const listData = (withFilter: boolean) => {
     const data = (reserves: ComputedReserveData[]) =>
       reserves.map<DepositTableItem>((reserve) => {
-        const userReserve = user?.reservesData.find(
+        const userReserve = user?.userReservesData.find(
           (userRes) => userRes.reserve.symbol === reserve.symbol
         );
         const walletBalance =
@@ -71,23 +74,29 @@ export default function DepositsMain() {
                 valueToBigNumber('10').pow(reserve.decimals)
               );
         const walletBalanceInUSD = walletBalance
-          .multipliedBy(reserve.price.priceInEth)
-          .dividedBy(marketRefPriceInUsd)
+          .multipliedBy(reserve.priceInMarketReferenceCurrency)
+          .multipliedBy(marketRefPriceInUsd)
           .toString();
-
+        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
         return {
           ...reserve,
           walletBalance,
           walletBalanceInUSD,
           underlyingBalance: userReserve ? userReserve.underlyingBalance : '0',
           underlyingBalanceInUSD: userReserve ? userReserve.underlyingBalanceUSD : '0',
-          liquidityRate: reserve.borrowingEnabled ? Number(reserve.liquidityRate) : '-1',
+          liquidityRate: reserve.supplyAPY,
           avg30DaysLiquidityRate: Number(reserve.avg30DaysLiquidityRate),
           borrowingEnabled: reserve.borrowingEnabled,
           interestHistory: [],
-          aIncentivesAPY: reserve.aIncentivesAPY,
-          vIncentivesAPY: reserve.vIncentivesAPY,
-          sIncentivesAPY: reserve.sIncentivesAPY,
+          aincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.aIncentives.incentiveAPR
+            : '0',
+          vincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.vIncentives.incentiveAPR
+            : '0',
+          sincentivesAPR: reserveIncentiveData
+            ? reserveIncentiveData.sIncentives.incentiveAPR
+            : '0',
         };
       });
 

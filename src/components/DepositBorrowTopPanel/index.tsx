@@ -24,7 +24,7 @@ import ApproximateBalanceHelpModal from '../HelpModal/ApproximateBalanceHelpModa
 
 import messages from './messages';
 import staticStyles from './style';
-import { getAssetInfo, getAssetColor } from '../../helpers/markets/assets';
+import { getAssetInfo, getAssetColor } from '../../helpers/config/assets-config';
 
 export default function DepositBorrowTopPanel() {
   const intl = useIntl();
@@ -36,23 +36,23 @@ export default function DepositBorrowTopPanel() {
   );
   const [isLTVModalVisible, setLTVModalVisible] = useState(false);
 
-  const maxBorrowAmount = valueToBigNumber(user?.totalBorrowsETH || '0').plus(
-    user?.availableBorrowsETH || '0'
+  const maxBorrowAmount = valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0').plus(
+    user?.availableBorrowsMarketReferenceCurrency || '0'
   );
   const collateralUsagePercent = maxBorrowAmount.eq(0)
     ? '1'
-    : valueToBigNumber(user?.totalBorrowsETH || '0')
+    : valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0')
         .div(maxBorrowAmount)
         .toFixed();
 
-  const loanToValue = valueToBigNumber(user?.totalBorrowsETH || '0')
-    .dividedBy(user?.totalCollateralETH || '1')
+  const loanToValue = valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0')
+    .dividedBy(user?.totalCollateralMarketReferenceCurrency || '1')
     .toFixed();
 
   const depositCompositionData: CircleCompositionBarItem[] = [];
   const borrowCompositionData: CircleCompositionBarItem[] = [];
 
-  user?.reservesData.forEach((userReserve) => {
+  user?.userReservesData.forEach((userReserve) => {
     const poolReserve = reserves.find((res) => res.symbol === userReserve.reserve.symbol);
 
     if (!poolReserve) {
@@ -62,50 +62,51 @@ export default function DepositBorrowTopPanel() {
       if (userReserve.underlyingBalance !== '0') {
         depositCompositionData.push({
           label: `${getAssetInfo(userReserve.reserve.symbol).formattedName}  ${intl.formatNumber(
-            valueToBigNumber(userReserve.underlyingBalanceETH)
-              .dividedBy(user?.totalLiquidityETH)
+            valueToBigNumber(userReserve.underlyingBalanceMarketReferenceCurrency)
+              .dividedBy(user?.totalLiquidityMarketReferenceCurrency)
               .multipliedBy(100)
               .toNumber(),
             { maximumFractionDigits: 2 }
           )}%`,
-          value: Number(userReserve.underlyingBalanceETH),
+          value: Number(userReserve.underlyingBalanceMarketReferenceCurrency),
           color: getAssetColor(userReserve.reserve.symbol),
         });
       }
       if (userReserve.totalBorrows !== '0') {
         borrowCompositionData.push({
           label: `${getAssetInfo(userReserve.reserve.symbol).formattedName}  ${intl.formatNumber(
-            valueToBigNumber(userReserve.totalBorrowsETH)
+            valueToBigNumber(userReserve.totalBorrowsMarketReferenceCurrency)
               .dividedBy(maxBorrowAmount)
               .multipliedBy(100)
               .toNumber(),
             { maximumFractionDigits: 2 }
           )}%`,
-          value: Number(userReserve.totalBorrowsETH),
+          value: Number(userReserve.totalBorrowsMarketReferenceCurrency),
           color: getAssetColor(userReserve.reserve.symbol),
+        });
+
+        const availableBorrowPower = borrowCompositionData
+          .reduce((acc, slice) => acc.minus(slice.value), maxBorrowAmount)
+          .toNumber();
+        const usedBorrowPower = borrowCompositionData
+          .reduce((acc, slice) => acc.plus(slice.value), new BigNumber(0))
+          .toNumber();
+
+        borrowCompositionData.push({
+          value: availableBorrowPower,
+          label: `${intl.formatMessage(messages.borrowingPowerAvailable)}: ${intl.formatNumber(
+            new BigNumber(1)
+              .minus(valueToBigNumber(usedBorrowPower).dividedBy(maxBorrowAmount))
+              .multipliedBy(100)
+              .toNumber(),
+            {
+              maximumFractionDigits: 2,
+            }
+          )}%`,
+          color: currentTheme.white.hex,
         });
       }
     }
-  });
-  const availableBorrowPower = borrowCompositionData
-    .reduce((acc, slice) => acc.minus(slice.value), maxBorrowAmount)
-    .toNumber();
-  const usedBorrowPower = borrowCompositionData
-    .reduce((acc, slice) => acc.plus(slice.value), new BigNumber(0))
-    .toNumber();
-
-  borrowCompositionData.push({
-    value: availableBorrowPower,
-    label: `${intl.formatMessage(messages.borrowingPowerAvailable)}: ${intl.formatNumber(
-      new BigNumber(1)
-        .minus(valueToBigNumber(usedBorrowPower).dividedBy(maxBorrowAmount))
-        .multipliedBy(100)
-        .toNumber(),
-      {
-        maximumFractionDigits: 2,
-      }
-    )}%`,
-    color: currentTheme.white.hex,
   });
 
   return (
@@ -202,7 +203,7 @@ export default function DepositBorrowTopPanel() {
                   <div className="DepositBorrowTopPanel__topPanel-bars">
                     <CircleCompositionBar
                       title={intl.formatMessage(messages.depositComposition)}
-                      totalValue={Number(user?.totalLiquidityETH || 0)}
+                      totalValue={Number(user?.totalLiquidityMarketReferenceCurrency || 0)}
                       data={depositCompositionData}
                     />
                   </div>

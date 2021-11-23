@@ -1,5 +1,5 @@
-import { Network } from '@aave/protocol-js';
-import { MarketDataType } from '../../helpers/markets/markets-data';
+import { ChainId } from '@aave/contract-helpers';
+import { MarketDataType } from '../../helpers/config/types';
 
 import * as logos from './images';
 
@@ -13,7 +13,7 @@ export interface ExtendedMarketDataType extends MarketDataType {
 
 export const marketsData: { [key in keyof typeof CustomMarket]: ExtendedMarketDataType } = {
   [CustomMarket.rwa_kovan]: {
-    network: Network.kovan,
+    chainId: ChainId.kovan,
     logo: logos.rwaLogo,
     activeLogo: logos.rwaLogoActive,
     aTokenPrefix: 'A',

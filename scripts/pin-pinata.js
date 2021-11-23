@@ -46,6 +46,20 @@ const cleanupAndPin = async () => {
         pinataMetadata: {
           name: PIN_ALIAS,
         },
+        pinataOptions: {
+          customPinPolicy: {
+            regions: [
+              {
+                id: 'FRA1',
+                desiredReplicationCount: 1,
+              },
+              {
+                id: 'NYC1',
+                desiredReplicationCount: 1,
+              },
+            ],
+          },
+        },
       });
       return result.IpfsHash;
     } catch (e) {
@@ -58,4 +72,7 @@ const cleanupAndPin = async () => {
   }
 };
 
-module.exports = cleanupAndPin;
+cleanupAndPin().then((hash) => {
+  console.log(`::set-output name=hash::${hash}`);
+  console.log(`::set-output name=uri::https://cloudflare-ipfs.com/ipfs/${hash}`);
+});

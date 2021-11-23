@@ -6,7 +6,7 @@ export default defineMessages({
   utilizationRate: 'Utilization rate',
   availableLiquidity: 'Available liquidity',
   depositAPY: 'Deposit APY',
-  pastThirtyDayAverage: 'Past 30 Day Average',
+  depositAPR: 'Deposit APR',
   canBeUsedAsCollateral: 'Can be used as collateral',
   no: 'No',
   yes: 'Yes',

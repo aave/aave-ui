@@ -38,8 +38,7 @@ export default function ScreenWrapper({
   const { currentLangSlug } = useLanguageContext();
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
   const {
-    networkConfig: { bridge },
-    network,
+    networkConfig: { bridge, name },
   } = useProtocolDataContext();
   const location = useLocation();
   const { setTitle } = useHeaderTitle();
@@ -77,7 +76,7 @@ export default function ScreenWrapper({
       {DISPLAY_BRIDGE_BANNER_PAGES.includes(location.pathname) && bridge && (
         <>
           <div className="ScreenWrapper__bannerWrapper">
-            <BridgeBanner networkName={network} {...bridge} />
+            <BridgeBanner networkName={name} {...bridge} />
           </div>
           <div className="ScreenWrapper__bannerSpacer" />
         </>

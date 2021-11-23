@@ -1,0 +1,58 @@
+fragment TokenIncentivesUserDataFragment on TokenIncentivesUserData {
+  tokenIncentivesUserIndex
+  userUnclaimedRewards
+  tokenAddress
+  rewardTokenAddress
+  rewardTokenDecimals
+  incentiveControllerAddress
+}
+
+query C_UserIncentives(
+  $userAddress: String!
+  $lendingPoolAddressProvider: String!
+  $chainlinkFeedsRegistry: String!
+  $quote: String!
+) {
+  userIncentives(
+    userAddress: $userAddress
+    lendingPoolAddressProvider: $lendingPoolAddressProvider
+    chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+    quote: $quote
+  ) {
+    underlyingAsset
+    aTokenIncentivesUserData {
+      ...TokenIncentivesUserDataFragment
+    }
+    vTokenIncentivesUserData {
+      ...TokenIncentivesUserDataFragment
+    }
+    sTokenIncentivesUserData {
+      ...TokenIncentivesUserDataFragment
+    }
+  }
+}
+
+subscription C_UserPoolIncentivesDataUpdate(
+  $userAddress: String!
+  $lendingPoolAddressProvider: String!
+  $chainlinkFeedsRegistry: String!
+  $quote: String!
+) {
+  userPoolIncentivesDataUpdate(
+    userAddress: $userAddress
+    lendingPoolAddressProvider: $lendingPoolAddressProvider
+    chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+    quote: $quote
+  ) {
+    underlyingAsset
+    aTokenIncentivesUserData {
+      ...TokenIncentivesUserDataFragment
+    }
+    vTokenIncentivesUserData {
+      ...TokenIncentivesUserDataFragment
+    }
+    sTokenIncentivesUserData {
+      ...TokenIncentivesUserDataFragment
+    }
+  }
+}

@@ -21,6 +21,7 @@ import MarketMobileCard from '../../components/MarketMobileCard';
 
 import messages from './messages';
 import staticStyles from './style';
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 
 export default function Markets() {
   const intl = useIntl();
@@ -28,37 +29,34 @@ export default function Markets() {
   const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { reserves } = useDynamicPoolDataContext();
   const { currentMarketData } = useProtocolDataContext();
-
+  const { reserveIncentives } = useIncentivesDataContext();
   const [isPriceInUSD, setIsPriceInUSD] = useState(
     localStorage.getItem('marketsIsPriceInUSD') === 'true'
   );
-
   const [sortName, setSortName] = useState('');
   const [sortDesc, setSortDesc] = useState(false);
-
   let totalLockedInUsd = valueToBigNumber('0');
-
   let sortedData = reserves
     .filter((res) => res.isActive)
     .map((reserve) => {
       totalLockedInUsd = totalLockedInUsd.plus(
         valueToBigNumber(reserve.totalLiquidity)
-          .multipliedBy(reserve.price.priceInEth)
-          .dividedBy(marketRefPriceInUsd)
+          .multipliedBy(reserve.priceInMarketReferenceCurrency)
+          .multipliedBy(marketRefPriceInUsd)
       );
 
       const totalLiquidity = Number(reserve.totalLiquidity);
       const totalLiquidityInUSD = valueToBigNumber(reserve.totalLiquidity)
-        .multipliedBy(reserve.price.priceInEth)
-        .dividedBy(marketRefPriceInUsd)
+        .multipliedBy(reserve.priceInMarketReferenceCurrency)
+        .multipliedBy(marketRefPriceInUsd)
         .toNumber();
 
       const totalBorrows = Number(reserve.totalDebt);
       const totalBorrowsInUSD = valueToBigNumber(reserve.totalDebt)
-        .multipliedBy(reserve.price.priceInEth)
-        .dividedBy(marketRefPriceInUsd)
+        .multipliedBy(reserve.priceInMarketReferenceCurrency)
+        .multipliedBy(marketRefPriceInUsd)
         .toNumber();
-
+      const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
       return {
         totalLiquidity,
         totalLiquidityInUSD,
@@ -67,20 +65,20 @@ export default function Markets() {
         id: reserve.id,
         underlyingAsset: reserve.underlyingAsset,
         currencySymbol: reserve.symbol,
-        depositAPY: reserve.borrowingEnabled ? Number(reserve.liquidityRate) : -1,
+        depositAPY: reserve.borrowingEnabled ? Number(reserve.supplyAPY) : -1,
         avg30DaysLiquidityRate: Number(reserve.avg30DaysLiquidityRate),
         stableBorrowRate:
           reserve.stableBorrowRateEnabled && reserve.borrowingEnabled
-            ? Number(reserve.stableBorrowRate)
+            ? Number(reserve.stableBorrowAPY)
             : -1,
-        variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowRate) : -1,
+        variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowAPY) : -1,
         avg30DaysVariableRate: Number(reserve.avg30DaysVariableBorrowRate),
         borrowingEnabled: reserve.borrowingEnabled,
         stableBorrowRateEnabled: reserve.stableBorrowRateEnabled,
         isFreezed: reserve.isFrozen,
-        aIncentivesAPY: reserve.aIncentivesAPY,
-        vIncentivesAPY: reserve.vIncentivesAPY,
-        sIncentivesAPY: reserve.sIncentivesAPY,
+        aincentivesAPR: reserveIncentiveData ? reserveIncentiveData.aIncentives.incentiveAPR : '0',
+        vincentivesAPR: reserveIncentiveData ? reserveIncentiveData.vIncentives.incentiveAPR : '0',
+        sincentivesAPR: reserveIncentiveData ? reserveIncentiveData.sIncentives.incentiveAPR : '0',
       };
     });
 
@@ -153,7 +151,7 @@ export default function Markets() {
       <div className="Markets__mobile--cards">
         {currentMarketData.enabledFeatures?.incentives && (
           <div className="Markets__help--modalInner">
-            <BorrowRatesHelpModal
+            <BorrowRatesHelpModal // TO-DO: Pass rewardTokenSymbol to this component
               className="Markets__help--modal"
               text={intl.formatMessage(messages.rewardsInformation)}
               iconSize={14}

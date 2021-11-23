@@ -10,7 +10,7 @@ export type DepositTableItem = {
   underlyingBalanceInUSD: number | string;
   liquidityRate: number | string;
   avg30DaysLiquidityRate?: number;
-  aIncentivesAPY: string;
+  aincentivesAPR: string;
   userId?: string;
   borrowingEnabled: boolean;
   isFreezed?: boolean;

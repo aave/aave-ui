@@ -25,8 +25,9 @@ const locators = {
   emptyDashboardText: "//*[text()='No deposits found for your address']",
   reward:{
     block: "//div[contains(@class, 'TopIncentiveBalance')]",
-    count: "//div[contains(@class, 'TopIncentiveBalance')]//div[contains(@class, 'TopIncentiveBalance__value--inner')]",
-    claimBtn:"//div[contains(@class, 'TopIncentiveBalance')]//*[text()='Claim']/../.."
+    count: "//div[contains(@class, 'IncentiveClaimItem')]//p[contains(@class, 'Value__value')]",
+    claimBtn:"//div[contains(@class, 'IncentiveClaimItem')]//*[text()='Claim']",
+    availableText:"//p[text()='Available reward']"
   }
 };
 
@@ -38,6 +39,7 @@ class DashboardPage extends Page {
   get claimBtn() {return $(locators.reward.claimBtn)}
   get depositTableEmptyMessage() {return $(locators.depositTable.emptyContentMessage)}
   get borrowsTableEmptyMessage() {return $(locators.borrowsTable.emptyContentMessage)}
+  get rewardAvailableText() {return $(locators.reward.availableText)}
 
 
 
@@ -167,14 +169,7 @@ class DashboardPage extends Page {
   }
 
   doCheckRewardIsNotAvailable() {
-    browser.waitUntil(
-      () => elemUtil.doGetText(this.rewardCountText) == "0.00",
-      {
-        timeout: 10000,
-        timeoutMsg: 'expected reward = 0.00, but it is ' + elemUtil.doGetText(this.rewardCountText)
-      }
-    )
-    expect(elemUtil.doIsElemDisable(this.claimBtn)).to.be.true
+    elemUtil.doIsNotExist(locators.reward.availableText)
   }
 
   doOpenClaimReward() {

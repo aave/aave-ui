@@ -6,7 +6,7 @@ import { useDynamicPoolDataContext } from '../../../libs/pool-data-provider';
 import Row from '../../basic/Row';
 import CompositionBar from '../CompositionBar';
 
-import { getAssetColor, getAssetInfo } from '../../../helpers/markets/assets';
+import { getAssetColor, getAssetInfo } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';
@@ -19,14 +19,20 @@ export default function BorrowCompositionBar() {
     return null;
   }
 
-  const { totalBorrowsETH, availableBorrowsETH, reservesData } = user;
-  const maxBorrowAmount = new BigNumber(totalBorrowsETH).plus(availableBorrowsETH);
-  const borrowComposition = reservesData
+  const {
+    totalBorrowsMarketReferenceCurrency,
+    availableBorrowsMarketReferenceCurrency,
+    userReservesData,
+  } = user;
+  const maxBorrowAmount = new BigNumber(totalBorrowsMarketReferenceCurrency).plus(
+    availableBorrowsMarketReferenceCurrency
+  );
+  const borrowComposition = userReservesData
     .filter((reserve) => reserve.totalBorrows !== '0')
     .map((userReserve) => ({
       title: getAssetInfo(userReserve.reserve.symbol).formattedName || '',
       value: userReserve.totalBorrows,
-      percentage: new BigNumber(userReserve.totalBorrowsETH)
+      percentage: new BigNumber(userReserve.totalBorrowsMarketReferenceCurrency)
         .div(maxBorrowAmount)
         .multipliedBy(100)
         .precision(20, BigNumber.ROUND_UP)

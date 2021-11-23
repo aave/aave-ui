@@ -37,13 +37,9 @@ You may overwrite them for the production build, by creating an additional `.env
 
 ### General network
 
-REACT_APP_DEFAULT_ETHEREUM_NETWORK - network selected in the app on the first enter (optional), default value: mainnet
-
-REACT_APP_SUPPORTED_ETHEREUM_NETWORKS - list of supported ethereum networks, comma separated
-
-REACT_APP_ENABLE_CACHING_BACKEND - enable [aave-caching-server](https://github.com/aave/aave-ui-caching-server) support, default value: false
-
 REACT_APP_RATES_HISTORY_ENDPOINT - enable rates history endpoint support, optional
+
+REACT_APP_ENABLE_TESTNET - enables markets that are on a network flagged as testnet
 
 ### Fiat onboard
 
@@ -78,10 +74,11 @@ REACT_APP_SENTRY_DSN - [Sentry](https://sentry.io/) dsn url (optional)
 If you want to run the app against a custom fork set corresponding params in the browser localStorage
 
 ```
-  forkNetworkId // chainId you will set in metamask
+  forkEnabled // enables forks
+  forkBaseChainId // chainId of the underlying chain (determines which markets will be forked)
+  forkChainId // chainId you will set in metamask
   forkRPCUrl // the url of the http fork RPC
   forkWsRPCUrl // the url of the ws fork RPC
-  fork_enabled // enable the fork
 ```
 
 ## Updating GraphQL Schemas

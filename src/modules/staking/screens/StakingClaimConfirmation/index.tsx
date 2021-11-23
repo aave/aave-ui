@@ -17,10 +17,11 @@ export default function StakingClaimConfirmation() {
   const intl = useIntl();
   const location = useLocation();
   const { userId } = useStaticPoolDataContext();
-  const { selectedStakeData, txBuilder, selectedStake } = useStakeDataContext();
+  const { selectedStakeData, stakingService, selectedStake, STAKING_REWARD_TOKEN } =
+    useStakeDataContext();
 
   const aTokenData = getAtokenInfo({
-    address: txBuilder.stakingRewardTokenContractAddress,
+    address: STAKING_REWARD_TOKEN,
     symbol: 'AAVE',
     decimals: 18,
     withFormattedSymbol: true,
@@ -32,7 +33,7 @@ export default function StakingClaimConfirmation() {
   if ((amount.lt(0) && !amount.eq(-1)) || !userId) {
     return null;
   }
-  const handleGetTransactions = async () => txBuilder.claimRewards(userId, amount.toString());
+  const handleGetTransactions = async () => stakingService.claimRewards(userId, amount.toString());
 
   let blockingError = '';
   if (selectedStakeData.userIncentivesToClaim === '0') {

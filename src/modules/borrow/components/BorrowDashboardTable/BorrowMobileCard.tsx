@@ -33,8 +33,8 @@ export default function BorrowMobileCard({
   stableBorrowRateEnabled,
   repayLink,
   borrowLink,
-  vIncentivesAPY,
-  sIncentivesAPY,
+  vincentivesAPR,
+  sincentivesAPR,
 }: BorrowTableItem) {
   const intl = useIntl();
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
@@ -62,7 +62,7 @@ export default function BorrowMobileCard({
                 borrowRateMode === BorrowRateMode.Variable ? avg30DaysVariableRate : ''
               }
               liquidityMiningValue={
-                borrowRateMode === BorrowRateMode.Variable ? vIncentivesAPY : sIncentivesAPY
+                borrowRateMode === BorrowRateMode.Variable ? vincentivesAPR : sincentivesAPR
               }
               type={
                 borrowRateMode === BorrowRateMode.Variable ? 'borrow-variable' : 'borrow-stable'

@@ -1,7 +1,7 @@
-import { Network } from '@aave/protocol-js';
+import { ChainId } from '@aave/contract-helpers';
 
 export interface StakeConfig {
-  network: Network;
+  chainId: ChainId;
   stakeDataProvider: string;
   tokens: {
     [token: string]: {
@@ -16,7 +16,7 @@ export const stakeConfig: StakeConfig | undefined = undefined;
 
 // kovan config
 // export const stakeConfig: StakeConfig | undefined = {
-//   network: Network.kovan,
+//   chainId: ChainId.kovan,
 //   stakeDataProvider: '0x5671387d56eAB334A2D65d6D0BB4D907898C7abA',
 //   tokens: {
 //     [Stake.aave]: {

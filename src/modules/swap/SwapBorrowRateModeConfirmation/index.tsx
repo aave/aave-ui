@@ -15,7 +15,7 @@ import ValuePercent from '../../../components/basic/ValuePercent';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../components/RouteParamsValidationWrapper';
-import { getAssetInfo, TokenIcon } from '../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
 
@@ -55,12 +55,12 @@ function SwapBorrowRateModeConfirmation({
 
   const currentApy =
     currentRateMode === InterestRate.Stable
-      ? userReserve.stableBorrowRate
-      : poolReserve.variableBorrowRate;
+      ? poolReserve.stableBorrowAPY
+      : poolReserve.variableBorrowAPY;
   const apyAfterSwitch =
     currentRateMode === InterestRate.Stable
-      ? poolReserve.variableBorrowRate
-      : poolReserve.stableBorrowRate;
+      ? poolReserve.variableBorrowAPY
+      : poolReserve.stableBorrowAPY;
   const currentBorrows = valueToBigNumber(
     currentRateMode === InterestRate.Stable
       ? userReserve.stableBorrows

@@ -4,7 +4,7 @@ import { PermissionManager, PERMISSION } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../protocol-data-provider';
 import { useUserWalletDataContext } from '../web3-data-provider';
 import Preloader from '../../components/basic/Preloader';
-import { getProvider, isFeatureEnabled } from '../../helpers/markets/markets-data';
+import { getProvider, isFeatureEnabled } from '../../helpers/config/markets-and-network-config';
 
 type PermissionsContext = {
   permissions: PERMISSION[];
@@ -15,7 +15,7 @@ const Context = React.createContext<PermissionsContext>({
 });
 
 export const PermissionProvider: React.FC = ({ children }) => {
-  const { network, currentMarketData } = useProtocolDataContext();
+  const { chainId, currentMarketData } = useProtocolDataContext();
   const { currentAccount: walletAddress } = useUserWalletDataContext();
   const [isPermissionsLoading, setIsPermissionsLoading] = useState<boolean>(true);
   const [permissions, setPermissions] = useState<PERMISSION[]>([]);
@@ -23,7 +23,7 @@ export const PermissionProvider: React.FC = ({ children }) => {
   async function getPermissionData(permissionManagerAddress: string) {
     try {
       const instance = new PermissionManager({
-        provider: getProvider(network),
+        provider: getProvider(chainId),
         permissionManagerAddress: permissionManagerAddress,
       });
       const permissions = await instance.getHumanizedUserPermissions(walletAddress);

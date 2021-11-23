@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { BigNumber, ethers } from 'ethers';
 
-import { getProvider } from '../../../helpers/markets/markets-data';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { StakeUiHelperIFactory } from '../contracts/StakeUiHelperIContract';
 import { StakeData, StakeGeneralDataT, StakesData, StakeUserDataT } from '../types/stake';
-import { Network, Stake } from '@aave/protocol-js';
+import { Stake } from '@aave/protocol-js';
+import { ChainId } from '@aave/contract-helpers';
 
 function formatRawStakeData(
   data: StakeGeneralDataT<BigNumber, BigNumber> & StakeUserDataT<BigNumber, BigNumber>
@@ -28,7 +29,7 @@ function formatRawStakeData(
 
 export function useStakeDataWithRpc(
   stakeDataProvider: string,
-  network: Network,
+  chainId: ChainId,
   user?: string,
   skip: boolean = false,
   poolingInterval: number = 30
@@ -37,11 +38,9 @@ export function useStakeDataWithRpc(
   const [stakeData, setStakeData] = useState<StakesData>();
   const [usdPriceEth, setUsdPriceEth] = useState<string>('0');
 
-  const loadStakeData = async (
-    userAddress: string = ethers.constants.AddressZero,
-    helperAddress: string
-  ) => {
-    const helperContract = StakeUiHelperIFactory.connect(helperAddress, getProvider(network));
+  const loadStakeData = async (_userAddress: string | undefined, helperAddress: string) => {
+    const userAddress = _userAddress ? _userAddress : ethers.constants.AddressZero;
+    const helperContract = StakeUiHelperIFactory.connect(helperAddress, getProvider(chainId));
     try {
       const data = await helperContract.getUserUIData(userAddress);
 
@@ -70,7 +69,7 @@ export function useStakeDataWithRpc(
       setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, skip, poolingInterval, stakeDataProvider, network]);
+  }, [user, skip, poolingInterval, stakeDataProvider, chainId]);
 
   return {
     loading,

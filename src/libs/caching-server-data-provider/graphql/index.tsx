@@ -164,6 +164,14 @@ export enum AToken_OrderBy {
   UnderlyingAssetDecimals = 'underlyingAssetDecimals',
 }
 
+export type BaseCurrencyData = {
+  __typename?: 'BaseCurrencyData';
+  marketReferenceCurrencyDecimals: Scalars['Float'];
+  marketReferenceCurrencyPriceInUsd: Scalars['String'];
+  networkBaseTokenPriceDecimals: Scalars['Float'];
+  networkBaseTokenPriceInUsd: Scalars['String'];
+};
+
 export type Block_Height = {
   hash?: Maybe<Scalars['Bytes']>;
   number?: Maybe<Scalars['Int']>;
@@ -1714,11 +1722,6 @@ export enum Pool_OrderBy {
   UsageAsCollateralHistory = 'usageAsCollateralHistory',
 }
 
-export type PriceData = {
-  __typename?: 'PriceData';
-  priceInEth: Scalars['String'];
-};
-
 export type PriceHistoryItem = {
   __typename?: 'PriceHistoryItem';
   asset: PriceOracleAsset;
@@ -2041,9 +2044,8 @@ export type ProtocolPoolsArgs = {
 
 export type ProtocolData = {
   __typename?: 'ProtocolData';
-  emissionEndTimestamp: Scalars['Float'];
+  baseCurrencyData: BaseCurrencyData;
   reserves: Array<ReserveData>;
-  usdPriceEth: Scalars['String'];
 };
 
 export type Protocol_Filter = {
@@ -2142,7 +2144,7 @@ export type Query = {
   usdEthPriceHistoryItem?: Maybe<UsdEthPriceHistoryItem>;
   usdEthPriceHistoryItems: Array<UsdEthPriceHistoryItem>;
   user?: Maybe<User>;
-  userData: UserData;
+  userData: Array<UserReserveData>;
   userIncentives: Array<UserIncentivesData>;
   userReserve?: Maybe<UserReserve>;
   userReserves: Array<UserReserve>;
@@ -2168,11 +2170,13 @@ export type Query_MetaArgs = {
 export type QueryAtokenArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryAtokenBalanceHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryAtokenBalanceHistoryItemsArgs = {
@@ -2181,6 +2185,7 @@ export type QueryAtokenBalanceHistoryItemsArgs = {
   orderBy?: Maybe<ATokenBalanceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ATokenBalanceHistoryItem_Filter>;
 };
 
@@ -2190,12 +2195,14 @@ export type QueryAtokensArgs = {
   orderBy?: Maybe<AToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<AToken_Filter>;
 };
 
 export type QueryBorrowArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryBorrowsArgs = {
@@ -2204,12 +2211,14 @@ export type QueryBorrowsArgs = {
   orderBy?: Maybe<Borrow_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Borrow_Filter>;
 };
 
 export type QueryChainlinkAggregatorArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryChainlinkAggregatorsArgs = {
@@ -2218,12 +2227,14 @@ export type QueryChainlinkAggregatorsArgs = {
   orderBy?: Maybe<ChainlinkAggregator_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ChainlinkAggregator_Filter>;
 };
 
 export type QueryChainlinkEnsArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryChainlinkEnSsArgs = {
@@ -2232,12 +2243,14 @@ export type QueryChainlinkEnSsArgs = {
   orderBy?: Maybe<ChainlinkEns_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ChainlinkEns_Filter>;
 };
 
 export type QueryClaimIncentiveCallArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryClaimIncentiveCallsArgs = {
@@ -2246,12 +2259,14 @@ export type QueryClaimIncentiveCallsArgs = {
   orderBy?: Maybe<ClaimIncentiveCall_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ClaimIncentiveCall_Filter>;
 };
 
 export type QueryContractToPoolMappingArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryContractToPoolMappingsArgs = {
@@ -2260,12 +2275,14 @@ export type QueryContractToPoolMappingsArgs = {
   orderBy?: Maybe<ContractToPoolMapping_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ContractToPoolMapping_Filter>;
 };
 
 export type QueryDepositArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryDepositsArgs = {
@@ -2274,12 +2291,14 @@ export type QueryDepositsArgs = {
   orderBy?: Maybe<Deposit_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Deposit_Filter>;
 };
 
 export type QueryFlashLoanArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryFlashLoansArgs = {
@@ -2288,12 +2307,14 @@ export type QueryFlashLoansArgs = {
   orderBy?: Maybe<FlashLoan_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<FlashLoan_Filter>;
 };
 
 export type QueryIncentivesControllerArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryIncentivesControllersArgs = {
@@ -2302,12 +2323,14 @@ export type QueryIncentivesControllersArgs = {
   orderBy?: Maybe<IncentivesController_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<IncentivesController_Filter>;
 };
 
 export type QueryIncentivizedActionArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryIncentivizedActionsArgs = {
@@ -2316,12 +2339,14 @@ export type QueryIncentivizedActionsArgs = {
   orderBy?: Maybe<IncentivizedAction_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<IncentivizedAction_Filter>;
 };
 
 export type QueryLiquidationCallArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryLiquidationCallsArgs = {
@@ -2330,12 +2355,14 @@ export type QueryLiquidationCallsArgs = {
   orderBy?: Maybe<LiquidationCall_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<LiquidationCall_Filter>;
 };
 
 export type QueryMapAssetPoolArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryMapAssetPoolsArgs = {
@@ -2344,12 +2371,14 @@ export type QueryMapAssetPoolsArgs = {
   orderBy?: Maybe<MapAssetPool_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<MapAssetPool_Filter>;
 };
 
 export type QueryOriginationFeeLiquidationArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryOriginationFeeLiquidationsArgs = {
@@ -2358,17 +2387,20 @@ export type QueryOriginationFeeLiquidationsArgs = {
   orderBy?: Maybe<OriginationFeeLiquidation_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<OriginationFeeLiquidation_Filter>;
 };
 
 export type QueryPoolArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryPoolConfigurationHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryPoolConfigurationHistoryItemsArgs = {
@@ -2377,6 +2409,7 @@ export type QueryPoolConfigurationHistoryItemsArgs = {
   orderBy?: Maybe<PoolConfigurationHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PoolConfigurationHistoryItem_Filter>;
 };
 
@@ -2386,12 +2419,14 @@ export type QueryPoolsArgs = {
   orderBy?: Maybe<Pool_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Pool_Filter>;
 };
 
 export type QueryPriceHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryPriceHistoryItemsArgs = {
@@ -2400,17 +2435,20 @@ export type QueryPriceHistoryItemsArgs = {
   orderBy?: Maybe<PriceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PriceHistoryItem_Filter>;
 };
 
 export type QueryPriceOracleArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryPriceOracleAssetArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryPriceOracleAssetsArgs = {
@@ -2419,6 +2457,7 @@ export type QueryPriceOracleAssetsArgs = {
   orderBy?: Maybe<PriceOracleAsset_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PriceOracleAsset_Filter>;
 };
 
@@ -2428,16 +2467,18 @@ export type QueryPriceOraclesArgs = {
   orderBy?: Maybe<PriceOracle_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PriceOracle_Filter>;
 };
 
 export type QueryProtocolArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryProtocolDataArgs = {
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 };
 
 export type QueryProtocolsArgs = {
@@ -2446,12 +2487,14 @@ export type QueryProtocolsArgs = {
   orderBy?: Maybe<Protocol_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Protocol_Filter>;
 };
 
 export type QueryRebalanceStableBorrowRateArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryRebalanceStableBorrowRatesArgs = {
@@ -2460,12 +2503,14 @@ export type QueryRebalanceStableBorrowRatesArgs = {
   orderBy?: Maybe<RebalanceStableBorrowRate_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<RebalanceStableBorrowRate_Filter>;
 };
 
 export type QueryRedeemUnderlyingArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryRedeemUnderlyingsArgs = {
@@ -2474,12 +2519,14 @@ export type QueryRedeemUnderlyingsArgs = {
   orderBy?: Maybe<RedeemUnderlying_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<RedeemUnderlying_Filter>;
 };
 
 export type QueryReferrerArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryReferrersArgs = {
@@ -2488,12 +2535,14 @@ export type QueryReferrersArgs = {
   orderBy?: Maybe<Referrer_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Referrer_Filter>;
 };
 
 export type QueryRepayArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryRepaysArgs = {
@@ -2502,17 +2551,20 @@ export type QueryRepaysArgs = {
   orderBy?: Maybe<Repay_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Repay_Filter>;
 };
 
 export type QueryReserveArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryReserveConfigurationHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryReserveConfigurationHistoryItemsArgs = {
@@ -2521,12 +2573,14 @@ export type QueryReserveConfigurationHistoryItemsArgs = {
   orderBy?: Maybe<ReserveConfigurationHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ReserveConfigurationHistoryItem_Filter>;
 };
 
 export type QueryReserveParamsHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryReserveParamsHistoryItemsArgs = {
@@ -2535,6 +2589,7 @@ export type QueryReserveParamsHistoryItemsArgs = {
   orderBy?: Maybe<ReserveParamsHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ReserveParamsHistoryItem_Filter>;
 };
 
@@ -2544,6 +2599,7 @@ export type QueryReservesArgs = {
   orderBy?: Maybe<Reserve_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Reserve_Filter>;
 };
 
@@ -2556,6 +2612,7 @@ export type QueryReservesIncentivesArgs = {
 export type QueryStableDebtTokenArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryStableDebtTokensArgs = {
@@ -2564,12 +2621,14 @@ export type QueryStableDebtTokensArgs = {
   orderBy?: Maybe<StableDebtToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<StableDebtToken_Filter>;
 };
 
 export type QueryStableTokenDelegatedAllowanceArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryStableTokenDelegatedAllowancesArgs = {
@@ -2578,6 +2637,7 @@ export type QueryStableTokenDelegatedAllowancesArgs = {
   orderBy?: Maybe<StableTokenDelegatedAllowance_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<StableTokenDelegatedAllowance_Filter>;
 };
 
@@ -2588,11 +2648,13 @@ export type QueryStakeUserUiDataArgs = {
 export type QueryStokenArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryStokenBalanceHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryStokenBalanceHistoryItemsArgs = {
@@ -2601,6 +2663,7 @@ export type QueryStokenBalanceHistoryItemsArgs = {
   orderBy?: Maybe<STokenBalanceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<STokenBalanceHistoryItem_Filter>;
 };
 
@@ -2610,12 +2673,14 @@ export type QueryStokensArgs = {
   orderBy?: Maybe<SToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<SToken_Filter>;
 };
 
 export type QuerySwapArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QuerySwapHistoriesArgs = {
@@ -2624,12 +2689,14 @@ export type QuerySwapHistoriesArgs = {
   orderBy?: Maybe<SwapHistory_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<SwapHistory_Filter>;
 };
 
 export type QuerySwapHistoryArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QuerySwapsArgs = {
@@ -2638,12 +2705,14 @@ export type QuerySwapsArgs = {
   orderBy?: Maybe<Swap_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Swap_Filter>;
 };
 
 export type QueryUsageAsCollateralArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryUsageAsCollateralsArgs = {
@@ -2652,12 +2721,14 @@ export type QueryUsageAsCollateralsArgs = {
   orderBy?: Maybe<UsageAsCollateral_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UsageAsCollateral_Filter>;
 };
 
 export type QueryUsdEthPriceHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryUsdEthPriceHistoryItemsArgs = {
@@ -2666,16 +2737,18 @@ export type QueryUsdEthPriceHistoryItemsArgs = {
   orderBy?: Maybe<UsdEthPriceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UsdEthPriceHistoryItem_Filter>;
 };
 
 export type QueryUserArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryUserDataArgs = {
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
   userAddress: Scalars['String'];
 };
 
@@ -2689,6 +2762,7 @@ export type QueryUserIncentivesArgs = {
 export type QueryUserReserveArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryUserReservesArgs = {
@@ -2697,12 +2771,14 @@ export type QueryUserReservesArgs = {
   orderBy?: Maybe<UserReserve_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UserReserve_Filter>;
 };
 
 export type QueryUserTransactionArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryUserTransactionsArgs = {
@@ -2711,6 +2787,7 @@ export type QueryUserTransactionsArgs = {
   orderBy?: Maybe<UserTransaction_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UserTransaction_Filter>;
 };
 
@@ -2720,12 +2797,14 @@ export type QueryUsersArgs = {
   orderBy?: Maybe<User_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<User_Filter>;
 };
 
 export type QueryVariableDebtTokenArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryVariableDebtTokensArgs = {
@@ -2734,12 +2813,14 @@ export type QueryVariableDebtTokensArgs = {
   orderBy?: Maybe<VariableDebtToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VariableDebtToken_Filter>;
 };
 
 export type QueryVariableTokenDelegatedAllowanceArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryVariableTokenDelegatedAllowancesArgs = {
@@ -2748,17 +2829,20 @@ export type QueryVariableTokenDelegatedAllowancesArgs = {
   orderBy?: Maybe<VariableTokenDelegatedAllowance_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VariableTokenDelegatedAllowance_Filter>;
 };
 
 export type QueryVtokenArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryVtokenBalanceHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryVtokenBalanceHistoryItemsArgs = {
@@ -2767,6 +2851,7 @@ export type QueryVtokenBalanceHistoryItemsArgs = {
   orderBy?: Maybe<VTokenBalanceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VTokenBalanceHistoryItem_Filter>;
 };
 
@@ -2776,12 +2861,14 @@ export type QueryVtokensArgs = {
   orderBy?: Maybe<VToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VToken_Filter>;
 };
 
 export type QueryWethreserveArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryWethreservesArgs = {
@@ -2790,6 +2877,7 @@ export type QueryWethreservesArgs = {
   orderBy?: Maybe<WethReserve_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<WethReserve_Filter>;
 };
 
@@ -3517,31 +3605,24 @@ export enum ReserveConfigurationHistoryItem_OrderBy {
 
 export type ReserveData = {
   __typename?: 'ReserveData';
-  aEmissionPerSecond: Scalars['String'];
-  aIncentivesLastUpdateTimestamp: Scalars['Float'];
   aTokenAddress: Scalars['String'];
-  aTokenIncentivesIndex: Scalars['String'];
   availableLiquidity: Scalars['String'];
   averageStableRate: Scalars['String'];
   baseLTVasCollateral: Scalars['String'];
-  baseVariableBorrowRate: Scalars['String'];
   borrowingEnabled: Scalars['Boolean'];
   decimals: Scalars['Float'];
   id: Scalars['String'];
+  interestRateStrategyAddress: Scalars['String'];
   isActive: Scalars['Boolean'];
   isFrozen: Scalars['Boolean'];
   lastUpdateTimestamp: Scalars['Float'];
   liquidityIndex: Scalars['String'];
   liquidityRate: Scalars['String'];
   name: Scalars['String'];
-  optimalUtilisationRate: Scalars['String'];
-  price: PriceData;
+  priceInMarketReferenceCurrency: Scalars['String'];
   reserveFactor: Scalars['String'];
   reserveLiquidationBonus: Scalars['String'];
   reserveLiquidationThreshold: Scalars['String'];
-  sEmissionPerSecond: Scalars['String'];
-  sIncentivesLastUpdateTimestamp: Scalars['Float'];
-  sTokenIncentivesIndex: Scalars['String'];
   stableBorrowRate: Scalars['String'];
   stableBorrowRateEnabled: Scalars['Boolean'];
   stableDebtLastUpdateTimestamp: Scalars['Float'];
@@ -3553,9 +3634,6 @@ export type ReserveData = {
   totalScaledVariableDebt: Scalars['String'];
   underlyingAsset: Scalars['String'];
   usageAsCollateralEnabled: Scalars['Boolean'];
-  vEmissionPerSecond: Scalars['String'];
-  vIncentivesLastUpdateTimestamp: Scalars['Float'];
-  vTokenIncentivesIndex: Scalars['String'];
   variableBorrowIndex: Scalars['String'];
   variableBorrowRate: Scalars['String'];
   variableDebtTokenAddress: Scalars['String'];
@@ -4915,7 +4993,7 @@ export type Subscription = {
   usdEthPriceHistoryItem?: Maybe<UsdEthPriceHistoryItem>;
   usdEthPriceHistoryItems: Array<UsdEthPriceHistoryItem>;
   user?: Maybe<User>;
-  userDataUpdate: UserData;
+  userDataUpdate: Array<UserReserveData>;
   userPoolIncentivesDataUpdate: Array<UserIncentivesData>;
   userReserve?: Maybe<UserReserve>;
   userReserves: Array<UserReserve>;
@@ -4941,11 +5019,13 @@ export type Subscription_MetaArgs = {
 export type SubscriptionAtokenArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionAtokenBalanceHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionAtokenBalanceHistoryItemsArgs = {
@@ -4954,6 +5034,7 @@ export type SubscriptionAtokenBalanceHistoryItemsArgs = {
   orderBy?: Maybe<ATokenBalanceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ATokenBalanceHistoryItem_Filter>;
 };
 
@@ -4963,12 +5044,14 @@ export type SubscriptionAtokensArgs = {
   orderBy?: Maybe<AToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<AToken_Filter>;
 };
 
 export type SubscriptionBorrowArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionBorrowsArgs = {
@@ -4977,12 +5060,14 @@ export type SubscriptionBorrowsArgs = {
   orderBy?: Maybe<Borrow_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Borrow_Filter>;
 };
 
 export type SubscriptionChainlinkAggregatorArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionChainlinkAggregatorsArgs = {
@@ -4991,12 +5076,14 @@ export type SubscriptionChainlinkAggregatorsArgs = {
   orderBy?: Maybe<ChainlinkAggregator_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ChainlinkAggregator_Filter>;
 };
 
 export type SubscriptionChainlinkEnsArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionChainlinkEnSsArgs = {
@@ -5005,12 +5092,14 @@ export type SubscriptionChainlinkEnSsArgs = {
   orderBy?: Maybe<ChainlinkEns_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ChainlinkEns_Filter>;
 };
 
 export type SubscriptionClaimIncentiveCallArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionClaimIncentiveCallsArgs = {
@@ -5019,12 +5108,14 @@ export type SubscriptionClaimIncentiveCallsArgs = {
   orderBy?: Maybe<ClaimIncentiveCall_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ClaimIncentiveCall_Filter>;
 };
 
 export type SubscriptionContractToPoolMappingArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionContractToPoolMappingsArgs = {
@@ -5033,12 +5124,14 @@ export type SubscriptionContractToPoolMappingsArgs = {
   orderBy?: Maybe<ContractToPoolMapping_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ContractToPoolMapping_Filter>;
 };
 
 export type SubscriptionDepositArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionDepositsArgs = {
@@ -5047,12 +5140,14 @@ export type SubscriptionDepositsArgs = {
   orderBy?: Maybe<Deposit_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Deposit_Filter>;
 };
 
 export type SubscriptionFlashLoanArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionFlashLoansArgs = {
@@ -5061,12 +5156,14 @@ export type SubscriptionFlashLoansArgs = {
   orderBy?: Maybe<FlashLoan_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<FlashLoan_Filter>;
 };
 
 export type SubscriptionIncentivesControllerArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionIncentivesControllersArgs = {
@@ -5075,12 +5172,14 @@ export type SubscriptionIncentivesControllersArgs = {
   orderBy?: Maybe<IncentivesController_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<IncentivesController_Filter>;
 };
 
 export type SubscriptionIncentivizedActionArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionIncentivizedActionsArgs = {
@@ -5089,12 +5188,14 @@ export type SubscriptionIncentivizedActionsArgs = {
   orderBy?: Maybe<IncentivizedAction_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<IncentivizedAction_Filter>;
 };
 
 export type SubscriptionLiquidationCallArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionLiquidationCallsArgs = {
@@ -5103,12 +5204,14 @@ export type SubscriptionLiquidationCallsArgs = {
   orderBy?: Maybe<LiquidationCall_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<LiquidationCall_Filter>;
 };
 
 export type SubscriptionMapAssetPoolArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionMapAssetPoolsArgs = {
@@ -5117,12 +5220,14 @@ export type SubscriptionMapAssetPoolsArgs = {
   orderBy?: Maybe<MapAssetPool_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<MapAssetPool_Filter>;
 };
 
 export type SubscriptionOriginationFeeLiquidationArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionOriginationFeeLiquidationsArgs = {
@@ -5131,17 +5236,20 @@ export type SubscriptionOriginationFeeLiquidationsArgs = {
   orderBy?: Maybe<OriginationFeeLiquidation_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<OriginationFeeLiquidation_Filter>;
 };
 
 export type SubscriptionPoolArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionPoolConfigurationHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionPoolConfigurationHistoryItemsArgs = {
@@ -5150,6 +5258,7 @@ export type SubscriptionPoolConfigurationHistoryItemsArgs = {
   orderBy?: Maybe<PoolConfigurationHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PoolConfigurationHistoryItem_Filter>;
 };
 
@@ -5165,12 +5274,14 @@ export type SubscriptionPoolsArgs = {
   orderBy?: Maybe<Pool_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Pool_Filter>;
 };
 
 export type SubscriptionPriceHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionPriceHistoryItemsArgs = {
@@ -5179,17 +5290,20 @@ export type SubscriptionPriceHistoryItemsArgs = {
   orderBy?: Maybe<PriceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PriceHistoryItem_Filter>;
 };
 
 export type SubscriptionPriceOracleArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionPriceOracleAssetArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionPriceOracleAssetsArgs = {
@@ -5198,6 +5312,7 @@ export type SubscriptionPriceOracleAssetsArgs = {
   orderBy?: Maybe<PriceOracleAsset_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PriceOracleAsset_Filter>;
 };
 
@@ -5207,16 +5322,18 @@ export type SubscriptionPriceOraclesArgs = {
   orderBy?: Maybe<PriceOracle_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<PriceOracle_Filter>;
 };
 
 export type SubscriptionProtocolArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionProtocolDataUpdateArgs = {
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 };
 
 export type SubscriptionProtocolsArgs = {
@@ -5225,12 +5342,14 @@ export type SubscriptionProtocolsArgs = {
   orderBy?: Maybe<Protocol_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Protocol_Filter>;
 };
 
 export type SubscriptionRebalanceStableBorrowRateArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionRebalanceStableBorrowRatesArgs = {
@@ -5239,12 +5358,14 @@ export type SubscriptionRebalanceStableBorrowRatesArgs = {
   orderBy?: Maybe<RebalanceStableBorrowRate_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<RebalanceStableBorrowRate_Filter>;
 };
 
 export type SubscriptionRedeemUnderlyingArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionRedeemUnderlyingsArgs = {
@@ -5253,12 +5374,14 @@ export type SubscriptionRedeemUnderlyingsArgs = {
   orderBy?: Maybe<RedeemUnderlying_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<RedeemUnderlying_Filter>;
 };
 
 export type SubscriptionReferrerArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionReferrersArgs = {
@@ -5267,12 +5390,14 @@ export type SubscriptionReferrersArgs = {
   orderBy?: Maybe<Referrer_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Referrer_Filter>;
 };
 
 export type SubscriptionRepayArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionRepaysArgs = {
@@ -5281,17 +5406,20 @@ export type SubscriptionRepaysArgs = {
   orderBy?: Maybe<Repay_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Repay_Filter>;
 };
 
 export type SubscriptionReserveArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionReserveConfigurationHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionReserveConfigurationHistoryItemsArgs = {
@@ -5300,12 +5428,14 @@ export type SubscriptionReserveConfigurationHistoryItemsArgs = {
   orderBy?: Maybe<ReserveConfigurationHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ReserveConfigurationHistoryItem_Filter>;
 };
 
 export type SubscriptionReserveParamsHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionReserveParamsHistoryItemsArgs = {
@@ -5314,6 +5444,7 @@ export type SubscriptionReserveParamsHistoryItemsArgs = {
   orderBy?: Maybe<ReserveParamsHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<ReserveParamsHistoryItem_Filter>;
 };
 
@@ -5323,12 +5454,14 @@ export type SubscriptionReservesArgs = {
   orderBy?: Maybe<Reserve_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Reserve_Filter>;
 };
 
 export type SubscriptionStableDebtTokenArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionStableDebtTokensArgs = {
@@ -5337,12 +5470,14 @@ export type SubscriptionStableDebtTokensArgs = {
   orderBy?: Maybe<StableDebtToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<StableDebtToken_Filter>;
 };
 
 export type SubscriptionStableTokenDelegatedAllowanceArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionStableTokenDelegatedAllowancesArgs = {
@@ -5351,6 +5486,7 @@ export type SubscriptionStableTokenDelegatedAllowancesArgs = {
   orderBy?: Maybe<StableTokenDelegatedAllowance_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<StableTokenDelegatedAllowance_Filter>;
 };
 
@@ -5361,11 +5497,13 @@ export type SubscriptionStakeUserUiDataUpdateArgs = {
 export type SubscriptionStokenArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionStokenBalanceHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionStokenBalanceHistoryItemsArgs = {
@@ -5374,6 +5512,7 @@ export type SubscriptionStokenBalanceHistoryItemsArgs = {
   orderBy?: Maybe<STokenBalanceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<STokenBalanceHistoryItem_Filter>;
 };
 
@@ -5383,12 +5522,14 @@ export type SubscriptionStokensArgs = {
   orderBy?: Maybe<SToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<SToken_Filter>;
 };
 
 export type SubscriptionSwapArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionSwapHistoriesArgs = {
@@ -5397,12 +5538,14 @@ export type SubscriptionSwapHistoriesArgs = {
   orderBy?: Maybe<SwapHistory_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<SwapHistory_Filter>;
 };
 
 export type SubscriptionSwapHistoryArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionSwapsArgs = {
@@ -5411,12 +5554,14 @@ export type SubscriptionSwapsArgs = {
   orderBy?: Maybe<Swap_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<Swap_Filter>;
 };
 
 export type SubscriptionUsageAsCollateralArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionUsageAsCollateralsArgs = {
@@ -5425,12 +5570,14 @@ export type SubscriptionUsageAsCollateralsArgs = {
   orderBy?: Maybe<UsageAsCollateral_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UsageAsCollateral_Filter>;
 };
 
 export type SubscriptionUsdEthPriceHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionUsdEthPriceHistoryItemsArgs = {
@@ -5439,16 +5586,18 @@ export type SubscriptionUsdEthPriceHistoryItemsArgs = {
   orderBy?: Maybe<UsdEthPriceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UsdEthPriceHistoryItem_Filter>;
 };
 
 export type SubscriptionUserArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionUserDataUpdateArgs = {
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
   userAddress: Scalars['String'];
 };
 
@@ -5462,6 +5611,7 @@ export type SubscriptionUserPoolIncentivesDataUpdateArgs = {
 export type SubscriptionUserReserveArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionUserReservesArgs = {
@@ -5470,12 +5620,14 @@ export type SubscriptionUserReservesArgs = {
   orderBy?: Maybe<UserReserve_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UserReserve_Filter>;
 };
 
 export type SubscriptionUserTransactionArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionUserTransactionsArgs = {
@@ -5484,6 +5636,7 @@ export type SubscriptionUserTransactionsArgs = {
   orderBy?: Maybe<UserTransaction_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<UserTransaction_Filter>;
 };
 
@@ -5493,12 +5646,14 @@ export type SubscriptionUsersArgs = {
   orderBy?: Maybe<User_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<User_Filter>;
 };
 
 export type SubscriptionVariableDebtTokenArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionVariableDebtTokensArgs = {
@@ -5507,12 +5662,14 @@ export type SubscriptionVariableDebtTokensArgs = {
   orderBy?: Maybe<VariableDebtToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VariableDebtToken_Filter>;
 };
 
 export type SubscriptionVariableTokenDelegatedAllowanceArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionVariableTokenDelegatedAllowancesArgs = {
@@ -5521,17 +5678,20 @@ export type SubscriptionVariableTokenDelegatedAllowancesArgs = {
   orderBy?: Maybe<VariableTokenDelegatedAllowance_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VariableTokenDelegatedAllowance_Filter>;
 };
 
 export type SubscriptionVtokenArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionVtokenBalanceHistoryItemArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionVtokenBalanceHistoryItemsArgs = {
@@ -5540,6 +5700,7 @@ export type SubscriptionVtokenBalanceHistoryItemsArgs = {
   orderBy?: Maybe<VTokenBalanceHistoryItem_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VTokenBalanceHistoryItem_Filter>;
 };
 
@@ -5549,12 +5710,14 @@ export type SubscriptionVtokensArgs = {
   orderBy?: Maybe<VToken_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<VToken_Filter>;
 };
 
 export type SubscriptionWethreserveArgs = {
   block?: Maybe<Block_Height>;
   id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionWethreservesArgs = {
@@ -5563,6 +5726,7 @@ export type SubscriptionWethreservesArgs = {
   orderBy?: Maybe<WethReserve_OrderBy>;
   orderDirection?: Maybe<OrderDirection>;
   skip?: Maybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
   where?: Maybe<WethReserve_Filter>;
 };
 
@@ -6085,12 +6249,6 @@ export type UserUsageAsCollateralHistoryArgs = {
   where?: Maybe<UsageAsCollateral_Filter>;
 };
 
-export type UserData = {
-  __typename?: 'UserData';
-  userReserves: Array<UserReserveData>;
-  userUnclaimedRewards: Scalars['String'];
-};
-
 export type UserIncentivesData = {
   __typename?: 'UserIncentivesData';
   aTokenIncentivesUserData: TokenIncentivesUserData;
@@ -6263,17 +6421,13 @@ export type UserReserveVariableTokenDelegatedAllowancesArgs = {
 
 export type UserReserveData = {
   __typename?: 'UserReserveData';
-  aTokenincentivesUserIndex: Scalars['String'];
   principalStableDebt: Scalars['String'];
-  sTokenincentivesUserIndex: Scalars['String'];
   scaledATokenBalance: Scalars['String'];
   scaledVariableDebt: Scalars['String'];
   stableBorrowLastUpdateTimestamp: Scalars['Float'];
   stableBorrowRate: Scalars['String'];
   underlyingAsset: Scalars['String'];
   usageAsCollateralEnabledOnUser: Scalars['Boolean'];
-  vTokenincentivesUserIndex: Scalars['String'];
-  variableBorrowIndex: Scalars['String'];
 };
 
 export type UserReserve_Filter = {
@@ -7062,69 +7216,194 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny',
 }
 
-export type ProtocolDataFragmentFragment = {
-  __typename?: 'ProtocolData';
-  usdPriceEth: string;
+export type IncentivesDataFragmentFragment = {
+  __typename?: 'IncentivesData';
+  emissionPerSecond: string;
+  incentivesLastUpdateTimestamp: number;
+  tokenIncentivesIndex: string;
   emissionEndTimestamp: number;
-  reserves: Array<{
-    __typename?: 'ReserveData';
-    id: string;
+  tokenAddress: string;
+  rewardTokenAddress: string;
+  rewardTokenDecimals: number;
+  incentiveControllerAddress: string;
+  precision: number;
+  priceFeed: string;
+  priceFeedDecimals: number;
+  priceFeedTimestamp: number;
+};
+
+export type C_ReservesIncentivesQueryVariables = Exact<{
+  lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
+}>;
+
+export type C_ReservesIncentivesQuery = {
+  __typename?: 'Query';
+  reservesIncentives: Array<{
+    __typename?: 'ReserveIncentivesData';
     underlyingAsset: string;
-    name: string;
-    symbol: string;
-    decimals: number;
-    isActive: boolean;
-    isFrozen: boolean;
-    usageAsCollateralEnabled: boolean;
-    aTokenAddress: string;
-    stableDebtTokenAddress: string;
-    variableDebtTokenAddress: string;
-    borrowingEnabled: boolean;
-    stableBorrowRateEnabled: boolean;
-    reserveFactor: string;
-    baseLTVasCollateral: string;
-    optimalUtilisationRate: string;
-    stableRateSlope1: string;
-    stableRateSlope2: string;
-    averageStableRate: string;
-    stableDebtLastUpdateTimestamp: number;
-    baseVariableBorrowRate: string;
-    variableRateSlope1: string;
-    variableRateSlope2: string;
-    liquidityIndex: string;
-    reserveLiquidationThreshold: string;
-    reserveLiquidationBonus: string;
-    variableBorrowIndex: string;
-    variableBorrowRate: string;
-    availableLiquidity: string;
-    stableBorrowRate: string;
-    liquidityRate: string;
-    totalPrincipalStableDebt: string;
-    totalScaledVariableDebt: string;
-    lastUpdateTimestamp: number;
-    aEmissionPerSecond: string;
-    vEmissionPerSecond: string;
-    sEmissionPerSecond: string;
-    aIncentivesLastUpdateTimestamp: number;
-    vIncentivesLastUpdateTimestamp: number;
-    sIncentivesLastUpdateTimestamp: number;
-    aTokenIncentivesIndex: string;
-    vTokenIncentivesIndex: string;
-    sTokenIncentivesIndex: string;
-    price: { __typename?: 'PriceData'; priceInEth: string };
+    aIncentiveData: {
+      __typename?: 'IncentivesData';
+      emissionPerSecond: string;
+      incentivesLastUpdateTimestamp: number;
+      tokenIncentivesIndex: string;
+      emissionEndTimestamp: number;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+      precision: number;
+      priceFeed: string;
+      priceFeedDecimals: number;
+      priceFeedTimestamp: number;
+    };
+    vIncentiveData: {
+      __typename?: 'IncentivesData';
+      emissionPerSecond: string;
+      incentivesLastUpdateTimestamp: number;
+      tokenIncentivesIndex: string;
+      emissionEndTimestamp: number;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+      precision: number;
+      priceFeed: string;
+      priceFeedDecimals: number;
+      priceFeedTimestamp: number;
+    };
+    sIncentiveData: {
+      __typename?: 'IncentivesData';
+      emissionPerSecond: string;
+      incentivesLastUpdateTimestamp: number;
+      tokenIncentivesIndex: string;
+      emissionEndTimestamp: number;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+      precision: number;
+      priceFeed: string;
+      priceFeedDecimals: number;
+      priceFeedTimestamp: number;
+    };
   }>;
 };
 
+export type C_PoolIncentivesDataUpdateSubscriptionVariables = Exact<{
+  lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
+}>;
+
+export type C_PoolIncentivesDataUpdateSubscription = {
+  __typename?: 'Subscription';
+  poolIncentivesDataUpdate: Array<{
+    __typename?: 'ReserveIncentivesData';
+    underlyingAsset: string;
+    aIncentiveData: {
+      __typename?: 'IncentivesData';
+      emissionPerSecond: string;
+      incentivesLastUpdateTimestamp: number;
+      tokenIncentivesIndex: string;
+      emissionEndTimestamp: number;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+      precision: number;
+      priceFeed: string;
+      priceFeedDecimals: number;
+      priceFeedTimestamp: number;
+    };
+    vIncentiveData: {
+      __typename?: 'IncentivesData';
+      emissionPerSecond: string;
+      incentivesLastUpdateTimestamp: number;
+      tokenIncentivesIndex: string;
+      emissionEndTimestamp: number;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+      precision: number;
+      priceFeed: string;
+      priceFeedDecimals: number;
+      priceFeedTimestamp: number;
+    };
+    sIncentiveData: {
+      __typename?: 'IncentivesData';
+      emissionPerSecond: string;
+      incentivesLastUpdateTimestamp: number;
+      tokenIncentivesIndex: string;
+      emissionEndTimestamp: number;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+      precision: number;
+      priceFeed: string;
+      priceFeedDecimals: number;
+      priceFeedTimestamp: number;
+    };
+  }>;
+};
+
+export type ReserveDataFragmentFragment = {
+  __typename?: 'ReserveData';
+  id: string;
+  underlyingAsset: string;
+  name: string;
+  symbol: string;
+  decimals: number;
+  isActive: boolean;
+  isFrozen: boolean;
+  usageAsCollateralEnabled: boolean;
+  aTokenAddress: string;
+  stableDebtTokenAddress: string;
+  variableDebtTokenAddress: string;
+  borrowingEnabled: boolean;
+  stableBorrowRateEnabled: boolean;
+  reserveFactor: string;
+  interestRateStrategyAddress: string;
+  baseLTVasCollateral: string;
+  stableRateSlope1: string;
+  stableRateSlope2: string;
+  averageStableRate: string;
+  stableDebtLastUpdateTimestamp: number;
+  variableRateSlope1: string;
+  variableRateSlope2: string;
+  liquidityIndex: string;
+  reserveLiquidationThreshold: string;
+  reserveLiquidationBonus: string;
+  variableBorrowIndex: string;
+  variableBorrowRate: string;
+  availableLiquidity: string;
+  stableBorrowRate: string;
+  liquidityRate: string;
+  totalPrincipalStableDebt: string;
+  totalScaledVariableDebt: string;
+  lastUpdateTimestamp: number;
+  priceInMarketReferenceCurrency: string;
+};
+
+export type BaseCurrencyDataFragmentFragment = {
+  __typename?: 'BaseCurrencyData';
+  marketReferenceCurrencyDecimals: number;
+  marketReferenceCurrencyPriceInUsd: string;
+  networkBaseTokenPriceInUsd: string;
+  networkBaseTokenPriceDecimals: number;
+};
+
 export type C_ProtocolDataQueryVariables = Exact<{
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 }>;
 
 export type C_ProtocolDataQuery = {
   __typename?: 'Query';
   protocolData: {
     __typename?: 'ProtocolData';
-    usdPriceEth: string;
-    emissionEndTimestamp: number;
     reserves: Array<{
       __typename?: 'ReserveData';
       id: string;
@@ -7141,13 +7420,12 @@ export type C_ProtocolDataQuery = {
       borrowingEnabled: boolean;
       stableBorrowRateEnabled: boolean;
       reserveFactor: string;
+      interestRateStrategyAddress: string;
       baseLTVasCollateral: string;
-      optimalUtilisationRate: string;
       stableRateSlope1: string;
       stableRateSlope2: string;
       averageStableRate: string;
       stableDebtLastUpdateTimestamp: number;
-      baseVariableBorrowRate: string;
       variableRateSlope1: string;
       variableRateSlope2: string;
       liquidityIndex: string;
@@ -7161,30 +7439,26 @@ export type C_ProtocolDataQuery = {
       totalPrincipalStableDebt: string;
       totalScaledVariableDebt: string;
       lastUpdateTimestamp: number;
-      aEmissionPerSecond: string;
-      vEmissionPerSecond: string;
-      sEmissionPerSecond: string;
-      aIncentivesLastUpdateTimestamp: number;
-      vIncentivesLastUpdateTimestamp: number;
-      sIncentivesLastUpdateTimestamp: number;
-      aTokenIncentivesIndex: string;
-      vTokenIncentivesIndex: string;
-      sTokenIncentivesIndex: string;
-      price: { __typename?: 'PriceData'; priceInEth: string };
+      priceInMarketReferenceCurrency: string;
     }>;
+    baseCurrencyData: {
+      __typename?: 'BaseCurrencyData';
+      marketReferenceCurrencyDecimals: number;
+      marketReferenceCurrencyPriceInUsd: string;
+      networkBaseTokenPriceInUsd: string;
+      networkBaseTokenPriceDecimals: number;
+    };
   };
 };
 
 export type C_ProtocolDataUpdateSubscriptionVariables = Exact<{
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 }>;
 
 export type C_ProtocolDataUpdateSubscription = {
   __typename?: 'Subscription';
   protocolDataUpdate: {
     __typename?: 'ProtocolData';
-    usdPriceEth: string;
-    emissionEndTimestamp: number;
     reserves: Array<{
       __typename?: 'ReserveData';
       id: string;
@@ -7201,13 +7475,12 @@ export type C_ProtocolDataUpdateSubscription = {
       borrowingEnabled: boolean;
       stableBorrowRateEnabled: boolean;
       reserveFactor: string;
+      interestRateStrategyAddress: string;
       baseLTVasCollateral: string;
-      optimalUtilisationRate: string;
       stableRateSlope1: string;
       stableRateSlope2: string;
       averageStableRate: string;
       stableDebtLastUpdateTimestamp: number;
-      baseVariableBorrowRate: string;
       variableRateSlope1: string;
       variableRateSlope2: string;
       liquidityIndex: string;
@@ -7221,17 +7494,15 @@ export type C_ProtocolDataUpdateSubscription = {
       totalPrincipalStableDebt: string;
       totalScaledVariableDebt: string;
       lastUpdateTimestamp: number;
-      aEmissionPerSecond: string;
-      vEmissionPerSecond: string;
-      sEmissionPerSecond: string;
-      aIncentivesLastUpdateTimestamp: number;
-      vIncentivesLastUpdateTimestamp: number;
-      sIncentivesLastUpdateTimestamp: number;
-      aTokenIncentivesIndex: string;
-      vTokenIncentivesIndex: string;
-      sTokenIncentivesIndex: string;
-      price: { __typename?: 'PriceData'; priceInEth: string };
+      priceInMarketReferenceCurrency: string;
     }>;
+    baseCurrencyData: {
+      __typename?: 'BaseCurrencyData';
+      marketReferenceCurrencyDecimals: number;
+      marketReferenceCurrencyPriceInUsd: string;
+      networkBaseTokenPriceInUsd: string;
+      networkBaseTokenPriceDecimals: number;
+    };
   };
 };
 
@@ -7403,131 +7674,209 @@ export type C_StakeUserUiDataUpdateSubscription = {
   };
 };
 
-export type UserDataFragmentFragment = {
-  __typename?: 'UserData';
-  userUnclaimedRewards: string;
-  userReserves: Array<{
+export type UserReserveDataFragmentFragment = {
+  __typename?: 'UserReserveData';
+  underlyingAsset: string;
+  scaledATokenBalance: string;
+  usageAsCollateralEnabledOnUser: boolean;
+  scaledVariableDebt: string;
+  stableBorrowRate: string;
+  principalStableDebt: string;
+  stableBorrowLastUpdateTimestamp: number;
+};
+
+export type C_UserDataQueryVariables = Exact<{
+  userAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
+}>;
+
+export type C_UserDataQuery = {
+  __typename?: 'Query';
+  userData: Array<{
     __typename?: 'UserReserveData';
     underlyingAsset: string;
     scaledATokenBalance: string;
     usageAsCollateralEnabledOnUser: boolean;
     scaledVariableDebt: string;
-    variableBorrowIndex: string;
     stableBorrowRate: string;
     principalStableDebt: string;
     stableBorrowLastUpdateTimestamp: number;
-    aTokenincentivesUserIndex: string;
-    vTokenincentivesUserIndex: string;
-    sTokenincentivesUserIndex: string;
   }>;
-};
-
-export type C_UserDataQueryVariables = Exact<{
-  userAddress: Scalars['String'];
-  poolAddress: Scalars['String'];
-}>;
-
-export type C_UserDataQuery = {
-  __typename?: 'Query';
-  userData: {
-    __typename?: 'UserData';
-    userUnclaimedRewards: string;
-    userReserves: Array<{
-      __typename?: 'UserReserveData';
-      underlyingAsset: string;
-      scaledATokenBalance: string;
-      usageAsCollateralEnabledOnUser: boolean;
-      scaledVariableDebt: string;
-      variableBorrowIndex: string;
-      stableBorrowRate: string;
-      principalStableDebt: string;
-      stableBorrowLastUpdateTimestamp: number;
-      aTokenincentivesUserIndex: string;
-      vTokenincentivesUserIndex: string;
-      sTokenincentivesUserIndex: string;
-    }>;
-  };
 };
 
 export type C_UserDataUpdateSubscriptionVariables = Exact<{
   userAddress: Scalars['String'];
-  poolAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
 }>;
 
 export type C_UserDataUpdateSubscription = {
   __typename?: 'Subscription';
-  userDataUpdate: {
-    __typename?: 'UserData';
-    userUnclaimedRewards: string;
-    userReserves: Array<{
-      __typename?: 'UserReserveData';
-      underlyingAsset: string;
-      scaledATokenBalance: string;
-      usageAsCollateralEnabledOnUser: boolean;
-      scaledVariableDebt: string;
-      variableBorrowIndex: string;
-      stableBorrowRate: string;
-      principalStableDebt: string;
-      stableBorrowLastUpdateTimestamp: number;
-      aTokenincentivesUserIndex: string;
-      vTokenincentivesUserIndex: string;
-      sTokenincentivesUserIndex: string;
-    }>;
-  };
+  userDataUpdate: Array<{
+    __typename?: 'UserReserveData';
+    underlyingAsset: string;
+    scaledATokenBalance: string;
+    usageAsCollateralEnabledOnUser: boolean;
+    scaledVariableDebt: string;
+    stableBorrowRate: string;
+    principalStableDebt: string;
+    stableBorrowLastUpdateTimestamp: number;
+  }>;
 };
 
-export const ProtocolDataFragmentFragmentDoc = gql`
-  fragment ProtocolDataFragment on ProtocolData {
-    reserves {
-      id
-      underlyingAsset
-      name
-      symbol
-      decimals
-      isActive
-      isFrozen
-      usageAsCollateralEnabled
-      aTokenAddress
-      stableDebtTokenAddress
-      variableDebtTokenAddress
-      borrowingEnabled
-      stableBorrowRateEnabled
-      reserveFactor
-      baseLTVasCollateral
-      optimalUtilisationRate
-      stableRateSlope1
-      stableRateSlope2
-      averageStableRate
-      stableDebtLastUpdateTimestamp
-      baseVariableBorrowRate
-      variableRateSlope1
-      variableRateSlope2
-      liquidityIndex
-      reserveLiquidationThreshold
-      reserveLiquidationBonus
-      variableBorrowIndex
-      variableBorrowRate
-      availableLiquidity
-      stableBorrowRate
-      liquidityRate
-      totalPrincipalStableDebt
-      totalScaledVariableDebt
-      lastUpdateTimestamp
-      aEmissionPerSecond
-      vEmissionPerSecond
-      sEmissionPerSecond
-      aIncentivesLastUpdateTimestamp
-      vIncentivesLastUpdateTimestamp
-      sIncentivesLastUpdateTimestamp
-      aTokenIncentivesIndex
-      vTokenIncentivesIndex
-      sTokenIncentivesIndex
-      price {
-        priceInEth
-      }
-    }
-    usdPriceEth
+export type TokenIncentivesUserDataFragmentFragment = {
+  __typename?: 'TokenIncentivesUserData';
+  tokenIncentivesUserIndex: string;
+  userUnclaimedRewards: string;
+  tokenAddress: string;
+  rewardTokenAddress: string;
+  rewardTokenDecimals: number;
+  incentiveControllerAddress: string;
+};
+
+export type C_UserIncentivesQueryVariables = Exact<{
+  userAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
+}>;
+
+export type C_UserIncentivesQuery = {
+  __typename?: 'Query';
+  userIncentives: Array<{
+    __typename?: 'UserIncentivesData';
+    underlyingAsset: string;
+    aTokenIncentivesUserData: {
+      __typename?: 'TokenIncentivesUserData';
+      tokenIncentivesUserIndex: string;
+      userUnclaimedRewards: string;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+    };
+    vTokenIncentivesUserData: {
+      __typename?: 'TokenIncentivesUserData';
+      tokenIncentivesUserIndex: string;
+      userUnclaimedRewards: string;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+    };
+    sTokenIncentivesUserData: {
+      __typename?: 'TokenIncentivesUserData';
+      tokenIncentivesUserIndex: string;
+      userUnclaimedRewards: string;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+    };
+  }>;
+};
+
+export type C_UserPoolIncentivesDataUpdateSubscriptionVariables = Exact<{
+  userAddress: Scalars['String'];
+  lendingPoolAddressProvider: Scalars['String'];
+  chainlinkFeedsRegistry: Scalars['String'];
+  quote: Scalars['String'];
+}>;
+
+export type C_UserPoolIncentivesDataUpdateSubscription = {
+  __typename?: 'Subscription';
+  userPoolIncentivesDataUpdate: Array<{
+    __typename?: 'UserIncentivesData';
+    underlyingAsset: string;
+    aTokenIncentivesUserData: {
+      __typename?: 'TokenIncentivesUserData';
+      tokenIncentivesUserIndex: string;
+      userUnclaimedRewards: string;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+    };
+    vTokenIncentivesUserData: {
+      __typename?: 'TokenIncentivesUserData';
+      tokenIncentivesUserIndex: string;
+      userUnclaimedRewards: string;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+    };
+    sTokenIncentivesUserData: {
+      __typename?: 'TokenIncentivesUserData';
+      tokenIncentivesUserIndex: string;
+      userUnclaimedRewards: string;
+      tokenAddress: string;
+      rewardTokenAddress: string;
+      rewardTokenDecimals: number;
+      incentiveControllerAddress: string;
+    };
+  }>;
+};
+
+export const IncentivesDataFragmentFragmentDoc = gql`
+  fragment IncentivesDataFragment on IncentivesData {
+    emissionPerSecond
+    incentivesLastUpdateTimestamp
+    tokenIncentivesIndex
     emissionEndTimestamp
+    tokenAddress
+    rewardTokenAddress
+    rewardTokenDecimals
+    incentiveControllerAddress
+    precision
+    priceFeed
+    priceFeedDecimals
+    priceFeedTimestamp
+  }
+`;
+export const ReserveDataFragmentFragmentDoc = gql`
+  fragment ReserveDataFragment on ReserveData {
+    id
+    underlyingAsset
+    name
+    symbol
+    decimals
+    isActive
+    isFrozen
+    usageAsCollateralEnabled
+    aTokenAddress
+    stableDebtTokenAddress
+    variableDebtTokenAddress
+    borrowingEnabled
+    stableBorrowRateEnabled
+    reserveFactor
+    interestRateStrategyAddress
+    baseLTVasCollateral
+    stableRateSlope1
+    stableRateSlope2
+    averageStableRate
+    stableDebtLastUpdateTimestamp
+    variableRateSlope1
+    variableRateSlope2
+    liquidityIndex
+    reserveLiquidationThreshold
+    reserveLiquidationBonus
+    variableBorrowIndex
+    variableBorrowRate
+    availableLiquidity
+    stableBorrowRate
+    liquidityRate
+    totalPrincipalStableDebt
+    totalScaledVariableDebt
+    lastUpdateTimestamp
+    priceInMarketReferenceCurrency
+  }
+`;
+export const BaseCurrencyDataFragmentFragmentDoc = gql`
+  fragment BaseCurrencyDataFragment on BaseCurrencyData {
+    marketReferenceCurrencyDecimals
+    marketReferenceCurrencyPriceInUsd
+    networkBaseTokenPriceInUsd
+    networkBaseTokenPriceDecimals
   }
 `;
 export const StakeGeneralUiDataFragmentFragmentDoc = gql`
@@ -7574,31 +7923,177 @@ export const StakeUserUiDataFragmentFragmentDoc = gql`
     usdPriceEth
   }
 `;
-export const UserDataFragmentFragmentDoc = gql`
-  fragment UserDataFragment on UserData {
-    userReserves {
-      underlyingAsset
-      scaledATokenBalance
-      usageAsCollateralEnabledOnUser
-      scaledVariableDebt
-      variableBorrowIndex
-      stableBorrowRate
-      principalStableDebt
-      stableBorrowLastUpdateTimestamp
-      aTokenincentivesUserIndex
-      vTokenincentivesUserIndex
-      sTokenincentivesUserIndex
-    }
-    userUnclaimedRewards
+export const UserReserveDataFragmentFragmentDoc = gql`
+  fragment UserReserveDataFragment on UserReserveData {
+    underlyingAsset
+    scaledATokenBalance
+    usageAsCollateralEnabledOnUser
+    scaledVariableDebt
+    stableBorrowRate
+    principalStableDebt
+    stableBorrowLastUpdateTimestamp
   }
 `;
-export const C_ProtocolDataDocument = gql`
-  query C_ProtocolData($poolAddress: String!) {
-    protocolData(poolAddress: $poolAddress) {
-      ...ProtocolDataFragment
+export const TokenIncentivesUserDataFragmentFragmentDoc = gql`
+  fragment TokenIncentivesUserDataFragment on TokenIncentivesUserData {
+    tokenIncentivesUserIndex
+    userUnclaimedRewards
+    tokenAddress
+    rewardTokenAddress
+    rewardTokenDecimals
+    incentiveControllerAddress
+  }
+`;
+export const C_ReservesIncentivesDocument = gql`
+  query C_ReservesIncentives(
+    $lendingPoolAddressProvider: String!
+    $chainlinkFeedsRegistry: String!
+    $quote: String!
+  ) {
+    reservesIncentives(
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+      chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+      quote: $quote
+    ) {
+      underlyingAsset
+      aIncentiveData {
+        ...IncentivesDataFragment
+      }
+      vIncentiveData {
+        ...IncentivesDataFragment
+      }
+      sIncentiveData {
+        ...IncentivesDataFragment
+      }
     }
   }
-  ${ProtocolDataFragmentFragmentDoc}
+  ${IncentivesDataFragmentFragmentDoc}
+`;
+
+/**
+ * __useC_ReservesIncentivesQuery__
+ *
+ * To run a query within a React component, call `useC_ReservesIncentivesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useC_ReservesIncentivesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useC_ReservesIncentivesQuery({
+ *   variables: {
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *      chainlinkFeedsRegistry: // value for 'chainlinkFeedsRegistry'
+ *      quote: // value for 'quote'
+ *   },
+ * });
+ */
+export function useC_ReservesIncentivesQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    C_ReservesIncentivesQuery,
+    C_ReservesIncentivesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<C_ReservesIncentivesQuery, C_ReservesIncentivesQueryVariables>(
+    C_ReservesIncentivesDocument,
+    options
+  );
+}
+export function useC_ReservesIncentivesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    C_ReservesIncentivesQuery,
+    C_ReservesIncentivesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<
+    C_ReservesIncentivesQuery,
+    C_ReservesIncentivesQueryVariables
+  >(C_ReservesIncentivesDocument, options);
+}
+export type C_ReservesIncentivesQueryHookResult = ReturnType<typeof useC_ReservesIncentivesQuery>;
+export type C_ReservesIncentivesLazyQueryHookResult = ReturnType<
+  typeof useC_ReservesIncentivesLazyQuery
+>;
+export type C_ReservesIncentivesQueryResult = ApolloReactCommon.QueryResult<
+  C_ReservesIncentivesQuery,
+  C_ReservesIncentivesQueryVariables
+>;
+export const C_PoolIncentivesDataUpdateDocument = gql`
+  subscription C_PoolIncentivesDataUpdate(
+    $lendingPoolAddressProvider: String!
+    $chainlinkFeedsRegistry: String!
+    $quote: String!
+  ) {
+    poolIncentivesDataUpdate(
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+      chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+      quote: $quote
+    ) {
+      underlyingAsset
+      aIncentiveData {
+        ...IncentivesDataFragment
+      }
+      vIncentiveData {
+        ...IncentivesDataFragment
+      }
+      sIncentiveData {
+        ...IncentivesDataFragment
+      }
+    }
+  }
+  ${IncentivesDataFragmentFragmentDoc}
+`;
+
+/**
+ * __useC_PoolIncentivesDataUpdateSubscription__
+ *
+ * To run a query within a React component, call `useC_PoolIncentivesDataUpdateSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useC_PoolIncentivesDataUpdateSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useC_PoolIncentivesDataUpdateSubscription({
+ *   variables: {
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *      chainlinkFeedsRegistry: // value for 'chainlinkFeedsRegistry'
+ *      quote: // value for 'quote'
+ *   },
+ * });
+ */
+export function useC_PoolIncentivesDataUpdateSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    C_PoolIncentivesDataUpdateSubscription,
+    C_PoolIncentivesDataUpdateSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    C_PoolIncentivesDataUpdateSubscription,
+    C_PoolIncentivesDataUpdateSubscriptionVariables
+  >(C_PoolIncentivesDataUpdateDocument, options);
+}
+export type C_PoolIncentivesDataUpdateSubscriptionHookResult = ReturnType<
+  typeof useC_PoolIncentivesDataUpdateSubscription
+>;
+export type C_PoolIncentivesDataUpdateSubscriptionResult =
+  ApolloReactCommon.SubscriptionResult<C_PoolIncentivesDataUpdateSubscription>;
+export const C_ProtocolDataDocument = gql`
+  query C_ProtocolData($lendingPoolAddressProvider: String!) {
+    protocolData(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
+      reserves {
+        ...ReserveDataFragment
+      }
+      baseCurrencyData {
+        ...BaseCurrencyDataFragment
+      }
+    }
+  }
+  ${ReserveDataFragmentFragmentDoc}
+  ${BaseCurrencyDataFragmentFragmentDoc}
 `;
 
 /**
@@ -7613,7 +8108,7 @@ export const C_ProtocolDataDocument = gql`
  * @example
  * const { data, loading, error } = useC_ProtocolDataQuery({
  *   variables: {
- *      poolAddress: // value for 'poolAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
  *   },
  * });
  */
@@ -7645,12 +8140,18 @@ export type C_ProtocolDataQueryResult = ApolloReactCommon.QueryResult<
   C_ProtocolDataQueryVariables
 >;
 export const C_ProtocolDataUpdateDocument = gql`
-  subscription C_ProtocolDataUpdate($poolAddress: String!) {
-    protocolDataUpdate(poolAddress: $poolAddress) {
-      ...ProtocolDataFragment
+  subscription C_ProtocolDataUpdate($lendingPoolAddressProvider: String!) {
+    protocolDataUpdate(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
+      reserves {
+        ...ReserveDataFragment
+      }
+      baseCurrencyData {
+        ...BaseCurrencyDataFragment
+      }
     }
   }
-  ${ProtocolDataFragmentFragmentDoc}
+  ${ReserveDataFragmentFragmentDoc}
+  ${BaseCurrencyDataFragmentFragmentDoc}
 `;
 
 /**
@@ -7665,7 +8166,7 @@ export const C_ProtocolDataUpdateDocument = gql`
  * @example
  * const { data, loading, error } = useC_ProtocolDataUpdateSubscription({
  *   variables: {
- *      poolAddress: // value for 'poolAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
  *   },
  * });
  */
@@ -7881,12 +8382,12 @@ export type C_StakeUserUiDataUpdateSubscriptionHookResult = ReturnType<
 export type C_StakeUserUiDataUpdateSubscriptionResult =
   ApolloReactCommon.SubscriptionResult<C_StakeUserUiDataUpdateSubscription>;
 export const C_UserDataDocument = gql`
-  query C_UserData($userAddress: String!, $poolAddress: String!) {
-    userData(userAddress: $userAddress, poolAddress: $poolAddress) {
-      ...UserDataFragment
+  query C_UserData($userAddress: String!, $lendingPoolAddressProvider: String!) {
+    userData(userAddress: $userAddress, lendingPoolAddressProvider: $lendingPoolAddressProvider) {
+      ...UserReserveDataFragment
     }
   }
-  ${UserDataFragmentFragmentDoc}
+  ${UserReserveDataFragmentFragmentDoc}
 `;
 
 /**
@@ -7902,7 +8403,7 @@ export const C_UserDataDocument = gql`
  * const { data, loading, error } = useC_UserDataQuery({
  *   variables: {
  *      userAddress: // value for 'userAddress'
- *      poolAddress: // value for 'poolAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
  *   },
  * });
  */
@@ -7931,12 +8432,15 @@ export type C_UserDataQueryResult = ApolloReactCommon.QueryResult<
   C_UserDataQueryVariables
 >;
 export const C_UserDataUpdateDocument = gql`
-  subscription C_UserDataUpdate($userAddress: String!, $poolAddress: String!) {
-    userDataUpdate(userAddress: $userAddress, poolAddress: $poolAddress) {
-      ...UserDataFragment
+  subscription C_UserDataUpdate($userAddress: String!, $lendingPoolAddressProvider: String!) {
+    userDataUpdate(
+      userAddress: $userAddress
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+    ) {
+      ...UserReserveDataFragment
     }
   }
-  ${UserDataFragmentFragmentDoc}
+  ${UserReserveDataFragmentFragmentDoc}
 `;
 
 /**
@@ -7952,7 +8456,7 @@ export const C_UserDataUpdateDocument = gql`
  * const { data, loading, error } = useC_UserDataUpdateSubscription({
  *   variables: {
  *      userAddress: // value for 'userAddress'
- *      poolAddress: // value for 'poolAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
  *   },
  * });
  */
@@ -7973,3 +8477,144 @@ export type C_UserDataUpdateSubscriptionHookResult = ReturnType<
 >;
 export type C_UserDataUpdateSubscriptionResult =
   ApolloReactCommon.SubscriptionResult<C_UserDataUpdateSubscription>;
+export const C_UserIncentivesDocument = gql`
+  query C_UserIncentives(
+    $userAddress: String!
+    $lendingPoolAddressProvider: String!
+    $chainlinkFeedsRegistry: String!
+    $quote: String!
+  ) {
+    userIncentives(
+      userAddress: $userAddress
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+      chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+      quote: $quote
+    ) {
+      underlyingAsset
+      aTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+      vTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+      sTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+    }
+  }
+  ${TokenIncentivesUserDataFragmentFragmentDoc}
+`;
+
+/**
+ * __useC_UserIncentivesQuery__
+ *
+ * To run a query within a React component, call `useC_UserIncentivesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useC_UserIncentivesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useC_UserIncentivesQuery({
+ *   variables: {
+ *      userAddress: // value for 'userAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *      chainlinkFeedsRegistry: // value for 'chainlinkFeedsRegistry'
+ *      quote: // value for 'quote'
+ *   },
+ * });
+ */
+export function useC_UserIncentivesQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    C_UserIncentivesQuery,
+    C_UserIncentivesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<C_UserIncentivesQuery, C_UserIncentivesQueryVariables>(
+    C_UserIncentivesDocument,
+    options
+  );
+}
+export function useC_UserIncentivesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    C_UserIncentivesQuery,
+    C_UserIncentivesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<C_UserIncentivesQuery, C_UserIncentivesQueryVariables>(
+    C_UserIncentivesDocument,
+    options
+  );
+}
+export type C_UserIncentivesQueryHookResult = ReturnType<typeof useC_UserIncentivesQuery>;
+export type C_UserIncentivesLazyQueryHookResult = ReturnType<typeof useC_UserIncentivesLazyQuery>;
+export type C_UserIncentivesQueryResult = ApolloReactCommon.QueryResult<
+  C_UserIncentivesQuery,
+  C_UserIncentivesQueryVariables
+>;
+export const C_UserPoolIncentivesDataUpdateDocument = gql`
+  subscription C_UserPoolIncentivesDataUpdate(
+    $userAddress: String!
+    $lendingPoolAddressProvider: String!
+    $chainlinkFeedsRegistry: String!
+    $quote: String!
+  ) {
+    userPoolIncentivesDataUpdate(
+      userAddress: $userAddress
+      lendingPoolAddressProvider: $lendingPoolAddressProvider
+      chainlinkFeedsRegistry: $chainlinkFeedsRegistry
+      quote: $quote
+    ) {
+      underlyingAsset
+      aTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+      vTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+      sTokenIncentivesUserData {
+        ...TokenIncentivesUserDataFragment
+      }
+    }
+  }
+  ${TokenIncentivesUserDataFragmentFragmentDoc}
+`;
+
+/**
+ * __useC_UserPoolIncentivesDataUpdateSubscription__
+ *
+ * To run a query within a React component, call `useC_UserPoolIncentivesDataUpdateSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useC_UserPoolIncentivesDataUpdateSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useC_UserPoolIncentivesDataUpdateSubscription({
+ *   variables: {
+ *      userAddress: // value for 'userAddress'
+ *      lendingPoolAddressProvider: // value for 'lendingPoolAddressProvider'
+ *      chainlinkFeedsRegistry: // value for 'chainlinkFeedsRegistry'
+ *      quote: // value for 'quote'
+ *   },
+ * });
+ */
+export function useC_UserPoolIncentivesDataUpdateSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    C_UserPoolIncentivesDataUpdateSubscription,
+    C_UserPoolIncentivesDataUpdateSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    C_UserPoolIncentivesDataUpdateSubscription,
+    C_UserPoolIncentivesDataUpdateSubscriptionVariables
+  >(C_UserPoolIncentivesDataUpdateDocument, options);
+}
+export type C_UserPoolIncentivesDataUpdateSubscriptionHookResult = ReturnType<
+  typeof useC_UserPoolIncentivesDataUpdateSubscription
+>;
+export type C_UserPoolIncentivesDataUpdateSubscriptionResult =
+  ApolloReactCommon.SubscriptionResult<C_UserPoolIncentivesDataUpdateSubscription>;

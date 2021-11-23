@@ -34,6 +34,17 @@ For ease of use:
 
 For instructions on local development, deployment and configurations, see [Contributing](./CONTRIBUTING.md)
 
+## Troubleshooting
+
+Issue: I cannot connect to `app.aave.com`
+
+The aave ui is hosted on ipfs in a decentralized manner.
+`app.aave.com` just holds a cname record to the cloudflare ipfs gateway.
+You can use [any](https://ipfs.github.io/public-gateway-checker/) public or private ipfs gateway to access the aave ui if for some reason the cloudflare gateway doesn't work for you.
+
+For ipfs gateways supporting DNSLink (most do) you can simply go to `<your favorite public ipfs gateway>/ipns/app.aave.com`.
+For ipfs gateways not supporting DNSLink you can go to `<your favorite public ipfs gateway>/ipfs/<hash>`, where the current `hash` can be found in the output of the [build pipeline](https://github.com/aave/aave-ui/actions/workflows/deploy_prod.yml).
+
 ## License
 
 [BSD-3-Clause](./LICENSE.md)

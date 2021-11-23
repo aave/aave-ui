@@ -20,7 +20,7 @@ import { ValidationWrapperComponentProps } from '../../../RouteParamsValidationW
 import { InterestRateSeries } from '../../../graphs/types';
 import { GraphLegendDot } from '../../../graphs/GraphLegend';
 import GraphInner from '../GraphInner';
-import { getAssetInfo, TokenIcon } from '../../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';
@@ -58,13 +58,13 @@ export default function CurrencyOverview({
   const overviewData = {
     utilizationRate: Number(poolReserve.utilizationRate),
     availableLiquidity: poolReserve.availableLiquidity,
-    priceInUsd: valueToBigNumber(poolReserve.price.priceInEth)
-      .dividedBy(marketRefPriceInUsd)
+    priceInUsd: valueToBigNumber(poolReserve.priceInMarketReferenceCurrency)
+      .multipliedBy(marketRefPriceInUsd)
       .toNumber(),
-    depositApy: Number(poolReserve.liquidityRate),
+    depositApy: Number(poolReserve.supplyAPY),
     avg30DaysLiquidityRate: Number(poolReserve.avg30DaysLiquidityRate),
-    stableRate: Number(poolReserve.stableBorrowRate),
-    variableRate: Number(poolReserve.variableBorrowRate),
+    stableRate: Number(poolReserve.stableBorrowAPY),
+    variableRate: Number(poolReserve.variableBorrowAPY),
     avg30DaysVariableRate: Number(poolReserve.avg30DaysVariableBorrowRate),
     usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
@@ -115,7 +115,7 @@ export default function CurrencyOverview({
               title={intl.formatMessage(messages.depositAPY)}
               subTitle={
                 !!overviewData.avg30DaysLiquidityRate && !isCollapse
-                  ? intl.formatMessage(messages.pastThirtyDayAverage)
+                  ? intl.formatMessage(messages.depositAPR)
                   : ''
               }
               color="white"
@@ -300,11 +300,6 @@ export default function CurrencyOverview({
             <Row
               className="CurrencyOverview__row"
               title={intl.formatMessage(messages.variableAPY)}
-              subTitle={
-                !!overviewData.avg30DaysVariableRate && !isCollapse
-                  ? intl.formatMessage(messages.pastThirtyDayAverage)
-                  : ''
-              }
               color="white"
               weight="light"
               isColumn={isCollapse}

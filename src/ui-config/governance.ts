@@ -1,7 +1,7 @@
-import { Network } from '@aave/protocol-js';
+import { ChainId } from '@aave/contract-helpers';
 
 export interface GovernanceConfig {
-  network: Network;
+  chainId: ChainId;
   votingAssetName: string;
   averageNetworkBlockTime: number;
   queryGovernanceDataUrl: string;

@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { MessageDescriptor, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { useWeb3React } from '@web3-react/core';
 import classNames from 'classnames';
 import { DropdownWrapper, rgba, textCenterEllipsis, useThemeContext } from '@aave/aave-ui-kit';
-import { Network } from '@aave/protocol-js';
 
-import { mapChainIdToName, useUserWalletDataContext } from '../../../libs/web3-data-provider';
+import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 import { useMenuContext } from '../../../libs/menu';
 import Link from '../../basic/Link';
 import ConnectButton from '../../ConnectButton';
 
 import staticStyles from './style';
 import messages from './messages';
+import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
+import useGetEnsName from '../../../libs/hooks/use-get-ens-name';
 
 export default function AddressInfo() {
   const intl = useIntl();
@@ -24,31 +25,28 @@ export default function AddressInfo() {
     currentProviderName,
     availableAccounts,
   } = useUserWalletDataContext();
+  const { ensName } = useGetEnsName(currentAccount);
+  const ensNameAbbreviated = ensName
+    ? ensName.length > 18
+      ? textCenterEllipsis(ensName, 12, 3)
+      : ensName
+    : undefined;
   const { closeMobileMenu } = useMenuContext();
 
   const [visible, setVisible] = useState(false);
-  const networkName = chainId && mapChainIdToName(chainId);
+  const config = chainId ? getNetworkConfig(chainId) : undefined;
+  const networkName = config && config.name;
+  let longName = networkName;
   let networkColor = '';
-  if (networkName === 'ropsten') {
+  if (config?.isFork) {
     networkColor = '#ff4a8d';
-  } else if (networkName === 'kovan') {
+    longName += ' fork';
+  } else if (config?.isTestnet) {
     networkColor = '#7157ff';
+    longName += ' test';
   } else {
     networkColor = '#65c970';
   }
-  let networkMessage: MessageDescriptor = messages.networkName;
-  if (networkName === Network.polygon || networkName === Network.avalanche) {
-    networkMessage = messages.networkShortName;
-  } else {
-    networkMessage = messages.networkName;
-  }
-
-  const formattedNetworkName =
-    networkName === Network.polygon || networkName === Network.avalanche
-      ? networkName
-      : networkName === Network.mainnet || networkName === Network.fork
-      ? `Ethereum Mainnet`
-      : `${networkName} Test Network`;
 
   const borderColor = rgba(`${currentTheme.darkBlue.rgb}, 0.1`);
   const hoverColor = rgba(`${currentTheme.darkBlue.rgb}, 0.05`);
@@ -68,8 +66,10 @@ export default function AddressInfo() {
               onClick={() => setVisible(!visible)}
               type="button"
             >
-              <p>{formattedNetworkName}</p>
-              <span>{textCenterEllipsis(currentAccount, 4, 4)}</span>
+              <p>{networkName}</p>
+              <span>
+                {ensNameAbbreviated ? ensNameAbbreviated : textCenterEllipsis(currentAccount, 4, 4)}
+              </span>
             </button>
           }
         >
@@ -77,9 +77,10 @@ export default function AddressInfo() {
             <div className="AddressInfo__content-caption">
               <p className="AddressInfo__content-network">
                 <i />
-                <span>{intl.formatMessage(networkMessage, { name: networkName })}</span>
+                <span>{intl.formatMessage(messages.networkShortName, { name: longName })}</span>
               </p>
               <p className="AddressInfo__content-address">{currentAccount}</p>
+              {ensName ? <p className="AddressInfo__content-ens">{ensName}</p> : <></>}
             </div>
 
             <Link

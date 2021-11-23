@@ -11,7 +11,7 @@ import messages from './messages';
 export default function UnstakeAmount() {
   const intl = useIntl();
   const history = useHistory();
-  const { selectedStakeData, selectedStake, cooldownStep, txBuilder } = useStakeDataContext();
+  const { selectedStakeData, selectedStake, cooldownStep, stakingService } = useStakeDataContext();
 
   const timeNowInSeconds = Math.floor(Date.now() / 1000);
   if (
@@ -29,7 +29,7 @@ export default function UnstakeAmount() {
 
   const stkBalance = selectedStakeData.stakeTokenUserBalance;
   const handleGetTransactions = (userId: string) => async () =>
-    txBuilder.redeem(userId, stkBalance);
+    stakingService.redeem(userId, stkBalance);
   return (
     <BasicForm
       title={intl.formatMessage(messages.caption, { asset: selectedStake.toUpperCase() })}

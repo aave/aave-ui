@@ -10,8 +10,7 @@ import staticStyles from './style';
 
 import whiteCloseIcon from '../../../images/whiteCloseIcon.svg';
 import closeIcon from '../../../images/closeIcon.svg';
-import { marketsData } from '../../../ui-config';
-import { availableMarkets } from '../../../config';
+import { availableMarkets, marketsData } from '../../../helpers/config/markets-and-network-config';
 
 interface MarketsModalProps {
   isVisible: boolean;
@@ -42,7 +41,7 @@ export default function MarketsModal({ isVisible, onBackdropPress }: MarketsModa
               <MarketSelectButton
                 onClick={() => setCurrentMarket(market)}
                 logo={marketData.logo}
-                network={marketData.network}
+                chainId={marketData.chainId}
                 subLogo={marketData.subLogo}
                 disabled={market === currentMarket}
                 key={market}

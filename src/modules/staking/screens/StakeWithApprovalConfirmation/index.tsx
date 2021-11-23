@@ -17,10 +17,10 @@ export default function StakeWithApprovalConfirmation() {
   const intl = useIntl();
   const location = useLocation();
   const { userId } = useStaticPoolDataContext();
-  const { selectedStake, selectedStakeData, txBuilder } = useStakeDataContext();
+  const { selectedStake, selectedStakeData, stakingService } = useStakeDataContext();
 
   const aTokenData = getAtokenInfo({
-    address: txBuilder.stakingContractAddress,
+    address: stakingService.stakingContractAddress,
     symbol: selectedStake.toUpperCase(),
     decimals: 18,
     prefix: 'stk',
@@ -33,7 +33,7 @@ export default function StakeWithApprovalConfirmation() {
     return null;
   }
 
-  const handleGetTransactions = async () => await txBuilder.stake(userId, amount.toString());
+  const handleGetTransactions = async () => await stakingService.stake(userId, amount.toString());
 
   let blockingError = '';
   if (amount.gt(selectedStakeData.underlyingTokenUserBalance)) {

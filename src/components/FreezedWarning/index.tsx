@@ -6,7 +6,7 @@ import Link from '../basic/Link';
 
 import messages from './messages';
 import staticStyles from './style';
-import { getAssetInfo } from '../../helpers/markets/assets';
+import { getAssetInfo } from '../../helpers/config/assets-config';
 
 interface FreezedWarningProps {
   symbol: string;

@@ -11,7 +11,7 @@ import MaxLTVHelpModal from '../../../../components/HelpModal/MaxLTVHelpModal';
 import ValuePercent from '../../../../components/basic/ValuePercent';
 import RepayWithdrawWrapper from '../../../../components/wrappers/RepayWithdrawWrapper';
 import CollateralCompositionBar from '../../../../components/compositionBars/CollateralCompositionBar';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';

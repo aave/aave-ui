@@ -18,7 +18,7 @@ import { useSwap } from '../../../../libs/use-asset-swap/useSwap';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
-import { isFeatureEnabled } from '../../../../helpers/markets/markets-data';
+import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
 
 const applySlippage = (amount: string, slippagePercent: number | string) => {
   return valueToBigNumber(amount || '0').multipliedBy(1 - +slippagePercent / 100);
@@ -30,7 +30,7 @@ export default function AssetSwapMain() {
   const location = useLocation();
   const { currentTheme, md } = useThemeContext();
   const { user, reserves } = useDynamicPoolDataContext();
-  const { currentMarketData, chainId } = useProtocolDataContext();
+  const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
   const [fromAmount, setAmountFrom] = useState<string>('');
   const [fromAsset, setAssetFrom] = useState('');
   const fromAssetData = reserves.find(
@@ -41,6 +41,12 @@ export default function AssetSwapMain() {
     (res) => res.underlyingAsset.toLowerCase() === toAsset.toLowerCase()
   );
   const [isMaxSelected, setIsMaxSelected] = useState(false);
+
+  // paraswap has no api specifically for the fork you're running on, so we need to select the correct chainId
+  const underlyingChainId = (
+    networkConfig.isFork ? networkConfig.underlyingChainId : chainId
+  ) as number;
+
   const {
     loading,
     error,
@@ -59,7 +65,7 @@ export default function AssetSwapMain() {
     },
     variant: 'exactIn',
     max: isMaxSelected,
-    chainId,
+    chainId: underlyingChainId,
   });
 
   const [maxSlippage, setMaxSlippage] = useState(DEFAULT_MAX_SLIPPAGE);
@@ -78,17 +84,24 @@ export default function AssetSwapMain() {
     );
   }
 
-  const availableDeposits = user.reservesData.filter(
+  const availableDeposits = user.userReservesData.filter(
     (res) =>
       res.underlyingBalance !== '0' &&
       res.reserve.underlyingAsset.toLowerCase() !== toAsset.toLowerCase()
   );
-  const availableDepositsSymbols = availableDeposits.map((res) => ({
-    label: res.reserve.symbol,
-    value: res.reserve.underlyingAsset,
-    decimals: res.reserve.decimals,
-    apy: res.reserve.liquidityRate,
-  }));
+  const availableDepositsSymbols = availableDeposits.map((res) => {
+    const reserve = reserves.find(
+      (reserve) =>
+        reserve.underlyingAsset.toLowerCase() === res.reserve.underlyingAsset.toLowerCase()
+    );
+    const apy = reserve ? reserve.supplyAPY : '0';
+    return {
+      label: res.reserve.symbol,
+      value: res.reserve.underlyingAsset,
+      decimals: res.reserve.decimals,
+      apy,
+    };
+  });
 
   const availableDestinations = reserves.filter(
     (res) =>
@@ -98,20 +111,22 @@ export default function AssetSwapMain() {
     label: res.symbol,
     value: res.underlyingAsset,
     decimals: res.decimals,
-    apy: res.liquidityRate,
+    apy: res.supplyAPY,
   }));
 
-  const fromAPY = availableDeposits.find(
-    (res) => res.reserve.underlyingAsset.toLowerCase() === fromAsset.toLowerCase()
-  )?.reserve.liquidityRate;
+  const fromAPY = availableDestinations.find(
+    (res) => res.underlyingAsset.toLowerCase() === fromAsset.toLowerCase()
+  )?.supplyAPY;
   const toAPY = availableDestinations.find(
     (res) => res.underlyingAsset.toLowerCase() === toAsset.toLowerCase()
-  )?.liquidityRate;
+  )?.supplyAPY;
 
-  const fromAssetUserData = user.reservesData.find(
+  const fromAssetUserData = user.userReservesData.find(
     (res) => res.reserve.underlyingAsset === fromAsset
   );
-  const toAssetUserData = user.reservesData.find((res) => res.reserve.underlyingAsset === toAsset);
+  const toAssetUserData = user.userReservesData.find(
+    (res) => res.reserve.underlyingAsset === toAsset
+  );
 
   const maxAmountToSwap = fromAssetUserData?.underlyingBalance || '0';
 
