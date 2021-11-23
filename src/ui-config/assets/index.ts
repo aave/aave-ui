@@ -9,6 +9,13 @@ export const assetsList: Asset[] = [
     aIcon: 'https://storage.googleapis.com/tinlake/aave/adai.svg',
   },
   {
+    name: 'USD Coin',
+    symbol: 'USDC',
+    color: '#2775CA',
+    icon: 'https://storage.googleapis.com/tinlake/aave/usdc.svg',
+    aIcon: 'https://storage.googleapis.com/tinlake/aave/ausdc.svg',
+  },
+  {
     name: 'New Silver Series 2 DROP',
     symbol: 'NS2DRP',
     color: '#0828BE',

@@ -34,7 +34,7 @@ const PermissionWarning: React.FC<
   const { userId } = useStaticPoolDataContext();
   const { permissions } = usePermissions();
 
-  const isDAI = match.params.underlyingAsset === currentMarketData.DAIAddress;
+  const isUSDC = match.params.underlyingAsset === currentMarketData.USDCAddress;
   const canDepositAndBorrow = [PERMISSION.DEPOSITOR, PERMISSION.BORROWER].every((p) =>
     permissions.includes(p)
   );
@@ -43,7 +43,7 @@ const PermissionWarning: React.FC<
     (!isFeatureEnabled.permissions(currentMarketData) ||
       !userId ||
       permissions.includes(requiredPermission)) &&
-    (requiredPermission !== PERMISSION.DEPOSITOR || isDAI || canDepositAndBorrow)
+    (requiredPermission !== PERMISSION.DEPOSITOR || isUSDC || canDepositAndBorrow)
   ) {
     return children;
   }
@@ -53,7 +53,7 @@ const PermissionWarning: React.FC<
       <ContentWrapper withBackButton={true} withFullHeight={true}>
         {requiredPermission === PERMISSION.DEPOSITOR &&
         match.params.underlyingAsset &&
-        !isDAI &&
+        !isUSDC &&
         !canDepositAndBorrow ? (
           <Caption
             title="DROP participation is restricted"
@@ -94,7 +94,7 @@ const PermissionWarning: React.FC<
           />
         ) : requiredPermission === PERMISSION.BORROWER ? (
           <Caption
-            title="DAI borrowing is restricted"
+            title="USDC borrowing is restricted"
             description={
               <>
                 Only signed up Tinlake Pools and their respective Issuers are allowed to deposit
