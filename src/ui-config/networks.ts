@@ -22,7 +22,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     rewardTokenSymbol: 'wCFG',
     rewardTokenAddress: '0x9c3c9283d3e44854697cd22d3faa240cfb032889',
     rewardTokenDecimals: 18,
-    incentivePrecision: 18,
+    incentivePrecision: 8,
     explorerLink: 'https://kovan.etherscan.com',
     rpcOnly: true,
     isTestnet: true,
