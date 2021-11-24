@@ -31,6 +31,13 @@ const staticStyles = css.global`
         display: none;
       }
     }
+
+    &__search-inner-force-right {
+      @include respond-to(sm) {
+        display: none;
+      }
+      width: 100%;
+    }
   }
 `;
 

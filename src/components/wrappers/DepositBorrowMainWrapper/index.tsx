@@ -23,6 +23,7 @@ interface DepositBorrowMainWrapperProps {
   setShowOnlyStableCoins: (value: boolean) => void;
   withSwitchMarket?: boolean;
   totalValue: string | number;
+  filterToggleActive?: boolean;
 }
 
 export default function DepositBorrowMainWrapper({
@@ -37,6 +38,7 @@ export default function DepositBorrowMainWrapper({
   setShowOnlyStableCoins,
   withSwitchMarket,
   totalValue,
+  filterToggleActive = true,
 }: DepositBorrowMainWrapperProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
@@ -54,6 +56,7 @@ export default function DepositBorrowMainWrapper({
               searchValue={searchValue}
               searchOnChange={setSearchValue}
               darkOnDarkMode={true}
+              toggleActive={filterToggleActive}
             />
 
             <div className="DepositBorrowMainWrapper__content">{children}</div>

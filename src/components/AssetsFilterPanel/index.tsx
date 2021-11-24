@@ -13,6 +13,7 @@ export type AssetsFilterPanelProps = {
   searchValue: string;
   searchOnChange: (value: string) => void;
   darkOnDarkMode?: boolean;
+  toggleActive?: boolean;
 };
 
 export default function AssetsFilterPanel({
@@ -23,19 +24,30 @@ export default function AssetsFilterPanel({
   searchValue,
   searchOnChange,
   darkOnDarkMode,
+  toggleActive = true,
 }: AssetsFilterPanelProps) {
   return (
     <div className="AssetsFilterPanel">
       <div className="AssetsFilterPanel__content">
-        <LabeledSwitcher
-          leftOption={optionTitleLeft}
-          rightOption={optionTitleRight}
-          onToggle={switchOnToggle}
-          value={switchValue}
-          darkOnDarkMode={darkOnDarkMode}
-        />
+        {toggleActive ? (
+          <LabeledSwitcher
+            leftOption={optionTitleLeft}
+            rightOption={optionTitleRight}
+            onToggle={switchOnToggle}
+            value={switchValue}
+            darkOnDarkMode={darkOnDarkMode}
+          />
+        ) : (
+          <></>
+        )}
 
-        <div className="AssetsFilterPanel__search-inner">
+        <div
+          className={
+            toggleActive
+              ? 'AssetsFilterPanel__search-inner'
+              : 'AssetsFilterPanel__search-inner-force-right'
+          }
+        >
           <SearchField value={searchValue} onChange={searchOnChange} />
         </div>
       </div>
