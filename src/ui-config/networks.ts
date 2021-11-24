@@ -12,7 +12,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
       walletBalanceProvider: '0x07DC923859b68e9399d787bf52c4Aa9eBe3490aF',
       uiPoolDataProvider: '0x6062ad399E47BF75AEa0b3c5BE7077c1E8664Dcb',
       uiIncentiveDataProvider: '0x9842E5B7b7C6cEDfB1952a388e050582Ff95645b',
-      chainlinkFeedRegistry: '0xB0071D5EcEF881aE119Dc2A1b13DD7Fc75af3aFf',
+      chainlinkFeedRegistry: '0xA7B3767356595FC8D0882911327b399d9068F1FE',
     },
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-kovan',
     baseUniswapAdapter: '0xf86Be05f535EC2d217E4c6116B3fa147ee5C05A1',
