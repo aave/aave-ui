@@ -29,7 +29,7 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
   const { library: provider } = useWeb3React<providers.Web3Provider>();
   const [txData, setTxData] = useState({} as EthTransactionData);
   const eModeEnabled = userEmodeCategoryId !== 0;
-
+  console.log(txData);
   // For now just assuming selected category is stablecoins, in the future this will depend on a selector
   const selectedEmodeCategoryId = 1;
 
@@ -69,15 +69,13 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
         user: user ? user.id : '',
         categoryId: userEmodeCategoryId,
       });
-      console.log(disableTransaction);
-      await sendEthTransaction(disableTransaction[0].tx, provider, setTxData, '300000');
+      await sendEthTransaction(disableTransaction[0].tx, provider, setTxData, null);
     } else {
       const enableTransaction = await newPool.setUserEMode({
         user: user ? user.id : '',
         categoryId: selectedEmodeCategoryId,
       });
-      console.log(enableTransaction);
-      await sendEthTransaction(enableTransaction[0].tx, provider, setTxData, '300000');
+      await sendEthTransaction(enableTransaction[0].tx, provider, setTxData, null);
     }
   };
 
