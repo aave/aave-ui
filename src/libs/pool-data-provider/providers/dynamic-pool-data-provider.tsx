@@ -99,10 +99,6 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
       ),
       borrowableInIsolation: reserve.borrowableInIsolation ? reserve.borrowableInIsolation : false,
     };
-    // TO-DO: Remove this, this is temporary to test eMode
-    if (fullReserve.symbol.toLowerCase() === 'usdc' || fullReserve.symbol.toLowerCase() === 'dai') {
-      fullReserve.eModeCategoryId = 1;
-    }
     return fullReserve;
   });
 
