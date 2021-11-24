@@ -40,6 +40,7 @@ export interface StaticPoolDataContextData {
   marketRefCurrencyDecimals: number;
   marketRefPriceInUsd: string;
   WrappedBaseNetworkAssetAddress: string;
+  userEmodeCategoryId: number;
   refresh: () => Promise<void>;
   walletData: { [address: string]: { amount: string; amountUSD: string } };
   refetchWalletData: () => {};
@@ -216,6 +217,9 @@ export function StaticPoolDataProvider({
     ? activeData.reserves.baseCurrencyData?.marketReferenceCurrencyDecimals
     : 18;
 
+  let userEmodeCategoryId =
+    userReserves && userReserves[0] ? userReserves[0].userEmodeCategoryId : 0;
+  //  userEmodeCategoryId = 1;
   return (
     <StaticPoolDataContext.Provider
       value={{
@@ -235,6 +239,7 @@ export function StaticPoolDataProvider({
         isUserHasDeposits,
         walletData,
         refetchWalletData: fetchWalletData,
+        userEmodeCategoryId,
       }}
     >
       {children}

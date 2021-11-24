@@ -31,9 +31,9 @@ export interface ComputedReserveData extends FormatReserveUSDResponse {
   // new fields, will not be optional once use-pool-data uses a single UiPoolDataProvider
   isPaused?: boolean;
   eModeCategoryId?: number;
-  eModeLtv?: number;
-  eModeLiquidationThreshold?: number;
-  eModeLiquidationBonus?: number;
+  eModeLtv: string;
+  eModeLiquidationThreshold: string;
+  eModeLiquidationBonus: string;
   eModePriceSource?: string;
   eModeLabel?: string;
   debtCeiling: string;
@@ -56,8 +56,14 @@ export interface DynamicPoolDataContextData {
 const DynamicPoolDataContext = React.createContext({} as DynamicPoolDataContextData);
 
 export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
-  const { rawReserves, rawUserReserves, userId, marketRefCurrencyDecimals, marketRefPriceInUsd } =
-    useStaticPoolDataContext();
+  const {
+    rawReserves,
+    rawUserReserves,
+    userId,
+    marketRefCurrencyDecimals,
+    marketRefPriceInUsd,
+    userEmodeCategoryId,
+  } = useStaticPoolDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const [lastAvgRatesUpdateTimestamp, setLastAvgRatesUpdateTimestamp] = useState(currentTimestamp);
 
@@ -74,6 +80,7 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
           marketRefPriceInUsd,
           marketRefCurrencyDecimals,
           rawUserReserves,
+          userEmodeCategoryId,
         })
       : undefined;
   const formattedPoolReserves: ComputedReserveData[] = rawReserves.map((reserve) => {
@@ -92,6 +99,10 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
       ),
       borrowableInIsolation: reserve.borrowableInIsolation ? reserve.borrowableInIsolation : false,
     };
+    // TO-DO: Remove this, this is temporary to test eMode
+    if (fullReserve.symbol.toLowerCase() === 'usdc' || fullReserve.symbol.toLowerCase() === 'dai') {
+      fullReserve.eModeCategoryId = 1;
+    }
     return fullReserve;
   });
 
