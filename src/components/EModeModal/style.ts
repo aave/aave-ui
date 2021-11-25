@@ -47,6 +47,12 @@ const staticStyles = css.global`
     &__button {
       margin: 0 auto;
     }
+
+    &__error {
+      font-size: 10px;
+      max-width: 400px;
+      margin: 20px auto;
+    }
   }
 `;
 

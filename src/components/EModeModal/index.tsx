@@ -8,12 +8,9 @@ import messages from './messages';
 import staticStyles from './style';
 import { getEmodeMessage } from '../../ui-config/branding/DashboardLeftTopLine';
 import DefaultButton from '../basic/DefaultButton';
-import { useTxBuilderContext } from '../../libs/tx-provider';
-import { Pool } from '@aave/contract-helpers';
-import { sendEthTransaction, EthTransactionData } from '../../helpers/send-ethereum-tx';
-import { useWeb3React } from '@web3-react/core';
-import { providers } from 'ethers';
-import { useState } from 'react';
+import { formatUserSummary } from '@aave/math-utils';
+import { useCurrentTimestamp } from '../../libs/pool-data-provider/hooks/use-current-timestamp';
+import { useHistory } from 'react-router';
 
 interface EModeModalProps {
   visible: boolean;
@@ -23,16 +20,14 @@ interface EModeModalProps {
 export default function EModeModal({ visible, setVisible }: EModeModalProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const { userEmodeCategoryId } = useStaticPoolDataContext();
+  const { userEmodeCategoryId, rawUserReserves, marketRefCurrencyDecimals, marketRefPriceInUsd } =
+    useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
-  const { lendingPool } = useTxBuilderContext();
-  const { library: provider } = useWeb3React<providers.Web3Provider>();
-  const [txData, setTxData] = useState({} as EthTransactionData);
+  const currentTimestamp = useCurrentTimestamp(1);
+  const history = useHistory();
+
   const eModeEnabled = userEmodeCategoryId !== 0;
-  // Just to clean up console
-  if (userEmodeCategoryId === 3) {
-    console.log(txData);
-  }
+
   // For now just assuming selected category is stablecoins, in the future this will depend on a selector
   const selectedEmodeCategoryId = 1;
 
@@ -54,32 +49,32 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
     first = false;
   });
 
-  let disableButton = false;
+  let disableError = '';
   user?.userReservesData.forEach((userReserve) => {
     if (
       (Number(userReserve.scaledVariableDebt) > 0 || Number(userReserve.principalStableDebt) > 0) &&
       userReserve.reserve.eModeCategoryId !== selectedEmodeCategoryId
     ) {
-      disableButton = true;
+      disableError = intl.formatMessage(messages.eModeDisabledNote);
     }
   });
-
-  // TO-DO: This will trigger a seperate confirmation screen
-  const handleButtonPress = async () => {
-    const newPool: Pool = lendingPool as Pool;
-    if (eModeEnabled) {
-      const disableTransaction = await newPool.setUserEMode({
-        user: user ? user.id : '',
-        categoryId: 0,
-      });
-      await sendEthTransaction(disableTransaction[0].tx, provider, setTxData, null);
-    } else {
-      const enableTransaction = await newPool.setUserEMode({
-        user: user ? user.id : '',
-        categoryId: selectedEmodeCategoryId,
-      });
-      await sendEthTransaction(enableTransaction[0].tx, provider, setTxData, null);
+  if (eModeEnabled && rawUserReserves) {
+    const newSummary = formatUserSummary({
+      currentTimestamp,
+      marketRefPriceInUsd,
+      marketRefCurrencyDecimals,
+      rawUserReserves,
+      userEmodeCategoryId: 0,
+    });
+    if (Number(newSummary.healthFactor) < 1.01) {
+      disableError = intl.formatMessage(messages.eModeDisabledLiquidation);
     }
+  }
+
+  const handleButtonPress = async () => {
+    const newMode = eModeEnabled ? '0' : selectedEmodeCategoryId.toString();
+    const url = '/emode/confirm/' + newMode;
+    history.push(url);
   };
 
   return (
@@ -124,12 +119,7 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
           >
             {avaialbleAssetsText}
           </Row>
-          {/* TO-DO: Need styling here */}
-          {disableButton ? (
-            <p style={{ fontSize: '10px' }}>{intl.formatMessage(messages.eModeDisabledNote)}</p>
-          ) : (
-            <></>
-          )}
+          {disableError ? <div className="EModeModal__error">{disableError}</div> : <></>}
 
           <DefaultButton
             onClick={handleButtonPress}
@@ -140,7 +130,7 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
                 : intl.formatMessage(messages.enableEmode)
             }
             mobileBig={true}
-            disabled={disableButton}
+            disabled={disableError !== ''}
             type="submit"
           />
         </div>

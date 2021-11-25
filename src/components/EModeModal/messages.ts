@@ -13,4 +13,6 @@ export default defineMessages({
   disableEmode: 'Disable E-Mode',
   eModeDisabledNote:
     'Note: The E-Mode feature is currently unavialble because you currently have borrowing positions in another category. In order to enable E-Mode for this asset category you will need to close your position in the other category',
+  eModeDisabledLiquidation:
+    'Note: Cannot disable E-Mode if disable will leave user under-collateralized',
 });
