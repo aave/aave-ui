@@ -145,18 +145,7 @@ export const usePoolData = () => {
   );
 
   if (rpcMode) {
-    const marketRefPriceInUsd = rpcData?.reserves?.baseCurrencyData
-      ?.marketReferenceCurrencyPriceInUsd
-      ? rpcData.reserves.baseCurrencyData?.marketReferenceCurrencyPriceInUsd
-      : '0';
-
-    const marketRefCurrencyDecimals = rpcData?.reserves?.baseCurrencyData
-      ?.marketReferenceCurrencyDecimals
-      ? rpcData.reserves.baseCurrencyData?.marketReferenceCurrencyDecimals
-      : 18;
     return {
-      marketRefPriceInUsd,
-      marketRefCurrencyDecimals,
       loading: rpcDataLoading,
       data: rpcData,
       error: rpcDataError,
@@ -164,19 +153,7 @@ export const usePoolData = () => {
     };
   }
 
-  const marketRefPriceInUsd = cachedData?.reserves?.baseCurrencyData
-    ?.marketReferenceCurrencyPriceInUsd
-    ? cachedData.reserves.baseCurrencyData?.marketReferenceCurrencyPriceInUsd
-    : '0';
-
-  const marketRefCurrencyDecimals = cachedData?.reserves?.baseCurrencyData
-    ?.marketReferenceCurrencyDecimals
-    ? cachedData.reserves.baseCurrencyData?.marketReferenceCurrencyDecimals
-    : 18;
-
   return {
-    marketRefPriceInUsd,
-    marketRefCurrencyDecimals,
     loading: cachedDataLoading,
     data: cachedData,
     error: cachedDataError,

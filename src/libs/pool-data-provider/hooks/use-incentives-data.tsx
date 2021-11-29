@@ -9,6 +9,13 @@ import {
   ChainId,
 } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../../protocol-data-provider';
+import {
+  PoolIncentivesWithCache,
+  useCachedIncentivesData,
+} from '../../caching-server-data-provider/hooks/use-cached-incentives-data';
+import { useUserWalletDataContext } from '../../web3-data-provider';
+import { useConnectionStatusContext } from '../../connection-status-provider';
+import { useApolloConfigContext } from '../../apollo-config';
 
 // interval in which the rpc data is refreshed
 const POOLING_INTERVAL = 30 * 1000;
@@ -188,3 +195,52 @@ export function useRPCIncentivesData(
     },
   };
 }
+
+export const useIncentiveData = () => {
+  const { currentAccount } = useUserWalletDataContext();
+  const { chainId: apolloClientChainId } = useApolloConfigContext();
+  const { chainId, networkConfig, currentMarketData } = useProtocolDataContext();
+  const { isRPCActive } = useConnectionStatusContext();
+
+  const rpcMode = isRPCActive || chainId !== apolloClientChainId;
+
+  const {
+    loading: cachedDataLoading,
+    data: cachedData,
+    error: cachedDataError,
+  }: PoolIncentivesWithCache = useCachedIncentivesData(
+    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+    currentAccount,
+    networkConfig.addresses.chainlinkFeedRegistry,
+    networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
+    rpcMode || !networkConfig.addresses.uiIncentiveDataProvider
+  );
+
+  const {
+    data: rpcData,
+    loading: rpcDataLoading,
+    error: rpcDataError,
+    refresh,
+  }: IncentiveDataResponse = useRPCIncentivesData(
+    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+    chainId,
+    networkConfig.addresses.uiIncentiveDataProvider,
+    !rpcMode || !networkConfig.addresses.uiIncentiveDataProvider,
+    currentAccount
+  );
+
+  if (rpcMode) {
+    return {
+      loading: rpcDataLoading,
+      data: rpcData,
+      error: rpcDataError,
+      refresh,
+    };
+  }
+
+  return {
+    loading: cachedDataLoading,
+    data: cachedData,
+    error: cachedDataError,
+  };
+};

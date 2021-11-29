@@ -62,8 +62,16 @@ export function StaticPoolDataProvider({
     [address: string]: { amount: string; amountUSD: string };
   }>({});
 
-  const { loading, data, error, refresh, marketRefPriceInUsd, marketRefCurrencyDecimals } =
-    usePoolData();
+  const { loading, data, error, refresh } = usePoolData();
+
+  const marketRefPriceInUsd = data?.reserves?.baseCurrencyData?.marketReferenceCurrencyPriceInUsd
+    ? data.reserves.baseCurrencyData?.marketReferenceCurrencyPriceInUsd
+    : '0';
+
+  const marketRefCurrencyDecimals = data?.reserves?.baseCurrencyData
+    ?.marketReferenceCurrencyDecimals
+    ? data.reserves.baseCurrencyData?.marketReferenceCurrencyDecimals
+    : 18;
 
   async function fetchWalletData() {
     if (!currentAccount || !data?.reserves) return;
