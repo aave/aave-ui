@@ -32,6 +32,7 @@ export default function MarketMobileCard({
   borrowingEnabled,
   stableBorrowRateEnabled,
   isFreezed,
+  isIsolated,
 }: MarketTableItemProps) {
   const intl = useIntl();
   const history = useHistory();
@@ -72,6 +73,7 @@ export default function MarketMobileCard({
   return (
     <MobileCardWrapper
       symbol={currencySymbol}
+      isIsolated={isIsolated}
       onClick={handleClick}
       withGoToTop={true}
       className="MarketMobileCard"

@@ -7,6 +7,7 @@ import Value from '../../../../components/basic/Value';
 import FreezedWarning from '../../../../components/FreezedWarning';
 import NoData from '../../../../components/basic/NoData';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IsolatedBadge from '../../../../components/isolationMode/IsolatedBadge';
 import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import staticStyles from './style';
@@ -82,7 +83,7 @@ export default function MarketTableItem({
           tokenFullName={asset.name}
           className="MarketTableItem__token"
         />
-        {isIsolated && <div>Is-isolated</div>}
+        {isIsolated && <IsolatedBadge />}
       </TableColumn>
       <TableColumn className="MarketTableItem__column">
         <Value

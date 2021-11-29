@@ -19,22 +19,19 @@ const staticStyles = css.global`
 
     &__column {
       &:first-child {
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
         justify-content: flex-start;
         min-width: 270px;
         @media only screen and (max-width: 850px) {
+          flex-direction: column;
+          align-items: flex-start;
           min-width: 80px;
-        }
-        @include respond-to(sm) {
-          max-width: 60px;
-          min-width: 60px;
-        }
-        @include respond-to(xs) {
-          max-width: 60px;
-          min-width: 35px;
-        }
-        @media only screen and (max-width: 400px) {
-          max-width: 40px;
+
+          .IsolatedBadge {
+            margin-left: 0;
+            margin-top: 5px;
+          }
         }
       }
       &:nth-child(3) {

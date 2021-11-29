@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import toggleLocalStorageClick from '../../../../helpers/toggle-local-storage-click';
@@ -18,7 +19,6 @@ import MarketMobileCard from '../../components/MarketMobileCard';
 
 import messages from './messages';
 import staticStyles from './style';
-import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 
 export default function Markets() {
   const intl = useIntl();

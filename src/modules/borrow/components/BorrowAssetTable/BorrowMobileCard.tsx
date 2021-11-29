@@ -27,6 +27,7 @@ export default function BorrowMobileCard({
   isFreezed,
   vincentivesAPR,
   sincentivesAPR,
+  isIsolated,
 }: BorrowTableItem) {
   const intl = useIntl();
   const history = useHistory();
@@ -39,6 +40,7 @@ export default function BorrowMobileCard({
       symbol={symbol}
       withGoToTop={true}
       disabled={isFreezed}
+      isIsolated={isIsolated}
     >
       <Row title={intl.formatMessage(messages.availableToBorrow)} withMargin={true}>
         {!userId || Number(availableBorrows) <= 0 ? (

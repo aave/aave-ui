@@ -3,12 +3,15 @@ import { useIntl } from 'react-intl';
 import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { PERMISSION } from '@aave/contract-helpers';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 import {
   ComputedReserveData,
   useDynamicPoolDataContext,
   useStaticPoolDataContext,
 } from '../../../../libs/pool-data-provider';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import NoDataPanel from '../../../../components/NoDataPanel';
 import AssetsFilterPanel from '../../../../components/AssetsFilterPanel';
@@ -16,16 +19,13 @@ import BorrowAssetTable from '../../components/BorrowAssetTable';
 import BorrowMobileCard from '../../components/BorrowAssetTable/BorrowMobileCard';
 import DepositBorrowMainWrapper from '../../../../components/wrappers/DepositBorrowMainWrapper';
 import Card from '../../../../components/wrappers/DepositBorrowMainWrapper/components/Card';
+import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
+import { getEmodeMessage } from '../../../../ui-config/branding/DashboardLeftTopLine';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { BorrowTableItem } from '../../components/BorrowAssetTable/types';
-import { isAssetStable } from '../../../../helpers/config/assets-config';
-import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
-import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
-import { USD_DECIMALS } from '@aave/math-utils';
-import { getEmodeMessage } from '../../../../ui-config/branding/DashboardLeftTopLine';
 
 export default function BorrowMain() {
   const intl = useIntl();
@@ -161,6 +161,7 @@ export default function BorrowMain() {
                   id={item.id}
                   value={item.currentBorrows.toString()}
                   underlyingAsset={item.underlyingAsset}
+                  isIsolated={item.isIsolated}
                 />
               )}
             </React.Fragment>

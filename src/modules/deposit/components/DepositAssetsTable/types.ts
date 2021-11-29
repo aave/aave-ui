@@ -12,4 +12,5 @@ export type DepositTableItem = {
   userId?: string;
   borrowingEnabled: boolean;
   isFreezed?: boolean;
+  isIsolated: boolean;
 };

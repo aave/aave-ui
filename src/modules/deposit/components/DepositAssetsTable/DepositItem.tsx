@@ -18,14 +18,20 @@ export default function DepositItem({
   liquidityRate,
   avg30DaysLiquidityRate,
   userId,
-  borrowingEnabled,
   isFreezed,
   aincentivesAPR,
+  isIsolated,
 }: DepositTableItem) {
   const url = `/deposit/${underlyingAsset}-${id}`;
 
   return (
-    <TableItem symbol={symbol} url={url} isFreezed={isFreezed} darkOnDarkMode={true}>
+    <TableItem
+      symbol={symbol}
+      url={url}
+      isFreezed={isFreezed}
+      darkOnDarkMode={true}
+      isIsolated={isIsolated}
+    >
       <TableColumn>
         {!userId || Number(walletBalance) <= 0 ? (
           <NoData color="dark" />
