@@ -66,7 +66,7 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
       rawUserReserves,
       userEmodeCategoryId: 0,
     });
-    if (Number(newSummary.healthFactor) < 1.01) {
+    if (Number(newSummary.healthFactor) < 1.01 && newSummary.healthFactor !== '-1') {
       disableError = intl.formatMessage(messages.eModeDisabledLiquidation);
     }
   }
