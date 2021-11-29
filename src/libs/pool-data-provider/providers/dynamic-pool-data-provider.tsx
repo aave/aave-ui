@@ -10,6 +10,7 @@ import {
   normalize,
 } from '@aave/math-utils';
 import BigNumber from 'bignumber.js';
+import { UserReserveDataExtended } from '..';
 
 export interface ComputedReserveData extends FormatReserveUSDResponse {
   id: string;
@@ -45,6 +46,7 @@ export interface ComputedReserveData extends FormatReserveUSDResponse {
 export interface UserSummary extends FormatUserSummaryResponse {
   id: string;
   isInIsolationMode: boolean;
+  isolatedReserve?: UserReserveDataExtended;
   // isolatedAvailableBorrows: string;
 }
 
@@ -119,6 +121,7 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
       id: userId,
       ...computedUserData,
       isInIsolationMode: !!isolatedReserve,
+      isolatedReserve,
       availableBorrowsMarketReferenceCurrency: isolatedAvailableBorrows,
     };
   }

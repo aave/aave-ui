@@ -16,6 +16,7 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { DepositTableItem } from './types';
+import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 
 export default function DepositItem({
   reserve: { symbol, liquidityRate, id, underlyingAsset },
@@ -34,12 +35,14 @@ export default function DepositItem({
   const intl = useIntl();
   const { currentTheme, xl, lg, md } = useThemeContext();
   const { currentMarketData } = useProtocolDataContext();
+  const { user } = useDynamicPoolDataContext();
 
   const swiperWidth = xl && !lg ? 30 : md ? 30 : 40;
   const swiperHeight = xl && !lg ? 16 : md ? 16 : 20;
 
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
-
+  const disableCollateral =
+    user?.isInIsolationMode && user.isolatedReserve?.underlyingAsset !== underlyingAsset;
   return (
     <TableItem tokenSymbol={symbol} color={uiColor}>
       <TableValueCol
@@ -63,7 +66,7 @@ export default function DepositItem({
           onColor={currentTheme.green.hex}
           offColor={currentTheme.red.hex}
           onSwitch={onToggleSwitch}
-          disabled={!usageAsCollateralEnabledOnThePool}
+          disabled={!usageAsCollateralEnabledOnThePool || disableCollateral}
           swiperHeight={swiperHeight}
           swiperWidth={swiperWidth}
         />
