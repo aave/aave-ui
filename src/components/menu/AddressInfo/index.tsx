@@ -12,7 +12,7 @@ import ConnectButton from '../../ConnectButton';
 import staticStyles from './style';
 import messages from './messages';
 import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
-import useGetEnsName from '../../../libs/hooks/use-get-ens-name';
+import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
 
 export default function AddressInfo() {
   const intl = useIntl();
@@ -25,7 +25,7 @@ export default function AddressInfo() {
     currentProviderName,
     availableAccounts,
   } = useUserWalletDataContext();
-  const { ensName } = useGetEnsName(currentAccount);
+  const { ensName } = useStaticPoolDataContext();
   const ensNameAbbreviated = ensName
     ? ensName.length > 18
       ? textCenterEllipsis(ensName, 12, 3)

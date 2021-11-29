@@ -11,6 +11,7 @@ import { ChainId } from '@aave/contract-helpers';
 import { usePoolData } from '../hooks/use-pool-data';
 import { ReserveDataHumanized, UserReserveDataHumanized } from '@aave/contract-helpers';
 import { normalize } from '@aave/math-utils';
+import useGetEns from '../../hooks/use-get-ens';
 
 /**
  * removes the marketPrefix from a symbol
@@ -37,6 +38,7 @@ export interface StaticPoolDataContextData {
   marketRefCurrencyDecimals: number;
   marketRefPriceInUsd: string;
   WrappedBaseNetworkAssetAddress: string;
+  ensName?: string;
   refresh: () => Promise<void>;
 }
 
@@ -57,6 +59,7 @@ export function StaticPoolDataProvider({
   const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
+  const { ensName } = useGetEns(currentAccount);
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
 
   const {
@@ -177,6 +180,7 @@ export function StaticPoolDataProvider({
         marketRefPriceInUsd: normalize(marketRefPriceInUsd, 8),
         marketRefCurrencyDecimals,
         isUserHasDeposits,
+        ensName,
       }}
     >
       {children}

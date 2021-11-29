@@ -4,7 +4,7 @@ import { getProvider } from '../../helpers/config/markets-and-network-config';
 
 const mainnetProvider = getProvider(ChainId.mainnet);
 
-const useGetEnsName = (address: string) => {
+const useGetEns = (address: string) => {
   const [ensName, setEnsName] = useState<string | undefined>(undefined);
 
   const getRecord = async (address: string) => {
@@ -27,4 +27,4 @@ const useGetEnsName = (address: string) => {
   return { ensName };
 };
 
-export default useGetEnsName;
+export default useGetEns;
