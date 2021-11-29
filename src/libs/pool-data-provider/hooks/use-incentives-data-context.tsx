@@ -29,7 +29,7 @@ import { useCurrentTimestamp } from './use-current-timestamp';
 import {
   IncentiveDataResponse,
   ReserveIncentiveData,
-  useIncentivesData,
+  useRPCIncentivesData,
   UserReserveIncentiveData,
 } from './use-incentives-data';
 
@@ -72,7 +72,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     loading: rpcDataLoading,
     error: rpcDataError,
     refresh,
-  }: IncentiveDataResponse = useIncentivesData(
+  }: IncentiveDataResponse = useRPCIncentivesData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     chainId,
     networkConfig.addresses.uiIncentiveDataProvider,

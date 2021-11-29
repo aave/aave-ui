@@ -17,7 +17,7 @@ function PoolTxConfirmationView({ onMainTxConfirmed, ...props }: PoolTxConfirmat
       onMainTxConfirmed();
     }
     if (isRPCActive) {
-      refresh();
+      refresh && refresh();
       refreshIncentives();
     }
     refetchWalletData();

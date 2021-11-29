@@ -65,7 +65,7 @@ export interface IncentiveDataResponse {
 }
 
 // Fetch reserve and user incentive data from UiIncentiveDataProvider
-export function useIncentivesData(
+export function useRPCIncentivesData(
   lendingPoolAddressProvider: string,
   chainId: ChainId,
   incentiveDataProviderAddress: string | undefined,

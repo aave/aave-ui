@@ -8,6 +8,11 @@ import {
 } from '@aave/contract-helpers';
 import { usePolling } from '../../hooks/use-polling';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
+import { useUserWalletDataContext } from '../../web3-data-provider';
+import { useApolloConfigContext } from '../../apollo-config';
+import { useProtocolDataContext } from '../../protocol-data-provider';
+import { useConnectionStatusContext } from '../../connection-status-provider';
+import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/use-cached-protocol-data';
 
 // interval in which the rpc data is refreshed
 const POLLING_INTERVAL = 30 * 1000;
@@ -23,7 +28,7 @@ export interface PoolDataResponse {
 }
 
 // Fetch reserve and user incentive data from UiIncentiveDataProvider
-export function usePoolData(
+export function useRPCPoolData(
   lendingPoolAddressProvider: string,
   chainId: ChainId,
   poolDataProviderAddress: string,
@@ -107,3 +112,73 @@ export function usePoolData(
     },
   };
 }
+
+export const usePoolData = () => {
+  const { currentAccount } = useUserWalletDataContext();
+  const { chainId: apolloClientChainId } = useApolloConfigContext();
+  const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
+  const { isRPCActive } = useConnectionStatusContext();
+
+  const rpcMode = isRPCActive || chainId !== apolloClientChainId;
+
+  const {
+    error: cachedDataError,
+    loading: cachedDataLoading,
+    data: cachedData,
+  } = useCachedProtocolData(
+    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+    currentAccount,
+    rpcMode
+  );
+
+  const {
+    error: rpcDataError,
+    loading: rpcDataLoading,
+    data: rpcData,
+    refresh,
+  } = useRPCPoolData(
+    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+    chainId,
+    networkConfig.addresses.uiPoolDataProvider,
+    !rpcMode,
+    currentAccount
+  );
+
+  if (rpcMode) {
+    const marketRefPriceInUsd = rpcData?.reserves?.baseCurrencyData
+      ?.marketReferenceCurrencyPriceInUsd
+      ? rpcData.reserves.baseCurrencyData?.marketReferenceCurrencyPriceInUsd
+      : '0';
+
+    const marketRefCurrencyDecimals = rpcData?.reserves?.baseCurrencyData
+      ?.marketReferenceCurrencyDecimals
+      ? rpcData.reserves.baseCurrencyData?.marketReferenceCurrencyDecimals
+      : 18;
+    return {
+      marketRefPriceInUsd,
+      marketRefCurrencyDecimals,
+      loading: rpcDataLoading,
+      data: rpcData,
+      error: rpcDataError,
+      refresh,
+    };
+  }
+
+  const marketRefPriceInUsd = cachedData?.reserves?.baseCurrencyData
+    ?.marketReferenceCurrencyPriceInUsd
+    ? cachedData.reserves.baseCurrencyData?.marketReferenceCurrencyPriceInUsd
+    : '0';
+
+  const marketRefCurrencyDecimals = cachedData?.reserves?.baseCurrencyData
+    ?.marketReferenceCurrencyDecimals
+    ? cachedData.reserves.baseCurrencyData?.marketReferenceCurrencyDecimals
+    : 18;
+
+  return {
+    marketRefPriceInUsd,
+    marketRefCurrencyDecimals,
+    loading: cachedDataLoading,
+    data: cachedData,
+    error: cachedDataError,
+  };
+};
