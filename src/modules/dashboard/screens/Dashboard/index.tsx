@@ -96,7 +96,7 @@ export default function Dashboard() {
           usageAsCollateralEnabledOnUser: userReserve.usageAsCollateralEnabledOnUser,
           canBeEnabledAsCollateral:
             poolReserve.usageAsCollateralEnabled &&
-            (!poolReserve.isIsolated ||
+            ((!poolReserve.isIsolated && !user.isInIsolationMode) ||
               user.isolatedReserve?.underlyingAsset === poolReserve.underlyingAsset ||
               (poolReserve.isIsolated && user.totalCollateralMarketReferenceCurrency === '0')),
           underlyingBalance: userReserve.underlyingBalance,
