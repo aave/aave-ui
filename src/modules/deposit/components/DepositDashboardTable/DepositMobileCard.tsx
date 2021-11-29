@@ -23,7 +23,6 @@ import { DepositTableItem } from './types';
 export default function DepositMobileCard({
   reserve: { symbol, liquidityRate, id, underlyingAsset },
   usageAsCollateralEnabledOnUser,
-  usageAsCollateralEnabledOnThePool,
   underlyingBalance,
   underlyingBalanceUSD,
   onToggleSwitch,
@@ -32,6 +31,7 @@ export default function DepositMobileCard({
   avg30DaysLiquidityRate,
   borrowingEnabled,
   aincentivesAPR,
+  canBeEnabledAsCollateral,
 }: DepositTableItem) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -78,13 +78,13 @@ export default function DepositMobileCard({
           className="Row__center"
         >
           <CustomSwitch
-            value={usageAsCollateralEnabledOnUser && usageAsCollateralEnabledOnThePool}
+            value={usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral}
             offLabel={intl.formatMessage(messages.offLabel)}
             onLabel={intl.formatMessage(messages.onLabel)}
             onColor={currentTheme.green.hex}
             offColor={currentTheme.red.hex}
             onSwitch={onToggleSwitch}
-            disabled={!usageAsCollateralEnabledOnThePool}
+            disabled={!canBeEnabledAsCollateral}
             swiperHeight={swiperHeight}
             swiperWidth={swiperWidth}
           />
