@@ -125,6 +125,7 @@ const staticStyles = css.global`
     &__contentEnsAvatar {
       border-radius: 50%;
       width: 20px;
+      padding: 1px;
     }
 
     &__linkIcon {

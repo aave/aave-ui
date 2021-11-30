@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useWeb3React } from '@web3-react/core';
 import classNames from 'classnames';
-import { DropdownWrapper, rgba, textCenterEllipsis, useThemeContext } from '@aave/aave-ui-kit';
+import {
+  DropdownWrapper,
+  gradient,
+  rgba,
+  textCenterEllipsis,
+  useThemeContext,
+} from '@aave/aave-ui-kit';
 
 import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 import { useMenuContext } from '../../../libs/menu';
@@ -51,6 +57,13 @@ export default function AddressInfo() {
 
   const borderColor = rgba(`${currentTheme.darkBlue.rgb}, 0.1`);
   const hoverColor = rgba(`${currentTheme.darkBlue.rgb}, 0.05`);
+  const gradientBorder = gradient(
+    252,
+    `${currentTheme.primary.rgb}, 1`,
+    33,
+    `${currentTheme.secondary.rgb}, 1`,
+    100
+  );
 
   return (
     <div className="AddressInfo">
@@ -68,7 +81,7 @@ export default function AddressInfo() {
               type="button"
             >
               {ensAvatar ? (
-                <img src={ensAvatar} className="AddressInfo__content-EnsAvatar" alt="" />
+                <img src={ensAvatar} className="AddressInfo__contentEnsAvatar" alt="" />
               ) : (
                 <></>
               )}
@@ -182,6 +195,10 @@ export default function AddressInfo() {
             i {
               background: ${networkColor};
             }
+          }
+
+          &__contentEnsAvatar {
+            background: ${gradientBorder};
           }
 
           &__contentButton {
