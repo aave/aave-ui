@@ -14,6 +14,7 @@
 # Aave protocol interface :ghost:
 
 An open source interface for the decentralized liquidity protocol Aave
+
 Enabling users to:
 
 - Manage and monitor their positions on the Aave Protocol, and the overall status of it
@@ -22,13 +23,14 @@ Enabling users to:
 
 ## IPFS deployment
 
-Each commit gets deployed to IPFS automatically.
-There's a github action commenting the appropriate ipfs hash embedded in the Cloudflare IPFS gateway after each commit
+Each commit gets deployed to IPFS automatically
+
+There's a github action commenting the appropriate IPFS hash embedded in the Cloudflare IPFS gateway after each commit
 
 For ease of use:
 
-- the DNS of [https://staging.aave.com](https://staging.aave.com) will always point to the latest master ipfs hash with all networks enabled
-- the DNS of [https://app.aave.com](https://app.aave.com) will always point to the latest master ipfs hash with disabled test networks
+- the DNS of [https://staging.aave.com](https://staging.aave.com) will always point to the latest master IPFS hash with all networks enabled
+- the DNS of [https://app.aave.com](https://app.aave.com) will always point to the latest master IPFS hash with disabled test networks
 
 ## Troubleshooting
 
