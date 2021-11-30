@@ -39,6 +39,7 @@ export interface StaticPoolDataContextData {
   marketRefPriceInUsd: string;
   WrappedBaseNetworkAssetAddress: string;
   ensName?: string;
+  ensAvatar?: string;
   refresh: () => Promise<void>;
 }
 
@@ -59,7 +60,7 @@ export function StaticPoolDataProvider({
   const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
-  const { ensName } = useGetEns(currentAccount);
+  const { name, avatar } = useGetEns(currentAccount);
   const RPC_ONLY_MODE = networkConfig.rpcOnly;
 
   const {
@@ -169,7 +170,7 @@ export function StaticPoolDataProvider({
         userId: currentAccount,
         chainId,
         networkConfig,
-        refresh: isRPCActive ? refresh : async () => {},
+        refresh: isRPCActive ? refresh : async () => { },
         WrappedBaseNetworkAssetAddress: networkConfig.baseAssetWrappedAddress
           ? networkConfig.baseAssetWrappedAddress
           : '', // TO-DO: Replace all instances of this with the value from protocol-data-provider instead
@@ -180,7 +181,8 @@ export function StaticPoolDataProvider({
         marketRefPriceInUsd: normalize(marketRefPriceInUsd, 8),
         marketRefCurrencyDecimals,
         isUserHasDeposits,
-        ensName,
+        ensName: name,
+        ensAvatar: avatar,
       }}
     >
       {children}
