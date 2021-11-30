@@ -9,14 +9,19 @@ import AssetSelect from './components/AssetSelect';
 
 import staticStyles from './style';
 
+export type AmountFieldWithSelectSetAsset = (address: string, decimals: number) => void;
+
+export type AmountFieldWithSelectOption = {
+  label: string;
+  value: string;
+  decimals: number;
+};
+
 interface AmountFieldWithSelectProps {
+  symbol?: string;
   asset: string;
-  setAsset: (address: string, decimals: number) => void;
-  options: {
-    label: string;
-    value: string;
-    decimals: number;
-  }[];
+  setAsset: AmountFieldWithSelectSetAsset;
+  options: AmountFieldWithSelectOption[];
   selectTitle: string;
   selectReverseTitle?: boolean;
   amount: string;
@@ -24,7 +29,7 @@ interface AmountFieldWithSelectProps {
   setMaxSelected?: (value: boolean) => void;
   maxAmount?: string;
   amountTitle?: string;
-  amountInUsd: string;
+  amountInUsd?: string;
   percentDifference?: string;
   error?: string;
   disabled?: boolean;
@@ -44,6 +49,7 @@ const getVisibleDecimals = (amount: string = '') => {
 };
 
 export default function AmountFieldWithSelect({
+  symbol,
   asset,
   setAsset,
   options,
@@ -109,7 +115,7 @@ export default function AmountFieldWithSelect({
         <AmountField
           className="AmountFieldWithSelect__field"
           title={amountTitle && amountTitle}
-          symbol=""
+          symbol={symbol ? symbol : ''}
           value={amount}
           onChange={handleAmountChange}
           onMaxButtonClick={!!setMaxSelected ? handleMaxButtonClick : undefined}
@@ -119,12 +125,16 @@ export default function AmountFieldWithSelect({
           disabled={disabled}
           maxDecimals={maxDecimals}
           loading={loading}
+          withSelect={true}
         />
-        <span className="AmountFieldWithSelect__usdValue">
-          = $ {intl.formatNumber(+amountInUsd, { maximumFractionDigits: 2 })}{' '}
-          {!!percentDifference &&
-            `(${intl.formatNumber(+percentDifference, { maximumFractionDigits: 2 })}%)`}
-        </span>
+
+        {amountInUsd && (
+          <span className="AmountFieldWithSelect__usdValue">
+            = $ {intl.formatNumber(+amountInUsd, { maximumFractionDigits: 2 })}{' '}
+            {!!percentDifference &&
+              `(${intl.formatNumber(+percentDifference, { maximumFractionDigits: 2 })}%)`}
+          </span>
+        )}
       </div>
 
       <style jsx={true} global={true}>

@@ -40,7 +40,7 @@ function WithdrawAmount({
 
   let maxUserAmountToWithdraw = BigNumber.min(
     userReserve.underlyingBalance,
-    poolReserve.availableLiquidity
+    poolReserve.unborrowedLiquidity
   ).toString(10);
 
   if (

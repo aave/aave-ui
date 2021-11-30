@@ -57,7 +57,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCWSUrl: 'wss://polygon-rpc.com',
     addresses: {
       walletBalanceProvider: '0x34aa032bC416Cf2CdC45c0C8f065b1F19463D43e',
-      uiPoolDataProvider: '0x538C84EA84F655f2e04eBfAD4948abA9495A2Fc3',
+      uiPoolDataProvider: '0xDb49B99073C2AE890708227Dc83B1781bF01512D',
       uiIncentiveDataProvider: '0xC5093EDAC52f4DD68b42433eA8754B26eAbb1A48',
     },
     cachingServerUrl: 'https://cache-api-polygon.aave.com/graphql',
@@ -71,7 +71,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     rewardTokenDecimals: 18,
     incentivePrecision: 18,
     explorerLink: 'https://polygonscan.com',
-    rpcOnly: false,
+    rpcOnly: true,
     bridge: {
       brandColor: '130, 71, 229',
       name: 'Polygon PoS Bridge',
@@ -85,7 +85,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCWSUrl: 'wss://rpc-mumbai.maticvigil.com',
     addresses: {
       walletBalanceProvider: '0xEe7c0172c200e12AFEa3C34837052ec52F3f367A',
-      uiPoolDataProvider: '0xafcE41554C19FfC87293Fb30C33c17614f61e7eD',
+      uiPoolDataProvider: '0x9842E5B7b7C6cEDfB1952a388e050582Ff95645b',
       uiIncentiveDataProvider: '0x04110Dc40B04b99B94840E53B2a33bE45E45A8Ed',
     },
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/aave-v2-polygon-mumbai',
@@ -106,7 +106,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCWSUrl: 'wss://api.avax-test.network/ext/bc/C/rpc',
     addresses: {
       walletBalanceProvider: '0x3f5A507B33260a3869878B31FB90F04F451d28e3',
-      uiPoolDataProvider: '0xDb49B99073C2AE890708227Dc83B1781bF01512D',
+      uiPoolDataProvider: '0x93cc892330DFc071e87679468FeE054Cb05074ec',
       uiIncentiveDataProvider: '0x2c911e6FaD423C00205eda22BBAc3e7F82c38007',
     },
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-fuji',
@@ -157,6 +157,35 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
       name: 'Avalanche Bridge',
       url: 'https://bridge.avax.network/',
       logo: avalancheBridgeLogo,
+    },
+  },
+  [ChainId.arbitrum_rinkeby]: {
+    name: 'Arbitrum Rinkeby',
+    publicJsonRPCUrl: ['https://rinkeby.arbitrum.io/rpc'],
+    publicJsonRPCWSUrl: 'wss://rinkeby.arbitrum.io/rpc',
+    addresses: {
+      walletBalanceProvider: '0x3092e3557521C186c44fB4D802007f2B4126b9b3',
+      uiPoolDataProvider: '0x39305C6010cd07C34C38AB872f550B9b6bedbAE1',
+      // uiIncentiveDataProvider: '0xD0fbc73f1E3be7267AA23D8d74194887a862e02e',
+    },
+    protocolDataUrl: '',
+    baseUniswapAdapter: '0x0',
+    baseAsset: 'ARETH',
+    baseAssetWrappedAddress: '0x217F76f6332aAC6854CAf224B98eD95412940151',
+    // incentives hardcoded information
+    rewardTokenSymbol: '',
+    rewardTokenAddress: '',
+    rewardTokenDecimals: 0,
+    incentivePrecision: 0,
+    explorerLink: 'https://testnet.arbiscan.io/',
+    rpcOnly: true,
+    usdMarket: true,
+    isTestnet: true,
+    bridge: {
+      brandColor: '232, 65, 66',
+      name: 'Arbitrum Bridge',
+      url: 'https://bridge.arbitrum.io',
+      logo: avalancheBridgeLogo, // TO-DO: Update
     },
   },
 } as const;

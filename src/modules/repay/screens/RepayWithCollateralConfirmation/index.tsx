@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { valueToBigNumber, BigNumber, InterestRate, API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
-
 import {
   useDynamicPoolDataContext,
   useStaticPoolDataContext,
 } from '../../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
+import RepayContentWrapper from '../../components/RepayContentWrapper';
 import Row from '../../../../components/basic/Row';
 import NoDataPanel from '../../../../components/NoDataPanel';
 import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationView';
@@ -24,6 +24,7 @@ import { isAssetStable } from '../../../../helpers/config/assets-config';
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import { ChainId } from '@aave/contract-helpers';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 interface QueryParams {
   fromAsset?: string;
@@ -115,13 +116,15 @@ function RepayWithCollateralConfirmation({
   const displayAmountToRepay = BigNumber.min(debtToRepay, maxDebtToRepay);
   const displayAmountToRepayInUsd = displayAmountToRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd);
+    .multipliedBy(marketRefPriceInUsd)
+    .shiftedBy(-USD_DECIMALS);
 
   const amountAfterRepay = maxDebtToRepay.minus(debtToRepay).toString();
   const displayAmountAfterRepay = BigNumber.min(amountAfterRepay, maxDebtToRepay);
   const displayAmountAfterRepayInUsd = displayAmountAfterRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd);
+    .multipliedBy(marketRefPriceInUsd)
+    .shiftedBy(-USD_DECIMALS);
 
   const { hfAfterSwap, hfInitialEffectOfFromAmount } = calculateHFAfterRepay(
     fromAmountQuery,
@@ -170,90 +173,92 @@ function RepayWithCollateralConfirmation({
       : '';
 
   return (
-    <PoolTxConfirmationView
-      mainTxName={intl.formatMessage(defaultMessages.repay)}
-      caption={intl.formatMessage(messages.caption)}
-      boxTitle={intl.formatMessage(defaultMessages.repay)}
-      boxDescription={intl.formatMessage(messages.boxDescription)}
-      approveDescription={intl.formatMessage(messages.approveDescription)}
-      getTransactionsData={handleGetTransactions}
-      onMainTxExecuted={handleMainTxExecuted}
-      blockingError={blockingError}
-      goToAfterSuccess="/dashboard/borrowings"
-      warningMessage={warningMessage}
-      dangerousMessage={intl.formatMessage(messages.dangerousMessage)}
-      allowedChainIds={[ChainId.mainnet, ChainId.kovan]}
-    >
-      <Row title={intl.formatMessage(messages.rowTitle)} withMargin={true}>
-        <Value
-          symbol={fromAssetData?.symbol}
-          value={fromAmountQuery.toString()}
-          tokenIcon={true}
-          subValue={fromAmountUsdQuery.toString()}
-          subSymbol="USD"
-          maximumValueDecimals={isAssetStable(fromAssetData?.symbol || '') ? 4 : 12}
-          maximumSubValueDecimals={4}
-          updateCondition={isTxExecuted}
-          tooltipId={fromAssetData?.symbol}
-        />
-      </Row>
-
-      <Row
-        title={intl.formatMessage(messages.rowTitle)}
-        subTitle={intl.formatMessage(messages.inBorrowCurrency)}
-        withMargin={true}
+    <RepayContentWrapper>
+      <PoolTxConfirmationView
+        mainTxName={intl.formatMessage(defaultMessages.repay)}
+        caption={intl.formatMessage(messages.caption)}
+        boxTitle={intl.formatMessage(defaultMessages.repay)}
+        boxDescription={intl.formatMessage(messages.boxDescription)}
+        approveDescription={intl.formatMessage(messages.approveDescription)}
+        getTransactionsData={handleGetTransactions}
+        onMainTxExecuted={handleMainTxExecuted}
+        blockingError={blockingError}
+        goToAfterSuccess="/dashboard/borrowings"
+        warningMessage={warningMessage}
+        dangerousMessage={intl.formatMessage(messages.dangerousMessage)}
+        allowedChainIds={[ChainId.mainnet, ChainId.kovan]}
       >
-        <Value
-          symbol={currencySymbol}
-          value={displayAmountToRepay.toString()}
-          tokenIcon={true}
-          subValue={displayAmountToRepayInUsd.toString()}
-          subSymbol="USD"
-          maximumValueDecimals={isAssetStable(currencySymbol) ? 4 : 12}
-          maximumSubValueDecimals={4}
+        <Row title={intl.formatMessage(messages.rowTitle)} withMargin={true}>
+          <Value
+            symbol={fromAssetData?.symbol}
+            value={fromAmountQuery.toString()}
+            tokenIcon={true}
+            subValue={fromAmountUsdQuery.toString()}
+            subSymbol="USD"
+            maximumValueDecimals={isAssetStable(fromAssetData?.symbol || '') ? 4 : 12}
+            maximumSubValueDecimals={4}
+            updateCondition={isTxExecuted}
+            tooltipId={fromAssetData?.symbol}
+          />
+        </Row>
+
+        <Row
+          title={intl.formatMessage(messages.rowTitle)}
+          subTitle={intl.formatMessage(messages.inBorrowCurrency)}
+          withMargin={true}
+        >
+          <Value
+            symbol={currencySymbol}
+            value={displayAmountToRepay.toString()}
+            tokenIcon={true}
+            subValue={displayAmountToRepayInUsd.toString()}
+            subSymbol="USD"
+            maximumValueDecimals={isAssetStable(currencySymbol) ? 4 : 12}
+            maximumSubValueDecimals={4}
+            updateCondition={isTxExecuted}
+            tooltipId={currencySymbol}
+          />
+        </Row>
+
+        <Row title={intl.formatMessage(messages.secondRowTitle)} withMargin={true}>
+          <Value
+            symbol={currencySymbol}
+            value={Number(displayAmountAfterRepay) > 0 ? Number(displayAmountAfterRepay) : 0}
+            subValue={
+              Number(displayAmountAfterRepayInUsd) > 0 ? Number(displayAmountAfterRepayInUsd) : 0
+            }
+            subSymbol="USD"
+            maximumSubValueDecimals={4}
+            tokenIcon={true}
+            maximumValueDecimals={18}
+            updateCondition={isTxExecuted}
+            tooltipId={poolReserve.id}
+          />
+        </Row>
+
+        <HealthFactor
+          title={intl.formatMessage(messages.currentHealthFactor)}
+          value={user.healthFactor}
           updateCondition={isTxExecuted}
-          tooltipId={currencySymbol}
+          titleColor="dark"
         />
-      </Row>
 
-      <Row title={intl.formatMessage(messages.secondRowTitle)} withMargin={true}>
-        <Value
-          symbol={currencySymbol}
-          value={Number(displayAmountAfterRepay) > 0 ? Number(displayAmountAfterRepay) : 0}
-          subValue={
-            Number(displayAmountAfterRepayInUsd) > 0 ? Number(displayAmountAfterRepayInUsd) : 0
-          }
-          subSymbol="USD"
-          maximumSubValueDecimals={4}
-          tokenIcon={true}
-          maximumValueDecimals={18}
+        <HealthFactor
+          value={hfAfterSwap.toString()}
+          title={intl.formatMessage(messages.nextHealthFactor)}
+          withoutModal={true}
           updateCondition={isTxExecuted}
-          tooltipId={poolReserve.id}
+          titleColor="dark"
         />
-      </Row>
 
-      <HealthFactor
-        title={intl.formatMessage(messages.currentHealthFactor)}
-        value={user.healthFactor}
-        updateCondition={isTxExecuted}
-        titleColor="dark"
-      />
-
-      <HealthFactor
-        value={hfAfterSwap.toString()}
-        title={intl.formatMessage(messages.nextHealthFactor)}
-        withoutModal={true}
-        updateCondition={isTxExecuted}
-        titleColor="dark"
-      />
-
-      <Row title={intl.formatMessage(messages.maximumSlippage)} withMargin={true}>
-        <ValuePercent value={maxSlippage.toNumber() / 100} />
-      </Row>
-      <Row title={intl.formatMessage(messages.fees)}>
-        <ValuePercent value={totalFees.toNumber() / 100} />
-      </Row>
-    </PoolTxConfirmationView>
+        <Row title={intl.formatMessage(messages.maximumSlippage)} withMargin={true}>
+          <ValuePercent value={maxSlippage.toNumber() / 100} />
+        </Row>
+        <Row title={intl.formatMessage(messages.fees)}>
+          <ValuePercent value={totalFees.toNumber() / 100} />
+        </Row>
+      </PoolTxConfirmationView>
+    </RepayContentWrapper>
   );
 }
 

@@ -77,7 +77,7 @@ export default function NetworkMismatch({
 
   const config = ADD_CONFIG[neededChainId];
   const isAddableByMetamask =
-    (global.window as any)?.ethereum?.isMetaMask && currentProviderName === 'browser' && config;
+    (global.window as any)?.ethereum?.isMetaMask && currentProviderName === 'browser';
   const { publicJsonRPCWSUrl, publicJsonRPCUrl } = getNetworkConfig(neededChainId);
 
   // const isExternalNetworkUpdateNeeded =
@@ -122,22 +122,35 @@ export default function NetworkMismatch({
                 })}
           </p>
 
-          {isAddableByMetamask && config && (
+          {isAddableByMetamask && (
             <DefaultButton
               title={intl.formatMessage(messages.changeNetwork)}
-              onClick={() => {
-                (window as any).ethereum?.request({
-                  method: 'wallet_addEthereumChain',
-                  params: [
-                    {
-                      chainId: `0x${neededChainId.toString(16)}`,
-                      chainName: config.name,
-                      nativeCurrency: config.nativeCurrency,
-                      rpcUrls: [...publicJsonRPCUrl, publicJsonRPCWSUrl],
-                      blockExplorerUrls: config.explorerUrls,
-                    },
-                  ],
-                });
+              onClick={async () => {
+                try {
+                  await (window as any).ethereum?.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: `0x${neededChainId.toString(16)}` }],
+                  });
+                } catch (switchError) {
+                  if (config && switchError.code === 4902) {
+                    try {
+                      await (window as any).ethereum?.request({
+                        method: 'wallet_addEthereumChain',
+                        params: [
+                          {
+                            chainId: `0x${neededChainId.toString(16)}`,
+                            chainName: config.name,
+                            nativeCurrency: config.nativeCurrency,
+                            rpcUrls: [...publicJsonRPCUrl, publicJsonRPCWSUrl],
+                            blockExplorerUrls: config.explorerUrls,
+                          },
+                        ],
+                      });
+                    } catch (addError) {
+                      // TODO: handle error somehow
+                    }
+                  }
+                }
               }}
             />
           )}

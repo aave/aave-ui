@@ -19,6 +19,7 @@ import staticStyles from './style';
 import whiteCloseIcon from '../../../images/whiteCloseIcon.svg';
 import closeIcon from '../../../images/closeIcon.svg';
 import warningIcon from '../../../images/warningIconOrange.svg';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 export interface Gas {
   txName: string;
@@ -178,6 +179,7 @@ export default function EditorModal({
                   <Value
                     value={valueToBigNumber(estimation)
                       .multipliedBy(marketRefPriceInUsd)
+                      .shiftedBy(-USD_DECIMALS)
                       .toNumber()}
                     symbol="USD"
                   />
@@ -198,6 +200,7 @@ export default function EditorModal({
                 className="TxEstimationModal__total"
                 value={valueToBigNumber(totalEstimation)
                   .multipliedBy(marketRefPriceInUsd)
+                  .shiftedBy(-USD_DECIMALS)
                   .toNumber()}
                 symbol="USD"
               />

@@ -175,6 +175,7 @@ export type BaseCurrencyData = {
 export type Block_Height = {
   hash?: Maybe<Scalars['Bytes']>;
   number?: Maybe<Scalars['Int']>;
+  number_gte?: Maybe<Scalars['Int']>;
 };
 
 export type Borrow = UserTransaction & {
@@ -3606,15 +3607,28 @@ export enum ReserveConfigurationHistoryItem_OrderBy {
 export type ReserveData = {
   __typename?: 'ReserveData';
   aTokenAddress: Scalars['String'];
+  accruedToTreasury: Scalars['String'];
   availableLiquidity: Scalars['String'];
   averageStableRate: Scalars['String'];
   baseLTVasCollateral: Scalars['String'];
+  borrowCap: Scalars['String'];
+  borrowableInIsolation: Scalars['Boolean'];
   borrowingEnabled: Scalars['Boolean'];
+  debtCeiling: Scalars['String'];
+  debtCeilingDecimals: Scalars['Float'];
   decimals: Scalars['Float'];
+  eModeCategoryId: Scalars['Float'];
+  eModeLabel: Scalars['String'];
+  eModeLiquidationBonus: Scalars['Float'];
+  eModeLiquidationThreshold: Scalars['Float'];
+  eModeLtv: Scalars['Float'];
+  eModePriceSource: Scalars['String'];
   id: Scalars['String'];
   interestRateStrategyAddress: Scalars['String'];
   isActive: Scalars['Boolean'];
   isFrozen: Scalars['Boolean'];
+  isPaused: Scalars['Boolean'];
+  isolationModeTotalDebt: Scalars['String'];
   lastUpdateTimestamp: Scalars['Float'];
   liquidityIndex: Scalars['String'];
   liquidityRate: Scalars['String'];
@@ -3629,9 +3643,11 @@ export type ReserveData = {
   stableDebtTokenAddress: Scalars['String'];
   stableRateSlope1: Scalars['String'];
   stableRateSlope2: Scalars['String'];
+  supplyCap: Scalars['String'];
   symbol: Scalars['String'];
   totalPrincipalStableDebt: Scalars['String'];
   totalScaledVariableDebt: Scalars['String'];
+  unbacked: Scalars['String'];
   underlyingAsset: Scalars['String'];
   usageAsCollateralEnabled: Scalars['Boolean'];
   variableBorrowIndex: Scalars['String'];
@@ -6428,6 +6444,7 @@ export type UserReserveData = {
   stableBorrowRate: Scalars['String'];
   underlyingAsset: Scalars['String'];
   usageAsCollateralEnabledOnUser: Scalars['Boolean'];
+  userEmodeCategoryId: Scalars['Float'];
 };
 
 export type UserReserve_Filter = {
@@ -7190,6 +7207,8 @@ export type _Block_ = {
   hash?: Maybe<Scalars['Bytes']>;
   /** The block number */
   number: Scalars['Int'];
+  /** The minimum block number */
+  number_gte: Scalars['Int'];
 };
 
 /** The type for the top-level _meta field */
@@ -7386,6 +7405,21 @@ export type ReserveDataFragmentFragment = {
   totalScaledVariableDebt: string;
   lastUpdateTimestamp: number;
   priceInMarketReferenceCurrency: string;
+  isPaused: boolean;
+  accruedToTreasury: string;
+  unbacked: string;
+  isolationModeTotalDebt: string;
+  debtCeiling: string;
+  debtCeilingDecimals: number;
+  eModeCategoryId: number;
+  borrowCap: string;
+  supplyCap: string;
+  eModeLtv: number;
+  eModeLiquidationThreshold: number;
+  eModeLiquidationBonus: number;
+  eModePriceSource: string;
+  eModeLabel: string;
+  borrowableInIsolation: boolean;
 };
 
 export type BaseCurrencyDataFragmentFragment = {
@@ -7440,6 +7474,21 @@ export type C_ProtocolDataQuery = {
       totalScaledVariableDebt: string;
       lastUpdateTimestamp: number;
       priceInMarketReferenceCurrency: string;
+      isPaused: boolean;
+      accruedToTreasury: string;
+      unbacked: string;
+      isolationModeTotalDebt: string;
+      debtCeiling: string;
+      debtCeilingDecimals: number;
+      eModeCategoryId: number;
+      borrowCap: string;
+      supplyCap: string;
+      eModeLtv: number;
+      eModeLiquidationThreshold: number;
+      eModeLiquidationBonus: number;
+      eModePriceSource: string;
+      eModeLabel: string;
+      borrowableInIsolation: boolean;
     }>;
     baseCurrencyData: {
       __typename?: 'BaseCurrencyData';
@@ -7495,6 +7544,21 @@ export type C_ProtocolDataUpdateSubscription = {
       totalScaledVariableDebt: string;
       lastUpdateTimestamp: number;
       priceInMarketReferenceCurrency: string;
+      isPaused: boolean;
+      accruedToTreasury: string;
+      unbacked: string;
+      isolationModeTotalDebt: string;
+      debtCeiling: string;
+      debtCeilingDecimals: number;
+      eModeCategoryId: number;
+      borrowCap: string;
+      supplyCap: string;
+      eModeLtv: number;
+      eModeLiquidationThreshold: number;
+      eModeLiquidationBonus: number;
+      eModePriceSource: string;
+      eModeLabel: string;
+      borrowableInIsolation: boolean;
     }>;
     baseCurrencyData: {
       __typename?: 'BaseCurrencyData';
@@ -7683,6 +7747,7 @@ export type UserReserveDataFragmentFragment = {
   stableBorrowRate: string;
   principalStableDebt: string;
   stableBorrowLastUpdateTimestamp: number;
+  userEmodeCategoryId: number;
 };
 
 export type C_UserDataQueryVariables = Exact<{
@@ -7701,6 +7766,7 @@ export type C_UserDataQuery = {
     stableBorrowRate: string;
     principalStableDebt: string;
     stableBorrowLastUpdateTimestamp: number;
+    userEmodeCategoryId: number;
   }>;
 };
 
@@ -7720,6 +7786,7 @@ export type C_UserDataUpdateSubscription = {
     stableBorrowRate: string;
     principalStableDebt: string;
     stableBorrowLastUpdateTimestamp: number;
+    userEmodeCategoryId: number;
   }>;
 };
 
@@ -7869,6 +7936,21 @@ export const ReserveDataFragmentFragmentDoc = gql`
     totalScaledVariableDebt
     lastUpdateTimestamp
     priceInMarketReferenceCurrency
+    isPaused
+    accruedToTreasury
+    unbacked
+    isolationModeTotalDebt
+    debtCeiling
+    debtCeilingDecimals
+    eModeCategoryId
+    borrowCap
+    supplyCap
+    eModeLtv
+    eModeLiquidationThreshold
+    eModeLiquidationBonus
+    eModePriceSource
+    eModeLabel
+    borrowableInIsolation
   }
 `;
 export const BaseCurrencyDataFragmentFragmentDoc = gql`
@@ -7932,6 +8014,7 @@ export const UserReserveDataFragmentFragmentDoc = gql`
     stableBorrowRate
     principalStableDebt
     stableBorrowLastUpdateTimestamp
+    userEmodeCategoryId
   }
 `;
 export const TokenIncentivesUserDataFragmentFragmentDoc = gql`
