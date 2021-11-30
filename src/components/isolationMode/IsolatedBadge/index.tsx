@@ -7,7 +7,7 @@ import IsolatedAssetModal from '../IsolatedAssetModal';
 import messages from './messages';
 import staticStyles from './style';
 
-import info from '../../../images/info.svg';
+import alert from '../../../images/alertCircle.svg';
 
 export default function IsolatedBadge() {
   const intl = useIntl();
@@ -28,7 +28,7 @@ export default function IsolatedBadge() {
     >
       <p className="IsolatedBadge__text">{intl.formatMessage(messages.isolated)}</p>
       <button className="IsolatedBadge__button" type="button">
-        <img width={xl ? 10 : 12} height={xl ? 10 : 12} src={info} alt="" />
+        <img width={xl ? 14 : 16} height={xl ? 14 : 16} src={alert} alt="" />
       </button>
 
       {isModalVisible && (

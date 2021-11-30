@@ -10,6 +10,10 @@ export default defineMessages({
   depositOffLabel: 'No',
   depositOnLabel: 'Yes',
 
+  depositIsolationWarning:
+    '{symbol} can be supplied as collateral in isolation mode only with limited borrowing power.',
+  borrowIsolationWarning: 'Borrow power and assets are limited due to Isolation mode.',
+
   borrows: 'Borrows',
   borrowed: 'Borrowed',
   loanToValue: 'Loan to value',

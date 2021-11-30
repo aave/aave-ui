@@ -8,8 +8,8 @@ import Link from '../../basic/Link';
 import messages from './messages';
 import staticStyles from './style';
 
-import infoIcon from '../../../images/infoGray.svg';
-import infoIconDark from '../../../images/infoGrayDark.svg';
+import alert from '../../../images/alertCircleGray.svg';
+import alertDark from '../../../images/alertCircleWhite.svg';
 
 interface IsolationInfoBannerProps {
   text: string;
@@ -27,7 +27,7 @@ export default function IsolationInfoBanner({
   withoutMargin,
 }: IsolationInfoBannerProps) {
   const intl = useIntl();
-  const { currentTheme, isCurrentThemeDark } = useThemeContext();
+  const { currentTheme, isCurrentThemeDark, sm } = useThemeContext();
 
   return (
     <div
@@ -35,7 +35,7 @@ export default function IsolationInfoBanner({
         IsolationInfoBanner__withoutMargin: withoutMargin,
       })}
     >
-      {withIcon && <img src={isCurrentThemeDark ? infoIconDark : infoIcon} alt="" />}
+      {withIcon && <img src={isCurrentThemeDark || sm ? alertDark : alert} alt="" />}
       <p>
         {text}{' '}
         <Link
@@ -62,6 +62,12 @@ export default function IsolationInfoBanner({
               ? currentTheme.headerBg.hex
               : currentTheme.darkBlue.hex};
             color: ${currentTheme.white.hex};
+          }
+
+          &__small {
+            @include respond-to(sm) {
+              background: ${currentTheme.headerBg.hex};
+            }
           }
         }
       `}</style>

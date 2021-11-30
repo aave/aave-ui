@@ -33,6 +33,41 @@ const staticStyles = css.global`
       }
     }
 
+    &__small {
+      font-size: $medium;
+      padding: 4px 8px 4px 10px;
+      align-items: flex-start;
+      @include respond-to(xl) {
+        font-size: $small;
+      }
+      @include respond-to(lg) {
+        font-size: $extraSmall;
+      }
+      @include respond-to(md) {
+        font-size: $small;
+      }
+
+      img {
+        position: relative;
+        bottom: 1px;
+        margin-right: 6px;
+        width: 18px;
+        height: 18px;
+        @include respond-to(xl) {
+          width: 16px;
+          height: 16px;
+        }
+        @include respond-to(lg) {
+          width: 14px;
+          height: 14px;
+        }
+        @include respond-to(md) {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+
     &__withoutMargin {
       margin: 0;
     }

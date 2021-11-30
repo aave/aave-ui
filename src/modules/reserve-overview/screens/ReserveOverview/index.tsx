@@ -121,7 +121,11 @@ function ReserveOverview({
         )}
 
         <div className="ReserveOverview__content-wrapper">
-          <ReserveInformation poolReserve={poolReserve} symbol={currencySymbol} />
+          <ReserveInformation
+            poolReserve={poolReserve}
+            symbol={currencySymbol}
+            userIsInIsolationMode={user?.isInIsolationMode || false}
+          />
 
           <div className="ReserveOverview__information ReserveOverview__user-information">
             <h3 className="ReserveOverview__information-title">
