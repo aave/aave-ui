@@ -31,8 +31,9 @@ const staticStyles = css.global`
 
       p {
         margin-bottom: 2px;
-        text-transform: capitalize;
         white-space: nowrap;
+        margin-left: auto;
+        margin-right: auto;
         @include respond-to(sm) {
           margin-bottom: 5px;
         }
@@ -40,6 +41,8 @@ const staticStyles = css.global`
 
       span {
         opacity: 0.5;
+        margin: 0 auto;
+        text-transform: capitalize;
       }
     }
 
@@ -51,23 +54,31 @@ const staticStyles = css.global`
       }
     }
 
-    &__content-caption {
+    &__content-header {
+      border-bottom: 1px solid black;
+    }
+
+    &__content-section {
       padding: 10px 5px 14px;
       @include respond-to(sm) {
         padding: 10px 25px;
       }
+      border-bottom: 1px solid rgba(56, 61, 81, 0.1);
+    }
+    &__content-title {
+      font-size: $small;
+      opacity: 0.5;
+      margin-bottom: 5px;
+      @include respond-to(sm) {
+        font-size: $medium;
+      }
     }
     &__content-network {
-      font-size: $extraSmall;
+      font-size: $medium;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      margin-bottom: 12px;
-      @include respond-to(sm) {
-        margin-bottom: 10px;
-        font-size: $small;
-      }
       span {
         display: inline-flex;
         text-transform: capitalize;
@@ -88,23 +99,31 @@ const staticStyles = css.global`
       }
     }
     &__content-address {
-      font-size: $small;
+      font-size: $medium;
       word-break: break-all;
-      text-align: center;
       @include respond-to(sm) {
         font-size: $regular;
       }
     }
-    &__content-ens {
+    &__content-address-small {
+      text-align: center;
       font-size: $small;
       word-break: break-all;
+    }
+    &__content-ens {
+      font-size: $medium;
+      word-break: break-all;
       text-align: center;
-      margin-top: 12px;
+      margin-bottom: 10px;
       @include respond-to(sm) {
         font-size: $regular;
       }
     }
 
+    &__link-icon {
+      width: 10px;
+      margin-left: 5px;
+    }
     &__contentButton {
       font-weight: 300;
       text-transform: uppercase;

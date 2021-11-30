@@ -13,6 +13,7 @@ import staticStyles from './style';
 import messages from './messages';
 import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
 import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
+import linkIcon from '../../../images/linkIcon.svg';
 
 export default function AddressInfo() {
   const intl = useIntl();
@@ -66,23 +67,41 @@ export default function AddressInfo() {
               onClick={() => setVisible(!visible)}
               type="button"
             >
-              <p>{networkName}</p>
-              <span>
+              <p className="AddressInfo__dropdownText">
                 {ensNameAbbreviated ? ensNameAbbreviated : textCenterEllipsis(currentAccount, 4, 4)}
-              </span>
+              </p>
+              <span className="AddressInfo__dropdownText">{networkName}</span>
             </button>
           }
         >
           <div className="AddressInfo__content">
-            <div className="AddressInfo__content-caption">
-              <p className="AddressInfo__content-network">
-                <i />
-                <span>{intl.formatMessage(messages.networkShortName, { name: longName })}</span>
-              </p>
-              <p className="AddressInfo__content-address">{currentAccount}</p>
-              {ensName ? <p className="AddressInfo__content-ens">{ensName}</p> : <></>}
+            <div className="AddressInfo__content-header">
+              <div className="AddressInfo__content-section">
+                <p className="AddressInfo__content-title">{intl.formatMessage(messages.account)}</p>
+                {ensName ? (
+                  <>
+                    <p className="AddressInfo__content-ens">{ensName}</p>{' '}
+                    <p className="AddressInfo__content-address-small">
+                      <a href={config?.explorerLinkBuilder({ address: currentAccount })}>
+                        {textCenterEllipsis(currentAccount, 14, 4)}
+                        <img className="AddressInfo__link-icon" src={linkIcon} alt="" />
+                      </a>
+                    </p>
+                  </>
+                ) : (
+                  <p className="AddressInfo__content-address">
+                    {textCenterEllipsis(currentAccount, 12, 4)}
+                  </p>
+                )}
+              </div>
+              <div className="AddressInfo__content-section">
+                <p className="AddressInfo__content-title">{intl.formatMessage(messages.network)}</p>
+                <p className="AddressInfo__content-network">
+                  <i />
+                  <span>{longName}</span>
+                </p>
+              </div>
             </div>
-
             <Link
               to="/history"
               className="AddressInfo__contentButton ButtonLink"
