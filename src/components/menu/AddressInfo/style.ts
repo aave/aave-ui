@@ -120,6 +120,11 @@ const staticStyles = css.global`
       }
     }
 
+    &__content-ens-avatar {
+      border-radius: 50%;
+      width: 20px;
+    }
+
     &__link-icon {
       width: 10px;
       margin-left: 5px;

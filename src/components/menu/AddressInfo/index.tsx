@@ -26,7 +26,7 @@ export default function AddressInfo() {
     currentProviderName,
     availableAccounts,
   } = useUserWalletDataContext();
-  const { ensName } = useStaticPoolDataContext();
+  const { ensName, ensAvatar } = useStaticPoolDataContext();
   const ensNameAbbreviated = ensName
     ? ensName.length > 18
       ? textCenterEllipsis(ensName, 12, 3)
@@ -67,6 +67,11 @@ export default function AddressInfo() {
               onClick={() => setVisible(!visible)}
               type="button"
             >
+              {ensAvatar ? (
+                <img src={ensAvatar} className="AddressInfo__content-ens-avatar" alt="" />
+              ) : (
+                <></>
+              )}
               <p className="AddressInfo__dropdownText">
                 {ensNameAbbreviated ? ensNameAbbreviated : textCenterEllipsis(currentAccount, 4, 4)}
               </p>
@@ -79,15 +84,28 @@ export default function AddressInfo() {
               <div className="AddressInfo__content-section">
                 <p className="AddressInfo__content-title">{intl.formatMessage(messages.account)}</p>
                 {ensName ? (
-                  <>
-                    <p className="AddressInfo__content-ens">{ensName}</p>{' '}
-                    <p className="AddressInfo__content-address-small">
-                      <a href={config?.explorerLinkBuilder({ address: currentAccount })}>
-                        {textCenterEllipsis(currentAccount, 14, 4)}
-                        <img className="AddressInfo__link-icon" src={linkIcon} alt="" />
-                      </a>
-                    </p>
-                  </>
+                  ensAvatar ? (
+                    <>
+                      <img src={ensAvatar} className="AddressInfo__content-ens-avatar" alt="" />
+                      <p className="AddressInfo__content-ens">{ensName}</p>{' '}
+                      <p className="AddressInfo__content-address-small">
+                        <a href={config?.explorerLinkBuilder({ address: currentAccount })}>
+                          {textCenterEllipsis(currentAccount, 14, 4)}
+                          <img className="AddressInfo__link-icon" src={linkIcon} alt="" />
+                        </a>
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="AddressInfo__content-ens">{ensName}</p>{' '}
+                      <p className="AddressInfo__content-address-small">
+                        <a href={config?.explorerLinkBuilder({ address: currentAccount })}>
+                          {textCenterEllipsis(currentAccount, 14, 4)}
+                          <img className="AddressInfo__link-icon" src={linkIcon} alt="" />
+                        </a>
+                      </p>
+                    </>
+                  )
                 ) : (
                   <p className="AddressInfo__content-address">
                     {textCenterEllipsis(currentAccount, 12, 4)}
