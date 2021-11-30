@@ -170,7 +170,7 @@ export function StaticPoolDataProvider({
         userId: currentAccount,
         chainId,
         networkConfig,
-        refresh: isRPCActive ? refresh : async () => { },
+        refresh: isRPCActive ? refresh : async () => {},
         WrappedBaseNetworkAssetAddress: networkConfig.baseAssetWrappedAddress
           ? networkConfig.baseAssetWrappedAddress
           : '', // TO-DO: Replace all instances of this with the value from protocol-data-provider instead

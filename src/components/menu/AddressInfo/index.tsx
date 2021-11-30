@@ -68,7 +68,7 @@ export default function AddressInfo() {
               type="button"
             >
               {ensAvatar ? (
-                <img src={ensAvatar} className="AddressInfo__content-ens-avatar" alt="" />
+                <img src={ensAvatar} className="AddressInfo__content-EnsAvatar" alt="" />
               ) : (
                 <></>
               )}
@@ -80,41 +80,41 @@ export default function AddressInfo() {
           }
         >
           <div className="AddressInfo__content">
-            <div className="AddressInfo__content-header">
-              <div className="AddressInfo__content-section">
-                <p className="AddressInfo__content-title">{intl.formatMessage(messages.account)}</p>
+            <div className="AddressInfo__contentHeader">
+              <div className="AddressInfo__contentSection">
+                <p className="AddressInfo__contentTitle">{intl.formatMessage(messages.account)}</p>
                 {ensName ? (
                   ensAvatar ? (
                     <>
-                      <img src={ensAvatar} className="AddressInfo__content-ens-avatar" alt="" />
-                      <p className="AddressInfo__content-ens">{ensName}</p>{' '}
-                      <p className="AddressInfo__content-address-small">
+                      <img src={ensAvatar} className="AddressInfo__contentEnsAvatar" alt="" />
+                      <p className="AddressInfo__contentEns">{ensName}</p>{' '}
+                      <p className="AddressInfo__contentAddressSmall">
                         <a href={config?.explorerLinkBuilder({ address: currentAccount })}>
-                          {textCenterEllipsis(currentAccount, 14, 4)}
-                          <img className="AddressInfo__link-icon" src={linkIcon} alt="" />
+                          {textCenterEllipsis(currentAccount, 10, 4)}
+                          <img className="AddressInfo__linkIcon" src={linkIcon} alt="" />
                         </a>
                       </p>
                     </>
                   ) : (
                     <>
-                      <p className="AddressInfo__content-ens">{ensName}</p>{' '}
-                      <p className="AddressInfo__content-address-small">
+                      <p className="AddressInfo__contentEns">{ensName}</p>{' '}
+                      <p className="AddressInfo__contentAddressSmall">
                         <a href={config?.explorerLinkBuilder({ address: currentAccount })}>
-                          {textCenterEllipsis(currentAccount, 14, 4)}
-                          <img className="AddressInfo__link-icon" src={linkIcon} alt="" />
+                          {textCenterEllipsis(currentAccount, 12, 4)}
+                          <img className="AddressInfo__linkIcon" src={linkIcon} alt="" />
                         </a>
                       </p>
                     </>
                   )
                 ) : (
-                  <p className="AddressInfo__content-address">
+                  <p className="AddressInfo__contentAddress">
                     {textCenterEllipsis(currentAccount, 12, 4)}
                   </p>
                 )}
               </div>
-              <div className="AddressInfo__content-section">
-                <p className="AddressInfo__content-title">{intl.formatMessage(messages.network)}</p>
-                <p className="AddressInfo__content-network">
+              <div className="AddressInfo__contentSection">
+                <p className="AddressInfo__contentTitle">{intl.formatMessage(messages.network)}</p>
+                <p className="AddressInfo__contentNetwork">
                   <i />
                   <span>{longName}</span>
                 </p>
@@ -178,10 +178,7 @@ export default function AddressInfo() {
             color: ${currentTheme.darkBlue.hex};
           }
 
-          &__content-caption {
-            border-bottom: 1px solid ${currentTheme.darkBlue.hex};
-          }
-          &__content-network {
+          &__contentNetwork {
             i {
               background: ${networkColor};
             }

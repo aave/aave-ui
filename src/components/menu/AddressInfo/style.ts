@@ -54,39 +54,41 @@ const staticStyles = css.global`
       }
     }
 
-    &__content-header {
+    &__contentHeader {
+      padding-left: 10px;
+      @include respond-to(sm) {
+        padding: 5px;
+      }
       border-bottom: 1px solid black;
     }
 
-    &__content-section {
-      padding: 10px 5px 14px;
+    &__contentSection {
       @include respond-to(sm) {
-        padding: 10px 25px;
+        padding: 5px 10px;
       }
       border-bottom: 1px solid rgba(56, 61, 81, 0.1);
     }
-    &__content-title {
+    &__contentTitle {
       font-size: $small;
       opacity: 0.5;
-      margin-bottom: 5px;
+      margin-top: 5px;
       @include respond-to(sm) {
         font-size: $medium;
       }
     }
-    &__content-network {
+    &__contentNetwork {
       font-size: $medium;
       display: flex;
+      margin: 5px 0px;
       align-items: center;
-      justify-content: center;
-      text-align: center;
       span {
         display: inline-flex;
         text-transform: capitalize;
       }
       i {
         display: block;
-        width: 10px;
-        height: 10px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
         margin-right: 6px;
         position: relative;
@@ -98,34 +100,34 @@ const staticStyles = css.global`
         }
       }
     }
-    &__content-address {
+    &__contentAddress {
       font-size: $medium;
+      margin: 5px 0x;
       word-break: break-all;
       @include respond-to(sm) {
         font-size: $regular;
       }
     }
-    &__content-address-small {
-      text-align: center;
+    &__contentAddressSmall {
+      margin: 5px 0px;
       font-size: $small;
       word-break: break-all;
     }
-    &__content-ens {
+    &__contentEns {
       font-size: $medium;
       word-break: break-all;
-      text-align: center;
-      margin-bottom: 10px;
+      margin: 5px 0px;
       @include respond-to(sm) {
         font-size: $regular;
       }
     }
 
-    &__content-ens-avatar {
+    &__contentEnsAvatar {
       border-radius: 50%;
       width: 20px;
     }
 
-    &__link-icon {
+    &__linkIcon {
       width: 10px;
       margin-left: 5px;
     }
