@@ -76,6 +76,6 @@ const cleanupAndPin = async () => {
 
 cleanupAndPin().then((hash) => {
   console.log(`::set-output name=hash::${hash}`);
-  const base32_cid = cid.CID(hash).toV1().toString();
+  const base32_cid = cid.CID.parse(hash).toV1().toString();
   console.log(`::set-output name=uri::https://${base32_cid}.ipfs.cf-ipfs.com/`);
 });
