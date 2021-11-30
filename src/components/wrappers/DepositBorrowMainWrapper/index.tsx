@@ -24,6 +24,8 @@ interface DepositBorrowMainWrapperProps {
   withSwitchMarket?: boolean;
   totalValue: string | number;
   filterToggleActive?: boolean;
+  showFilterToggle?: boolean;
+  isolationText?: string;
 }
 
 export default function DepositBorrowMainWrapper({
@@ -39,6 +41,8 @@ export default function DepositBorrowMainWrapper({
   withSwitchMarket,
   totalValue,
   filterToggleActive = true,
+  showFilterToggle = true,
+  isolationText,
 }: DepositBorrowMainWrapperProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
@@ -47,7 +51,7 @@ export default function DepositBorrowMainWrapper({
     <div className="DepositBorrowMainWrapper">
       <div className="DepositBorrowMainWrapper__left-inner">
         {!sm && (
-          <ContentWrapperWithTopLine title={contentTitle} className="">
+          <ContentWrapperWithTopLine title={contentTitle}>
             <AssetsFilterPanel
               optionTitleLeft={intl.formatMessage(messages.optionTitleLeft)}
               optionTitleRight={intl.formatMessage(messages.optionTitleRight)}
@@ -57,6 +61,8 @@ export default function DepositBorrowMainWrapper({
               searchOnChange={setSearchValue}
               darkOnDarkMode={true}
               toggleActive={filterToggleActive}
+              showToggle={showFilterToggle}
+              isolationText={isolationText}
             />
 
             <div className="DepositBorrowMainWrapper__content">{children}</div>

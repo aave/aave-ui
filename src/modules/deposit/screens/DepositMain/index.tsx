@@ -126,6 +126,9 @@ export default function DepositsMain() {
             switchOnToggle={setShowOnlyStableCoins}
             searchValue={searchValue}
             searchOnChange={setSearchValue}
+            isolationText={
+              user?.isInIsolationMode ? intl.formatMessage(messages.isolationText) : undefined
+            }
           />
         )}
 
@@ -153,6 +156,9 @@ export default function DepositsMain() {
           setShowOnlyStableCoins={setShowOnlyStableCoins}
           withSwitchMarket={true}
           totalValue={listData(false).reduce((a, b) => a + (+b['underlyingBalanceInUSD'] || 0), 0)}
+          isolationText={
+            user?.isInIsolationMode ? intl.formatMessage(messages.isolationText) : undefined
+          }
         >
           {!!listData(true).length ? (
             <>

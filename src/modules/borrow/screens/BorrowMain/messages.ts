@@ -7,4 +7,5 @@ export default defineMessages({
   youAreUsingEmode: 'You are using E-Mode for',
   availableToBorrow: 'Available to borrow',
   myBorrows: 'My borrows',
+  isolationText: 'Borrow power and assets are limited due to Isolation mode.',
 });

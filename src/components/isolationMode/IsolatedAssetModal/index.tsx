@@ -53,7 +53,7 @@ export default function IsolatedAssetModal({ isVisible, onClose }: IsolatedAsset
           {intl.formatMessage(messages.learnMore, {
             link: (
               <Link
-                to="https://docs.aave.com/faq/"
+                to="https://docs.aave.com/faq/" // TODO: maybe need change link
                 absolute={true}
                 inNewWindow={true}
                 title={intl.formatMessage(messages.FAQGuide)}

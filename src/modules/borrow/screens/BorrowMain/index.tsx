@@ -145,6 +145,11 @@ export default function BorrowMain() {
             switchValue={showOnlyStableCoins}
             searchValue={searchValue}
             searchOnChange={setSearchValue}
+            showToggle={!user?.isInIsolationMode}
+            isolationText={
+              user?.isInIsolationMode ? intl.formatMessage(messages.isolationText) : undefined
+            }
+            toggleActive={!isEmodeActive}
           />
         )}
 
@@ -176,6 +181,10 @@ export default function BorrowMain() {
             (a, b) => a + (+b['currentBorrowsInUSD'] || 0),
             0
           )}
+          showFilterToggle={!user?.isInIsolationMode}
+          isolationText={
+            user?.isInIsolationMode ? intl.formatMessage(messages.isolationText) : undefined
+          }
         >
           {/* TO-DO: Need styling here. Also I disabled the All/Stablecoin toggle when e-Mode is active and this forces the search box to the left, this needs to be moved back to the right side and inline with this text in AssetsFilterPanel*/}
           {isEmodeActive ? (
