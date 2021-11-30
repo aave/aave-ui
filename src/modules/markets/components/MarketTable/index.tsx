@@ -32,11 +32,11 @@ export default function MarketTable({
     },
     {
       title: messages.marketSize,
-      sortKey: 'totalLiquidity',
+      sortKey: 'totalLiquidityInUSD',
     },
     {
       title: messages.totalBorrowed,
-      sortKey: 'totalBorrows',
+      sortKey: 'totalBorrowsInUSD',
     },
     {
       title: messages.depositAPY,
