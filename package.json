@@ -48,7 +48,6 @@
     "front-matter": "^4.0.2",
     "graphql": "^15.6.1",
     "intl": "^1.2.5",
-    "multiformats": "^9.5.1",
     "paraswap": "^5.0.1",
     "query-string": "^6.13.7",
     "react": "^17.0.2",
