@@ -40,7 +40,7 @@ The aave-ui is hosted on IPFS in a decentralized manner. `app.aave.com` just hol
 
 Just go to `<your favorite public ipfs gateway>/ipns/app.aave.com`
 
-⚠️ Make sure the gateway supports origin isolation to avoid possible security issues: you should be redirected to URL that look like `https://app-aave-com.<your gateway>`
+⚠️ Make sure the gateway supports origin isolation to avoid possible security issues: you should be redirected to URL that looks like `https://app-aave-com.<your gateway>`
 
 ## Contribution
 
