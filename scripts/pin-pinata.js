@@ -1,5 +1,7 @@
 const pinataSDK = require('@pinata/sdk');
 
+const cid = require('multiformats/cid');
+
 const PIN_ALIAS = process.env.PIN_ALIAS || 'AaveIPFSFrontend';
 
 const BUILD_LOCATION = process.env.BUILD_LOCATION || './build';
@@ -74,5 +76,6 @@ const cleanupAndPin = async () => {
 
 cleanupAndPin().then((hash) => {
   console.log(`::set-output name=hash::${hash}`);
-  console.log(`::set-output name=uri::https://cloudflare-ipfs.com/ipfs/${hash}`);
+  const base32_cid = cid.CID(hash).toV1().toString();
+  console.log(`::set-output name=uri::https://${base32_cid}.ipfs.cf-ipfs.com/`);
 });
