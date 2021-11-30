@@ -7,7 +7,7 @@ import { ChainId } from '@aave/contract-helpers';
 export const networkConfigs: Record<string, BaseNetworkConfig> = {
   [ChainId.kovan]: {
     name: 'Kovan',
-    publicJsonRPCUrl: ['https://kovan.poa.network'],
+    publicJsonRPCUrl: ['https://eth-kovan.alchemyapi.io/v2/demo', 'https://kovan.poa.network'],
     addresses: {
       walletBalanceProvider: '0x07DC923859b68e9399d787bf52c4Aa9eBe3490aF',
       uiPoolDataProvider: '0x6062ad399E47BF75AEa0b3c5BE7077c1E8664Dcb',
