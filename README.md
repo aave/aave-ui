@@ -22,7 +22,7 @@ Enabling users to:
 
 ## IPFS deployment
 
-Each commit gets deployed to IPFS automatically
+Each commit gets deployed to IPFS automatically.
 There's a github action commenting the appropriate ipfs hash embedded in the Cloudflare IPFS gateway after each commit
 
 For ease of use:
