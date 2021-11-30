@@ -5,7 +5,6 @@ import { valueToBigNumber } from '@aave/protocol-js';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
 
 import { useLanguageContext } from '../../../../libs/language-provider';
-// import { useReservesRateHistoryHelper } from '../../../../helpers/use-reserve-rates-history';
 import Row from '../../../basic/Row';
 import ValuePercent from '../../../basic/ValuePercent';
 import Value from '../../../basic/Value';
@@ -14,7 +13,6 @@ import GradientLine from '../../../basic/GradientLine';
 import MaxLTVHelpModal from '../../../HelpModal/MaxLTVHelpModal';
 import LiquidationThresholdHelpModal from '../../../HelpModal/LiquidationThresholdHelpModal';
 import LiquidationBonusHelpModal from '../../../HelpModal/LiquidationBonusHelpModal';
-// import GraphFilterButtons from '../../../graphs/GraphFilterButtons';
 import { ValidationWrapperComponentProps } from '../../../RouteParamsValidationWrapper';
 import { InterestRateSeries } from '../../../graphs/types';
 import { GraphLegendDot } from '../../../graphs/GraphLegend';
@@ -25,6 +23,7 @@ import messages from './messages';
 import staticStyles from './style';
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import { USD_DECIMALS } from '@aave/math-utils';
+import IsolationModeBadge from '../../../isolationMode/IsolationModeBadge';
 
 interface CurrencyOverviewProps
   extends Pick<ValidationWrapperComponentProps, 'poolReserve' | 'currencySymbol'> {
@@ -34,6 +33,7 @@ interface CurrencyOverviewProps
   dots?: GraphLegendDot[];
   series: InterestRateSeries[];
   isCollapse?: boolean;
+  isUserInIsolationMode?: boolean;
 }
 
 export default function CurrencyOverview({
@@ -45,6 +45,7 @@ export default function CurrencyOverview({
   dots,
   series,
   isCollapse,
+  isUserInIsolationMode,
 }: CurrencyOverviewProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
@@ -74,6 +75,7 @@ export default function CurrencyOverview({
     liquidationThreshold: Number(poolReserve.reserveLiquidationThreshold),
     liquidationBonus: Number(poolReserve.reserveLiquidationBonus),
     borrowingEnabled: poolReserve.borrowingEnabled,
+    isIsolated: poolReserve.isIsolated,
   };
 
   const graphBorder = rgba(`${currentTheme.white.rgb}, 0.5`);
@@ -149,16 +151,26 @@ export default function CurrencyOverview({
               weight="light"
               isColumn={isCollapse}
             >
-              <p
-                className={classNames('CurrencyOverview__usageAsCollateral', {
-                  CurrencyOverview__usageAsCollateralDisabled:
-                    !overviewData.usageAsCollateralEnabled,
-                })}
-              >
-                {intl.formatMessage(
-                  overviewData.usageAsCollateralEnabled ? messages.yes : messages.no
-                )}
-              </p>
+              {!isUserInIsolationMode ? (
+                <>
+                  {!overviewData.isIsolated ? (
+                    <p
+                      className={classNames('CurrencyOverview__usageAsCollateral', {
+                        CurrencyOverview__usageAsCollateralDisabled:
+                          !overviewData.usageAsCollateralEnabled,
+                      })}
+                    >
+                      {intl.formatMessage(
+                        overviewData.usageAsCollateralEnabled ? messages.yes : messages.no
+                      )}
+                    </p>
+                  ) : (
+                    <IsolationModeBadge isIsolated={overviewData.isIsolated} />
+                  )}
+                </>
+              ) : (
+                <IsolationModeBadge isIsolated={overviewData.isIsolated} />
+              )}
             </Row>
           </>
         ) : (
@@ -187,13 +199,14 @@ export default function CurrencyOverview({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isCollapse,
+    isUserInIsolationMode,
     overviewData.availableLiquidity,
     overviewData.avg30DaysLiquidityRate,
     overviewData.borrowingEnabled,
     overviewData.depositApy,
     overviewData.priceInUsd,
     overviewData.usageAsCollateralEnabled,
-    overviewData.utilizationRate,
+    overviewData.isIsolated,
     currentLangSlug,
   ]);
 
