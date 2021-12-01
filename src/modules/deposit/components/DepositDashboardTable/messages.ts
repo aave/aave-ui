@@ -6,7 +6,6 @@ export default defineMessages({
   collateral: 'Collateral',
 
   currentBalanceUSDRowTitle: 'Current balance in USD',
-  thirtyDaysAverageTitle: '30 Days Average',
 
   valueRowTitle: 'Earned',
   apyRowTitle: 'APY',
