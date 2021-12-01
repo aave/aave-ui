@@ -21,7 +21,6 @@ export default function BorrowMobileCard({
   availableBorrowsInUSD,
   stableBorrowRate,
   variableBorrowRate,
-  avg30DaysVariableRate,
   stableBorrowRateEnabled,
   userId,
   isFreezed,
@@ -62,7 +61,6 @@ export default function BorrowMobileCard({
           <LiquidityMiningCard
             symbol={symbol}
             value={variableBorrowRate}
-            thirtyDaysValue={avg30DaysVariableRate}
             liquidityMiningValue={vincentivesAPR}
             type="borrow-variable"
           />

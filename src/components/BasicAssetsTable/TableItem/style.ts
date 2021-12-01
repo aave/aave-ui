@@ -83,21 +83,6 @@ const staticStyles = css.global`
       }
     }
 
-    .ThirtyDayAverage {
-      @include respond-to(xs) {
-        flex-direction: column;
-        .ThirtyDayAverage__text {
-          margin: 0;
-        }
-      }
-      .ValuePercent__value,
-      .ThirtyDayAverage__text {
-        @include respond-to(sm) {
-          font-size: $extraSmall !important;
-        }
-      }
-    }
-
     .TableColumn {
       justify-content: center;
       .Value {

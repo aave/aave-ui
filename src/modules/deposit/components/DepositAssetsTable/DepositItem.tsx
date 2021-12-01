@@ -16,7 +16,6 @@ export default function DepositItem({
   walletBalance,
   walletBalanceInUSD,
   liquidityRate,
-  avg30DaysLiquidityRate,
   userId,
   isFreezed,
   aincentivesAPR,
@@ -51,7 +50,6 @@ export default function DepositItem({
         <TableColumn>
           <LiquidityMiningCard
             value={liquidityRate}
-            thirtyDaysValue={avg30DaysLiquidityRate}
             liquidityMiningValue={aincentivesAPR}
             symbol={symbol}
             type="deposit"

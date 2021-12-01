@@ -56,17 +56,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
           userReserve.reserve.underlyingAsset.toLowerCase()
       );
       if (reserve) {
-        const reserveSupplyData = {
-          totalScaledVariableDebt: reserve.totalScaledVariableDebt,
-          variableBorrowIndex: reserve.variableBorrowIndex,
-          variableBorrowRate: reserve.variableBorrowRate,
-          totalPrincipalStableDebt: reserve.totalPrincipalStableDebt,
-          averageStableRate: reserve.averageStableRate,
-          availableLiquidity: reserve.availableLiquidity,
-          stableDebtLastUpdateTimestamp: reserve.stableDebtLastUpdateTimestamp,
-          lastUpdateTimestamp: reserve.lastUpdateTimestamp,
-        };
-        const supplies = calculateSupplies(reserveSupplyData, currentTimestamp);
+        const supplies = calculateSupplies(reserve, currentTimestamp);
         // Construct UserReserveData object from reserve and userReserve fields
         computedUserReserves.push({
           underlyingAsset: userReserve.reserve.underlyingAsset.toLowerCase(),

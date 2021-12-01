@@ -17,7 +17,6 @@ export default function BorrowItem({
   availableBorrowsInUSD,
   stableBorrowRate,
   variableBorrowRate,
-  avg30DaysVariableRate,
   stableBorrowRateEnabled,
   userId,
   isFreezed,
@@ -55,7 +54,6 @@ export default function BorrowItem({
         <TableColumn>
           <LiquidityMiningCard
             value={variableBorrowRate}
-            thirtyDaysValue={avg30DaysVariableRate}
             liquidityMiningValue={vincentivesAPR}
             symbol={symbol}
             type="borrow-variable"

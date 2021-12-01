@@ -91,7 +91,6 @@ export default function BorrowMain() {
               ? Number(reserve.stableBorrowAPY)
               : -1,
           variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowAPY) : -1,
-          avg30DaysVariableRate: Number(reserve.avg30DaysVariableBorrowRate),
           interestHistory: [],
           aincentivesAPR: reserveIncentiveData
             ? reserveIncentiveData.aIncentives.incentiveAPR

@@ -24,10 +24,8 @@ export interface MarketTableItemProps {
   aincentivesAPR?: string;
   vincentivesAPR?: string;
   sincentivesAPR?: string;
-  avg30DaysLiquidityRate: number;
   stableBorrowRate: number;
   variableBorrowRate: number;
-  avg30DaysVariableRate: number;
   borrowingEnabled?: boolean;
   stableBorrowRateEnabled?: boolean;
   isFreezed?: boolean;
@@ -51,10 +49,8 @@ export default function MarketTableItem({
   aincentivesAPR,
   vincentivesAPR,
   sincentivesAPR,
-  avg30DaysLiquidityRate,
   stableBorrowRate,
   variableBorrowRate,
-  avg30DaysVariableRate,
   borrowingEnabled,
   stableBorrowRateEnabled,
   isFreezed,
@@ -125,7 +121,6 @@ export default function MarketTableItem({
           <TableColumn className="MarketTableItem__column">
             <LiquidityMiningCard
               value={depositAPY}
-              thirtyDaysValue={avg30DaysLiquidityRate}
               liquidityMiningValue={aincentivesAPR}
               symbol={currencySymbol}
               type="deposit"
@@ -136,7 +131,6 @@ export default function MarketTableItem({
             {borrowingEnabled && +variableBorrowRate >= 0 ? (
               <LiquidityMiningCard
                 value={variableBorrowRate}
-                thirtyDaysValue={avg30DaysVariableRate}
                 liquidityMiningValue={vincentivesAPR}
                 symbol={currencySymbol}
                 type="borrow-variable"

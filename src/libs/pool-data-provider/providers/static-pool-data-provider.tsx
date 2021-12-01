@@ -64,14 +64,11 @@ export function StaticPoolDataProvider({
 
   const { loading, data, error, refresh } = usePoolData();
 
-  const marketRefPriceInUsd = data?.reserves?.baseCurrencyData?.marketReferenceCurrencyPriceInUsd
-    ? data.reserves.baseCurrencyData?.marketReferenceCurrencyPriceInUsd
-    : '0';
+  const marketRefPriceInUsd =
+    data?.reserves?.baseCurrencyData?.marketReferenceCurrencyPriceInUsd ?? '0';
 
-  const marketRefCurrencyDecimals = data?.reserves?.baseCurrencyData
-    ?.marketReferenceCurrencyDecimals
-    ? data.reserves.baseCurrencyData?.marketReferenceCurrencyDecimals
-    : 18;
+  const marketRefCurrencyDecimals =
+    data?.reserves?.baseCurrencyData?.marketReferenceCurrencyDecimals ?? 18;
 
   async function fetchWalletData() {
     if (!currentAccount || !data?.reserves) return;
@@ -182,8 +179,7 @@ export function StaticPoolDataProvider({
     (userReserve) => userReserve.scaledATokenBalance !== '0'
   );
 
-  let userEmodeCategoryId =
-    userReserves && userReserves[0] ? userReserves[0].userEmodeCategoryId : 0;
+  let userEmodeCategoryId = userReserves?.[0]?.userEmodeCategoryId ?? 0;
   //  userEmodeCategoryId = 1;
   return (
     <StaticPoolDataContext.Provider

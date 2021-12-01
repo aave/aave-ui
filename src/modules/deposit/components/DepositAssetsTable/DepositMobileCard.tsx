@@ -20,7 +20,6 @@ export default function DepositMobileCard({
   walletBalance,
   walletBalanceInUSD,
   liquidityRate,
-  avg30DaysLiquidityRate,
   userId,
   borrowingEnabled,
   isFreezed,
@@ -61,7 +60,6 @@ export default function DepositMobileCard({
             <LiquidityMiningCard
               symbol={symbol}
               value={liquidityRate}
-              thirtyDaysValue={avg30DaysLiquidityRate}
               liquidityMiningValue={aincentivesAPR}
               type="deposit"
             />
