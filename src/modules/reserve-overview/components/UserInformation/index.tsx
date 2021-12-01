@@ -3,8 +3,11 @@ import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
-
+import { ComputedUserReserve } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
+
+import { ComputedReserveData, UserSummary } from '../../../../libs/pool-data-provider';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 import { toggleUseAsCollateral } from '../../../../helpers/toggle-use-as-collateral';
 import Row from '../../../../components/basic/Row';
 import Link from '../../../../components/basic/Link';
@@ -17,12 +20,11 @@ import HealthFactor from '../../../../components/HealthFactor';
 import CollateralHelpModal from '../../../../components/HelpModal/CollateralHelpModal';
 import BorrowTable from '../BorrowTable';
 import BorrowTableItem from '../BorrowTable/BorrowTableItem';
+import IsolationInfoBanner from '../../../../components/isolationMode/IsolationInfoBanner';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import staticStyles from './style';
-import { ComputedReserveData, UserSummary } from '../../../../libs/pool-data-provider';
-import { ComputedUserReserve } from '@aave/math-utils';
 
 interface UserInformationProps {
   user?: UserSummary;
@@ -71,6 +73,13 @@ export default function UserInformation({
   const switcherWidth = xl && !sm ? 30 : sm ? 50 : 40;
   const rowWeight = sm ? 'light' : 'normal';
   const elementsColor = sm ? 'white' : 'dark';
+
+  const borrowableAssetInIsolationMode =
+    user?.isInIsolationMode &&
+    poolReserve.borrowableInIsolation &&
+    isAssetStable(symbol) &&
+    availableBorrows &&
+    !poolReserve.isFrozen;
 
   return (
     <div className="UserInformation">
@@ -132,9 +141,13 @@ export default function UserInformation({
                   color={elementsColor}
                 />
               </Row>
+
               <Row
                 title={intl.formatMessage(messages.youAlreadyDeposited)}
-                withMargin={!!underlyingBalance}
+                withMargin={
+                  (!!underlyingBalance && !user?.isInIsolationMode && !poolReserve.isIsolated) ||
+                  (!user?.isInIsolationMode && poolReserve.isIsolated)
+                }
                 weight={rowWeight}
                 color={elementsColor}
               >
@@ -147,7 +160,7 @@ export default function UserInformation({
                 />
               </Row>
 
-              {!!underlyingBalance && (
+              {!!underlyingBalance && !user?.isInIsolationMode && !poolReserve.isIsolated && (
                 <div className="UserInformation__row">
                   <CollateralHelpModal
                     text={intl.formatMessage(messages.collateral)}
@@ -178,6 +191,14 @@ export default function UserInformation({
                   />
                 </div>
               )}
+
+              {!user?.isInIsolationMode && poolReserve.isIsolated && (
+                <IsolationInfoBanner
+                  text={intl.formatMessage(messages.depositIsolationWarning, { symbol })}
+                  size="small"
+                  withIcon={true}
+                />
+              )}
             </div>
           </div>
 
@@ -190,7 +211,9 @@ export default function UserInformation({
                     to={`/borrow/${poolReserve.underlyingAsset}-${poolReserve.id}`}
                     className="ButtonLink"
                     disabled={
-                      !availableBorrows || !poolReserve.borrowingEnabled || poolReserve.isFrozen
+                      user?.isInIsolationMode
+                        ? !borrowableAssetInIsolationMode
+                        : !availableBorrows || !poolReserve.borrowingEnabled || poolReserve.isFrozen
                     }
                   >
                     <DefaultButton
@@ -198,7 +221,11 @@ export default function UserInformation({
                       title={intl.formatMessage(defaultMessages.borrow)}
                       color={elementsColor}
                       disabled={
-                        !availableBorrows || !poolReserve.borrowingEnabled || poolReserve.isFrozen
+                        user?.isInIsolationMode
+                          ? !borrowableAssetInIsolationMode
+                          : !availableBorrows ||
+                            !poolReserve.borrowingEnabled ||
+                            poolReserve.isFrozen
                       }
                     />
                   </Link>
@@ -242,6 +269,7 @@ export default function UserInformation({
                 title={intl.formatMessage(messages.availableToYou)}
                 weight={rowWeight}
                 color={elementsColor}
+                withMargin={user?.isInIsolationMode}
               >
                 {poolReserve.borrowingEnabled ? (
                   <Value
@@ -255,6 +283,14 @@ export default function UserInformation({
                   <span className="UserInformation__noData">—</span>
                 )}
               </Row>
+
+              {user?.isInIsolationMode && (
+                <IsolationInfoBanner
+                  text={intl.formatMessage(messages.borrowIsolationWarning)}
+                  size="small"
+                  withIcon={true}
+                />
+              )}
             </div>
           </div>
 

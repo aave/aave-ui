@@ -48,6 +48,11 @@ export default function DepositsAssetsTable({
       {listData.map((item, index) => (
         <DepositItem userId={userId} {...item} key={index} />
       ))}
+      <style jsx={true} global={true}>{`
+        .BasicTable__content-inner .TableItem__content {
+          flex: 2;
+        }
+      `}</style>
     </BasicAssetsTable>
   );
 }

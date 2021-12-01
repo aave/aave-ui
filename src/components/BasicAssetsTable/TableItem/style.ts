@@ -19,16 +19,31 @@ const staticStyles = css.global`
       }
     }
 
-    .TableItem__token-inner {
-      align-items: flex-start;
-      max-width: 240px;
+    .TableColumn.TableItem__token-inner {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      max-width: 260px;
+      min-width: 260px;
       @include respond-to(lg) {
-        max-width: 200px;
+        min-width: 230px;
+        max-width: 230px;
+      }
+      @include respond-to(md) {
+        min-width: unset;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .IsolatedBadge {
+          margin-left: 0;
+          margin-top: 5px;
+        }
       }
       @include respond-to(sm) {
         max-width: 80px;
       }
     }
+
     .TableItem__tokenIcon {
       &__image,
       .MultipleIcons {

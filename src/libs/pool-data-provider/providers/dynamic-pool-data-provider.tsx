@@ -10,6 +10,7 @@ import {
   normalize,
 } from '@aave/math-utils';
 import BigNumber from 'bignumber.js';
+import { UserReserveDataExtended } from '..';
 
 export interface ComputedReserveData extends FormatReserveUSDResponse {
   id: string;
@@ -31,9 +32,9 @@ export interface ComputedReserveData extends FormatReserveUSDResponse {
   // new fields, will not be optional once use-pool-data uses a single UiPoolDataProvider
   isPaused?: boolean;
   eModeCategoryId?: number;
-  eModeLtv?: number;
-  eModeLiquidationThreshold?: number;
-  eModeLiquidationBonus?: number;
+  eModeLtv: string;
+  eModeLiquidationThreshold: string;
+  eModeLiquidationBonus: string;
   eModePriceSource?: string;
   eModeLabel?: string;
   debtCeiling: string;
@@ -45,6 +46,7 @@ export interface ComputedReserveData extends FormatReserveUSDResponse {
 export interface UserSummary extends FormatUserSummaryResponse {
   id: string;
   isInIsolationMode: boolean;
+  isolatedReserve?: UserReserveDataExtended;
   // isolatedAvailableBorrows: string;
 }
 
@@ -56,8 +58,14 @@ export interface DynamicPoolDataContextData {
 const DynamicPoolDataContext = React.createContext({} as DynamicPoolDataContextData);
 
 export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
-  const { rawReserves, rawUserReserves, userId, marketRefCurrencyDecimals, marketRefPriceInUsd } =
-    useStaticPoolDataContext();
+  const {
+    rawReserves,
+    rawUserReserves,
+    userId,
+    marketRefCurrencyDecimals,
+    marketRefPriceInUsd,
+    userEmodeCategoryId,
+  } = useStaticPoolDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const [lastAvgRatesUpdateTimestamp, setLastAvgRatesUpdateTimestamp] = useState(currentTimestamp);
 
@@ -74,6 +82,7 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
           marketRefPriceInUsd,
           marketRefCurrencyDecimals,
           rawUserReserves,
+          userEmodeCategoryId,
         })
       : undefined;
   const formattedPoolReserves: ComputedReserveData[] = rawReserves.map((reserve) => {
@@ -112,6 +121,7 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
       id: userId,
       ...computedUserData,
       isInIsolationMode: !!isolatedReserve,
+      isolatedReserve,
       availableBorrowsMarketReferenceCurrency: isolatedAvailableBorrows,
     };
   }

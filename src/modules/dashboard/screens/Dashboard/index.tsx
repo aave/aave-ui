@@ -93,8 +93,12 @@ export default function Dashboard() {
           ...baseListData,
           borrowingEnabled: poolReserve.borrowingEnabled,
           avg30DaysLiquidityRate: poolReserve.avg30DaysLiquidityRate,
-          usageAsCollateralEnabledOnThePool: poolReserve.usageAsCollateralEnabled,
           usageAsCollateralEnabledOnUser: userReserve.usageAsCollateralEnabledOnUser,
+          canBeEnabledAsCollateral:
+            poolReserve.usageAsCollateralEnabled &&
+            ((!poolReserve.isIsolated && !user.isInIsolationMode) ||
+              user.isolatedReserve?.underlyingAsset === poolReserve.underlyingAsset ||
+              (poolReserve.isIsolated && user.totalCollateralMarketReferenceCurrency === '0')),
           underlyingBalance: userReserve.underlyingBalance,
           underlyingBalanceUSD: userReserve.underlyingBalanceUSD,
           aincentivesAPR: reserveIncentiveData

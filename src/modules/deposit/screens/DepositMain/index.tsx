@@ -8,6 +8,8 @@ import {
   useDynamicPoolDataContext,
   useStaticPoolDataContext,
 } from '../../../../libs/pool-data-provider';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import Preloader from '../../../../components/basic/Preloader';
 import AssetsFilterPanel from '../../../../components/AssetsFilterPanel';
@@ -16,14 +18,12 @@ import DepositAssetsTable from '../../components/DepositAssetsTable';
 import DepositMobileCard from '../../components/DepositAssetsTable/DepositMobileCard';
 import DepositBorrowMainWrapper from '../../../../components/wrappers/DepositBorrowMainWrapper';
 import Card from '../../../../components/wrappers/DepositBorrowMainWrapper/components/Card';
+import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { DepositTableItem } from '../../components/DepositAssetsTable/types';
-import { isAssetStable } from '../../../../helpers/config/assets-config';
-import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
-import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 
 export default function DepositsMain() {
   const intl = useIntl();
@@ -126,6 +126,9 @@ export default function DepositsMain() {
             switchOnToggle={setShowOnlyStableCoins}
             searchValue={searchValue}
             searchOnChange={setSearchValue}
+            isolationText={
+              user?.isInIsolationMode ? intl.formatMessage(messages.isolationText) : undefined
+            }
           />
         )}
 
@@ -141,6 +144,7 @@ export default function DepositsMain() {
                   id={item.id}
                   value={item.underlyingBalance.toString()}
                   underlyingAsset={item.underlyingAsset}
+                  isIsolated={item.isIsolated}
                 />
               )}
             </React.Fragment>
@@ -152,6 +156,9 @@ export default function DepositsMain() {
           setShowOnlyStableCoins={setShowOnlyStableCoins}
           withSwitchMarket={true}
           totalValue={listData(false).reduce((a, b) => a + (+b['underlyingBalanceInUSD'] || 0), 0)}
+          isolationText={
+            user?.isInIsolationMode ? intl.formatMessage(messages.isolationText) : undefined
+          }
         >
           {!!listData(true).length ? (
             <>

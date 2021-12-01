@@ -8,9 +8,9 @@ import DefaultButton from '../basic/DefaultButton';
 import messages from './messages';
 import staticStyles from './style';
 
-import info from './images/info.svg';
-import infoGray from './images/infoGray.svg';
-import infoGrayDark from './images/infoGrayDark.svg';
+import info from '../../images/info.svg';
+import infoGray from '../../images/infoGray.svg';
+import infoGrayDark from '../../images/infoGrayDark.svg';
 
 export type TextWithModalProps = {
   text: string;

@@ -25,6 +25,7 @@ export default function DepositMobileCard({
   borrowingEnabled,
   isFreezed,
   aincentivesAPR,
+  isIsolated,
 }: DepositTableItem) {
   const intl = useIntl();
   const history = useHistory();
@@ -37,6 +38,7 @@ export default function DepositMobileCard({
       symbol={symbol}
       withGoToTop={true}
       disabled={isFreezed}
+      isIsolated={isIsolated}
     >
       <Row title={intl.formatMessage(messages.yourWalletBalance)} withMargin={true}>
         {!userId || Number(walletBalance) <= 0 ? (

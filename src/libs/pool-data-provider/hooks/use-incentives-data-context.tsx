@@ -1,8 +1,4 @@
-import {
-  Denominations,
-  IncentivesController,
-  IncentivesControllerInterface,
-} from '@aave/contract-helpers';
+import { IncentivesController, IncentivesControllerInterface } from '@aave/contract-helpers';
 import {
   calculateAllUserIncentives,
   calculateAllReserveIncentives,
@@ -17,19 +13,12 @@ import React, { ReactNode, useContext } from 'react';
 import Preloader from '../../../components/basic/Preloader';
 import ErrorPage from '../../../components/ErrorPage';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
-import { useApolloConfigContext } from '../../apollo-config';
-import {
-  PoolIncentivesWithCache,
-  useCachedIncentivesData,
-} from '../../caching-server-data-provider/hooks/use-cached-incentives-data';
-import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useStaticPoolDataContext } from '../providers/static-pool-data-provider';
 import { useCurrentTimestamp } from './use-current-timestamp';
 import {
-  IncentiveDataResponse,
   ReserveIncentiveData,
-  useIncentivesData,
+  useIncentiveData,
   UserReserveIncentiveData,
 } from './use-incentives-data';
 
@@ -37,55 +26,25 @@ export interface IncentivesContext {
   reserveIncentives: ReserveIncentiveDict;
   userIncentives: UserIncentiveDict;
   incentivesTxBuilder: IncentivesControllerInterface;
-  refresh: () => void;
+  refresh?: () => void;
 }
 
 const IncentivesDataContext = React.createContext({} as IncentivesContext);
 
 export function IncentivesDataProvider({ children }: { children: ReactNode }) {
-  const { userId, rawReservesWithBase, rawUserReservesWithBase } = useStaticPoolDataContext();
-  const { chainId, networkConfig, currentMarketData } = useProtocolDataContext();
-  const { chainId: apolloClientChainId } = useApolloConfigContext();
-  const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
+  const { rawReservesWithBase, rawUserReservesWithBase } = useStaticPoolDataContext();
+  const { chainId, networkConfig } = useProtocolDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
-  const currentAccount = userId ? userId.toLowerCase() : undefined;
   const incentivesTxBuilder: IncentivesControllerInterface = new IncentivesController(
     getProvider(chainId)
   );
 
-  const {
-    loading: cachedDataLoading,
-    data: cachedData,
-    error: cachedDataError,
-  }: PoolIncentivesWithCache = useCachedIncentivesData(
-    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
-    currentAccount,
-    networkConfig.addresses.chainlinkFeedRegistry,
-    networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
-    preferredConnectionMode === ConnectionMode.rpc ||
-      chainId !== apolloClientChainId ||
-      !networkConfig.addresses.uiIncentiveDataProvider
-  );
-
-  const {
-    data: rpcData,
-    loading: rpcDataLoading,
-    error: rpcDataError,
-    refresh,
-  }: IncentiveDataResponse = useIncentivesData(
-    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
-    chainId,
-    networkConfig.addresses.uiIncentiveDataProvider,
-    !isRPCActive || !networkConfig.addresses.uiIncentiveDataProvider,
-    currentAccount
-  );
-
-  const activeData = isRPCActive && rpcData ? rpcData : cachedData;
+  const { data, error, loading, refresh } = useIncentiveData();
 
   const userIncentiveData: UserReserveIncentiveData[] =
-    activeData && activeData.userIncentiveData ? activeData.userIncentiveData : [];
+    data && data.userIncentiveData ? data.userIncentiveData : [];
   const reserveIncentiveData: ReserveIncentiveData[] =
-    activeData && activeData.reserveIncentiveData ? activeData.reserveIncentiveData : [];
+    data && data.reserveIncentiveData ? data.reserveIncentiveData : [];
 
   // Create array of formatted user and reserve data used for user incentive calculations
   let computedUserReserves: UserReserveCalculationData[] = [];
@@ -147,11 +106,11 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     };
   });
 
-  if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
+  if (loading) {
     return <Preloader withBackground={true} />;
   }
 
-  if (!activeData || (isRPCActive && rpcDataError) || (!isRPCActive && cachedDataError)) {
+  if (!data || error) {
     return <ErrorPage />;
   }
 
@@ -183,7 +142,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
         incentivesTxBuilder,
         reserveIncentives,
         userIncentives,
-        refresh: isRPCActive ? refresh : async () => {},
+        refresh,
       }}
     >
       {children}

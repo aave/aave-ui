@@ -23,6 +23,7 @@ export default function BorrowItem({
   isFreezed,
   vincentivesAPR,
   sincentivesAPR,
+  isIsolated,
 }: BorrowTableItem) {
   const url = `/borrow/${underlyingAsset}-${id}`;
 
@@ -33,6 +34,7 @@ export default function BorrowItem({
       isFreezed={isFreezed}
       isBorrow={true}
       darkOnDarkMode={true}
+      isIsolated={isIsolated}
     >
       <TableColumn>
         {!userId || Number(availableBorrows) <= 0 ? (
