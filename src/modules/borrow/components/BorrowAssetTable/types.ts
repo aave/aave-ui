@@ -8,7 +8,6 @@ export type BorrowTableItem = {
   variableBorrowRate: number | string;
   availableBorrows: number | string;
   availableBorrowsInUSD: number | string;
-  avg30DaysVariableRate?: number;
   stableBorrowRateEnabled?: boolean;
   userId?: string;
   isFreezed?: boolean;

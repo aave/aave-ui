@@ -5,7 +5,6 @@ import { valueToBigNumber } from '@aave/protocol-js';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
 
 import { useLanguageContext } from '../../../../libs/language-provider';
-// import { useReservesRateHistoryHelper } from '../../../../helpers/use-reserve-rates-history';
 import Row from '../../../basic/Row';
 import ValuePercent from '../../../basic/ValuePercent';
 import Value from '../../../basic/Value';
@@ -14,7 +13,6 @@ import GradientLine from '../../../basic/GradientLine';
 import MaxLTVHelpModal from '../../../HelpModal/MaxLTVHelpModal';
 import LiquidationThresholdHelpModal from '../../../HelpModal/LiquidationThresholdHelpModal';
 import LiquidationBonusHelpModal from '../../../HelpModal/LiquidationBonusHelpModal';
-// import GraphFilterButtons from '../../../graphs/GraphFilterButtons';
 import { ValidationWrapperComponentProps } from '../../../RouteParamsValidationWrapper';
 import { InterestRateSeries } from '../../../graphs/types';
 import { GraphLegendDot } from '../../../graphs/GraphLegend';
@@ -25,6 +23,7 @@ import messages from './messages';
 import staticStyles from './style';
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import { USD_DECIMALS } from '@aave/math-utils';
+import IsolationModeBadge from '../../../isolationMode/IsolationModeBadge';
 
 interface CurrencyOverviewProps
   extends Pick<ValidationWrapperComponentProps, 'poolReserve' | 'currencySymbol'> {
@@ -34,6 +33,7 @@ interface CurrencyOverviewProps
   dots?: GraphLegendDot[];
   series: InterestRateSeries[];
   isCollapse?: boolean;
+  isUserInIsolationMode?: boolean;
 }
 
 export default function CurrencyOverview({
@@ -45,6 +45,7 @@ export default function CurrencyOverview({
   dots,
   series,
   isCollapse,
+  isUserInIsolationMode,
 }: CurrencyOverviewProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
@@ -64,16 +65,15 @@ export default function CurrencyOverview({
       .shiftedBy(-USD_DECIMALS)
       .toNumber(),
     depositApy: Number(poolReserve.supplyAPY),
-    avg30DaysLiquidityRate: Number(poolReserve.avg30DaysLiquidityRate),
     stableRate: Number(poolReserve.stableBorrowAPY),
     variableRate: Number(poolReserve.variableBorrowAPY),
-    avg30DaysVariableRate: Number(poolReserve.avg30DaysVariableBorrowRate),
     usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
     baseLTVasCollateral: Number(poolReserve.baseLTVasCollateral),
     liquidationThreshold: Number(poolReserve.reserveLiquidationThreshold),
     liquidationBonus: Number(poolReserve.reserveLiquidationBonus),
     borrowingEnabled: poolReserve.borrowingEnabled,
+    isIsolated: poolReserve.isIsolated,
   };
 
   const graphBorder = rgba(`${currentTheme.white.rgb}, 0.5`);
@@ -115,27 +115,13 @@ export default function CurrencyOverview({
             <Row
               className="CurrencyOverview__row"
               title={intl.formatMessage(messages.depositAPY)}
-              subTitle={
-                !!overviewData.avg30DaysLiquidityRate && !isCollapse
-                  ? intl.formatMessage(messages.depositAPR)
-                  : ''
-              }
               color="white"
               weight="light"
               isColumn={isCollapse}
             >
               <div className="CurrencyOverview__rowWithDoubleValue">
                 {overviewData.borrowingEnabled ? (
-                  <>
-                    <ValuePercent value={overviewData.depositApy} color="white" />
-                    {!!overviewData.avg30DaysLiquidityRate && !isCollapse && (
-                      <ValuePercent
-                        value={overviewData.avg30DaysLiquidityRate}
-                        color="white"
-                        className="CurrencyOverview__thirtyDays"
-                      />
-                    )}
-                  </>
+                  <ValuePercent value={overviewData.depositApy} color="white" />
                 ) : (
                   <span className="CurrencyOverview__no-data">—</span>
                 )}
@@ -149,16 +135,26 @@ export default function CurrencyOverview({
               weight="light"
               isColumn={isCollapse}
             >
-              <p
-                className={classNames('CurrencyOverview__usageAsCollateral', {
-                  CurrencyOverview__usageAsCollateralDisabled:
-                    !overviewData.usageAsCollateralEnabled,
-                })}
-              >
-                {intl.formatMessage(
-                  overviewData.usageAsCollateralEnabled ? messages.yes : messages.no
-                )}
-              </p>
+              {!isUserInIsolationMode ? (
+                <>
+                  {!overviewData.isIsolated ? (
+                    <p
+                      className={classNames('CurrencyOverview__usageAsCollateral', {
+                        CurrencyOverview__usageAsCollateralDisabled:
+                          !overviewData.usageAsCollateralEnabled,
+                      })}
+                    >
+                      {intl.formatMessage(
+                        overviewData.usageAsCollateralEnabled ? messages.yes : messages.no
+                      )}
+                    </p>
+                  ) : (
+                    <IsolationModeBadge isIsolated={overviewData.isIsolated} />
+                  )}
+                </>
+              ) : (
+                <IsolationModeBadge isIsolated={overviewData.isIsolated} />
+              )}
             </Row>
           </>
         ) : (
@@ -187,13 +183,13 @@ export default function CurrencyOverview({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isCollapse,
+    isUserInIsolationMode,
     overviewData.availableLiquidity,
-    overviewData.avg30DaysLiquidityRate,
     overviewData.borrowingEnabled,
     overviewData.depositApy,
     overviewData.priceInUsd,
     overviewData.usageAsCollateralEnabled,
-    overviewData.utilizationRate,
+    overviewData.isIsolated,
     currentLangSlug,
   ]);
 
@@ -236,7 +232,19 @@ export default function CurrencyOverview({
               {overviewData.baseLTVasCollateral === 0 ? (
                 <span className="CurrencyOverview__no-data">—</span>
               ) : (
-                <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                <>
+                  {isUserInIsolationMode ? (
+                    <>
+                      {overviewData.isIsolated ? (
+                        <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                      ) : (
+                        <span className="CurrencyOverview__no-data">—</span>
+                      )}
+                    </>
+                  ) : (
+                    <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                  )}
+                </>
               )}
             </Row>
 
@@ -257,7 +265,19 @@ export default function CurrencyOverview({
                 {overviewData.liquidationThreshold <= 0 ? (
                   <span className="CurrencyOverview__no-data">—</span>
                 ) : (
-                  <ValuePercent value={overviewData.liquidationThreshold} color="white" />
+                  <>
+                    {isUserInIsolationMode ? (
+                      <>
+                        {overviewData.isIsolated ? (
+                          <ValuePercent value={overviewData.liquidationThreshold} color="white" />
+                        ) : (
+                          <span className="CurrencyOverview__no-data">—</span>
+                        )}
+                      </>
+                    ) : (
+                      <ValuePercent value={overviewData.liquidationThreshold} color="white" />
+                    )}
+                  </>
                 )}
               </Row>
             )}
@@ -279,7 +299,19 @@ export default function CurrencyOverview({
                 {overviewData.liquidationBonus <= 0 ? (
                   <span className="CurrencyOverview__no-data">—</span>
                 ) : (
-                  <ValuePercent value={overviewData.liquidationBonus} color="white" />
+                  <>
+                    {isUserInIsolationMode ? (
+                      <>
+                        {overviewData.isIsolated ? (
+                          <ValuePercent value={overviewData.liquidationBonus} color="white" />
+                        ) : (
+                          <span className="CurrencyOverview__no-data">—</span>
+                        )}
+                      </>
+                    ) : (
+                      <ValuePercent value={overviewData.liquidationBonus} color="white" />
+                    )}
+                  </>
                 )}
               </Row>
             )}
@@ -308,13 +340,6 @@ export default function CurrencyOverview({
             >
               <div className="CurrencyOverview__rowWithDoubleValue">
                 <ValuePercent value={overviewData.variableRate} color="white" />
-                {!!overviewData.avg30DaysVariableRate && !isCollapse && (
-                  <ValuePercent
-                    value={overviewData.avg30DaysVariableRate}
-                    color="white"
-                    className="CurrencyOverview__thirtyDays"
-                  />
-                )}
               </div>
             </Row>
           </>
@@ -348,7 +373,6 @@ export default function CurrencyOverview({
     overviewData.liquidationBonus,
     overviewData.stableBorrowRateEnabled,
     overviewData.stableRate,
-    overviewData.avg30DaysVariableRate,
     overviewData.variableRate,
     currentLangSlug,
   ]);

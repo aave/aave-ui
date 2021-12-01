@@ -13,7 +13,8 @@ const locators = {
     successMessage:"//*[text()='Your action has been successfully executed']",
     jsonError:"//*[contains(text(),'Response has no error or result for request')]"
   },
-  pendingRow:"//div[contains(@class, 'DotStatus')]/*[text()='Pending']"
+  pendingRow:"//div[contains(@class, 'DotStatus')]/*[text()='Pending']",
+  turnColOffError: "//*[contains(@id, 'ScreensWrapper__content-wrapper')]//div[2]/div/div[1]/span"
 };
 
 
@@ -25,6 +26,7 @@ class ConfirmationPage extends Page {
   get successResult_successMessage() { return $(locators.successResult.successMessage)}
   get successResult_jsonError() { return $(locators.successResult.jsonError)}
   get pendingRow() {return $(locators.pendingRow)}
+  get collOffErr () {return $(locators.turnColOffError)}
 
   doOneStepProcess() {
     elemUtil.doClick(this.submitBtn)
@@ -72,6 +74,12 @@ class ConfirmationPage extends Page {
       }catch (e){}
     }
     browser.pause(2000) // awaiting updating data on client
+  }
+
+  doCheckCollateralErrorMessage(){
+    let _elem = this.collOffErr
+    let _actualMessage = elemUtil.doGetText(_elem)
+    expect(_actualMessage).to.be.equal("You can't switch usage as collateral mode for this currency, because it will cause collateral call")
   }
 }
 

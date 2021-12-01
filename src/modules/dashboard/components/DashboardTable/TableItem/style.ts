@@ -27,6 +27,40 @@ const staticStyles = css.global`
       margin-bottom: 35px;
     }
 
+    &__isolated {
+      position: relative;
+      margin-top: 30px;
+      border-top-left-radius: unset;
+      border-top-right-radius: unset;
+      @include respond-to(xl) {
+        margin-top: 26px;
+      }
+    }
+
+    &__isolated--inner {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -24px;
+      height: 24px;
+      border-top-left-radius: 2px;
+      border-top-right-radius: 2px;
+      padding: 2px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      @include respond-to(xl) {
+        height: 20px;
+        top: -20px;
+      }
+
+      .IsolatedBadge {
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+    }
+
     .TableItem__inner {
       align-items: flex-start;
     }

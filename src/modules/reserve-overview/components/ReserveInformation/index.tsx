@@ -1,8 +1,10 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { valueToBigNumber } from '@aave/protocol-js';
-
 import { useThemeContext } from '@aave/aave-ui-kit';
+
+import { getLPTokenPoolLink } from '../../../../helpers/lp-tokens';
+import { ComputedReserveData } from '../../../../libs/pool-data-provider';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import MaxLTVHelpModal from '../../../../components/HelpModal/MaxLTVHelpModal';
 import Value from '../../../../components/basic/Value';
@@ -15,21 +17,26 @@ import TextBlock from '../InformationBlock/TextBlock';
 import APYCard from '../APYCard';
 import APYLine from '../APYLine';
 import Link from '../../../../components/basic/Link';
+import IsolationModeBadge from '../../../../components/isolationMode/IsolationModeBadge';
+import BlockWrapper from '../InformationBlock/BlockWrapper';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import staticStyles from './style';
 
 import linkIcon from '../../../../images/blueLinkIcon.svg';
-import { getLPTokenPoolLink } from '../../../../helpers/lp-tokens';
-import { ComputedReserveData } from '../../../../libs/pool-data-provider';
 
 interface ReserveInformationProps {
   symbol: string;
   poolReserve: ComputedReserveData;
+  userIsInIsolationMode: boolean;
 }
 
-export default function ReserveInformation({ symbol, poolReserve }: ReserveInformationProps) {
+export default function ReserveInformation({
+  symbol,
+  poolReserve,
+  userIsInIsolationMode,
+}: ReserveInformationProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const totalLiquidityInUsd = poolReserve.totalLiquidityUSD;
@@ -45,7 +52,6 @@ export default function ReserveInformation({ symbol, poolReserve }: ReserveInfor
     availableLiquidity: poolReserve.availableLiquidity,
     supplyAPY: Number(poolReserve.supplyAPY),
     supplyAPR: Number(poolReserve.supplyAPR),
-    avg30DaysLiquidityRate: Number(poolReserve.avg30DaysLiquidityRate),
     stableAPY: Number(poolReserve.stableBorrowAPY),
     stableAPR: Number(poolReserve.stableBorrowAPR),
     variableAPY: Number(poolReserve.variableBorrowAPY),
@@ -56,7 +62,6 @@ export default function ReserveInformation({ symbol, poolReserve }: ReserveInfor
     variableOverTotal: valueToBigNumber(poolReserve.totalVariableDebt)
       .dividedBy(poolReserve.totalDebt)
       .toNumber(),
-    avg30DaysVariableRate: Number(poolReserve.avg30DaysVariableBorrowRate),
     utilizationRate: Number(poolReserve.utilizationRate),
     baseLTVasCollateral: Number(poolReserve.baseLTVasCollateral),
     liquidationThreshold: Number(poolReserve.reserveLiquidationThreshold),
@@ -64,6 +69,10 @@ export default function ReserveInformation({ symbol, poolReserve }: ReserveInfor
     usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
     borrowingEnabled: poolReserve.borrowingEnabled,
+    debtCeilingUSD: poolReserve.debtCeiling, // TODO: should be debtCeilingUSD
+    debtCeilingDebt: poolReserve.isolationModeTotalDebt,
+    totalDebtUSD: poolReserve.totalDebtUSD,
+    isIsolated: poolReserve.isIsolated,
   };
 
   const poolLink = getLPTokenPoolLink({
@@ -131,6 +140,12 @@ export default function ReserveInformation({ symbol, poolReserve }: ReserveInfor
               value={reserveOverviewData.availableLiquidity}
               subValue={reserveOverviewData.availableLiquidityInUsd}
               borrowingEnabled={reserveOverviewData.borrowingEnabled}
+              debtCeilingUSD={
+                reserveOverviewData.isIsolated ? reserveOverviewData.debtCeilingUSD : undefined
+              }
+              debtCeilingDebt={
+                reserveOverviewData.isIsolated ? reserveOverviewData.debtCeilingDebt : undefined
+              }
             />
           </div>
 
@@ -241,10 +256,25 @@ export default function ReserveInformation({ symbol, poolReserve }: ReserveInfor
                 <LiquidationBonusHelpModal text={intl.formatMessage(messages.liquidationPenalty)} />
               }
             />
-            <TextBlock
-              condition={reserveOverviewData.usageAsCollateralEnabled}
-              title={intl.formatMessage(messages.usedAsCollateral)}
-            />
+            {!userIsInIsolationMode ? (
+              <>
+                {!reserveOverviewData.isIsolated ? (
+                  <TextBlock
+                    condition={reserveOverviewData.usageAsCollateralEnabled}
+                    title={intl.formatMessage(messages.usedAsCollateral)}
+                  />
+                ) : (
+                  <BlockWrapper title={intl.formatMessage(messages.usedAsCollateral)}>
+                    <IsolationModeBadge isIsolated={reserveOverviewData.isIsolated} />
+                  </BlockWrapper>
+                )}
+              </>
+            ) : (
+              <BlockWrapper title={intl.formatMessage(messages.usedAsCollateral)}>
+                <IsolationModeBadge isIsolated={reserveOverviewData.isIsolated} />
+              </BlockWrapper>
+            )}
+
             <TextBlock
               condition={reserveOverviewData.stableBorrowRateEnabled}
               title={intl.formatMessage(messages.stableBorrowing)}

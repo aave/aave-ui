@@ -26,6 +26,7 @@ import {
 import SwapBorrowRateModeConfirmation from './modules/swap/SwapBorrowRateModeConfirmation';
 import SwapUsageAsCollateralModeConfirmation from './modules/swap/SwapUsageAsCollateralModeConfirmation';
 import { RewardConfirm } from './modules/reward/screens/RewardConfirm';
+import { EModeConfirm } from './modules/emode/screens/EModeConfirm';
 import { governanceConfig, stakeConfig } from './ui-config';
 import { useProtocolDataContext } from './libs/protocol-data-provider';
 import { isFeatureEnabled } from './helpers/config/markets-and-network-config';
@@ -92,6 +93,7 @@ function ModulesWithMenu() {
           component={RewardConfirm}
           key="Reward confirm"
         />
+        <Route path="/emode/confirm/:newmode" component={EModeConfirm} key="E-Mode Confirm" />
 
         {userId && [<Route exact={true} path="/history" component={History} key="History" />]}
 

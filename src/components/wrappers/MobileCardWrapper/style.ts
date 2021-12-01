@@ -15,6 +15,11 @@ const staticStyles = css.global`
       padding: 10px 15px;
     }
 
+    &__symbol {
+      display: flex;
+      align-items: center;
+    }
+
     &__content {
       padding: 10px 15px 20px;
     }

@@ -17,12 +17,12 @@ export default function BorrowItem({
   availableBorrowsInUSD,
   stableBorrowRate,
   variableBorrowRate,
-  avg30DaysVariableRate,
   stableBorrowRateEnabled,
   userId,
   isFreezed,
   vincentivesAPR,
   sincentivesAPR,
+  isIsolated,
 }: BorrowTableItem) {
   const url = `/borrow/${underlyingAsset}-${id}`;
 
@@ -33,6 +33,7 @@ export default function BorrowItem({
       isFreezed={isFreezed}
       isBorrow={true}
       darkOnDarkMode={true}
+      isIsolated={isIsolated}
     >
       <TableColumn>
         {!userId || Number(availableBorrows) <= 0 ? (
@@ -53,7 +54,6 @@ export default function BorrowItem({
         <TableColumn>
           <LiquidityMiningCard
             value={variableBorrowRate}
-            thirtyDaysValue={avg30DaysVariableRate}
             liquidityMiningValue={vincentivesAPR}
             symbol={symbol}
             type="borrow-variable"

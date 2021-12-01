@@ -71,6 +71,24 @@ const staticStyles = css.global`
         }
       }
     }
+
+    &__content {
+      .TextWithModal__text {
+        font-size: $regular;
+        @include respond-to(xl) {
+          font-size: $small;
+        }
+        @include respond-to(lg) {
+          font-size: $extraSmall;
+        }
+        @include respond-to(md) {
+          font-size: $small;
+        }
+        @include respond-to(sm) {
+          font-size: $regular;
+        }
+      }
+    }
   }
 `;
 

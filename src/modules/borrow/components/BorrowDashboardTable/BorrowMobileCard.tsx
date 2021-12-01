@@ -24,7 +24,6 @@ export default function BorrowMobileCard({
   currentBorrows,
   currentBorrowsUSD,
   borrowRate,
-  avg30DaysVariableRate,
   borrowRateMode,
   onSwitchToggle,
   isActive,
@@ -58,9 +57,6 @@ export default function BorrowMobileCard({
             <LiquidityMiningCard
               symbol={symbol}
               value={Number(borrowRate)}
-              thirtyDaysValue={
-                borrowRateMode === BorrowRateMode.Variable ? avg30DaysVariableRate : ''
-              }
               liquidityMiningValue={
                 borrowRateMode === BorrowRateMode.Variable ? vincentivesAPR : sincentivesAPR
               }

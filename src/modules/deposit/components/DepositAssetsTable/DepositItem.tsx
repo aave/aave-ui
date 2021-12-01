@@ -16,16 +16,21 @@ export default function DepositItem({
   walletBalance,
   walletBalanceInUSD,
   liquidityRate,
-  avg30DaysLiquidityRate,
   userId,
-  borrowingEnabled,
   isFreezed,
   aincentivesAPR,
+  isIsolated,
 }: DepositTableItem) {
   const url = `/deposit/${underlyingAsset}-${id}`;
 
   return (
-    <TableItem symbol={symbol} url={url} isFreezed={isFreezed} darkOnDarkMode={true}>
+    <TableItem
+      symbol={symbol}
+      url={url}
+      isFreezed={isFreezed}
+      darkOnDarkMode={true}
+      isIsolated={isIsolated}
+    >
       <TableColumn>
         {!userId || Number(walletBalance) <= 0 ? (
           <NoData color="dark" />
@@ -45,7 +50,6 @@ export default function DepositItem({
         <TableColumn>
           <LiquidityMiningCard
             value={liquidityRate}
-            thirtyDaysValue={avg30DaysLiquidityRate}
             liquidityMiningValue={aincentivesAPR}
             symbol={symbol}
             type="deposit"

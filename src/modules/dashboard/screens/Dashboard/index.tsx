@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { ChainId } from '@aave/contract-helpers';
 import classNames from 'classnames';
 
 import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
@@ -39,7 +40,6 @@ import { getAssetColor } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';
-import { ChainId } from '@aave/contract-helpers';
 
 export default function Dashboard() {
   const intl = useIntl();
@@ -92,11 +92,16 @@ export default function Dashboard() {
         depositedPositions.push({
           ...baseListData,
           borrowingEnabled: poolReserve.borrowingEnabled,
-          avg30DaysLiquidityRate: poolReserve.avg30DaysLiquidityRate,
-          usageAsCollateralEnabledOnThePool: poolReserve.usageAsCollateralEnabled,
           usageAsCollateralEnabledOnUser: userReserve.usageAsCollateralEnabledOnUser,
+          canBeEnabledAsCollateral:
+            poolReserve.usageAsCollateralEnabled &&
+            ((!poolReserve.isIsolated && !user.isInIsolationMode) ||
+              user.isolatedReserve?.underlyingAsset === poolReserve.underlyingAsset ||
+              (poolReserve.isIsolated && user.totalCollateralMarketReferenceCurrency === '0')),
           underlyingBalance: userReserve.underlyingBalance,
           underlyingBalanceUSD: userReserve.underlyingBalanceUSD,
+          isUserInIsolationMode: user?.isInIsolationMode,
+          isIsolated: poolReserve.isIsolated,
           aincentivesAPR: reserveIncentiveData
             ? reserveIncentiveData.aIncentives.incentiveAPR
             : '0',
@@ -124,7 +129,6 @@ export default function Dashboard() {
           sincentivesAPR: reserveIncentiveData
             ? reserveIncentiveData.sIncentives.incentiveAPR
             : '0',
-          avg30DaysVariableRate: poolReserve.avg30DaysVariableBorrowRate,
           repayLink: loanActionLinkComposer(
             'repay',
             poolReserve.id,
