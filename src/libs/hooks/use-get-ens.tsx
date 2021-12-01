@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChainId } from '@aave/contract-helpers';
 import { getProvider } from '../../helpers/config/markets-and-network-config';
-import { useWeb3React } from '@web3-react/core';
-import { providers } from 'ethers';
+import { utils } from 'ethers';
 
 const mainnetProvider = getProvider(ChainId.mainnet);
 
@@ -14,7 +13,6 @@ interface EnsResponse {
 const useGetEns = (address: string): EnsResponse => {
   const [ensName, setEnsName] = useState<string | undefined>(undefined);
   const [ensAvatar, setEnsAvatar] = useState<string | undefined>(undefined);
-  const { library: provider } = useWeb3React<providers.Web3Provider>();
   const getName = async (address: string) => {
     try {
       const name = await mainnetProvider.lookupAddress(address);
@@ -26,9 +24,13 @@ const useGetEns = (address: string): EnsResponse => {
 
   const getAvatar = async (name: string) => {
     try {
-      const resolver = await provider?.getResolver(name);
-      const avatar = await resolver?.getAvatar();
-      setEnsAvatar(avatar && avatar.url ? avatar.url : undefined);
+      const labelHash = utils.keccak256(utils.toUtf8Bytes(name?.replace('.eth', '')));
+      const result: { background_image: string } = await (
+        await fetch(
+          `https://metadata.ens.domains/mainnet/0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85/${labelHash}/`
+        )
+      ).json();
+      setEnsAvatar(result && result.background_image ? result.background_image : undefined);
     } catch (error) {
       console.error('ENS avatar lookup error', error);
     }
