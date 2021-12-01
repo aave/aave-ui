@@ -11,6 +11,9 @@ const staticStyles = css.global`
     @include respond-to(xl) {
       margin-bottom: 20px;
     }
+    @include respond-to(md) {
+      flex-direction: column;
+    }
     @include respond-to(sm) {
       margin-bottom: 30px;
       justify-content: center;
@@ -26,10 +29,23 @@ const staticStyles = css.global`
       }
     }
 
+    &__left--inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     &__search-inner {
       @include respond-to(sm) {
         display: none;
       }
+    }
+
+    &__search-inner-force-right {
+      @include respond-to(sm) {
+        display: none;
+      }
+      width: 100%;
     }
   }
 `;

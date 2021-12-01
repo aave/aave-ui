@@ -22,7 +22,6 @@ export default function BorrowItem({
   currentBorrows,
   currentBorrowsUSD,
   borrowRate,
-  avg30DaysVariableRate,
   borrowRateMode,
   onSwitchToggle,
   isActive,
@@ -50,7 +49,6 @@ export default function BorrowItem({
       />
       <TableAprCol
         value={Number(borrowRate)}
-        thirtyDaysAverage={borrowRateMode === BorrowRateMode.Variable ? avg30DaysVariableRate : ''}
         liquidityMiningValue={
           borrowRateMode === BorrowRateMode.Variable ? vincentivesAPR : sincentivesAPR
         }

@@ -8,7 +8,7 @@ const assets = require('../../../fixtures/assets.json')
 const testData ={
   depositETH:{
     asset:assets.aaveMarket.ETH,
-    amount: 0.1,
+    amount: 1,
     hasApproval: true
   },
   testCases:{

@@ -4,6 +4,7 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 import Link from '../../../../basic/Link';
 import Value from '../../../../basic/Value';
 import Row from '../../../../basic/Row';
+import IsolatedBadge from '../../../../isolationMode/IsolatedBadge';
 import { getAssetInfo, TokenIcon } from '../../../../../helpers/config/assets-config';
 
 import staticStyles from './style';
@@ -14,9 +15,10 @@ interface CardProps {
   id: string;
   value: string;
   underlyingAsset: string;
+  isIsolated: boolean;
 }
 
-export default function Card({ link, symbol, id, value, underlyingAsset }: CardProps) {
+export default function Card({ link, symbol, id, value, underlyingAsset, isIsolated }: CardProps) {
   const { currentTheme, xl, sm } = useThemeContext();
 
   const asset = getAssetInfo(symbol);
@@ -26,12 +28,16 @@ export default function Card({ link, symbol, id, value, underlyingAsset }: CardP
   return (
     <Link className="Card ButtonLink" to={link} color="dark">
       <Row className="Card__content">
-        <TokenIcon
-          tokenSymbol={symbol}
-          height={iconSize}
-          width={iconSize}
-          tokenFullName={asset.shortSymbol || asset.formattedName}
-        />
+        <div className="Card__content--symbol">
+          <TokenIcon
+            tokenSymbol={symbol}
+            height={iconSize}
+            width={iconSize}
+            tokenFullName={asset.shortSymbol || asset.formattedName}
+          />
+          {isIsolated && <IsolatedBadge />}
+        </div>
+
         <Value
           value={value}
           maximumValueDecimals={6}

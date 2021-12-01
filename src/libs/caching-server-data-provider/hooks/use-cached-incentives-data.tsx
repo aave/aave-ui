@@ -107,7 +107,7 @@ export function useCachedIncentivesData(
           }
           return {
             ...previousQueryResult,
-            userData,
+            userIncentives: userData,
           };
         },
       });

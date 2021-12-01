@@ -7,18 +7,14 @@ import staticStyles from './style';
 
 interface TableAprColProps {
   value: number;
-  thirtyDaysAverage?: string;
   liquidityMiningValue: string | number;
-  condition?: boolean;
   symbol?: string;
   type?: string;
 }
 
 export default function TableAprCol({
   value,
-  thirtyDaysAverage,
   liquidityMiningValue,
-  condition,
   type,
   symbol,
 }: TableAprColProps) {
@@ -26,7 +22,6 @@ export default function TableAprCol({
     <TableCol>
       <LiquidityMiningCard
         value={value}
-        thirtyDaysValue={thirtyDaysAverage}
         liquidityMiningValue={liquidityMiningValue}
         symbol={symbol}
         type={type}

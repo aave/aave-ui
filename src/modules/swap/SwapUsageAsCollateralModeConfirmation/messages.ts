@@ -12,6 +12,8 @@ export default defineMessages({
     "You can't switch usage as collateral mode for this currency, because it will cause collateral call",
   firstCaption: 'Use {currencySymbol} as collateral',
   secondCaption: 'Do not use {currencySymbol} as collateral',
+  firstCaptionIsolated: 'Use {currencySymbol} as collateral and enter isolation mode',
+  secondCaptionIsolated: 'Do not use {currencySymbol} as collateral and exit isolation mode',
   boxTitle: 'Usage as collateral',
   boxDescriptionNotUse: 'Please submit not to use {currencySymbol} as collateral',
   boxDescriptionUse: 'Please submit to use {currencySymbol} as collateral',

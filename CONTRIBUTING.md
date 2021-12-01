@@ -12,22 +12,6 @@ npm run start
 npm run build
 ```
 
-## How to run (via Docker)
-
-```bash
-  docker-compose up
-```
-
-Local URL: [http://localhost:19006](http://localhost:19006)
-
-## How to build (via Docker)
-
-This project based on the [create-react-app](https://github.com/facebook/create-react-app), to build using docker-compose:
-
-```bash
-  docker-compose run frontend npm run build
-```
-
 ## Env parameters
 
 Environment variables are configured via `.env` files.

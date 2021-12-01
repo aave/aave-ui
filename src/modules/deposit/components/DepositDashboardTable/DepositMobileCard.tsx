@@ -23,15 +23,16 @@ import { DepositTableItem } from './types';
 export default function DepositMobileCard({
   reserve: { symbol, liquidityRate, id, underlyingAsset },
   usageAsCollateralEnabledOnUser,
-  usageAsCollateralEnabledOnThePool,
   underlyingBalance,
   underlyingBalanceUSD,
   onToggleSwitch,
   isActive,
   isFrozen,
-  avg30DaysLiquidityRate,
   borrowingEnabled,
   aincentivesAPR,
+  canBeEnabledAsCollateral,
+  isUserInIsolationMode,
+  isIsolated,
 }: DepositTableItem) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -44,7 +45,15 @@ export default function DepositMobileCard({
 
   return (
     <>
-      <MobileCardWrapper symbol={symbol}>
+      <MobileCardWrapper
+        symbol={symbol}
+        isIsolated={
+          isUserInIsolationMode &&
+          usageAsCollateralEnabledOnUser &&
+          canBeEnabledAsCollateral &&
+          isIsolated
+        }
+      >
         <Row title={intl.formatMessage(messages.secondTableColumnTitle)} withMargin={true}>
           <Value
             value={Number(underlyingBalance)}
@@ -58,7 +67,6 @@ export default function DepositMobileCard({
             <LiquidityMiningCard
               symbol={symbol}
               value={borrowingEnabled ? Number(liquidityRate) : 0}
-              thirtyDaysValue={avg30DaysLiquidityRate}
               liquidityMiningValue={aincentivesAPR}
               type="deposit"
             />
@@ -78,13 +86,17 @@ export default function DepositMobileCard({
           className="Row__center"
         >
           <CustomSwitch
-            value={usageAsCollateralEnabledOnUser && usageAsCollateralEnabledOnThePool}
-            offLabel={intl.formatMessage(messages.offLabel)}
+            value={usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral}
+            offLabel={intl.formatMessage(
+              isUserInIsolationMode && !canBeEnabledAsCollateral
+                ? messages.offLabelIsolated
+                : messages.offLabel
+            )}
             onLabel={intl.formatMessage(messages.onLabel)}
             onColor={currentTheme.green.hex}
-            offColor={currentTheme.red.hex}
+            offColor={!canBeEnabledAsCollateral ? currentTheme.lightBlue.hex : currentTheme.red.hex}
             onSwitch={onToggleSwitch}
-            disabled={!usageAsCollateralEnabledOnThePool}
+            disabled={!canBeEnabledAsCollateral}
             swiperHeight={swiperHeight}
             swiperWidth={swiperWidth}
           />
@@ -118,13 +130,13 @@ export default function DepositMobileCard({
           <Link
             to={`/withdraw/${underlyingAsset}-${id}`}
             className="ButtonLink"
-            disabled={!isActive || isFrozen}
+            disabled={!isActive}
           >
             <DefaultButton
               title={intl.formatMessage(defaultMessages.withdraw)}
               color="dark"
               transparent={!isSwapButton}
-              disabled={!isActive || isFrozen}
+              disabled={!isActive}
             />
           </Link>
         </Row>

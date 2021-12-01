@@ -28,15 +28,17 @@ const staticStyles = css.global`
       @include respond-to(sm) {
         justify-content: center;
       }
-      .Value {
-        align-items: flex-start;
-        @include respond-to(sm) {
-          align-items: center;
+      strong {
+        .Value {
+          align-items: flex-start;
+          @include respond-to(sm) {
+            align-items: center;
+          }
         }
-      }
-      .Value .Value__value {
-        &:after {
-          left: 0;
+        .Value .Value__value {
+          &:after {
+            left: 0;
+          }
         }
       }
     }
@@ -65,15 +67,17 @@ const staticStyles = css.global`
           }
         }
       }
-      .Value {
-        align-items: flex-end;
-        @include respond-to(sm) {
-          align-items: center;
+      strong {
+        .Value {
+          align-items: flex-end;
+          @include respond-to(sm) {
+            align-items: center;
+          }
         }
-      }
-      .Value .Value__value {
-        &:after {
-          right: 0;
+        .Value .Value__value {
+          &:after {
+            right: 0;
+          }
         }
       }
     }
@@ -129,52 +133,54 @@ const staticStyles = css.global`
       }
     }
 
-    .Value .Value__value {
-      position: relative;
-      margin-bottom: 6px;
-      padding-bottom: 6px;
-      font-size: 30px;
-      @include respond-to(xl) {
-        font-size: 20px;
-      }
-      @include respond-to(lg) {
-        font-size: $medium;
-        margin-bottom: 4px;
-        padding-bottom: 4px;
-      }
-      @include respond-to(md) {
-        font-size: 20px;
+    strong {
+      .Value .Value__value {
+        position: relative;
         margin-bottom: 6px;
         padding-bottom: 6px;
-      }
-      @include respond-to(sm) {
         font-size: 30px;
-      }
-      &:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        opacity: 0.2;
-        width: 40px;
-        height: 1px;
+        @include respond-to(xl) {
+          font-size: 20px;
+        }
+        @include respond-to(lg) {
+          font-size: $medium;
+          margin-bottom: 4px;
+          padding-bottom: 4px;
+        }
+        @include respond-to(md) {
+          font-size: 20px;
+          margin-bottom: 6px;
+          padding-bottom: 6px;
+        }
         @include respond-to(sm) {
-          right: auto !important;
-          left: 50% !important;
-          transform: translateX(-50%);
+          font-size: 30px;
+        }
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          opacity: 0.2;
+          width: 40px;
+          height: 1px;
+          @include respond-to(sm) {
+            right: auto !important;
+            left: 50% !important;
+            transform: translateX(-50%);
+          }
         }
       }
-    }
 
-    .Value .SubValue {
-      font-size: $regular;
-      font-weight: 300;
-      white-space: nowrap;
-      @include respond-to(xl) {
-        font-size: $extraSmall;
-      }
-      @include respond-to(sm) {
-        font-size: $medium;
-        font-weight: 400;
+      .Value .SubValue {
+        font-size: $regular;
+        font-weight: 300;
+        white-space: nowrap;
+        @include respond-to(xl) {
+          font-size: $extraSmall;
+        }
+        @include respond-to(sm) {
+          font-size: $medium;
+          font-weight: 400;
+        }
       }
     }
   }
