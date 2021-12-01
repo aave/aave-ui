@@ -4,62 +4,22 @@ import { ethers } from 'ethers';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import {
   UiIncentiveDataProvider,
-  UserReserveIncentiveDataHumanizedResponse,
-  Denominations,
   ChainId,
+  ReservesIncentiveDataHumanized,
+  UserReservesIncentivesDataHumanized,
 } from '@aave/contract-helpers';
-import { useProtocolDataContext } from '../../protocol-data-provider';
 
 // interval in which the rpc data is refreshed
 const POOLING_INTERVAL = 30 * 1000;
 // decreased interval in case there was a network error for faster recovery
 const RECOVER_INTERVAL = 10 * 1000;
 
-// From UiIncentiveDataProvider
-export interface ReserveIncentiveData {
-  underlyingAsset: string;
-  aIncentiveData: ReserveTokenIncentives;
-  vIncentiveData: ReserveTokenIncentives;
-  sIncentiveData: ReserveTokenIncentives;
-}
-
-// From UiIncentiveDataProvider
-export interface UserReserveIncentiveData {
-  underlyingAsset: string;
-  aTokenIncentivesUserData: UserTokenIncentives;
-  vTokenIncentivesUserData: UserTokenIncentives;
-  sTokenIncentivesUserData: UserTokenIncentives;
-}
-
-interface ReserveTokenIncentives {
-  emissionPerSecond: string;
-  incentivesLastUpdateTimestamp: number;
-  tokenIncentivesIndex: string;
-  emissionEndTimestamp: number;
-  tokenAddress: string;
-  rewardTokenAddress: string;
-  incentiveControllerAddress: string;
-  rewardTokenDecimals: number;
-  precision: number;
-  priceFeed: string;
-  priceFeedTimestamp: number;
-  priceFeedDecimals: number;
-}
-
-interface UserTokenIncentives {
-  tokenIncentivesUserIndex: string;
-  userUnclaimedRewards: string;
-  tokenAddress: string;
-  rewardTokenAddress: string;
-  incentiveControllerAddress: string;
-  rewardTokenDecimals: number;
-}
 export interface IncentiveDataResponse {
   loading: boolean;
   error: boolean;
   data: {
-    reserveIncentiveData?: ReserveIncentiveData[];
-    userIncentiveData?: UserReserveIncentiveData[];
+    reserveIncentiveData?: ReservesIncentiveDataHumanized[];
+    userIncentiveData?: UserReservesIncentivesDataHumanized[];
   };
   refresh: () => Promise<void>;
 }
@@ -72,17 +32,16 @@ export function useIncentivesData(
   skip: boolean,
   userAddress?: string
 ): IncentiveDataResponse {
-  const { networkConfig } = useProtocolDataContext();
   const currentAccount: string | undefined = userAddress ? userAddress.toLowerCase() : undefined;
   const [loadingReserveIncentives, setLoadingReserveIncentives] = useState<boolean>(true);
   const [errorReserveIncentives, setErrorReserveIncentives] = useState<boolean>(false);
   const [loadingUserIncentives, setLoadingUserIncentives] = useState<boolean>(true);
   const [errorUserIncentives, setErrorUserIncentives] = useState<boolean>(false);
   const [reserveIncentiveData, setReserveIncentiveData] = useState<
-    ReserveIncentiveData[] | undefined
+    ReservesIncentiveDataHumanized[] | undefined
   >(undefined);
   const [userIncentiveData, setUserIncentiveData] = useState<
-    UserReserveIncentiveData[] | undefined
+    UserReservesIncentivesDataHumanized[] | undefined
   >(undefined);
 
   // Fetch reserve incentive data and user incentive data only if currentAccount is set
@@ -110,17 +69,15 @@ export function useIncentivesData(
   ) => {
     const provider = getProvider(chainId);
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
-      incentiveDataProviderAddress,
       provider,
+      uiIncentiveDataProviderAddress: incentiveDataProviderAddress,
     });
 
     try {
       const rawReserveIncentiveData =
-        await incentiveDataProviderContract.getIncentivesDataWithPrice({
-          lendingPoolAddressProvider,
-          quote: networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
-          chainlinkFeedsRegistry: networkConfig.addresses.chainlinkFeedRegistry,
-        });
+        await incentiveDataProviderContract.getReservesIncentivesDataHumanized(
+          lendingPoolAddressProvider
+        );
       setReserveIncentiveData(rawReserveIncentiveData);
       setErrorReserveIncentives(false);
     } catch (e) {
@@ -138,16 +95,16 @@ export function useIncentivesData(
   ) => {
     const provider = getProvider(chainId);
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
-      incentiveDataProviderAddress,
+      uiIncentiveDataProviderAddress: incentiveDataProviderAddress,
       provider,
     });
 
     try {
-      const rawUserIncentiveData: UserReserveIncentiveDataHumanizedResponse[] =
-        await incentiveDataProviderContract.getUserReservesIncentivesDataHumanized(
-          currentAccount,
-          lendingPoolAddressProvider
-        );
+      const rawUserIncentiveData: UserReservesIncentivesDataHumanized[] =
+        await incentiveDataProviderContract.getUserReservesIncentivesDataHumanized({
+          user: currentAccount,
+          lendingPoolAddressProvider,
+        });
 
       setUserIncentiveData(rawUserIncentiveData);
       setErrorUserIncentives(false);
