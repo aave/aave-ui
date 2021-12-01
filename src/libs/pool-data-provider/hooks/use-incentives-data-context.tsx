@@ -2,6 +2,8 @@ import {
   Denominations,
   IncentivesController,
   IncentivesControllerInterface,
+  ReservesIncentiveDataHumanized,
+  UserReservesIncentivesDataHumanized,
 } from '@aave/contract-helpers';
 import {
   calculateAllUserIncentives,
@@ -26,12 +28,7 @@ import { ConnectionMode, useConnectionStatusContext } from '../../connection-sta
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useStaticPoolDataContext } from '../providers/static-pool-data-provider';
 import { useCurrentTimestamp } from './use-current-timestamp';
-import {
-  IncentiveDataResponse,
-  ReserveIncentiveData,
-  useIncentivesData,
-  UserReserveIncentiveData,
-} from './use-incentives-data';
+import { IncentiveDataResponse, useIncentivesData } from './use-incentives-data';
 
 export interface IncentivesContext {
   reserveIncentives: ReserveIncentiveDict;
@@ -53,6 +50,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     getProvider(chainId)
   );
 
+  /* TO-DO: Un-comment once caching server is updated with new UiIncentiveDataProvider
   const {
     loading: cachedDataLoading,
     data: cachedData,
@@ -65,7 +63,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     preferredConnectionMode === ConnectionMode.rpc ||
       chainId !== apolloClientChainId ||
       !networkConfig.addresses.uiIncentiveDataProvider
-  );
+  ); */
 
   const {
     data: rpcData,
@@ -76,15 +74,17 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     chainId,
     networkConfig.addresses.uiIncentiveDataProvider,
-    !isRPCActive || !networkConfig.addresses.uiIncentiveDataProvider,
+    //!isRPCActive || !networkConfig.addresses.uiIncentiveDataProvider, TO-DO: Use this instead
+    false,
     currentAccount
   );
 
-  const activeData = isRPCActive && rpcData ? rpcData : cachedData;
+  //const activeData = isRPCActive && rpcData ? rpcData : cachedData; TO-DO: Use this instead
+  const activeData = rpcData;
 
-  const userIncentiveData: UserReserveIncentiveData[] =
+  const userIncentiveData: UserReservesIncentivesDataHumanized[] =
     activeData && activeData.userIncentiveData ? activeData.userIncentiveData : [];
-  const reserveIncentiveData: ReserveIncentiveData[] =
+  const reserveIncentiveData: ReservesIncentiveDataHumanized[] =
     activeData && activeData.reserveIncentiveData ? activeData.reserveIncentiveData : [];
 
   // Create array of formatted user and reserve data used for user incentive calculations
@@ -147,11 +147,13 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     };
   });
 
-  if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
+  // if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) { TO-DO: Use this instead
+  if (rpcDataLoading) {
     return <Preloader withBackground={true} />;
   }
 
-  if (!activeData || (isRPCActive && rpcDataError) || (!isRPCActive && cachedDataError)) {
+  //if (!activeData || (isRPCActive && rpcDataError) || (!isRPCActive && cachedDataError)) { TO-DO: Use this instead
+  if (!activeData || rpcDataError) {
     return <ErrorPage />;
   }
 
@@ -170,12 +172,13 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
       reserveIncentives[networkConfig.baseAssetWrappedAddress.toLowerCase()];
   }
   // Compute the total claimable rewards for a user, returned as dictionary indexed by incentivesController
-  let userIncentives = calculateAllUserIncentives({
-    reserveIncentives: reserveIncentiveData,
-    userReserveIncentives: userIncentiveData,
-    userReserves: computedUserReserves,
-    currentTimestamp,
-  });
+  let userIncentives = {}; // Temporary
+  // let userIncentives = calculateAllUserIncentives({
+  //   reserveIncentives: reserveIncentiveData,
+  //   userReserveIncentives: userIncentiveData,
+  //   userReserves: computedUserReserves,
+  //   currentTimestamp,
+  // });
 
   return (
     <IncentivesDataContext.Provider
@@ -183,7 +186,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
         incentivesTxBuilder,
         reserveIncentives,
         userIncentives,
-        refresh: isRPCActive ? refresh : async () => {},
+        refresh: isRPCActive ? refresh : async () => { },
       }}
     >
       {children}
