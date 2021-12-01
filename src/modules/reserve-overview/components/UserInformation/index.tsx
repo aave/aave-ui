@@ -265,7 +265,7 @@ export default function UserInformation({
                 <ValuePercent value={user?.currentLoanToValue || 0} color={elementsColor} />
               </Row>
 
-              {(!user?.isInIsolationMode || borrowableAssetInIsolationMode) && (
+              {(!user?.isInIsolationMode || !!borrowableAssetInIsolationMode) && (
                 <Row
                   title={intl.formatMessage(messages.availableToYou)}
                   weight={rowWeight}
