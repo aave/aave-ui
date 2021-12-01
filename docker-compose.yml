@@ -5,6 +5,7 @@ services:
     image: node:16
     command: npm run start
     working_dir: /app
+    user: node
     volumes:
       - ./:/app
     ports:
