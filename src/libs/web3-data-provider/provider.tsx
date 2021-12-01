@@ -409,7 +409,10 @@ export function Web3Provider({
       value={{
         availableAccounts,
         disconnectWallet,
-        currentAccount: currentAccount && mockWalletAddress ? mockWalletAddress : currentAccount,
+        currentAccount:
+          currentAccount && mockWalletAddress
+            ? mockWalletAddress.toLowerCase()
+            : currentAccount.toLowerCase(),
         displaySwitchAccountModal: (reloadAccounts) => {
           openAccountSelector(reloadAccounts);
         },

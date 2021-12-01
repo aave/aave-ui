@@ -1,6 +1,9 @@
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { Pool } from '@aave/contract-helpers';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
@@ -14,14 +17,12 @@ import Value from '../../../../components/basic/Value';
 import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationView';
 import HealthFactor from '../../../../components/HealthFactor';
 import DepositCurrencyWrapper from '../../components/DepositCurrencyWrapper';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import IsolationModeBadge from '../../../../components/isolationMode/IsolationModeBadge';
 import { getAssetInfo } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
-import { Pool } from '@aave/contract-helpers';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-import { USD_DECIMALS } from '@aave/math-utils';
-import { useState } from 'react';
 
 function DepositConfirmation({
   currencySymbol,
@@ -169,7 +170,7 @@ function DepositConfirmation({
         blockingError={blockingError}
         aTokenData={aTokenData}
       >
-        <Row title={intl.formatMessage(messages.valueRowTitle)} withMargin={notShowHealthFactor}>
+        <Row title={intl.formatMessage(messages.valueRowTitle)} withMargin={true}>
           <Value
             symbol={currencySymbol}
             value={amount.toString()}
@@ -181,18 +182,28 @@ function DepositConfirmation({
         </Row>
 
         <Row title={intl.formatMessage(messages.collateral)} withMargin={notShowHealthFactor}>
-          <strong
-            style={{
-              color: usageAsCollateralEnabledOnDeposit
-                ? currentTheme.green.hex
-                : currentTheme.red.hex,
-            }}
-            className="Collateral__text"
-          >
-            {usageAsCollateralEnabledOnDeposit
-              ? intl.formatMessage(messages.yes)
-              : intl.formatMessage(messages.no)}
-          </strong>
+          {!user.isInIsolationMode ? (
+            <>
+              {!poolReserve.isIsolated ? (
+                <strong
+                  style={{
+                    color: usageAsCollateralEnabledOnDeposit
+                      ? currentTheme.green.hex
+                      : currentTheme.red.hex,
+                  }}
+                  className="Collateral__text"
+                >
+                  {usageAsCollateralEnabledOnDeposit
+                    ? intl.formatMessage(messages.yes)
+                    : intl.formatMessage(messages.no)}
+                </strong>
+              ) : (
+                <IsolationModeBadge isIsolated={poolReserve.isIsolated} />
+              )}
+            </>
+          ) : (
+            <IsolationModeBadge isIsolated={poolReserve.isIsolated} />
+          )}
         </Row>
 
         {notShowHealthFactor && (

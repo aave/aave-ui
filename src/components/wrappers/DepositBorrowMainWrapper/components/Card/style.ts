@@ -21,6 +21,15 @@ const staticStyles = css.global`
         justify-content: space-between;
         flex-wrap: wrap;
       }
+
+      &--symbol {
+        display: flex;
+        align-items: center;
+
+        .IsolatedBadge {
+          margin-top: 3px;
+        }
+      }
     }
 
     .TokenIcon {

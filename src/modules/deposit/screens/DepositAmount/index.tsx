@@ -6,6 +6,8 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 import BigNumber from 'bignumber.js';
 
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
+import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
+import { getAssetInfo } from '../../../../helpers/config/assets-config';
 import { usePayments } from '../../../../helpers/payments';
 import { getLPTokenPoolLink } from '../../../../helpers/lp-tokens';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
@@ -18,6 +20,7 @@ import InfoPanel from '../../../../components/InfoPanel';
 import InfoWrapper from '../../../../components/wrappers/InfoWrapper';
 import AMPLWarning from '../../../../components/AMPLWarning';
 import DepositCurrencyWrapper from '../../components/DepositCurrencyWrapper';
+import IsolationModeWarning from '../../../../components/isolationMode/IsolationModeWarning';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
@@ -25,8 +28,6 @@ import routeParamValidationHOC, {
 import messages from './messages';
 
 import linkIcon from '../../../../images/whiteLinkIcon.svg';
-import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
-import { getAssetInfo } from '../../../../helpers/config/assets-config';
 
 interface DepositAmountProps
   extends Pick<
@@ -182,6 +183,8 @@ function DepositAmount({
         )}
 
       <InfoWrapper>
+        {poolReserve.isIsolated && <IsolationModeWarning />}
+
         {currencySymbol === 'AMPL' && <AMPLWarning withInfoPanel={true} />}
 
         {currencySymbol === 'AAVE' && isFeatureEnabled.staking(currentMarketData) && (

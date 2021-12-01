@@ -3,48 +3,26 @@ import React, { PropsWithChildren, useContext, useEffect, useState } from 'react
 import { useCurrentTimestamp } from '../hooks/use-current-timestamp';
 import { useStaticPoolDataContext } from './static-pool-data-provider';
 import {
-  FormatReserveUSDResponse,
-  formatReserveUSD,
+  formatReserves,
   formatUserSummary,
   FormatUserSummaryResponse,
   normalize,
+  FormatReservesUSDRequest,
 } from '@aave/math-utils';
 import BigNumber from 'bignumber.js';
+import { UserReserveDataExtended } from '..';
+import { ReserveDataHumanized } from '@aave/contract-helpers';
 
-export interface ComputedReserveData extends FormatReserveUSDResponse {
-  id: string;
-  underlyingAsset: string;
-  name: string;
-  symbol: string;
-  decimals: number;
-  usageAsCollateralEnabled: boolean;
-  borrowingEnabled: boolean;
-  stableBorrowRateEnabled: boolean;
-  isActive: boolean;
-  isFrozen: boolean;
-  aTokenAddress: string;
-  stableDebtTokenAddress: string;
-  variableDebtTokenAddress: string;
-  priceInMarketReferenceCurrency: string;
-  avg30DaysLiquidityRate?: string;
-  avg30DaysVariableBorrowRate?: string;
-  // new fields, will not be optional once use-pool-data uses a single UiPoolDataProvider
-  isPaused?: boolean;
-  eModeCategoryId?: number;
-  eModeLtv?: number;
-  eModeLiquidationThreshold?: number;
-  eModeLiquidationBonus?: number;
-  eModePriceSource?: string;
-  eModeLabel?: string;
-  debtCeiling: string;
-  borrowCap: string;
-  supplyCap: string;
-  borrowableInIsolation: boolean;
-}
+const humanizedFormatReserves = (
+  reserves: Array<ReserveDataHumanized & { underlyingAsset: string }>,
+  params: FormatReservesUSDRequest
+) => formatReserves<ReserveDataHumanized>(reserves, params);
+export type ComputedReserveData = ReturnType<typeof humanizedFormatReserves>[0];
 
 export interface UserSummary extends FormatUserSummaryResponse {
   id: string;
   isInIsolationMode: boolean;
+  isolatedReserve?: UserReserveDataExtended;
   // isolatedAvailableBorrows: string;
 }
 
@@ -56,8 +34,14 @@ export interface DynamicPoolDataContextData {
 const DynamicPoolDataContext = React.createContext({} as DynamicPoolDataContextData);
 
 export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
-  const { rawReserves, rawUserReserves, userId, marketRefCurrencyDecimals, marketRefPriceInUsd } =
-    useStaticPoolDataContext();
+  const {
+    rawReserves,
+    rawUserReserves,
+    userId,
+    marketRefCurrencyDecimals,
+    marketRefPriceInUsd,
+    userEmodeCategoryId,
+  } = useStaticPoolDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const [lastAvgRatesUpdateTimestamp, setLastAvgRatesUpdateTimestamp] = useState(currentTimestamp);
 
@@ -74,25 +58,14 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
           marketRefPriceInUsd,
           marketRefCurrencyDecimals,
           rawUserReserves,
+          userEmodeCategoryId,
         })
       : undefined;
-  const formattedPoolReserves: ComputedReserveData[] = rawReserves.map((reserve) => {
-    const formattedReserve = formatReserveUSD({
-      reserve,
-      currentTimestamp,
-      marketRefCurrencyDecimals,
-      marketRefPriceInUsd,
-    });
-    const fullReserve: ComputedReserveData = {
-      ...reserve,
-      ...formattedReserve,
-      priceInMarketReferenceCurrency: normalize(
-        reserve.priceInMarketReferenceCurrency,
-        marketRefCurrencyDecimals
-      ),
-      borrowableInIsolation: reserve.borrowableInIsolation ? reserve.borrowableInIsolation : false,
-    };
-    return fullReserve;
+
+  const formattedPoolReserves = humanizedFormatReserves(rawReserves, {
+    currentTimestamp,
+    marketRefCurrencyDecimals,
+    marketRefPriceInUsd,
   });
 
   let userSummary: UserSummary | undefined = undefined;
@@ -112,6 +85,7 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
       id: userId,
       ...computedUserData,
       isInIsolationMode: !!isolatedReserve,
+      isolatedReserve,
       availableBorrowsMarketReferenceCurrency: isolatedAvailableBorrows,
     };
   }

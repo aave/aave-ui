@@ -20,11 +20,11 @@ export default function DepositMobileCard({
   walletBalance,
   walletBalanceInUSD,
   liquidityRate,
-  avg30DaysLiquidityRate,
   userId,
   borrowingEnabled,
   isFreezed,
   aincentivesAPR,
+  isIsolated,
 }: DepositTableItem) {
   const intl = useIntl();
   const history = useHistory();
@@ -37,6 +37,7 @@ export default function DepositMobileCard({
       symbol={symbol}
       withGoToTop={true}
       disabled={isFreezed}
+      isIsolated={isIsolated}
     >
       <Row title={intl.formatMessage(messages.yourWalletBalance)} withMargin={true}>
         {!userId || Number(walletBalance) <= 0 ? (
@@ -59,7 +60,6 @@ export default function DepositMobileCard({
             <LiquidityMiningCard
               symbol={symbol}
               value={liquidityRate}
-              thirtyDaysValue={avg30DaysLiquidityRate}
               liquidityMiningValue={aincentivesAPR}
               type="deposit"
             />

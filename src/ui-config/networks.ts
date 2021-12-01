@@ -2,12 +2,13 @@ import { API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import { BaseNetworkConfig } from '../helpers/config/types';
 import polygonBridgeLogo from './branding/images/polygonLogo.svg';
 import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
+import arbitrumBridgeLogo from './branding/images/arbitrumLogo.svg';
 import { ChainId } from '@aave/contract-helpers';
 
 export const networkConfigs: Record<string, BaseNetworkConfig> = {
   [ChainId.kovan]: {
     name: 'Kovan',
-    publicJsonRPCUrl: ['https://kovan.poa.network'],
+    publicJsonRPCUrl: ['https://eth-kovan.alchemyapi.io/v2/demo', 'https://kovan.poa.network'],
     addresses: {
       walletBalanceProvider: '0x07DC923859b68e9399d787bf52c4Aa9eBe3490aF',
       uiPoolDataProvider: '0x6062ad399E47BF75AEa0b3c5BE7077c1E8664Dcb',
@@ -182,10 +183,10 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     usdMarket: true,
     isTestnet: true,
     bridge: {
-      brandColor: '232, 65, 66',
+      brandColor: '40, 160, 239',
       name: 'Arbitrum Bridge',
       url: 'https://bridge.arbitrum.io',
-      logo: avalancheBridgeLogo, // TO-DO: Update
+      logo: arbitrumBridgeLogo,
     },
   },
 } as const;

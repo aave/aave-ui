@@ -21,15 +21,16 @@ export default function DepositItem({
   reserve: { symbol, liquidityRate, id, underlyingAsset },
   uiColor,
   usageAsCollateralEnabledOnUser,
-  usageAsCollateralEnabledOnThePool,
   underlyingBalance,
   underlyingBalanceUSD,
   onToggleSwitch,
   isActive,
   isFrozen,
-  avg30DaysLiquidityRate,
   index,
   aincentivesAPR,
+  canBeEnabledAsCollateral,
+  isUserInIsolationMode,
+  isIsolated,
 }: DepositTableItem) {
   const intl = useIntl();
   const { currentTheme, xl, lg, md } = useThemeContext();
@@ -41,7 +42,16 @@ export default function DepositItem({
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
 
   return (
-    <TableItem tokenSymbol={symbol} color={uiColor}>
+    <TableItem
+      tokenSymbol={symbol}
+      color={uiColor}
+      isIsolated={
+        isUserInIsolationMode &&
+        usageAsCollateralEnabledOnUser &&
+        canBeEnabledAsCollateral &&
+        isIsolated
+      }
+    >
       <TableValueCol
         value={Number(underlyingBalance)}
         subValue={Number(underlyingBalanceUSD)}
@@ -49,7 +59,6 @@ export default function DepositItem({
       />
       <TableAprCol
         value={Number(liquidityRate)}
-        thirtyDaysAverage={avg30DaysLiquidityRate}
         liquidityMiningValue={aincentivesAPR}
         symbol={symbol}
         type="deposit"
@@ -57,13 +66,17 @@ export default function DepositItem({
 
       <TableCol maxWidth={125}>
         <CustomSwitch
-          value={usageAsCollateralEnabledOnUser && usageAsCollateralEnabledOnThePool}
-          offLabel={intl.formatMessage(messages.offLabel)}
+          value={usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral}
+          offLabel={intl.formatMessage(
+            isUserInIsolationMode && !canBeEnabledAsCollateral
+              ? messages.offLabelIsolated
+              : messages.offLabel
+          )}
           onLabel={intl.formatMessage(messages.onLabel)}
           onColor={currentTheme.green.hex}
-          offColor={currentTheme.red.hex}
+          offColor={!canBeEnabledAsCollateral ? currentTheme.lightBlue.hex : currentTheme.red.hex}
           onSwitch={onToggleSwitch}
-          disabled={!usageAsCollateralEnabledOnThePool}
+          disabled={!canBeEnabledAsCollateral}
           swiperHeight={swiperHeight}
           swiperWidth={swiperWidth}
         />

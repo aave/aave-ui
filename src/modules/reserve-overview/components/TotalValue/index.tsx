@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import Value from '../../../../components/basic/Value';
+import DebtCeilingInfo from '../DebtCeilingInfo';
 
 import staticStyles from './style';
 
@@ -12,6 +13,8 @@ interface TotalValueProps {
   value: number | string;
   subValue: number | string;
   borrowingEnabled: boolean;
+  debtCeilingUSD?: string;
+  debtCeilingDebt?: string;
 }
 
 export default function TotalValue({
@@ -20,6 +23,8 @@ export default function TotalValue({
   value,
   subValue,
   borrowingEnabled,
+  debtCeilingDebt,
+  debtCeilingUSD,
 }: TotalValueProps) {
   const { currentTheme } = useThemeContext();
 
@@ -44,6 +49,10 @@ export default function TotalValue({
             <>—</>
           )}
         </strong>
+
+        {debtCeilingUSD && debtCeilingDebt && (
+          <DebtCeilingInfo debtCeilingUSD={debtCeilingUSD} debtCeilingDebt={debtCeilingDebt} />
+        )}
       </div>
 
       <style jsx={true} global={true}>

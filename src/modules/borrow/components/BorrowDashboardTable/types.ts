@@ -7,7 +7,6 @@ export type BorrowTableItem = {
   borrowingEnabled: boolean;
   stableBorrowRateEnabled: boolean;
   uiColor: string;
-  avg30DaysVariableRate?: string;
   borrowRate: string;
   vincentivesAPR: string;
   sincentivesAPR: string;

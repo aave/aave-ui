@@ -21,12 +21,12 @@ export default function BorrowMobileCard({
   availableBorrowsInUSD,
   stableBorrowRate,
   variableBorrowRate,
-  avg30DaysVariableRate,
   stableBorrowRateEnabled,
   userId,
   isFreezed,
   vincentivesAPR,
   sincentivesAPR,
+  isIsolated,
 }: BorrowTableItem) {
   const intl = useIntl();
   const history = useHistory();
@@ -39,6 +39,7 @@ export default function BorrowMobileCard({
       symbol={symbol}
       withGoToTop={true}
       disabled={isFreezed}
+      isIsolated={isIsolated}
     >
       <Row title={intl.formatMessage(messages.availableToBorrow)} withMargin={true}>
         {!userId || Number(availableBorrows) <= 0 ? (
@@ -60,7 +61,6 @@ export default function BorrowMobileCard({
           <LiquidityMiningCard
             symbol={symbol}
             value={variableBorrowRate}
-            thirtyDaysValue={avg30DaysVariableRate}
             liquidityMiningValue={vincentivesAPR}
             type="borrow-variable"
           />
