@@ -123,12 +123,15 @@ export const getProvider = (chainId: ChainId): ethers.providers.Provider => {
     const config = getNetworkConfig(chainId);
     const chainProviders: ethers.providers.StaticJsonRpcProvider[] = [];
     if (config.privateJsonRPCUrl) {
-      providers[chainId] = new ethers.providers.StaticJsonRpcProvider(config.privateJsonRPCUrl);
+      providers[chainId] = new ethers.providers.StaticJsonRpcProvider(
+        config.privateJsonRPCUrl,
+        chainId
+      );
       return providers[chainId];
     }
     if (config.publicJsonRPCUrl.length) {
       config.publicJsonRPCUrl.map((rpc) =>
-        chainProviders.push(new ethers.providers.StaticJsonRpcProvider(rpc))
+        chainProviders.push(new ethers.providers.StaticJsonRpcProvider(rpc, chainId))
       );
     }
     if (!chainProviders.length) {

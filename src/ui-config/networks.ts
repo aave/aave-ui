@@ -8,7 +8,7 @@ import { ChainId } from '@aave/contract-helpers';
 export const networkConfigs: Record<string, BaseNetworkConfig> = {
   [ChainId.kovan]: {
     name: 'Kovan',
-    publicJsonRPCUrl: ['https://kovan.poa.network'],
+    publicJsonRPCUrl: ['https://eth-kovan.alchemyapi.io/v2/demo', 'https://kovan.poa.network'],
     addresses: {
       walletBalanceProvider: '0x07DC923859b68e9399d787bf52c4Aa9eBe3490aF',
       uiPoolDataProvider: '0x6062ad399E47BF75AEa0b3c5BE7077c1E8664Dcb',
@@ -29,7 +29,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     isTestnet: true,
   },
   [ChainId.mainnet]: {
-    name: 'Ethereum Mainnet',
+    name: 'Ethereum mainnet',
     publicJsonRPCUrl: ['https://cloudflare-eth.com', 'https://eth-mainnet.alchemyapi.io/v2/demo'],
     publicJsonRPCWSUrl: 'wss://eth-mainnet.alchemyapi.io/v2/demo',
     addresses: {

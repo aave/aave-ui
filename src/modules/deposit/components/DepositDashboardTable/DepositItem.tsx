@@ -78,7 +78,7 @@ export default function DepositItem({
         )}
 
         <TableButtonCol
-          disabled={!isActive || isFrozen}
+          disabled={!isActive}
           title={intl.formatMessage(defaultMessages.withdraw)}
           linkTo={`/withdraw/${underlyingAsset}-${id}`}
           withoutBorder={!isSwapButton}

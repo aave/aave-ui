@@ -19,7 +19,7 @@ const SPEC_LIST = {
       './e2e/specs/mainMarket/assets/bat.test.js',
     ],
     reward: './e2e/specs/mainMarket/reward.test.js',
-    stake: './e2e/specs/mainMarket/stake.kovan.test.js',
+    stake: './e2e/specs/mainMarket/stake.test.js',
     swap: './e2e/specs/mainMarket/swap.test.js'
   },
   polygonMarket: {
@@ -67,7 +67,7 @@ let executionList = () => {
   _specs.push(SPEC_LIST.aaveMarket.variableAssets[random(SPEC_LIST.aaveMarket.variableAssets.length)])
   _specs.push(SPEC_LIST.aaveMarket.reward)
   _specs.push(SPEC_LIST.aaveMarket.swap)
-  // _specs.push(SPEC_LIST.aaveMarket.stake) - bugged
+  _specs.push(SPEC_LIST.aaveMarket.stake)
   _specs.push(SPEC_LIST.polygonMarket.baseAsset)
   _specs.push(SPEC_LIST.polygonMarket.otherAssets[random(SPEC_LIST.polygonMarket.otherAssets.length)])
   _specs.push(SPEC_LIST.polygonMarket.reward)
