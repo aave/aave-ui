@@ -3,9 +3,6 @@ import { API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useUserWalletDataContext } from '../../web3-data-provider';
 import { NetworkConfig } from '../../../helpers/config/types';
-import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/use-cached-protocol-data';
-import { useApolloConfigContext } from '../../apollo-config';
-import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
 import { assetsOrder } from '../../../ui-config/assets';
 import { ChainId, WalletBalanceProvider } from '@aave/contract-helpers';
 import { usePoolData } from '../hooks/use-pool-data';
@@ -41,7 +38,7 @@ export interface StaticPoolDataContextData {
   marketRefPriceInUsd: string;
   WrappedBaseNetworkAssetAddress: string;
   userEmodeCategoryId: number;
-  refresh: () => Promise<void>;
+  refresh?: () => Promise<void>;
   walletData: { [address: string]: { amount: string; amountUSD: string } };
   refetchWalletData: () => {};
 }
@@ -60,42 +57,24 @@ export function StaticPoolDataProvider({
   errorPage,
 }: StaticPoolDataProviderProps) {
   const { currentAccount } = useUserWalletDataContext();
-  const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
-  const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
   const [walletData, setWalletsBalance] = useState<{
     [address: string]: { amount: string; amountUSD: string };
   }>({});
-  const RPC_ONLY_MODE = networkConfig.rpcOnly;
 
-  const {
-    error: cachedDataError,
-    loading: cachedDataLoading,
-    data: cachedData,
-  } = useCachedProtocolData(
-    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
-    currentAccount,
-    preferredConnectionMode === ConnectionMode.rpc || chainId !== apolloClientChainId
-  );
+  const { loading, data, error, refresh } = usePoolData();
 
-  const {
-    error: rpcDataError,
-    loading: rpcDataLoading,
-    data: rpcData,
-    refresh,
-  } = usePoolData(
-    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
-    chainId,
-    networkConfig.addresses.uiPoolDataProvider,
-    !isRPCActive,
-    currentAccount
-  );
+  const marketRefPriceInUsd = data?.reserves?.baseCurrencyData?.marketReferenceCurrencyPriceInUsd
+    ? data.reserves.baseCurrencyData?.marketReferenceCurrencyPriceInUsd
+    : '0';
 
-  const isLoading = rpcDataLoading || cachedDataLoading;
-  const activeData = isRPCActive && rpcData ? rpcData : cachedData;
+  const marketRefCurrencyDecimals = data?.reserves?.baseCurrencyData
+    ?.marketReferenceCurrencyDecimals
+    ? data.reserves.baseCurrencyData?.marketReferenceCurrencyDecimals
+    : 18;
 
   async function fetchWalletData() {
-    if (!currentAccount || !activeData?.reserves) return;
+    if (!currentAccount || !data?.reserves) return;
     const contract = new WalletBalanceProvider({
       walletBalanceProviderAddress: networkConfig.addresses.walletBalanceProvider,
       provider: getProvider(chainId),
@@ -106,7 +85,7 @@ export function StaticPoolDataProvider({
     );
 
     const aggregatedBalance = reserves.reduce((acc, reserve, i) => {
-      const poolReserve = activeData.reserves?.reservesData.find((poolReserve) => {
+      const poolReserve = data.reserves?.reservesData.find((poolReserve) => {
         // TODO: not 100% sure this is correct
         if (reserve.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()) {
           return (
@@ -136,18 +115,18 @@ export function StaticPoolDataProvider({
   usePolling(fetchWalletData, 30000, !currentAccount, [
     currentAccount,
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
-    isLoading,
+    loading,
   ]);
 
-  if ((isRPCActive && rpcDataLoading && !rpcData) || (!isRPCActive && cachedDataLoading)) {
+  if (loading && !data) {
     return loader;
   }
 
-  if (!activeData || (isRPCActive && rpcDataError) || (!isRPCActive && cachedDataError)) {
+  if (!data || error) {
     return errorPage;
   }
 
-  const reserves: ReserveDataHumanized[] | undefined = activeData.reserves?.reservesData
+  const reserves: ReserveDataHumanized[] | undefined = data.reserves?.reservesData
     .map((reserve) => ({
       ...reserve,
     }))
@@ -171,7 +150,7 @@ export function StaticPoolDataProvider({
 
   const userReserves: UserReserveDataExtended[] = [];
   const userReservesWithFixedUnderlying: UserReserveDataExtended[] = [];
-  activeData.userReserves?.forEach((userReserve) => {
+  data.userReserves?.forEach((userReserve) => {
     const reserve = reserves?.find(
       (reserve) =>
         reserve.underlyingAsset.toLowerCase() === userReserve.underlyingAsset.toLowerCase()
@@ -203,20 +182,6 @@ export function StaticPoolDataProvider({
     (userReserve) => userReserve.scaledATokenBalance !== '0'
   );
 
-  if (!RPC_ONLY_MODE && isRPCActive && rpcData) {
-    console.log('switched to RPC');
-  }
-
-  const marketRefPriceInUsd = activeData?.reserves?.baseCurrencyData
-    ?.marketReferenceCurrencyPriceInUsd
-    ? activeData.reserves.baseCurrencyData?.marketReferenceCurrencyPriceInUsd
-    : '0';
-
-  const marketRefCurrencyDecimals = activeData?.reserves?.baseCurrencyData
-    ?.marketReferenceCurrencyDecimals
-    ? activeData.reserves.baseCurrencyData?.marketReferenceCurrencyDecimals
-    : 18;
-
   let userEmodeCategoryId =
     userReserves && userReserves[0] ? userReserves[0].userEmodeCategoryId : 0;
   //  userEmodeCategoryId = 1;
@@ -226,7 +191,7 @@ export function StaticPoolDataProvider({
         userId: currentAccount,
         chainId,
         networkConfig,
-        refresh: isRPCActive ? refresh : async () => {},
+        refresh,
         WrappedBaseNetworkAssetAddress: networkConfig.baseAssetWrappedAddress
           ? networkConfig.baseAssetWrappedAddress
           : '', // TO-DO: Replace all instances of this with the value from protocol-data-provider instead
