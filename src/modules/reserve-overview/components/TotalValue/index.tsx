@@ -14,7 +14,7 @@ interface TotalValueProps {
   subValue: number | string;
   borrowingEnabled: boolean;
   debtCeilingUSD?: string;
-  totalDebtUSD?: string;
+  debtCeilingDebt?: string;
 }
 
 export default function TotalValue({
@@ -23,7 +23,7 @@ export default function TotalValue({
   value,
   subValue,
   borrowingEnabled,
-  totalDebtUSD,
+  debtCeilingDebt,
   debtCeilingUSD,
 }: TotalValueProps) {
   const { currentTheme } = useThemeContext();
@@ -50,8 +50,8 @@ export default function TotalValue({
           )}
         </strong>
 
-        {debtCeilingUSD && totalDebtUSD && (
-          <DebtCeilingInfo debtCeilingUSD={debtCeilingUSD} totalDebtUSD={totalDebtUSD} />
+        {debtCeilingUSD && debtCeilingDebt && (
+          <DebtCeilingInfo debtCeilingUSD={debtCeilingUSD} debtCeilingDebt={debtCeilingDebt} />
         )}
       </div>
 

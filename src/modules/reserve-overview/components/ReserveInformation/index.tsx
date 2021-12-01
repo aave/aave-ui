@@ -70,6 +70,7 @@ export default function ReserveInformation({
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
     borrowingEnabled: poolReserve.borrowingEnabled,
     debtCeilingUSD: poolReserve.debtCeiling, // TODO: should be debtCeilingUSD
+    debtCeilingDebt: poolReserve.isolationModeTotalDebt,
     totalDebtUSD: poolReserve.totalDebtUSD,
     isIsolated: poolReserve.isIsolated,
   };
@@ -142,8 +143,8 @@ export default function ReserveInformation({
               debtCeilingUSD={
                 reserveOverviewData.isIsolated ? reserveOverviewData.debtCeilingUSD : undefined
               }
-              totalDebtUSD={
-                reserveOverviewData.isIsolated ? reserveOverviewData.totalDebtUSD : undefined
+              debtCeilingDebt={
+                reserveOverviewData.isIsolated ? reserveOverviewData.debtCeilingDebt : undefined
               }
             />
           </div>
