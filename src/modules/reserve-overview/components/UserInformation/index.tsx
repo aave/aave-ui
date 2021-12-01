@@ -187,7 +187,6 @@ export default function UserInformation({
                     disabled={!poolReserve.usageAsCollateralEnabled}
                     swiperHeight={switcherHeight}
                     swiperWidth={switcherWidth}
-                    onDarkBackground={sm}
                   />
                 </div>
               )}

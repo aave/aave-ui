@@ -16,5 +16,6 @@ export default defineMessages({
   depositMore: 'Deposit more',
 
   offLabel: 'No',
+  offLabelIsolated: 'N/A',
   onLabel: 'Yes',
 });

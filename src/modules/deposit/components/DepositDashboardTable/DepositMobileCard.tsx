@@ -31,6 +31,8 @@ export default function DepositMobileCard({
   borrowingEnabled,
   aincentivesAPR,
   canBeEnabledAsCollateral,
+  isUserInIsolationMode,
+  isIsolated,
 }: DepositTableItem) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -43,7 +45,15 @@ export default function DepositMobileCard({
 
   return (
     <>
-      <MobileCardWrapper symbol={symbol}>
+      <MobileCardWrapper
+        symbol={symbol}
+        isIsolated={
+          isUserInIsolationMode &&
+          usageAsCollateralEnabledOnUser &&
+          canBeEnabledAsCollateral &&
+          isIsolated
+        }
+      >
         <Row title={intl.formatMessage(messages.secondTableColumnTitle)} withMargin={true}>
           <Value
             value={Number(underlyingBalance)}
@@ -77,10 +87,14 @@ export default function DepositMobileCard({
         >
           <CustomSwitch
             value={usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral}
-            offLabel={intl.formatMessage(messages.offLabel)}
+            offLabel={intl.formatMessage(
+              isUserInIsolationMode && !canBeEnabledAsCollateral
+                ? messages.offLabelIsolated
+                : messages.offLabel
+            )}
             onLabel={intl.formatMessage(messages.onLabel)}
             onColor={currentTheme.green.hex}
-            offColor={currentTheme.red.hex}
+            offColor={!canBeEnabledAsCollateral ? currentTheme.lightBlue.hex : currentTheme.red.hex}
             onSwitch={onToggleSwitch}
             disabled={!canBeEnabledAsCollateral}
             swiperHeight={swiperHeight}

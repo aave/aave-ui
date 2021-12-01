@@ -8,8 +8,13 @@ import messages from './messages';
 import staticStyles from './style';
 
 import alert from '../../../images/alertCircle.svg';
+import alertWhite from '../../../images/alertCircleWhite.svg';
 
-export default function IsolatedBadge() {
+interface IsolatedBadgeProps {
+  isWhiteIcon?: boolean;
+}
+
+export default function IsolatedBadge({ isWhiteIcon }: IsolatedBadgeProps) {
   const intl = useIntl();
   const { currentTheme, xl } = useThemeContext();
 
@@ -28,7 +33,12 @@ export default function IsolatedBadge() {
     >
       <p className="IsolatedBadge__text">{intl.formatMessage(messages.isolated)}</p>
       <button className="IsolatedBadge__button" type="button">
-        <img width={xl ? 14 : 16} height={xl ? 14 : 16} src={alert} alt="" />
+        <img
+          width={xl ? 14 : 16}
+          height={xl ? 14 : 16}
+          src={isWhiteIcon ? alertWhite : alert}
+          alt=""
+        />
       </button>
 
       {isModalVisible && (
