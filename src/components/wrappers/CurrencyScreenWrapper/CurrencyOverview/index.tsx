@@ -65,10 +65,8 @@ export default function CurrencyOverview({
       .shiftedBy(-USD_DECIMALS)
       .toNumber(),
     depositApy: Number(poolReserve.supplyAPY),
-    avg30DaysLiquidityRate: Number(poolReserve.avg30DaysLiquidityRate),
     stableRate: Number(poolReserve.stableBorrowAPY),
     variableRate: Number(poolReserve.variableBorrowAPY),
-    avg30DaysVariableRate: Number(poolReserve.avg30DaysVariableBorrowRate),
     usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
     baseLTVasCollateral: Number(poolReserve.baseLTVasCollateral),
@@ -117,27 +115,13 @@ export default function CurrencyOverview({
             <Row
               className="CurrencyOverview__row"
               title={intl.formatMessage(messages.depositAPY)}
-              subTitle={
-                !!overviewData.avg30DaysLiquidityRate && !isCollapse
-                  ? intl.formatMessage(messages.depositAPR)
-                  : ''
-              }
               color="white"
               weight="light"
               isColumn={isCollapse}
             >
               <div className="CurrencyOverview__rowWithDoubleValue">
                 {overviewData.borrowingEnabled ? (
-                  <>
-                    <ValuePercent value={overviewData.depositApy} color="white" />
-                    {!!overviewData.avg30DaysLiquidityRate && !isCollapse && (
-                      <ValuePercent
-                        value={overviewData.avg30DaysLiquidityRate}
-                        color="white"
-                        className="CurrencyOverview__thirtyDays"
-                      />
-                    )}
-                  </>
+                  <ValuePercent value={overviewData.depositApy} color="white" />
                 ) : (
                   <span className="CurrencyOverview__no-data">—</span>
                 )}
@@ -201,7 +185,6 @@ export default function CurrencyOverview({
     isCollapse,
     isUserInIsolationMode,
     overviewData.availableLiquidity,
-    overviewData.avg30DaysLiquidityRate,
     overviewData.borrowingEnabled,
     overviewData.depositApy,
     overviewData.priceInUsd,
@@ -321,13 +304,6 @@ export default function CurrencyOverview({
             >
               <div className="CurrencyOverview__rowWithDoubleValue">
                 <ValuePercent value={overviewData.variableRate} color="white" />
-                {!!overviewData.avg30DaysVariableRate && !isCollapse && (
-                  <ValuePercent
-                    value={overviewData.avg30DaysVariableRate}
-                    color="white"
-                    className="CurrencyOverview__thirtyDays"
-                  />
-                )}
               </div>
             </Row>
           </>
@@ -361,7 +337,6 @@ export default function CurrencyOverview({
     overviewData.liquidationBonus,
     overviewData.stableBorrowRateEnabled,
     overviewData.stableRate,
-    overviewData.avg30DaysVariableRate,
     overviewData.variableRate,
     currentLangSlug,
   ]);

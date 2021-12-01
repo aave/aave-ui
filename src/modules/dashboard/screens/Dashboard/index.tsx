@@ -92,7 +92,6 @@ export default function Dashboard() {
         depositedPositions.push({
           ...baseListData,
           borrowingEnabled: poolReserve.borrowingEnabled,
-          avg30DaysLiquidityRate: poolReserve.avg30DaysLiquidityRate,
           usageAsCollateralEnabledOnUser: userReserve.usageAsCollateralEnabledOnUser,
           canBeEnabledAsCollateral:
             poolReserve.usageAsCollateralEnabled &&
@@ -128,7 +127,6 @@ export default function Dashboard() {
           sincentivesAPR: reserveIncentiveData
             ? reserveIncentiveData.sIncentives.incentiveAPR
             : '0',
-          avg30DaysVariableRate: poolReserve.avg30DaysVariableBorrowRate,
           repayLink: loanActionLinkComposer(
             'repay',
             poolReserve.id,

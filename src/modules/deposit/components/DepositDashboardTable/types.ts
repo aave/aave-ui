@@ -6,7 +6,6 @@ export type DepositTableItem = {
   isFrozen: boolean;
   uiColor: string;
   reserve: Pick<RawReserveData, 'id' | 'symbol' | 'name' | 'liquidityRate' | 'underlyingAsset'>;
-  avg30DaysLiquidityRate?: string;
   aincentivesAPR: string;
   borrowingEnabled: boolean;
   index?: number;

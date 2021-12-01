@@ -26,7 +26,6 @@ export default function DepositItem({
   onToggleSwitch,
   isActive,
   isFrozen,
-  avg30DaysLiquidityRate,
   index,
   aincentivesAPR,
   canBeEnabledAsCollateral,
@@ -48,7 +47,6 @@ export default function DepositItem({
       />
       <TableAprCol
         value={Number(liquidityRate)}
-        thirtyDaysAverage={avg30DaysLiquidityRate}
         liquidityMiningValue={aincentivesAPR}
         symbol={symbol}
         type="deposit"

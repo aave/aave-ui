@@ -52,7 +52,6 @@ export default function ReserveInformation({
     availableLiquidity: poolReserve.availableLiquidity,
     supplyAPY: Number(poolReserve.supplyAPY),
     supplyAPR: Number(poolReserve.supplyAPR),
-    avg30DaysLiquidityRate: Number(poolReserve.avg30DaysLiquidityRate),
     stableAPY: Number(poolReserve.stableBorrowAPY),
     stableAPR: Number(poolReserve.stableBorrowAPR),
     variableAPY: Number(poolReserve.variableBorrowAPY),
@@ -63,7 +62,6 @@ export default function ReserveInformation({
     variableOverTotal: valueToBigNumber(poolReserve.totalVariableDebt)
       .dividedBy(poolReserve.totalDebt)
       .toNumber(),
-    avg30DaysVariableRate: Number(poolReserve.avg30DaysVariableBorrowRate),
     utilizationRate: Number(poolReserve.utilizationRate),
     baseLTVasCollateral: Number(poolReserve.baseLTVasCollateral),
     liquidationThreshold: Number(poolReserve.reserveLiquidationThreshold),

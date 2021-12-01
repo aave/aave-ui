@@ -25,10 +25,8 @@ export default function MarketMobileCard({
   aincentivesAPR,
   vincentivesAPR,
   sincentivesAPR,
-  avg30DaysLiquidityRate,
   stableBorrowRate,
   variableBorrowRate,
-  avg30DaysVariableRate,
   borrowingEnabled,
   stableBorrowRateEnabled,
   isFreezed,
@@ -42,7 +40,6 @@ export default function MarketMobileCard({
     {
       title: messages.deposit,
       value: depositAPY,
-      thirtyDaysValue: avg30DaysLiquidityRate,
       liquidityMiningValue: aincentivesAPR,
       enabled: true,
       type: 'deposit',
@@ -51,7 +48,6 @@ export default function MarketMobileCard({
       title: messages.borrow,
       subTitle: messages.variable,
       value: variableBorrowRate,
-      thirtyDaysValue: avg30DaysVariableRate,
       liquidityMiningValue: vincentivesAPR,
       enabled: borrowingEnabled,
       type: 'borrow-variable',
@@ -121,7 +117,6 @@ export default function MarketMobileCard({
                 <LiquidityMiningCard
                   symbol={currencySymbol}
                   value={card.value}
-                  thirtyDaysValue={card.thirtyDaysValue}
                   liquidityMiningValue={card.liquidityMiningValue}
                   mobilePosition="left"
                   type={card.type}

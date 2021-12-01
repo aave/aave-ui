@@ -28,7 +28,6 @@ export default function DepositMobileCard({
   onToggleSwitch,
   isActive,
   isFrozen,
-  avg30DaysLiquidityRate,
   borrowingEnabled,
   aincentivesAPR,
   canBeEnabledAsCollateral,
@@ -58,7 +57,6 @@ export default function DepositMobileCard({
             <LiquidityMiningCard
               symbol={symbol}
               value={borrowingEnabled ? Number(liquidityRate) : 0}
-              thirtyDaysValue={avg30DaysLiquidityRate}
               liquidityMiningValue={aincentivesAPR}
               type="deposit"
             />
