@@ -249,7 +249,19 @@ export default function CurrencyOverview({
               {overviewData.baseLTVasCollateral === 0 ? (
                 <span className="CurrencyOverview__no-data">—</span>
               ) : (
-                <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                <>
+                  {isUserInIsolationMode ? (
+                    <>
+                      {overviewData.isIsolated ? (
+                        <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                      ) : (
+                        <span className="CurrencyOverview__no-data">—</span>
+                      )}
+                    </>
+                  ) : (
+                    <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                  )}
+                </>
               )}
             </Row>
 
@@ -270,7 +282,19 @@ export default function CurrencyOverview({
                 {overviewData.liquidationThreshold <= 0 ? (
                   <span className="CurrencyOverview__no-data">—</span>
                 ) : (
-                  <ValuePercent value={overviewData.liquidationThreshold} color="white" />
+                  <>
+                    {isUserInIsolationMode ? (
+                      <>
+                        {overviewData.isIsolated ? (
+                          <ValuePercent value={overviewData.liquidationThreshold} color="white" />
+                        ) : (
+                          <span className="CurrencyOverview__no-data">—</span>
+                        )}
+                      </>
+                    ) : (
+                      <ValuePercent value={overviewData.liquidationThreshold} color="white" />
+                    )}
+                  </>
                 )}
               </Row>
             )}
@@ -292,7 +316,19 @@ export default function CurrencyOverview({
                 {overviewData.liquidationBonus <= 0 ? (
                   <span className="CurrencyOverview__no-data">—</span>
                 ) : (
-                  <ValuePercent value={overviewData.liquidationBonus} color="white" />
+                  <>
+                    {isUserInIsolationMode ? (
+                      <>
+                        {overviewData.isIsolated ? (
+                          <ValuePercent value={overviewData.liquidationBonus} color="white" />
+                        ) : (
+                          <span className="CurrencyOverview__no-data">—</span>
+                        )}
+                      </>
+                    ) : (
+                      <ValuePercent value={overviewData.liquidationBonus} color="white" />
+                    )}
+                  </>
                 )}
               </Row>
             )}

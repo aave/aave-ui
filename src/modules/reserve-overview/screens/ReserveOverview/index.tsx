@@ -1,13 +1,18 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
 import { getLPTokenPoolLink } from '../../../../helpers/lp-tokens';
 import { RATES_HISTORY_ENDPOINT } from '../../../../helpers/config/misc-config';
-import { useThemeContext } from '@aave/aave-ui-kit';
+import { getAssetInfo } from '../../../../helpers/config/assets-config';
+import {
+  FormattedReserveHistoryItem,
+  useReserveRatesHistory,
+} from '../../../../libs/pool-data-provider/hooks/use-reserve-rates-history';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import NoDataPanel from '../../../../components/NoDataPanel';
@@ -22,16 +27,21 @@ import messages from './messages';
 import staticStyles from './style';
 
 import linkIcon from '../../../../images/blueLinkIcon.svg';
-import { getAssetInfo } from '../../../../helpers/config/assets-config';
-import { useReserveRatesHistory } from '../../../../libs/pool-data-provider/hooks/use-reserve-rates-history';
 
-function Charts({ poolReserve }: { poolReserve: ValidationWrapperComponentProps['poolReserve'] }) {
-  const { data, loading } = useReserveRatesHistory(poolReserve.id);
+function Charts({
+  poolReserve,
+  data,
+  loading,
+}: {
+  poolReserve: ValidationWrapperComponentProps['poolReserve'];
+  data: FormattedReserveHistoryItem[];
+  loading: boolean;
+}) {
   return (
-    <div className="ReserveOverview__graphs-wrapper">
-      <div className="ReserveOverview__graphs-inner">
-        {(loading || data.length !== 0) && (
-          <>
+    <>
+      {(loading || data.length !== 0) && (
+        <div className="ReserveOverview__graphs-wrapper">
+          <div className="ReserveOverview__graphs-inner">
             <BorrowAPR
               data={data}
               borrowingEnabled={poolReserve.borrowingEnabled}
@@ -39,10 +49,10 @@ function Charts({ poolReserve }: { poolReserve: ValidationWrapperComponentProps[
             />
             <DepositAPY data={data} borrowingEnabled={poolReserve.borrowingEnabled} />
             <UtilisationRate data={data} borrowingEnabled={poolReserve.borrowingEnabled} />
-          </>
-        )}
-      </div>
-    </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -53,6 +63,8 @@ function ReserveOverview({
   walletBalance,
   user,
 }: ValidationWrapperComponentProps) {
+  const { data: chartsData, loading: chartsLoading } = useReserveRatesHistory(poolReserve.id);
+
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
   const asset = getAssetInfo(currencySymbol);
@@ -68,11 +80,11 @@ function ReserveOverview({
     <ScreenWrapper
       pageTitle={intl.formatMessage(messages.pageTitle, { currencySymbol: asset.formattedName })}
       isTitleOnDesktop={
-        (!sm && !poolReserve.borrowingEnabled) || (!sm && !isReserveHistoryGraphsVisible)
+        (!sm && !poolReserve.borrowingEnabled) ||
+        (!sm && !isReserveHistoryGraphsVisible) ||
+        (!sm && chartsData.length === 0 && !chartsLoading)
       }
-      isTopLineSmall={
-        !(!sm && !poolReserve.borrowingEnabled) || (!sm && !isReserveHistoryGraphsVisible)
-      }
+      isTopLineSmall={true}
       className="ReserveOverview"
       withMobileGrayBg={true}
     >
@@ -117,7 +129,7 @@ function ReserveOverview({
         )}
 
         {poolReserve.borrowingEnabled && isReserveHistoryGraphsVisible && (
-          <Charts poolReserve={poolReserve} />
+          <Charts data={chartsData} poolReserve={poolReserve} loading={chartsLoading} />
         )}
 
         <div className="ReserveOverview__content-wrapper">

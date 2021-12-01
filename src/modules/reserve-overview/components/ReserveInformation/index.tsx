@@ -71,6 +71,8 @@ export default function ReserveInformation({
     usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
     borrowingEnabled: poolReserve.borrowingEnabled,
+    debtCeilingUSD: poolReserve.debtCeiling, // TODO: should be debtCeilingUSD
+    totalDebtUSD: poolReserve.totalDebtUSD,
     isIsolated: poolReserve.isIsolated,
   };
 
@@ -139,6 +141,12 @@ export default function ReserveInformation({
               value={reserveOverviewData.availableLiquidity}
               subValue={reserveOverviewData.availableLiquidityInUsd}
               borrowingEnabled={reserveOverviewData.borrowingEnabled}
+              debtCeilingUSD={
+                reserveOverviewData.isIsolated ? reserveOverviewData.debtCeilingUSD : undefined
+              }
+              totalDebtUSD={
+                reserveOverviewData.isIsolated ? reserveOverviewData.totalDebtUSD : undefined
+              }
             />
           </div>
 

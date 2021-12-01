@@ -265,24 +265,27 @@ export default function UserInformation({
               >
                 <ValuePercent value={user?.currentLoanToValue || 0} color={elementsColor} />
               </Row>
-              <Row
-                title={intl.formatMessage(messages.availableToYou)}
-                weight={rowWeight}
-                color={elementsColor}
-                withMargin={user?.isInIsolationMode}
-              >
-                {poolReserve.borrowingEnabled ? (
-                  <Value
-                    value={availableBorrows}
-                    symbol={symbol}
-                    minimumValueDecimals={2}
-                    maximumValueDecimals={2}
-                    color={elementsColor}
-                  />
-                ) : (
-                  <span className="UserInformation__noData">—</span>
-                )}
-              </Row>
+
+              {(!user?.isInIsolationMode || borrowableAssetInIsolationMode) && (
+                <Row
+                  title={intl.formatMessage(messages.availableToYou)}
+                  weight={rowWeight}
+                  color={elementsColor}
+                  withMargin={user?.isInIsolationMode}
+                >
+                  {poolReserve.borrowingEnabled ? (
+                    <Value
+                      value={availableBorrows}
+                      symbol={symbol}
+                      minimumValueDecimals={2}
+                      maximumValueDecimals={2}
+                      color={elementsColor}
+                    />
+                  ) : (
+                    <span className="UserInformation__noData">—</span>
+                  )}
+                </Row>
+              )}
 
               {user?.isInIsolationMode && (
                 <IsolationInfoBanner
