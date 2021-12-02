@@ -120,7 +120,12 @@ export default function AddressInfo() {
                 {ensName ? (
                   <>
                     <div className="AddressInfo__contentProfile">
-                      <img src={ensAvatar} className="AddressInfo__ensAvatar" alt="" />
+                      <img
+                        src={useBlockie ? makeBlockie(currentAccount) : ensAvatar}
+                        className="AddressInfo__ensAvatar"
+                        alt=""
+                        onError={() => setUseBlockie(true)}
+                      />
                       <p className="AddressInfo__contentEns">{ensName}</p>
                     </div>
 
