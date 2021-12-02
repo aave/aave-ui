@@ -25,7 +25,7 @@ class BorrowPage extends Page {
     MainPage.doWaitLoaderComplete()
     let _assetRow = this.assetTable.$(".//*[text()='"+assetName+"']/../../../..")
     elemUtil.doClickWithRedirect(_assetRow)
-  }g
+  }
 
   openAssetBorrowPage(assetName){
     MainPage.doWaitLoaderComplete()

@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "debug": "node ./node_modules/.bin/wdio ./configs/debug.conf.js",
-    "lambdaTestDebug": "node ./node_modules/.bin/wdio ./configs/lambdaTestDebug.conf.js",
-    "lambdaTest": "node ./node_modules/.bin/wdio ./configs/lambdaTest.conf.js"
+    "lambdatest-debug": "node ./node_modules/.bin/wdio ./configs/lambdaTestDebug.conf.js",
+    "ci-firerox": "node ./node_modules/.bin/wdio configs/CI/lambdatets-firefox.conf.js",
+    "ci-main": "node ./node_modules/.bin/wdio configs/CI/lambdatest-main.conf.js"
   },
   "author": "",
   "license": "ISC",
@@ -24,7 +25,6 @@
     "@wdio/browserstack-service": "^7.16.3",
     "@wdio/local-runner": "^7.16.3",
     "@wdio/mocha-framework": "^7.16.3",
-    "@wdio/selenium-standalone-service": "^7.16.3",
     "@wdio/spec-reporter": "^7.16.3",
     "@wdio/sync": "^7.16.3",
     "axios": "^0.24.0",
