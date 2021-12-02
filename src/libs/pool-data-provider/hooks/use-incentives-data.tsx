@@ -5,14 +5,10 @@ import { getProvider } from '../../../helpers/config/markets-and-network-config'
 import {
   UiIncentiveDataProvider,
   ChainId,
-  ReservesIncentiveDataHumanized,
-  UserReservesIncentivesDataHumanized,
+  ReserveIncentiveDataHumanizedResponse,
+  UserReserveIncentiveDataHumanizedResponse,
 } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../../protocol-data-provider';
-import {
-  PoolIncentivesWithCache,
-  useCachedIncentivesData,
-} from '../../caching-server-data-provider/hooks/use-cached-incentives-data';
 import { useUserWalletDataContext } from '../../web3-data-provider';
 import { useConnectionStatusContext } from '../../connection-status-provider';
 import { useApolloConfigContext } from '../../apollo-config';
@@ -26,8 +22,8 @@ export interface IncentiveDataResponse {
   loading: boolean;
   error: boolean;
   data: {
-    reserveIncentiveData?: ReservesIncentiveDataHumanized[];
-    userIncentiveData?: UserReservesIncentivesDataHumanized[];
+    reserveIncentiveData?: ReserveIncentiveDataHumanizedResponse[];
+    userIncentiveData?: UserReserveIncentiveDataHumanizedResponse[];
   };
   refresh: () => Promise<void>;
 }
@@ -46,10 +42,10 @@ export function useRPCIncentivesData(
   const [loadingUserIncentives, setLoadingUserIncentives] = useState<boolean>(true);
   const [errorUserIncentives, setErrorUserIncentives] = useState<boolean>(false);
   const [reserveIncentiveData, setReserveIncentiveData] = useState<
-    ReservesIncentiveDataHumanized[] | undefined
+    ReserveIncentiveDataHumanizedResponse[] | undefined
   >(undefined);
   const [userIncentiveData, setUserIncentiveData] = useState<
-    UserReservesIncentivesDataHumanized[] | undefined
+    UserReserveIncentiveDataHumanizedResponse[] | undefined
   >(undefined);
 
   // Fetch reserve incentive data and user incentive data only if currentAccount is set
@@ -78,7 +74,7 @@ export function useRPCIncentivesData(
     const provider = getProvider(chainId);
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
       provider,
-      uiIncentiveDataProviderAddress: incentiveDataProviderAddress,
+      incentiveDataProviderAddress,
     });
 
     try {
@@ -103,16 +99,16 @@ export function useRPCIncentivesData(
   ) => {
     const provider = getProvider(chainId);
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
-      uiIncentiveDataProviderAddress: incentiveDataProviderAddress,
+      incentiveDataProviderAddress,
       provider,
     });
 
     try {
-      const rawUserIncentiveData: UserReservesIncentivesDataHumanized[] =
-        await incentiveDataProviderContract.getUserReservesIncentivesDataHumanized({
-          user: currentAccount,
-          lendingPoolAddressProvider,
-        });
+      const rawUserIncentiveData =
+        await incentiveDataProviderContract.getUserReservesIncentivesDataHumanized(
+          currentAccount,
+          lendingPoolAddressProvider
+        );
 
       setUserIncentiveData(rawUserIncentiveData);
       setErrorUserIncentives(false);
@@ -154,7 +150,7 @@ export function useRPCIncentivesData(
   };
 }
 
-export const useIncentiveData = () => {
+export const useIncentiveData = (skip: boolean) => {
   const { currentAccount } = useUserWalletDataContext();
   const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { chainId, networkConfig, currentMarketData } = useProtocolDataContext();
@@ -171,7 +167,7 @@ export const useIncentiveData = () => {
     currentAccount,
     networkConfig.addresses.chainlinkFeedRegistry,
     networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
-    rpcMode || !networkConfig.addresses.uiIncentiveDataProvider
+    skip || rpcMode || !networkConfig.addresses.uiIncentiveDataProvider
   ); */
 
   const {
@@ -183,7 +179,7 @@ export const useIncentiveData = () => {
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     chainId,
     networkConfig.addresses.uiIncentiveDataProvider,
-    //!rpcMode || !networkConfig.addresses.uiIncentiveDataProvider,
+    //skip || !rpcMode || !networkConfig.addresses.uiIncentiveDataProvider,
     false,
     currentAccount
   );

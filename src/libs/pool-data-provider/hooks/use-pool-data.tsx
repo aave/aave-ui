@@ -23,6 +23,7 @@ export interface PoolDataResponse {
   data: {
     reserves?: ReservesDataHumanized;
     userReserves?: UserReserveDataHumanized[];
+    userEmodeCategoryId?: number;
   };
   refresh: () => Promise<any>;
 }
@@ -41,9 +42,9 @@ export function useRPCPoolData(
   const [loadingUserReserves, setLoadingUserReserves] = useState<boolean>(false);
   const [errorUserReserves, setErrorUserReserves] = useState<boolean>(false);
   const [reserves, setReserves] = useState<ReservesDataHumanized | undefined>(undefined);
-  const [userReserves, setUserReserves] = useState<UserReserveDataHumanized[] | undefined>(
-    undefined
-  );
+  const [userReserves, setUserReserves] = useState<
+    { userReserves: UserReserveDataHumanized[]; userEmodeCategoryId: number } | undefined
+  >(undefined);
 
   // Fetch and format reserve incentive data from UiIncentiveDataProvider contract
   const fetchReserves = async () => {
@@ -78,13 +79,13 @@ export function useRPCPoolData(
 
     try {
       setLoadingUserReserves(true);
-      const userReservesResponse: UserReserveDataHumanized[] =
+      const { userReserves, userEmodeCategoryId } =
         await poolDataProviderContract.getUserReservesHumanized(
           lendingPoolAddressProvider,
           currentAccount
         );
 
-      setUserReserves(userReservesResponse);
+      setUserReserves({ userReserves, userEmodeCategoryId });
       setErrorUserReserves(false);
     } catch (e) {
       console.log('e', e);
@@ -106,7 +107,7 @@ export function useRPCPoolData(
   return {
     loading,
     error,
-    data: { reserves, userReserves },
+    data: { reserves, ...userReserves },
     refresh: () => {
       return Promise.all([fetchUserReserves(), fetchReserves()]);
     },
@@ -147,7 +148,12 @@ export const usePoolData = () => {
   if (rpcMode) {
     return {
       loading: rpcDataLoading,
-      data: rpcData,
+      baseCurrencyData: rpcData?.reserves?.baseCurrencyData || {
+        marketReferenceCurrencyPriceInUsd: '0',
+        marketReferenceCurrencyDecimals: 18,
+      },
+      reserves: rpcData?.reserves?.reservesData || [],
+      userReserves: rpcData?.userReserves || [],
       error: rpcDataError,
       refresh,
     };
@@ -155,7 +161,13 @@ export const usePoolData = () => {
 
   return {
     loading: cachedDataLoading,
-    data: cachedData,
+    baseCurrencyData: cachedData?.reserves.baseCurrencyData || {
+      marketReferenceCurrencyPriceInUsd: '0',
+      marketReferenceCurrencyDecimals: 18,
+    },
+    reserves: cachedData?.reserves.reservesData || [],
+    userReserves: cachedData?.userReserves || [],
+    userEmodeCategoryId: 0, // TODO: use the actualy gql response
     error: cachedDataError,
   };
 };

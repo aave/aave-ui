@@ -61,7 +61,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     getProvider(chainId)
   );
 
-  const { data, error, loading, refresh } = useIncentiveData();
+  const { data, error, loading, refresh } = useIncentiveData(false);
 
   const userIncentiveData: UserReservesIncentivesDataHumanized[] =
     data && data.userIncentiveData ? data.userIncentiveData : [];
