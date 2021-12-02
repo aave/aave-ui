@@ -23,7 +23,7 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
   const { lg, sm } = useThemeContext();
 
   const head = [
-    intl.formatMessage(messages.yourDeposits),
+    intl.formatMessage(messages.suppliedAssets),
     intl.formatMessage(messages.secondTableColumnTitle),
     intl.formatMessage(messages.apyRowTitle),
     intl.formatMessage(messages.collateral),

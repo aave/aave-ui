@@ -4,8 +4,8 @@ export default defineMessages({
   apyRowTitle: 'APY',
   changeAPYRowTitle: 'Change APY Type',
 
-  yourBorrows: 'Your borrows',
-  secondTableColumnTitle: 'Borrowed',
+  borrowedAssets: 'Borrowed assets',
+  secondTableColumnTitle: 'Current balance',
   fourthTableColumnTitle: 'APY Type',
 
   borrowMore: 'Borrow more',
