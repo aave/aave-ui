@@ -6,7 +6,7 @@
   "scripts": {
     "debug": "node ./node_modules/.bin/wdio ./configs/debug.conf.js",
     "lambdatest-debug": "node ./node_modules/.bin/wdio ./configs/lambdaTestDebug.conf.js",
-    "ci-firerox": "node ./node_modules/.bin/wdio configs/CI/lambdatets-firefox.conf.js",
+    "ci-firefox": "node ./node_modules/.bin/wdio configs/CI/lambdatets-firefox.conf.js",
     "ci-main": "node ./node_modules/.bin/wdio configs/CI/lambdatest-main.conf.js"
   },
   "author": "",
