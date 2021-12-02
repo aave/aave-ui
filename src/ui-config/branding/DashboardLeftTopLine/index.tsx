@@ -6,7 +6,7 @@ import messages from './messages';
 import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
 import { useState } from 'react';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
-import EModeModal from '../../../components/EModeModal';
+import EModeModal from '../../../components/eMode/EModeModal';
 
 export interface DashboardLeftTopLineProps {
   chainId: ChainId;
