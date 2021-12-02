@@ -165,9 +165,9 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCUrl: ['https://rinkeby.arbitrum.io/rpc'],
     publicJsonRPCWSUrl: 'wss://rinkeby.arbitrum.io/rpc',
     addresses: {
-      walletBalanceProvider: '0x3092e3557521C186c44fB4D802007f2B4126b9b3',
-      uiPoolDataProvider: '0x39305C6010cd07C34C38AB872f550B9b6bedbAE1',
-      // uiIncentiveDataProvider: '0xD0fbc73f1E3be7267AA23D8d74194887a862e02e',
+      walletBalanceProvider: '0x6f8E47bE9203230B853b73792C8A2Eaba9248629',
+      uiPoolDataProvider: '0x98588ca1854c6E7470a616384c4f281A211C7835',
+      uiIncentiveDataProvider: '0x4A2ce4006042B4B61c95cebD2E41fA910739772a',
     },
     protocolDataUrl: '',
     baseUniswapAdapter: '0x0',
