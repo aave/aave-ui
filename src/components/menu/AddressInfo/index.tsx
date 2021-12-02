@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useWeb3React } from '@web3-react/core';
 import classNames from 'classnames';
+import makeBlockie from 'ethereum-blockies-base64';
 import {
   DropdownWrapper,
   gradient,
@@ -42,6 +43,12 @@ export default function AddressInfo() {
   const { closeMobileMenu } = useMenuContext();
 
   const [visible, setVisible] = useState(false);
+  const [useBlockie, setUseBlockie] = useState(false);
+  useEffect(() => {
+    if (ensAvatar) {
+      setUseBlockie(false);
+    }
+  }, [ensAvatar]);
   const config = chainId ? getNetworkConfig(chainId) : undefined;
   const networkName = config && config.name;
   let longName = networkName;
@@ -86,7 +93,12 @@ export default function AddressInfo() {
             >
               {!!ensAvatar && (
                 <div className="AddressInfo__buttonEnsAvatarInner">
-                  <img src={ensAvatar} className="AddressInfo__ensAvatar" alt="" />
+                  <img
+                    src={useBlockie ? makeBlockie(currentAccount) : ensAvatar}
+                    className="AddressInfo__ensAvatar"
+                    alt=""
+                    onError={() => setUseBlockie(true)}
+                  />
                 </div>
               )}
 
