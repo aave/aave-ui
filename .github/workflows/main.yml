@@ -64,5 +64,8 @@ jobs:
       - name: install
         run: cd tests && npm ci
 
-      - name: Main
-        run: cd tests && BUILD="${GITHUB_REF}_${GITHUB_SHA}" npm run lambdaTest
+      - name: Main(Chrome)
+        run: cd tests && BUILD="${GITHUB_REF}_${GITHUB_SHA}" npm run ci-main
+
+      - name: Firefox
+        run: cd tests && BUILD="${GITHUB_REF}_${GITHUB_SHA}" npm run ci-firefox
