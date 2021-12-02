@@ -34,8 +34,8 @@ export interface StaticPoolDataContextData {
   rawUserReserves?: UserReserveDataExtended[];
   rawReservesWithBase: ReserveDataHumanized[];
   rawUserReservesWithBase?: UserReserveDataExtended[];
-  marketRefCurrencyDecimals: number;
-  marketRefPriceInUsd: string;
+  marketReferenceCurrencyDecimals: number;
+  marketReferencePriceInUsd: string;
   WrappedBaseNetworkAssetAddress: string;
   userEmodeCategoryId: number;
   refresh?: () => Promise<void>;
@@ -64,10 +64,10 @@ export function StaticPoolDataProvider({
 
   const { loading, data, error, refresh } = usePoolData();
 
-  const marketRefPriceInUsd =
+  const marketReferencePriceInUsd =
     data?.reserves?.baseCurrencyData?.marketReferenceCurrencyPriceInUsd ?? '0';
 
-  const marketRefCurrencyDecimals =
+  const marketReferenceCurrencyDecimals =
     data?.reserves?.baseCurrencyData?.marketReferenceCurrencyDecimals ?? 18;
 
   async function fetchWalletData() {
@@ -99,8 +99,8 @@ export function StaticPoolDataProvider({
             amount: new BigNumber(balances[i].toString()),
             currencyDecimals: poolReserve.decimals,
             priceInMarketReferenceCurrency: poolReserve.priceInMarketReferenceCurrency,
-            marketRefCurrencyDecimals,
-            marketRefPriceInUsd,
+            marketReferenceCurrencyDecimals,
+            marketReferencePriceInUsd,
           }),
         };
       }
@@ -195,8 +195,8 @@ export function StaticPoolDataProvider({
         rawUserReserves: userReservesWithFixedUnderlying,
         rawReservesWithBase: reserves ? reserves : [],
         rawUserReservesWithBase: userReserves,
-        marketRefPriceInUsd: marketRefPriceInUsd,
-        marketRefCurrencyDecimals,
+        marketReferencePriceInUsd: marketReferencePriceInUsd,
+        marketReferenceCurrencyDecimals,
         isUserHasDeposits,
         walletData,
         refetchWalletData: fetchWalletData,

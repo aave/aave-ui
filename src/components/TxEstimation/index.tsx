@@ -23,7 +23,7 @@ export default function TxEstimation({ getTransactionsData, amount }: TxEstimati
   const intl = useIntl();
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
 
-  const { marketRefPriceInUsd, userId } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, userId } = useStaticPoolDataContext();
   const [estimatedTx, setEstimatedTx] = useState<string>('0');
 
   const gasData = useRef('0');
@@ -99,7 +99,7 @@ export default function TxEstimation({ getTransactionsData, amount }: TxEstimati
         <Value value={Number(estimatedTx)} symbol={'ETH'} /> /
         <Value
           value={valueToBigNumber(estimatedTx)
-            .multipliedBy(marketRefPriceInUsd)
+            .multipliedBy(marketReferencePriceInUsd)
             .shiftedBy(-USD_DECIMALS)
             .toNumber()}
           symbol={'USD'}

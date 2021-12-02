@@ -24,7 +24,7 @@ interface LTVInfoModalProps {
 export default function LTVInfoModal({ visible, setVisible }: LTVInfoModalProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd } = useStaticPoolDataContext();
   const { user, reserves } = useDynamicPoolDataContext();
 
   let liquidationPrice = '0';
@@ -113,11 +113,11 @@ export default function LTVInfoModal({ visible, setVisible }: LTVInfoModalProps)
   }
 
   const liquidationPriceUSD = new BigNumber(liquidationPrice)
-    .multipliedBy(marketRefPriceInUsd)
+    .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS)
     .toString();
   const unitPriceUsd = new BigNumber(unitPrice)
-    .multipliedBy(marketRefPriceInUsd)
+    .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS)
     .toString();
 

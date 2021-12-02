@@ -12,7 +12,7 @@ import { USD_DECIMALS } from '@aave/math-utils';
 interface SummaryProps {
   visible: boolean;
   setVisible: (value: boolean) => void;
-  marketRefPriceInUsd: string;
+  marketReferencePriceInUsd: string;
   customGasPrice: string | null;
   defaultGasPrice: string | null;
   totalGas: string;
@@ -27,7 +27,7 @@ const gasPriceFormat = (value: string | null | undefined) => {
 export default function Summary({
   visible,
   setVisible,
-  marketRefPriceInUsd,
+  marketReferencePriceInUsd,
   customGasPrice,
   defaultGasPrice,
   totalGas,
@@ -48,7 +48,7 @@ export default function Summary({
           <Value value={Number(estimationCost)} symbol="ETH" /> /
           <Value
             value={valueToBigNumber(estimationCost)
-              .multipliedBy(marketRefPriceInUsd)
+              .multipliedBy(marketReferencePriceInUsd)
               .shiftedBy(-USD_DECIMALS)
               .toNumber()}
             symbol="USD"

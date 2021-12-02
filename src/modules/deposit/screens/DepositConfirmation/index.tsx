@@ -34,7 +34,7 @@ function DepositConfirmation({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd } = useStaticPoolDataContext();
   const { currentMarketData } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
 
@@ -68,7 +68,7 @@ function DepositConfirmation({
   }
 
   const amountIntEth = amount.multipliedBy(poolReserve.priceInMarketReferenceCurrency);
-  const amountInUsd = amountIntEth.multipliedBy(marketRefPriceInUsd).shiftedBy(-USD_DECIMALS);
+  const amountInUsd = amountIntEth.multipliedBy(marketReferencePriceInUsd).shiftedBy(-USD_DECIMALS);
   const totalCollateralMarketReferenceCurrencyAfter = valueToBigNumber(
     user.totalCollateralMarketReferenceCurrency
   ).plus(amountIntEth);

@@ -29,7 +29,7 @@ import { BorrowTableItem } from '../../components/BorrowAssetTable/types';
 
 export default function BorrowMain() {
   const intl = useIntl();
-  const { marketRefPriceInUsd, userEmodeCategoryId } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, userEmodeCategoryId } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
   const { reserveIncentives } = useIncentivesDataContext();
   const { sm } = useThemeContext();
@@ -72,7 +72,7 @@ export default function BorrowMain() {
           : 0;
         const availableBorrowsInUSD = valueToBigNumber(availableBorrows)
           .multipliedBy(reserve.priceInMarketReferenceCurrency)
-          .multipliedBy(marketRefPriceInUsd)
+          .multipliedBy(marketReferencePriceInUsd)
           .shiftedBy(-USD_DECIMALS)
           .toString();
         const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
@@ -93,13 +93,13 @@ export default function BorrowMain() {
           variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowAPY) : -1,
           interestHistory: [],
           aincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.aIncentives.incentiveAPR
+            ? reserveIncentiveData.aIncentives[0].incentiveAPR
             : '0',
           vincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.vIncentives.incentiveAPR
+            ? reserveIncentiveData.vIncentives[0].incentiveAPR
             : '0',
           sincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.sIncentives.incentiveAPR
+            ? reserveIncentiveData.sIncentives[0].incentiveAPR
             : '0',
         };
       });

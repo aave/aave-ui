@@ -103,7 +103,7 @@ export default function Dashboard() {
           isUserInIsolationMode: user?.isInIsolationMode,
           isIsolated: poolReserve.isIsolated,
           aincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.aIncentives.incentiveAPR
+            ? reserveIncentiveData.aIncentives[0].incentiveAPR
             : '0',
           onToggleSwitch: () =>
             toggleUseAsCollateral(
@@ -124,10 +124,10 @@ export default function Dashboard() {
           borrowRateMode: InterestRate.Variable,
           borrowRate: poolReserve.variableBorrowAPY,
           vincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.vIncentives.incentiveAPR
+            ? reserveIncentiveData.vIncentives[0].incentiveAPR
             : '0',
           sincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.sIncentives.incentiveAPR
+            ? reserveIncentiveData.sIncentives[0].incentiveAPR
             : '0',
           repayLink: loanActionLinkComposer(
             'repay',
@@ -159,10 +159,10 @@ export default function Dashboard() {
           borrowRateMode: InterestRate.Stable,
           borrowRate: userReserve.stableBorrowAPY,
           vincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.vIncentives.incentiveAPR
+            ? reserveIncentiveData.vIncentives[0].incentiveAPR
             : '0',
           sincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.sIncentives.incentiveAPR
+            ? reserveIncentiveData.sIncentives[0].incentiveAPR
             : '0',
           repayLink: loanActionLinkComposer(
             'repay',

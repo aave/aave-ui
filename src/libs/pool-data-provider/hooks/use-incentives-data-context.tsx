@@ -106,11 +106,10 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   }
 
   // Compute the incentive APYs for all reserve assets, returned as dictionary indexed by underlyingAsset
-  //let reserveIncentives = calculateAllReserveIncentives({
-  //  reserveIncentives: reserveIncentiveData,
-  //  reserves: computedReserves,
-  //});
-  let reserveIncentives: ReserveIncentiveDict = {};
+  let reserveIncentives = calculateAllReserveIncentives({
+    reserveIncentives: reserveIncentiveData,
+    reserves: computedReserves,
+  });
 
   // Add entry with mock address (0xeeeee..) for base asset incentives
   if (
@@ -122,12 +121,12 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   }
   // Compute the total claimable rewards for a user, returned as dictionary indexed by incentivesController
   let userIncentives = {}; // Temporary
-  // let userIncentives = calculateAllUserIncentives({
-  //   reserveIncentives: reserveIncentiveData,
-  //   userReserveIncentives: userIncentiveData,
-  //   userReserves: computedUserReserves,
-  //   currentTimestamp,
-  // });
+  //  let userIncentives = calculateAllUserIncentives({
+  //    reserveIncentives: reserveIncentiveData,
+  //    userReserveIncentives: userIncentiveData,
+  //    userReserves: computedUserReserves,
+  //    currentTimestamp,
+  //  });
 
   return (
     <IncentivesDataContext.Provider

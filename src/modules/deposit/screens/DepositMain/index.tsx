@@ -76,13 +76,13 @@ export default function DepositsMain() {
           borrowingEnabled: reserve.borrowingEnabled,
           interestHistory: [],
           aincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.aIncentives.incentiveAPR
+            ? reserveIncentiveData.aIncentives[0].incentiveAPR
             : '0',
           vincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.vIncentives.incentiveAPR
+            ? reserveIncentiveData.vIncentives[0].incentiveAPR
             : '0',
           sincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.sIncentives.incentiveAPR
+            ? reserveIncentiveData.sIncentives[0].incentiveAPR
             : '0',
         };
       });

@@ -39,7 +39,7 @@ function RepayConfirmation({
   location,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
-  const { marketRefPriceInUsd, networkConfig } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, networkConfig } = useStaticPoolDataContext();
   const { currentMarketData } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
 
@@ -101,14 +101,14 @@ function RepayConfirmation({
   const displayAmountToRepay = BigNumber.min(amountToRepayUI, maxAmountToRepay);
   const displayAmountToRepayInUsd = displayAmountToRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd)
+    .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
 
   const amountAfterRepay = maxAmountToRepay.minus(amountToRepayUI).toString();
   const displayAmountAfterRepay = BigNumber.min(amountAfterRepay, maxAmountToRepay);
   const displayAmountAfterRepayInUsd = displayAmountAfterRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd)
+    .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
 
   const healthFactorAfterRepay = calculateHealthFactorFromBalancesBigUnits(
@@ -176,18 +176,18 @@ function RepayConfirmation({
     repayWithATokens
       ? valueToBigNumber(underlyingBalance).eq(0)
       : walletBalance.eq('0') || repayWithATokens
-      ? valueToBigNumber(underlyingBalance).lt(amount)
-      : walletBalance.lt(amount)
+        ? valueToBigNumber(underlyingBalance).lt(amount)
+        : walletBalance.lt(amount)
   )
     ? intl.formatMessage(messages.error, {
-        userReserveSymbol: assetDetails.formattedSymbol || assetDetails.symbol,
-      })
+      userReserveSymbol: assetDetails.formattedSymbol || assetDetails.symbol,
+    })
     : '';
 
   const warningMessage =
     amount.eq('-1') &&
-    amountToRepayUI.gte(maxAmountToRepay) &&
-    !amountToRepayUI.gte(safeAmountToRepayAll)
+      amountToRepayUI.gte(maxAmountToRepay) &&
+      !amountToRepayUI.gte(safeAmountToRepayAll)
       ? intl.formatMessage(messages.warningMessage)
       : '';
 
