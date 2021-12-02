@@ -12,18 +12,19 @@ import {
 
 import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 import { useMenuContext } from '../../../libs/menu';
+import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
+import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
 import Link from '../../basic/Link';
 import ConnectButton from '../../ConnectButton';
 
 import staticStyles from './style';
 import messages from './messages';
-import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
-import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
+
 import linkIcon from '../../../images/linkIcon.svg';
 
 export default function AddressInfo() {
   const intl = useIntl();
-  const { currentTheme } = useThemeContext();
+  const { currentTheme, isCurrentThemeDark } = useThemeContext();
   const { chainId } = useWeb3React();
   const {
     currentAccount,
@@ -76,19 +77,27 @@ export default function AddressInfo() {
           className="AddressInfo__dropdownWrapper"
           buttonComponent={
             <button
-              className={classNames('AddressInfo__button', { AddressInfo__buttonActive: visible })}
+              className={classNames('AddressInfo__button', {
+                AddressInfo__buttonWithAvatar: !!ensAvatar,
+                AddressInfo__buttonActive: visible,
+              })}
               onClick={() => setVisible(!visible)}
               type="button"
             >
-              {ensAvatar ? (
-                <img src={ensAvatar} className="AddressInfo__contentEnsAvatar" alt="" />
-              ) : (
-                <></>
+              {!!ensAvatar && (
+                <div className="AddressInfo__buttonEnsAvatarInner">
+                  <img src={ensAvatar} className="AddressInfo__ensAvatar" alt="" />
+                </div>
               )}
-              <p className="AddressInfo__dropdownText">
-                {ensNameAbbreviated ? ensNameAbbreviated : textCenterEllipsis(currentAccount, 4, 4)}
-              </p>
-              <span className="AddressInfo__dropdownText">{networkName}</span>
+
+              <div className="AddressInfo__buttonTextContent">
+                <p className="AddressInfo__dropdownText">
+                  {ensNameAbbreviated
+                    ? ensNameAbbreviated
+                    : textCenterEllipsis(currentAccount, 4, 4)}
+                </p>
+                <span className="AddressInfo__dropdownText">{networkName}</span>
+              </div>
             </button>
           }
         >
@@ -99,13 +108,22 @@ export default function AddressInfo() {
                 {ensName ? (
                   ensAvatar ? (
                     <>
-                      <img src={ensAvatar} className="AddressInfo__contentEnsAvatar" alt="" />
-                      <p className="AddressInfo__contentEns">{ensName}</p>{' '}
+                      <div className="AddressInfo__contentProfile">
+                        <img src={ensAvatar} className="AddressInfo__ensAvatar" alt="" />
+                        <p className="AddressInfo__contentEns">{ensName}</p>
+                      </div>
+
                       <p className="AddressInfo__contentAddressSmall">
-                        <a href={config?.explorerLinkBuilder({ address: currentAccount })}>
-                          {textCenterEllipsis(currentAccount, 10, 4)}
+                        <Link
+                          to={config?.explorerLinkBuilder({ address: currentAccount }) || ''}
+                          absolute={true}
+                          inNewWindow={true}
+                          color="dark"
+                          onWhiteBackground={true}
+                        >
+                          {textCenterEllipsis(currentAccount, 12, 4)}
                           <img className="AddressInfo__linkIcon" src={linkIcon} alt="" />
-                        </a>
+                        </Link>
                       </p>
                     </>
                   ) : (
@@ -121,10 +139,20 @@ export default function AddressInfo() {
                   )
                 ) : (
                   <p className="AddressInfo__contentAddress">
-                    {textCenterEllipsis(currentAccount, 12, 4)}
+                    <Link
+                      to={config?.explorerLinkBuilder({ address: currentAccount }) || ''}
+                      absolute={true}
+                      inNewWindow={true}
+                      color="dark"
+                      onWhiteBackground={true}
+                    >
+                      {textCenterEllipsis(currentAccount, 12, 4)}
+                      <img className="AddressInfo__linkIcon" src={linkIcon} alt="" />
+                    </Link>
                   </p>
                 )}
               </div>
+
               <div className="AddressInfo__contentSection">
                 <p className="AddressInfo__contentTitle">{intl.formatMessage(messages.network)}</p>
                 <p className="AddressInfo__contentNetwork">
@@ -187,18 +215,39 @@ export default function AddressInfo() {
             border-color: ${currentTheme.white.hex};
           }
 
+          &__buttonWithAvatar {
+            .AddressInfo__buttonEnsAvatarInner {
+              &:before {
+                background: ${currentTheme.darkBlue.hex};
+              }
+              &:after {
+                background: ${gradientBorder};
+              }
+            }
+          }
+
           &__content {
             color: ${currentTheme.darkBlue.hex};
+          }
+          &__contentHeader {
+            border-bottom: 1px solid ${currentTheme.darkBlue.hex};
+          }
+          &__contentSection {
+            &:first-of-type {
+              border-bottom: 1px solid
+                ${isCurrentThemeDark
+                  ? rgba(`${currentTheme.lightBlue.rgb}, 0.2`)
+                  : currentTheme.mainBg.hex};
+            }
+          }
+          &__contentTitle {
+            color: ${currentTheme.lightBlue.hex};
           }
 
           &__contentNetwork {
             i {
               background: ${networkColor};
             }
-          }
-
-          &__contentEnsAvatar {
-            background: ${gradientBorder};
           }
 
           &__contentButton {

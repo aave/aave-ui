@@ -12,7 +12,7 @@ const staticStyles = css.global`
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: flex-end;
+      align-items: center;
       text-align: right;
       min-width: 110px;
       padding: 5px;
@@ -26,14 +26,11 @@ const staticStyles = css.global`
         width: 110px;
         height: 54px;
         font-size: $small;
-        align-items: center;
       }
 
       p {
         margin-bottom: 2px;
         white-space: nowrap;
-        margin-left: auto;
-        margin-right: auto;
         @include respond-to(sm) {
           margin-bottom: 5px;
         }
@@ -41,46 +38,100 @@ const staticStyles = css.global`
 
       span {
         opacity: 0.5;
-        margin: 0 auto;
         text-transform: capitalize;
       }
     }
 
-    &__content {
-      width: 160px;
-      border-radius: $borderRadius;
-      @include respond-to(sm) {
-        width: 260px;
+    &__buttonWithAvatar {
+      flex-direction: row;
+      align-items: center;
+
+      .AddressInfo__ensAvatar {
+        position: relative;
+        z-index: 3;
+        margin: 0;
+      }
+      .AddressInfo__buttonTextContent {
+        align-items: flex-start;
+        @include respond-to(sm) {
+          align-items: center;
+        }
       }
     }
 
-    &__contentHeader {
-      padding-left: 10px;
-      @include respond-to(sm) {
-        padding: 5px;
+    &__buttonEnsAvatarInner {
+      position: relative;
+      margin-right: 4px;
+      padding: 2px;
+      width: 24px;
+      height: 24px;
+      &:after,
+      &:before {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
       }
-      border-bottom: 1px solid black;
+      &:after {
+        z-index: 1;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+      }
+      &:before {
+        z-index: 2;
+        top: 1px;
+        bottom: 1px;
+        left: 1px;
+        right: 1px;
+      }
+      @include respond-to(sm) {
+        display: none;
+      }
+    }
+
+    &__buttonTextContent {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    &__content {
+      min-width: 160px;
+      border-radius: $borderRadius;
+      @include respond-to(sm) {
+        min-width: 260px;
+      }
     }
 
     &__contentSection {
-      @include respond-to(sm) {
-        padding: 5px 10px;
+      padding: 8px 12px;
+      &:first-of-type {
+        padding-bottom: 4px;
       }
-      border-bottom: 1px solid rgba(56, 61, 81, 0.1);
+      &:last-child {
+        padding-top: 4px;
+      }
     }
+
     &__contentTitle {
+      height: 16px;
+      display: flex;
+      align-items: center;
       font-size: $small;
-      opacity: 0.5;
-      margin-top: 5px;
+      margin-bottom: 4px;
       @include respond-to(sm) {
         font-size: $medium;
+        height: 18px;
       }
     }
+
     &__contentNetwork {
       font-size: $medium;
       display: flex;
-      margin: 5px 0px;
       align-items: center;
+      white-space: nowrap;
       span {
         display: inline-flex;
         text-transform: capitalize;
@@ -102,30 +153,45 @@ const staticStyles = css.global`
     }
     &__contentAddress {
       font-size: $medium;
-      margin: 5px 0x;
       word-break: break-all;
       @include respond-to(sm) {
         font-size: $regular;
       }
     }
     &__contentAddressSmall {
-      margin: 5px 0px;
       font-size: $small;
       word-break: break-all;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      @include respond-to(sm) {
+        font-size: $medium;
+      }
     }
+
+    &__contentProfile {
+      display: flex;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
     &__contentEns {
       font-size: $medium;
       word-break: break-all;
-      margin: 5px 0px;
       @include respond-to(sm) {
         font-size: $regular;
       }
     }
 
-    &__contentEnsAvatar {
-      border-radius: 50%;
+    &__ensAvatar {
       width: 20px;
-      padding: 1px;
+      height: 20px;
+      margin-right: 4px;
+      border-radius: 50%;
+      @include respond-to(sm) {
+        width: 24px;
+        height: 24px;
+      }
     }
 
     &__linkIcon {
