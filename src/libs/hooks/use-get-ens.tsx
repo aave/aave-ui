@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { ChainId } from '@aave/contract-helpers';
-import { getProvider } from '../../helpers/config/markets-and-network-config';
+import makeBlockie from 'ethereum-blockies-base64';
 import { utils } from 'ethers';
+
+import { getProvider } from '../../helpers/config/markets-and-network-config';
 
 const mainnetProvider = getProvider(ChainId.mainnet);
 
@@ -30,7 +32,9 @@ const useGetEns = (address: string): EnsResponse => {
           `https://metadata.ens.domains/mainnet/0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85/${labelHash}/`
         )
       ).json();
-      setEnsAvatar(result && result.background_image ? result.background_image : undefined);
+      setEnsAvatar(
+        result && result.background_image ? result.background_image : makeBlockie(address)
+      );
     } catch (error) {
       console.error('ENS avatar lookup error', error);
     }
@@ -38,6 +42,7 @@ const useGetEns = (address: string): EnsResponse => {
 
   useEffect(() => {
     if (address) {
+      setEnsAvatar(makeBlockie(address));
       getName(address);
     } else {
       setEnsName(undefined);
@@ -47,8 +52,6 @@ const useGetEns = (address: string): EnsResponse => {
   useEffect(() => {
     if (ensName) {
       getAvatar(ensName);
-    } else {
-      setEnsAvatar(undefined);
     }
   }, [ensName]);
 

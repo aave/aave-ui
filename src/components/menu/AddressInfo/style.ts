@@ -7,6 +7,9 @@ const staticStyles = css.global`
 
   .AddressInfo {
     margin-left: 10px;
+    @include respond-to(sm) {
+      margin-left: 0;
+    }
 
     &__button {
       display: flex;
@@ -23,7 +26,8 @@ const staticStyles = css.global`
       transition: $transition;
 
       @include respond-to(sm) {
-        width: 110px;
+        width: 100%;
+        margin-top: 10px;
         height: 54px;
         font-size: $small;
       }
@@ -53,9 +57,6 @@ const staticStyles = css.global`
       }
       .AddressInfo__buttonTextContent {
         align-items: flex-start;
-        @include respond-to(sm) {
-          align-items: center;
-        }
       }
     }
 
@@ -65,6 +66,10 @@ const staticStyles = css.global`
       padding: 2px;
       width: 24px;
       height: 24px;
+      @include respond-to(sm) {
+        width: 28px;
+        height: 28px;
+      }
       &:after,
       &:before {
         content: '';
@@ -85,9 +90,6 @@ const staticStyles = css.global`
         left: 1px;
         right: 1px;
       }
-      @include respond-to(sm) {
-        display: none;
-      }
     }
 
     &__buttonTextContent {
@@ -101,7 +103,8 @@ const staticStyles = css.global`
       min-width: 160px;
       border-radius: $borderRadius;
       @include respond-to(sm) {
-        min-width: 260px;
+        min-width: unset;
+        width: 300px;
       }
     }
 

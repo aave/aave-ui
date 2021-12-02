@@ -24,7 +24,7 @@ import linkIcon from '../../../images/linkIcon.svg';
 
 export default function AddressInfo() {
   const intl = useIntl();
-  const { currentTheme, isCurrentThemeDark } = useThemeContext();
+  const { currentTheme, isCurrentThemeDark, sm } = useThemeContext();
   const { chainId } = useWeb3React();
   const {
     currentAccount,
@@ -72,7 +72,7 @@ export default function AddressInfo() {
         <DropdownWrapper
           visible={visible}
           setVisible={setVisible}
-          horizontalPosition="right"
+          horizontalPosition={sm ? 'center' : 'right'}
           verticalPosition="bottom"
           className="AddressInfo__dropdownWrapper"
           buttonComponent={
@@ -106,50 +106,41 @@ export default function AddressInfo() {
               <div className="AddressInfo__contentSection">
                 <p className="AddressInfo__contentTitle">{intl.formatMessage(messages.account)}</p>
                 {ensName ? (
-                  ensAvatar ? (
-                    <>
-                      <div className="AddressInfo__contentProfile">
-                        <img src={ensAvatar} className="AddressInfo__ensAvatar" alt="" />
-                        <p className="AddressInfo__contentEns">{ensName}</p>
-                      </div>
+                  <>
+                    <div className="AddressInfo__contentProfile">
+                      <img src={ensAvatar} className="AddressInfo__ensAvatar" alt="" />
+                      <p className="AddressInfo__contentEns">{ensName}</p>
+                    </div>
 
-                      <p className="AddressInfo__contentAddressSmall">
-                        <Link
-                          to={config?.explorerLinkBuilder({ address: currentAccount }) || ''}
-                          absolute={true}
-                          inNewWindow={true}
-                          color="dark"
-                          onWhiteBackground={true}
-                        >
-                          {textCenterEllipsis(currentAccount, 12, 4)}
-                          <img className="AddressInfo__linkIcon" src={linkIcon} alt="" />
-                        </Link>
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="AddressInfo__contentEns">{ensName}</p>{' '}
-                      <p className="AddressInfo__contentAddressSmall">
-                        <a href={config?.explorerLinkBuilder({ address: currentAccount })}>
-                          {textCenterEllipsis(currentAccount, 12, 4)}
-                          <img className="AddressInfo__linkIcon" src={linkIcon} alt="" />
-                        </a>
-                      </p>
-                    </>
-                  )
+                    <p className="AddressInfo__contentAddressSmall">
+                      <Link
+                        to={config?.explorerLinkBuilder({ address: currentAccount }) || ''}
+                        absolute={true}
+                        inNewWindow={true}
+                        color="dark"
+                        onWhiteBackground={true}
+                      >
+                        {textCenterEllipsis(currentAccount, 12, 4)}
+                        <img className="AddressInfo__linkIcon" src={linkIcon} alt="" />
+                      </Link>
+                    </p>
+                  </>
                 ) : (
-                  <p className="AddressInfo__contentAddress">
-                    <Link
-                      to={config?.explorerLinkBuilder({ address: currentAccount }) || ''}
-                      absolute={true}
-                      inNewWindow={true}
-                      color="dark"
-                      onWhiteBackground={true}
-                    >
-                      {textCenterEllipsis(currentAccount, 12, 4)}
-                      <img className="AddressInfo__linkIcon" src={linkIcon} alt="" />
-                    </Link>
-                  </p>
+                  <div className="AddressInfo__contentProfile">
+                    <img src={ensAvatar} className="AddressInfo__ensAvatar" alt="" />
+                    <p className="AddressInfo__contentAddress">
+                      <Link
+                        to={config?.explorerLinkBuilder({ address: currentAccount }) || ''}
+                        absolute={true}
+                        inNewWindow={true}
+                        color="dark"
+                        onWhiteBackground={true}
+                      >
+                        {textCenterEllipsis(currentAccount, 8, 4)}
+                        <img className="AddressInfo__linkIcon" src={linkIcon} alt="" />
+                      </Link>
+                    </p>
+                  </div>
                 )}
               </div>
 

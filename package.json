@@ -43,6 +43,7 @@
     "classnames": "^2.3.1",
     "d3-array": "^3.1.1",
     "dayjs": "^1.10.7",
+    "ethereum-blockies-base64": "^1.0.2",
     "ethereumjs-tx": "^2.1.2",
     "ethers": "^5.5.0",
     "front-matter": "^4.0.2",
