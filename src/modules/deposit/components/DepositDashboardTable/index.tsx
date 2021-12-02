@@ -35,6 +35,10 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLangSlug]);
 
+  const sortedListData = listData.some((item) => item.isUserInIsolationMode && item.isIsolated)
+    ? listData.sort((a, b) => (a.isIsolated === b.isIsolated ? 0 : a.isIsolated ? -1 : 1))
+    : listData;
+
   return (
     <>
       {!sm ? (
@@ -42,14 +46,14 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
           <Header />
 
           <DashboardTable>
-            {listData.map((item, index) => (
+            {sortedListData.map((item, index) => (
               <DepositItem {...item} index={index} key={index} />
             ))}
           </DashboardTable>
         </>
       ) : (
         <DashboardMobileCardsWrapper>
-          {listData.map((item, index) => (
+          {sortedListData.map((item, index) => (
             <DepositMobileCard {...item} key={index} />
           ))}
         </DashboardMobileCardsWrapper>

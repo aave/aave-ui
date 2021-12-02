@@ -149,11 +149,11 @@ export default function CurrencyOverview({
                       )}
                     </p>
                   ) : (
-                    <IsolationModeBadge isIsolated={overviewData.isIsolated} />
+                    <IsolationModeBadge isIsolated={overviewData.isIsolated} color="white" />
                   )}
                 </>
               ) : (
-                <IsolationModeBadge isIsolated={overviewData.isIsolated} />
+                <IsolationModeBadge isIsolated={overviewData.isIsolated} color="white" />
               )}
             </Row>
           </>

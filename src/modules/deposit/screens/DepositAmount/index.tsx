@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { valueToBigNumber } from '@aave/protocol-js';
@@ -20,7 +20,7 @@ import InfoPanel from '../../../../components/InfoPanel';
 import InfoWrapper from '../../../../components/wrappers/InfoWrapper';
 import AMPLWarning from '../../../../components/AMPLWarning';
 import DepositCurrencyWrapper from '../../components/DepositCurrencyWrapper';
-import IsolationModeWarning from '../../../../components/isolationMode/IsolationModeWarning';
+import IsolationModeScreen from '../../components/IsolationModeScreen';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
@@ -28,6 +28,11 @@ import routeParamValidationHOC, {
 import messages from './messages';
 
 import linkIcon from '../../../../images/whiteLinkIcon.svg';
+
+enum DepositStep {
+  IsolationScreen,
+  AmountForm,
+}
 
 interface DepositAmountProps
   extends Pick<
@@ -50,6 +55,12 @@ function DepositAmount({
   const { sm } = useThemeContext();
 
   const asset = getAssetInfo(currencySymbol);
+
+  const showIsolationScreen = poolReserve.isIsolated && !!user?.totalCollateralUSD;
+
+  const [depositStep, setDepositStep] = useState<DepositStep>(
+    showIsolationScreen ? DepositStep.IsolationScreen : DepositStep.AmountForm
+  );
 
   let maxAmountToDeposit = valueToBigNumber(walletBalance);
   if (maxAmountToDeposit.gt(0) && poolReserve.symbol.toUpperCase() === networkConfig.baseAsset) {
@@ -84,6 +95,8 @@ function DepositAmount({
 
   const lpPoolLink = getLPTokenPoolLink(poolReserve);
 
+  const goBack = () => setDepositStep(DepositStep.IsolationScreen);
+
   return (
     <DepositCurrencyWrapper
       currencySymbol={currencySymbol}
@@ -91,33 +104,45 @@ function DepositAmount({
       walletBalance={walletBalance}
       userReserve={userReserve}
       user={user}
+      goBack={
+        depositStep === DepositStep.AmountForm && showIsolationScreen ? () => goBack() : undefined
+      }
     >
       {!maxAmountToDeposit.eq('0') && (
-        <BasicForm
-          title={intl.formatMessage(messages.title)}
-          description={
-            currencySymbol === 'AAVE' && isFeatureEnabled.staking(currentMarketData)
-              ? intl.formatMessage(messages.aaveDescription, {
-                  stake: <strong>{intl.formatMessage(messages.stake)}</strong>,
-                  link: (
-                    <Link
-                      className="italic"
-                      to="/staking"
-                      bold={true}
-                      title={intl.formatMessage(messages.stakingView)}
-                    />
-                  ),
-                })
-              : intl.formatMessage(messages.description)
-          }
-          amountFieldTitle={intl.formatMessage(messages.amountTitle)}
-          maxAmount={maxAmountToDeposit.toString(10)}
-          currencySymbol={currencySymbol}
-          onSubmit={handleSubmit}
-          maxDecimals={poolReserve.decimals}
-          getTransactionData={handleTransactionData}
-        />
+        <>
+          {depositStep === DepositStep.IsolationScreen && (
+            <IsolationModeScreen onClick={() => setDepositStep(DepositStep.AmountForm)} />
+          )}
+
+          {depositStep === DepositStep.AmountForm && (
+            <BasicForm
+              title={intl.formatMessage(messages.title)}
+              description={
+                currencySymbol === 'AAVE' && isFeatureEnabled.staking(currentMarketData)
+                  ? intl.formatMessage(messages.aaveDescription, {
+                      stake: <strong>{intl.formatMessage(messages.stake)}</strong>,
+                      link: (
+                        <Link
+                          className="italic"
+                          to="/staking"
+                          bold={true}
+                          title={intl.formatMessage(messages.stakingView)}
+                        />
+                      ),
+                    })
+                  : intl.formatMessage(messages.description)
+              }
+              amountFieldTitle={intl.formatMessage(messages.amountTitle)}
+              maxAmount={maxAmountToDeposit.toString(10)}
+              currencySymbol={currencySymbol}
+              onSubmit={handleSubmit}
+              maxDecimals={poolReserve.decimals}
+              getTransactionData={handleTransactionData}
+            />
+          )}
+        </>
       )}
+
       {maxAmountToDeposit.eq('0') && (!user || !lpPoolLink) && (
         <NoDataPanel
           title={
@@ -183,8 +208,6 @@ function DepositAmount({
         )}
 
       <InfoWrapper>
-        {poolReserve.isIsolated && <IsolationModeWarning />}
-
         {currencySymbol === 'AMPL' && <AMPLWarning withInfoPanel={true} />}
 
         {currencySymbol === 'AAVE' && isFeatureEnabled.staking(currentMarketData) && (

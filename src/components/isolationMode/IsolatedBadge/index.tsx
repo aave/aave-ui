@@ -7,8 +7,8 @@ import IsolatedAssetModal from '../IsolatedAssetModal';
 import messages from './messages';
 import staticStyles from './style';
 
-import alert from '../../../images/alertCircle.svg';
-import alertWhite from '../../../images/alertCircleWhite.svg';
+import info from '../../../images/info.svg';
+import infoWhite from '../../../images/infoGrayDark.svg';
 
 interface IsolatedBadgeProps {
   isWhiteIcon?: boolean;
@@ -34,9 +34,9 @@ export default function IsolatedBadge({ isWhiteIcon }: IsolatedBadgeProps) {
       <p className="IsolatedBadge__text">{intl.formatMessage(messages.isolated)}</p>
       <button className="IsolatedBadge__button" type="button">
         <img
-          width={xl ? 14 : 16}
-          height={xl ? 14 : 16}
-          src={isWhiteIcon ? alertWhite : alert}
+          width={xl ? 10 : 12}
+          height={xl ? 10 : 12}
+          src={isWhiteIcon ? infoWhite : info}
           alt=""
         />
       </button>

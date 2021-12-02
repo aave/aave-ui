@@ -132,6 +132,7 @@ function SwapUsageAsCollateralModeConfirmation({
         onMainTxExecuted={handleMainTxExecuted}
         blockingError={blockingError}
         buttonTitle={intl.formatMessage(messages.buttonTitle)}
+        isolationWarning={poolReserve.isIsolated && query.asCollateral === 'true'}
       >
         <Row
           title={intl.formatMessage(messages.rowTitle)}
