@@ -50,7 +50,7 @@ export default function LiquidityMiningAPYLine({
       ) : (
         <>
           <TokenIcon
-            tokenSymbol={networkConfig.rewardTokenSymbol}
+            tokenSymbol={symbol ? symbol : ''}
             width={xl ? 10 : 12}
             height={xl ? 10 : 12}
           />
