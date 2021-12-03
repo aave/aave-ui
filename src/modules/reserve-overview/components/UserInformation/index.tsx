@@ -21,10 +21,13 @@ import CollateralHelpModal from '../../../../components/HelpModal/CollateralHelp
 import BorrowTable from '../BorrowTable';
 import BorrowTableItem from '../BorrowTable/BorrowTableItem';
 import IsolationInfoBanner from '../../../../components/isolationMode/IsolationInfoBanner';
+import UserEModeInfo from '../UserEModeInfo';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import staticStyles from './style';
+
+import eModeIcon from '../../../../images/eModeIcon.svg';
 
 interface UserInformationProps {
   user?: UserSummary;
@@ -32,6 +35,7 @@ interface UserInformationProps {
   userReserve?: ComputedUserReserve;
   symbol: string;
   walletBalance: BigNumber;
+  userEmodeCategoryId: number;
 }
 
 export default function UserInformation({
@@ -40,6 +44,7 @@ export default function UserInformation({
   poolReserve,
   symbol,
   walletBalance,
+  userEmodeCategoryId,
 }: UserInformationProps) {
   const intl = useIntl();
   const { currentTheme, xl, sm } = useThemeContext();
@@ -80,6 +85,22 @@ export default function UserInformation({
     isAssetStable(symbol) &&
     availableBorrows &&
     !poolReserve.isFrozen;
+
+  const isUserOnEmode = userEmodeCategoryId !== 0;
+  const isReserveInEmode = isUserOnEmode && userEmodeCategoryId === poolReserve.eModeCategoryId;
+  const isBorrowEnableBasedOnEmode =
+    isReserveInEmode && isAssetStable(symbol) && availableBorrows && !poolReserve.isFrozen;
+
+  let isBorrowEnable = !availableBorrows || poolReserve.borrowingEnabled || !poolReserve.isFrozen;
+  if (isReserveInEmode && user?.isInIsolationMode) {
+    isBorrowEnable = !!isBorrowEnableBasedOnEmode && !!borrowableAssetInIsolationMode;
+  } else if (isUserOnEmode) {
+    isBorrowEnable = !!isBorrowEnableBasedOnEmode;
+  } else if (user?.isInIsolationMode) {
+    isBorrowEnable = !!borrowableAssetInIsolationMode;
+  } else {
+    isBorrowEnable = !!availableBorrows || poolReserve.borrowingEnabled || !poolReserve.isFrozen;
+  }
 
   return (
     <div className="UserInformation">
@@ -209,23 +230,13 @@ export default function UserInformation({
                   <Link
                     to={`/borrow/${poolReserve.underlyingAsset}-${poolReserve.id}`}
                     className="ButtonLink"
-                    disabled={
-                      user?.isInIsolationMode
-                        ? !borrowableAssetInIsolationMode
-                        : !availableBorrows || !poolReserve.borrowingEnabled || poolReserve.isFrozen
-                    }
+                    disabled={!isBorrowEnable}
                   >
                     <DefaultButton
                       className="UserInformation__button"
                       title={intl.formatMessage(defaultMessages.borrow)}
                       color={elementsColor}
-                      disabled={
-                        user?.isInIsolationMode
-                          ? !borrowableAssetInIsolationMode
-                          : !availableBorrows ||
-                            !poolReserve.borrowingEnabled ||
-                            poolReserve.isFrozen
-                      }
+                      disabled={!isBorrowEnable}
                     />
                   </Link>
                 </div>
@@ -239,7 +250,7 @@ export default function UserInformation({
                 weight={rowWeight}
                 color={elementsColor}
               >
-                {poolReserve.borrowingEnabled ? (
+                {isBorrowEnable ? (
                   <Value
                     value={totalBorrows || 0}
                     symbol={symbol}
@@ -251,18 +262,23 @@ export default function UserInformation({
                   <span className="UserInformation__noData">—</span>
                 )}
               </Row>
+
               <HealthFactor
                 value={user?.healthFactor || '-1'}
                 titleColor={elementsColor}
                 titleLightWeight={sm}
               />
+
               <Row
                 title={intl.formatMessage(messages.loanToValue)}
                 withMargin={true}
                 weight={rowWeight}
                 color={elementsColor}
               >
-                <ValuePercent value={user?.currentLoanToValue || 0} color={elementsColor} />
+                <div className="UserInformation__rowContent">
+                  {isReserveInEmode && <img src={eModeIcon} alt="" />}
+                  <ValuePercent value={user?.currentLoanToValue || 0} color={elementsColor} />
+                </div>
               </Row>
 
               {(!user?.isInIsolationMode || !!borrowableAssetInIsolationMode) && (
@@ -273,13 +289,38 @@ export default function UserInformation({
                   withMargin={user?.isInIsolationMode}
                 >
                   {poolReserve.borrowingEnabled ? (
-                    <Value
-                      value={availableBorrows}
-                      symbol={symbol}
-                      minimumValueDecimals={2}
-                      maximumValueDecimals={2}
-                      color={elementsColor}
-                    />
+                    <>
+                      {isUserOnEmode ? (
+                        <>
+                          {!isReserveInEmode ? (
+                            <UserEModeInfo userEmodeCategoryId={userEmodeCategoryId} />
+                          ) : (
+                            <div className="UserInformation__rowContent">
+                              {isReserveInEmode && <img src={eModeIcon} alt="" />}
+                              <Value
+                                value={availableBorrows}
+                                symbol={symbol}
+                                minimumValueDecimals={2}
+                                maximumValueDecimals={2}
+                                color={elementsColor}
+                              />
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <div className="UserInformation__rowContent">
+                            <Value
+                              value={availableBorrows}
+                              symbol={symbol}
+                              minimumValueDecimals={2}
+                              maximumValueDecimals={2}
+                              color={elementsColor}
+                            />
+                          </div>
+                        </>
+                      )}
+                    </>
                   ) : (
                     <span className="UserInformation__noData">—</span>
                   )}
@@ -318,7 +359,7 @@ export default function UserInformation({
                     poolReserve={poolReserve}
                     userReserve={userReserve}
                     type="stable"
-                    availableBorrows={availableBorrows}
+                    isBorrowEnable={isBorrowEnable}
                   />
                 )}
                 {userReserve?.variableBorrows !== '0' && (
@@ -327,7 +368,7 @@ export default function UserInformation({
                     poolReserve={poolReserve}
                     userReserve={userReserve}
                     type="variable"
-                    availableBorrows={availableBorrows}
+                    isBorrowEnable={isBorrowEnable}
                   />
                 )}
               </>

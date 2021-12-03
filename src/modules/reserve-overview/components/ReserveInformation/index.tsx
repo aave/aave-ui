@@ -19,6 +19,8 @@ import APYLine from '../APYLine';
 import Link from '../../../../components/basic/Link';
 import IsolationModeBadge from '../../../../components/isolationMode/IsolationModeBadge';
 import BlockWrapper from '../InformationBlock/BlockWrapper';
+import EModeCategoryHelpModal from '../../../../components/eMode/EModeCategoryHelpModal';
+import EmodeCategoryLabel from '../../../../components/eMode/EmodeCategoryLabel';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -279,6 +281,12 @@ export default function ReserveInformation({
               condition={reserveOverviewData.stableBorrowRateEnabled}
               title={intl.formatMessage(messages.stableBorrowing)}
             />
+
+            {!!poolReserve.eModeCategoryId && (
+              <BlockWrapper titleComponent={<EModeCategoryHelpModal />}>
+                <EmodeCategoryLabel categoryId={poolReserve.eModeCategoryId} />
+              </BlockWrapper>
+            )}
           </div>
         </ContentWrapper>
       </div>

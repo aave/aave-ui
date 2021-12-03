@@ -167,15 +167,15 @@ const staticStyles = css.global`
     &__APY-info {
       display: flex;
       justify-content: center;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       @include respond-to(xl) {
-        margin-bottom: 25px;
-      }
-      @include respond-to(lg) {
         margin-bottom: 15px;
       }
+      @include respond-to(lg) {
+        margin-bottom: 5px;
+      }
       @include respond-to(md) {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
       }
       @include respond-to(sm) {
         margin-bottom: 35px;
@@ -187,7 +187,7 @@ const staticStyles = css.global`
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
-      justify-content: space-between;
+      justify-content: space-around;
       max-width: 900px;
       margin: 0 auto;
       @include respond-to(xl) {
@@ -202,6 +202,19 @@ const staticStyles = css.global`
       @include respond-to(sm) {
         max-width: 100%;
       }
+
+      .BlockWrapper {
+        margin-top: 10px;
+        @include respond-to(sm) {
+          margin-top: 0;
+        }
+      }
+    }
+
+    &__bottomItems {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-around;
     }
 
     &__poolLink-inner {

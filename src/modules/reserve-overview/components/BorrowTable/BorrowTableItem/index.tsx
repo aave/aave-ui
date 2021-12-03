@@ -24,7 +24,7 @@ interface BorrowTableItemProps {
   poolReserve: ComputedReserveData;
   userReserve?: ComputedUserReserve;
   type: 'stable' | 'variable';
-  availableBorrows: number;
+  isBorrowEnable: boolean;
 }
 
 export default function BorrowTableItem({
@@ -32,7 +32,7 @@ export default function BorrowTableItem({
   poolReserve,
   userReserve,
   type,
-  availableBorrows,
+  isBorrowEnable,
 }: BorrowTableItemProps) {
   const intl = useIntl();
   const history = useHistory();
@@ -105,16 +105,12 @@ export default function BorrowTableItem({
       </div>
 
       <div className="BorrowTableItem__column">
-        <Link
-          to={borrowLink}
-          className="ButtonLink"
-          disabled={!availableBorrows || !poolReserve.borrowingEnabled || poolReserve.isFrozen}
-        >
+        <Link to={borrowLink} className="ButtonLink" disabled={!isBorrowEnable}>
           <DefaultButton
             className="BorrowTableItem__button"
             title={intl.formatMessage(defaultMessages.borrow)}
             color="dark"
-            disabled={!availableBorrows || !poolReserve.borrowingEnabled || poolReserve.isFrozen}
+            disabled={!isBorrowEnable}
           />
         </Link>
 

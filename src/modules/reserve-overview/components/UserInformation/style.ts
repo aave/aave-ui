@@ -164,6 +164,14 @@ const staticStyles = css.global`
       align-self: center;
     }
 
+    &__rowContent {
+      display: flex;
+      align-items: center;
+      img {
+        margin-right: 4px;
+      }
+    }
+
     .Value {
       .Value__value {
         @include respond-to(xl) {

@@ -27,6 +27,7 @@ export interface ValidationWrapperComponentProps
   user?: UserSummary;
   poolReserve: ComputedReserveData;
   userReserve?: ComputedUserReserve;
+  userEmodeCategoryId: number;
 }
 
 interface RouteParamValidationWrapperProps {
@@ -48,7 +49,7 @@ export default function routeParamValidationHOC({
       const underlyingAsset = match.params.underlyingAsset.toUpperCase();
       const reserveId = match.params.id;
 
-      const { walletData } = useStaticPoolDataContext();
+      const { walletData, userEmodeCategoryId } = useStaticPoolDataContext();
       const { reserves, user } = useDynamicPoolDataContext();
 
       const poolReserve = reserves.find((res) =>
@@ -123,6 +124,7 @@ export default function routeParamValidationHOC({
         underlyingAsset,
         history,
         location,
+        userEmodeCategoryId,
       };
       return <ChildComponent {...props} />;
     };
