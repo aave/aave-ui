@@ -75,7 +75,9 @@ export default function BorrowMain() {
           .multipliedBy(marketReferencePriceInUsd)
           .shiftedBy(-USD_DECIMALS)
           .toString();
-        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
+        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+          ? reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+          : { aIncentives: [], vIncentives: [], sIncentives: [] };
         return {
           ...reserve,
           currentBorrows:

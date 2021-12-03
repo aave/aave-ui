@@ -65,7 +65,9 @@ export default function DepositsMain() {
         );
         const walletBalance = walletData[reserve.underlyingAsset]?.amount || '0';
         const walletBalanceInUSD = walletData[reserve.underlyingAsset]?.amountUSD || '0';
-        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
+        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+          ? reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+          : { aIncentives: [], vIncentives: [], sIncentives: [] };
         return {
           ...reserve,
           walletBalance,

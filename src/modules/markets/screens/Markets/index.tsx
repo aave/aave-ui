@@ -42,7 +42,9 @@ export default function Markets() {
 
       const totalBorrows = Number(reserve.totalDebt);
       const totalBorrowsInUSD = Number(reserve.totalDebtUSD);
-      const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
+      const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+        ? reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+        : { aIncentives: [], vIncentives: [], sIncentives: [] };
       return {
         totalLiquidity,
         totalLiquidityInUSD,
