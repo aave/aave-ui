@@ -158,12 +158,6 @@ const staticStyles = css.global`
       }
     }
 
-    &__row {
-      display: flex;
-      justify-content: space-between;
-      align-self: center;
-    }
-
     &__rowContent {
       display: flex;
       align-items: center;

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router';
 import { Pool } from '@aave/contract-helpers';
@@ -39,25 +40,38 @@ export function EModeConfirm() {
   const oldHealthFactor = user ? user.healthFactor : '0';
   const newHealthFactor = newSummary.healthFactor;
 
+  const eModeEnabled = userEmodeCategoryId !== 0;
+
+  const [mainText, setMainText] = useState(
+    eModeEnabled
+      ? intl.formatMessage(messages.disableEmode)
+      : intl.formatMessage(messages.enableEmode)
+  );
+
+  useEffect(
+    () =>
+      setMainText(
+        eModeEnabled
+          ? intl.formatMessage(messages.disableEmode)
+          : intl.formatMessage(messages.enableEmode)
+      ),
+    []
+  );
+
   const handleGetTransactions = async () => {
     const newPool: Pool = lendingPool as Pool;
     if (eModeEnabled) {
-      return await newPool.setUserEMode({
+      return newPool.setUserEMode({
         user: user ? user.id : '',
         categoryId: 0,
       });
     } else {
-      return await newPool.setUserEMode({
+      return newPool.setUserEMode({
         user: user ? user.id : '',
         categoryId: newEMode,
       });
     }
   };
-
-  const eModeEnabled = userEmodeCategoryId !== 0;
-  const mainText = eModeEnabled
-    ? intl.formatMessage(messages.disableEmode)
-    : intl.formatMessage(messages.enableEmode);
 
   return (
     <ScreenWrapper pageTitle={mainText} isTitleOnDesktop={true} withMobileGrayBg={true}>
@@ -76,7 +90,7 @@ export function EModeConfirm() {
           getTransactionsData={handleGetTransactions}
         >
           <Row title={intl.formatMessage(messages.category)} withMargin={true}>
-            {getEmodeMessage(newEMode, intl)}
+            <strong>{getEmodeMessage(newEMode, intl)}</strong>
           </Row>
 
           <HealthFactor

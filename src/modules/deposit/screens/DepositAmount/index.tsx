@@ -56,7 +56,14 @@ function DepositAmount({
 
   const asset = getAssetInfo(currencySymbol);
 
-  const showIsolationScreen = poolReserve.isIsolated && !!user?.totalCollateralUSD;
+  const hasDifferentCollateral = user?.userReservesData.find(
+    (reserve) => reserve.usageAsCollateralEnabledOnUser && reserve.reserve.id !== poolReserve.id
+  );
+
+  const showIsolationScreen =
+    poolReserve.isIsolated &&
+    !hasDifferentCollateral &&
+    (userReserve?.underlyingBalance !== '0' ? userReserve?.usageAsCollateralEnabledOnUser : true);
 
   const [depositStep, setDepositStep] = useState<DepositStep>(
     showIsolationScreen ? DepositStep.IsolationScreen : DepositStep.AmountForm

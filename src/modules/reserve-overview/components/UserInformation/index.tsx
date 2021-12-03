@@ -79,6 +79,12 @@ export default function UserInformation({
   const rowWeight = sm ? 'light' : 'normal';
   const elementsColor = sm ? 'white' : 'dark';
 
+  const canBeEnabledAsCollateral =
+    poolReserve.usageAsCollateralEnabled &&
+    ((!poolReserve.isIsolated && !user?.isInIsolationMode) ||
+      user?.isolatedReserve?.underlyingAsset === poolReserve.underlyingAsset ||
+      (poolReserve.isIsolated && user?.totalCollateralMarketReferenceCurrency === '0'));
+
   const borrowableAssetInIsolationMode =
     user?.isInIsolationMode &&
     poolReserve.borrowableInIsolation &&
@@ -181,22 +187,31 @@ export default function UserInformation({
                 />
               </Row>
 
-              {!!underlyingBalance && !user?.isInIsolationMode && !poolReserve.isIsolated && (
-                <div className="UserInformation__row">
-                  <CollateralHelpModal
-                    text={intl.formatMessage(messages.collateral)}
-                    color={elementsColor}
-                    lightWeight={sm}
-                  />
+              {!!underlyingBalance && !user?.isInIsolationMode && (
+                <Row
+                  title={
+                    <CollateralHelpModal
+                      text={intl.formatMessage(messages.collateral)}
+                      color={elementsColor}
+                      lightWeight={sm}
+                    />
+                  }
+                  withMargin={poolReserve.isIsolated}
+                  weight={rowWeight}
+                  color={elementsColor}
+                >
                   <CustomSwitch
                     value={
                       userReserve?.usageAsCollateralEnabledOnUser &&
-                      poolReserve.usageAsCollateralEnabled
+                      poolReserve.usageAsCollateralEnabled &&
+                      canBeEnabledAsCollateral
                     }
                     offLabel={intl.formatMessage(messages.depositOffLabel)}
                     onLabel={intl.formatMessage(messages.depositOnLabel)}
                     onColor={currentTheme.green.hex}
-                    offColor={currentTheme.red.hex}
+                    offColor={
+                      !canBeEnabledAsCollateral ? currentTheme.lightBlue.hex : currentTheme.red.hex
+                    }
                     onSwitch={() =>
                       toggleUseAsCollateral(
                         history,
@@ -205,11 +220,11 @@ export default function UserInformation({
                         poolReserve.underlyingAsset
                       )
                     }
-                    disabled={!poolReserve.usageAsCollateralEnabled}
+                    disabled={!canBeEnabledAsCollateral}
                     swiperHeight={switcherHeight}
                     swiperWidth={switcherWidth}
                   />
-                </div>
+                </Row>
               )}
 
               {!user?.isInIsolationMode && poolReserve.isIsolated && (
