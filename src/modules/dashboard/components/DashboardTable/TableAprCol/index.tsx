@@ -4,17 +4,18 @@ import TableCol from '../TableCol';
 import LiquidityMiningCard from '../../../../../components/liquidityMining/LiquidityMiningCard';
 
 import staticStyles from './style';
+import { ReserveIncentive } from '../../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 
 interface TableAprColProps {
   value: number;
-  liquidityMiningValue: string | number;
+  liquidityMiningValues: ReserveIncentive[];
   symbol?: string;
   type?: string;
 }
 
 export default function TableAprCol({
   value,
-  liquidityMiningValue,
+  liquidityMiningValues,
   type,
   symbol,
 }: TableAprColProps) {
@@ -22,7 +23,7 @@ export default function TableAprCol({
     <TableCol>
       <LiquidityMiningCard
         value={value}
-        liquidityMiningValue={liquidityMiningValue}
+        liquidityMiningValues={liquidityMiningValues}
         symbol={symbol}
         type={type}
       />

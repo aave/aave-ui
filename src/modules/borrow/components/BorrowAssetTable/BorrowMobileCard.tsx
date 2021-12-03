@@ -24,8 +24,8 @@ export default function BorrowMobileCard({
   stableBorrowRateEnabled,
   userId,
   isFreezed,
-  vincentivesAPR,
-  sincentivesAPR,
+  vIncentives,
+  sIncentives,
   isIsolated,
 }: BorrowTableItem) {
   const intl = useIntl();
@@ -61,7 +61,7 @@ export default function BorrowMobileCard({
           <LiquidityMiningCard
             symbol={symbol}
             value={variableBorrowRate}
-            liquidityMiningValue={vincentivesAPR}
+            liquidityMiningValues={vIncentives}
             type="borrow-variable"
           />
         </Row>
@@ -73,7 +73,7 @@ export default function BorrowMobileCard({
             <LiquidityMiningCard
               symbol={symbol}
               value={stableBorrowRate}
-              liquidityMiningValue={sincentivesAPR}
+              liquidityMiningValues={sIncentives}
               type="borrow-stable"
             />
           ) : (

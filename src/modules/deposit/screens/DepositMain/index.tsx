@@ -75,15 +75,9 @@ export default function DepositsMain() {
           liquidityRate: reserve.supplyAPY,
           borrowingEnabled: reserve.borrowingEnabled,
           interestHistory: [],
-          aincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.aIncentives[0].incentiveAPR
-            : '0',
-          vincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.vIncentives[0].incentiveAPR
-            : '0',
-          sincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.sIncentives[0].incentiveAPR
-            : '0',
+          aIncentives: reserveIncentiveData.aIncentives,
+          vIncentives: reserveIncentiveData.vIncentives,
+          sIncentives: reserveIncentiveData.sIncentives,
         };
       });
 

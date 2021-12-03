@@ -31,8 +31,8 @@ export default function BorrowItem({
   repayLink,
   borrowLink,
   index,
-  vincentivesAPR,
-  sincentivesAPR,
+  vIncentives,
+  sIncentives,
 }: BorrowTableItem) {
   const intl = useIntl();
   const { currentTheme, xl, lg, md, isCurrentThemeDark } = useThemeContext();
@@ -49,8 +49,8 @@ export default function BorrowItem({
       />
       <TableAprCol
         value={Number(borrowRate)}
-        liquidityMiningValue={
-          borrowRateMode === BorrowRateMode.Variable ? vincentivesAPR : sincentivesAPR
+        liquidityMiningValues={
+          borrowRateMode === BorrowRateMode.Variable ? vIncentives : sIncentives
         }
         symbol={symbol}
         type={borrowRateMode === BorrowRateMode.Variable ? 'borrow-variable' : 'borrow-stable'}

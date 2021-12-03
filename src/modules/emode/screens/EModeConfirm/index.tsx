@@ -17,8 +17,12 @@ import { useCurrentTimestamp } from '../../../../libs/pool-data-provider/hooks/u
 
 export function EModeConfirm() {
   const intl = useIntl();
-  const { marketReferencePriceInUsd, marketReferenceCurrencyDecimals, rawUserReserves, userEmodeCategoryId } =
-    useStaticPoolDataContext();
+  const {
+    marketReferencePriceInUsd,
+    marketReferenceCurrencyDecimals,
+    rawUserReserves,
+    userEmodeCategoryId,
+  } = useStaticPoolDataContext();
   const { user } = useDynamicPoolDataContext();
   const { lendingPool } = useTxBuilderContext();
   const currentTimestamp = useCurrentTimestamp(1);

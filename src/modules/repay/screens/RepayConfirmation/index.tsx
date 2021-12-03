@@ -176,18 +176,18 @@ function RepayConfirmation({
     repayWithATokens
       ? valueToBigNumber(underlyingBalance).eq(0)
       : walletBalance.eq('0') || repayWithATokens
-        ? valueToBigNumber(underlyingBalance).lt(amount)
-        : walletBalance.lt(amount)
+      ? valueToBigNumber(underlyingBalance).lt(amount)
+      : walletBalance.lt(amount)
   )
     ? intl.formatMessage(messages.error, {
-      userReserveSymbol: assetDetails.formattedSymbol || assetDetails.symbol,
-    })
+        userReserveSymbol: assetDetails.formattedSymbol || assetDetails.symbol,
+      })
     : '';
 
   const warningMessage =
     amount.eq('-1') &&
-      amountToRepayUI.gte(maxAmountToRepay) &&
-      !amountToRepayUI.gte(safeAmountToRepayAll)
+    amountToRepayUI.gte(maxAmountToRepay) &&
+    !amountToRepayUI.gte(safeAmountToRepayAll)
       ? intl.formatMessage(messages.warningMessage)
       : '';
 

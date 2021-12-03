@@ -29,7 +29,7 @@ export default function DepositMobileCard({
   isActive,
   isFrozen,
   borrowingEnabled,
-  aincentivesAPR,
+  aIncentives,
   canBeEnabledAsCollateral,
   isUserInIsolationMode,
   isIsolated,
@@ -63,11 +63,11 @@ export default function DepositMobileCard({
         </Row>
 
         <Row title={intl.formatMessage(messages.apyRowTitle)} withMargin={true}>
-          {borrowingEnabled || aincentivesAPR !== '0' ? (
+          {borrowingEnabled || aIncentives.length > 0 ? (
             <LiquidityMiningCard
               symbol={symbol}
               value={borrowingEnabled ? Number(liquidityRate) : 0}
-              liquidityMiningValue={aincentivesAPR}
+              liquidityMiningValues={aIncentives}
               type="deposit"
             />
           ) : (

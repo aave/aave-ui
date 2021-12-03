@@ -1,7 +1,6 @@
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { normalize } from '@aave/protocol-js';
-import { getRewardTokenSymbol } from '../../../../components/wrappers/IncentiveWrapper';
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
@@ -19,15 +18,14 @@ export function RewardConfirm() {
   const intl = useIntl();
   const location = useLocation();
 
-  const { user, reserves } = useDynamicPoolDataContext();
+  const { user } = useDynamicPoolDataContext();
   const { userIncentives, incentivesTxBuilder } = useIncentivesDataContext();
-  const incentivesControllerAddress = location.pathname.split('/')[3];
-  const incentiveData = userIncentives[incentivesControllerAddress];
-  const rewardTokenSymbol = getRewardTokenSymbol(reserves, incentiveData.rewardTokenAddress);
+  const rewardTokenAddress = location.pathname.split('/')[3];
+  const incentiveData = userIncentives[rewardTokenAddress];
 
   const aTokenData = getAtokenInfo({
-    address: incentiveData.rewardTokenAddress,
-    symbol: rewardTokenSymbol,
+    address: rewardTokenAddress,
+    symbol: incentiveData.rewardTokenSymbol,
     decimals: incentiveData.rewardTokenDecimals,
     withFormattedSymbol: true,
   });
@@ -52,7 +50,7 @@ export function RewardConfirm() {
       user: user.id,
       assets,
       to: user.id,
-      incentivesControllerAddress,
+      incentivesControllerAddress: incentiveData.incentiveControllerAddress,
     });
 
   return (
@@ -73,7 +71,7 @@ export function RewardConfirm() {
           goToAfterSuccess="/dashboard"
           aTokenData={aTokenData}
           dangerousMessage={
-            rewardTokenSymbol === 'TRIBE' ? (
+            incentiveData.rewardTokenSymbol === 'TRIBE' ? (
               <div>
                 <p>
                   {intl.formatMessage(messages.tribeWarningFirst, {
@@ -104,10 +102,10 @@ export function RewardConfirm() {
         >
           <Row title={intl.formatMessage(messages.claim)}>
             <Value
-              symbol={rewardTokenSymbol}
+              symbol={incentiveData.rewardTokenSymbol}
               value={formattedAmount}
               tokenIcon={true}
-              tooltipId={rewardTokenSymbol}
+              tooltipId={incentiveData.rewardTokenSymbol}
             />
           </Row>
         </PoolTxConfirmationView>
