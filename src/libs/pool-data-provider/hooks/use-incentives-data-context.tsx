@@ -1,5 +1,4 @@
 import {
-  Denominations,
   IncentivesController,
   IncentivesControllerInterface,
   ReservesIncentiveDataHumanized,
@@ -29,6 +28,12 @@ export interface IncentivesContext {
   userIncentives: UserIncentiveDict;
   incentivesTxBuilder: IncentivesControllerInterface;
   refresh?: () => void;
+}
+
+export interface ReserveIncentive {
+  incentiveAPR: string;
+  rewardTokenAddress: string;
+  rewardTokenSymbol: string;
 }
 
 const IncentivesDataContext = React.createContext({} as IncentivesContext);
@@ -120,14 +125,15 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
       reserveIncentives[networkConfig.baseAssetWrappedAddress.toLowerCase()];
   }
   // Compute the total claimable rewards for a user, returned as dictionary indexed by incentivesController
-  let userIncentives = {}; // Temporary
-  //  let userIncentives = calculateAllUserIncentives({
-  //    reserveIncentives: reserveIncentiveData,
-  //    userReserveIncentives: userIncentiveData,
-  //    userReserves: computedUserReserves,
-  //    currentTimestamp,
-  //  });
+  let userIncentives = calculateAllUserIncentives({
+    reserveIncentives: reserveIncentiveData,
+    userReserveIncentives: userIncentiveData,
+    userReserves: computedUserReserves,
+    currentTimestamp,
+  });
 
+  console.log(reserveIncentives);
+  console.log(userIncentives);
   return (
     <IncentivesDataContext.Provider
       value={{
