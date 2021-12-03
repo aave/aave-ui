@@ -166,13 +166,13 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCWSUrl: 'wss://rinkeby.arbitrum.io/rpc',
     addresses: {
       walletBalanceProvider: '0x6f8E47bE9203230B853b73792C8A2Eaba9248629',
-      uiPoolDataProvider: '0x98588ca1854c6E7470a616384c4f281A211C7835',
-      uiIncentiveDataProvider: '0x4A2ce4006042B4B61c95cebD2E41fA910739772a',
+      uiPoolDataProvider: '0x761fC5a803411aCBeA73B04cfE2e0DDcE532f9e7',
+      uiIncentiveDataProvider: '0x2fe91f5ab0bc5Aad0995Ea78d314B033988003De',
     },
     protocolDataUrl: '',
     baseUniswapAdapter: '0x0',
     baseAsset: 'ARETH',
-    baseAssetWrappedAddress: '0x217F76f6332aAC6854CAf224B98eD95412940151',
+    baseAssetWrappedAddress: '0x6858D648A7E3363FE49c28A7222Cf61858862977',
     // incentives hardcoded information
     rewardTokenSymbol: '',
     rewardTokenAddress: '',
