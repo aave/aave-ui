@@ -13,11 +13,13 @@ import staticStyles from './style';
 interface IsolationModeBadgeProps {
   isIsolated: boolean;
   color?: 'dark' | 'white';
+  disabled?: boolean;
 }
 
 export default function IsolationModeBadge({
   isIsolated,
   color = 'dark',
+  disabled,
 }: IsolationModeBadgeProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -25,7 +27,9 @@ export default function IsolationModeBadge({
   return (
     <>
       <TextWithModal
-        className={classNames('IsolationModeBadge', `IsolationModeBadge__${color}`)}
+        className={classNames('IsolationModeBadge', `IsolationModeBadge__${color}`, {
+          IsolationModeBadge__disabled: disabled,
+        })}
         text={intl.formatMessage(isIsolated ? messages.isolationMode : messages.nA)}
         withCloseButton={true}
       >

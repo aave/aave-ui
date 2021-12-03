@@ -10,6 +10,8 @@ import staticStyles from './style';
 
 import alert from '../../../images/alertCircleGray.svg';
 import alertDark from '../../../images/alertCircleWhite.svg';
+import warning from '../../../images/warningTransparentDarkBlue.svg';
+import warningDark from '../../../images/warningTransparentWhite.svg';
 
 interface IsolationInfoBannerProps {
   text: string;
@@ -36,6 +38,7 @@ export default function IsolationInfoBanner({
       })}
     >
       {withIcon && <img src={isCurrentThemeDark || sm ? alertDark : alert} alt="" />}
+      {size === 'normal' && sm && <img src={isCurrentThemeDark ? warningDark : warning} alt="" />}
       <p>
         {text}{' '}
         <Link
@@ -57,16 +60,16 @@ export default function IsolationInfoBanner({
           background: ${currentTheme.mainBg.hex};
           color: ${currentTheme.textDarkBlue.hex};
 
-          @include respond-to(sm) {
-            background: ${isCurrentThemeDark
-              ? currentTheme.headerBg.hex
-              : currentTheme.darkBlue.hex};
-            color: ${currentTheme.white.hex};
+          &__normal {
+            @include respond-to(sm) {
+              border: 1px solid ${currentTheme.textDarkBlue.hex};
+            }
           }
 
           &__small {
             @include respond-to(sm) {
               background: ${currentTheme.headerBg.hex};
+              color: ${currentTheme.white.hex};
             }
           }
         }

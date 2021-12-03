@@ -17,6 +17,14 @@ const staticStyles = css.global`
       margin-left: 4px;
     }
 
+    &.IsolationModeBadge__disabled {
+      .TextWithModal__text {
+        color: unset !important;
+        font-weight: 400;
+        font-size: unset !important;
+      }
+    }
+
     &__modal--text {
       font-size: $large;
       margin-bottom: 32px;

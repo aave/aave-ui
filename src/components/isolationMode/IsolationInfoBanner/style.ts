@@ -46,25 +46,25 @@ const staticStyles = css.global`
       @include respond-to(md) {
         font-size: $small;
       }
+    }
 
-      img {
-        position: relative;
-        bottom: 1px;
-        margin-right: 6px;
-        width: 18px;
-        height: 18px;
-        @include respond-to(xl) {
-          width: 16px;
-          height: 16px;
-        }
-        @include respond-to(lg) {
-          width: 14px;
-          height: 14px;
-        }
-        @include respond-to(md) {
-          width: 16px;
-          height: 16px;
-        }
+    img {
+      position: relative;
+      bottom: 1px;
+      margin-right: 6px;
+      width: 18px;
+      height: 18px;
+      @include respond-to(xl) {
+        width: 16px;
+        height: 16px;
+      }
+      @include respond-to(lg) {
+        width: 14px;
+        height: 14px;
+      }
+      @include respond-to(md) {
+        width: 16px;
+        height: 16px;
       }
     }
 

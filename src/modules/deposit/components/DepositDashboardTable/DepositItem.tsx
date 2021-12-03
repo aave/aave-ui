@@ -11,6 +11,7 @@ import TableAprCol from '../../../dashboard/components/DashboardTable/TableAprCo
 import TableCol from '../../../dashboard/components/DashboardTable/TableCol';
 import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import TableButtonCol from '../../../dashboard/components/DashboardTable/TableButtonCol';
+import IsolationModeBadge from '../../../../components/isolationMode/IsolationModeBadge';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -67,11 +68,13 @@ export default function DepositItem({
       <TableCol maxWidth={125}>
         <CustomSwitch
           value={usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral}
-          offLabel={intl.formatMessage(
-            isUserInIsolationMode && !canBeEnabledAsCollateral
-              ? messages.offLabelIsolated
-              : messages.offLabel
-          )}
+          offLabel={
+            isUserInIsolationMode && !canBeEnabledAsCollateral ? (
+              <IsolationModeBadge isIsolated={isIsolated} disabled={true} />
+            ) : (
+              intl.formatMessage(messages.offLabel)
+            )
+          }
           onLabel={intl.formatMessage(messages.onLabel)}
           onColor={currentTheme.green.hex}
           offColor={!canBeEnabledAsCollateral ? currentTheme.lightBlue.hex : currentTheme.red.hex}

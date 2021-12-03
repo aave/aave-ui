@@ -14,6 +14,7 @@ import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import CollateralHelpModal from '../../../../components/HelpModal/CollateralHelpModal';
 import AMPLWarning from '../../../../components/AMPLWarning';
+import IsolationModeBadge from '../../../../components/isolationMode/IsolationModeBadge';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -87,11 +88,13 @@ export default function DepositMobileCard({
         >
           <CustomSwitch
             value={usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral}
-            offLabel={intl.formatMessage(
-              isUserInIsolationMode && !canBeEnabledAsCollateral
-                ? messages.offLabelIsolated
-                : messages.offLabel
-            )}
+            offLabel={
+              isUserInIsolationMode && !canBeEnabledAsCollateral ? (
+                <IsolationModeBadge isIsolated={isIsolated} disabled={true} />
+              ) : (
+                intl.formatMessage(messages.offLabel)
+              )
+            }
             onLabel={intl.formatMessage(messages.onLabel)}
             onColor={currentTheme.green.hex}
             offColor={!canBeEnabledAsCollateral ? currentTheme.lightBlue.hex : currentTheme.red.hex}
