@@ -18,6 +18,7 @@ interface TableItemProps {
   children?: ReactNode;
   darkOnDarkMode?: boolean;
   isIsolated: boolean;
+  className?: string;
 }
 
 export default function TableItem({
@@ -28,16 +29,21 @@ export default function TableItem({
   children,
   darkOnDarkMode,
   isIsolated,
+  className,
 }: TableItemProps) {
   const history = useHistory();
   const asset = getAssetInfo(symbol);
 
   return (
     <TableItemWrapper
-      className={classNames('TableItem', {
-        TableItem__withHeight: darkOnDarkMode,
-        TableItem__borrow: isBorrow,
-      })}
+      className={classNames(
+        'TableItem',
+        {
+          TableItem__withHeight: darkOnDarkMode,
+          TableItem__borrow: isBorrow,
+        },
+        className
+      )}
       onClick={() => history.push(url)}
       disabled={isFreezed}
       withGoToTop={true}

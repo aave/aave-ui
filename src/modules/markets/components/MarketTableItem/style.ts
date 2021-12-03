@@ -24,13 +24,13 @@ const staticStyles = css.global`
         justify-content: flex-start;
         min-width: 270px;
         @media only screen and (max-width: 850px) {
-          flex-direction: column;
+          flex-direction: column-reverse;
           align-items: flex-start;
           min-width: 80px;
 
           .IsolatedBadge {
-            margin-left: 0;
-            margin-top: 5px;
+            margin-left: 45px;
+            margin-bottom: 0;
           }
         }
       }

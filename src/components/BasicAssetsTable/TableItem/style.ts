@@ -31,12 +31,12 @@ const staticStyles = css.global`
       }
       @include respond-to(md) {
         min-width: unset;
-        flex-direction: column;
+        flex-direction: column-reverse;
         align-items: flex-start;
 
         .IsolatedBadge {
-          margin-left: 0;
-          margin-top: 5px;
+          margin-left: 45px;
+          margin-bottom: 0;
         }
       }
       @include respond-to(sm) {
@@ -115,6 +115,15 @@ const staticStyles = css.global`
       @include respond-to(md) {
         width: 70px;
         font-size: $small;
+      }
+    }
+
+    &.FaucetItem {
+      @include respond-to(sm) {
+        .TableColumn.TableItem__token-inner {
+          max-width: 200px;
+          min-width: 200px;
+        }
       }
     }
   }

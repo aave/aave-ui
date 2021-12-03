@@ -12,6 +12,7 @@ import { EthereumTransactionTypeExtended } from '@aave/protocol-js';
 import { useWeb3React } from '@web3-react/core';
 import { providers } from 'ethers';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { ChainId } from '@aave/contract-helpers';
 
 import {
   getDefaultChainId,
@@ -19,6 +20,7 @@ import {
 } from '../../helpers/config/markets-and-network-config';
 import { useUserWalletDataContext } from '../../libs/web3-data-provider';
 import { useProtocolDataContext } from '../../libs/protocol-data-provider';
+import { useStaticPoolDataContext } from '../../libs/pool-data-provider';
 import {
   EthTransactionData,
   sendEthTransaction,
@@ -35,11 +37,10 @@ import ActionsWrapper from './ActionsWrapper';
 import ActionExecutionBox from './ActionExecutionBox';
 import TxTopInfo from './TxTopInfo';
 import NetworkMismatch from './NetworkMismatch';
+import IsolationModeWarning from '../isolationMode/IsolationModeWarning';
 
 import messages from './messages';
 import staticStyles from './style';
-import { ChainId } from '@aave/contract-helpers';
-import { useStaticPoolDataContext } from '../../libs/pool-data-provider';
 
 export interface TxConfirmationViewProps {
   caption?: string;
@@ -63,6 +64,7 @@ export interface TxConfirmationViewProps {
 
   warningMessage?: string;
   dangerousMessage?: string | null | {} | ReactNodeArray;
+  isolationWarning?: boolean;
   blockingError?: string;
 
   className?: string;
@@ -104,6 +106,7 @@ export default function TxConfirmationView({
 
   warningMessage,
   dangerousMessage,
+  isolationWarning,
   blockingError,
 
   className,
@@ -450,6 +453,7 @@ export default function TxConfirmationView({
       <InfoWrapper>
         {!!warningMessage && !mainTxConfirmed && <InfoPanel>{warningMessage}</InfoPanel>}
         {!!dangerousMessage && !mainTxConfirmed && <InfoPanel>{dangerousMessage}</InfoPanel>}
+        {!!isolationWarning && !mainTxConfirmed && <IsolationModeWarning />}
       </InfoWrapper>
 
       {(global.window as any)?.ethereum?.isMetaMask &&

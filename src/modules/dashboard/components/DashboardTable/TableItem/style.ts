@@ -29,11 +29,11 @@ const staticStyles = css.global`
 
     &__isolated {
       position: relative;
-      margin-top: 30px;
+      margin-top: 24px;
       border-top-left-radius: unset;
       border-top-right-radius: unset;
       @include respond-to(xl) {
-        margin-top: 26px;
+        margin-top: 20px;
       }
     }
 
@@ -63,6 +63,7 @@ const staticStyles = css.global`
 
     .TableItem__inner {
       align-items: flex-start;
+      justify-content: flex-start;
     }
 
     &__assetColor {

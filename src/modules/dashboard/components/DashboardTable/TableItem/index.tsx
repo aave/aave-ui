@@ -27,12 +27,6 @@ export default function TableItem({ tokenSymbol, color, children, isIsolated }: 
         TableItem__isolated: isIsolated,
       })}
     >
-      {isIsolated && (
-        <div className="TableItem__isolated--inner">
-          <IsolatedBadge isWhiteIcon={true} />
-        </div>
-      )}
-
       <span className="TableItem__assetColor" style={{ backgroundColor: color }} />
 
       <TableCol className="TableItem__inner" maxWidth={lg ? 250 : 160}>
@@ -49,6 +43,12 @@ export default function TableItem({ tokenSymbol, color, children, isIsolated }: 
       {children}
 
       {tokenSymbol === 'AMPL' && <AMPLWarning />}
+
+      {isIsolated && (
+        <div className="TableItem__isolated--inner">
+          <IsolatedBadge isWhiteIcon={true} />
+        </div>
+      )}
 
       <style jsx={true} global={true}>
         {staticStyles}

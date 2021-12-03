@@ -60,38 +60,26 @@ const staticStyles = css.global`
       }
     }
 
-    &__noBorrows {
-      .MainDashboardTable__left-inner {
-        width: 100%;
-        margin-right: 30px;
-        @include respond-to(xl) {
-          margin-right: 20px;
-        }
-        @include respond-to(lg) {
-          margin-right: 0;
-        }
+    &__rightNoData--wrapper {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    &__noData--title {
+      display: block;
+      padding: 0 10px;
+      font-size: $regular;
+      @include respond-to(xl) {
+        font-size: $small;
       }
-      .MainDashboardTable__right-inner {
-        max-width: 320px;
-        @include respond-to(xl) {
-          max-width: 240px;
-        }
-        @include respond-to(lg) {
-          max-width: 100%;
-        }
+      @include respond-to(lg) {
+        font-size: $medium;
       }
-      .ContentWrapper {
-        margin: 32px 0 0;
-        @include respond-to(xl) {
-          margin: 26px 0 0;
-        }
-        @include respond-to(lg) {
-          margin: 0;
-        }
-        @include respond-to(sm) {
-          padding: 0 10px;
-        }
+      @include respond-to(md) {
+        font-size: $small;
       }
+      margin-bottom: 10px;
     }
   }
 

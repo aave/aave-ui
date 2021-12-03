@@ -271,7 +271,9 @@ function RepayConfirmation({
         />
 
         <HealthFactor
-          value={healthFactorAfterRepay.toString()}
+          value={
+            healthFactorAfterRepay.toNumber() > 10 * 10 ? '-1' : healthFactorAfterRepay.toString()
+          }
           title={intl.formatMessage(messages.nextHealthFactor)}
           withoutModal={true}
           updateCondition={isTxExecuted}

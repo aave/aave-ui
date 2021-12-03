@@ -17,7 +17,7 @@ export default function FaucetItem({
   const url = `/faucet/${underlyingAsset}-${id}`;
 
   return (
-    <TableItem symbol={symbol} url={url} isIsolated={isIsolated}>
+    <TableItem className="FaucetItem" symbol={symbol} url={url} isIsolated={isIsolated}>
       <TableColumn>
         {!userId ? (
           <span>—</span>
