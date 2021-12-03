@@ -3,11 +3,8 @@ import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
-import { ChainId } from '@aave/contract-helpers';
-import classNames from 'classnames';
 
 import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import { loanActionLinkComposer } from '../../../../helpers/loan-action-link-composer';
 import { toggleUseAsCollateral } from '../../../../helpers/toggle-use-as-collateral';
@@ -32,10 +29,10 @@ import DepositBorrowTopPanel from '../../../../components/DepositBorrowTopPanel'
 import ApproximateBalanceHelpModal from '../../../../components/HelpModal/ApproximateBalanceHelpModal';
 import IncentiveWrapper from '../../../../components/wrappers/IncentiveWrapper';
 import DashboardNoData from '../../components/DashboardNoData';
+import EModeButton from '../../../../components/eMode/EModeButton';
 
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
-import { DashboardLeftTopLine } from '../../../../ui-config';
 import { getAssetColor } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
@@ -44,7 +41,6 @@ import staticStyles from './style';
 export default function Dashboard() {
   const intl = useIntl();
   const history = useHistory();
-  const { chainId } = useProtocolDataContext();
   const { user, reserves } = useDynamicPoolDataContext();
   const { reserveIncentives } = useIncentivesDataContext();
   const { currentTheme, sm } = useThemeContext();
@@ -190,15 +186,6 @@ export default function Dashboard() {
 
   return (
     <div className="Dashboard">
-      <div
-        className={classNames('Dashboard__mobileMigrate--inner', {
-          Dashboard__mobileMigrateWithoutContent:
-            chainId !== ChainId.mainnet && !depositedPositions.length,
-        })}
-      >
-        <DashboardLeftTopLine intl={intl} chainId={chainId} onMobile={true} />
-      </div>
-
       {user && !!depositedPositions.length && (
         <div className="Dashboard__switcher-inner">
           <LabeledSwitcher
@@ -216,9 +203,8 @@ export default function Dashboard() {
       )}
 
       <div className="Dashboard__top--line">
-        <div className="ButtonLink">
-          <DashboardLeftTopLine intl={intl} chainId={chainId} />
-        </div>
+        {/*TODO: remove after dashboard top panel styled*/}
+        <EModeButton size="small" />
         <IncentiveWrapper />
       </div>
 
@@ -407,13 +393,6 @@ export default function Dashboard() {
       </style>
       <style jsx={true} global={true}>{`
         .Dashboard {
-          &__mobileMigrate--inner {
-            background: ${currentTheme.whiteElement.hex};
-          }
-          &__mobileMigrateWithoutContent {
-            background: ${currentTheme.mainBg.hex};
-          }
-
           &__changeMarket--button {
             color: ${currentTheme.primary.hex};
           }

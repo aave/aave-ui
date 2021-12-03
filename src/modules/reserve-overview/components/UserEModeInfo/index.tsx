@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { getEmodeMessage } from '../../../../ui-config/branding/DashboardLeftTopLine';
+import { getEmodeMessage } from '../../../../helpers/e-mode/getEmodeMessage';
 
 import messages from './messages';
 import staticStyles from './style';

@@ -32,7 +32,7 @@ const staticStyles = css.global`
     &__top--line {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
       margin: 40px 0 15px;
       @include respond-to(xl) {
         margin: 35px 0 10px;
@@ -52,24 +52,6 @@ const staticStyles = css.global`
           font-size: $extraSmall;
         }
       }
-    }
-
-    &__mobileMigrate--inner {
-      display: none;
-      @include respond-to(sm) {
-        display: block;
-        .Link {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 30px;
-          padding: 15px;
-          font-size: $regular;
-        }
-      }
-    }
-    &__mobileMigrateWithoutContent {
-      height: 30px;
     }
 
     .Row.Row__column {

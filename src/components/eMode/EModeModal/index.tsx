@@ -8,7 +8,7 @@ import {
   useStaticPoolDataContext,
 } from '../../../libs/pool-data-provider';
 import { useCurrentTimestamp } from '../../../libs/pool-data-provider/hooks/use-current-timestamp';
-import { getEmodeMessage } from '../../../ui-config/branding/DashboardLeftTopLine';
+import { getEmodeMessage } from '../../../helpers/e-mode/getEmodeMessage';
 import Caption from '../../basic/Caption';
 import Row from '../../basic/Row';
 import Link from '../../basic/Link';

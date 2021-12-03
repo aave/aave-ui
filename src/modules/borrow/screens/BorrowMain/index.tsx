@@ -20,7 +20,6 @@ import BorrowMobileCard from '../../components/BorrowAssetTable/BorrowMobileCard
 import DepositBorrowMainWrapper from '../../../../components/wrappers/DepositBorrowMainWrapper';
 import Card from '../../../../components/wrappers/DepositBorrowMainWrapper/components/Card';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
-import { getEmodeMessage } from '../../../../ui-config/branding/DashboardLeftTopLine';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -127,7 +126,6 @@ export default function BorrowMain() {
   );
 
   const isEmodeActive = userEmodeCategoryId !== 0;
-  const eModeCategoryName = getEmodeMessage(userEmodeCategoryId, intl);
 
   return (
     <PermissionWarning requiredPermission={PERMISSION.BORROWER}>
@@ -148,14 +146,14 @@ export default function BorrowMain() {
             isolationText={
               user?.isInIsolationMode ? intl.formatMessage(messages.isolationText) : undefined
             }
-            toggleActive={!isEmodeActive}
+            isEmodeActive={isEmodeActive}
           />
         )}
 
         <DepositBorrowMainWrapper
           contentTitle={intl.formatMessage(messages.availableToBorrow)}
           itemsTitle={intl.formatMessage(messages.myBorrows)}
-          filterToggleActive={!isEmodeActive}
+          isEmodeActive={isEmodeActive}
           items={listData(false, userEmodeCategoryId).map((item, index) => (
             <React.Fragment key={index}>
               {item.currentBorrows.toString() > '0' && (
@@ -185,14 +183,6 @@ export default function BorrowMain() {
             user?.isInIsolationMode ? intl.formatMessage(messages.isolationText) : undefined
           }
         >
-          {/* TO-DO: Need styling here. Also I disabled the All/Stablecoin toggle when e-Mode is active and this forces the search box to the left, this needs to be moved back to the right side and inline with this text in AssetsFilterPanel*/}
-          {isEmodeActive ? (
-            <div>
-              {intl.formatMessage(messages.youAreUsingEmode)} {eModeCategoryName}
-            </div>
-          ) : (
-            <></>
-          )}
           {!!listData(true, userEmodeCategoryId).length ? (
             <>
               {!sm ? (

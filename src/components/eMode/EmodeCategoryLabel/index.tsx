@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { getEmodeMessage } from '../../../ui-config/branding/DashboardLeftTopLine';
+import { getEmodeMessage } from '../../../helpers/e-mode/getEmodeMessage';
 
 import staticStyles from './style';
 

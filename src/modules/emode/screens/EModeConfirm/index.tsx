@@ -8,8 +8,8 @@ import {
   useStaticPoolDataContext,
 } from '../../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
-import { getEmodeMessage } from '../../../../ui-config/branding/DashboardLeftTopLine';
 import { useCurrentTimestamp } from '../../../../libs/pool-data-provider/hooks/use-current-timestamp';
+import { getEmodeMessage } from '../../../../helpers/e-mode/getEmodeMessage';
 import Row from '../../../../components/basic/Row';
 import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationView';
 import HealthFactor from '../../../../components/HealthFactor';
