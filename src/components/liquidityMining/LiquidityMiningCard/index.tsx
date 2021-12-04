@@ -52,6 +52,7 @@ export default function LiquidityMiningCard({
             symbol={incentive.rewardTokenSymbol}
             value={incentive.incentiveAPR || 0}
             tooltipId={helpLiquidityAPYTooltipId}
+            key={incentive.rewardTokenSymbol}
           />
         ))
       ) : (

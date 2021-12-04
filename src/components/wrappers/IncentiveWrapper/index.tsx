@@ -9,6 +9,7 @@ import IncentiveClaimItem from '../../IncentiveClaimItem';
 
 import messages from './messages';
 import staticStyles from './style';
+import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 
 export default function IncentiveWrapper() {
   const intl = useIntl();
@@ -16,6 +17,7 @@ export default function IncentiveWrapper() {
 
   const { user } = useDynamicPoolDataContext();
   const { userIncentives } = useIncentivesDataContext();
+  const { currentMarketData } = useProtocolDataContext();
 
   // Only display assets for which user has claimable rewards
   const userIncentivesFiltered = Object.fromEntries(
@@ -40,10 +42,21 @@ export default function IncentiveWrapper() {
               key={incentive[0]}
               symbol={rewardTokenSymbol}
               claimableRewards={claimableRewards}
-              incentiveControllerAddress={incentive[0]}
+              rewardTokenAddress={incentive[1].rewardTokenSymbol}
             />
           );
         })}
+        {currentMarketData ? (
+          <IncentiveClaimItem
+            key={'claimAll'}
+            symbol={''}
+            claimableRewards={''}
+            rewardTokenAddress={''}
+            claimAll={true}
+          />
+        ) : (
+          <></>
+        )}
       </div>
 
       <style jsx={true}>{staticStyles}</style>

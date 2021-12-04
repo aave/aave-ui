@@ -1,6 +1,8 @@
 import {
   IncentivesController,
+  IncentivesControllerV2,
   IncentivesControllerInterface,
+  IncentivesControllerV2Interface,
   ReservesIncentiveDataHumanized,
   UserReservesIncentivesDataHumanized,
 } from '@aave/contract-helpers';
@@ -13,7 +15,7 @@ import {
   ReserveCalculationData,
   UserReserveCalculationData,
 } from '@aave/math-utils';
-import { API_ETH_MOCK_ADDRESS, calculateSupplies } from '@aave/protocol-js';
+import { API_ETH_MOCK_ADDRESS, BigNumber, calculateSupplies } from '@aave/protocol-js';
 import React, { ReactNode, useContext } from 'react';
 import Preloader from '../../../components/basic/Preloader';
 import ErrorPage from '../../../components/ErrorPage';
@@ -27,6 +29,7 @@ export interface IncentivesContext {
   reserveIncentives: ReserveIncentiveDict;
   userIncentives: UserIncentiveDict;
   incentivesTxBuilder: IncentivesControllerInterface;
+  incentivesTxBuilderV2: IncentivesControllerV2Interface;
   refresh?: () => void;
 }
 
@@ -36,6 +39,15 @@ export interface ReserveIncentive {
   rewardTokenSymbol: string;
 }
 
+export interface UserIncentive {
+  incentiveControllerAddress: string;
+  rewardTokenSymbol: string;
+  rewardPriceFeed: string;
+  rewardTokenDecimals: number;
+  claimableRewards: BigNumber;
+  assets: string[];
+}
+
 const IncentivesDataContext = React.createContext({} as IncentivesContext);
 
 export function IncentivesDataProvider({ children }: { children: ReactNode }) {
@@ -43,6 +55,9 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const { chainId, networkConfig } = useProtocolDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const incentivesTxBuilder: IncentivesControllerInterface = new IncentivesController(
+    getProvider(chainId)
+  );
+  const incentivesTxBuilderV2: IncentivesControllerV2Interface = new IncentivesControllerV2(
     getProvider(chainId)
   );
 
@@ -132,11 +147,10 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     currentTimestamp,
   });
 
-  console.log(reserveIncentives);
-  console.log(userIncentives);
   return (
     <IncentivesDataContext.Provider
       value={{
+        incentivesTxBuilderV2,
         incentivesTxBuilder,
         reserveIncentives,
         userIncentives,
