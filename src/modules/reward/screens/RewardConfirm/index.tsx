@@ -1,12 +1,12 @@
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
-import { normalize } from '@aave/protocol-js';
+import { BigNumber, normalize } from '@aave/protocol-js';
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import {
   useIncentivesDataContext,
   UserIncentive,
 } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
-import { ATokenInfo, getAtokenInfo } from '../../../../helpers/get-atoken-info';
+import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
@@ -17,7 +17,6 @@ import Link from '../../../../components/basic/Link';
 
 import messages from './messages';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-import { UserIncentiveDict } from '@aave/math-utils';
 
 export function RewardConfirm() {
   const intl = useIntl();
@@ -58,13 +57,31 @@ export function RewardConfirm() {
     assets = incentiveData.assets;
     incentivesControllerAddress = incentiveData.incentiveControllerAddress;
   } else {
-    assets = [];
+    let totalClaimable = new BigNumber('0');
+    Object.entries(userIncentives).forEach((incentive) => {
+      // We are assuming that all rewards are coming from the same incentive controller address so it doesn't matter which reward we fetch this from
+      incentivesControllerAddress = incentive[1].incentiveControllerAddress;
+      incentive[1].assets.forEach((asset) => {
+        if (!assets.includes(asset)) {
+          assets.push(asset);
+        }
+      });
+      totalClaimable = totalClaimable.plus(incentive[1].claimableRewards);
+    });
+    if (totalClaimable.lt(0) && !totalClaimable.eq(-1)) {
+      return null;
+    }
+    if (totalClaimable.eq('0')) {
+      blockingError = intl.formatMessage(messages.notEnoughBalance);
+    }
   }
 
   const handleGetTransactions = async () => {
     if (currentMarketData.v3) {
       if (rewardTokenAddress === 'all') {
         console.log(`user id: ${user.id}`);
+        console.log(assets);
+        console.log(incentivesControllerAddress);
         return incentivesTxBuilderV2.claimAllRewards({
           user: user.id,
           assets,
@@ -148,7 +165,7 @@ export function RewardConfirm() {
             </Row>
           ) : (
             Object.entries(userIncentives).map((incentive) => (
-              <Row title={intl.formatMessage(messages.claim)}>
+              <Row title={intl.formatMessage(messages.claim)} key={incentive[1].rewardTokenSymbol}>
                 <Value
                   symbol={incentive[1].rewardTokenSymbol}
                   value={normalize(incentive[1].claimableRewards, incentive[1].rewardTokenDecimals)}
