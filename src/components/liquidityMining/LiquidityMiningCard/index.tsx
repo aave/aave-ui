@@ -27,7 +27,6 @@ export default function LiquidityMiningCard({
   mobilePosition = 'right',
 }: LiquidityMiningCardProps) {
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
-  console.log(liquidityMiningValues);
   const helpLiquidityAPYTooltipId =
     symbol && type ? `help-liquidity-apy-${type}-${symbol}` : undefined;
   return (

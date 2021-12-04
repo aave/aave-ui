@@ -69,7 +69,7 @@ export default function LiquidityMiningAPYLine({
           <div className="LiquidityMiningAPYLine__tooltip--content">
             <p>
               {intl.formatMessage(messages.tooltipText, {
-                token: networkConfig.rewardTokenSymbol,
+                token: symbol,
               })}
             </p>
           </div>

@@ -142,7 +142,7 @@ export default function Markets() {
       <div className="Markets__mobile--cards">
         {currentMarketData.enabledFeatures?.incentives && (
           <div className="Markets__help--modalInner">
-            <BorrowRatesHelpModal // TO-DO: Pass rewardTokenSymbol to this component
+            <BorrowRatesHelpModal
               className="Markets__help--modal"
               text={intl.formatMessage(messages.rewardsInformation)}
               iconSize={14}

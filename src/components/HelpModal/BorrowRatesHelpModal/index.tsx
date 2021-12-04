@@ -16,7 +16,6 @@ export default function BorrowRatesHelpModal({
   onWhiteBackground,
 }: HelpModalProps) {
   const intl = useIntl();
-  const { networkConfig } = useProtocolDataContext();
   return (
     <HelpModalWrapper
       text={text}
@@ -25,9 +24,7 @@ export default function BorrowRatesHelpModal({
       color={color}
       lightWeight={lightWeight}
       caption={intl.formatMessage(messages.caption)}
-      description={intl.formatMessage(messages.description, {
-        token: networkConfig.rewardTokenSymbol,
-      })}
+      description={intl.formatMessage(messages.description)}
       onWhiteBackground={onWhiteBackground}
       withGrayIcon={true}
     />
