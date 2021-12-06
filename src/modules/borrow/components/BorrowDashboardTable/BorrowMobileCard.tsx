@@ -83,8 +83,8 @@ export default function BorrowMobileCard({
             value={borrowRateMode === BorrowRateMode.Variable}
             offLabel={intl.formatMessage(messages.offLabel)}
             onLabel={intl.formatMessage(messages.onLabel)}
-            onColor={isCurrentThemeDark ? currentTheme.lightBlue.hex : currentTheme.darkBlue.hex}
-            offColor={isCurrentThemeDark ? currentTheme.lightBlue.hex : currentTheme.darkBlue.hex}
+            onColor={isCurrentThemeDark ? currentTheme.headerBg.hex : currentTheme.darkBlue.hex}
+            offColor={isCurrentThemeDark ? currentTheme.headerBg.hex : currentTheme.darkBlue.hex}
             onSwitch={onSwitchToggle}
             disabled={!stableBorrowRateEnabled || isFrozen || !isActive}
             swiperHeight={swiperHeight}

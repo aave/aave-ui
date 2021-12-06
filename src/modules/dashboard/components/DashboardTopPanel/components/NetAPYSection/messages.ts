@@ -1,5 +1,6 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  title: 'Borrow Composition',
+  earnedAPY: 'Earned APY',
+  debtAPY: 'Debt APY',
 });

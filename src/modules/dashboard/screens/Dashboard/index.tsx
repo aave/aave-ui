@@ -9,27 +9,13 @@ import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import { loanActionLinkComposer } from '../../../../helpers/loan-action-link-composer';
 import { toggleUseAsCollateral } from '../../../../helpers/toggle-use-as-collateral';
 import { toggleBorrowRateMode } from '../../../../helpers/toggle-borrow-rate-mode';
+import DashboardTopPanel from '../../components/DashboardTopPanel';
 import LabeledSwitcher from '../../../../components/basic/LabeledSwitcher';
 import NoDataPanel from '../../../../components/NoDataPanel';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
-import Row from '../../../../components/basic/Row';
-import Value from '../../../../components/basic/Value';
-import MaxLTVHelpModal from '../../../../components/HelpModal/MaxLTVHelpModal';
-import ValuePercent from '../../../../components/basic/ValuePercent';
-import HealthFactor from '../../../../components/HealthFactor';
-import DefaultButton from '../../../../components/basic/DefaultButton';
-import NoData from '../../../../components/basic/NoData';
-import DepositCompositionBar from '../../../../components/compositionBars/DepositCompositionBar';
-import CollateralCompositionBar from '../../../../components/compositionBars/CollateralCompositionBar';
-import BorrowCompositionBar from '../../../../components/compositionBars/BorrowCompositionBar';
-import LTVInfoModal from '../../../../components/LTVInfoModal';
 import MainDashboardTable from '../../components/MainDashboardTable';
-import MobileTopPanelWrapper from '../../components/MobileTopPanelWrapper';
-import DepositBorrowTopPanel from '../../../../components/DepositBorrowTopPanel';
-import ApproximateBalanceHelpModal from '../../../../components/HelpModal/ApproximateBalanceHelpModal';
 import IncentiveWrapper from '../../../../components/wrappers/IncentiveWrapper';
 import DashboardNoData from '../../components/DashboardNoData';
-import EModeButton from '../../../../components/eMode/EModeButton';
 
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
@@ -43,12 +29,9 @@ export default function Dashboard() {
   const history = useHistory();
   const { user, reserves } = useDynamicPoolDataContext();
   const { reserveIncentives } = useIncentivesDataContext();
-  const { currentTheme, sm } = useThemeContext();
+  const { currentTheme } = useThemeContext();
 
-  const [isLTVModalVisible, setLTVModalVisible] = useState(false);
   const [isBorrow, setIsBorrow] = useState(false);
-  const [isDepositMobileInfoVisible, setDepositMobileInfoVisible] = useState(false);
-  const [isBorrowMobileInfoVisible, setBorrowMobileInfoVisible] = useState(false);
 
   const maxBorrowAmount = valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0').plus(
     user?.availableBorrowsMarketReferenceCurrency || '0'
@@ -186,6 +169,16 @@ export default function Dashboard() {
 
   return (
     <div className="Dashboard">
+      <div className="Dashboard__top--line">
+        <IncentiveWrapper />
+      </div>
+
+      <DashboardTopPanel
+        user={user}
+        depositedPositions={depositedPositions}
+        borrowedPositions={borrowedPositions}
+      />
+
       {user && !!depositedPositions.length && (
         <div className="Dashboard__switcher-inner">
           <LabeledSwitcher
@@ -194,173 +187,11 @@ export default function Dashboard() {
             value={isBorrow}
             onToggle={() => {
               setIsBorrow(!isBorrow);
-              setDepositMobileInfoVisible(false);
-              setBorrowMobileInfoVisible(false);
             }}
             className="Dashboard__switcher"
           />
         </div>
       )}
-
-      <div className="Dashboard__top--line">
-        {/*TODO: remove after dashboard top panel styled*/}
-        <EModeButton size="small" />
-        <IncentiveWrapper />
-      </div>
-
-      <DepositBorrowTopPanel />
-
-      {user && !!depositedPositions.length && !isBorrow && (
-        <MobileTopPanelWrapper
-          visible={isDepositMobileInfoVisible}
-          setVisible={setDepositMobileInfoVisible}
-          buttonComponent={
-            <Row
-              title={
-                <ApproximateBalanceHelpModal
-                  text={intl.formatMessage(messages.approximateBalance)}
-                  color="white"
-                  lightWeight={true}
-                />
-              }
-              color="white"
-              weight="light"
-            >
-              {user && user.totalLiquidityUSD !== '0' ? (
-                <Value
-                  value={user.totalLiquidityUSD}
-                  symbol="USD"
-                  tokenIcon={true}
-                  withSmallDecimals={true}
-                  subValue={user.totalLiquidityMarketReferenceCurrency}
-                  maximumSubValueDecimals={18}
-                  subSymbol="ETH"
-                  color="white"
-                />
-              ) : (
-                <NoData />
-              )}
-            </Row>
-          }
-        >
-          <DepositCompositionBar user={user} />
-        </MobileTopPanelWrapper>
-      )}
-
-      {user && !!borrowedPositions.length && isBorrow && (
-        <MobileTopPanelWrapper
-          visible={isBorrowMobileInfoVisible}
-          setVisible={setBorrowMobileInfoVisible}
-          buttonComponent={
-            <>
-              <Row
-                title={intl.formatMessage(messages.youBorrowed)}
-                color="white"
-                weight="light"
-                withMargin={!isBorrowMobileInfoVisible}
-              >
-                {user && user.totalBorrowsUSD !== '0' ? (
-                  <Value
-                    value={user.totalBorrowsUSD}
-                    symbol="USD"
-                    tokenIcon={true}
-                    minimumValueDecimals={2}
-                    maximumValueDecimals={2}
-                    subValue={user.totalBorrowsMarketReferenceCurrency}
-                    subSymbol="ETH"
-                    color="white"
-                  />
-                ) : (
-                  <NoData />
-                )}
-              </Row>
-              {!isBorrowMobileInfoVisible && (
-                <HealthFactor
-                  value={user?.healthFactor || '-1'}
-                  titleColor="white"
-                  titleLightWeight={true}
-                />
-              )}
-            </>
-          }
-        >
-          <Row
-            title={intl.formatMessage(messages.yourCollateral)}
-            color="white"
-            weight="light"
-            withMargin={true}
-          >
-            {user && user.totalCollateralUSD !== '0' ? (
-              <Value
-                value={user.totalCollateralUSD}
-                symbol="USD"
-                tokenIcon={true}
-                minimumValueDecimals={2}
-                maximumValueDecimals={2}
-                subValue={user.totalCollateralMarketReferenceCurrency}
-                subSymbol="ETH"
-                color="white"
-              />
-            ) : (
-              <NoData />
-            )}
-          </Row>
-
-          <HealthFactor
-            value={user?.healthFactor || '-1'}
-            titleColor="white"
-            titleLightWeight={true}
-          />
-
-          <Row
-            title={
-              <MaxLTVHelpModal
-                text={intl.formatMessage(messages.currentLTV)}
-                color="white"
-                lightWeight={true}
-              />
-            }
-            color="white"
-            weight="light"
-            withMargin={true}
-            className="Dashboard__mobileRow-center"
-          >
-            {user && loanToValue !== '0' ? (
-              <div className="Dashboard__mobileRow-content">
-                <ValuePercent value={loanToValue} color="white" />
-                <DefaultButton
-                  title={intl.formatMessage(messages.details)}
-                  color="white"
-                  transparent={true}
-                  className="Dashboard__mobileButton"
-                  size="small"
-                  onClick={() => setLTVModalVisible(true)}
-                />
-              </div>
-            ) : (
-              <NoData />
-            )}
-          </Row>
-
-          <Row
-            title={intl.formatMessage(messages.borrowingPowerUsed)}
-            color="white"
-            weight="light"
-            withMargin={true}
-          >
-            {user && collateralUsagePercent !== '0' ? (
-              <ValuePercent value={collateralUsagePercent} color="white" />
-            ) : (
-              <NoData />
-            )}
-          </Row>
-
-          <BorrowCompositionBar />
-          <CollateralCompositionBar />
-        </MobileTopPanelWrapper>
-      )}
-
-      {sm && <IncentiveWrapper />}
 
       {user ? (
         <>
@@ -382,10 +213,6 @@ export default function Dashboard() {
             withConnectButton={true}
           />
         </ContentWrapper>
-      )}
-
-      {loanToValue !== '0' && (
-        <LTVInfoModal visible={isLTVModalVisible} setVisible={setLTVModalVisible} />
       )}
 
       <style jsx={true} global={true}>
