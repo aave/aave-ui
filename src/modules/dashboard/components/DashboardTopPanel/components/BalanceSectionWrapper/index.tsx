@@ -1,14 +1,17 @@
 import React, { ReactNode } from 'react';
-import { useThemeContext } from '@aave/aave-ui-kit';
+import classNames from 'classnames';
 
 import SectionWrapper from '../SectionWrapper';
 import Balance from '../Balance';
+
+import staticStyles from './style';
 
 interface BalanceSectionWrapperProps {
   isCollapse: boolean;
   title: string;
   value: number | string;
   children?: ReactNode;
+  className?: string;
 }
 
 export default function BalanceSectionWrapper({
@@ -16,16 +19,20 @@ export default function BalanceSectionWrapper({
   title,
   value,
   children,
+  className,
 }: BalanceSectionWrapperProps) {
-  const { sm } = useThemeContext();
-
   return (
-    <SectionWrapper isCollapse={isCollapse}>
+    <SectionWrapper
+      className={classNames('BalanceSectionWrapper', className)}
+      isCollapse={isCollapse}
+    >
       <Balance title={title} value={value} isCollapse={isCollapse} />
 
-      {!!children && !isCollapse && !sm && (
-        <div className="BalanceSectionWrapper__content">{children}</div>
-      )}
+      {!!children && <div className="BalanceSectionWrapper__content">{children}</div>}
+
+      <style jsx={true} global={true}>
+        {staticStyles}
+      </style>
     </SectionWrapper>
   );
 }

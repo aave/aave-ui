@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import Row from '../../../../../../components/basic/Row';
 import Value from '../../../../../../components/basic/Value';
@@ -15,6 +16,7 @@ interface NetWorthProps {
 
 export default function NetWorth({ isColumn, value }: NetWorthProps) {
   const intl = useIntl();
+  const { lg, sm } = useThemeContext();
 
   return (
     <Row
@@ -27,12 +29,13 @@ export default function NetWorth({ isColumn, value }: NetWorthProps) {
       <Value
         value={value}
         symbol="USD"
-        withSmallDecimals={true}
-        maximumValueDecimals={7}
-        minimumValueDecimals={1}
+        withSmallDecimals={!value ? false : !(isColumn && lg && !sm)}
+        maximumValueDecimals={!value ? undefined : 7}
+        minimumValueDecimals={!value ? undefined : 1}
         color="white"
         withoutSymbol={true}
         tokenIcon={true}
+        compact={isColumn && lg && !sm}
       />
 
       <style jsx={true} global={true}>

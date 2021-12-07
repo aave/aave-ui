@@ -11,6 +11,7 @@ import NetWorth from './components/NetWorth';
 import NetAPYSection from './components/NetAPYSection';
 import SupplyBalanceSection from './components/SupplyBalanceSection';
 import BorrowBalanceSection from './components/BorrowBalanceSection';
+import SectionWrapper from './components/SectionWrapper';
 
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
@@ -35,7 +36,7 @@ export default function DashboardTopPanel({
   const localStorageName = 'dashboardTopPanel';
   const [isCollapse, setIsCollapse] = useState(localStorage.getItem(localStorageName) === 'true');
 
-  const netWorthUSD = 2838.2187129919237727; // TODO: need data
+  const netWorthUSD = 0; // TODO: need data
 
   // EarnedAPY calculation (TODO: need check)
   const depositedAPYs = depositedPositions.length
@@ -53,12 +54,14 @@ export default function DashboardTopPanel({
   const borrowedAPYsSum = borrowedAPYs.length ? borrowedAPYs.reduce((a, b) => a + b) : 0;
   const debtAPY = borrowedPositions.length ? (borrowedAPYsSum * 100) / borrowedAPYs.length : 0;
 
+  const collapsed = !user || !depositedPositions.length || isCollapse;
+
   return (
     <TopPanelWrapper
       className="DashboardTopPanel"
-      isCollapse={isCollapse}
+      isCollapse={collapsed}
       setIsCollapse={() => toggleLocalStorageClick(isCollapse, setIsCollapse, localStorageName)}
-      withoutCollapseButton={!user}
+      withoutCollapseButton={!user || !depositedPositions.length}
       minimizeMessage={messages.hideDetails}
       expandMessage={messages.showDetails}
     >
@@ -66,9 +69,9 @@ export default function DashboardTopPanel({
         <div className="DashboardTopPanel__top--line">
           <div className="DashboardTopPanel__topContent">
             <p className="DashboardTopPanel__title">{intl.formatMessage(messages.overview)}</p>
-            {!isCollapse && !sm && <NetWorth value={netWorthUSD} />}
+            {!collapsed && !sm && <NetWorth value={netWorthUSD} />}
             <div className="DashboardTopPanel__topHiddenDiv">
-              <p>{intl.formatMessage(isCollapse ? messages.showDetails : messages.hideDetails)}</p>
+              <p>{intl.formatMessage(collapsed ? messages.showDetails : messages.hideDetails)}</p>
             </div>
           </div>
 
@@ -77,29 +80,33 @@ export default function DashboardTopPanel({
 
         <div
           className={classNames('DashboardTopPanel__content', {
-            DashboardTopPanel__contentCollapse: isCollapse,
+            DashboardTopPanel__contentCollapse: collapsed,
           })}
         >
           <NetAPYSection
             earnedAPY={earnedAPY}
             debtAPY={debtAPY}
             netWorth={netWorthUSD}
-            isCollapse={isCollapse}
+            isCollapse={collapsed}
           />
 
           <div className="DashboardTopPanel__sections">
             <SupplyBalanceSection
-              isCollapse={isCollapse}
+              isCollapse={collapsed}
               balance={user && user.totalLiquidityUSD !== '0' ? user.totalLiquidityUSD : 0}
+              collateralUSD={
+                user && user?.totalCollateralUSD !== '0' ? user?.totalCollateralUSD : 0
+              }
+              isUserInIsolationMode={user?.isInIsolationMode}
             />
             <BorrowBalanceSection
-              isCollapse={isCollapse}
+              isCollapse={collapsed}
               balance={user && user.totalBorrowsUSD !== '0' ? user.totalBorrowsUSD : 0}
+              userId={user?.id}
             />
-            <BorrowBalanceSection
-              isCollapse={isCollapse}
-              balance={user && user.totalBorrowsUSD !== '0' ? user.totalBorrowsUSD : 0}
-            />
+            <SectionWrapper isCollapse={collapsed}>
+              <h1>TODO: HF</h1>
+            </SectionWrapper>
           </div>
         </div>
       </div>

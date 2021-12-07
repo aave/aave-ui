@@ -26,6 +26,7 @@ const staticStyles = css.global`
 
     .ValuePercent {
       margin-top: 6px;
+      justify-content: center;
       @include respond-to(sm) {
         margin-top: 0;
       }
@@ -66,6 +67,7 @@ const staticStyles = css.global`
 
       .ValuePercent {
         margin-top: 0;
+        justify-content: flex-start;
       }
 
       .ValuePercent__value {

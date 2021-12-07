@@ -19,10 +19,14 @@ const staticStyles = css`
       border-right: none;
       width: 100%;
       margin-bottom: 20px;
+      justify-content: space-between;
     }
     @include respond-to(sm) {
       padding: 0;
       margin-bottom: 20px;
+      &:last-of-type {
+        margin-bottom: 0;
+      }
     }
 
     &:last-of-type {
@@ -34,12 +38,17 @@ const staticStyles = css`
       @include respond-to(md) {
         width: 33.33333%;
         margin-bottom: 0;
+        justify-content: center;
       }
       @include respond-to(sm) {
         padding: 0;
         border-right: none;
         width: 100%;
         margin-bottom: 20px;
+        justify-content: space-between;
+        &:last-of-type {
+          margin-bottom: 0;
+        }
       }
     }
   }
