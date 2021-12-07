@@ -23,6 +23,8 @@ export default function HealthFactorInfo({ healthFactor, isCollapse }: HealthFac
         helpIconSize={12}
         titleColor="white"
         titleLightWeight={true}
+        withIcon={true}
+        withDetailsModal={true}
       />
 
       <style jsx={true} global={true}>

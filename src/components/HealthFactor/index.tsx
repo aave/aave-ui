@@ -11,6 +11,9 @@ import NoData from '../basic/NoData';
 import messages from './messages';
 import staticStyles from './style';
 
+import warningIconOrange from '../../images/warningTransparentOrange.svg';
+import warningIconRed from '../../images/warningTransparentRed.svg';
+
 interface HealthFactorProps {
   value: string;
   title?: string;
@@ -24,6 +27,8 @@ interface HealthFactorProps {
   titleLightWeight?: boolean;
   isColumn?: boolean;
   onWhiteBackground?: boolean;
+  withIcon?: boolean;
+  withDetailsModal?: boolean;
 }
 
 export default function HealthFactor({
@@ -39,6 +44,8 @@ export default function HealthFactor({
   titleLightWeight,
   isColumn,
   onWhiteBackground,
+  withIcon,
+  withDetailsModal,
 }: HealthFactorProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -52,13 +59,30 @@ export default function HealthFactor({
 
   const formattedHealthFactor = Number(valueToBigNumber(newValue).toFixed(2, BigNumber.ROUND_DOWN));
   let healthFactorColor = '';
+  let healthFactorIcon = '';
   if (formattedHealthFactor >= 1.5) {
     healthFactorColor = currentTheme.green.hex;
   } else if (formattedHealthFactor < 1.1 && formattedHealthFactor > 0) {
     healthFactorColor = currentTheme.red.hex;
+    healthFactorIcon = warningIconRed;
   } else {
     healthFactorColor = currentTheme.orange.hex;
+    healthFactorIcon = warningIconOrange;
   }
+
+  const HealthFactorValue = () => {
+    return (
+      <ValuePercent
+        className="HealthFactor__percent"
+        value={formattedHealthFactor}
+        updateCondition={updateCondition}
+        valueColor={healthFactorColor}
+        percentSymbol={false}
+        minimumDecimals={2}
+        maximumDecimals={2}
+      />
+    );
+  };
 
   return (
     <div
@@ -80,15 +104,30 @@ export default function HealthFactor({
       )}
 
       {!(formattedHealthFactor < 0) ? (
-        <ValuePercent
-          className="HealthFactor__percent"
-          value={formattedHealthFactor}
-          updateCondition={updateCondition}
-          valueColor={healthFactorColor}
-          percentSymbol={false}
-          minimumDecimals={2}
-          maximumDecimals={2}
-        />
+        <>
+          {withIcon || withDetailsModal ? (
+            <div className="HealthFactor__content">
+              <div className="HealthFactor__valueWithIcon">
+                {withIcon && !!healthFactorIcon && (
+                  <img className="HealthFactor__warningIcon" src={healthFactorIcon} alt="" />
+                )}
+                <HealthFactorValue />
+              </div>
+
+              {withDetailsModal && (
+                <button
+                  className="HealthFactor__detailsButton"
+                  type="button"
+                  onClick={() => console.log('TODO: need modal')}
+                >
+                  <span>{intl.formatMessage(messages.details)}</span>
+                </button>
+              )}
+            </div>
+          ) : (
+            <HealthFactorValue />
+          )}
+        </>
       ) : (
         <NoData
           color={titleColor}
@@ -106,6 +145,13 @@ export default function HealthFactor({
             p {
               text-shadow: 0 0 5px ${currentTheme.red.hex};
             }
+          }
+        }
+
+        .HealthFactor__detailsButton {
+          color: ${currentTheme.lightBlue.hex};
+          &:hover {
+            color: ${currentTheme.secondary.hex};
           }
         }
       `}</style>

@@ -36,7 +36,7 @@ export default function Dashboard() {
   const maxBorrowAmount = valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0').plus(
     user?.availableBorrowsMarketReferenceCurrency || '0'
   );
-  const collateralUsagePercent = maxBorrowAmount.eq(0)
+  const collateralUsagePercent = maxBorrowAmount.eq(0) // TODO: need to take a look (for some reason it shows 100% when the user has no borrows)
     ? '1'
     : valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0')
         .div(maxBorrowAmount)
