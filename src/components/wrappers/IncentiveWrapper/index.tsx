@@ -42,11 +42,11 @@ export default function IncentiveWrapper() {
               key={incentive[0]}
               symbol={rewardTokenSymbol}
               claimableRewards={claimableRewards}
-              rewardTokenAddress={incentive[1].rewardTokenSymbol}
+              rewardTokenAddress={incentive[0]}
             />
           );
         })}
-        {currentMarketData ? (
+        {currentMarketData.v3 ? (
           <IncentiveClaimItem
             key={'claimAll'}
             symbol={''}

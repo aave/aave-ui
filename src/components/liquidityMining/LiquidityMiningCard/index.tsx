@@ -45,7 +45,7 @@ export default function LiquidityMiningCard({
         )}
       </div>
 
-      {liquidityMiningValues && liquidityMiningValues.length > 1 ? (
+      {liquidityMiningValues && liquidityMiningValues.length > 0 ? (
         liquidityMiningValues.map((incentive) => (
           <LiquidityMiningAPYLine
             symbol={incentive.rewardTokenSymbol}
