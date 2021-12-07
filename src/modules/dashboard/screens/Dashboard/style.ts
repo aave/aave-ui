@@ -38,59 +38,8 @@ const staticStyles = css.global`
         margin: 35px 0 10px;
       }
       @include respond-to(sm) {
-        display: none;
-      }
-
-      .Dashboard__topLine--button {
-        width: unset;
-        min-width: 140px;
-        min-height: 36px;
-        font-size: $medium;
-        @include respond-to(xl) {
-          min-width: 100px;
-          min-height: 26px;
-          font-size: $extraSmall;
-        }
-      }
-    }
-
-    .Row.Row__column {
-      .Row__title-inner {
-        text-align: left;
-      }
-      .Row__content,
-      .Value {
-        align-items: flex-start;
-        justify-content: flex-start;
-      }
-      .Row__content {
-        text-align: left;
-      }
-    }
-    .HealthFactor__column {
-      text-align: left;
-      .HealthFactor__percent {
-        justify-content: flex-start;
-      }
-      .HealthFactor__no-value {
-        text-align: left;
-        justify-content: flex-start;
-      }
-    }
-
-    .CollateralCompositionBar {
-      @include respond-to(sm) {
-        flex-direction: column;
-        &.Row {
-          align-items: flex-start;
-        }
-        .Row__title {
-          padding-right: 0;
-          margin-bottom: 5px;
-        }
-        .Row__content {
-          width: 100%;
-        }
+        display: block;
+        margin: 0;
       }
     }
 

@@ -14,6 +14,7 @@ const staticStyles = css`
     border-radius: $borderRadius;
     padding: 3px 5px;
     margin-left: 13px;
+    cursor: pointer;
     @include respond-to(xl) {
       padding: 1px 5px;
     }

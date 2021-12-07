@@ -12,9 +12,10 @@ import infoWhite from '../../../images/infoGrayDark.svg';
 
 interface IsolatedBadgeProps {
   isWhiteIcon?: boolean;
+  isWhite?: boolean;
 }
 
-export default function IsolatedBadge({ isWhiteIcon }: IsolatedBadgeProps) {
+export default function IsolatedBadge({ isWhiteIcon, isWhite }: IsolatedBadgeProps) {
   const intl = useIntl();
   const { currentTheme, xl } = useThemeContext();
 
@@ -48,8 +49,8 @@ export default function IsolatedBadge({ isWhiteIcon }: IsolatedBadgeProps) {
       <style jsx={true}>{staticStyles}</style>
       <style jsx={true}>{`
         .IsolatedBadge {
-          color: ${currentTheme.textDarkBlue.hex};
-          border: 1px solid ${borderColor};
+          color: ${isWhite ? currentTheme.white.hex : currentTheme.textDarkBlue.hex};
+          border: 1px solid ${isWhite ? currentTheme.lightBlue.hex : borderColor};
         }
       `}</style>
     </div>
