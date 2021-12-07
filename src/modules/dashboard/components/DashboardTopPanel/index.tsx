@@ -56,14 +56,14 @@ export default function DashboardTopPanel({
   const borrowedAPYsSum = borrowedAPYs.length ? borrowedAPYs.reduce((a, b) => a + b) : 0;
   const debtAPY = borrowedPositions.length ? (borrowedAPYsSum * 100) / borrowedAPYs.length : 0;
 
-  const collapsed = !user || !depositedPositions.length || isCollapse;
+  const collapsed = !user || isCollapse;
 
   return (
     <TopPanelWrapper
       className="DashboardTopPanel"
       isCollapse={collapsed}
       setIsCollapse={() => toggleLocalStorageClick(isCollapse, setIsCollapse, localStorageName)}
-      withoutCollapseButton={!user || !depositedPositions.length}
+      withoutCollapseButton={!user}
       minimizeMessage={messages.hideDetails}
       expandMessage={messages.showDetails}
     >
