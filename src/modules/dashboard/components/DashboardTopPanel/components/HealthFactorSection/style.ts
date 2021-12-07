@@ -5,13 +5,13 @@ const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
 
-  .BalanceSectionWrapper {
+  .HealthFactorSection {
     flex-direction: column;
 
     &__content {
+      width: 100%;
       @include respond-to(md) {
         margin-top: 10px;
-        width: 100%;
       }
     }
   }

@@ -11,7 +11,7 @@ import NetWorth from './components/NetWorth';
 import NetAPYSection from './components/NetAPYSection';
 import SupplyBalanceSection from './components/SupplyBalanceSection';
 import BorrowBalanceSection from './components/BorrowBalanceSection';
-import SectionWrapper from './components/SectionWrapper';
+import HealthFactorSection from './components/HealthFactorSection';
 
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
@@ -23,12 +23,14 @@ interface DashboardTopPanelProps {
   user?: UserSummary;
   depositedPositions: DepositTableItem[];
   borrowedPositions: BorrowTableItem[];
+  collateralUsagePercent: string;
 }
 
 export default function DashboardTopPanel({
   user,
   depositedPositions,
   borrowedPositions,
+  collateralUsagePercent,
 }: DashboardTopPanelProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
@@ -104,9 +106,11 @@ export default function DashboardTopPanel({
               balance={user && user.totalBorrowsUSD !== '0' ? user.totalBorrowsUSD : 0}
               userId={user?.id}
             />
-            <SectionWrapper isCollapse={collapsed}>
-              <h1>TODO: HF</h1>
-            </SectionWrapper>
+            <HealthFactorSection
+              isCollapse={collapsed}
+              healthFactor={user?.healthFactor || '0'}
+              collateralUsagePercent={collateralUsagePercent}
+            />
           </div>
         </div>
       </div>

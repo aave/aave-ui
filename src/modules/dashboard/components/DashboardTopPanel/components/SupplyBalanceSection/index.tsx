@@ -34,7 +34,7 @@ export default function SupplyBalanceSection({
         title={intl.formatMessage(messages.supplyBalance)}
         value={balance}
         children={
-          !isCollapse || (md && !sm && !isCollapse) || sm ? (
+          !isCollapse || (md && !sm && !isCollapse) ? (
             <>
               {md ? (
                 <Row

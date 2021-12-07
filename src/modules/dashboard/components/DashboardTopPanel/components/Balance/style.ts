@@ -16,6 +16,7 @@ const staticStyles = css.global`
 
     .Row__title-inner {
       align-items: center;
+      margin-bottom: 4px !important;
     }
 
     .Value {

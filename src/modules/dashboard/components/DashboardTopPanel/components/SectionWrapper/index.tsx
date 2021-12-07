@@ -23,14 +23,20 @@ export default function SectionWrapper({ isCollapse, children, className }: Sect
       <style jsx={true}>{`
         @import 'src/_mixins/screen-size';
 
-        .SectionWrapper {
+        .SectionWrapper.SectionWrapper {
           border-right: 1px solid
             ${isCurrentThemeDark ? currentTheme.mainBg.hex : currentTheme.headerBg.hex};
+          @include respond-to(md) {
+            border-right: unset;
+          }
 
           &.SectionWrapper__collapse {
             @include respond-to(md) {
               border-right: 1px solid
                 ${isCurrentThemeDark ? currentTheme.mainBg.hex : currentTheme.headerBg.hex};
+            }
+            @include respond-to(sm) {
+              border-right: unset;
             }
           }
         }

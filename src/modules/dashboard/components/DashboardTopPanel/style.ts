@@ -14,15 +14,15 @@ const staticStyles = css.global`
     }
 
     .TopPanelWrapper__button {
-      font-weight: 400;
-      top: 12px !important;
-      right: 20px;
+      font-weight: 400 !important;
+      top: 11px !important;
+      right: 20px !important;
       font-size: $regular !important;
       @include respond-to(xl) {
         font-size: $medium !important;
       }
       @include respond-to(sm) {
-        right: 10px;
+        right: 10px !important;
       }
     }
 
@@ -31,13 +31,13 @@ const staticStyles = css.global`
       align-items: center;
       justify-content: space-between;
       padding: 10px 20px;
-      min-height: 42px;
+      height: 42px;
       @include respond-to(xl) {
-        min-height: 39px;
+        height: 38px;
       }
       @include respond-to(sm) {
         padding: 10px;
-        min-height: 38px;
+        height: 38px;
       }
     }
 
@@ -61,23 +61,32 @@ const staticStyles = css.global`
     }
 
     &__content {
-      padding: 20px 40px;
-      transition: all 0.2s ease;
+      padding: 20px 0;
       display: flex;
       justify-content: space-between;
+      min-height: 180px;
+      @include respond-to(xl) {
+        min-height: 168px;
+      }
       @include respond-to(lg) {
-        padding: 20px;
+        padding: 20px 0;
       }
       @include respond-to(md) {
         padding: 30px;
+        min-height: 252px;
       }
       @include respond-to(sm) {
+        min-height: unset;
         padding: 20px 10px;
         display: block;
       }
     }
     &__contentCollapse {
-      padding: 20px;
+      padding: 20px 0;
+      min-height: 88px;
+      @include respond-to(xl) {
+        min-height: 84px;
+      }
       @include respond-to(md) {
         .DashboardTopPanel__sections {
           display: flex;
@@ -86,6 +95,7 @@ const staticStyles = css.global`
 
       @include respond-to(sm) {
         padding: 20px 10px;
+        min-height: unset;
         .DashboardTopPanel__sections {
           display: block;
         }

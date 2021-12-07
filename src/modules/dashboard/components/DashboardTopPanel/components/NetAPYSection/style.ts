@@ -8,12 +8,13 @@ const staticStyles = css.global`
   .NetAPYSection {
     &.SectionWrapper {
       width: 25% !important;
-      padding-left: 0 !important;
       @include respond-to(md) {
         width: 50% !important;
+        margin-bottom: 0 !important;
       }
       @include respond-to(sm) {
         width: 100% !important;
+        margin-bottom: 20px !important;
       }
     }
     &.SectionWrapper__collapse {
@@ -23,6 +24,7 @@ const staticStyles = css.global`
       }
       @include respond-to(sm) {
         width: 100% !important;
+        margin-bottom: 10px !important;
       }
     }
 

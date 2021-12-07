@@ -33,7 +33,7 @@ export default function BorrowBalanceSection({
       value={balance}
       children={
         userId && currentMarketData.v3 ? (
-          !isCollapse || (md && !sm && !isCollapse) || sm ? (
+          !isCollapse || (md && !sm && !isCollapse) ? (
             <Row
               className="BorrowBalanceSection__row"
               title={
