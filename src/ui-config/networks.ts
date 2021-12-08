@@ -48,7 +48,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     addresses: {
       walletBalanceProvider: '0x34aa032bC416Cf2CdC45c0C8f065b1F19463D43e',
       uiPoolDataProvider: '0xDb49B99073C2AE890708227Dc83B1781bF01512D',
-      uiIncentiveDataProvider: '0xCdFbCB6bF78E57b640106CB4320Dde6cdf04e526',
+      uiIncentiveDataProvider: '0x25F1044684bF7f63b149191Ba6A685c612d5a225',
     },
     cachingServerUrl: 'https://cache-api-polygon.aave.com/graphql',
     cachingWSServerUrl: 'wss://cache-api-polygon.aave.com/graphql',
@@ -71,7 +71,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     addresses: {
       walletBalanceProvider: '0xEe7c0172c200e12AFEa3C34837052ec52F3f367A',
       uiPoolDataProvider: '0x9842E5B7b7C6cEDfB1952a388e050582Ff95645b',
-      uiIncentiveDataProvider: '0xFCCD1Bd4BB647EEcb025894D197Ab1e5d942760F',
+      uiIncentiveDataProvider: '0x070a7D8F4d7A7A87452C5BaBaB3158e08411907E',
     },
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/aave-v2-polygon-mumbai',
     baseAsset: 'MATIC',
@@ -87,7 +87,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     addresses: {
       walletBalanceProvider: '0x3f5A507B33260a3869878B31FB90F04F451d28e3',
       uiPoolDataProvider: '0x93cc892330DFc071e87679468FeE054Cb05074ec',
-      uiIncentiveDataProvider: '0x8E53e38D0EAAb4D9728d5242C5C3D97B852E3Ce4',
+      uiIncentiveDataProvider: '0x9842E5B7b7C6cEDfB1952a388e050582Ff95645b',
     },
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-fuji',
     baseUniswapAdapter: '0x0',
