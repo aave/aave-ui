@@ -11,7 +11,6 @@ import {
   calculateAllReserveIncentives,
   ReserveIncentiveDict,
   UserIncentiveDict,
-  WEI_DECIMALS,
   ReserveCalculationData,
   UserReserveCalculationData,
 } from '@aave/math-utils';
@@ -51,7 +50,8 @@ export interface UserIncentive {
 const IncentivesDataContext = React.createContext({} as IncentivesContext);
 
 export function IncentivesDataProvider({ children }: { children: ReactNode }) {
-  const { rawReservesWithBase, rawUserReservesWithBase } = useStaticPoolDataContext();
+  const { rawReservesWithBase, rawUserReservesWithBase, marketReferenceCurrencyDecimals } =
+    useStaticPoolDataContext();
   const { chainId, networkConfig } = useProtocolDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const incentivesTxBuilder: IncentivesControllerInterface = new IncentivesController(
@@ -113,7 +113,6 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
       totalVariableDebt: supplies.totalVariableDebt.toString(),
       totalStableDebt: supplies.totalStableDebt.toString(),
       priceInMarketReferenceCurrency: reserve.priceInMarketReferenceCurrency,
-      marketReferenceCurrencyDecimals: WEI_DECIMALS,
       decimals: reserve.decimals,
     };
   });
@@ -129,6 +128,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   let reserveIncentives = calculateAllReserveIncentives({
     reserveIncentives: reserveIncentiveData,
     reserves: computedReserves,
+    marketReferenceCurrencyDecimals,
   });
 
   // Add entry with mock address (0xeeeee..) for base asset incentives
