@@ -178,6 +178,7 @@ export default function Dashboard() {
         depositedPositions={depositedPositions}
         borrowedPositions={borrowedPositions}
         collateralUsagePercent={collateralUsagePercent}
+        loanToValue={loanToValue}
       />
 
       {user && !!depositedPositions.length && (

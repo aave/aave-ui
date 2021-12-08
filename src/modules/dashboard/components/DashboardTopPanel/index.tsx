@@ -24,6 +24,7 @@ interface DashboardTopPanelProps {
   depositedPositions: DepositTableItem[];
   borrowedPositions: BorrowTableItem[];
   collateralUsagePercent: string;
+  loanToValue: string;
 }
 
 export default function DashboardTopPanel({
@@ -31,6 +32,7 @@ export default function DashboardTopPanel({
   depositedPositions,
   borrowedPositions,
   collateralUsagePercent,
+  loanToValue,
 }: DashboardTopPanelProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
@@ -110,6 +112,9 @@ export default function DashboardTopPanel({
               isCollapse={collapsed}
               healthFactor={user?.healthFactor || '-1'}
               collateralUsagePercent={collateralUsagePercent}
+              loanToValue={loanToValue}
+              currentLoanToValue={user?.currentLoanToValue || '0'}
+              currentLiquidationThreshold={user?.currentLiquidationThreshold || '0'}
             />
           </div>
         </div>

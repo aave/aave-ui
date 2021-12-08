@@ -29,6 +29,7 @@ interface HealthFactorProps {
   onWhiteBackground?: boolean;
   withIcon?: boolean;
   withDetailsModal?: boolean;
+  onDetailsClick?: () => void;
 }
 
 export default function HealthFactor({
@@ -46,6 +47,7 @@ export default function HealthFactor({
   onWhiteBackground,
   withIcon,
   withDetailsModal,
+  onDetailsClick,
 }: HealthFactorProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -114,11 +116,11 @@ export default function HealthFactor({
                 <HealthFactorValue />
               </div>
 
-              {withDetailsModal && (
+              {withDetailsModal && !!onDetailsClick && (
                 <button
                   className="HealthFactor__detailsButton"
                   type="button"
-                  onClick={() => console.log('TODO: need modal')} // TODO: need modal
+                  onClick={onDetailsClick}
                 >
                   <span>{intl.formatMessage(messages.details)}</span>
                 </button>
