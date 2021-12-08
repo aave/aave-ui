@@ -11,8 +11,9 @@ export default defineMessages({
   depositOnLabel: 'Yes',
 
   depositIsolationWarning:
-    '{symbol} can be supplied as collateral in isolation mode only with limited borrowing power.',
+    '{symbol} can be deposited as collateral in isolation mode only with limited borrowing power.',
   borrowIsolationWarning: 'Borrow power and assets are limited due to Isolation mode.',
+  borrowDebtCeilingWarning: 'Borrowing is not available due to debt ceiling.', // TODO: need change text
 
   borrows: 'Borrows',
   borrowed: 'Borrowed',

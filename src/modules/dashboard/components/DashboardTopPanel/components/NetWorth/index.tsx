@@ -18,6 +18,8 @@ export default function NetWorth({ isColumn, value }: NetWorthProps) {
   const intl = useIntl();
   const { lg, sm } = useThemeContext();
 
+  const isValueCompact = isColumn && lg && !sm;
+
   return (
     <Row
       className={classNames('NetWorth', { NetWorth__column: isColumn })}
@@ -29,13 +31,13 @@ export default function NetWorth({ isColumn, value }: NetWorthProps) {
       <Value
         value={value}
         symbol="USD"
-        withSmallDecimals={!value ? false : !(isColumn && lg && !sm)}
-        maximumValueDecimals={!value ? undefined : 7}
-        minimumValueDecimals={!value ? undefined : 1}
+        withSmallDecimals={!value ? false : !isValueCompact}
+        maximumValueDecimals={!value ? undefined : isValueCompact ? 2 : 7}
+        minimumValueDecimals={!value ? undefined : isValueCompact ? undefined : 0}
         color="white"
         withoutSymbol={true}
         tokenIcon={true}
-        compact={isColumn && lg && !sm}
+        compact={isValueCompact}
       />
 
       <style jsx={true} global={true}>

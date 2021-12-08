@@ -10,41 +10,41 @@ import IsolatedBadge from '../../../../../../components/isolationMode/IsolatedBa
 import messages from './messages';
 import staticStyles from './style';
 
-interface SupplyBalanceSectionProps {
+interface DepositBalanceSectionProps {
   isCollapse: boolean;
   balance: number | string;
   collateralUSD: number | string;
   isUserInIsolationMode?: boolean;
 }
 
-export default function SupplyBalanceSection({
+export default function DepositBalanceSection({
   isCollapse,
   balance,
   collateralUSD,
   isUserInIsolationMode,
-}: SupplyBalanceSectionProps) {
+}: DepositBalanceSectionProps) {
   const intl = useIntl();
   const { md, sm, lg } = useThemeContext();
 
   return (
     <>
       <BalanceSectionWrapper
-        className={isUserInIsolationMode ? 'SupplyBalanceSection__withIsolatedBadge' : undefined}
+        className={isUserInIsolationMode ? 'DepositBalanceSection__withIsolatedBadge' : undefined}
         isCollapse={isCollapse}
-        title={intl.formatMessage(messages.supplyBalance)}
+        title={intl.formatMessage(messages.depositBalance)}
         value={balance}
         children={
           !isCollapse || (md && !sm && !isCollapse) ? (
             <>
               {md ? (
                 <Row
-                  className="SupplyBalanceSection__row"
+                  className="DepositBalanceSection__row"
                   title={intl.formatMessage(messages.usedAsCollateral)}
                   isColumn={lg && !md}
                   color="white"
                   weight="light"
                 >
-                  <div className="SupplyBalanceSection__rowContent">
+                  <div className="DepositBalanceSection__rowContent">
                     <Value
                       value={collateralUSD}
                       symbol="USD"
@@ -58,9 +58,9 @@ export default function SupplyBalanceSection({
                   </div>
                 </Row>
               ) : (
-                <div className="SupplyBalanceSection__content">
+                <div className="DepositBalanceSection__content">
                   <Row
-                    className="SupplyBalanceSection__row"
+                    className="DepositBalanceSection__row"
                     title={intl.formatMessage(messages.usedAsCollateral)}
                     isColumn={lg && !md}
                     color="white"

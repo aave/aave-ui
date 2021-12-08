@@ -50,12 +50,14 @@ export default function CurrencyOverview({
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
   const { currentLangSlug } = useLanguageContext();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { marketRefPriceInUsd, userEmodeCategoryId } = useStaticPoolDataContext();
   const asset = getAssetInfo(currencySymbol);
 
   // const { mode, setMode } = useReservesRateHistoryHelper({
   //   poolReserveId: poolReserve.id,
   // }); TODO: uncomment when filters are added to history graphs
+
+  const userIsInEMode = userEmodeCategoryId !== 0;
 
   const overviewData = {
     utilizationRate: Number(poolReserve.utilizationRate),
@@ -69,9 +71,18 @@ export default function CurrencyOverview({
     variableRate: Number(poolReserve.variableBorrowAPY),
     usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
-    baseLTVasCollateral: Number(poolReserve.baseLTVasCollateral),
-    liquidationThreshold: Number(poolReserve.reserveLiquidationThreshold),
-    liquidationBonus: Number(poolReserve.reserveLiquidationBonus),
+    baseLTVasCollateral:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.eModeLtv)
+        : Number(poolReserve.baseLTVasCollateral),
+    liquidationThreshold:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.eModeLiquidationThreshold)
+        : Number(poolReserve.reserveLiquidationThreshold),
+    liquidationBonus:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.eModeLiquidationBonus)
+        : Number(poolReserve.reserveLiquidationBonus),
     borrowingEnabled: poolReserve.borrowingEnabled,
     isIsolated: poolReserve.isIsolated,
   };
@@ -417,10 +428,6 @@ export default function CurrencyOverview({
             </div>
           )}
         </div>
-
-        {/*<div className="CurrencyOverview__mobileFilterButtons">*/}
-        {/*  <GraphFilterButtons setMode={setMode} mode={mode} />*/}
-        {/*</div> TODO: uncomment when filters are added to history graphs */}
 
         {!isCollapse && (
           <div

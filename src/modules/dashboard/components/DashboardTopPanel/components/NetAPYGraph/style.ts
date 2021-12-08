@@ -7,28 +7,28 @@ const staticStyles = css`
 
   .NetAPYGraph {
     width: 124px;
-    height: 97px;
+    align-self: stretch;
     display: flex;
     align-items: flex-end;
     padding-left: 50px;
     position: relative;
     margin-right: 10px;
+    margin-top: 15px;
+    margin-bottom: 3px;
     @include respond-to(xl) {
       width: 97px;
-      height: 85px;
       padding-left: 42px;
     }
     @include respond-to(lg) {
       width: 64px;
-      height: 104px;
       margin-right: 0;
       padding-left: 32px;
     }
     @include respond-to(md) {
       width: 124px;
-      height: 162px;
       padding-left: 50px;
       margin-right: 10px;
+      margin-bottom: 10px;
     }
 
     &__line {

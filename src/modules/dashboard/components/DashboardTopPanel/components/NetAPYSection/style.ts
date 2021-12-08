@@ -32,6 +32,7 @@ const staticStyles = css.global`
       width: 100%;
       display: flex;
       align-items: flex-end;
+      align-self: stretch;
     }
     &__right--inner {
       align-self: center;

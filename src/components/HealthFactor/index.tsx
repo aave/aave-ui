@@ -118,7 +118,7 @@ export default function HealthFactor({
                 <button
                   className="HealthFactor__detailsButton"
                   type="button"
-                  onClick={() => console.log('TODO: need modal')}
+                  onClick={() => console.log('TODO: need modal')} // TODO: need modal
                 >
                   <span>{intl.formatMessage(messages.details)}</span>
                 </button>

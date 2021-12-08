@@ -29,8 +29,10 @@ export default function NetAPYGraph({ earnedAPY, debtAPY }: NetAPYGraphProps) {
 
   return (
     <div className="NetAPYGraph">
-      <div className="NetAPYGraph__line NetAPYGraph__lineTop">{topValue}%</div>
-      <div className="NetAPYGraph__line NetAPYGraph__lineCenter">{centerValue}%</div>
+      <div className="NetAPYGraph__line NetAPYGraph__lineTop">{topValue > 0 ? topValue : 2}%</div>
+      <div className="NetAPYGraph__line NetAPYGraph__lineCenter">
+        {topValue > 0 ? centerValue : 1}%
+      </div>
       <div className="NetAPYGraph__line NetAPYGraph__lineBottom">0%</div>
 
       {!!earnedColumnHeight && (

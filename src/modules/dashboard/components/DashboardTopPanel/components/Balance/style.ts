@@ -26,7 +26,8 @@ const staticStyles = css.global`
       }
     }
 
-    .Value__value {
+    .Value__value,
+    .TokenIcon__dollar {
       font-weight: 500;
       font-size: 24px;
       @include respond-to(xl) {
@@ -38,10 +39,13 @@ const staticStyles = css.global`
       @include respond-to(md) {
         font-size: $medium;
       }
+    }
+
+    .Value__value {
       .ValueWithSmallDecimals {
         font-size: $medium;
         margin-left: 1px;
-        opacity: 0.9;
+        opacity: 0.7;
         font-weight: 400;
         @include respond-to(xl) {
           font-size: $small;
@@ -67,7 +71,8 @@ const staticStyles = css.global`
         }
       }
 
-      .Value__value {
+      .Value__value,
+      .TokenIcon__dollar {
         font-size: $large;
         @include respond-to(xl) {
           font-size: $regular;
@@ -75,6 +80,9 @@ const staticStyles = css.global`
         @include respond-to(sm) {
           font-size: $medium;
         }
+      }
+
+      .Value__value {
         .ValueWithSmallDecimals {
           font-size: $small;
           @include respond-to(sm) {

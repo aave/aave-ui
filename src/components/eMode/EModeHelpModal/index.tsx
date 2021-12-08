@@ -1,23 +1,31 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 
-import HelpModalWrapper from '../../HelpModal/HelpModalWrapper';
-import { HelpModalProps } from '../../HelpModal/types';
+import HelpModalWrapper, { HelpModalWrapperProps } from '../../HelpModal/HelpModalWrapper';
+import messages from './messages';
+
+interface EModeHelpModalProps
+  extends Pick<
+    HelpModalWrapperProps,
+    'iconSize' | 'className' | 'color' | 'lightWeight' | 'onWhiteBackground'
+  > {}
 
 export default function EModeHelpModal({
-  text,
   iconSize,
   className,
   color,
   lightWeight,
   onWhiteBackground,
-}: HelpModalProps) {
+}: EModeHelpModalProps) {
+  const intl = useIntl();
+
   return (
     <HelpModalWrapper
-      text={text}
+      text={intl.formatMessage(messages.title)}
       iconSize={iconSize}
       className={className}
-      caption="TODO: need text" // TODO: need text
-      description="TODO: need text"
+      caption={intl.formatMessage(messages.modalCaption)}
+      description={intl.formatMessage(messages.modalDescription)}
       color={color}
       lightWeight={lightWeight}
       onWhiteBackground={onWhiteBackground}

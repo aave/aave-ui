@@ -139,6 +139,7 @@ function ReserveOverview({
             poolReserve={poolReserve}
             symbol={currencySymbol}
             userIsInIsolationMode={user?.isInIsolationMode || false}
+            userEmodeCategoryId={userEmodeCategoryId}
           />
 
           <div className="ReserveOverview__information ReserveOverview__user-information">

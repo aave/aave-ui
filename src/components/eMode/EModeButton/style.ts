@@ -1,9 +1,34 @@
 import css from 'styled-jsx/css';
 
 /*language=SCSS*/
-const staticStyles = css`
+const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
+
+  .EModeButton__helpModal {
+    padding-right: 30px;
+    @include respond-to(xl) {
+      padding-right: 25px;
+    }
+    @include respond-to(lg) {
+      padding-right: 20px;
+    }
+    @include respond-to(md) {
+      padding-right: 25px;
+    }
+    .TextWithModal__button {
+      right: 10px !important;
+      @include respond-to(xl) {
+        right: 7px !important;
+      }
+      @include respond-to(lg) {
+        right: 6px !important;
+      }
+      @include respond-to(md) {
+        right: 7px !important;
+      }
+    }
+  }
 
   .EModeButton {
     cursor: pointer;

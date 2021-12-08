@@ -5,7 +5,7 @@ const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
 
-  .SupplyBalanceSection__withIsolatedBadge {
+  .DepositBalanceSection__withIsolatedBadge {
     .BalanceSectionWrapper__content {
       margin-top: 2px;
       @include respond-to(lg) {
@@ -17,7 +17,7 @@ const staticStyles = css.global`
     }
   }
 
-  .SupplyBalanceSection__content {
+  .DepositBalanceSection__content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,7 +28,7 @@ const staticStyles = css.global`
     }
   }
 
-  .Row.SupplyBalanceSection__row {
+  .Row.DepositBalanceSection__row {
     font-size: $regular;
     align-items: center;
     @include respond-to(xl) {
@@ -59,7 +59,7 @@ const staticStyles = css.global`
       }
     }
 
-    .SupplyBalanceSection__rowContent {
+    .DepositBalanceSection__rowContent {
       display: flex;
       align-items: center;
     }

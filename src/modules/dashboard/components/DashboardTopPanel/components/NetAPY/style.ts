@@ -6,9 +6,12 @@ const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
 
   .NetAPY {
-    margin-bottom: 10px;
+    margin-bottom: 16px;
+    @include respond-to(xl) {
+      margin-bottom: 17px;
+    }
     @include respond-to(lg) {
-      margin-bottom: 25px;
+      margin-bottom: 36px;
     }
     @include respond-to(md) {
       margin-bottom: 18px;
@@ -25,11 +28,7 @@ const staticStyles = css.global`
     }
 
     .ValuePercent {
-      margin-top: 6px;
       justify-content: center;
-      @include respond-to(sm) {
-        margin-top: 0;
-      }
     }
 
     .ValuePercent__value {

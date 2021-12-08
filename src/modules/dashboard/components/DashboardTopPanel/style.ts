@@ -8,7 +8,8 @@ const staticStyles = css.global`
   .DashboardTopPanel {
     margin-bottom: 20px;
     @include respond-to(sm) {
-      margin-bottom: 0;
+      margin: 10px 10px 0;
+      width: calc(100% - 20px) !important;
       display: block !important;
       border-radius: 0 !important;
     }
@@ -22,7 +23,7 @@ const staticStyles = css.global`
         font-size: $medium !important;
       }
       @include respond-to(sm) {
-        right: 10px !important;
+        right: 15px !important;
       }
     }
 
@@ -36,7 +37,7 @@ const staticStyles = css.global`
         height: 38px;
       }
       @include respond-to(sm) {
-        padding: 10px;
+        padding: 10px 15px;
         height: 38px;
       }
     }
@@ -73,11 +74,10 @@ const staticStyles = css.global`
       }
       @include respond-to(md) {
         padding: 30px;
-        min-height: 252px;
+        min-height: unset;
       }
       @include respond-to(sm) {
-        min-height: unset;
-        padding: 20px 10px;
+        padding: 20px 15px;
         display: block;
       }
     }
@@ -94,7 +94,7 @@ const staticStyles = css.global`
       }
 
       @include respond-to(sm) {
-        padding: 20px 10px;
+        padding: 20px 15px;
         min-height: unset;
         .DashboardTopPanel__sections {
           display: block;

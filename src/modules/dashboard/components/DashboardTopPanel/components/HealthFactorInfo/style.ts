@@ -42,6 +42,18 @@ const staticStyles = css.global`
       }
     }
 
+    .HealthFactor__detailsButton {
+      position: relative;
+      bottom: 3px;
+      transition: none;
+      @include respond-to(lg) {
+        bottom: 1px;
+      }
+      @include respond-to(md) {
+        bottom: 0;
+      }
+    }
+
     &__collapsed {
       @include respond-to(md) {
         width: unset;
@@ -66,6 +78,16 @@ const staticStyles = css.global`
         }
         @include respond-to(sm) {
           justify-content: flex-end;
+        }
+      }
+
+      .HealthFactor__detailsButton {
+        bottom: 0;
+        @include respond-to(lg) {
+          bottom: 1px;
+        }
+        @include respond-to(sm) {
+          bottom: 0;
         }
       }
     }

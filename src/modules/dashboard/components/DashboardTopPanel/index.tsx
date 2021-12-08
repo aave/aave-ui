@@ -9,7 +9,7 @@ import TopPanelWrapper from '../../../../components/wrappers/TopPanelWrapper';
 import GradientLine from '../../../../components/basic/GradientLine';
 import NetWorth from './components/NetWorth';
 import NetAPYSection from './components/NetAPYSection';
-import SupplyBalanceSection from './components/SupplyBalanceSection';
+import DepositBalanceSection from './components/DepositBalanceSection';
 import BorrowBalanceSection from './components/BorrowBalanceSection';
 import HealthFactorSection from './components/HealthFactorSection';
 
@@ -93,7 +93,7 @@ export default function DashboardTopPanel({
           />
 
           <div className="DashboardTopPanel__sections">
-            <SupplyBalanceSection
+            <DepositBalanceSection
               isCollapse={collapsed}
               balance={user && user.totalLiquidityUSD !== '0' ? user.totalLiquidityUSD : 0}
               collateralUSD={
@@ -108,7 +108,7 @@ export default function DashboardTopPanel({
             />
             <HealthFactorSection
               isCollapse={collapsed}
-              healthFactor={user?.healthFactor || '0'}
+              healthFactor={user?.healthFactor || '-1'}
               collateralUsagePercent={collateralUsagePercent}
             />
           </div>
