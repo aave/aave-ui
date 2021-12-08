@@ -40,7 +40,7 @@ const staticStyles = css.global`
         }
       }
     }
-
+    
     .MarketTableItem__value {
       &:first-of-type {
         margin-bottom: 4px;
@@ -63,6 +63,29 @@ const staticStyles = css.global`
       position: relative;
       flex: 3;
       text-align: center;
+    }
+
+    .MarketTableItem__hint {
+      color:#8D8F99;
+      @include respond-to(xs) {
+        font-size: $small;
+      }
+      .Value__value {
+        font-size: $small;
+        @include respond-to(sm) {
+          font-size: $small;
+        }
+      }
+ 
+    }
+    .MarketTableItem__tooltip {
+      display: flex;
+      align-items:center;
+      font-size: $small;
+
+    }
+    .MarketTableItem__message {
+      margin-right: 4px;
     }
 
     .TokenIcon__dollar {
