@@ -44,8 +44,8 @@ Just go to `<your favorite public ipfs gateway>/ipns/app.aave.com`
 
 ### Links known to work at some point:
 
-https://app-aave-com.ipns.cf-ipfs.com/#/
-https://app-aave-com.ipns.dweb.link/#/
+- [https://app-aave-com.ipns.cf-ipfs.com/#/](https://app-aave-com.ipns.cf-ipfs.com/#/)
+- [https://app-aave-com.ipns.dweb.link/#/](https://app-aave-com.ipns.dweb.link/#/)
 
 
 ## Contribution
