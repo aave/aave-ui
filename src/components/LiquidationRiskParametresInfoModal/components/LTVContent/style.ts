@@ -95,6 +95,10 @@ const staticStyles = css.global`
         right: 0;
       }
     }
+
+    &__value {
+      display: flex;
+    }
   }
 `;
 

@@ -63,7 +63,11 @@ export default function LTVContent({
             <span className="LTVContent__title">
               {intl.formatMessage(messages.liquidationThreshold)}
             </span>
-            <ValuePercent value={currentLiquidationThreshold} onWhiteBackground={true} />
+
+            <div className="LTVContent__value">
+              <ValuePercent value={currentLiquidationThreshold} onWhiteBackground={true} />
+              <span className="LTVContent__title">**</span>
+            </div>
           </div>
         </div>
       </div>
