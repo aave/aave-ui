@@ -38,8 +38,8 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
     rawReserves,
     rawUserReserves,
     userId,
-    marketRefCurrencyDecimals,
-    marketRefPriceInUsd,
+    marketReferenceCurrencyDecimals,
+    marketReferencePriceInUsd,
     userEmodeCategoryId,
   } = useStaticPoolDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
@@ -55,8 +55,8 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
     userId && rawUserReserves
       ? formatUserSummary({
           currentTimestamp,
-          marketRefPriceInUsd,
-          marketRefCurrencyDecimals,
+          marketReferencePriceInUsd,
+          marketReferenceCurrencyDecimals,
           rawUserReserves,
           userEmodeCategoryId,
         })
@@ -64,8 +64,8 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
 
   const formattedPoolReserves = humanizedFormatReserves(rawReserves, {
     currentTimestamp,
-    marketRefCurrencyDecimals,
-    marketRefPriceInUsd,
+    marketReferenceCurrencyDecimals,
+    marketReferencePriceInUsd,
   });
 
   let userSummary: UserSummary | undefined = undefined;

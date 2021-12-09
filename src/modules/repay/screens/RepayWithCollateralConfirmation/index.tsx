@@ -48,7 +48,7 @@ function RepayWithCollateralConfirmation({
   location,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
-  const { marketRefPriceInUsd, WrappedBaseNetworkAssetAddress } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, WrappedBaseNetworkAssetAddress } = useStaticPoolDataContext();
   const { reserves } = useDynamicPoolDataContext();
   const { lendingPool } = useTxBuilderContext();
   const [isTxExecuted, setIsTxExecuted] = useState(false);
@@ -116,14 +116,14 @@ function RepayWithCollateralConfirmation({
   const displayAmountToRepay = BigNumber.min(debtToRepay, maxDebtToRepay);
   const displayAmountToRepayInUsd = displayAmountToRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd)
+    .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
 
   const amountAfterRepay = maxDebtToRepay.minus(debtToRepay).toString();
   const displayAmountAfterRepay = BigNumber.min(amountAfterRepay, maxDebtToRepay);
   const displayAmountAfterRepayInUsd = displayAmountAfterRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd)
+    .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
 
   const { hfAfterSwap, hfInitialEffectOfFromAmount } = calculateHFAfterRepay(

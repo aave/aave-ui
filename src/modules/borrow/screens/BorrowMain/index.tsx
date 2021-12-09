@@ -28,7 +28,7 @@ import { BorrowTableItem } from '../../components/BorrowAssetTable/types';
 
 export default function BorrowMain() {
   const intl = useIntl();
-  const { marketRefPriceInUsd, userEmodeCategoryId } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, userEmodeCategoryId } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
   const { reserveIncentives } = useIncentivesDataContext();
   const { sm } = useThemeContext();
@@ -71,10 +71,12 @@ export default function BorrowMain() {
           : 0;
         const availableBorrowsInUSD = valueToBigNumber(availableBorrows)
           .multipliedBy(reserve.priceInMarketReferenceCurrency)
-          .multipliedBy(marketRefPriceInUsd)
+          .multipliedBy(marketReferencePriceInUsd)
           .shiftedBy(-USD_DECIMALS)
           .toString();
-        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
+        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+          ? reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+          : { aIncentives: [], vIncentives: [], sIncentives: [] };
         return {
           ...reserve,
           currentBorrows:
@@ -91,15 +93,9 @@ export default function BorrowMain() {
               : -1,
           variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowAPY) : -1,
           interestHistory: [],
-          aincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.aIncentives.incentiveAPR
-            : '0',
-          vincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.vIncentives.incentiveAPR
-            : '0',
-          sincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.sIncentives.incentiveAPR
-            : '0',
+          aIncentives: reserveIncentiveData.aIncentives,
+          vIncentives: reserveIncentiveData.vIncentives,
+          sIncentives: reserveIncentiveData.sIncentives,
         };
       });
     if (activeEmode) {

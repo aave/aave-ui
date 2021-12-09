@@ -65,7 +65,9 @@ export default function DepositsMain() {
         );
         const walletBalance = walletData[reserve.underlyingAsset]?.amount || '0';
         const walletBalanceInUSD = walletData[reserve.underlyingAsset]?.amountUSD || '0';
-        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
+        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+          ? reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+          : { aIncentives: [], vIncentives: [], sIncentives: [] };
         return {
           ...reserve,
           walletBalance,
@@ -75,15 +77,9 @@ export default function DepositsMain() {
           liquidityRate: reserve.supplyAPY,
           borrowingEnabled: reserve.borrowingEnabled,
           interestHistory: [],
-          aincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.aIncentives.incentiveAPR
-            : '0',
-          vincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.vIncentives.incentiveAPR
-            : '0',
-          sincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.sIncentives.incentiveAPR
-            : '0',
+          aIncentives: reserveIncentiveData.aIncentives,
+          vIncentives: reserveIncentiveData.vIncentives,
+          sIncentives: reserveIncentiveData.sIncentives,
         };
       });
 

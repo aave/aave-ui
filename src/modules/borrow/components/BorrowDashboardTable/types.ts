@@ -1,4 +1,5 @@
 import { RawReserveData } from '@aave/math-utils';
+import { ReserveIncentive } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 
 export type BorrowTableItem = {
   onSwitchToggle: () => void;
@@ -8,8 +9,8 @@ export type BorrowTableItem = {
   stableBorrowRateEnabled: boolean;
   uiColor: string;
   borrowRate: string;
-  vincentivesAPR: string;
-  sincentivesAPR: string;
+  vIncentives: ReserveIncentive[];
+  sIncentives: ReserveIncentive[];
   borrowRateMode: string;
   currentBorrows: string;
   currentBorrowsUSD: string;

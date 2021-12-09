@@ -51,7 +51,7 @@ export default function CurrencyOverview({
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
   const { currentLangSlug } = useLanguageContext();
-  const { marketRefPriceInUsd, userEmodeCategoryId } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, userEmodeCategoryId } = useStaticPoolDataContext();
   const asset = getAssetInfo(currencySymbol);
 
   // const { mode, setMode } = useReservesRateHistoryHelper({
@@ -64,7 +64,7 @@ export default function CurrencyOverview({
     utilizationRate: Number(poolReserve.utilizationRate),
     availableLiquidity: poolReserve.availableLiquidity,
     priceInUsd: valueToBigNumber(poolReserve.priceInMarketReferenceCurrency)
-      .multipliedBy(marketRefPriceInUsd)
+      .multipliedBy(marketReferencePriceInUsd)
       .shiftedBy(-USD_DECIMALS)
       .toNumber(),
     depositApy: Number(poolReserve.supplyAPY),

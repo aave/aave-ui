@@ -7,12 +7,13 @@ import NoData from '../../basic/NoData';
 import LiquidityMiningAPYLine from '../LiquidityMiningAPYLine';
 
 import staticStyles from './style';
+import { ReserveIncentive } from '../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 
 interface LiquidityMiningCardProps {
   symbol?: string;
   type?: string;
   value: string | number;
-  liquidityMiningValue?: string | number;
+  liquidityMiningValues?: ReserveIncentive[];
   className?: string;
   mobilePosition?: 'left' | 'right';
 }
@@ -21,12 +22,11 @@ export default function LiquidityMiningCard({
   symbol,
   type,
   value,
-  liquidityMiningValue,
+  liquidityMiningValues,
   className,
   mobilePosition = 'right',
 }: LiquidityMiningCardProps) {
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
-
   const helpLiquidityAPYTooltipId =
     symbol && type ? `help-liquidity-apy-${type}-${symbol}` : undefined;
   return (
@@ -45,13 +45,17 @@ export default function LiquidityMiningCard({
         )}
       </div>
 
-      {((liquidityMiningValue && liquidityMiningValue !== '0') ||
-        (symbol === 'FEI' && type !== 'borrow-stable' && type !== 'deposit')) && (
-        <LiquidityMiningAPYLine
-          symbol={symbol}
-          value={liquidityMiningValue || 0}
-          tooltipId={helpLiquidityAPYTooltipId}
-        />
+      {liquidityMiningValues && liquidityMiningValues.length > 0 ? (
+        liquidityMiningValues.map((incentive) => (
+          <LiquidityMiningAPYLine
+            symbol={incentive.rewardTokenSymbol}
+            value={incentive.incentiveAPR || 0}
+            tooltipId={helpLiquidityAPYTooltipId}
+            key={incentive.rewardTokenSymbol}
+          />
+        ))
+      ) : (
+        <></>
       )}
 
       <style jsx={true} global={true}>

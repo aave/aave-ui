@@ -9,25 +9,64 @@ import defaultMessages from '../../defaultMessages';
 import staticStyles from './style';
 
 import tribeIcon from '../../images/tirbe.svg';
+import messages from './messages';
 
 interface IncentiveClaimItemProps {
   symbol: string;
   claimableRewards: string;
-  incentiveControllerAddress: string;
+  rewardTokenAddress: string;
+  claimAll?: boolean;
 }
 
 export default function IncentiveClaimItem({
   symbol,
   claimableRewards,
-  incentiveControllerAddress,
+  rewardTokenAddress,
+  claimAll,
 }: IncentiveClaimItemProps) {
   const intl = useIntl();
   const { currentTheme, xl, sm, isCurrentThemeDark } = useThemeContext();
 
   const iconSize = xl && !sm ? 16 : 20;
 
-  const rewardClaimLink = `/rewards/confirm/${incentiveControllerAddress}`;
+  const rewardClaimLink = claimAll
+    ? `rewards/confirm/all`
+    : `/rewards/confirm/${rewardTokenAddress}`;
   const tooltipId = `incentiveClaimItem--${symbol}`;
+
+  if (claimAll) {
+    return (
+      <div className="IncentiveClaimItem">
+        <Link
+          to={rewardClaimLink}
+          className="ButtonLink"
+          title={intl.formatMessage(messages.claimAll)}
+        />
+
+        <style jsx={true} global={true}>
+          {staticStyles}
+        </style>
+        <style jsx={true} global={true}>{`
+          .IncentiveClaimItem {
+            border: 1px solid ${currentTheme.lightBlue.hex};
+            &:hover {
+              border: 1px solid
+                ${sm && !isCurrentThemeDark ? currentTheme.lightBlue.hex : currentTheme.white.hex};
+            }
+
+            .Link {
+              color: ${sm && !isCurrentThemeDark
+                ? currentTheme.secondary.hex
+                : currentTheme.lightBlue.hex};
+              &:hover {
+                color: ${currentTheme.secondary.hex};
+              }
+            }
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <div className="IncentiveClaimItem" data-tip={true} data-for={tooltipId}>

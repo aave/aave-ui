@@ -1,4 +1,3 @@
-import { API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import { BaseNetworkConfig } from '../helpers/config/types';
 import polygonBridgeLogo from './branding/images/polygonLogo.svg';
 import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
@@ -19,11 +18,6 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     baseUniswapAdapter: '0xf86Be05f535EC2d217E4c6116B3fa147ee5C05A1',
     baseAsset: 'ETH',
     baseAssetWrappedAddress: '0xd0a1e359811322d97991e03f863a0c30c2cf029c',
-    // incentives hardcoded information
-    rewardTokenSymbol: 'stkAAVE',
-    rewardTokenAddress: '0xb597cd8d3217ea6477232f9217fa70837ff667af',
-    rewardTokenDecimals: 18,
-    incentivePrecision: 18,
     explorerLink: 'https://kovan.etherscan.com',
     rpcOnly: true,
     isTestnet: true,
@@ -44,11 +38,6 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     baseUniswapAdapter: '0xc3efa200a60883a96ffe3d5b492b121d6e9a1f3f',
     baseAsset: 'ETH',
     baseAssetWrappedAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-    // incentives hardcoded information
-    rewardTokenSymbol: 'stkAAVE',
-    rewardTokenAddress: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
-    rewardTokenDecimals: 18,
-    incentivePrecision: 18,
     explorerLink: 'https://etherscan.com',
     rpcOnly: false,
   },
@@ -59,18 +48,13 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     addresses: {
       walletBalanceProvider: '0x34aa032bC416Cf2CdC45c0C8f065b1F19463D43e',
       uiPoolDataProvider: '0xDb49B99073C2AE890708227Dc83B1781bF01512D',
-      uiIncentiveDataProvider: '0xC5093EDAC52f4DD68b42433eA8754B26eAbb1A48',
+      uiIncentiveDataProvider: '0x25F1044684bF7f63b149191Ba6A685c612d5a225',
     },
     cachingServerUrl: 'https://cache-api-polygon.aave.com/graphql',
     cachingWSServerUrl: 'wss://cache-api-polygon.aave.com/graphql',
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/aave-v2-matic',
     baseAsset: 'MATIC',
     baseAssetWrappedAddress: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
-    // incentives hardcoded information
-    rewardTokenSymbol: 'WMATIC',
-    rewardTokenAddress: API_ETH_MOCK_ADDRESS,
-    rewardTokenDecimals: 18,
-    incentivePrecision: 18,
     explorerLink: 'https://polygonscan.com',
     rpcOnly: true,
     bridge: {
@@ -87,16 +71,11 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     addresses: {
       walletBalanceProvider: '0xEe7c0172c200e12AFEa3C34837052ec52F3f367A',
       uiPoolDataProvider: '0x9842E5B7b7C6cEDfB1952a388e050582Ff95645b',
-      uiIncentiveDataProvider: '0x04110Dc40B04b99B94840E53B2a33bE45E45A8Ed',
+      uiIncentiveDataProvider: '0x070a7D8F4d7A7A87452C5BaBaB3158e08411907E',
     },
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/aave-v2-polygon-mumbai',
     baseAsset: 'MATIC',
     baseAssetWrappedAddress: '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889',
-    // incentives hardcoded information
-    rewardTokenSymbol: 'WMATIC',
-    rewardTokenAddress: '0x9c3c9283d3e44854697cd22d3faa240cfb032889',
-    rewardTokenDecimals: 18,
-    incentivePrecision: 18,
     explorerLink: 'https://explorer-mumbai.maticvigil.com',
     rpcOnly: true,
     isTestnet: true,
@@ -108,17 +87,12 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     addresses: {
       walletBalanceProvider: '0x3f5A507B33260a3869878B31FB90F04F451d28e3',
       uiPoolDataProvider: '0x93cc892330DFc071e87679468FeE054Cb05074ec',
-      uiIncentiveDataProvider: '0x2c911e6FaD423C00205eda22BBAc3e7F82c38007',
+      uiIncentiveDataProvider: '0x9842E5B7b7C6cEDfB1952a388e050582Ff95645b',
     },
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-fuji',
     baseUniswapAdapter: '0x0',
     baseAsset: 'AVAX',
     baseAssetWrappedAddress: '0xd00ae08403B9bbb9124bB305C09058E32C39A48c',
-    // incentives hardcoded information
-    rewardTokenSymbol: 'WAVAX',
-    rewardTokenAddress: API_ETH_MOCK_ADDRESS,
-    rewardTokenDecimals: 18,
-    incentivePrecision: 18,
     explorerLink: 'https://cchain.explorer.avax-test.network',
     rpcOnly: true,
     usdMarket: true,
@@ -145,11 +119,6 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     baseUniswapAdapter: '0x0',
     baseAsset: 'AVAX',
     baseAssetWrappedAddress: '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
-    // incentives hardcoded information
-    rewardTokenSymbol: 'WAVAX',
-    rewardTokenAddress: API_ETH_MOCK_ADDRESS,
-    rewardTokenDecimals: 18,
-    incentivePrecision: 18,
     explorerLink: 'https://cchain.explorer.avax.network',
     rpcOnly: false,
     usdMarket: true,
@@ -165,19 +134,14 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCUrl: ['https://rinkeby.arbitrum.io/rpc'],
     publicJsonRPCWSUrl: 'wss://rinkeby.arbitrum.io/rpc',
     addresses: {
-      walletBalanceProvider: '0x3092e3557521C186c44fB4D802007f2B4126b9b3',
-      uiPoolDataProvider: '0x39305C6010cd07C34C38AB872f550B9b6bedbAE1',
-      // uiIncentiveDataProvider: '0xD0fbc73f1E3be7267AA23D8d74194887a862e02e',
+      walletBalanceProvider: '0x6f8E47bE9203230B853b73792C8A2Eaba9248629',
+      uiPoolDataProvider: '0x761fC5a803411aCBeA73B04cfE2e0DDcE532f9e7',
+      uiIncentiveDataProvider: '0x2fe91f5ab0bc5Aad0995Ea78d314B033988003De',
     },
     protocolDataUrl: '',
     baseUniswapAdapter: '0x0',
     baseAsset: 'ARETH',
-    baseAssetWrappedAddress: '0x217F76f6332aAC6854CAf224B98eD95412940151',
-    // incentives hardcoded information
-    rewardTokenSymbol: '',
-    rewardTokenAddress: '',
-    rewardTokenDecimals: 0,
-    incentivePrecision: 0,
+    baseAssetWrappedAddress: '0x6858D648A7E3363FE49c28A7222Cf61858862977',
     explorerLink: 'https://testnet.arbiscan.io/',
     rpcOnly: true,
     usdMarket: true,

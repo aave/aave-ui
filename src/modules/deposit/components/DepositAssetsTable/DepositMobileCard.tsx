@@ -23,7 +23,7 @@ export default function DepositMobileCard({
   userId,
   borrowingEnabled,
   isFreezed,
-  aincentivesAPR,
+  aIncentives,
   isIsolated,
 }: DepositTableItem) {
   const intl = useIntl();
@@ -60,7 +60,7 @@ export default function DepositMobileCard({
             <LiquidityMiningCard
               symbol={symbol}
               value={liquidityRate}
-              liquidityMiningValue={aincentivesAPR}
+              liquidityMiningValues={aIncentives}
               type="deposit"
             />
           ) : (
