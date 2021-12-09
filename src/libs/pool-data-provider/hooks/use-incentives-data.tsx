@@ -5,8 +5,8 @@ import { getProvider } from '../../../helpers/config/markets-and-network-config'
 import {
   UiIncentiveDataProvider,
   ChainId,
-  ReserveIncentiveDataHumanizedResponse,
-  UserReserveIncentiveDataHumanizedResponse,
+  ReservesIncentiveDataHumanized,
+  UserReservesIncentivesDataHumanized,
 } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useUserWalletDataContext } from '../../web3-data-provider';
@@ -22,8 +22,8 @@ export interface IncentiveDataResponse {
   loading: boolean;
   error: boolean;
   data: {
-    reserveIncentiveData?: ReserveIncentiveDataHumanizedResponse[];
-    userIncentiveData?: UserReserveIncentiveDataHumanizedResponse[];
+    reserveIncentiveData?: ReservesIncentiveDataHumanized[];
+    userIncentiveData?: UserReservesIncentivesDataHumanized[];
   };
   refresh: () => Promise<void>;
 }
@@ -42,10 +42,10 @@ export function useRPCIncentivesData(
   const [loadingUserIncentives, setLoadingUserIncentives] = useState<boolean>(true);
   const [errorUserIncentives, setErrorUserIncentives] = useState<boolean>(false);
   const [reserveIncentiveData, setReserveIncentiveData] = useState<
-    ReserveIncentiveDataHumanizedResponse[] | undefined
+    ReservesIncentiveDataHumanized[] | undefined
   >(undefined);
   const [userIncentiveData, setUserIncentiveData] = useState<
-    UserReserveIncentiveDataHumanizedResponse[] | undefined
+    UserReservesIncentivesDataHumanized[] | undefined
   >(undefined);
 
   // Fetch reserve incentive data and user incentive data only if currentAccount is set
@@ -69,12 +69,12 @@ export function useRPCIncentivesData(
   // Fetch and format reserve incentive data from UiIncentiveDataProvider contract
   const fetchReserveIncentiveData = async (
     lendingPoolAddressProvider: string,
-    incentiveDataProviderAddress: string
+    uiIncentiveDataProviderAddress: string
   ) => {
     const provider = getProvider(chainId);
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
       provider,
-      incentiveDataProviderAddress,
+      uiIncentiveDataProviderAddress,
     });
 
     try {
@@ -95,20 +95,20 @@ export function useRPCIncentivesData(
   const fetchUserIncentiveData = async (
     currentAccount: string,
     lendingPoolAddressProvider: string,
-    incentiveDataProviderAddress: string
+    uiIncentiveDataProviderAddress: string
   ) => {
     const provider = getProvider(chainId);
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
-      incentiveDataProviderAddress,
+      uiIncentiveDataProviderAddress,
       provider,
     });
 
     try {
-      const rawUserIncentiveData =
-        await incentiveDataProviderContract.getUserReservesIncentivesDataHumanized(
-          currentAccount,
-          lendingPoolAddressProvider
-        );
+      const rawUserIncentiveData: UserReservesIncentivesDataHumanized[] =
+        await incentiveDataProviderContract.getUserReservesIncentivesDataHumanized({
+          user: currentAccount,
+          lendingPoolAddressProvider,
+        });
 
       setUserIncentiveData(rawUserIncentiveData);
       setErrorUserIncentives(false);
