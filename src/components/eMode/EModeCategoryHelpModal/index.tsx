@@ -21,9 +21,9 @@ export default function EModeCategoryHelpModal({
       text={intl.formatMessage(messages.title)}
       iconSize={iconSize}
       className={className}
-      caption="TODO: need text"
+      caption={intl.formatMessage(messages.modalCaption)}
       onWhiteBackground={onWhiteBackground}
-      description={<>TODO: need text</>}
+      description={intl.formatMessage(messages.modalDescription)}
     />
   );
 }

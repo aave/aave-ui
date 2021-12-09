@@ -188,18 +188,15 @@ const staticStyles = css.global`
       flex-wrap: wrap;
       align-items: flex-start;
       justify-content: space-around;
-      max-width: 900px;
+      max-width: 100%;
       margin: 0 auto;
       @include respond-to(xl) {
-        max-width: 750px;
+        max-width: 850px;
       }
       @include respond-to(lg) {
-        max-width: 600px;
+        max-width: 700px;
       }
       @include respond-to(md) {
-        max-width: 750px;
-      }
-      @include respond-to(sm) {
         max-width: 100%;
       }
 

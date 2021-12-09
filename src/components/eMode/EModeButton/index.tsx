@@ -6,6 +6,7 @@ import { gradient, useThemeContext } from '@aave/aave-ui-kit';
 import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
 import { getEmodeMessage } from '../../../helpers/e-mode/getEmodeMessage';
 import EModeModal from '../EModeModal';
+import EModeHelpModal from '../EModeHelpModal';
 
 import messages from './messages';
 import staticStyles from './style';
@@ -29,6 +30,8 @@ export default function EModeButton({ size }: EModeButtonProps) {
 
   return (
     <>
+      {size === 'normal' && <EModeHelpModal className="EModeButton__helpModal" />}
+
       <div
         className={classNames('EModeButton', `EModeButton__${size}`, {
           EModeButton__enabled: eModeEnabled,
@@ -44,10 +47,7 @@ export default function EModeButton({ size }: EModeButtonProps) {
             />
 
             {eModeEnabled ? (
-              <p>
-                {size === 'normal' && <span>{intl.formatMessage(messages.EMode)} | </span>}
-                {getEmodeMessage(userEmodeCategoryId, intl)}
-              </p>
+              <p>{getEmodeMessage(userEmodeCategoryId, intl)}</p>
             ) : (
               <p>{intl.formatMessage(messages.disabled)}</p>
             )}
@@ -59,7 +59,9 @@ export default function EModeButton({ size }: EModeButtonProps) {
 
       <EModeModal visible={visible} setVisible={setVisible} />
 
-      <style jsx={true}>{staticStyles}</style>
+      <style jsx={true} global={true}>
+        {staticStyles}
+      </style>
       <style jsx={true}>{`
         .EModeButton {
           &__content {

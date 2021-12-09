@@ -11,18 +11,30 @@ interface HealthFactorSectionProps {
   isCollapse: boolean;
   healthFactor: string;
   collateralUsagePercent: string;
+  loanToValue: string;
+  currentLoanToValue: string;
+  currentLiquidationThreshold: string;
 }
 
 export default function HealthFactorSection({
   isCollapse,
   healthFactor,
   collateralUsagePercent,
+  loanToValue,
+  currentLoanToValue,
+  currentLiquidationThreshold,
 }: HealthFactorSectionProps) {
   const { md, sm } = useThemeContext();
 
   return (
     <SectionWrapper className="HealthFactorSection" isCollapse={isCollapse}>
-      <HealthFactorInfo healthFactor={healthFactor} isCollapse={isCollapse} />
+      <HealthFactorInfo
+        healthFactor={healthFactor}
+        loanToValue={loanToValue}
+        isCollapse={isCollapse}
+        currentLoanToValue={currentLoanToValue}
+        currentLiquidationThreshold={currentLiquidationThreshold}
+      />
 
       {(!isCollapse || (md && !sm && !isCollapse)) && (
         <div className="HealthFactorSection__content">

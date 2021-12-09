@@ -18,18 +18,25 @@ const staticStyles = css.global`
       }
     }
 
-    .Value__value {
+    .Value__value,
+    .TokenIcon__dollar {
       font-weight: 500;
       font-size: $large;
       @include respond-to(xl) {
         font-size: $medium;
       }
+    }
+
+    .Value__value {
       .ValueWithSmallDecimals {
         font-size: $large;
-        margin-left: 1px;
-        opacity: 0.9;
+        margin-left: 3px;
+        opacity: 0.7;
         @include respond-to(xl) {
           font-size: $medium;
+        }
+        @include respond-to(md) {
+          margin-left: 1px;
         }
       }
     }
@@ -37,13 +44,17 @@ const staticStyles = css.global`
     &.NetWorth__column {
       .Row__content {
         justify-content: flex-start;
-        .Value {
-          align-items: flex-start;
+        .Value__value,
+        .TokenIcon__dollar {
           .Value__value {
             font-size: $large;
             @include respond-to(xl) {
               font-size: $regular;
             }
+          }
+
+          .Value {
+            align-items: flex-start;
             .ValueWithSmallDecimals {
               font-size: $small;
             }

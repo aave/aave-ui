@@ -22,12 +22,11 @@ import BorrowTable from '../BorrowTable';
 import BorrowTableItem from '../BorrowTable/BorrowTableItem';
 import IsolationInfoBanner from '../../../../components/isolationMode/IsolationInfoBanner';
 import UserEModeInfo from '../UserEModeInfo';
+import EModeIconWithTooltip from '../../../../components/eMode/EModeIconWithTooltip';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import staticStyles from './style';
-
-import eModeIcon from '../../../../images/eModeIcon.svg';
 
 interface UserInformationProps {
   user?: UserSummary;
@@ -291,7 +290,9 @@ export default function UserInformation({
                 color={elementsColor}
               >
                 <div className="UserInformation__rowContent">
-                  {isReserveInEmode && <img src={eModeIcon} alt="" />}
+                  {isReserveInEmode && (
+                    <EModeIconWithTooltip tooltipId={`${poolReserve.id}__loanToValue`} />
+                  )}
                   <ValuePercent value={user?.currentLoanToValue || 0} color={elementsColor} />
                 </div>
               </Row>
@@ -311,7 +312,11 @@ export default function UserInformation({
                             <UserEModeInfo userEmodeCategoryId={userEmodeCategoryId} />
                           ) : (
                             <div className="UserInformation__rowContent">
-                              {isReserveInEmode && <img src={eModeIcon} alt="" />}
+                              {isReserveInEmode && (
+                                <EModeIconWithTooltip
+                                  tooltipId={`${poolReserve.id}__availableBorrow`}
+                                />
+                              )}
                               <Value
                                 value={availableBorrows}
                                 symbol={symbol}
@@ -342,9 +347,14 @@ export default function UserInformation({
                 </Row>
               )}
 
-              {user?.isInIsolationMode && (
+              {user?.isInIsolationMode && !isBorrowEnable && (
                 <IsolationInfoBanner
-                  text={intl.formatMessage(messages.borrowIsolationWarning)}
+                  text={intl.formatMessage(
+                    // should be executed when the user is in isolation mode, the asset can be borrowed, but due to the fact that the `Debt ceiling` is filled, borrowing is blocked
+                    poolReserve.borrowableInIsolation && !availableBorrows // TODO: perhaps this condition is not correct, need to check
+                      ? messages.borrowDebtCeilingWarning
+                      : messages.borrowIsolationWarning
+                  )}
                   size="small"
                   withIcon={true}
                 />

@@ -16,6 +16,8 @@ interface BalanceProps {
 export default function Balance({ title, value, isCollapse }: BalanceProps) {
   const { md, sm } = useThemeContext();
 
+  const isValueCompact = isCollapse && md && !sm;
+
   return (
     <Row
       title={title}
@@ -26,14 +28,14 @@ export default function Balance({ title, value, isCollapse }: BalanceProps) {
     >
       <Value
         value={value}
-        withSmallDecimals={!value ? false : !(isCollapse && md && !sm)}
+        withSmallDecimals={!value ? false : !isValueCompact}
         symbol="USD"
         tokenIcon={true}
         withoutSymbol={true}
-        maximumValueDecimals={!value ? undefined : 7}
-        minimumValueDecimals={!value ? undefined : 1}
+        maximumValueDecimals={!value ? undefined : isValueCompact ? 2 : 7}
+        minimumValueDecimals={!value ? undefined : isValueCompact ? undefined : 0}
         color="white"
-        compact={isCollapse && md && !sm}
+        compact={isValueCompact}
       />
 
       <style jsx={true} global={true}>

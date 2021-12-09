@@ -10,7 +10,7 @@ const staticStyles = css`
     align-items: center;
     @include respond-to(sm) {
       flex-direction: column;
-      margin: 30px 0 10px;
+      margin: 30px 0 0;
     }
 
     &__incentives {

@@ -32,18 +32,22 @@ interface ReserveInformationProps {
   symbol: string;
   poolReserve: ComputedReserveData;
   userIsInIsolationMode: boolean;
+  userEmodeCategoryId: number;
 }
 
 export default function ReserveInformation({
   symbol,
   poolReserve,
   userIsInIsolationMode,
+  userEmodeCategoryId,
 }: ReserveInformationProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const totalLiquidityInUsd = poolReserve.totalLiquidityUSD;
   const totalBorrowsInUsd = poolReserve.totalDebtUSD;
   const availableLiquidityInUsd = poolReserve.availableLiquidityUSD;
+
+  const userIsInEMode = userEmodeCategoryId !== 0;
 
   const reserveOverviewData = {
     totalLiquidityInUsd,
@@ -65,9 +69,18 @@ export default function ReserveInformation({
       .dividedBy(poolReserve.totalDebt)
       .toNumber(),
     utilizationRate: Number(poolReserve.utilizationRate),
-    baseLTVasCollateral: Number(poolReserve.baseLTVasCollateral),
-    liquidationThreshold: Number(poolReserve.reserveLiquidationThreshold),
-    liquidationBonus: Number(poolReserve.reserveLiquidationBonus),
+    baseLTVasCollateral:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.eModeLtv)
+        : Number(poolReserve.baseLTVasCollateral),
+    liquidationThreshold:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.eModeLiquidationThreshold)
+        : Number(poolReserve.reserveLiquidationThreshold),
+    liquidationBonus:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.eModeLiquidationBonus)
+        : Number(poolReserve.reserveLiquidationBonus),
     usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
     borrowingEnabled: poolReserve.borrowingEnabled,
@@ -238,11 +251,14 @@ export default function ReserveInformation({
           <div className="ReserveInformation__bottom-info">
             <PercentBlock
               value={reserveOverviewData.baseLTVasCollateral}
+              withEModeIcon={
+                userEmodeCategoryId !== 0 && userEmodeCategoryId === poolReserve.eModeCategoryId
+              }
               titleComponent={<MaxLTVHelpModal text={intl.formatMessage(messages.maximumLTV)} />}
             />
             <PercentBlock
               value={
-                reserveOverviewData.liquidationBonus <= 0
+                reserveOverviewData.liquidationThreshold <= 0
                   ? 0
                   : reserveOverviewData.liquidationThreshold
               }

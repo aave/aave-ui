@@ -39,7 +39,6 @@ export default function BorrowBalanceSection({
               title={
                 <EModeHelpModal
                   className="BorrowBalanceSection__row--title"
-                  text={intl.formatMessage(messages.eMode)}
                   color="white"
                   lightWeight={true}
                   iconSize={12}

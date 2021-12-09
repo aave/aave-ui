@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useThemeContext } from '@aave/aave-ui-kit';
 import classNames from 'classnames';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { UserSummary } from '../../../../libs/pool-data-provider';
 import toggleLocalStorageClick from '../../../../helpers/toggle-local-storage-click';
@@ -9,7 +9,7 @@ import TopPanelWrapper from '../../../../components/wrappers/TopPanelWrapper';
 import GradientLine from '../../../../components/basic/GradientLine';
 import NetWorth from './components/NetWorth';
 import NetAPYSection from './components/NetAPYSection';
-import SupplyBalanceSection from './components/SupplyBalanceSection';
+import DepositBalanceSection from './components/DepositBalanceSection';
 import BorrowBalanceSection from './components/BorrowBalanceSection';
 import HealthFactorSection from './components/HealthFactorSection';
 
@@ -24,6 +24,7 @@ interface DashboardTopPanelProps {
   depositedPositions: DepositTableItem[];
   borrowedPositions: BorrowTableItem[];
   collateralUsagePercent: string;
+  loanToValue: string;
 }
 
 export default function DashboardTopPanel({
@@ -31,6 +32,7 @@ export default function DashboardTopPanel({
   depositedPositions,
   borrowedPositions,
   collateralUsagePercent,
+  loanToValue,
 }: DashboardTopPanelProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
@@ -93,7 +95,7 @@ export default function DashboardTopPanel({
           />
 
           <div className="DashboardTopPanel__sections">
-            <SupplyBalanceSection
+            <DepositBalanceSection
               isCollapse={collapsed}
               balance={user && user.totalLiquidityUSD !== '0' ? user.totalLiquidityUSD : 0}
               collateralUSD={
@@ -108,8 +110,11 @@ export default function DashboardTopPanel({
             />
             <HealthFactorSection
               isCollapse={collapsed}
-              healthFactor={user?.healthFactor || '0'}
+              healthFactor={user?.healthFactor || '-1'}
               collateralUsagePercent={collateralUsagePercent}
+              loanToValue={loanToValue}
+              currentLoanToValue={user?.currentLoanToValue || '0'}
+              currentLiquidationThreshold={user?.currentLiquidationThreshold || '0'}
             />
           </div>
         </div>

@@ -11,6 +11,24 @@ const staticStyles = css`
     justify-content: center;
     img {
       margin-right: 4px;
+      width: 12px;
+      height: 12px;
+      @include respond-to(xl) {
+        width: 10px;
+        height: 10px;
+      }
+      @include respond-to(lg) {
+        width: 8px;
+        height: 8px;
+      }
+      @include respond-to(md) {
+        width: 10px;
+        height: 10px;
+      }
+      @include respond-to(sm) {
+        width: 12px;
+        height: 12px;
+      }
     }
   }
 `;
