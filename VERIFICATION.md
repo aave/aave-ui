@@ -8,23 +8,23 @@ The [deployed contracts page](https://docs.aave.com/developers/deployed-contract
 
 ### Approve
 
-For all tokens except network base tokens (ETH, MATIC, AVAX), a token approval is required before depositing. The approval is called on the underlying asset (i.e. DAI token contract if you are approving the spending of DAI) and the "to" address for the token approval is the LendingPool contract.
+For all tokens except network base tokens (ETH, MATIC, AVAX), a token approval is required before depositing. The approval is called on the underlying asset (i.e. DAI token contract if you are approving the spending of DAI) and the "to" address for the token approval is the **LendingPool** contract.
 
 ### Deposit
 
-For all tokens except network base tokens (ETH, MATIC, AVAX), the deposit function is called on the LendingPool contract
+For all tokens except network base tokens (ETH, MATIC, AVAX), the deposit function is called on the **LendingPool** contract
 
 ### Deposit Network Base Tokens
 
-For network base tokens, the depositETH function is called on the WETHGateway contract which is used to wrap and deposit
+For network base tokens, the depositETH function is called on the **WETHGateway** contract which is used to wrap and deposit
 
 ## Withdraw  
 
-There is no approval required to withdraw assets. The withdraw function is called on the LendingPool contract
+There is no approval required to withdraw assets. The withdraw function is called on the **LendingPool** contract
 
 ### Withdraw Network Base Tokens
 
-For network base tokens, the withdrawETH function is called on the WETHGateway contract which is used to unwrap and withdraw
+For network base tokens, the withdrawETH function is called on the **WETHGateway** contract which is used to unwrap and withdraw
 
 ## Borrow  
 
@@ -38,26 +38,26 @@ For network base tokens, there are two steps. First, approveDelegation is called
 
 ### Approve
 
-For all tokens except network base tokens (ETH, MATIC, AVAX), a token approval is required before repaying. The approval is called on the underlying asset (i.e. DAI token contract if you are approving the spending of DAI) and the "to" address for the token approval is the LendingPool contract.
+For all tokens except network base tokens (ETH, MATIC, AVAX), a token approval is required before repaying. The approval is called on the underlying asset (i.e. DAI token contract if you are approving the spending of DAI) and the "to" address for the token approval is the **LendingPool** contract.
 
 ### Repay
 
-For all tokens except network base tokens (ETH, MATIC, AVAX), the repay function is called on the LendingPool contract
+For all tokens except network base tokens (ETH, MATIC, AVAX), the repay function is called on the **LendingPool** contract
 
 ### Repay Network Base Tokens
 
-For network base tokens, the repayETH function is called on the WETHGateway contract which is used to wrap and repay
+For network base tokens, the repayETH function is called on the **WETHGateway** contract which is used to wrap and repay
 
 ## Stake  
 
 ### Approve
 
-The approval is called on the Aave token contract and the "to" address for the approval is the stkAave contract which can be found in the [governance](https://docs.aave.com/developers/protocol-governance/governance) section
+The approval is called on the Aave token contract and the "to" address for the approval is the **stkAave** contract which can be found in the [governance](https://docs.aave.com/developers/protocol-governance/governance) section
 
 ### Stake
 
-The stake function is called on the stkAave token
+The stake function is called on the **stkAave** token
 
 ## Voting  
 
-A vote is submitted by calling the submitVote function on the AaveGovernenceV2 contract which can be found in the [governance](https://docs.aave.com/developers/protocol-governance/governance) section
+A vote is submitted by calling the submitVote function on the **AaveGovernenceV2** contract which can be found in the [governance](https://docs.aave.com/developers/protocol-governance/governance) section
