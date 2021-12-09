@@ -47,10 +47,13 @@ Just go to `<your favorite public ipfs gateway>/ipns/app.aave.com`
 - [https://app-aave-com.ipns.cf-ipfs.com/#/](https://app-aave-com.ipns.cf-ipfs.com/#/)
 - [https://app-aave-com.ipns.dweb.link/#/](https://app-aave-com.ipns.dweb.link/#/)
 
-
 ## Contribution
 
 For instructions on local development, deployment and configurations, see [Contributing](./CONTRIBUTING.md)
+
+## Verification
+
+For instructions on verifying the contract addresses you are interacting with, see [Verification](./VERIFICATION.md)
 
 ## License
 
