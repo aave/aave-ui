@@ -195,7 +195,6 @@ export default function CurrencyOverview({
   }, [
     isCollapse,
     isUserInIsolationMode,
-    overviewData.availableLiquidity,
     overviewData.borrowingEnabled,
     overviewData.depositApy,
     overviewData.priceInUsd,

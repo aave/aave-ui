@@ -9,6 +9,7 @@ import InfoWrapper from './components/InfoWrapper';
 import HealthFactor from '../HealthFactor';
 import Row from '../basic/Row';
 import ValuePercent from '../basic/ValuePercent';
+import HFContent from './components/HFContent';
 import LTVContent from './components/LTVContent';
 
 import messages from './messages';
@@ -69,7 +70,7 @@ export default function LiquidationRiskParametresInfoModal({
           topText={intl.formatMessage(messages.hfTopInfo)}
           bottomText={intl.formatMessage(messages.hfBottomInfo)}
         >
-          <h1>HF Content</h1>
+          <HFContent healthFactor={healthFactor} />
         </InfoWrapper>
 
         <InfoWrapper

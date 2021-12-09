@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useThemeContext } from '@aave/aave-ui-kit';
 import classNames from 'classnames';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { UserSummary } from '../../../../libs/pool-data-provider';
 import toggleLocalStorageClick from '../../../../helpers/toggle-local-storage-click';

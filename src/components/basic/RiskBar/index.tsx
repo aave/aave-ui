@@ -41,7 +41,7 @@ export default function RiskBar({ value, onChange, maxAmount, currencySymbol }: 
     .shiftedBy(-USD_DECIMALS);
 
   const newHealthFactor = calculateHealthFactorFromBalancesBigUnits(
-    user.totalCollateralUSD,
+    user.totalCollateralMarketReferenceCurrency,
     valueToBigNumber(user.totalBorrowsUSD).plus(amountToBorrowInUsd),
     user.currentLiquidationThreshold
   );
