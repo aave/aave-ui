@@ -23,7 +23,7 @@ interface DepositBorrowMainWrapperProps {
   setShowOnlyStableCoins: (value: boolean) => void;
   withSwitchMarket?: boolean;
   totalValue: string | number;
-  filterToggleActive?: boolean;
+  isEmodeActive?: boolean;
   showFilterToggle?: boolean;
   isolationText?: string;
 }
@@ -40,7 +40,7 @@ export default function DepositBorrowMainWrapper({
   setShowOnlyStableCoins,
   withSwitchMarket,
   totalValue,
-  filterToggleActive = true,
+  isEmodeActive,
   showFilterToggle = true,
   isolationText,
 }: DepositBorrowMainWrapperProps) {
@@ -60,7 +60,7 @@ export default function DepositBorrowMainWrapper({
               searchValue={searchValue}
               searchOnChange={setSearchValue}
               darkOnDarkMode={true}
-              toggleActive={filterToggleActive}
+              isEmodeActive={isEmodeActive}
               showToggle={showFilterToggle}
               isolationText={isolationText}
             />

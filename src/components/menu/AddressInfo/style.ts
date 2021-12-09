@@ -7,12 +7,15 @@ const staticStyles = css.global`
 
   .AddressInfo {
     margin-left: 10px;
+    @include respond-to(sm) {
+      margin-left: 0;
+    }
 
     &__button {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: flex-end;
+      align-items: center;
       text-align: right;
       min-width: 110px;
       padding: 5px;
@@ -23,15 +26,16 @@ const staticStyles = css.global`
       transition: $transition;
 
       @include respond-to(sm) {
-        width: 110px;
+        width: 100%;
+        margin-top: 10px;
         height: 54px;
         font-size: $small;
-        align-items: center;
+        justify-content: flex-start;
+        padding: 10px 15px;
       }
 
       p {
         margin-bottom: 2px;
-        text-transform: capitalize;
         white-space: nowrap;
         @include respond-to(sm) {
           margin-bottom: 5px;
@@ -40,42 +44,108 @@ const staticStyles = css.global`
 
       span {
         opacity: 0.5;
+        text-transform: capitalize;
       }
     }
 
-    &__content {
-      width: 160px;
-      border-radius: $borderRadius;
-      @include respond-to(sm) {
-        width: 260px;
+    &__buttonWithAvatar {
+      flex-direction: row;
+      align-items: center;
+
+      .AddressInfo__ensAvatar {
+        position: relative;
+        z-index: 3;
+        margin: 0;
+      }
+      .AddressInfo__buttonTextContent {
+        align-items: flex-start;
       }
     }
 
-    &__content-caption {
-      padding: 10px 5px 14px;
+    &__buttonEnsAvatarInner {
+      position: relative;
+      margin-right: 4px;
+      padding: 2px;
+      width: 24px;
+      height: 24px;
       @include respond-to(sm) {
-        padding: 10px 25px;
+        width: 28px;
+        height: 28px;
+        margin-right: 10px;
+      }
+      &:after,
+      &:before {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+      }
+      &:after {
+        z-index: 1;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+      }
+      &:before {
+        z-index: 2;
+        top: 1px;
+        bottom: 1px;
+        left: 1px;
+        right: 1px;
       }
     }
-    &__content-network {
-      font-size: $extraSmall;
+
+    &__buttonTextContent {
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      margin-bottom: 12px;
+      flex-direction: column;
+    }
+
+    &__content {
+      min-width: 160px;
+      border-radius: $borderRadius;
       @include respond-to(sm) {
-        margin-bottom: 10px;
-        font-size: $small;
+        min-width: unset;
+        width: 300px;
       }
+    }
+
+    &__contentSection {
+      padding: 8px 12px;
+      &:first-of-type {
+        padding-bottom: 4px;
+      }
+      &:last-child {
+        padding-top: 4px;
+      }
+    }
+
+    &__contentTitle {
+      height: 16px;
+      display: flex;
+      align-items: center;
+      font-size: $small;
+      margin-bottom: 4px;
+      @include respond-to(sm) {
+        font-size: $medium;
+        height: 18px;
+      }
+    }
+
+    &__contentNetwork {
+      font-size: $medium;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
       span {
         display: inline-flex;
         text-transform: capitalize;
       }
       i {
         display: block;
-        width: 10px;
-        height: 10px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
         margin-right: 6px;
         position: relative;
@@ -87,24 +157,53 @@ const staticStyles = css.global`
         }
       }
     }
-    &__content-address {
-      font-size: $small;
+    &__contentAddress {
+      font-size: $medium;
       word-break: break-all;
-      text-align: center;
       @include respond-to(sm) {
         font-size: $regular;
       }
     }
-    &__content-ens {
+    &__contentAddressSmall {
       font-size: $small;
       word-break: break-all;
-      text-align: center;
-      margin-top: 12px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      @include respond-to(sm) {
+        font-size: $medium;
+      }
+    }
+
+    &__contentProfile {
+      display: flex;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    &__contentEns {
+      font-size: $medium;
+      word-break: break-all;
       @include respond-to(sm) {
         font-size: $regular;
       }
     }
 
+    &__ensAvatar {
+      width: 20px;
+      height: 20px;
+      margin-right: 4px;
+      border-radius: 50%;
+      @include respond-to(sm) {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    &__linkIcon {
+      width: 10px;
+      margin-left: 5px;
+    }
     &__contentButton {
       font-weight: 300;
       text-transform: uppercase;

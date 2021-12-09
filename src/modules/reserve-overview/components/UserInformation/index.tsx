@@ -21,6 +21,8 @@ import CollateralHelpModal from '../../../../components/HelpModal/CollateralHelp
 import BorrowTable from '../BorrowTable';
 import BorrowTableItem from '../BorrowTable/BorrowTableItem';
 import IsolationInfoBanner from '../../../../components/isolationMode/IsolationInfoBanner';
+import UserEModeInfo from '../UserEModeInfo';
+import EModeIconWithTooltip from '../../../../components/eMode/EModeIconWithTooltip';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -32,6 +34,7 @@ interface UserInformationProps {
   userReserve?: ComputedUserReserve;
   symbol: string;
   walletBalance: BigNumber;
+  userEmodeCategoryId: number;
 }
 
 export default function UserInformation({
@@ -40,6 +43,7 @@ export default function UserInformation({
   poolReserve,
   symbol,
   walletBalance,
+  userEmodeCategoryId,
 }: UserInformationProps) {
   const intl = useIntl();
   const { currentTheme, xl, sm } = useThemeContext();
@@ -74,12 +78,34 @@ export default function UserInformation({
   const rowWeight = sm ? 'light' : 'normal';
   const elementsColor = sm ? 'white' : 'dark';
 
+  const canBeEnabledAsCollateral =
+    poolReserve.usageAsCollateralEnabled &&
+    ((!poolReserve.isIsolated && !user?.isInIsolationMode) ||
+      user?.isolatedReserve?.underlyingAsset === poolReserve.underlyingAsset ||
+      (poolReserve.isIsolated && user?.totalCollateralMarketReferenceCurrency === '0'));
+
   const borrowableAssetInIsolationMode =
     user?.isInIsolationMode &&
     poolReserve.borrowableInIsolation &&
     isAssetStable(symbol) &&
     availableBorrows &&
     !poolReserve.isFrozen;
+
+  const isUserOnEmode = userEmodeCategoryId !== 0;
+  const isReserveInEmode = isUserOnEmode && userEmodeCategoryId === poolReserve.eModeCategoryId;
+  const isBorrowEnableBasedOnEmode =
+    isReserveInEmode && isAssetStable(symbol) && availableBorrows && !poolReserve.isFrozen;
+
+  let isBorrowEnable = !availableBorrows || poolReserve.borrowingEnabled || !poolReserve.isFrozen;
+  if (isReserveInEmode && user?.isInIsolationMode) {
+    isBorrowEnable = !!isBorrowEnableBasedOnEmode && !!borrowableAssetInIsolationMode;
+  } else if (isUserOnEmode) {
+    isBorrowEnable = !!isBorrowEnableBasedOnEmode;
+  } else if (user?.isInIsolationMode) {
+    isBorrowEnable = !!borrowableAssetInIsolationMode;
+  } else {
+    isBorrowEnable = !!availableBorrows || poolReserve.borrowingEnabled || !poolReserve.isFrozen;
+  }
 
   return (
     <div className="UserInformation">
@@ -160,22 +186,31 @@ export default function UserInformation({
                 />
               </Row>
 
-              {!!underlyingBalance && !user?.isInIsolationMode && !poolReserve.isIsolated && (
-                <div className="UserInformation__row">
-                  <CollateralHelpModal
-                    text={intl.formatMessage(messages.collateral)}
-                    color={elementsColor}
-                    lightWeight={sm}
-                  />
+              {!!underlyingBalance && !user?.isInIsolationMode && (
+                <Row
+                  title={
+                    <CollateralHelpModal
+                      text={intl.formatMessage(messages.collateral)}
+                      color={elementsColor}
+                      lightWeight={sm}
+                    />
+                  }
+                  withMargin={poolReserve.isIsolated}
+                  weight={rowWeight}
+                  color={elementsColor}
+                >
                   <CustomSwitch
                     value={
                       userReserve?.usageAsCollateralEnabledOnUser &&
-                      poolReserve.usageAsCollateralEnabled
+                      poolReserve.usageAsCollateralEnabled &&
+                      canBeEnabledAsCollateral
                     }
                     offLabel={intl.formatMessage(messages.depositOffLabel)}
                     onLabel={intl.formatMessage(messages.depositOnLabel)}
                     onColor={currentTheme.green.hex}
-                    offColor={currentTheme.red.hex}
+                    offColor={
+                      !canBeEnabledAsCollateral ? currentTheme.lightBlue.hex : currentTheme.red.hex
+                    }
                     onSwitch={() =>
                       toggleUseAsCollateral(
                         history,
@@ -184,11 +219,11 @@ export default function UserInformation({
                         poolReserve.underlyingAsset
                       )
                     }
-                    disabled={!poolReserve.usageAsCollateralEnabled}
+                    disabled={!canBeEnabledAsCollateral}
                     swiperHeight={switcherHeight}
                     swiperWidth={switcherWidth}
                   />
-                </div>
+                </Row>
               )}
 
               {!user?.isInIsolationMode && poolReserve.isIsolated && (
@@ -209,23 +244,13 @@ export default function UserInformation({
                   <Link
                     to={`/borrow/${poolReserve.underlyingAsset}-${poolReserve.id}`}
                     className="ButtonLink"
-                    disabled={
-                      user?.isInIsolationMode
-                        ? !borrowableAssetInIsolationMode
-                        : !availableBorrows || !poolReserve.borrowingEnabled || poolReserve.isFrozen
-                    }
+                    disabled={!isBorrowEnable}
                   >
                     <DefaultButton
                       className="UserInformation__button"
                       title={intl.formatMessage(defaultMessages.borrow)}
                       color={elementsColor}
-                      disabled={
-                        user?.isInIsolationMode
-                          ? !borrowableAssetInIsolationMode
-                          : !availableBorrows ||
-                            !poolReserve.borrowingEnabled ||
-                            poolReserve.isFrozen
-                      }
+                      disabled={!isBorrowEnable}
                     />
                   </Link>
                 </div>
@@ -239,7 +264,7 @@ export default function UserInformation({
                 weight={rowWeight}
                 color={elementsColor}
               >
-                {poolReserve.borrowingEnabled ? (
+                {isBorrowEnable ? (
                   <Value
                     value={totalBorrows || 0}
                     symbol={symbol}
@@ -251,18 +276,25 @@ export default function UserInformation({
                   <span className="UserInformation__noData">—</span>
                 )}
               </Row>
+
               <HealthFactor
                 value={user?.healthFactor || '-1'}
                 titleColor={elementsColor}
                 titleLightWeight={sm}
               />
+
               <Row
                 title={intl.formatMessage(messages.loanToValue)}
                 withMargin={true}
                 weight={rowWeight}
                 color={elementsColor}
               >
-                <ValuePercent value={user?.currentLoanToValue || 0} color={elementsColor} />
+                <div className="UserInformation__rowContent">
+                  {isReserveInEmode && (
+                    <EModeIconWithTooltip tooltipId={`${poolReserve.id}__loanToValue`} />
+                  )}
+                  <ValuePercent value={user?.currentLoanToValue || 0} color={elementsColor} />
+                </div>
               </Row>
 
               {(!user?.isInIsolationMode || !!borrowableAssetInIsolationMode) && (
@@ -273,22 +305,56 @@ export default function UserInformation({
                   withMargin={user?.isInIsolationMode}
                 >
                   {poolReserve.borrowingEnabled ? (
-                    <Value
-                      value={availableBorrows}
-                      symbol={symbol}
-                      minimumValueDecimals={2}
-                      maximumValueDecimals={2}
-                      color={elementsColor}
-                    />
+                    <>
+                      {isUserOnEmode ? (
+                        <>
+                          {!isReserveInEmode ? (
+                            <UserEModeInfo userEmodeCategoryId={userEmodeCategoryId} />
+                          ) : (
+                            <div className="UserInformation__rowContent">
+                              {isReserveInEmode && (
+                                <EModeIconWithTooltip
+                                  tooltipId={`${poolReserve.id}__availableBorrow`}
+                                />
+                              )}
+                              <Value
+                                value={availableBorrows}
+                                symbol={symbol}
+                                minimumValueDecimals={2}
+                                maximumValueDecimals={2}
+                                color={elementsColor}
+                              />
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <div className="UserInformation__rowContent">
+                            <Value
+                              value={availableBorrows}
+                              symbol={symbol}
+                              minimumValueDecimals={2}
+                              maximumValueDecimals={2}
+                              color={elementsColor}
+                            />
+                          </div>
+                        </>
+                      )}
+                    </>
                   ) : (
                     <span className="UserInformation__noData">—</span>
                   )}
                 </Row>
               )}
 
-              {user?.isInIsolationMode && (
+              {user?.isInIsolationMode && !isBorrowEnable && (
                 <IsolationInfoBanner
-                  text={intl.formatMessage(messages.borrowIsolationWarning)}
+                  text={intl.formatMessage(
+                    // should be executed when the user is in isolation mode, the asset can be borrowed, but due to the fact that the `Debt ceiling` is filled, borrowing is blocked
+                    poolReserve.borrowableInIsolation && !availableBorrows // TODO: perhaps this condition is not correct, need to check
+                      ? messages.borrowDebtCeilingWarning
+                      : messages.borrowIsolationWarning
+                  )}
                   size="small"
                   withIcon={true}
                 />
@@ -318,7 +384,7 @@ export default function UserInformation({
                     poolReserve={poolReserve}
                     userReserve={userReserve}
                     type="stable"
-                    availableBorrows={availableBorrows}
+                    isBorrowEnable={isBorrowEnable}
                   />
                 )}
                 {userReserve?.variableBorrows !== '0' && (
@@ -327,7 +393,7 @@ export default function UserInformation({
                     poolReserve={poolReserve}
                     userReserve={userReserve}
                     type="variable"
-                    availableBorrows={availableBorrows}
+                    isBorrowEnable={isBorrowEnable}
                   />
                 )}
               </>

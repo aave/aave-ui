@@ -133,11 +133,21 @@ const staticStyles = css.global`
       display: none;
       @include respond-to(sm) {
         display: flex;
+        flex-direction: column;
         flex-wrap: wrap;
         padding: 20px;
       }
       &:after {
         bottom: 0;
+      }
+
+      .MarketSwitcher {
+        z-index: 3;
+      }
+
+      .MarketSwitcher__button-content,
+      .MarketSwitcher__content {
+        width: 300px;
       }
     }
 

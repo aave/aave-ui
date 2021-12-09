@@ -7,6 +7,7 @@ import { USD_DECIMALS } from '@aave/math-utils';
 
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
@@ -17,7 +18,6 @@ import Value from '../../../../components/basic/Value';
 import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationView';
 import HealthFactor from '../../../../components/HealthFactor';
 import DepositCurrencyWrapper from '../../components/DepositCurrencyWrapper';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import IsolationModeBadge from '../../../../components/isolationMode/IsolationModeBadge';
 import { getAssetInfo } from '../../../../helpers/config/assets-config';
 
@@ -135,8 +135,6 @@ function DepositConfirmation({
     (reserve) => reserve.usageAsCollateralEnabledOnUser && reserve.reserve.id !== poolReserve.id
   );
 
-  // TODO: show dialog or sth, that isolation mode is entered
-
   const usageAsCollateralEnabledOnDeposit =
     poolReserve.usageAsCollateralEnabled &&
     (!userReserve?.underlyingBalance ||
@@ -169,6 +167,7 @@ function DepositConfirmation({
         togglePermit={setDepositWithPermitEnable}
         blockingError={blockingError}
         aTokenData={aTokenData}
+        isolationWarning={isIsolated && usageAsCollateralEnabledOnDeposit}
       >
         <Row title={intl.formatMessage(messages.valueRowTitle)} withMargin={true}>
           <Value
@@ -182,27 +181,21 @@ function DepositConfirmation({
         </Row>
 
         <Row title={intl.formatMessage(messages.collateral)} withMargin={notShowHealthFactor}>
-          {!user.isInIsolationMode ? (
-            <>
-              {!poolReserve.isIsolated ? (
-                <strong
-                  style={{
-                    color: usageAsCollateralEnabledOnDeposit
-                      ? currentTheme.green.hex
-                      : currentTheme.red.hex,
-                  }}
-                  className="Collateral__text"
-                >
-                  {usageAsCollateralEnabledOnDeposit
-                    ? intl.formatMessage(messages.yes)
-                    : intl.formatMessage(messages.no)}
-                </strong>
-              ) : (
-                <IsolationModeBadge isIsolated={poolReserve.isIsolated} />
-              )}
-            </>
-          ) : (
+          {user.isInIsolationMode && !poolReserve.isIsolated ? (
             <IsolationModeBadge isIsolated={poolReserve.isIsolated} />
+          ) : (
+            <strong
+              style={{
+                color: usageAsCollateralEnabledOnDeposit
+                  ? currentTheme.green.hex
+                  : currentTheme.red.hex,
+              }}
+              className="Collateral__text"
+            >
+              {usageAsCollateralEnabledOnDeposit
+                ? intl.formatMessage(messages.yes)
+                : intl.formatMessage(messages.no)}
+            </strong>
           )}
         </Row>
 

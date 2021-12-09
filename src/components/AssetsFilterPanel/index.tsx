@@ -4,6 +4,7 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 import LabeledSwitcher from '../basic/LabeledSwitcher';
 import SearchField from '../fields/SearchField';
 import IsolationInfoBanner from '../isolationMode/IsolationInfoBanner';
+import EModeButton from '../eMode/EModeButton';
 
 import staticStyles from './style';
 
@@ -15,7 +16,7 @@ export type AssetsFilterPanelProps = {
   searchValue: string;
   searchOnChange: (value: string) => void;
   darkOnDarkMode?: boolean;
-  toggleActive?: boolean;
+  isEmodeActive?: boolean;
   showToggle?: boolean;
   isolationText?: string;
 };
@@ -28,7 +29,7 @@ export default function AssetsFilterPanel({
   searchValue,
   searchOnChange,
   darkOnDarkMode,
-  toggleActive = true,
+  isEmodeActive,
   showToggle = true,
   isolationText,
 }: AssetsFilterPanelProps) {
@@ -40,7 +41,7 @@ export default function AssetsFilterPanel({
 
       <div className="AssetsFilterPanel__content">
         <div className="AssetsFilterPanel__left--inner">
-          {toggleActive && (
+          {!isEmodeActive && (
             <>
               {showToggle && (
                 <LabeledSwitcher
@@ -54,18 +55,17 @@ export default function AssetsFilterPanel({
             </>
           )}
 
+          {isEmodeActive && <EModeButton size="normal" />}
+
           {isolationText && !md && (
-            <IsolationInfoBanner text={isolationText} withoutMargin={!showToggle} />
+            <IsolationInfoBanner
+              text={isolationText}
+              withoutMargin={!isEmodeActive && !showToggle}
+            />
           )}
         </div>
 
-        <div
-          className={
-            toggleActive
-              ? 'AssetsFilterPanel__search-inner'
-              : 'AssetsFilterPanel__search-inner-force-right'
-          }
-        >
+        <div className="AssetsFilterPanel__search-inner">
           <SearchField value={searchValue} onChange={searchOnChange} />
         </div>
       </div>

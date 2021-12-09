@@ -66,6 +66,10 @@ export default function TxBottomStatusLine({
           &:after {
             background: ${currentTheme.textDarkBlue.hex};
           }
+
+          .TxBottomStatusLine__link {
+            color: ${currentTheme.textDarkBlue.hex};
+          }
         }
       `}</style>
     </div>

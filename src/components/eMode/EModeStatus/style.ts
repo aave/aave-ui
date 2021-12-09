@@ -21,12 +21,6 @@ const staticStyles = css`
       height: 8px;
       border-radius: 50%;
     }
-
-    &__enabled {
-      &:after {
-        display: none;
-      }
-    }
   }
 `;
 

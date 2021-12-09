@@ -8,6 +8,7 @@ import { ChainId, WalletBalanceProvider } from '@aave/contract-helpers';
 import { usePoolData } from '../hooks/use-pool-data';
 import { ReserveDataHumanized, UserReserveDataHumanized } from '@aave/contract-helpers';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
+import useGetEns from '../../hooks/use-get-ens';
 import { usePolling } from '../../hooks/use-polling';
 import { nativeToUSD, normalize } from '@aave/math-utils';
 import BigNumber from 'bignumber.js';
@@ -37,6 +38,8 @@ export interface StaticPoolDataContextData {
   marketReferenceCurrencyDecimals: number;
   marketReferencePriceInUsd: string;
   WrappedBaseNetworkAssetAddress: string;
+  ensName?: string;
+  ensAvatar?: string;
   userEmodeCategoryId: number;
   refresh?: () => Promise<void>;
   walletData: { [address: string]: { amount: string; amountUSD: string } };
@@ -58,6 +61,7 @@ export function StaticPoolDataProvider({
 }: StaticPoolDataProviderProps) {
   const { currentAccount } = useUserWalletDataContext();
   const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
+  const { name, avatar } = useGetEns(currentAccount);
   const [walletData, setWalletsBalance] = useState<{
     [address: string]: { amount: string; amountUSD: string };
   }>({});
@@ -198,6 +202,8 @@ export function StaticPoolDataProvider({
         marketReferencePriceInUsd: marketReferencePriceInUsd,
         marketReferenceCurrencyDecimals,
         isUserHasDeposits,
+        ensName: name,
+        ensAvatar: avatar,
         walletData,
         refetchWalletData: fetchWalletData,
         userEmodeCategoryId,

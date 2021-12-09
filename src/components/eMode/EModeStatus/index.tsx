@@ -37,6 +37,9 @@ export default function EModeStatus({ isEModeEnabled }: EModeStatusProps) {
           }
           &__enabled {
             color: ${currentTheme.green.hex};
+            &:after {
+              background: ${currentTheme.green.hex};
+            }
           }
         }
       `}</style>

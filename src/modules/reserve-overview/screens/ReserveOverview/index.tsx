@@ -62,6 +62,7 @@ function ReserveOverview({
   currencySymbol,
   walletBalance,
   user,
+  userEmodeCategoryId,
 }: ValidationWrapperComponentProps) {
   const { data: chartsData, loading: chartsLoading } = useReserveRatesHistory(poolReserve.id);
 
@@ -97,6 +98,7 @@ function ReserveOverview({
               poolReserve={poolReserve}
               userReserve={userReserve}
               walletBalance={walletBalance}
+              userEmodeCategoryId={userEmodeCategoryId}
             />
           ) : (
             <NoDataPanel
@@ -137,6 +139,7 @@ function ReserveOverview({
             poolReserve={poolReserve}
             symbol={currencySymbol}
             userIsInIsolationMode={user?.isInIsolationMode || false}
+            userEmodeCategoryId={userEmodeCategoryId}
           />
 
           <div className="ReserveOverview__information ReserveOverview__user-information">
@@ -156,6 +159,7 @@ function ReserveOverview({
                   poolReserve={poolReserve}
                   userReserve={userReserve}
                   walletBalance={walletBalance}
+                  userEmodeCategoryId={userEmodeCategoryId}
                 />
               ) : (
                 <NoDataPanel

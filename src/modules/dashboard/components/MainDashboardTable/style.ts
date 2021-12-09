@@ -80,6 +80,9 @@ const staticStyles = css.global`
         font-size: $small;
       }
       margin-bottom: 10px;
+      @include respond-to(sm) {
+        display: none;
+      }
     }
   }
 

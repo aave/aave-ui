@@ -55,6 +55,30 @@ const staticStyles = css.global`
         font-size: $regular;
       }
     }
+
+    &__content {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    &__valueWithIcon {
+      display: flex;
+      align-items: center;
+    }
+    &__warningIcon {
+      margin-right: 4px;
+      width: 12px;
+      height: 10px;
+    }
+    &__detailsButton {
+      font-size: 15px;
+      margin-left: 8px;
+      text-decoration: underline;
+      transition: $transition;
+      @include respond-to(xl) {
+        font-size: $medium;
+      }
+    }
   }
 `;
 

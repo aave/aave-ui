@@ -1,10 +1,12 @@
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
+import { USD_DECIMALS } from '@aave/math-utils';
 import { valueToBigNumber } from '@aave/protocol-js';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
 
 import { useLanguageContext } from '../../../../libs/language-provider';
+import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import Row from '../../../basic/Row';
 import ValuePercent from '../../../basic/ValuePercent';
 import Value from '../../../basic/Value';
@@ -17,13 +19,12 @@ import { ValidationWrapperComponentProps } from '../../../RouteParamsValidationW
 import { InterestRateSeries } from '../../../graphs/types';
 import { GraphLegendDot } from '../../../graphs/GraphLegend';
 import GraphInner from '../GraphInner';
+import IsolationModeBadge from '../../../isolationMode/IsolationModeBadge';
+import EModeIconWithTooltip from '../../../eMode/EModeIconWithTooltip';
 import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
-import { USD_DECIMALS } from '@aave/math-utils';
-import IsolationModeBadge from '../../../isolationMode/IsolationModeBadge';
 
 interface CurrencyOverviewProps
   extends Pick<ValidationWrapperComponentProps, 'poolReserve' | 'currencySymbol'> {
@@ -50,12 +51,14 @@ export default function CurrencyOverview({
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
   const { currentLangSlug } = useLanguageContext();
-  const { marketReferencePriceInUsd } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, userEmodeCategoryId } = useStaticPoolDataContext();
   const asset = getAssetInfo(currencySymbol);
 
   // const { mode, setMode } = useReservesRateHistoryHelper({
   //   poolReserveId: poolReserve.id,
   // }); TODO: uncomment when filters are added to history graphs
+
+  const userIsInEMode = userEmodeCategoryId !== 0;
 
   const overviewData = {
     utilizationRate: Number(poolReserve.utilizationRate),
@@ -69,9 +72,18 @@ export default function CurrencyOverview({
     variableRate: Number(poolReserve.variableBorrowAPY),
     usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
-    baseLTVasCollateral: Number(poolReserve.baseLTVasCollateral),
-    liquidationThreshold: Number(poolReserve.reserveLiquidationThreshold),
-    liquidationBonus: Number(poolReserve.reserveLiquidationBonus),
+    baseLTVasCollateral:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.eModeLtv)
+        : Number(poolReserve.baseLTVasCollateral),
+    liquidationThreshold:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.eModeLiquidationThreshold)
+        : Number(poolReserve.reserveLiquidationThreshold),
+    liquidationBonus:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.eModeLiquidationBonus)
+        : Number(poolReserve.reserveLiquidationBonus),
     borrowingEnabled: poolReserve.borrowingEnabled,
     isIsolated: poolReserve.isIsolated,
   };
@@ -184,7 +196,6 @@ export default function CurrencyOverview({
   }, [
     isCollapse,
     isUserInIsolationMode,
-    overviewData.availableLiquidity,
     overviewData.borrowingEnabled,
     overviewData.depositApy,
     overviewData.priceInUsd,
@@ -236,13 +247,23 @@ export default function CurrencyOverview({
                   {isUserInIsolationMode ? (
                     <>
                       {overviewData.isIsolated ? (
-                        <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                        <div className="CurrencyOverview__percentContent">
+                          {userIsInEMode && userEmodeCategoryId === poolReserve.eModeCategoryId && (
+                            <EModeIconWithTooltip tooltipId={poolReserve.id} />
+                          )}
+                          <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                        </div>
                       ) : (
                         <span className="CurrencyOverview__no-data">—</span>
                       )}
                     </>
                   ) : (
-                    <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                    <div className="CurrencyOverview__percentContent">
+                      {userIsInEMode && userEmodeCategoryId === poolReserve.eModeCategoryId && (
+                        <EModeIconWithTooltip tooltipId={poolReserve.id} />
+                      )}
+                      <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                    </div>
                   )}
                 </>
               )}
@@ -417,10 +438,6 @@ export default function CurrencyOverview({
             </div>
           )}
         </div>
-
-        {/*<div className="CurrencyOverview__mobileFilterButtons">*/}
-        {/*  <GraphFilterButtons setMode={setMode} mode={mode} />*/}
-        {/*</div> TODO: uncomment when filters are added to history graphs */}
 
         {!isCollapse && (
           <div

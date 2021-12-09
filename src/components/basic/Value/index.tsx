@@ -114,7 +114,13 @@ export default function Value({
             <ValueWithSmallDecimals
               value={Number(newValue)}
               maximumValueDecimals={maximumValueDecimals || 10}
-              minimumValueDecimals={minimumValueDecimals || 3}
+              minimumValueDecimals={
+                minimumValueDecimals === 0
+                  ? 0
+                  : minimumValueDecimals
+                  ? minimumValueDecimals
+                  : undefined
+              }
               centerEllipsis={isSmallValueCenterEllipsis}
             />
           )}
