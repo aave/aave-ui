@@ -1,8 +1,7 @@
 import { ReserveDataHumanized, WalletBalanceProvider } from '@aave/contract-helpers';
 import {
   calculateAllUserIncentives,
-  formatReserves,
-  FormatReservesUSDRequest,
+  formatReservesAndIncentives,
   formatUserSummary,
   FormatUserSummaryResponse,
   nativeToUSD,
@@ -20,12 +19,6 @@ import { useUserWalletDataContext } from '../../web3-data-provider';
 import { useIncentiveData } from '../hooks/use-incentives-data';
 import { usePoolData } from '../hooks/use-pool-data';
 import { useCurrentTimestamp } from '../hooks/use-current-timestamp';
-
-const humanizedFormatReserves = (
-  reserves: Array<ReserveDataHumanized & { underlyingAsset: string }>,
-  params: FormatReservesUSDRequest
-) => formatReserves<ReserveDataHumanized>(reserves, params);
-export type ComputedReservesData = ReturnType<typeof humanizedFormatReserves>[0];
 
 const useWalletBalances = (skip: boolean) => {
   const { currentAccount } = useUserWalletDataContext();
@@ -61,7 +54,7 @@ const useWalletBalances = (skip: boolean) => {
 };
 
 export interface AppDataContextType {
-  reserves: ComputedReservesData[];
+  reserves: ReturnType<typeof formatReservesAndIncentives>;
   refreshPoolData?: () => Promise<void>;
   walletBalances: { [address: string]: { amount: string; amountUSD: string } };
   refetchWalletData: () => Promise<void>;
@@ -136,19 +129,22 @@ export const AppDataProvider: React.FC = ({ children }) => {
     return acc;
   }, {} as { [address: string]: { amount: string; amountUSD: string } });
 
-  const formattedPoolReserves = humanizedFormatReserves(reserves, {
+  const formattedPoolReserves = formatReservesAndIncentives({
+    reserves,
     currentTimestamp,
     marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
     marketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,
-    reserveIncentives: data?.reserveIncentiveData,
+    reserveIncentives: data?.reserveIncentiveData || [],
   });
 
-  const userReservesWithBase = userReserves.map((reserve) => ({
-    ...reserve,
-    reserve: reserves.find(
-      (r) => r.underlyingAsset === reserve.underlyingAsset
-    ) as ReserveDataHumanized,
-  }));
+  const userReservesWithBase = reserves.length
+    ? userReserves.map((reserve) => ({
+        ...reserve,
+        reserve: reserves.find(
+          (r) => r.underlyingAsset.toLowerCase() === reserve.underlyingAsset.toLowerCase()
+        ) as ReserveDataHumanized,
+      }))
+    : [];
 
   // TODO: add a method which allows formatting user reserves passing in formatted reserves
   const user = formatUserSummary({
@@ -191,6 +187,70 @@ export const AppDataProvider: React.FC = ({ children }) => {
     userReserves: computedUserReserves,
     currentTimestamp,
   });
+
+  const proportions = user.userReservesData.reduce(
+    (acc, value) => {
+      // TODO: remove once user formatting accepts formatted reserve as input
+      const reserve = formattedPoolReserves.find(
+        (r) => r.underlyingAsset === value.reserve.underlyingAsset
+      );
+
+      if (reserve) {
+        acc.positiveProportion = acc.positiveProportion.plus(
+          new BigNumber(reserve.supplyAPR).multipliedBy(value.underlyingBalanceUSD)
+        );
+        acc.positiveSampleSize = acc.positiveSampleSize.plus(value.underlyingBalanceUSD);
+
+        acc.negativeProportion = acc.negativeProportion.plus(
+          new BigNumber(reserve.variableBorrowAPY).multipliedBy(value.variableBorrowsUSD)
+        );
+        acc.negativeSampleSize = acc.negativeSampleSize.plus(value.variableBorrowsUSD);
+
+        acc.negativeProportion = acc.negativeProportion.plus(
+          new BigNumber(value.stableBorrowAPY).multipliedBy(value.stableBorrowsUSD)
+        );
+        acc.negativeSampleSize = acc.negativeSampleSize.plus(value.stableBorrowsUSD);
+
+        if (reserve.aIncentivesData) {
+          reserve.aIncentivesData.forEach((incentive) => {
+            acc.positiveSampleSize = acc.positiveSampleSize.plus(value.underlyingBalanceUSD);
+            acc.positiveProportion = acc.positiveProportion.plus(
+              new BigNumber(incentive.incentiveAPR).multipliedBy(value.underlyingBalanceUSD) // TODO: is this the correct value?
+            );
+          });
+        }
+        if (reserve.vIncentivesData) {
+          reserve.vIncentivesData.forEach((incentive) => {
+            acc.positiveSampleSize = acc.positiveSampleSize.plus(value.variableBorrowsUSD);
+            acc.positiveProportion = acc.positiveProportion.plus(
+              new BigNumber(incentive.incentiveAPR).multipliedBy(value.variableBorrowsUSD)
+            );
+          });
+        }
+        if (reserve.sIncentivesData) {
+          reserve.sIncentivesData.forEach((incentive) => {
+            acc.positiveSampleSize = acc.positiveSampleSize.plus(value.stableBorrowsUSD);
+            acc.positiveProportion = acc.positiveProportion.plus(
+              new BigNumber(incentive.incentiveAPR).multipliedBy(value.stableBorrowsUSD)
+            );
+          });
+        }
+      } else {
+        throw new Error('no possible to calculate net apy');
+      }
+
+      return acc;
+    },
+    {
+      positiveProportion: new BigNumber(0),
+      positiveSampleSize: new BigNumber(0),
+      negativeProportion: new BigNumber(0),
+      negativeSampleSize: new BigNumber(0),
+    }
+  );
+
+  // console.log(proportions.positiveProportion.dividedBy(proportions.positiveSampleSize).toString());
+  const netBalance = new BigNumber(user.totalLiquidityUSD).minus(user.totalBorrowsUSD).toString();
 
   return (
     <AppDataContext.Provider

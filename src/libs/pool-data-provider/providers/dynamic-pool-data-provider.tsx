@@ -4,23 +4,19 @@ import { useCurrentTimestamp } from '../hooks/use-current-timestamp';
 import { useStaticPoolDataContext } from './static-pool-data-provider';
 import {
   formatReserves,
+  FormatReserveUSDResponse,
   formatUserSummary,
   FormatUserSummaryResponse,
-  FormatReservesUSDRequest,
 } from '@aave/math-utils';
 import { ReserveDataHumanized } from '@aave/contract-helpers';
-
-const humanizedFormatReserves = (
-  reserves: Array<ReserveDataHumanized & { underlyingAsset: string }>,
-  params: FormatReservesUSDRequest
-) => formatReserves<ReserveDataHumanized>(reserves, params);
-export type ComputedReserveData = ReturnType<typeof humanizedFormatReserves>[0];
 
 export interface UserSummary extends FormatUserSummaryResponse {
   id: string;
   isInIsolationMode: boolean;
   // isolatedAvailableBorrows: string;
 }
+
+export type ComputedReserveData = FormatReserveUSDResponse & ReserveDataHumanized;
 
 export interface DynamicPoolDataContextData {
   reserves: ComputedReserveData[];
@@ -58,7 +54,8 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
         })
       : undefined;
 
-  const formattedPoolReserves = humanizedFormatReserves(rawReserves, {
+  const formattedPoolReserves = formatReserves({
+    reserves: rawReserves,
     currentTimestamp,
     marketReferenceCurrencyDecimals,
     marketReferencePriceInUsd,

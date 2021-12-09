@@ -37,6 +37,7 @@ import { PermissionProvider } from './libs/use-permissions/usePermissions';
 import { DynamicPoolDataProvider } from './libs/pool-data-provider';
 import { ConnectionStatusProvider } from './libs/connection-status-provider';
 import { IncentivesDataProvider } from './libs/pool-data-provider/hooks/use-incentives-data-context';
+import { AppDataProvider } from './libs/pool-data-provider/providers/app-data-provider';
 
 initSentry();
 Modal.setAppElement('#root');
@@ -72,15 +73,17 @@ ReactDOM.render(
                           connectWalletModal={ConnectWalletModal}
                         >
                           <PermissionProvider>
-                            <StaticPoolDataProviderWrapper>
-                              <DynamicPoolDataProvider>
-                                <IncentivesDataProvider>
-                                  <TxBuilderProvider>
-                                    <App />
-                                  </TxBuilderProvider>
-                                </IncentivesDataProvider>
-                              </DynamicPoolDataProvider>
-                            </StaticPoolDataProviderWrapper>
+                            <AppDataProvider>
+                              <StaticPoolDataProviderWrapper>
+                                <DynamicPoolDataProvider>
+                                  <IncentivesDataProvider>
+                                    <TxBuilderProvider>
+                                      <App />
+                                    </TxBuilderProvider>
+                                  </IncentivesDataProvider>
+                                </DynamicPoolDataProvider>
+                              </StaticPoolDataProviderWrapper>
+                            </AppDataProvider>
                           </PermissionProvider>
                         </Web3Provider>
                       </ErrorBoundary>
