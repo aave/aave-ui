@@ -30,10 +30,13 @@ const staticStyles = css.global`
     .Value__value {
       .ValueWithSmallDecimals {
         font-size: $large;
-        margin-left: 1px;
+        margin-left: 3px;
         opacity: 0.7;
         @include respond-to(xl) {
           font-size: $medium;
+        }
+        @include respond-to(md) {
+          margin-left: 1px;
         }
       }
     }

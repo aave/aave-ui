@@ -44,7 +44,7 @@ const staticStyles = css.global`
     .Value__value {
       .ValueWithSmallDecimals {
         font-size: $medium;
-        margin-left: 1px;
+        margin-left: 3px;
         opacity: 0.7;
         font-weight: 400;
         @include respond-to(xl) {
@@ -52,6 +52,7 @@ const staticStyles = css.global`
         }
         @include respond-to(md) {
           font-size: $medium;
+          margin-left: 1px;
         }
       }
     }
