@@ -6,6 +6,7 @@ import { CustomTooltip } from '@aave/aave-ui-kit';
 
 
 import messages from './messages';
+import MarketCapsHelpDialog from '../../../../components/HelpModal/MarketCapsHelpModal';
 
 import TableItemWrapper from '../../../../components/BasicTable/TableItemWrapper';
 import TableColumn from '../../../../components/BasicTable/TableColumn';
@@ -80,11 +81,21 @@ export default function MarketTableItem({
 
     if(cap > 0 && capType==="supplyCap") {
       const percentageOfCap = totalLiquidity / cap;
+      const value = cap - totalLiquidity;
       if(percentageOfCap >= 0.99) {
         return(<div className="MarketTableItem__tooltip" data-tip={true} data-for={"dd"}>
+          <MarketCapsHelpDialog
+            //  className="MarketTableItem__hint"
+             text={``}
+             color="white"
+             lightWeight={true}
+             iconSize={12}
+             caption={"Supply cap reached"}
+            />
+
               <div className="MarketTableItem__message">{intl.formatMessage(messages.supplyCapTitle)}</div>
                   <Value
-                    value={cap - totalLiquidity}
+                    value={value}
                     compact={true}
                     maximumValueDecimals={2}
                     withoutSymbol={true}
@@ -93,7 +104,9 @@ export default function MarketTableItem({
                     tokenIcon={isPriceInUSD}
                     className="MarketTableItem__hint"
                   />
-              <CustomTooltip tooltipId={"dd"} text={intl.formatMessage(messages.supplyCapNearlyReached)} />
+              <CustomTooltip tooltipId={"dd"} text={intl.formatMessage(messages.supplyCapNearlyReached, {
+                supplyCapRemaining:value
+              })} />
         </div>
         )
         ;
@@ -102,10 +115,10 @@ export default function MarketTableItem({
     if(cap > 0 && capType==="borrowCap") {
       const totalBorrowed = totalBorrowsInUSD;
       const percentageOfCap = totalBorrowed / cap;
-      if(percentageOfCap >= 0.99) {
+      if(percentageOfCap) {
         return(
-        <div className="MarketTableItem__tooltip" data-tip={true} data-for={"dd"}>
-          <div className="MarketTableItem__message">{intl.formatMessage(messages.borrowCapTitle)}</div>
+        <div className="MarketTableItem__tooltip" data-tip={true} data-for={`MarketTableItem__tooltip${id}`}>
+          <div className="MarketTableItem__message">{intl.formatMessage(messages.borrowCapTitle,{borrowCapRemaining: 200})}</div>
           <Value
             value={cap - totalBorrowed}
             compact={true}
