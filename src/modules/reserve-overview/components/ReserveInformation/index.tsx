@@ -251,6 +251,9 @@ export default function ReserveInformation({
           <div className="ReserveInformation__bottom-info">
             <PercentBlock
               value={reserveOverviewData.baseLTVasCollateral}
+              withEModeIcon={
+                userEmodeCategoryId !== 0 && userEmodeCategoryId === poolReserve.eModeCategoryId
+              }
               titleComponent={<MaxLTVHelpModal text={intl.formatMessage(messages.maximumLTV)} />}
             />
             <PercentBlock

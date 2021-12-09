@@ -30,6 +30,8 @@ const staticStyles = css.global`
         margin-top: 10px;
         height: 54px;
         font-size: $small;
+        justify-content: flex-start;
+        padding: 10px 15px;
       }
 
       p {
@@ -69,6 +71,7 @@ const staticStyles = css.global`
       @include respond-to(sm) {
         width: 28px;
         height: 28px;
+        margin-right: 10px;
       }
       &:after,
       &:before {

@@ -106,7 +106,7 @@ export default function AddressInfo() {
                 <p className="AddressInfo__dropdownText">
                   {ensNameAbbreviated
                     ? ensNameAbbreviated
-                    : textCenterEllipsis(currentAccount, 4, 4)}
+                    : textCenterEllipsis(currentAccount, sm ? 12 : 4, sm ? 15 : 4)}
                 </p>
                 <span className="AddressInfo__dropdownText">{networkName}</span>
               </div>

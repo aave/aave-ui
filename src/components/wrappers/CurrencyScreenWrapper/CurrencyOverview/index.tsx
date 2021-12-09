@@ -1,10 +1,12 @@
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
+import { USD_DECIMALS } from '@aave/math-utils';
 import { valueToBigNumber } from '@aave/protocol-js';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
 
 import { useLanguageContext } from '../../../../libs/language-provider';
+import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import Row from '../../../basic/Row';
 import ValuePercent from '../../../basic/ValuePercent';
 import Value from '../../../basic/Value';
@@ -17,13 +19,12 @@ import { ValidationWrapperComponentProps } from '../../../RouteParamsValidationW
 import { InterestRateSeries } from '../../../graphs/types';
 import { GraphLegendDot } from '../../../graphs/GraphLegend';
 import GraphInner from '../GraphInner';
+import IsolationModeBadge from '../../../isolationMode/IsolationModeBadge';
+import EModeIconWithTooltip from '../../../eMode/EModeIconWithTooltip';
 import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
-import { USD_DECIMALS } from '@aave/math-utils';
-import IsolationModeBadge from '../../../isolationMode/IsolationModeBadge';
 
 interface CurrencyOverviewProps
   extends Pick<ValidationWrapperComponentProps, 'poolReserve' | 'currencySymbol'> {
@@ -246,13 +247,23 @@ export default function CurrencyOverview({
                   {isUserInIsolationMode ? (
                     <>
                       {overviewData.isIsolated ? (
-                        <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                        <div className="CurrencyOverview__percentContent">
+                          {userIsInEMode && userEmodeCategoryId === poolReserve.eModeCategoryId && (
+                            <EModeIconWithTooltip tooltipId={poolReserve.id} />
+                          )}
+                          <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                        </div>
                       ) : (
                         <span className="CurrencyOverview__no-data">—</span>
                       )}
                     </>
                   ) : (
-                    <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                    <div className="CurrencyOverview__percentContent">
+                      {userIsInEMode && userEmodeCategoryId === poolReserve.eModeCategoryId && (
+                        <EModeIconWithTooltip tooltipId={poolReserve.id} />
+                      )}
+                      <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                    </div>
                   )}
                 </>
               )}
