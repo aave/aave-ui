@@ -116,7 +116,7 @@ export function useRPCPoolData(
 export const usePoolData = () => {
   const { currentAccount } = useUserWalletDataContext();
   const { chainId: apolloClientChainId } = useApolloConfigContext();
-  const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
+  const { currentMarketData, chainId } = useProtocolDataContext();
   const { isRPCActive } = useConnectionStatusContext();
 
   const rpcMode = isRPCActive || chainId !== apolloClientChainId;
@@ -139,7 +139,7 @@ export const usePoolData = () => {
   } = useRPCPoolData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     chainId,
-    networkConfig.addresses.uiPoolDataProvider,
+    currentMarketData.addresses.UI_POOL_DATA_PROVIDER,
     !rpcMode,
     currentAccount
   );

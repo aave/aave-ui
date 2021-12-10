@@ -77,7 +77,7 @@ export function StaticPoolDataProvider({
   async function fetchWalletData() {
     if (!currentAccount || !data?.reserves) return;
     const contract = new WalletBalanceProvider({
-      walletBalanceProviderAddress: networkConfig.addresses.walletBalanceProvider,
+      walletBalanceProviderAddress: currentMarketData.addresses.WALLET_BALANCE_PROVIDER,
       provider: getProvider(chainId),
     });
     const { 0: reserves, 1: balances } = await contract.getUserWalletBalancesForLendingPoolProvider(

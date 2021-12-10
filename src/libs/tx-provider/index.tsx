@@ -15,7 +15,7 @@ export function TxBuilderProvider({ children }: PropsWithChildren<{}>) {
   const { chainId: currentChainId, currentMarketData } = useProtocolDataContext();
 
   let lendingPool;
-  if (currentChainId !== 42161 && currentChainId !== 421611) {
+  if (!currentMarketData.v3) {
     lendingPool = new LendingPool(getProvider(currentChainId), {
       LENDING_POOL: currentMarketData.addresses.LENDING_POOL,
       REPAY_WITH_COLLATERAL_ADAPTER: currentMarketData.addresses.REPAY_WITH_COLLATERAL_ADAPTER,

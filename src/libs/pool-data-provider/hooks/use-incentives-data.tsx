@@ -156,7 +156,7 @@ export function useRPCIncentivesData(
 export const useIncentiveData = () => {
   const { currentAccount } = useUserWalletDataContext();
   //const { chainId: apolloClientChainId } = useApolloConfigContext();
-  const { chainId, networkConfig, currentMarketData } = useProtocolDataContext();
+  const { chainId, currentMarketData } = useProtocolDataContext();
   //const { isRPCActive } = useConnectionStatusContext();
 
   // const rpcMode = isRPCActive || chainId !== apolloClientChainId;
@@ -170,7 +170,7 @@ export const useIncentiveData = () => {
     currentAccount,
     networkConfig.addresses.chainlinkFeedRegistry,
     networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
-    rpcMode || !networkConfig.addresses.uiIncentiveDataProvider
+    rpcMode || !currentMarketData.addresses.UI_INCENTIVE_DATA_PROVIDER
   ); */
 
   const {
@@ -181,8 +181,8 @@ export const useIncentiveData = () => {
   }: IncentiveDataResponse = useRPCIncentivesData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     chainId,
-    networkConfig.addresses.uiIncentiveDataProvider,
-    //!rpcMode || !networkConfig.addresses.uiIncentiveDataProvider,
+    currentMarketData.addresses.UI_INCENTIVE_DATA_PROVIDER,
+    //!rpcMode || !currentMarketData.addresses.UI_INCENTIVE_DATA_PROVIDER,
     false,
     currentAccount
   );
