@@ -31,6 +31,7 @@ export default function BorrowAssetTable({
     {
       title: messages.availableToBorrow,
       subtitle: messages.basedCollateral,
+      sortKey: 'availableBorrowsInUSD',
     },
     {
       title: messages.variableAPY,

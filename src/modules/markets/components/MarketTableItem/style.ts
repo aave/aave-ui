@@ -23,7 +23,7 @@ const staticStyles = css.global`
         align-items: center;
         justify-content: flex-start;
         min-width: 270px;
-        @media only screen and (max-width: 850px) {
+        @media only screen and (max-width: 930px) {
           flex-direction: column-reverse;
           align-items: flex-start;
           min-width: 80px;
@@ -34,58 +34,18 @@ const staticStyles = css.global`
           }
         }
       }
-      &:nth-child(3) {
-        @include respond-to(sm) {
-          display: none;
-        }
-      }
     }
-    
+
     .MarketTableItem__value {
       &:first-of-type {
         margin-bottom: 4px;
-      }
-      .Value__value {
-        @include respond-to(sm) {
-          font-size: $small;
-        }
-      }
-    }
-    .MarketTableItem__percent {
-      .ValuePercent__value {
-        @include respond-to(sm) {
-          font-size: $small;
-        }
       }
     }
 
     &__isFreezed-inner {
       position: relative;
-      flex: 3;
+      flex: 2;
       text-align: center;
-    }
-
-    .MarketTableItem__hint {
-      color:#8D8F99;
-      @include respond-to(xs) {
-        font-size: $small;
-      }
-      .Value__value {
-        font-size: $small;
-        @include respond-to(sm) {
-          font-size: $small;
-        }
-      }
- 
-    }
-    .MarketTableItem__tooltip {
-      display: flex;
-      align-items:center;
-      font-size: $small;
-
-    }
-    .MarketTableItem__message {
-      margin-right: 4px;
     }
 
     .TokenIcon__dollar {

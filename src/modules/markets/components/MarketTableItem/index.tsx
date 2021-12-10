@@ -1,12 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useIntl } from 'react-intl';
-
-import { CustomTooltip } from '@aave/aave-ui-kit';
-
-
-import messages from './messages';
-import MarketCapsHelpDialog from '../../../../components/HelpModal/MarketCapsHelpModal';
 
 import TableItemWrapper from '../../../../components/BasicTable/TableItemWrapper';
 import TableColumn from '../../../../components/BasicTable/TableColumn';
@@ -15,6 +8,7 @@ import FreezedWarning from '../../../../components/FreezedWarning';
 import NoData from '../../../../components/basic/NoData';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
 import IsolatedBadge from '../../../../components/isolationMode/IsolatedBadge';
+import CapsHint, { CapType } from '../../../../components/caps/CapsHint';
 import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import staticStyles from './style';
@@ -39,8 +33,8 @@ export interface MarketTableItemProps {
   isPriceInUSD?: boolean;
   borrowCap: string;
   borrowCapUSD: string;
-  supplyCap: string;
   supplyCapUSD: string;
+  supplyCap: string;
   isIsolated: boolean;
 }
 
@@ -64,80 +58,16 @@ export default function MarketTableItem({
   isPriceInUSD,
   borrowCap,
   borrowCapUSD,
-  supplyCap,
   supplyCapUSD,
+  supplyCap,
   isIsolated,
 }: MarketTableItemProps) {
   const history = useHistory();
-  const intl = useIntl();
   const asset = getAssetInfo(currencySymbol);
 
   const handleClick = () => {
     history.push(`/reserve-overview/${underlyingAsset}-${id}`);
   };
-
-  const handleCapsHint = (capType:string, capAmount:string ) => {
-    const cap = Number(capAmount);
-
-    if(cap > 0 && capType==="supplyCap") {
-      const percentageOfCap = totalLiquidity / cap;
-      const value = cap - totalLiquidity;
-      if(percentageOfCap >= 0.99) {
-        return(<div className="MarketTableItem__tooltip" data-tip={true} data-for={"dd"}>
-          <MarketCapsHelpDialog
-            //  className="MarketTableItem__hint"
-             text={``}
-             color="white"
-             lightWeight={true}
-             iconSize={12}
-             caption={"Supply cap reached"}
-            />
-
-              <div className="MarketTableItem__message">{intl.formatMessage(messages.supplyCapTitle)}</div>
-                  <Value
-                    value={value}
-                    compact={true}
-                    maximumValueDecimals={2}
-                    withoutSymbol={true}
-                    tooltipId={`market-size-${asset.symbol}`}
-                    symbol={isPriceInUSD ? 'USD' : ''}
-                    tokenIcon={isPriceInUSD}
-                    className="MarketTableItem__hint"
-                  />
-              <CustomTooltip tooltipId={"dd"} text={intl.formatMessage(messages.supplyCapNearlyReached, {
-                supplyCapRemaining:value
-              })} />
-        </div>
-        )
-        ;
-      }
-    }
-    if(cap > 0 && capType==="borrowCap") {
-      const totalBorrowed = totalBorrowsInUSD;
-      const percentageOfCap = totalBorrowed / cap;
-      if(percentageOfCap) {
-        return(
-        <div className="MarketTableItem__tooltip" data-tip={true} data-for={`MarketTableItem__tooltip${id}`}>
-          <div className="MarketTableItem__message">{intl.formatMessage(messages.borrowCapTitle,{borrowCapRemaining: 200})}</div>
-          <Value
-            value={cap - totalBorrowed}
-            compact={true}
-            maximumValueDecimals={2}
-            withoutSymbol={true}
-            tooltipId={`market-size-${asset.symbol}`}
-            symbol={isPriceInUSD ? 'USD' : ''}
-            tokenIcon={isPriceInUSD}
-            className="MarketTableItem__hint"
-          />
-          <CustomTooltip tooltipId={`MarketTableItem__tooltip${id}`} text={intl.formatMessage(messages.borrowCapNearlyReached)} />
-        </div>
-        )
-
-      }
-    }
-    return null;
-  }
-
 
   return (
     <TableItemWrapper onClick={handleClick} className="MarketTableItem" withGoToTop={true}>
@@ -151,6 +81,7 @@ export default function MarketTableItem({
         />
         {isIsolated && <IsolatedBadge />}
       </TableColumn>
+
       <TableColumn className="MarketTableItem__column">
         <Value
           value={isPriceInUSD ? totalLiquidityInUSD : totalLiquidity}
@@ -162,8 +93,24 @@ export default function MarketTableItem({
           tokenIcon={isPriceInUSD}
           className="MarketTableItem__value"
         />
-        {handleCapsHint("supplyCap", supplyCapUSD)}
+        <CapsHint
+          capType={CapType.supplyCap}
+          capAmount={isPriceInUSD ? supplyCapUSD : supplyCap}
+          totalAmount={isPriceInUSD ? totalLiquidityInUSD : totalLiquidity}
+          tooltipId={`supplyCap__${id}`}
+          isUSD={isPriceInUSD}
+        />
       </TableColumn>
+
+      <TableColumn className="MarketTableItem__column">
+        <LiquidityMiningCard
+          value={isFreezed ? '-1' : depositAPY}
+          liquidityMiningValue={aincentivesAPR}
+          symbol={currencySymbol}
+          type="deposit"
+        />
+      </TableColumn>
+
       <TableColumn className="MarketTableItem__column">
         {borrowingEnabled ? (
           <Value
@@ -179,20 +126,17 @@ export default function MarketTableItem({
         ) : (
           <NoData color="dark" />
         )}
-        {handleCapsHint("borrowCap", borrowCapUSD)}
+        <CapsHint
+          capType={CapType.borrowCap}
+          capAmount={isPriceInUSD ? borrowCapUSD : borrowCap}
+          totalAmount={isPriceInUSD ? totalBorrowsInUSD : totalBorrows}
+          tooltipId={`borrowCap__${id}`}
+          isUSD={isPriceInUSD}
+        />
       </TableColumn>
 
       {!isFreezed && (
         <>
-          <TableColumn className="MarketTableItem__column">
-            <LiquidityMiningCard
-              value={depositAPY}
-              liquidityMiningValue={aincentivesAPR}
-              symbol={currencySymbol}
-              type="deposit"
-            />
-          </TableColumn>
-
           <TableColumn className="MarketTableItem__column">
             {borrowingEnabled && +variableBorrowRate >= 0 ? (
               <LiquidityMiningCard
@@ -223,7 +167,6 @@ export default function MarketTableItem({
 
       {isFreezed && (
         <>
-          <div />
           <div className="MarketTableItem__isFreezed-inner">
             <FreezedWarning symbol={currencySymbol} />
           </div>

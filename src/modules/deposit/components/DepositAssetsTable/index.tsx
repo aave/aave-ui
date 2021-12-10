@@ -29,7 +29,8 @@ export default function DepositsAssetsTable({
       title: messages.asset,
     },
     {
-      title: messages.yourWalletBalance,
+      title: messages.availableToDeposit,
+      sortKey: 'availableToDepositUSD',
     },
     {
       title: messages.APY,

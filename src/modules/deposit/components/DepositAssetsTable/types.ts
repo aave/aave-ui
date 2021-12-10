@@ -2,8 +2,8 @@ export type DepositTableItem = {
   id: string;
   underlyingAsset: string;
   symbol: string;
-  walletBalance: string;
-  walletBalanceInUSD: number | string;
+  availableToDeposit: string;
+  availableToDepositUSD: string;
   underlyingBalance: number | string;
   underlyingBalanceInUSD: number | string;
   liquidityRate: number | string;
@@ -12,4 +12,6 @@ export type DepositTableItem = {
   borrowingEnabled: boolean;
   isFreezed?: boolean;
   isIsolated: boolean;
+  totalLiquidity: string;
+  supplyCap: string;
 };
