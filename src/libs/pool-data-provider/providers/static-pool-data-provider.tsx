@@ -91,17 +91,14 @@ export function StaticPoolDataProvider({
     return errorPage;
   }
 
-  const reserves: ReserveDataHumanized[] | undefined = activeData.reserves?.reservesData
-    .map((reserve) => ({
+  const reserves: ReserveDataHumanized[] | undefined = activeData.reserves?.reservesData.map(
+    (reserve) => ({
       ...reserve,
-    }))
-    .sort(
-      ({ symbol: a }, { symbol: b }) =>
-        assetsOrder.indexOf(a.toUpperCase()) - assetsOrder.indexOf(b.toUpperCase())
-    );
+    })
+  );
 
-  const reservesWithFixedUnderlying: ReserveDataHumanized[] | undefined = reserves?.map(
-    (reserve) => {
+  const reservesWithFixedUnderlying: ReserveDataHumanized[] | undefined = reserves
+    ?.map((reserve) => {
       if (reserve.symbol.toUpperCase() === `W${networkConfig.baseAsset}`) {
         return {
           ...reserve,
@@ -122,8 +119,11 @@ export function StaticPoolDataProvider({
         reserve.symbol = 'GUNIUSDCUSDT';
       }
       return reserve;
-    }
-  );
+    })
+    .sort(
+      ({ symbol: a }, { symbol: b }) =>
+        assetsOrder.indexOf(a.toUpperCase()) - assetsOrder.indexOf(b.toUpperCase())
+    );
 
   const userReserves: UserReserveDataExtended[] = [];
   const userReservesWithFixedUnderlying: UserReserveDataExtended[] = [];
