@@ -1,6 +1,5 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 
 import HelpModalWrapper from '../HelpModalWrapper';
 import { HelpModalProps } from '../types';

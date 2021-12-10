@@ -10,8 +10,8 @@ import {
 } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useUserWalletDataContext } from '../../web3-data-provider';
-import { useConnectionStatusContext } from '../../connection-status-provider';
-import { useApolloConfigContext } from '../../apollo-config';
+//import { useConnectionStatusContext } from '../../connection-status-provider';
+//import { useApolloConfigContext } from '../../apollo-config';
 
 // interval in which the rpc data is refreshed
 const POOLING_INTERVAL = 30 * 1000;
@@ -152,11 +152,11 @@ export function useRPCIncentivesData(
 
 export const useIncentiveData = (skip: boolean) => {
   const { currentAccount } = useUserWalletDataContext();
-  const { chainId: apolloClientChainId } = useApolloConfigContext();
+  //const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { chainId, networkConfig, currentMarketData } = useProtocolDataContext();
-  const { isRPCActive } = useConnectionStatusContext();
+  //const { isRPCActive } = useConnectionStatusContext();
 
-  const rpcMode = isRPCActive || chainId !== apolloClientChainId;
+  // const rpcMode = isRPCActive || chainId !== apolloClientChainId;
 
   /*   const {
     loading: cachedDataLoading,

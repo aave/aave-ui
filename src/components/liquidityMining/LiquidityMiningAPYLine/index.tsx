@@ -4,7 +4,6 @@ import ReactTooltip from 'react-tooltip';
 import { rgba, TokenIcon, useThemeContext } from '@aave/aave-ui-kit';
 import classNames from 'classnames';
 
-import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import ValuePercent from '../../basic/ValuePercent';
 import TribeRewardHelpModal from '../../HelpModal/TribeRewardHelpModal';
 
@@ -26,7 +25,6 @@ export default function LiquidityMiningAPYLine({
 }: LiquidityMiningAPYLineProps) {
   const intl = useIntl();
   const { currentTheme, xl, isCurrentThemeDark } = useThemeContext();
-  const { networkConfig } = useProtocolDataContext();
 
   const borderColor = rgba(`${currentTheme.lightBlue.rgb}, 0.2`);
 
