@@ -109,6 +109,18 @@ export function StaticPoolDataProvider({
           underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
         };
       }
+      if (
+        reserve.underlyingAsset.toLowerCase() ===
+        '0x50379f632ca68d36e50cfbc8f78fe16bd1499d1e'.toLowerCase()
+      ) {
+        reserve.symbol = 'GUNIDAIUSDC';
+      }
+      if (
+        reserve.underlyingAsset.toLowerCase() ===
+        '0xd2eec91055f07fe24c9ccb25828ecfefd4be0c41'.toLowerCase()
+      ) {
+        reserve.symbol = 'GUNIUSDCUSDT';
+      }
       return reserve;
     }
   );
