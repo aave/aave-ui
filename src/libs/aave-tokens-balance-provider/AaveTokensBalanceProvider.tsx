@@ -18,7 +18,7 @@ const Context = React.createContext<WalletBalanceProviderContext>(
 export const AaveTokensBalanceProvider: React.FC = ({ children }) => {
   const { chainId, networkConfig } = useProtocolDataContext();
   const { currentAccount: walletAddress } = useUserWalletDataContext();
-  const { governanceConfig, governanceMarketConfig } = useGovernanceDataContext();
+  const { governanceConfig } = useGovernanceDataContext();
   const [aaveTokens, setAaveTokens] = React.useState({
     aave: '0',
     aAave: '0',
@@ -32,7 +32,7 @@ export const AaveTokensBalanceProvider: React.FC = ({ children }) => {
   useEffect(() => {
     if (!walletAddress) return;
     const contract = new WalletBalanceProvider({
-      walletBalanceProviderAddress: governanceMarketConfig.addresses.WALLET_BALANCE_PROVIDER,
+      walletBalanceProviderAddress: governanceConfig.walletBalanceProvider,
       provider: getProvider(isGovernanceFork ? chainId : governanceConfig.chainId),
     });
     const fetchAaveTokenBalances = async () => {
