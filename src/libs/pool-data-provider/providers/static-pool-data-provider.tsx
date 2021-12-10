@@ -68,18 +68,25 @@ export function StaticPoolDataProvider({
 
   const {
     loading,
-    reserves: rawReserves,
-    userReserves: rawUserReserves,
-    baseCurrencyData,
-    userEmodeCategoryId = 0,
+    data: { reserves: rawReservesData, userReserves: rawUserReserves, userEmodeCategoryId = 0 },
     error,
     refresh,
   } = usePoolData();
+  const rawReserves = rawReservesData ? rawReservesData.reservesData : [];
+  const baseCurrencyData =
+    rawReservesData && rawReservesData.baseCurrencyData
+      ? rawReservesData.baseCurrencyData
+      : {
+          marketReferenceCurrencyDecimals: 0,
+          marketReferenceCurrencyPriceInUsd: '0',
+          networkBaseTokenPriceInUsd: '0',
+          networkBaseTokenPriceDecimals: 0,
+        };
 
   async function fetchWalletData() {
     if (!currentAccount || !rawReserves) return;
     const contract = new WalletBalanceProvider({
-      walletBalanceProviderAddress: networkConfig.addresses.walletBalanceProvider,
+      walletBalanceProviderAddress: currentMarketData.addresses.WALLET_BALANCE_PROVIDER,
       provider: getProvider(chainId),
     });
     const { 0: reserves, 1: balances } = await contract.getUserWalletBalancesForLendingPoolProvider(
@@ -153,33 +160,35 @@ export function StaticPoolDataProvider({
 
   const userReserves: UserReserveDataExtended[] = [];
   const userReservesWithFixedUnderlying: UserReserveDataExtended[] = [];
-  rawUserReserves.forEach((userReserve) => {
-    const reserve = reserves?.find(
-      (reserve) =>
-        reserve.underlyingAsset.toLowerCase() === userReserve.underlyingAsset.toLowerCase()
-    );
-    if (reserve) {
-      const reserveWithBase: UserReserveDataExtended = {
-        ...userReserve,
-        reserve,
-      };
-      userReserves.push(reserveWithBase);
-      if (reserve.symbol.toUpperCase() === `W${networkConfig.baseAsset}`) {
-        const userReserveFixed: UserReserveDataExtended = {
+  if (rawUserReserves) {
+    rawUserReserves.forEach((userReserve) => {
+      const reserve = reserves?.find(
+        (reserve) =>
+          reserve.underlyingAsset.toLowerCase() === userReserve.underlyingAsset.toLowerCase()
+      );
+      if (reserve) {
+        const reserveWithBase: UserReserveDataExtended = {
           ...userReserve,
-          underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
-          reserve: {
-            ...reserve,
-            symbol: networkConfig.baseAsset,
-            underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
-          },
+          reserve,
         };
-        userReservesWithFixedUnderlying.push(userReserveFixed);
-      } else {
-        userReservesWithFixedUnderlying.push(reserveWithBase);
+        userReserves.push(reserveWithBase);
+        if (reserve.symbol.toUpperCase() === `W${networkConfig.baseAsset}`) {
+          const userReserveFixed: UserReserveDataExtended = {
+            ...userReserve,
+            underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
+            reserve: {
+              ...reserve,
+              symbol: networkConfig.baseAsset,
+              underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
+            },
+          };
+          userReservesWithFixedUnderlying.push(userReserveFixed);
+        } else {
+          userReservesWithFixedUnderlying.push(reserveWithBase);
+        }
       }
-    }
-  });
+    });
+  }
 
   const isUserHasDeposits = userReserves.some(
     (userReserve) => userReserve.scaledATokenBalance !== '0'
@@ -206,7 +215,7 @@ export function StaticPoolDataProvider({
         ensAvatar: avatar,
         walletData,
         refetchWalletData: fetchWalletData,
-        userEmodeCategoryId,
+        userEmodeCategoryId: userEmodeCategoryId,
       }}
     >
       {children}

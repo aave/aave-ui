@@ -79,13 +79,12 @@ export function useRPCPoolData(
 
     try {
       setLoadingUserReserves(true);
-      const { userReserves, userEmodeCategoryId } =
-        await poolDataProviderContract.getUserReservesHumanized(
-          lendingPoolAddressProvider,
-          currentAccount
-        );
+      const userReservesResponse = await poolDataProviderContract.getUserReservesHumanized(
+        lendingPoolAddressProvider,
+        currentAccount
+      );
 
-      setUserReserves({ userReserves, userEmodeCategoryId });
+      setUserReserves(userReservesResponse);
       setErrorUserReserves(false);
     } catch (e) {
       console.log('e', e);
@@ -107,7 +106,11 @@ export function useRPCPoolData(
   return {
     loading,
     error,
-    data: { reserves, ...userReserves },
+    data: {
+      reserves,
+      userReserves: userReserves?.userReserves,
+      userEmodeCategoryId: userReserves?.userEmodeCategoryId,
+    },
     refresh: () => {
       return Promise.all([fetchUserReserves(), fetchReserves()]);
     },
@@ -117,7 +120,7 @@ export function useRPCPoolData(
 export const usePoolData = () => {
   const { currentAccount } = useUserWalletDataContext();
   const { chainId: apolloClientChainId } = useApolloConfigContext();
-  const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
+  const { currentMarketData, chainId } = useProtocolDataContext();
   const { isRPCActive } = useConnectionStatusContext();
 
   const rpcMode = isRPCActive || chainId !== apolloClientChainId;
@@ -140,7 +143,7 @@ export const usePoolData = () => {
   } = useRPCPoolData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     chainId,
-    networkConfig.addresses.uiPoolDataProvider,
+    currentMarketData.addresses.UI_POOL_DATA_PROVIDER,
     !rpcMode,
     currentAccount
   );
@@ -148,12 +151,7 @@ export const usePoolData = () => {
   if (rpcMode) {
     return {
       loading: rpcDataLoading,
-      baseCurrencyData: rpcData?.reserves?.baseCurrencyData || {
-        marketReferenceCurrencyPriceInUsd: '0',
-        marketReferenceCurrencyDecimals: 18,
-      },
-      reserves: rpcData?.reserves?.reservesData || [],
-      userReserves: rpcData?.userReserves || [],
+      data: rpcData,
       error: rpcDataError,
       refresh,
     };
@@ -161,13 +159,8 @@ export const usePoolData = () => {
 
   return {
     loading: cachedDataLoading,
-    baseCurrencyData: cachedData?.reserves.baseCurrencyData || {
-      marketReferenceCurrencyPriceInUsd: '0',
-      marketReferenceCurrencyDecimals: 18,
-    },
-    reserves: cachedData?.reserves.reservesData || [],
-    userReserves: cachedData?.userReserves || [],
-    userEmodeCategoryId: 0, // TODO: use the actualy gql response
+    // TODO: fix caching data
+    data: { ...cachedData, userEmodeCategoryId: 0 },
     error: cachedDataError,
   };
 };

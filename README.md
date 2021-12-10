@@ -42,9 +42,18 @@ Just go to `<your favorite public ipfs gateway>/ipns/app.aave.com`
 
 ⚠️ Make sure the gateway supports origin isolation to avoid possible security issues: you should be redirected to URL that looks like `https://app-aave-com.<your gateway>`
 
+### Links known to work at some point:
+
+- [https://app-aave-com.ipns.cf-ipfs.com/#/](https://app-aave-com.ipns.cf-ipfs.com/#/)
+- [https://app-aave-com.ipns.dweb.link/#/](https://app-aave-com.ipns.dweb.link/#/)
+
 ## Contribution
 
 For instructions on local development, deployment and configurations, see [Contributing](./CONTRIBUTING.md)
+
+## Verification
+
+For instructions on verifying the contract addresses you are interacting with, see [Verification](./VERIFICATION.md)
 
 ## License
 

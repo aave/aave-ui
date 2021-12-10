@@ -22,7 +22,7 @@ import { useCurrentTimestamp } from '../hooks/use-current-timestamp';
 
 const useWalletBalances = (skip: boolean) => {
   const { currentAccount } = useUserWalletDataContext();
-  const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
+  const { currentMarketData, chainId } = useProtocolDataContext();
   const [walletBalances, setWalletBalances] = useState<{
     [address: Lowercase<string>]: string;
   }>({});
@@ -30,7 +30,7 @@ const useWalletBalances = (skip: boolean) => {
   const fetchWalletData = async () => {
     if (!currentAccount) return;
     const contract = new WalletBalanceProvider({
-      walletBalanceProviderAddress: networkConfig.addresses.walletBalanceProvider,
+      walletBalanceProviderAddress: currentMarketData.addresses.WALLET_BALANCE_PROVIDER,
       provider: getProvider(chainId),
     });
     const { 0: tokenAddresses, 1: balances } =
@@ -87,14 +87,22 @@ export const AppDataProvider: React.FC = ({ children }) => {
   const { networkConfig } = useProtocolDataContext();
   const {
     loading: loadingReserves,
-    reserves,
-    userReserves,
-    userEmodeCategoryId = 0,
-    baseCurrencyData,
+    data: { reserves: rawReservesData, userReserves: rawUserReserves, userEmodeCategoryId = 0 },
     error: loadingReservesError,
     refresh: refreshPoolData,
   } = usePoolData();
-  const skipIncentiveLoading = !!reserves?.length;
+  const reserves = rawReservesData ? rawReservesData.reservesData : [];
+  const userReserves = rawUserReserves ? rawUserReserves : [];
+  const baseCurrencyData =
+    rawReservesData && rawReservesData.baseCurrencyData
+      ? rawReservesData.baseCurrencyData
+      : {
+          marketReferenceCurrencyDecimals: 0,
+          marketReferenceCurrencyPriceInUsd: '0',
+          networkBaseTokenPriceInUsd: '0',
+          networkBaseTokenPriceDecimals: 0,
+        };
+  const skipIncentiveLoading = !!reserves.length;
   const {
     data,
     error,

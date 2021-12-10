@@ -2,21 +2,14 @@ import React, { PropsWithChildren, useContext, useEffect, useState } from 'react
 
 import { useCurrentTimestamp } from '../hooks/use-current-timestamp';
 import { useStaticPoolDataContext } from './static-pool-data-provider';
-import {
-  formatReserves,
-  FormatReserveUSDResponse,
-  formatUserSummary,
-  FormatUserSummaryResponse,
-} from '@aave/math-utils';
+import { formatReserves, formatUserSummary, FormatUserSummaryResponse } from '@aave/math-utils';
 import { ReserveDataHumanized } from '@aave/contract-helpers';
+
+export type ComputedReserveData = ReturnType<typeof formatReserves>[0] & ReserveDataHumanized;
 
 export interface UserSummary extends FormatUserSummaryResponse {
   id: string;
-  isInIsolationMode: boolean;
-  // isolatedAvailableBorrows: string;
 }
-
-export type ComputedReserveData = FormatReserveUSDResponse & ReserveDataHumanized;
 
 export interface DynamicPoolDataContextData {
   reserves: ComputedReserveData[];
