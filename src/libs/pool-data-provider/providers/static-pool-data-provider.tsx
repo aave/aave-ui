@@ -183,8 +183,6 @@ export function StaticPoolDataProvider({
     (userReserve) => userReserve.scaledATokenBalance !== '0'
   );
 
-  let userEmodeCategoryId = userReserves?.[0]?.userEmodeCategoryId ?? 0;
-  //  userEmodeCategoryId = 1;
   return (
     <StaticPoolDataContext.Provider
       value={{
@@ -206,7 +204,7 @@ export function StaticPoolDataProvider({
         ensAvatar: avatar,
         walletData,
         refetchWalletData: fetchWalletData,
-        userEmodeCategoryId,
+        userEmodeCategoryId: data.userEmodeCategoryId || 0,
       }}
     >
       {children}
