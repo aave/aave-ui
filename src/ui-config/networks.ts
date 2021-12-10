@@ -23,7 +23,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     rewardTokenAddress: '0x9c3c9283d3e44854697cd22d3faa240cfb032889',
     rewardTokenDecimals: 18,
     incentivePrecision: 8,
-    explorerLink: 'https://kovan.etherscan.com',
+    explorerLink: 'https://kovan.etherscan.io',
     rpcOnly: true,
     isTestnet: true,
     usdMarket: true,
@@ -34,7 +34,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCWSUrl: 'wss://eth-mainnet.alchemyapi.io/v2/demo',
     addresses: {
       walletBalanceProvider: '0x8E8dAd5409E0263a51C0aB5055dA66Be28cFF922',
-      uiPoolDataProvider: '0x47e300dDd1d25447482E2F7e5a5a967EA2DA8634',
+      uiPoolDataProvider: '0x7FdbD3A61249Cb2F3268B82d8eF23f5095B5E874',
       uiIncentiveDataProvider: '0xd9F1e5F70B14b8Fd577Df84be7D75afB8a3A0186',
       chainlinkFeedRegistry: '0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf',
     },
@@ -45,11 +45,11 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     baseAsset: 'ETH',
     baseAssetWrappedAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
     // incentives hardcoded information
-    rewardTokenSymbol: 'stkAAVE',
-    rewardTokenAddress: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
+    rewardTokenSymbol: 'wCFG',
+    rewardTokenAddress: '0xc221b7E65FfC80DE234bbB6667aBDd46593D34F0',
     rewardTokenDecimals: 18,
     incentivePrecision: 18,
-    explorerLink: 'https://etherscan.com',
+    explorerLink: 'https://etherscan.io',
     rpcOnly: false,
   },
   [ChainId.polygon]: {
