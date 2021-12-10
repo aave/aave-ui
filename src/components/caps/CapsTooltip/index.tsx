@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { CustomTooltip } from '@aave/aave-ui-kit';
 
-import { CapType } from '../CapsHint';
+import { CapType } from '../helper';
 
 import messages from './messages';
 

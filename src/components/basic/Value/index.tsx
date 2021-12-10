@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import ReactTooltip from 'react-tooltip';
@@ -31,6 +31,7 @@ interface ValueProps {
   color?: 'dark' | 'white' | 'primary';
   isSmallValueCenterEllipsis?: boolean;
   onWhiteBackground?: boolean;
+  nextToValue?: ReactNode;
 }
 
 export default function Value({
@@ -53,6 +54,7 @@ export default function Value({
   color = 'dark',
   isSmallValueCenterEllipsis,
   onWhiteBackground,
+  nextToValue,
 }: ValueProps) {
   const { currentTheme, xl } = useThemeContext();
   const intl = useIntl();
@@ -129,6 +131,8 @@ export default function Value({
             <span className="Value__symbol">{asset.formattedName || asset.symbol}</span>
           )}
         </p>
+
+        {!!nextToValue && nextToValue}
       </div>
 
       {!!newSubValue && (

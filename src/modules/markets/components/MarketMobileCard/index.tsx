@@ -8,7 +8,8 @@ import LiquidityMiningCard from '../../../../components/liquidityMining/Liquidit
 import Row from '../../../../components/basic/Row';
 import FreezedWarning from '../../../../components/FreezedWarning';
 import Value from '../../../../components/basic/Value';
-import CapsHint, { CapType } from '../../../../components/caps/CapsHint';
+import CapsHint from '../../../../components/caps/CapsHint';
+import { CapType } from '../../../../components/caps/helper';
 import NoData from '../../../../components/basic/NoData';
 
 import messages from './messages';

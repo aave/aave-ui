@@ -8,7 +8,8 @@ import FreezedWarning from '../../../../components/FreezedWarning';
 import NoData from '../../../../components/basic/NoData';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
 import IsolatedBadge from '../../../../components/isolationMode/IsolatedBadge';
-import CapsHint, { CapType } from '../../../../components/caps/CapsHint';
+import CapsHint from '../../../../components/caps/CapsHint';
+import { CapType } from '../../../../components/caps/helper';
 import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import staticStyles from './style';

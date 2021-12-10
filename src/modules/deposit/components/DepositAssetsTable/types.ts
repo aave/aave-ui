@@ -2,6 +2,7 @@ export type DepositTableItem = {
   id: string;
   underlyingAsset: string;
   symbol: string;
+  walletBalance: string;
   availableToDeposit: string;
   availableToDepositUSD: string;
   underlyingBalance: number | string;

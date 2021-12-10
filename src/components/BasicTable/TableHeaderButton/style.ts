@@ -1,7 +1,7 @@
 import css from 'styled-jsx/css';
 
 /*language=SCSS*/
-const staticStyles = css`
+const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
 
@@ -22,13 +22,35 @@ const staticStyles = css`
     @include respond-to(sm) {
       font-size: $small;
     }
+
+    .TextWithModal {
+      align-items: center;
+    }
+    .TextWithModal__text {
+      font-size: $regular !important;
+      @include respond-to(xl) {
+        font-size: $medium !important;
+      }
+      @include respond-to(sm) {
+        font-size: $small !important;
+      }
+    }
+    .TextWithModal__button {
+      position: static;
+      transform: unset !important;
+      margin-left: 4px;
+    }
+
     &__small {
       @include respond-to(sm) {
         font-size: $extraSmall;
+        .TextWithModal__text {
+          font-size: $extraSmall !important;
+        }
       }
     }
 
-    span {
+    .TableHeaderButton__subTitle {
       font-size: $medium;
       @include respond-to(xl) {
         font-size: $extraSmall;
@@ -39,7 +61,7 @@ const staticStyles = css`
     }
 
     &__withSort {
-      p {
+      .TableHeaderButton__title {
         display: inline;
         position: relative;
         &:after {
@@ -66,7 +88,7 @@ const staticStyles = css`
     }
 
     &__desk {
-      p {
+      .TableHeaderButton__title {
         &:after {
           border-width: 0 5px 8px 5px;
           border-color: transparent;

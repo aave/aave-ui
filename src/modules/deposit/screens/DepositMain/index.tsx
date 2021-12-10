@@ -84,8 +84,11 @@ export default function DepositsMain() {
 
         return {
           ...reserve,
-          availableToDeposit: availableToDeposit.toString(),
-          availableToDepositUSD: availableToDepositUSD.toString(),
+          walletBalance,
+          availableToDeposit:
+            availableToDeposit.toNumber() <= 0 ? '0' : availableToDeposit.toString(),
+          availableToDepositUSD:
+            Number(availableToDepositUSD) <= 0 ? '0' : availableToDepositUSD.toString(),
           underlyingBalance: userReserve ? userReserve.underlyingBalance : '0',
           underlyingBalanceInUSD: userReserve ? userReserve.underlyingBalanceUSD : '0',
           liquidityRate: reserve.supplyAPY,
@@ -100,8 +103,6 @@ export default function DepositsMain() {
           sincentivesAPR: reserveIncentiveData
             ? reserveIncentiveData.sIncentives.incentiveAPR
             : '0',
-          totalLiquidity: reserve.totalLiquidity,
-          supplyCap: reserve.supplyCap,
         };
       });
 

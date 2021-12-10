@@ -6,14 +6,10 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import Value from '../../basic/Value';
 import CapsTooltip from '../CapsTooltip';
+import { CapType } from '../helper';
 
 import messages from './messages';
 import staticStyles from './style';
-
-export enum CapType {
-  'supplyCap' = 'supplyCap',
-  'borrowCap' = 'borrowCap',
-}
 
 interface CapsHintProps {
   capType: CapType;
@@ -48,8 +44,7 @@ export default function CapsHint({
           capType === CapType.supplyCap ? messages.supplyCapTitle : messages.borrowCapTitle
         );
 
-  // if (percentageOfCap >= 0.99) return null;
-  if (!percentageOfCap) return null;
+  if (percentageOfCap < 0.99) return null;
 
   return (
     <div className={classNames('CapsHint', { CapsHint__withoutText: withoutText })}>

@@ -14,6 +14,9 @@ const staticStyles = css.global`
 
     &__withoutText {
       margin-left: 4px;
+      @include respond-to(sm) {
+        margin-top: 0;
+      }
     }
 
     .Value__value,

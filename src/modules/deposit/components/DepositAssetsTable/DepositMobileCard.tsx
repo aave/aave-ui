@@ -7,7 +7,9 @@ import Row from '../../../../components/basic/Row';
 import NoData from '../../../../components/basic/NoData';
 import Value from '../../../../components/basic/Value';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
-import CapsHint, { CapType } from '../../../../components/caps/CapsHint';
+import CapsHint from '../../../../components/caps/CapsHint';
+import { CapType } from '../../../../components/caps/helper';
+import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
@@ -18,6 +20,7 @@ export default function DepositMobileCard({
   id,
   symbol,
   underlyingAsset,
+  walletBalance,
   availableToDeposit,
   availableToDepositUSD,
   liquidityRate,
@@ -34,6 +37,9 @@ export default function DepositMobileCard({
 
   const url = `/deposit/${underlyingAsset}-${id}`;
 
+  const isTitleWithModal =
+    Number(supplyCap) > 0 && Number(totalLiquidity) / Number(supplyCap) >= 0.99;
+
   return (
     <MobileCardWrapper
       onClick={() => history.push(url)}
@@ -42,27 +48,36 @@ export default function DepositMobileCard({
       disabled={isFreezed}
       isIsolated={isIsolated}
     >
-      <Row title={intl.formatMessage(messages.availableToDeposit)} withMargin={true}>
-        {!userId || Number(availableToDeposit) <= 0 ? (
+      <Row
+        title={
+          isTitleWithModal ? (
+            <AvailableCapsHelpModal capType={CapType.supplyCap} />
+          ) : (
+            intl.formatMessage(messages.availableToDeposit)
+          )
+        }
+        withMargin={true}
+      >
+        {!userId || Number(walletBalance) <= 0 ? (
           <NoData color="dark" />
         ) : (
-          <div className="MobileCardWrapper__valueInner">
-            <Value
-              value={availableToDeposit}
-              subValue={availableToDepositUSD}
-              maximumSubValueDecimals={2}
-              subSymbol="USD"
-              maximumValueDecimals={isAssetStable(symbol) ? 2 : 5}
-              minimumValueDecimals={isAssetStable(symbol) ? 2 : 5}
-            />
-            <CapsHint
-              capType={CapType.supplyCap}
-              capAmount={supplyCap}
-              totalAmount={totalLiquidity}
-              tooltipId={`supplyCap__${id}`}
-              withoutText={true}
-            />
-          </div>
+          <Value
+            value={availableToDeposit}
+            subValue={availableToDepositUSD}
+            maximumSubValueDecimals={2}
+            subSymbol="USD"
+            maximumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+            minimumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+            nextToValue={
+              <CapsHint
+                capType={CapType.supplyCap}
+                capAmount={supplyCap}
+                totalAmount={totalLiquidity}
+                tooltipId={`supplyCap__${id}`}
+                withoutText={true}
+              />
+            }
+          />
         )}
       </Row>
 

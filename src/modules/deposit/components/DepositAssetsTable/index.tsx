@@ -2,6 +2,8 @@ import React from 'react';
 
 import BasicAssetsTable from '../../../../components/BasicAssetsTable';
 import DepositItem from './DepositItem';
+import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
+import { CapType } from '../../../../components/caps/helper';
 
 import messages from './messages';
 
@@ -29,7 +31,7 @@ export default function DepositsAssetsTable({
       title: messages.asset,
     },
     {
-      title: messages.availableToDeposit,
+      titleComponent: <AvailableCapsHelpModal capType={CapType.supplyCap} />,
       sortKey: 'availableToDepositUSD',
     },
     {

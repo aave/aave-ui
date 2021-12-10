@@ -10,7 +10,8 @@ import TableHeaderButton from '../BasicTable/TableHeaderButton';
 import staticStyles from './style';
 
 type BasicAssetsTableColumn = {
-  title: MessageDescriptor;
+  title?: MessageDescriptor;
+  titleComponent?: ReactNode;
   subtitle?: MessageDescriptor;
   sortKey?: string;
 };
@@ -44,7 +45,10 @@ export default function BasicAssetsTable({
           {columns.map((column, index) => (
             <TableColumn key={index}>
               <TableHeaderButton
-                title={intl.formatMessage(column.title)}
+                title={
+                  (column.title && intl.formatMessage(column.title)) ||
+                  (column.titleComponent && column.titleComponent)
+                }
                 subTitle={column.subtitle ? `(${intl.formatMessage(column.subtitle)})` : undefined}
                 sortKey={column.sortKey}
                 withSorting={!!column.sortKey}
