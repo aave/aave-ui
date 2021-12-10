@@ -3,8 +3,13 @@ import React, { useContext, PropsWithChildren } from 'react';
 import useGetProposals from './hooks/use-get-proposals';
 import useGetProposalsRPC from './hooks/use-get-proposals-rpc';
 import { GovernanceConfig } from '../../ui-config';
-import { NetworkConfig } from '../../helpers/config/types';
-import { getNetworkConfig, getProvider } from '../../helpers/config/markets-and-network-config';
+import { MarketDataType, NetworkConfig } from '../../helpers/config/types';
+import {
+  CustomMarket,
+  getNetworkConfig,
+  getProvider,
+  marketsData,
+} from '../../helpers/config/markets-and-network-config';
 
 import { ProposalItem } from './types';
 import Preloader from '../../components/basic/Preloader';
@@ -25,6 +30,7 @@ import { IPFS_ENDPOINT } from './helper';
 export interface ProtocolContextDataType {
   governanceConfig: GovernanceConfig;
   governanceNetworkConfig: NetworkConfig;
+  governanceMarketConfig: MarketDataType;
   governanceService: AaveGovernanceService;
   powerDelegation: GovernancePowerDelegationTokenService;
   proposals: ProposalItem[];
@@ -38,6 +44,7 @@ export function GovernanceDataProvider({
 }: PropsWithChildren<{ governanceConfig: GovernanceConfig }>) {
   const { chainId, networkConfig } = useProtocolDataContext();
   const governanceNetworkConfig = getNetworkConfig(governanceConfig.chainId);
+  const governanceMarketConfig = marketsData[CustomMarket.proto_mainnet];
   const { preferredConnectionMode } = useConnectionStatusContext();
   const wsMainnetError = useMainnetCachedServerWsGraphCheck();
   const isRPCMandatory =
@@ -103,6 +110,7 @@ export function GovernanceDataProvider({
         powerDelegation,
         governanceConfig,
         governanceNetworkConfig,
+        governanceMarketConfig,
       }}
     >
       {children}
