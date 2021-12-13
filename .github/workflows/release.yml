@@ -33,17 +33,17 @@ jobs:
       - name: release
         run: |
           standard-version --message "chore(release): Release v%s :tada:" --skip.tag
-          git checkout -b release/test
-          git push origin release/test
+          git checkout -b release/${{ github.sha }}
+          git push origin release/${{ github.sha }}
 
       - uses: actions/github-script@v5
         with:
           script: |
             github.rest.pulls.create({
-              title: 'testtitle',
+              title: 'Release $(node -pe "require('./package.json').version") :rocket: :tada:',
               body: 'test body',
               owner: context.repo.owner,
               repo: context.repo.repo,
-              head: 'release/test',
+              head: release/${{ github.sha }},
               base: 'master'
             })
