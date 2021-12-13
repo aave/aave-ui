@@ -38,8 +38,6 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
       uiIncentiveDataProvider: '0xd9F1e5F70B14b8Fd577Df84be7D75afB8a3A0186',
       chainlinkFeedRegistry: '0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf',
     },
-    cachingServerUrl: 'https://cache-api-mainnet.aave.com/graphql',
-    cachingWSServerUrl: 'wss://cache-api-mainnet.aave.com/graphql',
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2',
     baseUniswapAdapter: '0xc3efa200a60883a96ffe3d5b492b121d6e9a1f3f',
     baseAsset: 'ETH',
@@ -50,7 +48,8 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     rewardTokenDecimals: 18,
     incentivePrecision: 18,
     explorerLink: 'https://etherscan.io',
-    rpcOnly: false,
+    rpcOnly: true,
+    usdMarket: true,
   },
   [ChainId.polygon]: {
     name: 'Polygon POS',
