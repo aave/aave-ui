@@ -46,6 +46,6 @@ jobs:
               body: 'This is the preview of the next release',
               owner: context.repo.owner,
               repo: context.repo.repo,
-              head: release/${{ github.sha }},
+              head: 'release/${{ github.sha }}',
               base: 'master'
             })
