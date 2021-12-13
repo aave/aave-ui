@@ -38,11 +38,15 @@ jobs:
           git checkout -b release/${{ github.sha }}
           git push origin release/${{ github.sha }}
 
+      - name: version
+        id: version
+        run: echo '::set-output name=VERSION::$(node -pe "require(\'./package.json\').version")'
+
       - uses: actions/github-script@v5
         with:
           script: |
             github.rest.pulls.create({
-              title: 'Release $(node -pe "require(\'./package.json\').version") :rocket: :tada:',
+              title: 'Release ${{ steps.version.outputs.VERSION }} :rocket: :tada:',
               body: 'This is the preview of the next release',
               owner: context.repo.owner,
               repo: context.repo.repo,
