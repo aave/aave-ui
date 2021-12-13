@@ -1,0 +1,17 @@
+{
+  "ethereum": {
+    "chainID": 1,
+    "networkID": 1,
+    "forkChainID": 3030
+  },
+  "polygon": {
+    "chainID": 137,
+    "networkID": 137,
+    "forkChainID": 1338
+  },
+  "avalanche": {
+    "chainID": 43114,
+    "networkID": 43114,
+    "forkChainID": 3030
+  }
+}

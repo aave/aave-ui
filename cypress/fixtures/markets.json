@@ -1,0 +1,14 @@
+{
+  "proto_kovan": "proto_kovan",
+  "proto_mainnet":"proto_mainnet",
+  "proto_avalanche": "proto_avalanche",
+  "avalanche_fork": "avalanche_fork",
+  "proto_matic": "proto_matic",
+  "proto_mumbai" : "proto_mumbai",
+  "proto_fork" : "proto_fork",
+  "amm_kovan" : "amm_kovan",
+  "amm_mainnet" : "amm_mainnet",
+  "amm_fork" : "amm_fork",
+  "polygon_fork" : "polygon_fork",
+  "proto_fuji" : "proto_fuji"
+}

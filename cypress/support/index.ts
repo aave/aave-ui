@@ -16,5 +16,20 @@
 // Import commands.js using ES2015 syntax:
 import './commands';
 
+
+
+afterEach(function onAfterEach() {
+  if (this.currentTest.state === 'failed') {
+    cy.setCookie('shouldSkip', 'true');
+    Cypress.Cookies.defaults({
+      preserve: 'shouldSkip',
+    });
+    //set cookie to skip tests for further specs
+    // this.skip()
+    // Cypress.runner.stop();
+    //this will skip tests only for current spec
+  }
+});
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

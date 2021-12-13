@@ -43,7 +43,12 @@ export default function BorrowDashboardTable({ listData }: BorrowDashboardTableP
 
           <DashboardTable>
             {listData.map((item, index) => (
-              <BorrowItem {...item} index={index} key={index} />
+              <BorrowItem
+                {...item}
+                index={index}
+                key={index}
+                data-cy={`dashboardBorrowListItem${item.reserve.symbol.toUpperCase()}`}
+              />
             ))}
           </DashboardTable>
         </>

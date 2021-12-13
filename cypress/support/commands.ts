@@ -33,10 +33,12 @@ import { Wallet } from '@ethersproject/wallet';
 class CustomizedBridge extends Eip1193Bridge {
   chainId = 3030;
 
+
   async sendAsync(...args) {
     console.debug('sendAsync called', ...args);
     return this.send(...args);
   }
+
   async send(...args) {
     console.debug('send called', ...args);
     const isCallbackForm = typeof args[0] === 'object' && typeof args[1] === 'function';
@@ -97,30 +99,31 @@ class CustomizedBridge extends Eip1193Bridge {
   }
 }
 
-Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
-  return originalFn(url, {
-    onBeforeLoad: async function (win) {
-      const tenderly = new TenderlyFork({ forkNetworkID: 1 });
-      await tenderly.init();
-      await tenderly.add_balance(DEFAULT_TEST_ACCOUNT.address, 10000);
-      const rpc = tenderly.get_rpc_url();
-      const provider = new JsonRpcProvider(rpc, 3030);
-      const signer = new Wallet(DEFAULT_TEST_ACCOUNT.privateKey, provider);
-
-      win.ethereum = new CustomizedBridge(signer, provider);
-
-      win.localStorage.setItem('fork_enabled', 'true');
-      win.localStorage.setItem('forkNetworkId', '3030');
-      win.localStorage.setItem('forkRPCUrl', rpc);
-      // win.localStorage.setItem('polygon_fork_enabled', 'true');
-      // win.localStorage.setItem('avalanche_fork_enabled', 'true');
-      win.localStorage.setItem('currentProvider', 'browser');
-      win.localStorage.setItem('selectedAccount', DEFAULT_TEST_ACCOUNT.address);
-      win.localStorage.setItem('selectedMarket', 'proto_fork');
-    },
-    ...options,
-  });
-});
+// Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
+//
+//   return originalFn(url, {
+//     onBeforeLoad: async function (win) {
+//       // const tenderly = new TenderlyFork({ forkNetworkID: 1 });
+//       // await tenderly.init();
+//       // await tenderly.add_balance(DEFAULT_TEST_ACCOUNT.address, 10000);
+//       // const rpc = tenderly.get_rpc_url();
+//       // const provider = new JsonRpcProvider(rpc, 3030);
+//       // const signer = new Wallet(DEFAULT_TEST_ACCOUNT.privateKey, provider);
+//       //
+//       // win.ethereum = new CustomizedBridge(signer, provider);
+//       //
+//       // win.localStorage.setItem('fork_enabled', 'true');
+//       // win.localStorage.setItem('forkNetworkId', '3030');
+//       // win.localStorage.setItem('forkRPCUrl', rpc);
+//       // win.localStorage.setItem('polygon_fork_enabled', 'true');
+//       // win.localStorage.setItem('avalanche_fork_enabled', 'true');
+//       // win.localStorage.setItem('currentProvider', 'browser');
+//       // win.localStorage.setItem('selectedAccount', DEFAULT_TEST_ACCOUNT.address);
+//       // win.localStorage.setItem('selectedMarket', 'proto_fork');
+//     },
+//     ...options,
+//   });
+// });
 
 // https://github.com/quasarframework/quasar/issues/2233
 const resizeObserverLoopErrRe = /^[^(ResizeObserver loop limit exceeded)]/;
@@ -134,3 +137,22 @@ Cypress.on('uncaught:exception', (err) => {
 Cypress.Commands.add('getBySel', (selector, ...args) => {
   return cy.get(`[data-cy=${selector}]`, ...args);
 });
+
+Cypress.Commands.add('setAmount', ({amount, max=false}) => {
+  if(max){
+    cy.get(`[data-cy=amountInput-maxBtn]`);
+  }else{
+    cy.get(`[data-cy=amountInput]`).type(amount);
+  }
+  cy.get('.BasicForm').contains('Continue').click();
+})
+
+Cypress.Commands.add('makeConfirm', ({hasApproval = false}) => {
+
+  if(hasApproval){
+
+  }else{
+    cy.get('.Button').contains('Deposit').click();
+  }
+})
+

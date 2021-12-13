@@ -106,6 +106,7 @@ export default function AmountField({
               type="button"
               onClick={onMaxButtonClick}
               disabled={disabled}
+              data-cy={'amountInput-maxBtn'}
             >
               {intl.formatMessage(messages.max)}
             </button>
