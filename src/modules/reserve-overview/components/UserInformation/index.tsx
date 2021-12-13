@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
+import { BigNumber, valueToBigNumber } from '@aave/protocol-js';
 import { ComputedUserReserve } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
@@ -23,6 +23,8 @@ import BorrowTableItem from '../BorrowTable/BorrowTableItem';
 import IsolationInfoBanner from '../../../../components/isolationMode/IsolationInfoBanner';
 import UserEModeInfo from '../UserEModeInfo';
 import EModeIconWithTooltip from '../../../../components/eMode/EModeIconWithTooltip';
+import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
+import { CapType } from '../../../../components/caps/helper';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -61,17 +63,36 @@ export default function UserInformation({
   const totalBorrows = valueToBigNumber(userReserve?.totalBorrows || '0').toNumber();
   const underlyingBalance = valueToBigNumber(userReserve?.underlyingBalance || '0').toNumber();
 
-  const availableBorrowsMarketReferenceCurrency = valueToBigNumber(
+  const maxUserAmountToBorrow = valueToBigNumber(
     user?.availableBorrowsMarketReferenceCurrency || 0
+  ).div(poolReserve.priceInMarketReferenceCurrency);
+  let availableBorrows = BigNumber.max(
+    BigNumber.min(
+      poolReserve.borrowCap
+        ? new BigNumber(poolReserve.availableLiquidity).multipliedBy('0.995')
+        : poolReserve.availableLiquidity,
+      maxUserAmountToBorrow
+    ),
+    0
   );
-  const availableBorrows = availableBorrowsMarketReferenceCurrency.gt(0)
-    ? BigNumber.min(
-        availableBorrowsMarketReferenceCurrency
-          .div(poolReserve.priceInMarketReferenceCurrency)
-          .multipliedBy(user && user.totalBorrowsMarketReferenceCurrency !== '0' ? '0.99' : '1'),
-        poolReserve.availableLiquidity
-      ).toNumber()
-    : 0;
+  if (
+    availableBorrows.gt(0) &&
+    user?.totalBorrowsMarketReferenceCurrency !== '0' &&
+    maxUserAmountToBorrow.lt(valueToBigNumber(poolReserve.availableLiquidity).multipliedBy('1.01'))
+  ) {
+    availableBorrows = availableBorrows.multipliedBy('0.99');
+  }
+  const formattedAvailableBorrows = availableBorrows.toString(10);
+
+  let availableToDeposit = valueToBigNumber(walletBalance);
+  if (poolReserve.supplyCap !== '0') {
+    availableToDeposit = BigNumber.min(
+      availableToDeposit,
+      new BigNumber(poolReserve.supplyCap).minus(poolReserve.totalLiquidity).multipliedBy('0.995')
+    );
+  }
+  const formattedAvailableDeposits =
+    availableToDeposit.toNumber() <= 0 ? 0 : availableToDeposit.toString(10);
 
   const switcherHeight = xl && !sm ? 16 : sm ? 26 : 20;
   const switcherWidth = xl && !sm ? 30 : sm ? 50 : 40;
@@ -88,15 +109,16 @@ export default function UserInformation({
     user?.isInIsolationMode &&
     poolReserve.borrowableInIsolation &&
     isAssetStable(symbol) &&
-    availableBorrows &&
+    formattedAvailableBorrows &&
     !poolReserve.isFrozen;
 
   const isUserOnEmode = userEmodeCategoryId !== 0;
   const isReserveInEmode = isUserOnEmode && userEmodeCategoryId === poolReserve.eModeCategoryId;
   const isBorrowEnableBasedOnEmode =
-    isReserveInEmode && isAssetStable(symbol) && availableBorrows && !poolReserve.isFrozen;
+    isReserveInEmode && isAssetStable(symbol) && formattedAvailableBorrows && !poolReserve.isFrozen;
 
-  let isBorrowEnable = !availableBorrows || poolReserve.borrowingEnabled || !poolReserve.isFrozen;
+  let isBorrowEnable =
+    !formattedAvailableBorrows || poolReserve.borrowingEnabled || !poolReserve.isFrozen;
   if (isReserveInEmode && user?.isInIsolationMode) {
     isBorrowEnable = !!isBorrowEnableBasedOnEmode && !!borrowableAssetInIsolationMode;
   } else if (isUserOnEmode) {
@@ -104,7 +126,8 @@ export default function UserInformation({
   } else if (user?.isInIsolationMode) {
     isBorrowEnable = !!borrowableAssetInIsolationMode;
   } else {
-    isBorrowEnable = !!availableBorrows || poolReserve.borrowingEnabled || !poolReserve.isFrozen;
+    isBorrowEnable =
+      !!formattedAvailableBorrows || poolReserve.borrowingEnabled || !poolReserve.isFrozen;
   }
 
   return (
@@ -129,13 +152,13 @@ export default function UserInformation({
                 <Link
                   to={`/deposit/${poolReserve.underlyingAsset}-${poolReserve.id}`}
                   className="ButtonLink"
-                  disabled={poolReserve.isFrozen}
+                  disabled={!formattedAvailableDeposits || poolReserve.isFrozen}
                 >
                   <DefaultButton
                     className="UserInformation__button"
                     title={intl.formatMessage(defaultMessages.deposit)}
                     color={elementsColor}
-                    disabled={poolReserve.isFrozen}
+                    disabled={!formattedAvailableDeposits || poolReserve.isFrozen}
                   />
                 </Link>
                 <Link
@@ -154,13 +177,28 @@ export default function UserInformation({
 
             <div className="UserInformation__info-inner">
               <Row
-                title={intl.formatMessage(messages.yourWalletBalance)}
+                title={intl.formatMessage(messages.walletBalance)}
                 withMargin={true}
                 weight={rowWeight}
                 color={elementsColor}
               >
                 <Value
                   value={walletBalance.toString()}
+                  symbol={symbol}
+                  minimumValueDecimals={2}
+                  maximumValueDecimals={2}
+                  color={elementsColor}
+                />
+              </Row>
+
+              <Row
+                title={<AvailableCapsHelpModal capType={CapType.supplyCap} />}
+                withMargin={true}
+                weight={rowWeight}
+                color={elementsColor}
+              >
+                <Value
+                  value={formattedAvailableDeposits}
                   symbol={symbol}
                   minimumValueDecimals={2}
                   maximumValueDecimals={2}
@@ -299,7 +337,7 @@ export default function UserInformation({
 
               {(!user?.isInIsolationMode || !!borrowableAssetInIsolationMode) && (
                 <Row
-                  title={intl.formatMessage(messages.availableToYou)}
+                  title={<AvailableCapsHelpModal capType={CapType.borrowCap} />}
                   weight={rowWeight}
                   color={elementsColor}
                   withMargin={user?.isInIsolationMode}
@@ -318,7 +356,7 @@ export default function UserInformation({
                                 />
                               )}
                               <Value
-                                value={availableBorrows}
+                                value={formattedAvailableBorrows}
                                 symbol={symbol}
                                 minimumValueDecimals={2}
                                 maximumValueDecimals={2}
@@ -331,7 +369,7 @@ export default function UserInformation({
                         <>
                           <div className="UserInformation__rowContent">
                             <Value
-                              value={availableBorrows}
+                              value={formattedAvailableBorrows}
                               symbol={symbol}
                               minimumValueDecimals={2}
                               maximumValueDecimals={2}
@@ -351,7 +389,7 @@ export default function UserInformation({
                 <IsolationInfoBanner
                   text={intl.formatMessage(
                     // should be executed when the user is in isolation mode, the asset can be borrowed, but due to the fact that the `Debt ceiling` is filled, borrowing is blocked
-                    poolReserve.borrowableInIsolation && !availableBorrows // TODO: perhaps this condition is not correct, need to check
+                    poolReserve.borrowableInIsolation && !formattedAvailableBorrows // TODO: perhaps this condition is not correct, need to check
                       ? messages.borrowDebtCeilingWarning
                       : messages.borrowIsolationWarning
                   )}

@@ -14,6 +14,7 @@ interface CapsHelpModalProps {
   iconSize?: number;
   onWhiteBackground?: boolean;
   color?: 'dark' | 'white';
+  lightWeight?: boolean;
 }
 
 export default function CapsHelpModal({
@@ -22,6 +23,7 @@ export default function CapsHelpModal({
   iconSize,
   onWhiteBackground,
   color,
+  lightWeight,
 }: CapsHelpModalProps) {
   const intl = useIntl();
 
@@ -37,6 +39,7 @@ export default function CapsHelpModal({
       onWhiteBackground={onWhiteBackground}
       iconSize={iconSize}
       color={color}
+      lightWeight={lightWeight}
     >
       <Caption
         title={intl.formatMessage(title)}

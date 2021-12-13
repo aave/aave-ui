@@ -7,21 +7,12 @@ const staticStyles = css.global`
 
   .DebtCeilingInfo {
     display: flex;
-    flex-direction: column;
-    margin-top: 15px;
-    @include respond-to(xl) {
-      margin-top: 10px;
-    }
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
 
-    .DebtCeilingInfo__title {
-      justify-content: flex-start;
-      align-items: center;
-      margin-bottom: 4px;
-      .TextWithModal__button {
-        position: static;
-        transform: unset;
-        margin: 1px 0 0 4px;
-      }
+    .TextWithModal__text {
+      white-space: nowrap;
     }
 
     &__modal--text {
@@ -42,28 +33,14 @@ const staticStyles = css.global`
       }
     }
 
-    .DebtCeilingInfo__values,
-    .TextWithModal__text,
-    .Value .Value__token-icon .TokenIcon__dollar,
-    .Value .Value__value {
-      font-size: $small;
-      font-weight: 400;
-      @include respond-to(xl) {
-        font-size: $extraSmall;
-      }
-      @include respond-to(sm) {
-        font-size: $medium;
-      }
-    }
-
-    .Value .Value__token-icon .TokenIcon__dollar {
-      margin-right: 2px !important;
-    }
-
     &__values {
       display: flex;
+      align-items: center;
+      padding-left: 20px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
       &--divider {
-        margin: 0 3px;
+        margin: 0 2px;
       }
     }
   }

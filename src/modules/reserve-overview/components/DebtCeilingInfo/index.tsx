@@ -51,9 +51,23 @@ export default function DebtCeilingInfo({ debtCeilingDebt, debtCeilingUSD }: Deb
       </TextWithModal>
 
       <p className="DebtCeilingInfo__values">
-        <Value value={debtCeilingDebt} symbol="USD" tokenIcon={true} withoutSymbol={true} />{' '}
+        <Value
+          value={debtCeilingDebt}
+          symbol="USD"
+          tokenIcon={true}
+          withoutSymbol={true}
+          maximumValueDecimals={2}
+          compact={true}
+        />{' '}
         <span className="DebtCeilingInfo__values--divider">/</span>{' '}
-        <Value value={debtCeilingUSD} symbol="USD" tokenIcon={true} withoutSymbol={true} />
+        <Value
+          value={debtCeilingUSD}
+          symbol="USD"
+          tokenIcon={true}
+          withoutSymbol={true}
+          compact={true}
+          maximumValueDecimals={2}
+        />
       </p>
 
       <style jsx={true} global={true}>

@@ -4,7 +4,7 @@ export default defineMessages({
   yourInformation: 'Your information',
 
   deposits: 'Deposits',
-  yourWalletBalance: 'Your wallet balance',
+  walletBalance: 'Wallet balance',
   youAlreadyDeposited: 'You already deposited',
   collateral: 'Use as collateral',
   depositOffLabel: 'No',
@@ -18,5 +18,4 @@ export default defineMessages({
   borrows: 'Borrows',
   borrowed: 'Borrowed',
   loanToValue: 'Loan to value',
-  availableToYou: 'Available to you',
 });
