@@ -1,15 +1,13 @@
-import { ReserveDataHumanized, WalletBalanceProvider } from '@aave/contract-helpers';
+import { WalletBalanceProvider } from '@aave/contract-helpers';
 import {
-  calculateAllUserIncentives,
   formatReservesAndIncentives,
-  formatUserSummary,
+  formatUserSummaryAndIncentives,
   FormatUserSummaryResponse,
   nativeToUSD,
   normalize,
-  UserIncentiveDict,
-  UserReserveCalculationData,
+  ReserveDataComputed,
 } from '@aave/math-utils';
-import { API_ETH_MOCK_ADDRESS, calculateSupplies } from '@aave/protocol-js';
+import { API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import React, { useContext, useState } from 'react';
 import BigNumber from 'bignumber.js';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
@@ -60,7 +58,6 @@ export interface AppDataContextType {
   refetchWalletData: () => Promise<void>;
   isUserHasDeposits: boolean;
   user?: FormatUserSummaryResponse;
-  userIncentives: UserIncentiveDict;
   refreshIncentives: () => Promise<void>;
   loading: boolean;
 }
@@ -71,7 +68,6 @@ const AppDataContext = React.createContext<AppDataContextType>({
   walletBalances: {},
   isUserHasDeposits: false,
   refetchWalletData: async () => {},
-  userIncentives: {},
   refreshIncentives: async () => {},
   loading: true,
 });
@@ -88,7 +84,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
   const {
     loading: loadingReserves,
     data: { reserves: rawReservesData, userReserves: rawUserReserves, userEmodeCategoryId = 0 },
-    error: loadingReservesError,
+    // error: loadingReservesError,
     refresh: refreshPoolData,
   } = usePoolData();
   const reserves = rawReservesData ? rawReservesData.reservesData : [];
@@ -105,7 +101,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
   const skipIncentiveLoading = !!reserves.length;
   const {
     data,
-    error,
+    //error,
     loading: _loading,
     refresh: refreshIncentives,
   } = useIncentiveData(skipIncentiveLoading);
@@ -145,57 +141,26 @@ export const AppDataProvider: React.FC = ({ children }) => {
     reserveIncentives: data?.reserveIncentiveData || [],
   });
 
-  const userReservesWithBase = reserves.length
+  const userReservesWithBase = formattedPoolReserves.length
     ? userReserves.map((reserve) => ({
         ...reserve,
-        reserve: reserves.find(
+        reserve: formattedPoolReserves.find(
           (r) => r.underlyingAsset.toLowerCase() === reserve.underlyingAsset.toLowerCase()
-        ) as ReserveDataHumanized,
+        ) as ReserveDataComputed,
       }))
     : [];
 
-  // TODO: add a method which allows formatting user reserves passing in formatted reserves
-  const user = formatUserSummary({
+  const user = formatUserSummaryAndIncentives({
     currentTimestamp,
     marketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,
     marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
-    rawUserReserves: userReservesWithBase,
+    userReserves: userReservesWithBase,
     userEmodeCategoryId,
-  });
-
-  // TODO: this is shit and should be removed
-  let computedUserReserves: UserReserveCalculationData[] = [];
-  if (userReservesWithBase) {
-    userReservesWithBase.forEach((userReserve) => {
-      const reserve = reserves.find(
-        (reserve) =>
-          reserve.underlyingAsset.toLowerCase() ===
-          userReserve.reserve.underlyingAsset.toLowerCase()
-      );
-      if (reserve) {
-        const supplies = calculateSupplies(reserve, currentTimestamp);
-        // Construct UserReserveData object from reserve and userReserve fields
-        computedUserReserves.push({
-          underlyingAsset: userReserve.reserve.underlyingAsset.toLowerCase(),
-          totalLiquidity: supplies.totalLiquidity.toString(),
-          liquidityIndex: reserve.liquidityIndex,
-          totalScaledVariableDebt: reserve.totalScaledVariableDebt,
-          totalPrincipalStableDebt: reserve.totalPrincipalStableDebt,
-          scaledATokenBalance: userReserve.scaledATokenBalance,
-          scaledVariableDebt: userReserve.scaledVariableDebt,
-          principalStableDebt: userReserve.principalStableDebt,
-        });
-      }
-    });
-  }
-
-  const userIncentives = calculateAllUserIncentives({
     reserveIncentives: data?.reserveIncentiveData || [],
-    userReserveIncentives: data?.userIncentiveData || [],
-    userReserves: computedUserReserves,
-    currentTimestamp,
+    userIncentives: data?.userIncentiveData || [],
   });
 
+  /*
   const proportions = user.userReservesData.reduce(
     (acc, value) => {
       // TODO: remove once user formatting accepts formatted reserve as input
@@ -259,20 +224,18 @@ export const AppDataProvider: React.FC = ({ children }) => {
 
   // console.log(proportions.positiveProportion.dividedBy(proportions.positiveSampleSize).toString());
   const netBalance = new BigNumber(user.totalLiquidityUSD).minus(user.totalBorrowsUSD).toString();
-
+ */
   return (
     <AppDataContext.Provider
       value={{
         walletBalances: aggregatedBalance, // formerly walletData
+        reserves: formattedPoolReserves,
+        user,
         isUserHasDeposits: false /** formattedUser.totalLiquidity !==0 */,
         refetchWalletData,
-        reserves: formattedPoolReserves,
         refreshPoolData, // formerly "refresh"
-        user,
-        userIncentives,
         refreshIncentives,
         loading,
-        // userReserves - why is this even needed? shouldn't user be neough
       }}
     >
       {children}

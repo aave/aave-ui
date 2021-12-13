@@ -1,5 +1,5 @@
-import { RawReserveData } from '@aave/math-utils';
 import { ReserveIncentive } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import { ComputedReserveData } from '../../../../libs/pool-data-provider/providers/dynamic-pool-data-provider';
 
 export type BorrowTableItem = {
   onSwitchToggle: () => void;
@@ -16,6 +16,6 @@ export type BorrowTableItem = {
   currentBorrowsUSD: string;
   repayLink: string;
   borrowLink: string;
-  reserve: Pick<RawReserveData, 'symbol'>;
+  reserve: Pick<ComputedReserveData, 'symbol'>;
   index?: number;
 };

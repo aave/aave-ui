@@ -1,6 +1,6 @@
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router';
-import { formatUserSummary } from '@aave/math-utils';
+import { formatUserSummary, ReserveDataComputed } from '@aave/math-utils';
 import { useThemeContext, BasicModal, rgba } from '@aave/aave-ui-kit';
 
 import {
@@ -85,12 +85,22 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
   });
 
   if (eModeEnabled && rawUserReserves) {
+    const userReserves =
+      reserves.length && rawUserReserves
+        ? rawUserReserves.map((reserve) => ({
+            ...reserve,
+            reserve: reserves.find(
+              (r) => r.underlyingAsset.toLowerCase() === reserve.underlyingAsset.toLowerCase()
+            ) as ReserveDataComputed,
+          }))
+        : [];
+
     const newSummary = formatUserSummary({
       currentTimestamp,
-      marketReferencePriceInUsd,
+      userReserves,
+      userEmodeCategoryId,
       marketReferenceCurrencyDecimals,
-      rawUserReserves,
-      userEmodeCategoryId: 0,
+      marketReferencePriceInUsd,
     });
     if (Number(newSummary.healthFactor) < 1.01 && newSummary.healthFactor !== '-1') {
       disableError = intl.formatMessage(messages.eModeDisabledLiquidation);

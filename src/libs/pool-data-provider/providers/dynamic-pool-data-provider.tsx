@@ -2,7 +2,12 @@ import React, { PropsWithChildren, useContext, useEffect, useState } from 'react
 
 import { useCurrentTimestamp } from '../hooks/use-current-timestamp';
 import { useStaticPoolDataContext } from './static-pool-data-provider';
-import { formatReserves, formatUserSummary, FormatUserSummaryResponse } from '@aave/math-utils';
+import {
+  formatReserves,
+  formatUserSummary,
+  FormatUserSummaryResponse,
+  ReserveDataComputed,
+} from '@aave/math-utils';
 import { ReserveDataHumanized } from '@aave/contract-helpers';
 
 export type ComputedReserveData = ReturnType<typeof formatReserves>[0] & ReserveDataHumanized;
@@ -35,21 +40,27 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
       setLastAvgRatesUpdateTimestamp(currentTimestamp);
     }
   }, [currentTimestamp, lastAvgRatesUpdateTimestamp]);
-
-  const computedUserData =
-    userId && rawUserReserves
-      ? formatUserSummary({
-          currentTimestamp,
-          marketReferencePriceInUsd,
-          marketReferenceCurrencyDecimals,
-          rawUserReserves,
-          userEmodeCategoryId,
-        })
-      : undefined;
-
   const formattedPoolReserves = formatReserves({
     reserves: rawReserves,
     currentTimestamp,
+    marketReferenceCurrencyDecimals,
+    marketReferencePriceInUsd,
+  });
+
+  const userReserves =
+    formattedPoolReserves.length && rawUserReserves
+      ? rawUserReserves.map((reserve) => ({
+          ...reserve,
+          reserve: formattedPoolReserves.find(
+            (r) => r.underlyingAsset.toLowerCase() === reserve.underlyingAsset.toLowerCase()
+          ) as ReserveDataComputed,
+        }))
+      : [];
+
+  const computedUserData = formatUserSummary({
+    currentTimestamp,
+    userReserves,
+    userEmodeCategoryId,
     marketReferenceCurrencyDecimals,
     marketReferencePriceInUsd,
   });

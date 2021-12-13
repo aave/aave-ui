@@ -1,12 +1,16 @@
-import { ComputedUserReserve, RawReserveData } from '@aave/math-utils';
+import { ComputedUserReserve } from '@aave/math-utils';
 import { ReserveIncentive } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import { ComputedReserveData } from '../../../../libs/pool-data-provider/providers/dynamic-pool-data-provider';
 
 export type DepositTableItem = {
   onToggleSwitch: () => void;
   isActive: boolean;
   isFrozen: boolean;
   uiColor: string;
-  reserve: Pick<RawReserveData, 'id' | 'symbol' | 'name' | 'liquidityRate' | 'underlyingAsset'>;
+  reserve: Pick<
+    ComputedReserveData,
+    'id' | 'symbol' | 'name' | 'liquidityRate' | 'underlyingAsset'
+  >;
   aIncentives: ReserveIncentive[];
   borrowingEnabled: boolean;
   index?: number;

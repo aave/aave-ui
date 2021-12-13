@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router';
 import { Pool } from '@aave/contract-helpers';
-import { formatUserSummary } from '@aave/math-utils';
+import { formatUserSummary, ReserveDataComputed } from '@aave/math-utils';
 
 import {
   useDynamicPoolDataContext,
@@ -27,19 +27,29 @@ export function EModeConfirm() {
     rawUserReserves,
     userEmodeCategoryId,
   } = useStaticPoolDataContext();
-  const { user } = useDynamicPoolDataContext();
+  const { user, reserves } = useDynamicPoolDataContext();
   const { lendingPool } = useTxBuilderContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const location = useLocation();
 
   const newEMode = Number(location.pathname.split('/')[3]);
 
+  const userReserves =
+    reserves.length && rawUserReserves
+      ? rawUserReserves.map((reserve) => ({
+          ...reserve,
+          reserve: reserves.find(
+            (r) => r.underlyingAsset.toLowerCase() === reserve.underlyingAsset.toLowerCase()
+          ) as ReserveDataComputed,
+        }))
+      : [];
+
   const newSummary = formatUserSummary({
     currentTimestamp,
-    marketReferencePriceInUsd,
+    userReserves,
+    userEmodeCategoryId,
     marketReferenceCurrencyDecimals,
-    rawUserReserves: rawUserReserves ? rawUserReserves : [],
-    userEmodeCategoryId: newEMode,
+    marketReferencePriceInUsd,
   });
   const oldHealthFactor = user ? user.healthFactor : '0';
   const newHealthFactor = newSummary.healthFactor;

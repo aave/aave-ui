@@ -81,14 +81,16 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
         const supplies = calculateSupplies(reserve, currentTimestamp);
         // Construct UserReserveData object from reserve and userReserve fields
         computedUserReserves.push({
-          underlyingAsset: userReserve.reserve.underlyingAsset.toLowerCase(),
-          totalLiquidity: supplies.totalLiquidity.toString(),
-          liquidityIndex: reserve.liquidityIndex,
-          totalScaledVariableDebt: reserve.totalScaledVariableDebt,
-          totalPrincipalStableDebt: reserve.totalPrincipalStableDebt,
           scaledATokenBalance: userReserve.scaledATokenBalance,
           scaledVariableDebt: userReserve.scaledVariableDebt,
           principalStableDebt: userReserve.principalStableDebt,
+          reserve: {
+            underlyingAsset: userReserve.reserve.underlyingAsset.toLowerCase(),
+            totalLiquidity: supplies.totalLiquidity.toString(),
+            liquidityIndex: reserve.liquidityIndex,
+            totalScaledVariableDebt: reserve.totalScaledVariableDebt,
+            totalPrincipalStableDebt: reserve.totalPrincipalStableDebt,
+          },
         });
       }
     });
@@ -142,7 +144,7 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   // Compute the total claimable rewards for a user, returned as dictionary indexed by incentivesController
   let userIncentives = calculateAllUserIncentives({
     reserveIncentives: reserveIncentiveData,
-    userReserveIncentives: userIncentiveData,
+    userIncentives: userIncentiveData,
     userReserves: computedUserReserves,
     currentTimestamp,
   });
