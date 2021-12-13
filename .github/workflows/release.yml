@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: setup config
         run: |
@@ -40,8 +42,8 @@ jobs:
         with:
           script: |
             github.rest.pulls.create({
-              title: 'Release $(node -pe "require('./package.json').version") :rocket: :tada:',
-              body: 'test body',
+              title: 'Release $(node -pe "require(\'./package.json\').version") :rocket: :tada:',
+              body: 'This is the preview of the next release',
               owner: context.repo.owner,
               repo: context.repo.repo,
               head: release/${{ github.sha }},
