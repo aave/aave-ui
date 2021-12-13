@@ -27,7 +27,7 @@ jobs:
       # this ci will just generate the changelog in a pr
       - name: release
         run: |
-          standard-version --message \"chore(release): Release v%s :tada:\" --skip.tag
+          standard-version --message "chore(release): Release v%s :tada:" --skip.tag
           git checkout -b release/test
           git push origin release/test
 
