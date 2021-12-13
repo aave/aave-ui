@@ -14,6 +14,7 @@ export enum CustomMarket {
   proto_fuji = 'proto_fuji',
   proto_arbitrum_rinkeby = 'proto_arbitrum_rinkeby',
   proto_kovan_v3 = 'proto_kovan_v3',
+  proto_eth_rinkeby_v3 = 'proto_eth_rinkeby_v3',
 }
 
 export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType } = {
@@ -37,6 +38,27 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
       WALLET_BALANCE_PROVIDER: '0x1A7bD4385E2368605bEd6C30d93dEb616Ff2C820',
       UI_POOL_DATA_PROVIDER: '0xc0D742D3a10DFC75911Fd320927297db346EEA1e',
       UI_INCENTIVE_DATA_PROVIDER: '0xceD5e96CD06B2D2839D7171BD46546b22b53AFab',
+    },
+  },
+  [CustomMarket.proto_eth_rinkeby_v3]: {
+    v3: true,
+    chainId: ChainId.rinkeby,
+    logo: logos.aavev2Logo,
+    activeLogo: logos.aavev2ActiveLogo,
+    aTokenPrefix: 'A',
+    enabledFeatures: {
+      faucet: true,
+      governance: false,
+      staking: false,
+      incentives: false,
+    },
+    addresses: {
+      LENDING_POOL_ADDRESS_PROVIDER: '0xf4C5dF4e991C9d0E59723E4eB872B48f3E44EDc9'.toLowerCase(),
+      LENDING_POOL: '0x465603b96f0311a5380963aE5B91c0e09ECAa3bC',
+      WETH_GATEWAY: '0x14Aa3cFaBb7BA11c8A72f89585373c023EE1aF06',
+      FAUCET: '0x1271EC102feB25Af74Aaf7575B7428E7Ae2A5a3a',
+      WALLET_BALANCE_PROVIDER: '0xd32c9e7340d4269e1395ee6a15b21049120B4d26',
+      UI_POOL_DATA_PROVIDER: '0x74a90a5e995289e3b391eBafF5dE51fF43193BB5',
     },
   },
   // [CustomMarket.proto_kovan]: {
@@ -204,13 +226,13 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
       incentives: false,
     },
     addresses: {
-      LENDING_POOL_ADDRESS_PROVIDER: '0x1ef259aEFFEd6291C6637B49daD715A6792239fF'.toLowerCase(),
-      LENDING_POOL: '0x62D794C8ED4f941c8D730361fa9705975b14C379',
-      WETH_GATEWAY: '0x61101A31A8215483e5beC907852F52bC0F7facA6',
-      FAUCET: '0xC6A33627A052A46Eb59D6342a400347b1Dd6f347',
-      WALLET_BALANCE_PROVIDER: '0xA1a902056B9b2edA683F5e4f2cd35E39941B140a',
-      UI_POOL_DATA_PROVIDER: '0x70017147A5B7FA72927D4930EaBe604a935674b5',
-      UI_INCENTIVE_DATA_PROVIDER: '0xacd2605F849686fc77821a8cc1DdCCE7AD8927F7',
+      LENDING_POOL_ADDRESS_PROVIDER: '0x2Bea6c296eD1Fc4c919B4D184Ede7F9cFa77C274'.toLowerCase(),
+      LENDING_POOL: '0x67eDfD3dfF6520b7E6ba58508B9F373a4815F918',
+      WETH_GATEWAY: '0x555EBE42870c82cC1D3D44C24BBC4Ea80E111e68',
+      FAUCET: '0xe17B665eCB08fa9F0C10adf66B7b1D55BFe9462F',
+      WALLET_BALANCE_PROVIDER: '0xfBa54C5d9599527208bd6b79b00b4339415244f6',
+      UI_POOL_DATA_PROVIDER: '0xb213411D16A3d910f222DEF9911dcA3906547D84',
+      UI_INCENTIVE_DATA_PROVIDER: '0x97Dd027C6BEc7eD152213832ec3016A76569d280',
     },
   },
 } as const;
