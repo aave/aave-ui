@@ -40,7 +40,7 @@ jobs:
 
       - name: version
         id: version
-        run: echo "::set-output name=VERSION::$(node -pe \"require('./package.json').version\")"
+        run: echo "::set-output name=VERSION::$(node -pe \"require(\'./package.json\').version\")"
 
       - uses: actions/github-script@v5
         with:
