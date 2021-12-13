@@ -37,7 +37,7 @@ export default function Markets() {
   const [sortDesc, setSortDesc] = useState(false);
   let totalLockedInUsd = valueToBigNumber('0');
   let sortedData = reserves
-    .filter((res) => res.isActive)
+    .filter((res) => res.isActive && !res.isFrozen)
     .map((reserve) => {
       totalLockedInUsd = totalLockedInUsd.plus(
         valueToBigNumber(reserve.totalLiquidity)
