@@ -1,0 +1,41 @@
+name: Release
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'npm'
+
+      - name: install
+        run: npm i -g standard-version
+
+      # this ci will just generate the changelog in a pr
+      - name: release
+        run: |
+          standard-version --message \"chore(release): Release v%s :tada:\" --skip.tag \
+          git checkout -b release/test \
+          git push origin release/test
+
+      - uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.pulls.create({
+              title: 'testtitle',
+              body: 'test body',
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head: 'release/test'
+              base: 'master'
+            })
