@@ -6,8 +6,9 @@ concurrency:
 
 on:
   workflow_dispatch:
-  branch:
-    - feat/version-generating
+  pull_request:
+    branches:
+      - feat/version-generating
 
 jobs:
   release:
@@ -26,8 +27,8 @@ jobs:
       # this ci will just generate the changelog in a pr
       - name: release
         run: |
-          standard-version --message \"chore(release): Release v%s :tada:\" --skip.tag \
-          git checkout -b release/test \
+          standard-version --message \"chore(release): Release v%s :tada:\" --skip.tag
+          git checkout -b release/test
           git push origin release/test
 
       - uses: actions/github-script@v5
