@@ -15,6 +15,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: setup config
+        run: |
+          git config --global user.email "release-bot@aave.com"
+          git config --global user.name "Release bot :robot:"
 
       - uses: actions/setup-node@v2
         with:
@@ -27,18 +34,22 @@ jobs:
       # this ci will just generate the changelog in a pr
       - name: release
         run: |
-          standard-version --message \"chore(release): Release v%s :tada:\" --skip.tag
-          git checkout -b release/test
-          git push origin release/test
+          standard-version --message "chore(release): Release v%s :tada:" --skip.tag
+          git checkout -b release/${{ github.sha }}
+          git push origin release/${{ github.sha }}
+
+      - name: version
+        id: version
+        run: echo "::set-output name=VERSION::$(node -pe \"require('./package.json').version\")"
 
       - uses: actions/github-script@v5
         with:
           script: |
             github.rest.pulls.create({
-              title: 'testtitle',
-              body: 'test body',
+              title: 'Release ${{ steps.version.outputs.VERSION }} :rocket: :tada:',
+              body: 'This is the preview of the next release',
               owner: context.repo.owner,
               repo: context.repo.repo,
-              head: 'release/test',
+              head: 'release/${{ github.sha }}',
               base: 'master'
             })
