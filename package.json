@@ -115,15 +115,13 @@
     "start": "react-app-rewired start",
     "build": "GENERATE_SOURCEMAP=false react-app-rewired build",
     "test": "react-app-rewired tests",
+    "lint:fix": "prettier --write src",
     "eject": "react-scripts eject",
     "gql-gen": "graphql-codegen --config codegen.yml",
     "i18n": "NODE_ENV=development node ./scripts/extract-intl-messages.js",
-    "pinata:ipfs-publish": "node scripts/publish.js"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && npm run i18n && git add ./src/translations"
-    }
+    "pinata:ipfs-publish": "node scripts/publish.js",
+    "prepare": "husky install",
+    "pre-commit": "lint-staged && npm run i18n && git add ./src/translations"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [

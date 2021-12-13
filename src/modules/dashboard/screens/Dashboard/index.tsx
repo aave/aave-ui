@@ -54,8 +54,11 @@ export default function Dashboard() {
       throw new Error('data is inconsistent pool reserve is not available');
     }
 
-    const reserveIncentiveData =
-      reserveIncentives[userReserve.reserve.underlyingAsset.toLowerCase()];
+    const reserveIncentiveData = reserveIncentives[
+      userReserve.reserve.underlyingAsset.toLowerCase()
+    ]
+      ? reserveIncentives[userReserve.reserve.underlyingAsset.toLowerCase()]
+      : { aIncentives: [], vIncentives: [], sIncentives: [] };
     if (userReserve.underlyingBalance !== '0' || userReserve.totalBorrows !== '0') {
       const baseListData = {
         uiColor: getAssetColor(userReserve.reserve.symbol),

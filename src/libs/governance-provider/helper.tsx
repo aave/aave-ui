@@ -37,6 +37,10 @@ export const getCorrectState = (proposal: ProposalItem) => {
     return quorumValid && differentialValid ? ProposalState.Succeeded : ProposalState.Failed;
   }
 
+  if (hasEnded && proposal.state === ProposalState.Queued) {
+    return ProposalState.Expired;
+  }
+
   // When there has never been a single vote, no event has been triggered which could have transitioned the state.
   if (proposal.state === ProposalState.Pending) {
     if (hasEnded) return ProposalState.Failed;

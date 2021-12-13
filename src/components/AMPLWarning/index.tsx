@@ -21,7 +21,7 @@ export default function AMPLWarning({ withInfoPanel }: AMPLWarningProps) {
     <p className={classNames('AMPLWarning', { AMPLWarning__text: !withInfoPanel })}>
       {intl.formatMessage(messages.amplWarning, {
         asset: <b>Ampleforth</b>,
-        link: (
+        link1: (
           <Link
             to="https://docs.aave.com/developers/guides/ampl-asset-listing"
             absolute={true}
@@ -29,6 +29,16 @@ export default function AMPLWarning({ withInfoPanel }: AMPLWarningProps) {
             color="secondary"
           >
             {intl.formatMessage(messages.documentation)}
+          </Link>
+        ),
+        link2: (
+          <Link
+            to="https://faq.ampleforth.org/lending_and_borrowing"
+            absolute={true}
+            inNewWindow={true}
+            color="secondary"
+          >
+            {intl.formatMessage(messages.amplFaq)}
           </Link>
         ),
       })}
