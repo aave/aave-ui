@@ -30,8 +30,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
   },
   [ChainId.mainnet]: {
     name: 'Ethereum Mainnet',
-    publicJsonRPCUrl: ['https://cloudflare-eth.com', 'https://eth-mainnet.alchemyapi.io/v2/demo'],
-    publicJsonRPCWSUrl: 'wss://eth-mainnet.alchemyapi.io/v2/demo',
+    publicJsonRPCUrl: ['https://cloudflare-eth.com'],
     addresses: {
       walletBalanceProvider: '0x8E8dAd5409E0263a51C0aB5055dA66Be28cFF922',
       uiPoolDataProvider: '0x7FdbD3A61249Cb2F3268B82d8eF23f5095B5E874',
