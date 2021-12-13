@@ -43,7 +43,7 @@ export default function TableHeaderButton({
   return (
     <>
       {withSorting && sortKey ? (
-        <button
+        <div
           onClick={() => handleSorting(sortKey)}
           className={classNames(
             'TableHeaderButton TableHeaderButton__withSort',
@@ -55,11 +55,10 @@ export default function TableHeaderButton({
             className,
             `TableHeaderButton__${size}`
           )}
-          type="button"
         >
           {!!subTitle && <span className="TableHeaderButton__subTitle">{subTitle}</span>}
           <div className="TableHeaderButton__title">{title}</div>
-        </button>
+        </div>
       ) : (
         <div
           className={classNames(

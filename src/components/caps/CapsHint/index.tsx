@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { BigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import Value from '../../basic/Value';
@@ -34,8 +34,8 @@ export default function CapsHint({
   const cap = Number(capAmount);
   if (cap <= 0) return null;
 
-  const percentageOfCap = +totalAmount / cap;
-  const value = new BigNumber(cap).minus(totalAmount).multipliedBy('0.995').toNumber();
+  const percentageOfCap = valueToBigNumber(totalAmount).dividedBy(cap).toNumber();
+  const value = valueToBigNumber(cap).minus(totalAmount).multipliedBy('0.995').toNumber();
 
   const title =
     md && !sm

@@ -24,10 +24,11 @@ interface BasicFormProps {
   title?: string;
   description?: string | ReactNode;
   maxAmount: string;
-  amountFieldTitle?: string;
+  amountFieldTitle?: string | ReactNode;
   currencySymbol: string;
   onSubmit: (amount: string, max?: boolean) => void;
   withRiskBar?: boolean;
+  maxRiskBarAmount?: string;
   submitButtonTitle?: string;
   absoluteMaximum?: boolean;
   className?: string;
@@ -52,6 +53,7 @@ export default function BasicForm({
   currencySymbol,
   onSubmit,
   withRiskBar,
+  maxRiskBarAmount,
   submitButtonTitle,
   absoluteMaximum,
   className,
@@ -145,11 +147,11 @@ export default function BasicForm({
           <TxEstimation getTransactionsData={getTransactionData} amount={amount} />
         )}
 
-        {withRiskBar && (
+        {withRiskBar && maxRiskBarAmount && (
           <RiskBar
             value={Number(amount)}
             onChange={handleAmountChange}
-            maxAmount={maxAmount}
+            maxAmount={maxRiskBarAmount}
             currencySymbol={currencySymbol}
           />
         )}

@@ -111,19 +111,11 @@ export default function BorrowMain() {
     }
     if (withFilter) {
       if (sortDesc) {
-        return (
-          data(filteredReserves)
-            .sort((a, b) => +b.availableBorrowsInUSD - +a.availableBorrowsInUSD)
-            // @ts-ignore
-            .sort((a, b) => a[sortName] - b[sortName])
-        );
+        //@ts-ignore
+        return data(filteredReserves).sort((a, b) => a[sortName] - b[sortName]);
       } else {
-        return (
-          data(filteredReserves)
-            .sort((a, b) => +b.availableBorrowsInUSD - +a.availableBorrowsInUSD)
-            // @ts-ignore
-            .sort((a, b) => b[sortName] - a[sortName])
-        );
+        //@ts-ignore
+        return data(filteredReserves).sort((a, b) => b[sortName] - a[sortName]);
       }
     } else {
       return data(reserves);
