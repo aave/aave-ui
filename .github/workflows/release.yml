@@ -6,6 +6,8 @@ concurrency:
 
 on:
   workflow_dispatch:
+  branch:
+    - feat/version-generating
 
 jobs:
   release:
@@ -36,6 +38,6 @@ jobs:
               body: 'test body',
               owner: context.repo.owner,
               repo: context.repo.repo,
-              head: 'release/test'
+              head: 'release/test',
               base: 'master'
             })
