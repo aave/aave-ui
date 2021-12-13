@@ -33,7 +33,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCUrl: ['https://cloudflare-eth.com'],
     addresses: {
       walletBalanceProvider: '0x8E8dAd5409E0263a51C0aB5055dA66Be28cFF922',
-      uiPoolDataProvider: '0x7FdbD3A61249Cb2F3268B82d8eF23f5095B5E874',
+      uiPoolDataProvider: '0x47e300dDd1d25447482E2F7e5a5a967EA2DA8634',
       uiIncentiveDataProvider: '0xd9F1e5F70B14b8Fd577Df84be7D75afB8a3A0186',
       chainlinkFeedRegistry: '0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf',
     },
