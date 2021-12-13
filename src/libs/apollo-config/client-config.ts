@@ -11,6 +11,7 @@ import {
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { WebSocketLink as WebSocketLinkLegacy } from '@apollo/client/link/ws';
 import { DocumentNode, NameNode } from 'graphql';
 import gql from 'graphql-tag';
 import { NetworkConfig } from '../../helpers/config/types';
@@ -86,6 +87,20 @@ function createWsLink(uri: string): WebSocketLink {
     keepAlive: 10000,
     lazy: true,
   });
+  return wsLink;
+}
+
+function createWsLinkLegacy(uri: string): WebSocketLinkLegacy {
+  const wsLink = new WebSocketLinkLegacy({
+    uri,
+    options: {
+      reconnect: true,
+      timeout: 30000,
+      lazy: true,
+    },
+  });
+  // @ts-ignore
+  wsLink.subscriptionClient.maxConnectTimeGenerator.setMin(15000);
   return wsLink;
 }
 
@@ -238,7 +253,7 @@ export function getApolloClient({
             definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
           );
         },
-        createWsLink(governanceConfig.wsGovernanceDataUrl),
+        createWsLinkLegacy(governanceConfig.wsGovernanceDataUrl),
         new HttpLink({ uri: governanceConfig.queryGovernanceDataUrl })
       )
     : undefined;
