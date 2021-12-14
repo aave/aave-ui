@@ -47,7 +47,7 @@ jobs:
           script: |
             github.rest.pulls.create({
               title: 'Release ${{ steps.version.outputs.VERSION }} :rocket: :tada:',
-              body: 'This is the preview of the next release',
+              body: 'Please review and refine the changelog carefully, before approving this pr.',
               owner: context.repo.owner,
               repo: context.repo.repo,
               head: 'release/${{ github.sha }}',
