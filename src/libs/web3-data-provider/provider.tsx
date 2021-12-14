@@ -21,6 +21,9 @@ import {
 
 import messages from './messages';
 import { ChainId } from '@aave/contract-helpers';
+import queryString from 'query-string';
+import { useLocation } from 'react-router-dom';
+import { LedgerIFrameConnector } from './web3-providers/connectors/ledger-iframe-connector';
 
 interface UserWalletData {
   availableAccounts: string[];
@@ -117,6 +120,7 @@ export function Web3Provider({
   connectWalletModal: ConnectWalletModal,
 }: PropsWithChildren<Web3ProviderProps>) {
   const intl = useIntl();
+  const location = useLocation();
   const { library, account, activate, error, deactivate } =
     useWeb3React<ethers.providers.Web3Provider>();
 
@@ -324,29 +328,37 @@ export function Web3Provider({
   useEffect(() => {
     const safeAppConnector = new SafeAppConnector();
 
-    safeAppConnector.isSafeApp().then((isSafeApp) => {
-      let storedProviderName = localStorage.getItem('currentProvider') as
-        | AvailableWeb3Connectors
-        | undefined;
-      if (isSafeApp) {
-        storedProviderName = 'gnosis-safe';
-      } else if (storedProviderName === 'gnosis-safe') {
-        storedProviderName = undefined;
-      }
-      if (storedProviderName) {
-        console.log('storedProviderName', storedProviderName);
-        setCurrentProviderName(storedProviderName);
-        handleUnlockWallet(
-          storedProviderName,
-          preferredNetwork,
-          supportedChainIds,
-          connectorOptionalConfig
-        );
-      } else {
-        setCurrentAccount('');
-        setActivation(false);
-      }
-    });
+    let storedProviderName = localStorage.getItem('currentProvider') as
+      | AvailableWeb3Connectors
+      | undefined;
+    const handlerIFrameProvider =
+      (providerName: AvailableWeb3Connectors) => (isSelectedProvider: boolean) => {
+        if (isSelectedProvider) {
+          storedProviderName = providerName;
+        } else if (storedProviderName === providerName) {
+          storedProviderName = undefined;
+        }
+        if (storedProviderName) {
+          console.log('storedProviderName', storedProviderName);
+          setCurrentProviderName(storedProviderName);
+          handleUnlockWallet(
+            storedProviderName,
+            preferredNetwork,
+            supportedChainIds,
+            connectorOptionalConfig
+          );
+        } else {
+          setCurrentAccount('');
+          setActivation(false);
+        }
+      };
+    const queryParams = queryString.parse(location.search);
+    // TODO: remove embed, rely just on isLedgerLive
+    if (queryParams.isLedgerLive || queryParams.embed) {
+      LedgerIFrameConnector.isLedgerIFrame().then(handlerIFrameProvider('ledger-iframe'));
+    } else {
+      safeAppConnector.isSafeApp().then(handlerIFrameProvider('gnosis-safe'));
+    }
     // eslint-disable-next-line  react-hooks/exhaustive-deps
   }, []);
 
