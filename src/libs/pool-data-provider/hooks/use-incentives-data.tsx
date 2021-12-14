@@ -10,6 +10,7 @@ import {
 } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useUserWalletDataContext } from '../../web3-data-provider';
+import { BigNumber } from '@aave/protocol-js';
 //import { useConnectionStatusContext } from '../../connection-status-provider';
 //import { useApolloConfigContext } from '../../apollo-config';
 
@@ -17,6 +18,21 @@ import { useUserWalletDataContext } from '../../web3-data-provider';
 const POOLING_INTERVAL = 30 * 1000;
 // decreased interval in case there was a network error for faster recovery
 const RECOVER_INTERVAL = 10 * 1000;
+
+export interface ReserveIncentiveResponse {
+  incentiveAPR: string;
+  rewardTokenAddress: string;
+  rewardTokenSymbol: string;
+}
+
+export interface UserIncentiveResponse {
+  incentiveControllerAddress: string;
+  rewardTokenSymbol: string;
+  rewardPriceFeed: string;
+  rewardTokenDecimals: number;
+  claimableRewards: BigNumber;
+  assets: string[];
+}
 
 export interface IncentiveDataResponse {
   loading: boolean;

@@ -1,11 +1,7 @@
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { BigNumber, normalize } from '@aave/protocol-js';
-import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
-import {
-  useIncentivesDataContext,
-  UserIncentive,
-} from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
@@ -17,13 +13,13 @@ import Link from '../../../../components/basic/Link';
 
 import messages from './messages';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import { UserIncentiveResponse } from '../../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 export function RewardConfirm() {
   const intl = useIntl();
   const location = useLocation();
 
-  const { user } = useDynamicPoolDataContext();
-  const { userIncentives, incentivesTxBuilder, incentivesTxBuilderV2 } = useIncentivesDataContext();
+  const { user, incentivesTxBuilder, incentivesTxBuilderV2, userId } = useAppDataContext();
   const { currentMarketData } = useProtocolDataContext();
   const rewardTokenAddress = location.pathname.split('/')[3];
   const mode = rewardTokenAddress === 'all' ? 'all' : 'single';
@@ -32,7 +28,7 @@ export function RewardConfirm() {
     return null;
   }
 
-  let incentiveData: UserIncentive | undefined = undefined;
+  let incentiveData: UserIncentiveResponse | undefined = undefined;
   let aTokenData = undefined;
   let assets: string[] = [];
   let incentivesControllerAddress = '';
@@ -40,7 +36,7 @@ export function RewardConfirm() {
   let formattedAmount = '0';
 
   if (mode === 'single') {
-    incentiveData = userIncentives[rewardTokenAddress];
+    incentiveData = user.calculatedUserIncentives[rewardTokenAddress];
     aTokenData = getAtokenInfo({
       address: rewardTokenAddress,
       symbol: incentiveData.rewardTokenSymbol,
@@ -58,7 +54,7 @@ export function RewardConfirm() {
     incentivesControllerAddress = incentiveData.incentiveControllerAddress;
   } else {
     let totalClaimable = new BigNumber('0');
-    Object.entries(userIncentives).forEach((incentive) => {
+    Object.entries(user.calculatedUserIncentives).forEach((incentive) => {
       // We are assuming that all rewards are coming from the same incentive controller address so it doesn't matter which reward we fetch this from
       incentivesControllerAddress = incentive[1].incentiveControllerAddress;
       incentive[1].assets.forEach((asset) => {
@@ -79,29 +75,29 @@ export function RewardConfirm() {
   const handleGetTransactions = async () => {
     if (currentMarketData.v3) {
       if (rewardTokenAddress === 'all') {
-        console.log(`user id: ${user.id}`);
+        console.log(`user id: ${userId}`);
         console.log(assets);
         console.log(incentivesControllerAddress);
         return incentivesTxBuilderV2.claimAllRewards({
-          user: user.id,
+          user: userId,
           assets,
-          to: user.id,
+          to: userId,
           incentivesControllerAddress,
         });
       } else {
         return incentivesTxBuilderV2.claimRewards({
-          user: user.id,
+          user: userId,
           assets,
-          to: user.id,
+          to: userId,
           incentivesControllerAddress,
           reward: rewardTokenAddress,
         });
       }
     } else {
       return incentivesTxBuilder.claimRewards({
-        user: user.id,
+        user: userId,
         assets,
-        to: user.id,
+        to: userId,
         incentivesControllerAddress,
       });
     }
@@ -164,7 +160,7 @@ export function RewardConfirm() {
               />
             </Row>
           ) : (
-            Object.entries(userIncentives).map((incentive) => (
+            Object.entries(user.calculatedUserIncentives).map((incentive) => (
               <Row title={intl.formatMessage(messages.claim)} key={incentive[1].rewardTokenSymbol}>
                 <Value
                   symbol={incentive[1].rewardTokenSymbol}

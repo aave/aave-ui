@@ -1,11 +1,11 @@
-import { ComputedUserReserve } from '@aave/math-utils';
+import { ComputedUserReserve, FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
 import {
   calculateHealthFactorFromBalancesBigUnits,
   valueToBigNumber,
   BigNumberValue,
   BigNumber,
 } from '@aave/protocol-js';
-import { ComputedReserveData, UserSummary } from '../../libs/pool-data-provider';
+import { ComputedReserveData } from '../../libs/pool-data-provider';
 
 export function calculateHFAfterRepay(
   fromAmount: BigNumberValue,
@@ -14,7 +14,7 @@ export function calculateHFAfterRepay(
   repayAmount: BigNumberValue,
   repayAssetData: ComputedReserveData | undefined,
   repayAssetUserData: ComputedUserReserve | undefined,
-  user: UserSummary
+  user: FormatUserSummaryAndIncentivesResponse
 ) {
   if (!repayAssetData || !fromAssetData) {
     return {

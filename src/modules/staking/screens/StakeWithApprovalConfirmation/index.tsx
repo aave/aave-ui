@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import BigNumber from 'bignumber.js';
 import queryString from 'query-string';
 
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useStakeDataContext } from '../../../../libs/pool-data-provider/hooks/use-stake-data-context';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import Row from '../../../../components/basic/Row';
@@ -16,7 +16,7 @@ import messages from './messages';
 export default function StakeWithApprovalConfirmation() {
   const intl = useIntl();
   const location = useLocation();
-  const { userId } = useStaticPoolDataContext();
+  const { userId } = useAppDataContext();
   const { selectedStake, selectedStakeData, stakingService } = useStakeDataContext();
 
   const aTokenData = getAtokenInfo({

@@ -1,23 +1,23 @@
 import React from 'react';
 
-import { useStaticPoolDataContext } from '../../libs/pool-data-provider';
+import { useAppDataContext } from '../../libs/pool-data-provider';
 import TxConfirmationView, { TxConfirmationViewProps } from '../TxConfirmationView';
 import { useConnectionStatusContext } from '../../libs/connection-status-provider';
-import { useIncentivesDataContext } from '../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import { useProtocolDataContext } from '../../libs/protocol-data-provider';
 
 type PoolTxConfirmationViewProps = Omit<TxConfirmationViewProps, 'txChainId'>;
 
 function PoolTxConfirmationView({ onMainTxConfirmed, ...props }: PoolTxConfirmationViewProps) {
   const { isRPCActive } = useConnectionStatusContext();
-  const { refresh, chainId, refetchWalletData } = useStaticPoolDataContext();
-  const { refresh: refreshIncentives } = useIncentivesDataContext();
+  const { chainId } = useProtocolDataContext();
+  const { refreshIncentives, refetchWalletData, refreshPoolData } = useAppDataContext();
 
   const handleMainTxConfirmed = () => {
     if (typeof onMainTxConfirmed === 'function') {
       onMainTxConfirmed();
     }
     if (isRPCActive) {
-      refresh && refresh();
+      refreshPoolData && refreshPoolData();
       refreshIncentives && refreshIncentives();
     }
     refetchWalletData();

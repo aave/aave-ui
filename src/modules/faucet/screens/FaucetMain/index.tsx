@@ -2,10 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { valueToBigNumber } from '@aave/protocol-js';
 
-import {
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import Preloader from '../../../../components/basic/Preloader';
 import FaucetAssetTable from '../../components/FaucetAssetTable';
@@ -13,13 +10,14 @@ import FaucetAssetTable from '../../components/FaucetAssetTable';
 import messages from './messages';
 
 import { FaucetTableItem } from '../../components/FaucetAssetTable/types';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
 export default function FaucetMain() {
   const intl = useIntl();
-  const { userId, networkConfig, walletData } = useStaticPoolDataContext();
-  const { reserves } = useDynamicPoolDataContext();
+  const { networkConfig } = useProtocolDataContext();
+  const { reserves, userId, walletBalances } = useAppDataContext();
 
-  if (!walletData) {
+  if (!walletBalances) {
     return <Preloader />;
   }
 
@@ -28,7 +26,9 @@ export default function FaucetMain() {
       (reserve) => reserve.symbol.toUpperCase() !== networkConfig.baseAsset && !reserve.isFrozen
     )
     .map<FaucetTableItem>((reserve) => {
-      const walletBalance = valueToBigNumber(walletData[reserve.underlyingAsset]?.amount || '0');
+      const walletBalance = valueToBigNumber(
+        walletBalances[reserve.underlyingAsset]?.amount || '0'
+      );
       return {
         ...reserve,
         walletBalance,

@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { gradient, useThemeContext } from '@aave/aave-ui-kit';
 
-import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../libs/pool-data-provider';
 import { getEmodeMessage } from '../../../helpers/e-mode/getEmodeMessage';
 import EModeModal from '../EModeModal';
 import EModeHelpModal from '../EModeHelpModal';
@@ -22,7 +22,7 @@ interface EModeButtonProps {
 export default function EModeButton({ size }: EModeButtonProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
-  const { userEmodeCategoryId } = useStaticPoolDataContext();
+  const { userEmodeCategoryId } = useAppDataContext();
 
   const [visible, setVisible] = useState(false);
 

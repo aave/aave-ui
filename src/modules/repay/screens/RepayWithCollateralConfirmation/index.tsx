@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { valueToBigNumber, BigNumber, InterestRate, API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
-import {
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import RepayContentWrapper from '../../components/RepayContentWrapper';
 import Row from '../../../../components/basic/Row';
@@ -25,6 +22,7 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import { ChainId } from '@aave/contract-helpers';
 import { USD_DECIMALS } from '@aave/math-utils';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
 interface QueryParams {
   fromAsset?: string;
@@ -48,8 +46,8 @@ function RepayWithCollateralConfirmation({
   location,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
-  const { marketReferencePriceInUsd, WrappedBaseNetworkAssetAddress } = useStaticPoolDataContext();
-  const { reserves } = useDynamicPoolDataContext();
+  const { marketReferencePriceInUsd, reserves, userId } = useAppDataContext();
+  const { networkConfig } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
   const [isTxExecuted, setIsTxExecuted] = useState(false);
 
@@ -138,12 +136,14 @@ function RepayWithCollateralConfirmation({
 
   const fixedAsset = (asset: string) =>
     asset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()
-      ? WrappedBaseNetworkAssetAddress
+      ? networkConfig.baseAssetWrappedAddress
+        ? networkConfig.baseAssetWrappedAddress
+        : ''
       : asset.toLowerCase();
 
   const handleGetTransactions = async () =>
     await lendingPool.repayWithCollateral({
-      user: user.id,
+      user: userId,
       fromAsset: fixedAsset(fromAsset),
       repayAllDebt,
       assetToRepay: fixedAsset(toAsset),

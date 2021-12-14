@@ -7,13 +7,13 @@ import NoData from '../../basic/NoData';
 import LiquidityMiningAPYLine from '../LiquidityMiningAPYLine';
 
 import staticStyles from './style';
-import { ReserveIncentive } from '../../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import { ReserveIncentiveResponse } from '../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 interface LiquidityMiningCardProps {
   symbol?: string;
   type?: string;
   value: string | number;
-  liquidityMiningValues?: ReserveIncentive[];
+  liquidityMiningValues?: ReserveIncentiveResponse[];
   className?: string;
   mobilePosition?: 'left' | 'right';
 }
@@ -64,12 +64,12 @@ export default function LiquidityMiningCard({
       <style jsx={true} global={true}>{`
         .LiquidityMiningCard__tooltip {
           background: ${isCurrentThemeDark
-            ? currentTheme.mainBg.hex
-            : currentTheme.darkBlue.hex} !important;
+          ? currentTheme.mainBg.hex
+          : currentTheme.darkBlue.hex} !important;
           &:after {
             border-top-color: ${isCurrentThemeDark
-              ? currentTheme.mainBg.hex
-              : currentTheme.darkBlue.hex} !important;
+          ? currentTheme.mainBg.hex
+          : currentTheme.darkBlue.hex} !important;
           }
         }
       `}</style>

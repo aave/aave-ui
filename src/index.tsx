@@ -22,7 +22,6 @@ import { ProtocolDataProvider } from './libs/protocol-data-provider';
 import { TxBuilderProvider } from './libs/tx-provider';
 
 import App from './App';
-import StaticPoolDataProviderWrapper from './components/PoolDataProviderWrapper';
 import ErrorBoundary from './components/ErrorBoundary';
 
 import globalStyle from './globalStyle';
@@ -34,9 +33,7 @@ import {
 import { UnlockWalletPreloader } from './components/UnlockWalletPreloader';
 import ConnectWalletModal from './components/ConnectWalletModal';
 import { PermissionProvider } from './libs/use-permissions/usePermissions';
-import { DynamicPoolDataProvider } from './libs/pool-data-provider';
 import { ConnectionStatusProvider } from './libs/connection-status-provider';
-import { IncentivesDataProvider } from './libs/pool-data-provider/hooks/use-incentives-data-context';
 import { AppDataProvider } from './libs/pool-data-provider/providers/app-data-provider';
 
 initSentry();
@@ -74,15 +71,9 @@ ReactDOM.render(
                         >
                           <PermissionProvider>
                             <AppDataProvider>
-                              <StaticPoolDataProviderWrapper>
-                                <DynamicPoolDataProvider>
-                                  <IncentivesDataProvider>
-                                    <TxBuilderProvider>
-                                      <App />
-                                    </TxBuilderProvider>
-                                  </IncentivesDataProvider>
-                                </DynamicPoolDataProvider>
-                              </StaticPoolDataProviderWrapper>
+                              <TxBuilderProvider>
+                                <App />
+                              </TxBuilderProvider>
                             </AppDataProvider>
                           </PermissionProvider>
                         </Web3Provider>

@@ -3,9 +3,7 @@ import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
-
-import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
-import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { loanActionLinkComposer } from '../../../../helpers/loan-action-link-composer';
 import { toggleUseAsCollateral } from '../../../../helpers/toggle-use-as-collateral';
 import { toggleBorrowRateMode } from '../../../../helpers/toggle-borrow-rate-mode';
@@ -27,8 +25,7 @@ import staticStyles from './style';
 export default function Dashboard() {
   const intl = useIntl();
   const history = useHistory();
-  const { user, reserves } = useDynamicPoolDataContext();
-  const { reserveIncentives } = useIncentivesDataContext();
+  const { user, reserves } = useAppDataContext();
   const { currentTheme } = useThemeContext();
 
   const [isBorrow, setIsBorrow] = useState(false);
@@ -39,8 +36,8 @@ export default function Dashboard() {
   const collateralUsagePercent = maxBorrowAmount.eq(0) // TODO: need to take a look (for some reason it shows 100% when the user has no borrows)
     ? '1'
     : valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0')
-        .div(maxBorrowAmount)
-        .toFixed();
+      .div(maxBorrowAmount)
+      .toFixed();
 
   const loanToValue = valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0')
     .dividedBy(user?.totalCollateralMarketReferenceCurrency || '1')
@@ -54,8 +51,6 @@ export default function Dashboard() {
       throw new Error('data is inconsistent pool reserve is not available');
     }
 
-    const reserveIncentiveData =
-      reserveIncentives[userReserve.reserve.underlyingAsset.toLowerCase()];
     if (userReserve.underlyingBalance !== '0' || userReserve.totalBorrows !== '0') {
       const baseListData = {
         uiColor: getAssetColor(userReserve.reserve.symbol),
@@ -81,7 +76,7 @@ export default function Dashboard() {
           underlyingBalanceUSD: userReserve.underlyingBalanceUSD,
           isUserInIsolationMode: user?.isInIsolationMode,
           isIsolated: poolReserve.isIsolated,
-          aIncentives: reserveIncentiveData.aIncentives,
+          aIncentives: poolReserve.aIncentivesData ? poolReserve.aIncentivesData : [],
           onToggleSwitch: () =>
             toggleUseAsCollateral(
               history,
@@ -100,8 +95,8 @@ export default function Dashboard() {
           currentBorrowsUSD: userReserve.variableBorrowsUSD,
           borrowRateMode: InterestRate.Variable,
           borrowRate: poolReserve.variableBorrowAPY,
-          vIncentives: reserveIncentiveData.vIncentives,
-          sIncentives: reserveIncentiveData.sIncentives,
+          vIncentives: poolReserve.vIncentivesData ? poolReserve.vIncentivesData : [],
+          sIncentives: poolReserve.sIncentivesData ? poolReserve.sIncentivesData : [],
           repayLink: loanActionLinkComposer(
             'repay',
             poolReserve.id,
@@ -131,8 +126,8 @@ export default function Dashboard() {
           currentBorrowsUSD: userReserve.stableBorrowsUSD,
           borrowRateMode: InterestRate.Stable,
           borrowRate: userReserve.stableBorrowAPY,
-          vIncentives: reserveIncentiveData.vIncentives,
-          sIncentives: reserveIncentiveData.sIncentives,
+          vIncentives: poolReserve.vIncentivesData ? poolReserve.vIncentivesData : [],
+          sIncentives: poolReserve.sIncentivesData ? poolReserve.sIncentivesData : [],
           repayLink: loanActionLinkComposer(
             'repay',
             poolReserve.id,

@@ -4,11 +4,11 @@ import TableCol from '../TableCol';
 import LiquidityMiningCard from '../../../../../components/liquidityMining/LiquidityMiningCard';
 
 import staticStyles from './style';
-import { ReserveIncentive } from '../../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import { ReserveIncentiveResponse } from '../../../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 interface TableAprColProps {
   value: number;
-  liquidityMiningValues: ReserveIncentive[];
+  liquidityMiningValues: ReserveIncentiveResponse[];
   symbol?: string;
   type?: string;
 }

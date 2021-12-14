@@ -20,7 +20,7 @@ import {
 } from '../../helpers/config/markets-and-network-config';
 import { useUserWalletDataContext } from '../../libs/web3-data-provider';
 import { useProtocolDataContext } from '../../libs/protocol-data-provider';
-import { useStaticPoolDataContext } from '../../libs/pool-data-provider';
+import { useAppDataContext } from '../../libs/pool-data-provider';
 import {
   EthTransactionData,
   sendEthTransaction,
@@ -124,7 +124,7 @@ export default function TxConfirmationView({
   const [loadingTxData, setLoadingTxData] = useState(true);
   const [backendNotAvailable, setBackendNotAvailable] = useState(false);
   const { chainId: currentMarketChainId, networkConfig } = useProtocolDataContext();
-  const { userId } = useStaticPoolDataContext();
+  const { userId } = useAppDataContext();
 
   // todo: do types more sophisticated
   const [uncheckedApproveTxData, setApproveTxData] = useState({} as EthTransactionData);

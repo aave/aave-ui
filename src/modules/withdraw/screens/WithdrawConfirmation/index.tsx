@@ -20,6 +20,7 @@ import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 
 function WithdrawConfirmation({
   currencySymbol,
@@ -30,6 +31,7 @@ function WithdrawConfirmation({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { lendingPool } = useTxBuilderContext();
+  const { userId } = useAppDataContext();
   const aTokenData = getAtokenInfo({
     address: poolReserve.underlyingAsset,
     symbol: currencySymbol,
@@ -143,7 +145,7 @@ function WithdrawConfirmation({
 
   const handleGetTransactions = async () => {
     return await lendingPool.withdraw({
-      user: user.id,
+      user: userId,
       reserve: poolReserve.underlyingAsset,
       amount: amountToWithdraw.toString(),
       aTokenAddress: poolReserve.aTokenAddress,

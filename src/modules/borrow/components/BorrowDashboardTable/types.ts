@@ -1,5 +1,5 @@
-import { ReserveIncentive } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
-import { ComputedReserveData } from '../../../../libs/pool-data-provider/providers/dynamic-pool-data-provider';
+import { ComputedReserveData } from '../../../../libs/pool-data-provider';
+import { ReserveIncentiveResponse } from '../../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 export type BorrowTableItem = {
   onSwitchToggle: () => void;
@@ -9,8 +9,8 @@ export type BorrowTableItem = {
   stableBorrowRateEnabled: boolean;
   uiColor: string;
   borrowRate: string;
-  vIncentives: ReserveIncentive[];
-  sIncentives: ReserveIncentive[];
+  vIncentives: ReserveIncentiveResponse[];
+  sIncentives: ReserveIncentiveResponse[];
   borrowRateMode: string;
   currentBorrows: string;
   currentBorrowsUSD: string;

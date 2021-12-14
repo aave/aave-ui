@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { normalize, valueToBigNumber, API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import { useDebouncedCallback } from 'use-debounce';
-
-import { useStaticPoolDataContext } from '../pool-data-provider';
 import { IBaseUniswapAdapterFactory } from './IBaseUniswapAdapterFactory';
 import { useProtocolDataContext } from '../protocol-data-provider';
 
@@ -24,7 +22,9 @@ interface AssetSwapParams {
 export function useAssetSwap(params?: AssetSwapParams) {
   const poolingInterval = params?.poolingInterval || 10 * 1000;
   const { jsonRpcProvider, networkConfig, chainId } = useProtocolDataContext();
-  const { WrappedBaseNetworkAssetAddress } = useStaticPoolDataContext();
+  const wrappedBaseAssetAddress = networkConfig.baseAssetWrappedAddress
+    ? networkConfig.baseAssetWrappedAddress
+    : '';
 
   const [loading, setLoading] = useState(false);
 
@@ -68,11 +68,11 @@ export function useAssetSwap(params?: AssetSwapParams) {
       // but maybe at some point better to change the general flow
       const fixedFromAsset =
         _fromAsset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()
-          ? WrappedBaseNetworkAssetAddress
+          ? wrappedBaseAssetAddress
           : _fromAsset;
       const fixedToAsset =
         _toAsset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()
-          ? WrappedBaseNetworkAssetAddress
+          ? wrappedBaseAssetAddress
           : _toAsset;
 
       try {

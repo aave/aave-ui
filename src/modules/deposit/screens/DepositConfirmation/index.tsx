@@ -6,7 +6,7 @@ import { Pool } from '@aave/contract-helpers';
 import { USD_DECIMALS } from '@aave/math-utils';
 
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import routeParamValidationHOC, {
@@ -34,7 +34,7 @@ function DepositConfirmation({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const { marketReferencePriceInUsd } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, userId } = useAppDataContext();
   const { currentMarketData } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
 
@@ -90,13 +90,13 @@ function DepositConfirmation({
       // TO-DO: No need for this cast once a single Pool type is used in use-tx-builder-context
       const newPool: Pool = lendingPool as Pool;
       return await newPool.supply({
-        user: user.id,
+        user: userId,
         reserve: poolReserve.underlyingAsset,
         amount: amount.toString(),
       });
     } else {
       return await lendingPool.deposit({
-        user: user.id,
+        user: userId,
         reserve: poolReserve.underlyingAsset,
         amount: amount.toString(),
       });
@@ -108,7 +108,7 @@ function DepositConfirmation({
     // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
     const newPool: Pool = lendingPool as Pool;
     return await newPool.signERC20Approval({
-      user: user.id,
+      user: userId,
       reserve: poolReserve.underlyingAsset,
       amount: amount.toString(),
     });
@@ -119,7 +119,7 @@ function DepositConfirmation({
     // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
     const newPool: Pool = lendingPool as Pool;
     return await newPool.supplyWithPermit({
-      user: user.id,
+      user: userId,
       reserve: poolReserve.underlyingAsset,
       amount: amount.toString(),
       signature,

@@ -5,13 +5,8 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 import { PERMISSION } from '@aave/contract-helpers';
 import { USD_DECIMALS } from '@aave/math-utils';
 
-import {
-  ComputedReserveData,
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../../../../libs/pool-data-provider';
+import { ComputedReserveData, useAppDataContext } from '../../../../libs/pool-data-provider';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
-import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import NoDataPanel from '../../../../components/NoDataPanel';
 import AssetsFilterPanel from '../../../../components/AssetsFilterPanel';
@@ -28,9 +23,8 @@ import { BorrowTableItem } from '../../components/BorrowAssetTable/types';
 
 export default function BorrowMain() {
   const intl = useIntl();
-  const { marketReferencePriceInUsd, userEmodeCategoryId } = useStaticPoolDataContext();
-  const { reserves, user } = useDynamicPoolDataContext();
-  const { reserveIncentives } = useIncentivesDataContext();
+  const { marketReferencePriceInUsd, userEmodeCategoryId, reserves, user, userId } =
+    useAppDataContext();
   const { sm } = useThemeContext();
 
   const [searchValue, setSearchValue] = useState('');
@@ -74,9 +68,7 @@ export default function BorrowMain() {
           .multipliedBy(marketReferencePriceInUsd)
           .shiftedBy(-USD_DECIMALS)
           .toString();
-        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()]
-          ? reserveIncentives[reserve.underlyingAsset.toLowerCase()]
-          : { aIncentives: [], vIncentives: [], sIncentives: [] };
+
         return {
           ...reserve,
           currentBorrows:
@@ -93,9 +85,9 @@ export default function BorrowMain() {
               : -1,
           variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowAPY) : -1,
           interestHistory: [],
-          aIncentives: reserveIncentiveData.aIncentives,
-          vIncentives: reserveIncentiveData.vIncentives,
-          sIncentives: reserveIncentiveData.sIncentives,
+          aIncentives: reserve.aIncentivesData ? reserve.aIncentivesData : [],
+          vIncentives: reserve.vIncentivesData ? reserve.vIncentivesData : [],
+          sIncentives: reserve.sIncentivesData ? reserve.sIncentivesData : [],
         };
       });
     if (activeEmode) {
@@ -184,7 +176,7 @@ export default function BorrowMain() {
               {!sm ? (
                 <BorrowAssetTable
                   listData={listData(true, userEmodeCategoryId)}
-                  userId={user?.id}
+                  userId={userId}
                   sortName={sortName}
                   setSortName={setSortName}
                   sortDesc={sortDesc}
@@ -193,7 +185,7 @@ export default function BorrowMain() {
               ) : (
                 <>
                   {listData(true, userEmodeCategoryId).map((item, index) => (
-                    <BorrowMobileCard userId={user?.id} {...item} key={index} />
+                    <BorrowMobileCard userId={userId} {...item} key={index} />
                   ))}
                 </>
               )}

@@ -11,7 +11,7 @@ import IsolatedBadge from '../../../../components/isolationMode/IsolatedBadge';
 import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import staticStyles from './style';
-import { ReserveIncentive } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import { ReserveIncentiveResponse } from '../../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 export interface MarketTableItemProps {
   id: string;
@@ -22,9 +22,9 @@ export interface MarketTableItemProps {
   totalBorrows: number;
   totalBorrowsInUSD: number;
   depositAPY: number;
-  aIncentives?: ReserveIncentive[];
-  vIncentives?: ReserveIncentive[];
-  sIncentives?: ReserveIncentive[];
+  aIncentives?: ReserveIncentiveResponse[];
+  vIncentives?: ReserveIncentiveResponse[];
+  sIncentives?: ReserveIncentiveResponse[];
   stableBorrowRate: number;
   variableBorrowRate: number;
   borrowingEnabled?: boolean;

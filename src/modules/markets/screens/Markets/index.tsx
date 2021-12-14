@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
-
-import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
-import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import toggleLocalStorageClick from '../../../../helpers/toggle-local-storage-click';
 import TopPanelWrapper from '../../../../components/wrappers/TopPanelWrapper';
@@ -23,9 +21,8 @@ import staticStyles from './style';
 export default function Markets() {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const { reserves } = useDynamicPoolDataContext();
+  const { reserves } = useAppDataContext();
   const { currentMarketData } = useProtocolDataContext();
-  const { reserveIncentives } = useIncentivesDataContext();
   const [isPriceInUSD, setIsPriceInUSD] = useState(
     localStorage.getItem('marketsIsPriceInUSD') === 'true'
   );
@@ -42,9 +39,6 @@ export default function Markets() {
 
       const totalBorrows = Number(reserve.totalDebt);
       const totalBorrowsInUSD = Number(reserve.totalDebtUSD);
-      const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()]
-        ? reserveIncentives[reserve.underlyingAsset.toLowerCase()]
-        : { aIncentives: [], vIncentives: [], sIncentives: [] };
       return {
         totalLiquidity,
         totalLiquidityInUSD,
@@ -62,9 +56,9 @@ export default function Markets() {
         borrowingEnabled: reserve.borrowingEnabled,
         stableBorrowRateEnabled: reserve.stableBorrowRateEnabled,
         isFreezed: reserve.isFrozen,
-        aIncentives: reserveIncentiveData.aIncentives,
-        vIncentives: reserveIncentiveData.vIncentives,
-        sIncentives: reserveIncentiveData.sIncentives,
+        aIncentives: reserve.aIncentivesData ? reserve.aIncentivesData : [],
+        vIncentives: reserve.vIncentivesData ? reserve.vIncentivesData : [],
+        sIncentives: reserve.sIncentivesData ? reserve.sIncentivesData : [],
         borrowCap: reserve.borrowCap,
         borrowCapUSD: reserve.borrowCapUSD,
         supplyCap: reserve.supplyCap,

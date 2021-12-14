@@ -1,12 +1,9 @@
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router';
-import { formatUserSummary, ReserveDataComputed } from '@aave/math-utils';
+import { formatUserSummary } from '@aave/math-utils';
 import { useThemeContext, BasicModal, rgba } from '@aave/aave-ui-kit';
 
-import {
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../libs/pool-data-provider';
 import { useCurrentTimestamp } from '../../../libs/pool-data-provider/hooks/use-current-timestamp';
 import { getEmodeMessage } from '../../../helpers/e-mode/getEmodeMessage';
 import Caption from '../../basic/Caption';
@@ -28,11 +25,11 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
   const {
     userEmodeCategoryId,
-    rawUserReserves,
+    user,
+    reserves,
     marketReferenceCurrencyDecimals,
     marketReferencePriceInUsd,
-  } = useStaticPoolDataContext();
-  const { reserves, user } = useDynamicPoolDataContext();
+  } = useAppDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const history = useHistory();
 
@@ -84,20 +81,10 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
     }
   });
 
-  if (eModeEnabled && rawUserReserves) {
-    const userReserves =
-      reserves.length && rawUserReserves
-        ? rawUserReserves.map((reserve) => ({
-            ...reserve,
-            reserve: reserves.find(
-              (r) => r.underlyingAsset.toLowerCase() === reserve.underlyingAsset.toLowerCase()
-            ) as ReserveDataComputed,
-          }))
-        : [];
-
+  if (eModeEnabled && user) {
     const newSummary = formatUserSummary({
       currentTimestamp,
-      userReserves,
+      userReserves: user.userReservesData,
       userEmodeCategoryId,
       marketReferenceCurrencyDecimals,
       marketReferencePriceInUsd,

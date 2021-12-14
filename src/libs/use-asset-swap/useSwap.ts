@@ -9,11 +9,8 @@ import {
   ChainId,
   BigNumberZD,
 } from '@aave/protocol-js';
-import {
-  ComputedReserveData,
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../pool-data-provider';
+import { ComputedReserveData, useAppDataContext } from '../pool-data-provider';
+import { useProtocolDataContext } from '../protocol-data-provider';
 
 const mainnetParaswap = new ParaSwap(ChainId.mainnet);
 const polygonParaswap = new ParaSwap(ChainId.polygon);
@@ -57,11 +54,13 @@ export const useSwap = ({ swapIn, swapOut, variant, userId, max, chainId }: UseS
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [priceRoute, setPriceRoute] = useState<OptimalRate | null>(null);
-  const { WrappedBaseNetworkAssetAddress } = useStaticPoolDataContext();
-  const { reserves } = useDynamicPoolDataContext();
-
-  const reserveIn = getReserve(swapIn.address, reserves, WrappedBaseNetworkAssetAddress);
-  const reserveOut = getReserve(swapOut.address, reserves, WrappedBaseNetworkAssetAddress);
+  const { networkConfig } = useProtocolDataContext();
+  const { reserves } = useAppDataContext();
+  const wrappedBaseAsset = networkConfig.baseAssetWrappedAddress
+    ? networkConfig.baseAssetWrappedAddress
+    : '';
+  const reserveIn = getReserve(swapIn.address, reserves, wrappedBaseAsset);
+  const reserveOut = getReserve(swapOut.address, reserves, wrappedBaseAsset);
 
   const fetchRoute = useCallback(async () => {
     if (!swapIn.address || !swapOut.address || !userId) return;

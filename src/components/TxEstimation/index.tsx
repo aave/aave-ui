@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { EthereumTransactionTypeExtended, valueToBigNumber, normalize } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { useStaticPoolDataContext } from '../../libs/pool-data-provider';
+import { useAppDataContext } from '../../libs/pool-data-provider';
 import Value from '../basic/Value';
 
 import messages from './messages';
@@ -23,7 +23,7 @@ export default function TxEstimation({ getTransactionsData, amount }: TxEstimati
   const intl = useIntl();
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
 
-  const { marketReferencePriceInUsd, userId } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, userId } = useAppDataContext();
   const [estimatedTx, setEstimatedTx] = useState<string>('0');
 
   const gasData = useRef('0');

@@ -4,18 +4,13 @@ import queryString from 'query-string';
 import { useIntl } from 'react-intl';
 import { BigNumber, valueToBigNumber } from '@aave/protocol-js';
 
-import {
-  ComputedReserveData,
-  useDynamicPoolDataContext,
-  UserSummary,
-  useStaticPoolDataContext,
-} from '../../libs/pool-data-provider';
+import { ComputedReserveData, useAppDataContext } from '../../libs/pool-data-provider';
 import { CurrencyRouteParamsInterface } from '../../helpers/router-types';
 import Preloader from '../basic/Preloader';
 import ErrorPage from '../ErrorPage';
 
 import messages from './messages';
-import { ComputedUserReserve } from '@aave/math-utils';
+import { ComputedUserReserve, FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
 
 export interface ValidationWrapperComponentProps
   extends Pick<RouteComponentProps, 'history' | 'location'> {
@@ -24,7 +19,7 @@ export interface ValidationWrapperComponentProps
   walletBalance: BigNumber;
   walletBalanceUSD: BigNumber;
   isWalletBalanceEnough: boolean;
-  user?: UserSummary;
+  user?: FormatUserSummaryAndIncentivesResponse;
   poolReserve: ComputedReserveData;
   userReserve?: ComputedUserReserve;
   userEmodeCategoryId: number;
@@ -49,8 +44,8 @@ export default function routeParamValidationHOC({
       const underlyingAsset = match.params.underlyingAsset.toUpperCase();
       const reserveId = match.params.id;
 
-      const { walletData, userEmodeCategoryId } = useStaticPoolDataContext();
-      const { reserves, user } = useDynamicPoolDataContext();
+      const { walletBalances, userEmodeCategoryId } = useAppDataContext();
+      const { reserves, user } = useAppDataContext();
 
       const poolReserve = reserves.find((res) =>
         reserveId
@@ -67,7 +62,7 @@ export default function routeParamValidationHOC({
 
       const currencySymbol = poolReserve?.symbol || '';
 
-      if (!walletData) {
+      if (!walletBalances) {
         return <Preloader withText={true} />;
       }
 
@@ -81,7 +76,7 @@ export default function routeParamValidationHOC({
       }
 
       const walletBalance = valueToBigNumber(
-        walletData[poolReserve.underlyingAsset]?.amount || '0'
+        walletBalances[poolReserve.underlyingAsset]?.amount || '0'
       );
       let isWalletBalanceEnough = true;
 
@@ -109,7 +104,7 @@ export default function routeParamValidationHOC({
       }
 
       const walletBalanceUSD = valueToBigNumber(
-        walletData[poolReserve.underlyingAsset]?.amountUSD || '0'
+        walletBalances[poolReserve.underlyingAsset]?.amountUSD || '0'
       );
 
       const props = {

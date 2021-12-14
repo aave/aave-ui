@@ -2,12 +2,8 @@ import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router';
 import { Pool } from '@aave/contract-helpers';
-import { formatUserSummary, ReserveDataComputed } from '@aave/math-utils';
-
-import {
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../../../../libs/pool-data-provider';
+import { formatUserSummary } from '@aave/math-utils';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import { useCurrentTimestamp } from '../../../../libs/pool-data-provider/hooks/use-current-timestamp';
 import { getEmodeMessage } from '../../../../helpers/e-mode/getEmodeMessage';
@@ -24,30 +20,20 @@ export function EModeConfirm() {
   const {
     marketReferencePriceInUsd,
     marketReferenceCurrencyDecimals,
-    rawUserReserves,
+    userId,
     userEmodeCategoryId,
-  } = useStaticPoolDataContext();
-  const { user, reserves } = useDynamicPoolDataContext();
+    user,
+  } = useAppDataContext();
   const { lendingPool } = useTxBuilderContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const location = useLocation();
 
   const newEMode = Number(location.pathname.split('/')[3]);
 
-  const userReserves =
-    reserves.length && rawUserReserves
-      ? rawUserReserves.map((reserve) => ({
-          ...reserve,
-          reserve: reserves.find(
-            (r) => r.underlyingAsset.toLowerCase() === reserve.underlyingAsset.toLowerCase()
-          ) as ReserveDataComputed,
-        }))
-      : [];
-
   const newSummary = formatUserSummary({
     currentTimestamp,
-    userReserves,
-    userEmodeCategoryId,
+    userReserves: user ? user.userReservesData : [],
+    userEmodeCategoryId: newEMode,
     marketReferenceCurrencyDecimals,
     marketReferencePriceInUsd,
   });
@@ -76,12 +62,12 @@ export function EModeConfirm() {
     const newPool: Pool = lendingPool as Pool;
     if (eModeEnabled) {
       return newPool.setUserEMode({
-        user: user ? user.id : '',
+        user: userId,
         categoryId: 0,
       });
     } else {
       return newPool.setUserEMode({
-        user: user ? user.id : '',
+        user: userId,
         categoryId: newEMode,
       });
     }
