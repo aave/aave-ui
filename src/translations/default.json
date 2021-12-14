@@ -1,7 +1,8 @@
 {
   "borrow": "Borrow",
   "claim": "Claim",
-  "components.AMPLWarning.amplWarning": "{asset} is an asset affected by rebasing. Visit the {link} to learn more.",
+  "components.AMPLWarning.amplFaq": "Ampleforth's FAQ",
+  "components.AMPLWarning.amplWarning": "{asset} is an asset affected by rebasing. Visit the {link1} or {link2} to learn more.",
   "components.AMPLWarning.documentation": "documentation",
   "components.AddATokenButton.title": "Add {asset} to your browser wallet",
   "components.AddressModal.addressesCaption": "Select the address you would like to use",
