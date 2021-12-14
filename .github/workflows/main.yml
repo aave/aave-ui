@@ -18,7 +18,7 @@ jobs:
       - name: prepare env
         run: cp ${ENV:-'.github/.env.preview'} .env
 
-      - uses: ./.github/actions/build@master
+      - uses: ./.github/actions/build
 
       - name: pinata
         id: pinata
