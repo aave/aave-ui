@@ -11,6 +11,8 @@ runs:
 
     - name: install
       run: npm ci
+      shell: bash
 
     - name: build
       run: npm run build
+      shell: bash
