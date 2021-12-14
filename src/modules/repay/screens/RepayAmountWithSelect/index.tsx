@@ -119,10 +119,10 @@ export function RepayAmountWithSelect({
 
   const usdValueSlippage = +fromAmountInUSD
     ? valueToBigNumber(fromAmountInUSD)
-      .minus(toAmountInUSD)
-      .div(fromAmountInUSD)
-      .multipliedBy(-100)
-      .toFixed(2)
+        .minus(toAmountInUSD)
+        .div(fromAmountInUSD)
+        .multipliedBy(-100)
+        .toFixed(2)
     : '0';
 
   const { hfAfterSwap, hfInitialEffectOfFromAmount } = calculateHFAfterRepay(

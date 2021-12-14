@@ -64,12 +64,12 @@ export default function LiquidityMiningCard({
       <style jsx={true} global={true}>{`
         .LiquidityMiningCard__tooltip {
           background: ${isCurrentThemeDark
-          ? currentTheme.mainBg.hex
-          : currentTheme.darkBlue.hex} !important;
+            ? currentTheme.mainBg.hex
+            : currentTheme.darkBlue.hex} !important;
           &:after {
             border-top-color: ${isCurrentThemeDark
-          ? currentTheme.mainBg.hex
-          : currentTheme.darkBlue.hex} !important;
+              ? currentTheme.mainBg.hex
+              : currentTheme.darkBlue.hex} !important;
           }
         }
       `}</style>

@@ -95,8 +95,6 @@ const AppDataContext = React.createContext<AppDataContextType>({} as AppDataCont
 /**
  * This is the only provider you'll ever need.
  * It fetches reserves /incentives & walletbalances & keeps them updated.
- * @param param0
- * @returns
  */
 export const AppDataProvider: React.FC = ({ children }) => {
   const currentTimestamp = useCurrentTimestamp(1);
@@ -253,7 +251,9 @@ export const AppDataProvider: React.FC = ({ children }) => {
   // console.log(proportions.positiveProportion.dividedBy(proportions.positiveSampleSize).toString());
   const netBalance = new BigNumber(user.totalLiquidityUSD).minus(user.totalBorrowsUSD).toString();
  */
-
+  const isUserHasDeposits = user.userReservesData.some(
+    (userReserve) => userReserve.scaledATokenBalance !== '0'
+  );
   return (
     <AppDataContext.Provider
       value={{
@@ -261,7 +261,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
         reserves: formattedPoolReserves,
         user,
         userId: currentAccount,
-        isUserHasDeposits: user.totalLiquidityUSD !== '0',
+        isUserHasDeposits,
         refetchWalletData,
         refreshPoolData, // formerly "refresh"
         refreshIncentives,

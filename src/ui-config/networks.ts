@@ -16,6 +16,20 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     rpcOnly: true,
     isTestnet: true,
   },
+  [ChainId.rinkeby]: {
+    name: 'Rinkeby',
+    publicJsonRPCUrl: [
+      'https://eth-rinkeby.alchemyapi.io/v2/demo',
+      'https://rinkeby-light.eth.linkpool.io/',
+    ],
+    protocolDataUrl: '',
+    baseUniswapAdapter: '',
+    baseAsset: 'ETH',
+    baseAssetWrappedAddress: '0xc778417E063141139Fce010982780140Aa0cD5Ab',
+    explorerLink: 'https://rinkeby.etherscan.io/',
+    rpcOnly: true,
+    isTestnet: true,
+  },
   [ChainId.mainnet]: {
     name: 'Ethereum mainnet',
     publicJsonRPCUrl: ['https://cloudflare-eth.com', 'https://eth-mainnet.alchemyapi.io/v2/demo'],
