@@ -1,8 +1,15 @@
-import { WalletBalanceProvider } from '@aave/contract-helpers';
+import {
+  IncentivesController,
+  IncentivesControllerInterface,
+  IncentivesControllerV2,
+  IncentivesControllerV2Interface,
+  ReserveDataHumanized,
+  WalletBalanceProvider,
+} from '@aave/contract-helpers';
 import {
   formatReservesAndIncentives,
   formatUserSummaryAndIncentives,
-  FormatUserSummaryResponse,
+  FormatUserSummaryAndIncentivesResponse,
   nativeToUSD,
   normalize,
   ReserveDataComputed,
@@ -17,6 +24,16 @@ import { useUserWalletDataContext } from '../../web3-data-provider';
 import { useIncentiveData } from '../hooks/use-incentives-data';
 import { usePoolData } from '../hooks/use-pool-data';
 import { useCurrentTimestamp } from '../hooks/use-current-timestamp';
+import useGetEns from '../../hooks/use-get-ens';
+
+/**
+ * removes the marketPrefix from a symbol
+ * @param symbol
+ * @param prefix
+ */
+export const unPrefixSymbol = (symbol: string, prefix: string) => {
+  return symbol.toUpperCase().replace(RegExp(`^(${prefix[0]}?${prefix.slice(1)})`), '');
+};
 
 const useWalletBalances = (skip: boolean) => {
   const { currentAccount } = useUserWalletDataContext();
@@ -51,26 +68,29 @@ const useWalletBalances = (skip: boolean) => {
   return { walletBalances, refetch: fetchWalletData };
 };
 
+export type ComputedReserveData = ReturnType<typeof formatReservesAndIncentives>[0] &
+  ReserveDataHumanized;
+
 export interface AppDataContextType {
-  reserves: ReturnType<typeof formatReservesAndIncentives>;
+  reserves: ComputedReserveData[];
   refreshPoolData?: () => Promise<void>;
   walletBalances: { [address: string]: { amount: string; amountUSD: string } };
   refetchWalletData: () => Promise<void>;
   isUserHasDeposits: boolean;
-  user?: FormatUserSummaryResponse;
+  user?: FormatUserSummaryAndIncentivesResponse;
+  userId: string;
   refreshIncentives: () => Promise<void>;
   loading: boolean;
+  incentivesTxBuilder: IncentivesControllerInterface;
+  incentivesTxBuilderV2: IncentivesControllerV2Interface;
+  marketReferencePriceInUsd: string;
+  marketReferenceCurrencyDecimals: number;
+  userEmodeCategoryId: number;
+  ensName?: string;
+  ensAvatar?: string;
 }
 
-const AppDataContext = React.createContext<AppDataContextType>({
-  reserves: [],
-  refreshPoolData: async () => {},
-  walletBalances: {},
-  isUserHasDeposits: false,
-  refetchWalletData: async () => {},
-  refreshIncentives: async () => {},
-  loading: true,
-});
+const AppDataContext = React.createContext<AppDataContextType>({} as AppDataContextType);
 
 /**
  * This is the only provider you'll ever need.
@@ -80,15 +100,22 @@ const AppDataContext = React.createContext<AppDataContextType>({
  */
 export const AppDataProvider: React.FC = ({ children }) => {
   const currentTimestamp = useCurrentTimestamp(1);
-  const { networkConfig } = useProtocolDataContext();
+  const { currentAccount } = useUserWalletDataContext();
+  const { chainId, networkConfig } = useProtocolDataContext();
+  const incentivesTxBuilder: IncentivesControllerInterface = new IncentivesController(
+    getProvider(chainId)
+  );
+  const incentivesTxBuilderV2: IncentivesControllerV2Interface = new IncentivesControllerV2(
+    getProvider(chainId)
+  );
+  const { name: ensName, avatar: ensAvatar } = useGetEns(currentAccount);
   const {
     loading: loadingReserves,
     data: { reserves: rawReservesData, userReserves: rawUserReserves, userEmodeCategoryId = 0 },
     // error: loadingReservesError,
     refresh: refreshPoolData,
   } = usePoolData();
-  const reserves = rawReservesData ? rawReservesData.reservesData : [];
-  const userReserves = rawUserReserves ? rawUserReserves : [];
+  const reserves: ReserveDataHumanized[] = rawReservesData ? rawReservesData.reservesData : [];
   const baseCurrencyData =
     rawReservesData && rawReservesData.baseCurrencyData
       ? rawReservesData.baseCurrencyData
@@ -141,20 +168,21 @@ export const AppDataProvider: React.FC = ({ children }) => {
     reserveIncentives: data?.reserveIncentiveData || [],
   });
 
-  const userReservesWithBase = formattedPoolReserves.length
-    ? userReserves.map((reserve) => ({
-        ...reserve,
-        reserve: formattedPoolReserves.find(
-          (r) => r.underlyingAsset.toLowerCase() === reserve.underlyingAsset.toLowerCase()
-        ) as ReserveDataComputed,
-      }))
-    : [];
+  const formattedUserReserves =
+    rawUserReserves && formattedPoolReserves.length
+      ? rawUserReserves.map((reserve) => ({
+          ...reserve,
+          reserve: formattedPoolReserves.find(
+            (r) => r.underlyingAsset.toLowerCase() === reserve.underlyingAsset.toLowerCase()
+          ) as ReserveDataComputed,
+        }))
+      : [];
 
-  const user = formatUserSummaryAndIncentives({
+  const user: FormatUserSummaryAndIncentivesResponse = formatUserSummaryAndIncentives({
     currentTimestamp,
     marketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,
     marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
-    userReserves: userReservesWithBase,
+    userReserves: formattedUserReserves,
     userEmodeCategoryId,
     reserveIncentives: data?.reserveIncentiveData || [],
     userIncentives: data?.userIncentiveData || [],
@@ -225,17 +253,26 @@ export const AppDataProvider: React.FC = ({ children }) => {
   // console.log(proportions.positiveProportion.dividedBy(proportions.positiveSampleSize).toString());
   const netBalance = new BigNumber(user.totalLiquidityUSD).minus(user.totalBorrowsUSD).toString();
  */
+
   return (
     <AppDataContext.Provider
       value={{
         walletBalances: aggregatedBalance, // formerly walletData
         reserves: formattedPoolReserves,
         user,
-        isUserHasDeposits: false /** formattedUser.totalLiquidity !==0 */,
+        userId: currentAccount,
+        isUserHasDeposits: user.totalLiquidityUSD !== '0',
         refetchWalletData,
         refreshPoolData, // formerly "refresh"
         refreshIncentives,
         loading,
+        marketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,
+        marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
+        incentivesTxBuilderV2,
+        incentivesTxBuilder,
+        userEmodeCategoryId,
+        ensName,
+        ensAvatar,
       }}
     >
       {children}
