@@ -6,9 +6,6 @@ concurrency:
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - feat/version-generating
 
 jobs:
   release:
