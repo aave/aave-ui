@@ -103,7 +103,7 @@ const staticStyles = css.global`
     }
 
     &__content {
-      min-width: 160px;
+      min-width: 170px;
       border-radius: $borderRadius;
       @include respond-to(sm) {
         min-width: unset;

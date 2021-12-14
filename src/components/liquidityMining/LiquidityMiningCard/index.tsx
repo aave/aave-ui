@@ -4,7 +4,7 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import ValuePercent from '../../basic/ValuePercent';
 import NoData from '../../basic/NoData';
-import LiquidityMiningAPYLine from '../LiquidityMiningAPYLine';
+import IncentivesButton from '../../incentives/IncentivesButton';
 
 import staticStyles from './style';
 import { ReserveIncentive } from '../../../libs/pool-data-provider/hooks/use-incentives-data-context';
@@ -19,16 +19,13 @@ interface LiquidityMiningCardProps {
 }
 
 export default function LiquidityMiningCard({
-  symbol,
-  type,
   value,
   liquidityMiningValues,
   className,
   mobilePosition = 'right',
 }: LiquidityMiningCardProps) {
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
-  const helpLiquidityAPYTooltipId =
-    symbol && type ? `help-liquidity-apy-${type}-${symbol}` : undefined;
+
   return (
     <div
       className={classNames(
@@ -37,26 +34,13 @@ export default function LiquidityMiningCard({
         className
       )}
     >
-      <div data-tip={!!symbol}>
-        {value.toString() !== '-1' ? (
-          <ValuePercent maximumDecimals={2} minimumDecimals={2} value={value} />
-        ) : (
-          <NoData color="dark" />
-        )}
-      </div>
-
-      {liquidityMiningValues && liquidityMiningValues.length > 0 ? (
-        liquidityMiningValues.map((incentive) => (
-          <LiquidityMiningAPYLine
-            symbol={incentive.rewardTokenSymbol}
-            value={incentive.incentiveAPR || 0}
-            tooltipId={helpLiquidityAPYTooltipId}
-            key={incentive.rewardTokenSymbol}
-          />
-        ))
+      {value.toString() !== '-1' ? (
+        <ValuePercent maximumDecimals={2} minimumDecimals={2} value={value} />
       ) : (
-        <></>
+        <NoData color="dark" />
       )}
+
+      <IncentivesButton incentives={liquidityMiningValues} />
 
       <style jsx={true} global={true}>
         {staticStyles}
