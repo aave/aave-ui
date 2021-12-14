@@ -1,6 +1,7 @@
 {
   "borrow": "",
   "claim": "",
+  "components.AMPLWarning.amplFaq": "",
   "components.AMPLWarning.amplWarning": "",
   "components.AMPLWarning.documentation": "",
   "components.AddATokenButton.title": "",
@@ -94,6 +95,7 @@
   "components.HelpModal.VotingPowerCalculatedHelpModal.caption": "",
   "components.HelpModal.VotingPowerCalculatedHelpModal.descriptionFirst": "",
   "components.HelpModal.VotingPowerCalculatedHelpModal.descriptionSecond": "",
+  "components.IncentiveClaimItem.claimAll": "",
   "components.LiquidationRiskParametresInfoModal.buttonTitle": "",
   "components.LiquidationRiskParametresInfoModal.caption": "",
   "components.LiquidationRiskParametresInfoModal.components.HFContent.liquidationValue": "",

@@ -24,7 +24,7 @@ interface RiskBarProps {
 export default function RiskBar({ value, onChange, maxAmount, currencySymbol }: RiskBarProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
 
   if (!user) {
@@ -37,7 +37,7 @@ export default function RiskBar({ value, onChange, maxAmount, currencySymbol }: 
 
   const amountToBorrowInUsd = valueToBigNumber(value)
     .multipliedBy(reserveETHPrice || '0')
-    .multipliedBy(marketRefPriceInUsd)
+    .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
 
   const newHealthFactor = calculateHealthFactorFromBalancesBigUnits(

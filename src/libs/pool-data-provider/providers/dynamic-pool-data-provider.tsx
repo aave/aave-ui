@@ -2,28 +2,13 @@ import React, { PropsWithChildren, useContext, useEffect, useState } from 'react
 
 import { useCurrentTimestamp } from '../hooks/use-current-timestamp';
 import { useStaticPoolDataContext } from './static-pool-data-provider';
-import {
-  formatReserves,
-  formatUserSummary,
-  FormatUserSummaryResponse,
-  normalize,
-  FormatReservesUSDRequest,
-} from '@aave/math-utils';
-import BigNumber from 'bignumber.js';
-import { UserReserveDataExtended } from '..';
+import { formatReserves, formatUserSummary, FormatUserSummaryResponse } from '@aave/math-utils';
 import { ReserveDataHumanized } from '@aave/contract-helpers';
 
-const humanizedFormatReserves = (
-  reserves: Array<ReserveDataHumanized & { underlyingAsset: string }>,
-  params: FormatReservesUSDRequest
-) => formatReserves<ReserveDataHumanized>(reserves, params);
-export type ComputedReserveData = ReturnType<typeof humanizedFormatReserves>[0];
+export type ComputedReserveData = ReturnType<typeof formatReserves>[0] & ReserveDataHumanized;
 
 export interface UserSummary extends FormatUserSummaryResponse {
   id: string;
-  isInIsolationMode: boolean;
-  isolatedReserve?: UserReserveDataExtended;
-  // isolatedAvailableBorrows: string;
 }
 
 export interface DynamicPoolDataContextData {
@@ -38,8 +23,8 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
     rawReserves,
     rawUserReserves,
     userId,
-    marketRefCurrencyDecimals,
-    marketRefPriceInUsd,
+    marketReferenceCurrencyDecimals,
+    marketReferencePriceInUsd,
     userEmodeCategoryId,
   } = useStaticPoolDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
@@ -55,38 +40,25 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
     userId && rawUserReserves
       ? formatUserSummary({
           currentTimestamp,
-          marketRefPriceInUsd,
-          marketRefCurrencyDecimals,
+          marketReferencePriceInUsd,
+          marketReferenceCurrencyDecimals,
           rawUserReserves,
           userEmodeCategoryId,
         })
       : undefined;
 
-  const formattedPoolReserves = humanizedFormatReserves(rawReserves, {
+  const formattedPoolReserves = formatReserves({
+    reserves: rawReserves,
     currentTimestamp,
-    marketRefCurrencyDecimals,
-    marketRefPriceInUsd,
+    marketReferenceCurrencyDecimals,
+    marketReferencePriceInUsd,
   });
 
   let userSummary: UserSummary | undefined = undefined;
   if (computedUserData && userId) {
-    const isolatedReserve = rawUserReserves?.find(
-      (reserve) => reserve.reserve.debtCeiling !== '0' && reserve.usageAsCollateralEnabledOnUser
-    );
-    const isolatedAvailableBorrows = !!isolatedReserve
-      ? normalize(
-          new BigNumber(isolatedReserve.reserve.debtCeiling).minus(
-            isolatedReserve.reserve.isolationModeTotalDebt
-          ),
-          isolatedReserve.reserve.debtCeilingDecimals
-        )
-      : computedUserData.availableBorrowsMarketReferenceCurrency;
     userSummary = {
       id: userId,
       ...computedUserData,
-      isInIsolationMode: !!isolatedReserve,
-      isolatedReserve,
-      availableBorrowsMarketReferenceCurrency: isolatedAvailableBorrows,
     };
   }
   return (

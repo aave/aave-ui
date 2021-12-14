@@ -4,7 +4,6 @@ import ReactTooltip from 'react-tooltip';
 import { rgba, TokenIcon, useThemeContext } from '@aave/aave-ui-kit';
 import classNames from 'classnames';
 
-import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import ValuePercent from '../../basic/ValuePercent';
 import TribeRewardHelpModal from '../../HelpModal/TribeRewardHelpModal';
 
@@ -26,7 +25,6 @@ export default function LiquidityMiningAPYLine({
 }: LiquidityMiningAPYLineProps) {
   const intl = useIntl();
   const { currentTheme, xl, isCurrentThemeDark } = useThemeContext();
-  const { networkConfig } = useProtocolDataContext();
 
   const borderColor = rgba(`${currentTheme.lightBlue.rgb}, 0.2`);
 
@@ -50,7 +48,7 @@ export default function LiquidityMiningAPYLine({
       ) : (
         <>
           <TokenIcon
-            tokenSymbol={networkConfig.rewardTokenSymbol}
+            tokenSymbol={symbol ? symbol : ''}
             width={xl ? 10 : 12}
             height={xl ? 10 : 12}
           />
@@ -69,7 +67,7 @@ export default function LiquidityMiningAPYLine({
           <div className="LiquidityMiningAPYLine__tooltip--content">
             <p>
               {intl.formatMessage(messages.tooltipText, {
-                token: networkConfig.rewardTokenSymbol,
+                token: symbol,
               })}
             </p>
           </div>

@@ -20,7 +20,7 @@ export default function DepositItem({
   liquidityRate,
   userId,
   isFreezed,
-  aincentivesAPR,
+  aIncentives,
   isIsolated,
   totalLiquidity,
   supplyCap,
@@ -63,7 +63,7 @@ export default function DepositItem({
         <TableColumn>
           <LiquidityMiningCard
             value={liquidityRate}
-            liquidityMiningValue={aincentivesAPR}
+            liquidityMiningValues={aIncentives}
             symbol={symbol}
             type="deposit"
           />

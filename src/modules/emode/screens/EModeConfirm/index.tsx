@@ -21,8 +21,12 @@ import messages from './messages';
 
 export function EModeConfirm() {
   const intl = useIntl();
-  const { marketRefPriceInUsd, marketRefCurrencyDecimals, rawUserReserves, userEmodeCategoryId } =
-    useStaticPoolDataContext();
+  const {
+    marketReferencePriceInUsd,
+    marketReferenceCurrencyDecimals,
+    rawUserReserves,
+    userEmodeCategoryId,
+  } = useStaticPoolDataContext();
   const { user } = useDynamicPoolDataContext();
   const { lendingPool } = useTxBuilderContext();
   const currentTimestamp = useCurrentTimestamp(1);
@@ -32,8 +36,8 @@ export function EModeConfirm() {
 
   const newSummary = formatUserSummary({
     currentTimestamp,
-    marketRefPriceInUsd,
-    marketRefCurrencyDecimals,
+    marketReferencePriceInUsd,
+    marketReferenceCurrencyDecimals,
     rawUserReserves: rawUserReserves ? rawUserReserves : [],
     userEmodeCategoryId: newEMode,
   });

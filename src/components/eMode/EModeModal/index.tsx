@@ -26,8 +26,12 @@ interface EModeModalProps {
 export default function EModeModal({ visible, setVisible }: EModeModalProps) {
   const intl = useIntl();
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
-  const { userEmodeCategoryId, rawUserReserves, marketRefCurrencyDecimals, marketRefPriceInUsd } =
-    useStaticPoolDataContext();
+  const {
+    userEmodeCategoryId,
+    rawUserReserves,
+    marketReferenceCurrencyDecimals,
+    marketReferencePriceInUsd,
+  } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const history = useHistory();
@@ -83,8 +87,8 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
   if (eModeEnabled && rawUserReserves) {
     const newSummary = formatUserSummary({
       currentTimestamp,
-      marketRefPriceInUsd,
-      marketRefCurrencyDecimals,
+      marketReferencePriceInUsd,
+      marketReferenceCurrencyDecimals,
       rawUserReserves,
       userEmodeCategoryId: 0,
     });

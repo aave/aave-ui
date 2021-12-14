@@ -33,7 +33,7 @@ export default function Markets() {
   const [sortDesc, setSortDesc] = useState(false);
   let totalLockedInUsd = valueToBigNumber('0');
   let sortedData = reserves
-    .filter((res) => res.isActive)
+    .filter((res) => res.isActive && !res.isFrozen)
     .map((reserve) => {
       totalLockedInUsd = totalLockedInUsd.plus(reserve.totalLiquidityUSD);
 
@@ -42,7 +42,9 @@ export default function Markets() {
 
       const totalBorrows = Number(reserve.totalDebt);
       const totalBorrowsInUSD = Number(reserve.totalDebtUSD);
-      const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
+      const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+        ? reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+        : { aIncentives: [], vIncentives: [], sIncentives: [] };
       return {
         totalLiquidity,
         totalLiquidityInUSD,
@@ -60,9 +62,9 @@ export default function Markets() {
         borrowingEnabled: reserve.borrowingEnabled,
         stableBorrowRateEnabled: reserve.stableBorrowRateEnabled,
         isFreezed: reserve.isFrozen,
-        aincentivesAPR: reserveIncentiveData ? reserveIncentiveData.aIncentives.incentiveAPR : '0',
-        vincentivesAPR: reserveIncentiveData ? reserveIncentiveData.vIncentives.incentiveAPR : '0',
-        sincentivesAPR: reserveIncentiveData ? reserveIncentiveData.sIncentives.incentiveAPR : '0',
+        aIncentives: reserveIncentiveData.aIncentives,
+        vIncentives: reserveIncentiveData.vIncentives,
+        sIncentives: reserveIncentiveData.sIncentives,
         borrowCap: reserve.borrowCap,
         borrowCapUSD: reserve.borrowCapUSD,
         supplyCap: reserve.supplyCap,
@@ -140,7 +142,7 @@ export default function Markets() {
       <div className="Markets__mobile--cards">
         {currentMarketData.enabledFeatures?.incentives && (
           <div className="Markets__help--modalInner">
-            <BorrowRatesHelpModal // TO-DO: Pass rewardTokenSymbol to this component
+            <BorrowRatesHelpModal
               className="Markets__help--modal"
               text={intl.formatMessage(messages.rewardsInformation)}
               iconSize={14}

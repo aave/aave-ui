@@ -28,7 +28,7 @@ export default function DepositItem({
   isActive,
   isFrozen,
   index,
-  aincentivesAPR,
+  aIncentives,
   canBeEnabledAsCollateral,
   isUserInIsolationMode,
   isIsolated,
@@ -60,7 +60,7 @@ export default function DepositItem({
       />
       <TableAprCol
         value={Number(liquidityRate)}
-        liquidityMiningValue={aincentivesAPR}
+        liquidityMiningValues={aIncentives}
         symbol={symbol}
         type="deposit"
       />

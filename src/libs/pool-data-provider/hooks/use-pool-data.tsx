@@ -23,6 +23,7 @@ export interface PoolDataResponse {
   data: {
     reserves?: ReservesDataHumanized;
     userReserves?: UserReserveDataHumanized[];
+    userEmodeCategoryId?: number;
   };
   refresh: () => Promise<any>;
 }
@@ -41,9 +42,9 @@ export function useRPCPoolData(
   const [loadingUserReserves, setLoadingUserReserves] = useState<boolean>(false);
   const [errorUserReserves, setErrorUserReserves] = useState<boolean>(false);
   const [reserves, setReserves] = useState<ReservesDataHumanized | undefined>(undefined);
-  const [userReserves, setUserReserves] = useState<UserReserveDataHumanized[] | undefined>(
-    undefined
-  );
+  const [userReserves, setUserReserves] = useState<
+    { userReserves: UserReserveDataHumanized[]; userEmodeCategoryId: number } | undefined
+  >(undefined);
 
   // Fetch and format reserve incentive data from UiIncentiveDataProvider contract
   const fetchReserves = async () => {
@@ -78,11 +79,10 @@ export function useRPCPoolData(
 
     try {
       setLoadingUserReserves(true);
-      const userReservesResponse: UserReserveDataHumanized[] =
-        await poolDataProviderContract.getUserReservesHumanized(
-          lendingPoolAddressProvider,
-          currentAccount
-        );
+      const userReservesResponse = await poolDataProviderContract.getUserReservesHumanized(
+        lendingPoolAddressProvider,
+        currentAccount
+      );
 
       setUserReserves(userReservesResponse);
       setErrorUserReserves(false);
@@ -106,7 +106,11 @@ export function useRPCPoolData(
   return {
     loading,
     error,
-    data: { reserves, userReserves },
+    data: {
+      reserves,
+      userReserves: userReserves?.userReserves,
+      userEmodeCategoryId: userReserves?.userEmodeCategoryId,
+    },
     refresh: () => {
       return Promise.all([fetchUserReserves(), fetchReserves()]);
     },
@@ -116,7 +120,7 @@ export function useRPCPoolData(
 export const usePoolData = () => {
   const { currentAccount } = useUserWalletDataContext();
   const { chainId: apolloClientChainId } = useApolloConfigContext();
-  const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
+  const { currentMarketData, chainId } = useProtocolDataContext();
   const { isRPCActive } = useConnectionStatusContext();
 
   const rpcMode = isRPCActive || chainId !== apolloClientChainId;
@@ -139,7 +143,7 @@ export const usePoolData = () => {
   } = useRPCPoolData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     chainId,
-    networkConfig.addresses.uiPoolDataProvider,
+    currentMarketData.addresses.UI_POOL_DATA_PROVIDER,
     !rpcMode,
     currentAccount
   );
@@ -155,7 +159,8 @@ export const usePoolData = () => {
 
   return {
     loading: cachedDataLoading,
-    data: cachedData,
+    // TODO: fix caching data
+    data: { ...cachedData, userEmodeCategoryId: 0 },
     error: cachedDataError,
   };
 };

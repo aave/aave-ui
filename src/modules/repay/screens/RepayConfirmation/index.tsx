@@ -39,7 +39,7 @@ function RepayConfirmation({
   location,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
-  const { marketRefPriceInUsd, networkConfig } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, networkConfig } = useStaticPoolDataContext();
   const { currentMarketData } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
 
@@ -101,14 +101,14 @@ function RepayConfirmation({
   const displayAmountToRepay = BigNumber.min(amountToRepayUI, maxAmountToRepay);
   const displayAmountToRepayInUsd = displayAmountToRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd)
+    .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
 
   const amountAfterRepay = maxAmountToRepay.minus(amountToRepayUI).toString();
   const displayAmountAfterRepay = BigNumber.min(amountAfterRepay, maxAmountToRepay);
   const displayAmountAfterRepayInUsd = displayAmountAfterRepay
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd)
+    .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
 
   const healthFactorAfterRepay = calculateHealthFactorFromBalancesBigUnits(

@@ -26,7 +26,7 @@ export default function DepositMobileCard({
   userId,
   borrowingEnabled,
   isFreezed,
-  aincentivesAPR,
+  aIncentives,
   isIsolated,
   totalLiquidity,
   supplyCap,
@@ -74,7 +74,7 @@ export default function DepositMobileCard({
             <LiquidityMiningCard
               symbol={symbol}
               value={liquidityRate}
-              liquidityMiningValue={aincentivesAPR}
+              liquidityMiningValues={aIncentives}
               type="deposit"
             />
           ) : (

@@ -29,7 +29,7 @@ import { DepositTableItem } from '../../components/DepositAssetsTable/types';
 
 export default function DepositsMain() {
   const intl = useIntl();
-  const { walletData, marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { walletData, marketReferencePriceInUsd } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
   const { reserveIncentives } = useIncentivesDataContext();
   const { sm } = useThemeContext();
@@ -76,11 +76,13 @@ export default function DepositsMain() {
         }
         const availableToDepositUSD = valueToBigNumber(availableToDeposit)
           .multipliedBy(reserve.priceInMarketReferenceCurrency)
-          .multipliedBy(marketRefPriceInUsd)
+          .multipliedBy(marketReferencePriceInUsd)
           .shiftedBy(-USD_DECIMALS)
           .toString();
 
-        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
+        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+          ? reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+          : { aIncentives: [], vIncentives: [], sIncentives: [] };
 
         return {
           ...reserve,
@@ -94,15 +96,9 @@ export default function DepositsMain() {
           liquidityRate: reserve.supplyAPY,
           borrowingEnabled: reserve.borrowingEnabled,
           interestHistory: [],
-          aincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.aIncentives.incentiveAPR
-            : '0',
-          vincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.vIncentives.incentiveAPR
-            : '0',
-          sincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.sIncentives.incentiveAPR
-            : '0',
+          aIncentives: reserveIncentiveData.aIncentives,
+          vIncentives: reserveIncentiveData.vIncentives,
+          sIncentives: reserveIncentiveData.sIncentives,
         };
       });
 

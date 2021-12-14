@@ -6,8 +6,8 @@
   "dependencies": {
     "@0x/subproviders": "^6.5.4",
     "@aave/aave-ui-kit": "0.1.15-a0bb0034ca0307982d6cb5bd9b52fb4ed7cb70c1.0",
-    "@aave/contract-helpers": "0.26.3-bfd9b60bfea0846ea2d2410dc584f08b95929a12.0+bfd9b60",
-    "@aave/math-utils": "0.26.3-bfd9b60bfea0846ea2d2410dc584f08b95929a12.0+bfd9b60",
+    "@aave/contract-helpers": "0.27.2-441376d630df05a48a2f56b84b928c01b07f7f1c.0+441376d",
+    "@aave/math-utils": "0.27.2-441376d630df05a48a2f56b84b928c01b07f7f1c.0+441376d",
     "@aave/protocol-js": "4.3.0",
     "@apollo/client": "^3.4.16",
     "@apollo/react-common": "^3.1.4",
@@ -45,7 +45,7 @@
     "dayjs": "^1.10.7",
     "ethereum-blockies-base64": "^1.0.2",
     "ethereumjs-tx": "^2.1.2",
-    "ethers": "^5.5.0",
+    "ethers": "^5.5.2",
     "front-matter": "^4.0.2",
     "graphql": "^15.6.1",
     "intl": "^1.2.5",
@@ -115,15 +115,13 @@
     "start": "react-app-rewired start",
     "build": "GENERATE_SOURCEMAP=false react-app-rewired build",
     "test": "react-app-rewired tests",
+    "lint:fix": "prettier --write src",
     "eject": "react-scripts eject",
     "gql-gen": "graphql-codegen --config codegen.yml",
     "i18n": "NODE_ENV=development node ./scripts/extract-intl-messages.js",
-    "pinata:ipfs-publish": "node scripts/publish.js"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && npm run i18n && git add ./src/translations"
-    }
+    "pinata:ipfs-publish": "node scripts/publish.js",
+    "prepare": "husky install",
+    "pre-commit": "lint-staged && npm run i18n && git add ./src/translations"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [

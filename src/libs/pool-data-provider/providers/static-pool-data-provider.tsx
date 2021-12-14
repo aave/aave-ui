@@ -35,8 +35,8 @@ export interface StaticPoolDataContextData {
   rawUserReserves?: UserReserveDataExtended[];
   rawReservesWithBase: ReserveDataHumanized[];
   rawUserReservesWithBase?: UserReserveDataExtended[];
-  marketRefCurrencyDecimals: number;
-  marketRefPriceInUsd: string;
+  marketReferenceCurrencyDecimals: number;
+  marketReferencePriceInUsd: string;
   WrappedBaseNetworkAssetAddress: string;
   ensName?: string;
   ensAvatar?: string;
@@ -68,16 +68,16 @@ export function StaticPoolDataProvider({
 
   const { loading, data, error, refresh } = usePoolData();
 
-  const marketRefPriceInUsd =
+  const marketReferencePriceInUsd =
     data?.reserves?.baseCurrencyData?.marketReferenceCurrencyPriceInUsd ?? '0';
 
-  const marketRefCurrencyDecimals =
+  const marketReferenceCurrencyDecimals =
     data?.reserves?.baseCurrencyData?.marketReferenceCurrencyDecimals ?? 18;
 
   async function fetchWalletData() {
     if (!currentAccount || !data?.reserves) return;
     const contract = new WalletBalanceProvider({
-      walletBalanceProviderAddress: networkConfig.addresses.walletBalanceProvider,
+      walletBalanceProviderAddress: currentMarketData.addresses.WALLET_BALANCE_PROVIDER,
       provider: getProvider(chainId),
     });
     const { 0: reserves, 1: balances } = await contract.getUserWalletBalancesForLendingPoolProvider(
@@ -103,8 +103,8 @@ export function StaticPoolDataProvider({
             amount: new BigNumber(balances[i].toString()),
             currencyDecimals: poolReserve.decimals,
             priceInMarketReferenceCurrency: poolReserve.priceInMarketReferenceCurrency,
-            marketRefCurrencyDecimals,
-            marketRefPriceInUsd,
+            marketReferenceCurrencyDecimals,
+            marketReferencePriceInUsd,
           }),
         };
       }
@@ -127,17 +127,14 @@ export function StaticPoolDataProvider({
     return errorPage;
   }
 
-  const reserves: ReserveDataHumanized[] | undefined = data.reserves?.reservesData
-    .map((reserve) => ({
+  const reserves: ReserveDataHumanized[] | undefined = data.reserves?.reservesData.map(
+    (reserve) => ({
       ...reserve,
-    }))
-    .sort(
-      ({ symbol: a }, { symbol: b }) =>
-        assetsOrder.indexOf(a.toUpperCase()) - assetsOrder.indexOf(b.toUpperCase())
-    );
+    })
+  );
 
-  const reservesWithFixedUnderlying: ReserveDataHumanized[] | undefined = reserves?.map(
-    (reserve) => {
+  const reservesWithFixedUnderlying: ReserveDataHumanized[] | undefined = reserves
+    ?.map((reserve) => {
       if (reserve.symbol.toUpperCase() === `W${networkConfig.baseAsset}`) {
         return {
           ...reserve,
@@ -145,9 +142,24 @@ export function StaticPoolDataProvider({
           underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
         };
       }
+      if (
+        reserve.underlyingAsset.toLowerCase() ===
+        '0x50379f632ca68d36e50cfbc8f78fe16bd1499d1e'.toLowerCase()
+      ) {
+        reserve.symbol = 'GUNIDAIUSDC';
+      }
+      if (
+        reserve.underlyingAsset.toLowerCase() ===
+        '0xd2eec91055f07fe24c9ccb25828ecfefd4be0c41'.toLowerCase()
+      ) {
+        reserve.symbol = 'GUNIUSDCUSDT';
+      }
       return reserve;
-    }
-  );
+    })
+    .sort(
+      ({ symbol: a }, { symbol: b }) =>
+        assetsOrder.indexOf(a.toUpperCase()) - assetsOrder.indexOf(b.toUpperCase())
+    );
 
   const userReserves: UserReserveDataExtended[] = [];
   const userReservesWithFixedUnderlying: UserReserveDataExtended[] = [];
@@ -183,8 +195,6 @@ export function StaticPoolDataProvider({
     (userReserve) => userReserve.scaledATokenBalance !== '0'
   );
 
-  let userEmodeCategoryId = userReserves?.[0]?.userEmodeCategoryId ?? 0;
-  //  userEmodeCategoryId = 1;
   return (
     <StaticPoolDataContext.Provider
       value={{
@@ -199,14 +209,14 @@ export function StaticPoolDataProvider({
         rawUserReserves: userReservesWithFixedUnderlying,
         rawReservesWithBase: reserves ? reserves : [],
         rawUserReservesWithBase: userReserves,
-        marketRefPriceInUsd: marketRefPriceInUsd,
-        marketRefCurrencyDecimals,
+        marketReferencePriceInUsd: marketReferencePriceInUsd,
+        marketReferenceCurrencyDecimals,
         isUserHasDeposits,
         ensName: name,
         ensAvatar: avatar,
         walletData,
         refetchWalletData: fetchWalletData,
-        userEmodeCategoryId,
+        userEmodeCategoryId: data.userEmodeCategoryId || 0,
       }}
     >
       {children}

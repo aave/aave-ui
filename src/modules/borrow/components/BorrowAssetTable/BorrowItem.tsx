@@ -23,8 +23,8 @@ export default function BorrowItem({
   stableBorrowRateEnabled,
   userId,
   isFreezed,
-  vincentivesAPR,
-  sincentivesAPR,
+  vIncentives,
+  sIncentives,
   borrowCap,
   totalBorrows,
 }: BorrowTableItem) {
@@ -69,7 +69,7 @@ export default function BorrowItem({
         <TableColumn>
           <LiquidityMiningCard
             value={variableBorrowRate}
-            liquidityMiningValue={vincentivesAPR}
+            liquidityMiningValues={vIncentives}
             symbol={symbol}
             type="borrow-variable"
           />
@@ -81,7 +81,7 @@ export default function BorrowItem({
           {stableBorrowRateEnabled ? (
             <LiquidityMiningCard
               value={stableBorrowRate}
-              liquidityMiningValue={sincentivesAPR}
+              liquidityMiningValues={sIncentives}
               symbol={symbol}
               type="borrow-stable"
             />
