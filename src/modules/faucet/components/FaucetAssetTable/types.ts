@@ -6,5 +6,4 @@ export type FaucetTableItem = {
   walletBalance: BigNumber;
   userId?: string;
   underlyingAsset: string;
-  isIsolated: boolean;
 };

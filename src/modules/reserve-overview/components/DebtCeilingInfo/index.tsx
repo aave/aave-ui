@@ -12,10 +12,9 @@ import staticStyles from './style';
 
 interface DebtCeilingInfoProps {
   debtCeilingUSD: string;
-  debtCeilingDebt: string;
 }
 
-export default function DebtCeilingInfo({ debtCeilingDebt, debtCeilingUSD }: DebtCeilingInfoProps) {
+export default function DebtCeilingInfo({ debtCeilingUSD }: DebtCeilingInfoProps) {
   const intl = useIntl();
   const { currentTheme, xl, sm } = useThemeContext();
 
@@ -52,20 +51,10 @@ export default function DebtCeilingInfo({ debtCeilingDebt, debtCeilingUSD }: Deb
 
       <p className="DebtCeilingInfo__values">
         <Value
-          value={debtCeilingDebt}
-          symbol="USD"
-          tokenIcon={true}
-          withoutSymbol={true}
-          maximumValueDecimals={2}
-          compact={true}
-        />{' '}
-        <span className="DebtCeilingInfo__values--divider">/</span>{' '}
-        <Value
           value={debtCeilingUSD}
           symbol="USD"
           tokenIcon={true}
           withoutSymbol={true}
-          compact={true}
           maximumValueDecimals={2}
         />
       </p>

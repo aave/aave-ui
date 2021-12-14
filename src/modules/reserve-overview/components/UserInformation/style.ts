@@ -85,6 +85,11 @@ const staticStyles = css.global`
           }
         }
       }
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+
       &:after {
         content: '';
         position: absolute;
@@ -119,6 +124,19 @@ const staticStyles = css.global`
         @include respond-to(sm) {
           font-size: $regular;
         }
+      }
+    }
+
+    .UserInformation__infoWithMargin {
+      margin-bottom: 15px;
+      @include respond-to(lg) {
+        margin-bottom: 10px;
+      }
+      @include respond-to(md) {
+        margin-bottom: 0;
+      }
+      @include respond-to(sm) {
+        margin-bottom: 15px;
       }
     }
 

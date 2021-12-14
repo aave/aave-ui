@@ -15,7 +15,6 @@ export default function DepositItem({
   id,
   symbol,
   underlyingAsset,
-  walletBalance,
   availableToDeposit,
   availableToDepositUSD,
   liquidityRate,
@@ -37,7 +36,7 @@ export default function DepositItem({
       isIsolated={isIsolated}
     >
       <TableColumn>
-        {!userId || Number(walletBalance) <= 0 ? (
+        {!userId || Number(availableToDeposit) <= 0 ? (
           <NoData color="dark" />
         ) : (
           <Value

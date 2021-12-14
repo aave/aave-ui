@@ -25,7 +25,6 @@ export default function BorrowItem({
   isFreezed,
   vincentivesAPR,
   sincentivesAPR,
-  isIsolated,
   borrowCap,
   totalBorrows,
 }: BorrowTableItem) {
@@ -40,7 +39,7 @@ export default function BorrowItem({
       isFreezed={isFreezed}
       isBorrow={true}
       darkOnDarkMode={true}
-      isIsolated={isIsolated}
+      isIsolated={false}
     >
       <TableColumn minWidth={md ? 180 : undefined}>
         {!userId || Number(availableBorrows) <= 0 ? (

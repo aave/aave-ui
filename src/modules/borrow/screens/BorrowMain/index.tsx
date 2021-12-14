@@ -73,7 +73,8 @@ export default function BorrowMain() {
           .multipliedBy(reserve.priceInMarketReferenceCurrency)
           .multipliedBy(marketRefPriceInUsd)
           .shiftedBy(-USD_DECIMALS)
-          .toString();
+          .toFixed(2);
+
         const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
         return {
           ...reserve,
@@ -103,19 +104,29 @@ export default function BorrowMain() {
             : '0',
         };
       });
+
     if (activeEmode) {
       const eModeFilteredReserves = reserves.filter((reserve) => {
         return reserve.eModeCategoryId === activeEmode;
       });
       return data(eModeFilteredReserves);
     }
+
     if (withFilter) {
       if (sortDesc) {
-        //@ts-ignore
-        return data(filteredReserves).sort((a, b) => a[sortName] - b[sortName]);
+        return (
+          data(filteredReserves)
+            .sort((a, b) => +b.availableBorrowsInUSD - +a.availableBorrowsInUSD)
+            // @ts-ignore
+            .sort((a, b) => a[sortName] - b[sortName])
+        );
       } else {
-        //@ts-ignore
-        return data(filteredReserves).sort((a, b) => b[sortName] - a[sortName]);
+        return (
+          data(filteredReserves)
+            .sort((a, b) => +b.availableBorrowsInUSD - +a.availableBorrowsInUSD)
+            // @ts-ignore
+            .sort((a, b) => b[sortName] - a[sortName])
+        );
       }
     } else {
       return data(reserves);
@@ -164,7 +175,7 @@ export default function BorrowMain() {
                   id={item.id}
                   value={item.currentBorrows.toString()}
                   underlyingAsset={item.underlyingAsset}
-                  isIsolated={item.isIsolated}
+                  isIsolated={false}
                 />
               )}
             </React.Fragment>

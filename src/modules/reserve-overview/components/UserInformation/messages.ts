@@ -16,6 +16,6 @@ export default defineMessages({
   borrowDebtCeilingWarning: 'Borrowing is not available due to debt ceiling.', // TODO: need change text
 
   borrows: 'Borrows',
-  borrowed: 'Borrowed',
+  borrowed: 'You already borrowed',
   loanToValue: 'Loan to value',
 });

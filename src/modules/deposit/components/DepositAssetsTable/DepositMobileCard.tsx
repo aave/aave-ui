@@ -20,7 +20,6 @@ export default function DepositMobileCard({
   id,
   symbol,
   underlyingAsset,
-  walletBalance,
   availableToDeposit,
   availableToDepositUSD,
   liquidityRate,
@@ -37,9 +36,6 @@ export default function DepositMobileCard({
 
   const url = `/deposit/${underlyingAsset}-${id}`;
 
-  const isTitleWithModal =
-    Number(supplyCap) > 0 && Number(totalLiquidity) / Number(supplyCap) >= 0.99;
-
   return (
     <MobileCardWrapper
       onClick={() => history.push(url)}
@@ -48,17 +44,8 @@ export default function DepositMobileCard({
       disabled={isFreezed}
       isIsolated={isIsolated}
     >
-      <Row
-        title={
-          isTitleWithModal ? (
-            <AvailableCapsHelpModal capType={CapType.supplyCap} />
-          ) : (
-            intl.formatMessage(messages.availableToDeposit)
-          )
-        }
-        withMargin={true}
-      >
-        {!userId || Number(walletBalance) <= 0 ? (
+      <Row title={<AvailableCapsHelpModal capType={CapType.supplyCap} />} withMargin={true}>
+        {!userId || Number(availableToDeposit) <= 0 ? (
           <NoData color="dark" />
         ) : (
           <Value

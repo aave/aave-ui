@@ -1,4 +1,5 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
@@ -7,6 +8,7 @@ import CapsHelpModal from '../../../../components/caps/CapsHelpModal';
 import { CapType } from '../../../../components/caps/helper';
 import NoData from '../../../../components/basic/NoData';
 
+import messages from './messages';
 import staticStyles from './style';
 
 interface TotalValueProps {
@@ -30,7 +32,8 @@ export default function TotalValue({
   capValue,
   capValueUSD,
 }: TotalValueProps) {
-  const { currentTheme, xl } = useThemeContext();
+  const intl = useIntl();
+  const { currentTheme, xl, sm } = useThemeContext();
 
   return (
     <div className={classNames('TotalValue', `TotalValue__${color}`)}>
@@ -54,18 +57,20 @@ export default function TotalValue({
           )}
         </strong>
 
-        <div className="TotalValue__caps">
-          <CapsHelpModal
-            capType={color === 'red' ? CapType.borrowCap : CapType.supplyCap}
-            lightWeight={true}
-            iconSize={xl ? 10 : 12}
-          />
-          {capValue !== '0' ? (
-            <Value value={capValue} subValue={capValueUSD} subSymbol="USD" symbol={symbol} />
-          ) : (
-            <NoData color="dark" />
-          )}
-        </div>
+        {!(capValue === '0' && sm) && (
+          <div className="TotalValue__caps">
+            <CapsHelpModal
+              capType={color === 'red' ? CapType.borrowCap : CapType.supplyCap}
+              lightWeight={true}
+              iconSize={xl ? 10 : 12}
+            />
+            {capValue !== '0' ? (
+              <Value value={capValue} subValue={capValueUSD} subSymbol="USD" symbol={symbol} />
+            ) : (
+              <p className="TotalValue__noLimits">{intl.formatMessage(messages.noData)}</p>
+            )}
+          </div>
+        )}
       </div>
 
       <style jsx={true} global={true}>

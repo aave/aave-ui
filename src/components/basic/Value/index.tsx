@@ -32,6 +32,8 @@ interface ValueProps {
   isSmallValueCenterEllipsis?: boolean;
   onWhiteBackground?: boolean;
   nextToValue?: ReactNode;
+  maximumTooltipDecimals?: number;
+  minimumTooltipDecimals?: number;
 }
 
 export default function Value({
@@ -55,6 +57,8 @@ export default function Value({
   isSmallValueCenterEllipsis,
   onWhiteBackground,
   nextToValue,
+  maximumTooltipDecimals,
+  minimumTooltipDecimals,
 }: ValueProps) {
   const { currentTheme, xl } = useThemeContext();
   const intl = useIntl();
@@ -71,6 +75,13 @@ export default function Value({
 
   const minValue = 10 ** -(maximumValueDecimals || 5);
   const isSmallerThanMin = Number(newValue) !== 0 && Number(newValue) < minValue;
+
+  const formattedMaximumDecimals =
+    typeof maximumValueDecimals === 'undefined'
+      ? 5
+      : maximumValueDecimals === 0
+      ? 0
+      : maximumValueDecimals;
 
   return (
     <div
@@ -97,7 +108,7 @@ export default function Value({
                 <>
                   {isSmallerThanMin && '< '}
                   {intl.formatNumber(isSmallerThanMin ? minValue : Number(newValue), {
-                    maximumFractionDigits: maximumValueDecimals || 5,
+                    maximumFractionDigits: formattedMaximumDecimals,
                     minimumFractionDigits: minimumValueDecimals ? minimumValueDecimals : undefined,
                   })}
                 </>
@@ -106,25 +117,28 @@ export default function Value({
                   {isSmallerThanMin && '< '}
                   <CompactNumber
                     value={isSmallerThanMin ? minValue : Number(newValue)}
-                    maximumFractionDigits={maximumValueDecimals || 5}
+                    maximumFractionDigits={formattedMaximumDecimals}
                     minimumFractionDigits={minimumValueDecimals ? minimumValueDecimals : undefined}
                   />
                 </>
               )}
             </>
           ) : (
-            <ValueWithSmallDecimals
-              value={Number(newValue)}
-              maximumValueDecimals={maximumValueDecimals || 10}
-              minimumValueDecimals={
-                minimumValueDecimals === 0
-                  ? 0
-                  : minimumValueDecimals
-                  ? minimumValueDecimals
-                  : undefined
-              }
-              centerEllipsis={isSmallValueCenterEllipsis}
-            />
+            <>
+              {isSmallerThanMin && '< '}
+              <ValueWithSmallDecimals
+                value={Number(newValue)}
+                maximumValueDecimals={maximumValueDecimals || 10}
+                minimumValueDecimals={
+                  minimumValueDecimals === 0
+                    ? 0
+                    : minimumValueDecimals
+                    ? minimumValueDecimals
+                    : undefined
+                }
+                centerEllipsis={isSmallValueCenterEllipsis}
+              />
+            </>
           )}
 
           {symbol && !withoutSymbol && !!asset && (
@@ -150,7 +164,10 @@ export default function Value({
       {!!tooltipId && (
         <ReactTooltip className="Value__tooltip" id={tooltipId} effect="solid">
           <span>
-            {intl.formatNumber(Number(newValue), { maximumFractionDigits: 18 })}{' '}
+            {intl.formatNumber(Number(newValue), {
+              minimumFractionDigits: minimumTooltipDecimals,
+              maximumFractionDigits: maximumTooltipDecimals || 18,
+            })}{' '}
             {symbol && !withoutSymbol && !!asset && asset.formattedName && (
               <>{asset.formattedName}</>
             )}

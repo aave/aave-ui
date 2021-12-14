@@ -85,8 +85,7 @@ export default function ReserveInformation({
     usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
     borrowingEnabled: poolReserve.borrowingEnabled,
-    debtCeilingUSD: poolReserve.debtCeiling, // TODO: should be debtCeilingUSD
-    debtCeilingDebt: poolReserve.isolationModeTotalDebt,
+    debtCeilingUSD: poolReserve.debtCeiling,
     totalDebtUSD: poolReserve.totalDebtUSD,
     isIsolated: poolReserve.isIsolated,
     supplyCap: poolReserve.supplyCap,
@@ -175,12 +174,9 @@ export default function ReserveInformation({
                 title={intl.formatMessage(messages.utilisationRate)}
               />
             </div>
-            {reserveOverviewData.debtCeilingDebt !== '0' && (
+            {reserveOverviewData.debtCeilingUSD !== '0' && (
               <div className="ReserveInformation__line">
-                <DebtCeilingInfo
-                  debtCeilingUSD={reserveOverviewData.debtCeilingUSD}
-                  debtCeilingDebt={reserveOverviewData.debtCeilingDebt}
-                />
+                <DebtCeilingInfo debtCeilingUSD={reserveOverviewData.debtCeilingUSD} />
               </div>
             )}
           </div>

@@ -13,6 +13,7 @@ interface AvailableCapsHelpModalProps {
   className?: string;
   iconSize?: number;
   onWhiteBackground?: boolean;
+  color?: 'white' | 'dark';
 }
 
 export default function AvailableCapsHelpModal({
@@ -20,6 +21,7 @@ export default function AvailableCapsHelpModal({
   className,
   iconSize,
   onWhiteBackground,
+  color,
 }: AvailableCapsHelpModalProps) {
   const intl = useIntl();
 
@@ -34,6 +36,7 @@ export default function AvailableCapsHelpModal({
       withCloseButton={true}
       onWhiteBackground={onWhiteBackground}
       iconSize={iconSize}
+      color={color}
     >
       <Caption
         title={intl.formatMessage(title)}

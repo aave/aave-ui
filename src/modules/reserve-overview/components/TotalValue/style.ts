@@ -242,13 +242,24 @@ const staticStyles = css.global`
           margin: 4px 0;
         }
       }
-      .Value .SubValue {
+      .Value .SubValue,
+      .TotalValue__noLimits {
         font-size: $small;
         @include respond-to(xl) {
           font-size: $extraSmall;
         }
         @include respond-to(sm) {
           font-size: $small;
+        }
+      }
+
+      .TotalValue__noLimits {
+        margin-top: 4px;
+        @include respond-to(lg) {
+          margin-top: 2px;
+        }
+        @include respond-to(sm) {
+          margin-top: 4px;
         }
       }
     }

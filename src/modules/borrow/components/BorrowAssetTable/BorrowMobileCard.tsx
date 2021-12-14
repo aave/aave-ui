@@ -29,7 +29,6 @@ export default function BorrowMobileCard({
   isFreezed,
   vincentivesAPR,
   sincentivesAPR,
-  isIsolated,
   borrowCap,
   totalBorrows,
 }: BorrowTableItem) {
@@ -38,27 +37,15 @@ export default function BorrowMobileCard({
 
   const url = `/borrow/${underlyingAsset}-${id}`;
 
-  const isTitleWithModal =
-    Number(borrowCap) > 0 && Number(totalBorrows) / Number(borrowCap) >= 0.99;
-
   return (
     <MobileCardWrapper
       onClick={() => history.push(url)}
       symbol={symbol}
       withGoToTop={true}
       disabled={isFreezed}
-      isIsolated={isIsolated}
+      isIsolated={false}
     >
-      <Row
-        title={
-          isTitleWithModal ? (
-            <AvailableCapsHelpModal capType={CapType.borrowCap} />
-          ) : (
-            intl.formatMessage(messages.availableToBorrow)
-          )
-        }
-        withMargin={true}
-      >
+      <Row title={<AvailableCapsHelpModal capType={CapType.borrowCap} />} withMargin={true}>
         {!userId || Number(availableBorrows) <= 0 ? (
           <NoData color="dark" />
         ) : (

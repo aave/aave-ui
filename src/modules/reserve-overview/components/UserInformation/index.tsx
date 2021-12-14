@@ -177,6 +177,21 @@ export default function UserInformation({
 
             <div className="UserInformation__info-inner">
               <Row
+                title={intl.formatMessage(messages.youAlreadyDeposited)}
+                withMargin={true}
+                weight={rowWeight}
+                color={elementsColor}
+              >
+                <Value
+                  value={underlyingBalance}
+                  symbol={symbol}
+                  minimumValueDecimals={2}
+                  maximumValueDecimals={2}
+                  color={elementsColor}
+                />
+              </Row>
+
+              <Row
                 title={intl.formatMessage(messages.walletBalance)}
                 withMargin={true}
                 weight={rowWeight}
@@ -192,22 +207,7 @@ export default function UserInformation({
               </Row>
 
               <Row
-                title={<AvailableCapsHelpModal capType={CapType.supplyCap} />}
-                withMargin={true}
-                weight={rowWeight}
-                color={elementsColor}
-              >
-                <Value
-                  value={formattedAvailableDeposits}
-                  symbol={symbol}
-                  minimumValueDecimals={2}
-                  maximumValueDecimals={2}
-                  color={elementsColor}
-                />
-              </Row>
-
-              <Row
-                title={intl.formatMessage(messages.youAlreadyDeposited)}
+                title={<AvailableCapsHelpModal capType={CapType.supplyCap} color={elementsColor} />}
                 withMargin={
                   (!!underlyingBalance && !user?.isInIsolationMode && !poolReserve.isIsolated) ||
                   (!user?.isInIsolationMode && poolReserve.isIsolated)
@@ -216,7 +216,7 @@ export default function UserInformation({
                 color={elementsColor}
               >
                 <Value
-                  value={underlyingBalance}
+                  value={formattedAvailableDeposits}
                   symbol={symbol}
                   minimumValueDecimals={2}
                   maximumValueDecimals={2}
@@ -274,7 +274,13 @@ export default function UserInformation({
             </div>
           </div>
 
-          <div className="UserInformation__info-wrapper">
+          <div
+            className={classNames('UserInformation__info-wrapper', {
+              UserInformation__infoWithMargin:
+                (!!userReserve?.stableBorrows && userReserve?.stableBorrows !== '0') ||
+                (!!userReserve?.variableBorrows && userReserve?.variableBorrows !== '0'),
+            })}
+          >
             <h3>
               <span>{intl.formatMessage(messages.borrows)}</span>{' '}
               {!totalBorrows && (
@@ -337,7 +343,9 @@ export default function UserInformation({
 
               {(!user?.isInIsolationMode || !!borrowableAssetInIsolationMode) && (
                 <Row
-                  title={<AvailableCapsHelpModal capType={CapType.borrowCap} />}
+                  title={
+                    <AvailableCapsHelpModal capType={CapType.borrowCap} color={elementsColor} />
+                  }
                   weight={rowWeight}
                   color={elementsColor}
                   withMargin={user?.isInIsolationMode}
