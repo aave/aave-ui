@@ -10,7 +10,6 @@ export default defineMessages({
   canBeUsedAsCollateral: 'Can be used as collateral',
   no: 'No',
   yes: 'Yes',
-  assetPrice: 'Asset price',
   maximumLTV: 'Maximum LTV',
   liquidationThreshold: 'Liquidation threshold',
   liquidationPenalty: 'Liquidation penalty',

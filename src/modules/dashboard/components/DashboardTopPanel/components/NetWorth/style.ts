@@ -19,7 +19,8 @@ const staticStyles = css.global`
     }
 
     .Value__value,
-    .TokenIcon__dollar {
+    .TokenIcon__dollar,
+    .Value__value .ValueWithSmallDecimals {
       font-weight: 500;
       font-size: $large;
       @include respond-to(xl) {
@@ -29,15 +30,7 @@ const staticStyles = css.global`
 
     .Value__value {
       .ValueWithSmallDecimals {
-        font-size: $large;
         margin-left: 3px;
-        opacity: 0.7;
-        @include respond-to(xl) {
-          font-size: $medium;
-        }
-        @include respond-to(md) {
-          margin-left: 1px;
-        }
       }
     }
 
@@ -45,19 +38,15 @@ const staticStyles = css.global`
       .Row__content {
         justify-content: flex-start;
         .Value__value,
-        .TokenIcon__dollar {
-          .Value__value {
-            font-size: $large;
-            @include respond-to(xl) {
-              font-size: $regular;
-            }
+        .TokenIcon__dollar,
+        .Value__value .ValueWithSmallDecimals {
+          font-size: $large;
+          @include respond-to(xl) {
+            font-size: $regular;
           }
 
           .Value {
             align-items: flex-start;
-            .ValueWithSmallDecimals {
-              font-size: $small;
-            }
           }
         }
       }

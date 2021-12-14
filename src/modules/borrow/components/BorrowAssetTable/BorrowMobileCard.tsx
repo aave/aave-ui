@@ -7,6 +7,9 @@ import Row from '../../../../components/basic/Row';
 import NoData from '../../../../components/basic/NoData';
 import Value from '../../../../components/basic/Value';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import CapsHint from '../../../../components/caps/CapsHint';
+import { CapType } from '../../../../components/caps/helper';
+import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
@@ -26,7 +29,8 @@ export default function BorrowMobileCard({
   isFreezed,
   vIncentives,
   sIncentives,
-  isIsolated,
+  borrowCap,
+  totalBorrows,
 }: BorrowTableItem) {
   const intl = useIntl();
   const history = useHistory();
@@ -39,9 +43,9 @@ export default function BorrowMobileCard({
       symbol={symbol}
       withGoToTop={true}
       disabled={isFreezed}
-      isIsolated={isIsolated}
+      isIsolated={false}
     >
-      <Row title={intl.formatMessage(messages.availableToBorrow)} withMargin={true}>
+      <Row title={<AvailableCapsHelpModal capType={CapType.borrowCap} />} withMargin={true}>
         {!userId || Number(availableBorrows) <= 0 ? (
           <NoData color="dark" />
         ) : (
@@ -52,6 +56,15 @@ export default function BorrowMobileCard({
             maximumSubValueDecimals={2}
             minimumValueDecimals={isAssetStable(symbol) ? 2 : 5}
             maximumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+            nextToValue={
+              <CapsHint
+                capType={CapType.borrowCap}
+                capAmount={borrowCap}
+                totalAmount={totalBorrows}
+                tooltipId={`borrowCap__${id}`}
+                withoutText={true}
+              />
+            }
           />
         )}
       </Row>

@@ -21,6 +21,9 @@ import InfoWrapper from '../../../../components/wrappers/InfoWrapper';
 import AMPLWarning from '../../../../components/AMPLWarning';
 import DepositCurrencyWrapper from '../../components/DepositCurrencyWrapper';
 import IsolationModeScreen from '../../components/IsolationModeScreen';
+import CapsAmountWarning from '../../../../components/caps/CapsAmountWarning';
+import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
+import { CapType } from '../../../../components/caps/helper';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
@@ -104,6 +107,10 @@ function DepositAmount({
 
   const goBack = () => setDepositStep(DepositStep.IsolationScreen);
 
+  const percentageOfCap = valueToBigNumber(poolReserve.totalLiquidity)
+    .dividedBy(poolReserve.supplyCap)
+    .toNumber();
+
   return (
     <DepositCurrencyWrapper
       currencySymbol={currencySymbol}
@@ -139,7 +146,9 @@ function DepositAmount({
                     })
                   : intl.formatMessage(messages.description)
               }
-              amountFieldTitle={intl.formatMessage(messages.amountTitle)}
+              amountFieldTitle={
+                <AvailableCapsHelpModal capType={CapType.supplyCap} iconSize={12} />
+              }
               maxAmount={maxAmountToDeposit.toString(10)}
               currencySymbol={currencySymbol}
               onSubmit={handleSubmit}
@@ -151,54 +160,72 @@ function DepositAmount({
       )}
 
       {maxAmountToDeposit.eq('0') && (!user || !lpPoolLink) && (
-        <NoDataPanel
-          title={
-            !user
-              ? intl.formatMessage(messages.connectWallet)
-              : intl.formatMessage(messages.noDataTitle)
-          }
-          description={
-            !user
-              ? intl.formatMessage(messages.connectWalletDescription)
-              : intl.formatMessage(messages.noDataDescription, {
-                  currencySymbol: asset.formattedName,
-                })
-          }
-          linkTo={
-            !user
-              ? undefined
-              : isFeatureEnabled.faucet(currentMarketData)
-              ? `/faucet/${currencySymbol}`
-              : undefined
-          }
-          buttonTitle={
-            !user
-              ? undefined
-              : isFeatureEnabled.faucet(currentMarketData)
-              ? intl.formatMessage(messages.noDataButtonTitle)
-              : undefined
-          }
-          withConnectButton={!user}
-        />
+        <>
+          {poolReserve.supplyCap !== '0' && maxAmountToDeposit.eq('0') ? (
+            <NoDataPanel
+              title={intl.formatMessage(messages.supplyCapReached)}
+              description={intl.formatMessage(messages.supplyCapReachedDescription)}
+            />
+          ) : (
+            <NoDataPanel
+              title={
+                !user
+                  ? intl.formatMessage(messages.connectWallet)
+                  : intl.formatMessage(messages.noDataTitle)
+              }
+              description={
+                !user
+                  ? intl.formatMessage(messages.connectWalletDescription)
+                  : intl.formatMessage(messages.noDataDescription, {
+                      currencySymbol: asset.formattedName,
+                    })
+              }
+              linkTo={
+                !user
+                  ? undefined
+                  : isFeatureEnabled.faucet(currentMarketData)
+                  ? `/faucet/${currencySymbol}`
+                  : undefined
+              }
+              buttonTitle={
+                !user
+                  ? undefined
+                  : isFeatureEnabled.faucet(currentMarketData)
+                  ? intl.formatMessage(messages.noDataButtonTitle)
+                  : undefined
+              }
+              withConnectButton={!user}
+            />
+          )}
+        </>
       )}
 
       {maxAmountToDeposit.eq('0') && user && lpPoolLink && (
-        <NoDataPanel
-          title={intl.formatMessage(messages.noDataTitle)}
-          description={intl.formatMessage(messages.noDataLPTokenDescription, {
-            currencySymbol: asset.formattedName,
-          })}
-        >
-          <Link to={lpPoolLink} absolute={true} inNewWindow={true} className="ButtonLink">
-            <DefaultButton
-              className="DepositAmount__poolLink--button"
-              title={intl.formatMessage(messages.viewPool)}
-              iconComponent={<img src={linkIcon} alt="" />}
-              size="medium"
-              mobileBig={true}
+        <>
+          {poolReserve.supplyCap !== '0' && maxAmountToDeposit.eq('0') ? (
+            <NoDataPanel
+              title={intl.formatMessage(messages.supplyCapReached)}
+              description={intl.formatMessage(messages.supplyCapReachedDescription)}
             />
-          </Link>
-        </NoDataPanel>
+          ) : (
+            <NoDataPanel
+              title={intl.formatMessage(messages.noDataTitle)}
+              description={intl.formatMessage(messages.noDataLPTokenDescription, {
+                currencySymbol: asset.formattedName,
+              })}
+            >
+              <Link to={lpPoolLink} absolute={true} inNewWindow={true} className="ButtonLink">
+                <DefaultButton
+                  className="DepositAmount__poolLink--button"
+                  title={intl.formatMessage(messages.viewPool)}
+                  iconComponent={<img src={linkIcon} alt="" />}
+                  size="medium"
+                  mobileBig={true}
+                />
+              </Link>
+            </NoDataPanel>
+          )}
+        </>
       )}
 
       {user &&
@@ -214,40 +241,46 @@ function DepositAmount({
           />
         )}
 
-      <InfoWrapper>
-        {currencySymbol === 'AMPL' && <AMPLWarning withInfoPanel={true} />}
+      {depositStep === DepositStep.AmountForm && (
+        <InfoWrapper>
+          {poolReserve.supplyCap !== '0' && percentageOfCap >= 0.99 && percentageOfCap < 1 && (
+            <CapsAmountWarning capType={CapType.supplyCap} />
+          )}
 
-        {currencySymbol === 'AAVE' && isFeatureEnabled.staking(currentMarketData) && (
-          <InfoPanel>
-            {intl.formatMessage(messages.aaveWarning, {
-              link: (
-                <Link
-                  className="italic"
-                  to="/staking"
-                  bold={true}
-                  title={intl.formatMessage(messages.stakingView)}
-                />
-              ),
-            })}
-          </InfoPanel>
-        )}
+          {currencySymbol === 'AMPL' && <AMPLWarning withInfoPanel={true} />}
 
-        {currencySymbol === 'SNX' && !maxAmountToDeposit.eq('0') && (
-          <InfoPanel>
-            {intl.formatMessage(messages.warningText, {
-              symbol: <strong>{currencySymbol}</strong>,
-            })}
-          </InfoPanel>
-        )}
+          {currencySymbol === 'AAVE' && isFeatureEnabled.staking(currentMarketData) && (
+            <InfoPanel>
+              {intl.formatMessage(messages.aaveWarning, {
+                link: (
+                  <Link
+                    className="italic"
+                    to="/staking"
+                    bold={true}
+                    title={intl.formatMessage(messages.stakingView)}
+                  />
+                ),
+              })}
+            </InfoPanel>
+          )}
 
-        {user &&
-          !sm &&
-          payments.some(
-            (payment) =>
-              payment.availableAssets?.includes(currencySymbol.toUpperCase()) &&
-              !isPaymentNashNotOnMainMarket(payment.name)
-          ) && <PaymentsPanel currencySymbol={currencySymbol} />}
-      </InfoWrapper>
+          {currencySymbol === 'SNX' && !maxAmountToDeposit.eq('0') && (
+            <InfoPanel>
+              {intl.formatMessage(messages.warningText, {
+                symbol: <strong>{currencySymbol}</strong>,
+              })}
+            </InfoPanel>
+          )}
+
+          {user &&
+            !sm &&
+            payments.some(
+              (payment) =>
+                payment.availableAssets?.includes(currencySymbol.toUpperCase()) &&
+                !isPaymentNashNotOnMainMarket(payment.name)
+            ) && <PaymentsPanel currencySymbol={currencySymbol} />}
+        </InfoWrapper>
+      )}
     </DepositCurrencyWrapper>
   );
 }

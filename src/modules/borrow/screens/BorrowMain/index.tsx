@@ -73,7 +73,8 @@ export default function BorrowMain() {
           .multipliedBy(reserve.priceInMarketReferenceCurrency)
           .multipliedBy(marketReferencePriceInUsd)
           .shiftedBy(-USD_DECIMALS)
-          .toString();
+          .toFixed(2);
+
         const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()]
           ? reserveIncentives[reserve.underlyingAsset.toLowerCase()]
           : { aIncentives: [], vIncentives: [], sIncentives: [] };
@@ -85,6 +86,7 @@ export default function BorrowMain() {
           currentBorrowsInUSD:
             user?.userReservesData.find((userReserve) => userReserve.reserve.id === reserve.id)
               ?.totalBorrowsUSD || '0',
+          totalBorrows: reserve.totalDebt,
           availableBorrows,
           availableBorrowsInUSD,
           stableBorrowRate:
@@ -98,19 +100,29 @@ export default function BorrowMain() {
           sIncentives: reserveIncentiveData.sIncentives,
         };
       });
+
     if (activeEmode) {
       const eModeFilteredReserves = reserves.filter((reserve) => {
         return reserve.eModeCategoryId === activeEmode;
       });
       return data(eModeFilteredReserves);
     }
+
     if (withFilter) {
       if (sortDesc) {
-        // @ts-ignore
-        return data(filteredReserves).sort((a, b) => a[sortName] - b[sortName]);
+        return (
+          data(filteredReserves)
+            .sort((a, b) => +b.availableBorrowsInUSD - +a.availableBorrowsInUSD)
+            // @ts-ignore
+            .sort((a, b) => a[sortName] - b[sortName])
+        );
       } else {
-        // @ts-ignore
-        return data(filteredReserves).sort((a, b) => b[sortName] - a[sortName]);
+        return (
+          data(filteredReserves)
+            .sort((a, b) => +b.availableBorrowsInUSD - +a.availableBorrowsInUSD)
+            // @ts-ignore
+            .sort((a, b) => b[sortName] - a[sortName])
+        );
       }
     } else {
       return data(reserves);
@@ -159,7 +171,7 @@ export default function BorrowMain() {
                   id={item.id}
                   value={item.currentBorrows.toString()}
                   underlyingAsset={item.underlyingAsset}
-                  isIsolated={item.isIsolated}
+                  isIsolated={false}
                 />
               )}
             </React.Fragment>

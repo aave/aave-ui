@@ -15,6 +15,13 @@ const staticStyles = css.global`
       }
     }
 
+    &__valueInner {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
+
     &__button-inner,
     &__isFreezed--inner {
       display: flex;

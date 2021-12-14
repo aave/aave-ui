@@ -8,6 +8,8 @@ import FreezedWarning from '../../../../components/FreezedWarning';
 import NoData from '../../../../components/basic/NoData';
 import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
 import IsolatedBadge from '../../../../components/isolationMode/IsolatedBadge';
+import CapsHint from '../../../../components/caps/CapsHint';
+import { CapType } from '../../../../components/caps/helper';
 import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import staticStyles from './style';
@@ -33,8 +35,8 @@ export interface MarketTableItemProps {
   isPriceInUSD?: boolean;
   borrowCap: string;
   borrowCapUSD: string;
-  supplyCap: string;
   supplyCapUSD: string;
+  supplyCap: string;
   isIsolated: boolean;
 }
 
@@ -58,12 +60,11 @@ export default function MarketTableItem({
   isPriceInUSD,
   borrowCap,
   borrowCapUSD,
-  supplyCap,
   supplyCapUSD,
+  supplyCap,
   isIsolated,
 }: MarketTableItemProps) {
   const history = useHistory();
-
   const asset = getAssetInfo(currencySymbol);
 
   const handleClick = () => {
@@ -82,6 +83,7 @@ export default function MarketTableItem({
         />
         {isIsolated && <IsolatedBadge />}
       </TableColumn>
+
       <TableColumn className="MarketTableItem__column">
         <Value
           value={isPriceInUSD ? totalLiquidityInUSD : totalLiquidity}
@@ -93,10 +95,24 @@ export default function MarketTableItem({
           tokenIcon={isPriceInUSD}
           className="MarketTableItem__value"
         />
-        {
-          supplyCap !== '0' ? (isPriceInUSD ? supplyCapUSD : supplyCap) : undefined // TODO: design
-        }
+        <CapsHint
+          capType={CapType.supplyCap}
+          capAmount={isPriceInUSD ? supplyCapUSD : supplyCap}
+          totalAmount={isPriceInUSD ? totalLiquidityInUSD : totalLiquidity}
+          tooltipId={`supplyCap__${id}`}
+          isUSD={isPriceInUSD}
+        />
       </TableColumn>
+
+      <TableColumn className="MarketTableItem__column">
+        <LiquidityMiningCard
+          value={isFreezed ? '-1' : depositAPY}
+          liquidityMiningValues={aIncentives}
+          symbol={currencySymbol}
+          type="deposit"
+        />
+      </TableColumn>
+
       <TableColumn className="MarketTableItem__column">
         {borrowingEnabled ? (
           <Value
@@ -112,22 +128,17 @@ export default function MarketTableItem({
         ) : (
           <NoData color="dark" />
         )}
-        {
-          borrowCap !== '0' ? (isPriceInUSD ? borrowCapUSD : borrowCap) : undefined // TODO: design
-        }
+        <CapsHint
+          capType={CapType.borrowCap}
+          capAmount={isPriceInUSD ? borrowCapUSD : borrowCap}
+          totalAmount={isPriceInUSD ? totalBorrowsInUSD : totalBorrows}
+          tooltipId={`borrowCap__${id}`}
+          isUSD={isPriceInUSD}
+        />
       </TableColumn>
 
       {!isFreezed && (
         <>
-          <TableColumn className="MarketTableItem__column">
-            <LiquidityMiningCard
-              value={depositAPY}
-              liquidityMiningValues={aIncentives}
-              symbol={currencySymbol}
-              type="deposit"
-            />
-          </TableColumn>
-
           <TableColumn className="MarketTableItem__column">
             {borrowingEnabled && +variableBorrowRate >= 0 ? (
               <LiquidityMiningCard
@@ -158,7 +169,6 @@ export default function MarketTableItem({
 
       {isFreezed && (
         <>
-          <div />
           <div className="MarketTableItem__isFreezed-inner">
             <FreezedWarning symbol={currencySymbol} />
           </div>
