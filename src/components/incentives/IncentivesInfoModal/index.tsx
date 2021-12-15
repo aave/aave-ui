@@ -17,7 +17,7 @@ interface IncentivesInfoModalProps {
   isVisible: boolean;
   setVisible: (value: boolean) => void;
   incentives: ReserveIncentive[];
-  incentivesNetAPY: 'Infinity' | number;
+  incentivesNetAPR: 'Infinity' | number;
   symbol: string;
 }
 
@@ -25,7 +25,7 @@ export default function IncentivesInfoModal({
   isVisible,
   setVisible,
   incentives,
-  incentivesNetAPY,
+  incentivesNetAPR,
   symbol,
 }: IncentivesInfoModalProps) {
   const intl = useIntl();
@@ -57,13 +57,9 @@ export default function IncentivesInfoModal({
           {incentives.length > 1 && (
             <div className="IncentivesInfoModal__netAPR--inner">
               <Row title={intl.formatMessage(messages.netAPR)} onWhiteBackground={true}>
-                {incentivesNetAPY !== 'Infinity' ? (
+                {incentivesNetAPR !== 'Infinity' ? (
                   <div className="IncentivesInfoModal__valueInner">
-                    <ValuePercent
-                      value={incentivesNetAPY / 100}
-                      color="dark"
-                      onWhiteBackground={true}
-                    />
+                    <ValuePercent value={incentivesNetAPR} color="dark" onWhiteBackground={true} />
                     <p className="IncentivesInfoModal__text-apr">
                       {intl.formatMessage(messages.apr)}
                     </p>
@@ -103,7 +99,7 @@ export default function IncentivesInfoModal({
                   {incentive.incentiveAPR !== 'Infinity' ? (
                     <div className="IncentivesInfoModal__valueInner">
                       <ValuePercent
-                        value={+incentive.incentiveAPR / 100}
+                        value={+incentive.incentiveAPR}
                         color="dark"
                         onWhiteBackground={true}
                       />
