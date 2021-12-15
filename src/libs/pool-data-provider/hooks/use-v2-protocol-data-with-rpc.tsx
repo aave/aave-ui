@@ -68,7 +68,9 @@ export function useProtocolDataWithRpc(
     const provider = getProvider(chainId);
     const helperContract = IUiPoolDataProviderFactory.connect(poolDataProvider, provider);
     try {
+      console.log(`${poolDataProvider}.getReservesData(${poolAddress}, ${userAddress})`);
       const result = await helperContract.getReservesData(poolAddress, userAddress);
+      console.log({ result });
 
       const { 0: rawReservesData, 1: userReserves, 2: usdPriceEth, 3: rawRewardsData } = result;
 
