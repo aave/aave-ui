@@ -5,14 +5,14 @@ const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
 
-  .LiquidityMiningCard {
+  .IncentivesCard {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
 
-    .LiquidityMiningCard__noData {
+    .IncentivesCard__noData {
       font-size: $medium;
       @include respond-to(xl) {
         font-size: $small;
@@ -34,17 +34,6 @@ const staticStyles = css.global`
       @include respond-to(sm) {
         align-items: flex-end;
       }
-    }
-
-    .LiquidityMiningCard__tooltip {
-      display: block;
-      padding: 7px 10px;
-      border-radius: $borderRadius;
-      box-shadow: $boxShadow;
-    }
-
-    .LiquidityMiningCard__valueWithTooltip {
-      cursor: pointer;
     }
   }
 `;

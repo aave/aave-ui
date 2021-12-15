@@ -3,7 +3,7 @@ import React from 'react';
 import TableItem from '../../../../components/BasicAssetsTable/TableItem';
 import TableColumn from '../../../../components/BasicTable/TableColumn';
 import Value from '../../../../components/basic/Value';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import NoData from '../../../../components/basic/NoData';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 import CapsHint from '../../../../components/caps/CapsHint';
@@ -61,12 +61,7 @@ export default function DepositItem({
 
       {!isFreezed && (
         <TableColumn>
-          <LiquidityMiningCard
-            value={liquidityRate}
-            liquidityMiningValues={aIncentives}
-            symbol={symbol}
-            type="deposit"
-          />
+          <IncentivesCard value={liquidityRate} incentives={aIncentives} symbol={symbol} />
         </TableColumn>
       )}
     </TableItem>

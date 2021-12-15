@@ -1,32 +1,21 @@
 import React from 'react';
 
+import { ReserveIncentive } from '../../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import TableCol from '../TableCol';
-import LiquidityMiningCard from '../../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../../components/incentives/IncentivesCard';
 
 import staticStyles from './style';
-import { ReserveIncentive } from '../../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 
 interface TableAprColProps {
   value: number;
-  liquidityMiningValues: ReserveIncentive[];
-  symbol?: string;
-  type?: string;
+  incentives: ReserveIncentive[];
+  symbol: string;
 }
 
-export default function TableAprCol({
-  value,
-  liquidityMiningValues,
-  type,
-  symbol,
-}: TableAprColProps) {
+export default function TableAprCol({ value, incentives, symbol }: TableAprColProps) {
   return (
     <TableCol>
-      <LiquidityMiningCard
-        value={value}
-        liquidityMiningValues={liquidityMiningValues}
-        symbol={symbol}
-        type={type}
-      />
+      <IncentivesCard value={value} incentives={incentives} symbol={symbol} />
 
       <style jsx={true} global={true}>
         {staticStyles}

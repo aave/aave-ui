@@ -8,7 +8,7 @@ import CustomSwitch from '../../../../components/basic/CustomSwitch';
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
 import Row from '../../../../components/basic/Row';
 import Value from '../../../../components/basic/Value';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import NoData from '../../../../components/basic/NoData';
 import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
@@ -65,11 +65,10 @@ export default function DepositMobileCard({
 
         <Row title={intl.formatMessage(messages.apyRowTitle)} withMargin={true}>
           {borrowingEnabled || aIncentives.length > 0 ? (
-            <LiquidityMiningCard
+            <IncentivesCard
               symbol={symbol}
               value={borrowingEnabled ? Number(liquidityRate) : 0}
-              liquidityMiningValues={aIncentives}
-              type="deposit"
+              incentives={aIncentives}
             />
           ) : (
             <NoData color="dark" />

@@ -30,6 +30,10 @@ const staticStyles = css.global`
       background: black;
     }
 
+    &__clickable {
+      cursor: pointer;
+    }
+
     &__content {
       display: flex;
       align-items: center;
@@ -44,6 +48,12 @@ const staticStyles = css.global`
       align-items: center;
       justify-content: center;
       font-size: $small;
+      @include respond-to(lg) {
+        font-size: $extraSmall;
+      }
+      @include respond-to(md) {
+        font-size: $small;
+      }
       strong {
         margin: 0 2px 0 4px;
       }
@@ -84,6 +94,31 @@ const staticStyles = css.global`
       font-size: $small;
       margin-left: 6px;
       display: inline-block;
+      @include respond-to(lg) {
+        font-size: $extraSmall;
+      }
+      @include respond-to(md) {
+        font-size: $small;
+      }
+    }
+
+    .IncentivesButton__tribe {
+      .TokenIcon__image {
+        margin: 0;
+      }
+      .TokenIcon__name {
+        margin: 0 2px 0 3px;
+        b {
+          font-weight: 600;
+          font-size: $small;
+          @include respond-to(lg) {
+            font-size: $extraSmall;
+          }
+          @include respond-to(md) {
+            font-size: $small;
+          }
+        }
+      }
     }
   }
 `;

@@ -49,7 +49,7 @@ export default function DebtCeilingInfo({ debtCeilingUSD }: DebtCeilingInfoProps
         </div>
       </TextWithModal>
 
-      <p className="DebtCeilingInfo__values">
+      <div className="DebtCeilingInfo__values">
         <Value
           value={debtCeilingUSD}
           symbol="USD"
@@ -57,7 +57,7 @@ export default function DebtCeilingInfo({ debtCeilingUSD }: DebtCeilingInfoProps
           withoutSymbol={true}
           maximumValueDecimals={2}
         />
-      </p>
+      </div>
 
       <style jsx={true} global={true}>
         {staticStyles}

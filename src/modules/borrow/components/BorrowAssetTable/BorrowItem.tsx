@@ -4,7 +4,7 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 import TableItem from '../../../../components/BasicAssetsTable/TableItem';
 import TableColumn from '../../../../components/BasicTable/TableColumn';
 import Value from '../../../../components/basic/Value';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import NoData from '../../../../components/basic/NoData';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
@@ -67,24 +67,14 @@ export default function BorrowItem({
 
       {!isFreezed && (
         <TableColumn>
-          <LiquidityMiningCard
-            value={variableBorrowRate}
-            liquidityMiningValues={vIncentives}
-            symbol={symbol}
-            type="borrow-variable"
-          />
+          <IncentivesCard value={variableBorrowRate} incentives={vIncentives} symbol={symbol} />
         </TableColumn>
       )}
 
       {!isFreezed && (
         <TableColumn>
           {stableBorrowRateEnabled ? (
-            <LiquidityMiningCard
-              value={stableBorrowRate}
-              liquidityMiningValues={sIncentives}
-              symbol={symbol}
-              type="borrow-stable"
-            />
+            <IncentivesCard value={stableBorrowRate} incentives={sIncentives} symbol={symbol} />
           ) : (
             <NoData color="dark" />
           )}

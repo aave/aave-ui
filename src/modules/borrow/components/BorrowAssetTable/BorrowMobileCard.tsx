@@ -6,7 +6,7 @@ import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper
 import Row from '../../../../components/basic/Row';
 import NoData from '../../../../components/basic/NoData';
 import Value from '../../../../components/basic/Value';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
 import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
@@ -71,24 +71,14 @@ export default function BorrowMobileCard({
 
       {!isFreezed && (
         <Row title={intl.formatMessage(messages.variableAPY)} withMargin={true}>
-          <LiquidityMiningCard
-            symbol={symbol}
-            value={variableBorrowRate}
-            liquidityMiningValues={vIncentives}
-            type="borrow-variable"
-          />
+          <IncentivesCard symbol={symbol} value={variableBorrowRate} incentives={vIncentives} />
         </Row>
       )}
 
       {!isFreezed && (
         <Row title={intl.formatMessage(messages.stableAPY)} withMargin={true}>
           {stableBorrowRateEnabled ? (
-            <LiquidityMiningCard
-              symbol={symbol}
-              value={stableBorrowRate}
-              liquidityMiningValues={sIncentives}
-              type="borrow-stable"
-            />
+            <IncentivesCard symbol={symbol} value={stableBorrowRate} incentives={sIncentives} />
           ) : (
             <NoData color="dark" />
           )}

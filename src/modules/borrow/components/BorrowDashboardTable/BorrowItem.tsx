@@ -49,11 +49,8 @@ export default function BorrowItem({
       />
       <TableAprCol
         value={Number(borrowRate)}
-        liquidityMiningValues={
-          borrowRateMode === BorrowRateMode.Variable ? vIncentives : sIncentives
-        }
+        incentives={borrowRateMode === BorrowRateMode.Variable ? vIncentives : sIncentives}
         symbol={symbol}
-        type={borrowRateMode === BorrowRateMode.Variable ? 'borrow-variable' : 'borrow-stable'}
       />
 
       <TableCol maxWidth={125}>

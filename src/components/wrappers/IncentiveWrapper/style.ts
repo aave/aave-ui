@@ -24,6 +24,7 @@ const staticStyles = css`
     }
 
     &__title {
+      font-weight: 300;
       margin-right: 16px;
       font-size: $regular;
       @include respond-to(xl) {

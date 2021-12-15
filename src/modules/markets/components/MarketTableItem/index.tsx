@@ -1,19 +1,19 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { ReserveIncentive } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import TableItemWrapper from '../../../../components/BasicTable/TableItemWrapper';
 import TableColumn from '../../../../components/BasicTable/TableColumn';
 import Value from '../../../../components/basic/Value';
 import FreezedWarning from '../../../../components/FreezedWarning';
 import NoData from '../../../../components/basic/NoData';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import IsolatedBadge from '../../../../components/isolationMode/IsolatedBadge';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
 import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import staticStyles from './style';
-import { ReserveIncentive } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 
 export interface MarketTableItemProps {
   id: string;
@@ -105,11 +105,10 @@ export default function MarketTableItem({
       </TableColumn>
 
       <TableColumn className="MarketTableItem__column">
-        <LiquidityMiningCard
+        <IncentivesCard
           value={isFreezed ? '-1' : depositAPY}
-          liquidityMiningValues={aIncentives}
+          incentives={aIncentives}
           symbol={currencySymbol}
-          type="deposit"
         />
       </TableColumn>
 
@@ -141,11 +140,10 @@ export default function MarketTableItem({
         <>
           <TableColumn className="MarketTableItem__column">
             {borrowingEnabled && +variableBorrowRate >= 0 ? (
-              <LiquidityMiningCard
+              <IncentivesCard
                 value={variableBorrowRate}
-                liquidityMiningValues={vIncentives}
+                incentives={vIncentives}
                 symbol={currencySymbol}
-                type="borrow-variable"
               />
             ) : (
               <NoData color="dark" />
@@ -154,11 +152,10 @@ export default function MarketTableItem({
 
           <TableColumn className="MarketTableItem__column">
             {stableBorrowRateEnabled && borrowingEnabled && stableBorrowRate >= 0 ? (
-              <LiquidityMiningCard
+              <IncentivesCard
                 value={stableBorrowRate}
-                liquidityMiningValues={sIncentives}
+                incentives={sIncentives}
                 symbol={currencySymbol}
-                type="borrow-stable"
               />
             ) : (
               <NoData color="dark" />

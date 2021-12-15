@@ -5,11 +5,11 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useDynamicPoolDataContext } from '../../../libs/pool-data-provider';
 import { useIncentivesDataContext } from '../../../libs/pool-data-provider/hooks/use-incentives-data-context';
-import IncentiveClaimItem from '../../IncentiveClaimItem';
+import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
+import IncentiveClaimItem from '../../incentives/IncentiveClaimItem';
 
 import messages from './messages';
 import staticStyles from './style';
-import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 
 export default function IncentiveWrapper() {
   const intl = useIntl();
@@ -28,7 +28,7 @@ export default function IncentiveWrapper() {
 
   return (
     <div className="IncentiveWrapper">
-      <p className="IncentiveWrapper__title">{intl.formatMessage(messages.availableReward)}</p>
+      <p className="IncentiveWrapper__title">{intl.formatMessage(messages.claimableRewards)}</p>
 
       <div className="IncentiveWrapper__incentives">
         {Object.entries(userIncentivesFiltered).map((incentive) => {
@@ -46,7 +46,8 @@ export default function IncentiveWrapper() {
             />
           );
         })}
-        {currentMarketData.v3 ? (
+
+        {currentMarketData.v3 && (
           <IncentiveClaimItem
             key={'claimAll'}
             symbol={''}
@@ -54,8 +55,6 @@ export default function IncentiveWrapper() {
             rewardTokenAddress={''}
             claimAll={true}
           />
-        ) : (
-          <></>
         )}
       </div>
 

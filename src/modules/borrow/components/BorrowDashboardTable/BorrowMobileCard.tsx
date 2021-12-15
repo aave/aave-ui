@@ -7,7 +7,7 @@ import CustomSwitch from '../../../../components/basic/CustomSwitch';
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
 import Row from '../../../../components/basic/Row';
 import Value from '../../../../components/basic/Value';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import NoData from '../../../../components/basic/NoData';
 import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
@@ -54,15 +54,10 @@ export default function BorrowMobileCard({
 
         <Row title={intl.formatMessage(messages.apyRowTitle)} withMargin={true}>
           {borrowingEnabled ? (
-            <LiquidityMiningCard
+            <IncentivesCard
               symbol={symbol}
               value={Number(borrowRate)}
-              liquidityMiningValues={
-                borrowRateMode === BorrowRateMode.Variable ? vIncentives : sIncentives
-              }
-              type={
-                borrowRateMode === BorrowRateMode.Variable ? 'borrow-variable' : 'borrow-stable'
-              }
+              incentives={borrowRateMode === BorrowRateMode.Variable ? vIncentives : sIncentives}
             />
           ) : (
             <NoData color="dark" />

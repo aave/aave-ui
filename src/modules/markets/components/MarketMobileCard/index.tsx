@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import Row from '../../../../components/basic/Row';
 import FreezedWarning from '../../../../components/FreezedWarning';
 import Value from '../../../../components/basic/Value';
@@ -44,25 +44,22 @@ export default function MarketMobileCard({
     {
       title: messages.deposit,
       value: depositAPY,
-      liquidityMiningValues: aIncentives,
+      incentives: aIncentives,
       enabled: true,
-      type: 'deposit',
     },
     {
       title: messages.borrow,
       subTitle: messages.variable,
       value: variableBorrowRate,
-      liquidityMiningValues: vIncentives,
+      incentives: vIncentives,
       enabled: borrowingEnabled,
-      type: 'borrow-variable',
     },
     {
       title: messages.borrow,
       subTitle: messages.stable,
       value: stableBorrowRate,
-      liquidityMiningValues: sIncentives,
+      incentives: sIncentives,
       enabled: stableBorrowRateEnabled && borrowingEnabled,
-      type: 'borrow-stable',
     },
   ];
 
@@ -134,12 +131,11 @@ export default function MarketMobileCard({
               </p>
 
               {card.enabled ? (
-                <LiquidityMiningCard
+                <IncentivesCard
                   symbol={currencySymbol}
                   value={card.value}
-                  liquidityMiningValues={card.liquidityMiningValues}
+                  incentives={card.incentives}
                   mobilePosition="left"
-                  type={card.type}
                 />
               ) : (
                 <NoData color="dark" />

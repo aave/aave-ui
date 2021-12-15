@@ -2,13 +2,12 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { CustomTooltip, TokenIcon, useThemeContext } from '@aave/aave-ui-kit';
 
-import Value from '../basic/Value';
-import Link from '../basic/Link';
+import Value from '../../basic/Value';
+import Link from '../../basic/Link';
 
-import defaultMessages from '../../defaultMessages';
+import defaultMessages from '../../../defaultMessages';
 import staticStyles from './style';
 
-import tribeIcon from '../../images/tirbe.svg';
 import messages from './messages';
 
 interface IncentiveClaimItemProps {
@@ -34,64 +33,29 @@ export default function IncentiveClaimItem({
     : `/rewards/confirm/${rewardTokenAddress}`;
   const tooltipId = `incentiveClaimItem--${symbol}`;
 
-  if (claimAll) {
-    return (
-      <div className="IncentiveClaimItem">
-        <Link
-          to={rewardClaimLink}
-          className="ButtonLink"
-          title={intl.formatMessage(messages.claimAll)}
-        />
-
-        <style jsx={true} global={true}>
-          {staticStyles}
-        </style>
-        <style jsx={true} global={true}>{`
-          .IncentiveClaimItem {
-            border: 1px solid ${currentTheme.lightBlue.hex};
-            &:hover {
-              border: 1px solid
-                ${sm && !isCurrentThemeDark ? currentTheme.lightBlue.hex : currentTheme.white.hex};
-            }
-
-            .Link {
-              color: ${sm && !isCurrentThemeDark
-                ? currentTheme.secondary.hex
-                : currentTheme.lightBlue.hex};
-              &:hover {
-                color: ${currentTheme.secondary.hex};
-              }
-            }
-          }
-        `}</style>
-      </div>
-    );
-  }
-
   return (
     <div className="IncentiveClaimItem" data-tip={true} data-for={tooltipId}>
-      <div className="IncentiveClaimItem__valueInner">
-        {symbol === 'TRIBE' ? (
-          <img
-            className="IncentiveClaimItem__icon"
-            src={tribeIcon}
-            style={{ width: iconSize, height: iconSize }}
-            alt=""
-          />
-        ) : (
+      {!claimAll && (
+        <div className="IncentiveClaimItem__valueInner">
           <TokenIcon tokenSymbol={symbol} height={iconSize} width={iconSize} />
-        )}
-        <Value value={claimableRewards} compact={true} color={sm ? 'dark' : 'white'} />
-      </div>
+          <Value
+            value={claimableRewards}
+            compact={true}
+            color={sm ? 'dark' : 'white'}
+            maximumValueDecimals={4}
+            minimumValueDecimals={4}
+          />
+        </div>
+      )}
 
       <Link
         to={rewardClaimLink}
         className="ButtonLink"
-        disabled={claimableRewards === '0'}
-        title={intl.formatMessage(defaultMessages.claim)}
+        disabled={claimAll ? false : claimableRewards === '0'}
+        title={intl.formatMessage(claimAll ? messages.claimAll : defaultMessages.claim)}
       />
 
-      {!sm && (
+      {!sm && !claimAll && (
         <CustomTooltip
           tooltipId={tooltipId}
           text={`${Number(claimableRewards).toFixed(10)} ${symbol}`}

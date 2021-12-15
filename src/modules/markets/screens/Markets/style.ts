@@ -62,20 +62,6 @@ const staticStyles = css.global`
       }
     }
 
-    &__help--modalInner {
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-    }
-
-    .Markets__help--modal {
-      .TextWithModal__text {
-        font-size: $medium;
-      }
-    }
-
     &__price-switcher {
       margin-top: 30px;
       @include respond-to(xl) {

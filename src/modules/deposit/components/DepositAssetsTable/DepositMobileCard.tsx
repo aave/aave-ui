@@ -6,7 +6,7 @@ import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper
 import Row from '../../../../components/basic/Row';
 import NoData from '../../../../components/basic/NoData';
 import Value from '../../../../components/basic/Value';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
 import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
@@ -71,12 +71,7 @@ export default function DepositMobileCard({
       {!isFreezed && (
         <Row title={intl.formatMessage(messages.APY)} withMargin={true}>
           {borrowingEnabled ? (
-            <LiquidityMiningCard
-              symbol={symbol}
-              value={liquidityRate}
-              liquidityMiningValues={aIncentives}
-              type="deposit"
-            />
+            <IncentivesCard symbol={symbol} value={liquidityRate} incentives={aIncentives} />
           ) : (
             <NoData color="dark" />
           )}

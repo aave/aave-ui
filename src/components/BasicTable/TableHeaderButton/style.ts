@@ -61,6 +61,7 @@ const staticStyles = css.global`
     }
 
     &__withSort {
+      cursor: pointer;
       .TableHeaderButton__title {
         display: inline;
         position: relative;
