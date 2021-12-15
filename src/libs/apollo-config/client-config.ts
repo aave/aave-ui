@@ -5,10 +5,13 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
   split,
+  Operation,
+  FetchResult,
+  Observable,
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
-import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { WebSocketLink as WebSocketLinkLegacy } from '@apollo/client/link/ws';
 import { DocumentNode, NameNode } from 'graphql';
 import gql from 'graphql-tag';
 import { NetworkConfig } from '../../helpers/config/types';
@@ -22,6 +25,43 @@ import {
 } from '../pool-data-provider/hooks/use-graph-check';
 import { governanceConfig } from '../../ui-config';
 import { ChainId } from '@aave/contract-helpers';
+import { createClient, ClientOptions, Client } from 'graphql-ws';
+import { print } from 'graphql';
+
+class WebSocketLink extends ApolloLink {
+  private client: Client;
+
+  constructor(options: ClientOptions) {
+    super();
+    this.client = createClient(options);
+  }
+
+  public request(operation: Operation): Observable<FetchResult> {
+    return new Observable((sink) => {
+      return this.client.subscribe<FetchResult>(
+        { ...operation, query: print(operation.query) },
+        {
+          next: sink.next.bind(sink),
+          complete: sink.complete.bind(sink),
+          error: (err) => {
+            if (Array.isArray(err))
+              // GraphQLError[]
+              return sink.error(new Error(err.map(({ message }) => message).join(', ')));
+
+            if (err instanceof CloseEvent)
+              return sink.error(
+                new Error(
+                  `Socket closed with event ${err.code} ${err.reason || ''}` // reason will be available on clean closes only
+                )
+              );
+
+            return sink.error(err);
+          },
+        }
+      );
+    });
+  }
+}
 
 enum WsConnectonStatusKey {
   wsNetworkConnectonStatusKey = 'networkIsDisconnected',
@@ -42,6 +82,16 @@ const mainnetWsConnectionStatusDocument = gql`
 
 function createWsLink(uri: string): WebSocketLink {
   const wsLink = new WebSocketLink({
+    url: uri,
+    connectionAckWaitTimeout: 30000,
+    keepAlive: 10000,
+    lazy: true,
+  });
+  return wsLink;
+}
+
+function createWsLinkLegacy(uri: string): WebSocketLinkLegacy {
+  const wsLink = new WebSocketLinkLegacy({
     uri,
     options: {
       reconnect: true,
@@ -143,7 +193,7 @@ function buildClientQueries(
   });
   client.writeQuery({ query: queryError, data: { queryErrorCount: 0 } });
 
-  wsLink['subscriptionClient'].onDisconnected(() => {
+  wsLink['client'].on('closed', () => {
     client.writeQuery({
       query: wsConnectionStatus.query,
       data: { [wsConnectionStatus.connectionStatusKey]: true },
@@ -158,7 +208,7 @@ function buildClientQueries(
     });
   });
 
-  wsLink['subscriptionClient'].onReconnected(async () => {
+  wsLink['client'].on('connected', async () => {
     console.log('reconnected');
     client.writeQuery({
       query: wsConnectionStatus.query,
@@ -172,7 +222,7 @@ function buildClientQueries(
     console.log('data refetched');
   });
 
-  wsLink['subscriptionClient'].onError(() => {
+  wsLink['client'].on('error', () => {
     const previous = client.readQuery({ query: cachedServerWsErrorContext.query });
     console.log(
       `WebSocket error occurred (${
@@ -203,7 +253,7 @@ export function getApolloClient({
             definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
           );
         },
-        createWsLink(governanceConfig.wsGovernanceDataUrl),
+        createWsLinkLegacy(governanceConfig.wsGovernanceDataUrl),
         new HttpLink({ uri: governanceConfig.queryGovernanceDataUrl })
       )
     : undefined;
@@ -292,9 +342,9 @@ export function getApolloClient({
       );
     }
 
-    wsClients.push(cachedServerDataLink.networkCachingWSLink['subscriptionClient']);
+    wsClients.push(cachedServerDataLink.networkCachingWSLink['client']);
     if (cachedServerDataLink.mainnetCachingWSLink) {
-      wsClients.push(cachedServerDataLink.mainnetCachingWSLink['subscriptionClient']);
+      wsClients.push(cachedServerDataLink.mainnetCachingWSLink['client']);
     }
   }
 

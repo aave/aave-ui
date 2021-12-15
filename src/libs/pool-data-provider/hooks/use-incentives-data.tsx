@@ -9,12 +9,13 @@ import {
   UserReservesIncentivesDataHumanized,
 } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../../protocol-data-provider';
-import // PoolIncentivesWithCache,
-// useCachedIncentivesData,
-'../../caching-server-data-provider/hooks/use-cached-incentives-data';
+import {
+  PoolIncentivesWithCache,
+  useCachedIncentivesData,
+} from '../../caching-server-data-provider/hooks/use-cached-incentives-data';
 import { useUserWalletDataContext } from '../../web3-data-provider';
-//import { useConnectionStatusContext } from '../../connection-status-provider';
-//import { useApolloConfigContext } from '../../apollo-config';
+import { useConnectionStatusContext } from '../../connection-status-provider';
+import { useApolloConfigContext } from '../../apollo-config';
 
 // interval in which the rpc data is refreshed
 const POOLING_INTERVAL = 30 * 1000;
@@ -155,23 +156,21 @@ export function useRPCIncentivesData(
 
 export const useIncentiveData = () => {
   const { currentAccount } = useUserWalletDataContext();
-  //const { chainId: apolloClientChainId } = useApolloConfigContext();
+  const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { chainId, currentMarketData } = useProtocolDataContext();
-  //const { isRPCActive } = useConnectionStatusContext();
+  const { isRPCActive } = useConnectionStatusContext();
 
-  // const rpcMode = isRPCActive || chainId !== apolloClientChainId;
+  const rpcMode = isRPCActive || chainId !== apolloClientChainId;
 
-  /*   const {
+  const {
     loading: cachedDataLoading,
     data: cachedData,
     error: cachedDataError,
   }: PoolIncentivesWithCache = useCachedIncentivesData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     currentAccount,
-    networkConfig.addresses.chainlinkFeedRegistry,
-    networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
     rpcMode || !currentMarketData.addresses.UI_INCENTIVE_DATA_PROVIDER
-  ); */
+  );
 
   const {
     data: rpcData,
@@ -182,23 +181,22 @@ export const useIncentiveData = () => {
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     chainId,
     currentMarketData.addresses.UI_INCENTIVE_DATA_PROVIDER,
-    //!rpcMode || !currentMarketData.addresses.UI_INCENTIVE_DATA_PROVIDER,
-    false,
+    !rpcMode || !currentMarketData.addresses.UI_INCENTIVE_DATA_PROVIDER,
     currentAccount
   );
 
-  // if (rpcMode) {
-  return {
-    loading: rpcDataLoading,
-    data: rpcData,
-    error: rpcDataError,
-    refresh,
-  };
-  // }
+  if (rpcMode) {
+    return {
+      loading: rpcDataLoading,
+      data: rpcData,
+      error: rpcDataError,
+      refresh,
+    };
+  }
 
-  /*   return {
+  return {
     loading: cachedDataLoading,
     data: cachedData,
     error: cachedDataError,
-  }; */
+  };
 };
