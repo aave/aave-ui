@@ -29,20 +29,20 @@ export default function IncentivesButton({ incentives, symbol }: IncentivesButto
   );
   const incentivesAPRSum = isIncentivesInfinity
     ? 'Infinity'
-    : incentives.reduce((aIncentive, bIncentive) => aIncentive + +bIncentive.incentiveAPR, 0);
+    : incentives.reduce((aIncentive, bIncentive) => aIncentive + +bIncentive.incentiveAPR * 100, 0);
 
-  const incentivesNetAPY = isIncentivesInfinity
+  const incentivesNetAPR = isIncentivesInfinity
     ? 'Infinity'
     : incentivesAPRSum !== 'Infinity'
     ? valueToBigNumber(incentivesAPRSum).dividedBy(incentives.length).toNumber()
     : 'Infinity';
 
   const incentivesButtonValue = () => {
-    if (incentivesNetAPY !== 'Infinity' && incentivesNetAPY < 10000) {
-      return intl.formatNumber(incentivesNetAPY, { maximumFractionDigits: 2 });
-    } else if (incentivesNetAPY !== 'Infinity' && incentivesNetAPY > 9999) {
-      return <CompactNumber value={incentivesNetAPY} maximumFractionDigits={2} />;
-    } else if (incentivesNetAPY === 'Infinity') {
+    if (incentivesNetAPR !== 'Infinity' && incentivesNetAPR < 10000) {
+      return intl.formatNumber(incentivesNetAPR, { maximumFractionDigits: 2 });
+    } else if (incentivesNetAPR !== 'Infinity' && incentivesNetAPR > 9999) {
+      return <CompactNumber value={incentivesNetAPR} maximumFractionDigits={2} />;
+    } else if (incentivesNetAPR === 'Infinity') {
       return <span className="IncentivesButton__infinity">∞</span>;
     }
   };
@@ -147,7 +147,7 @@ export default function IncentivesButton({ incentives, symbol }: IncentivesButto
             isVisible={isModalVisible}
             setVisible={setIsModalVisible}
             incentives={incentives}
-            incentivesNetAPY={incentivesNetAPY}
+            incentivesNetAPR={incentivesNetAPR}
             symbol={symbol}
           />
         </div>
