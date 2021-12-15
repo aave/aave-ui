@@ -26,8 +26,6 @@ export interface PoolIncentivesWithCache {
 export function useCachedIncentivesData(
   lendingPoolAddressProvider: string,
   currentAccount?: string,
-  chainlinkFeedsRegistry?: string,
-  quote?: string,
   skip = false
 ): PoolIncentivesWithCache {
   const userId = currentAccount?.toLowerCase() || undefined;
@@ -38,8 +36,6 @@ export function useCachedIncentivesData(
   } = useC_ReservesIncentivesQuery({
     variables: {
       lendingPoolAddressProvider,
-      chainlinkFeedsRegistry: chainlinkFeedsRegistry || '',
-      quote: quote || '',
     },
     skip,
   });
@@ -54,8 +50,6 @@ export function useCachedIncentivesData(
         document: C_PoolIncentivesDataUpdateDocument,
         variables: {
           lendingPoolAddressProvider,
-          chainlinkFeedsRegistry: chainlinkFeedsRegistry || '',
-          quote: quote || '',
         },
         updateQuery: (previousQueryResult, { subscriptionData }) => {
           const poolIncentivesDataUpdate = subscriptionData.data?.poolIncentivesDataUpdate;
@@ -81,8 +75,6 @@ export function useCachedIncentivesData(
     variables: {
       lendingPoolAddressProvider,
       userAddress: userId || '',
-      chainlinkFeedsRegistry: chainlinkFeedsRegistry || '',
-      quote: quote || '',
     },
     skip: !userId || skip,
   });
@@ -97,8 +89,6 @@ export function useCachedIncentivesData(
         variables: {
           lendingPoolAddressProvider,
           userAddress: userId || '',
-          chainlinkFeedsRegistry: chainlinkFeedsRegistry || '',
-          quote: quote || '',
         },
         updateQuery: (previousQueryResult, { subscriptionData }) => {
           const userData = subscriptionData.data?.userPoolIncentivesDataUpdate;

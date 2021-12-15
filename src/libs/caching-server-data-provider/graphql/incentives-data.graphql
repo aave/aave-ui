@@ -1,28 +1,24 @@
-fragment IncentivesDataFragment on IncentivesData {
-  emissionPerSecond
-  incentivesLastUpdateTimestamp
-  tokenIncentivesIndex
-  emissionEndTimestamp
-  tokenAddress
-  rewardTokenAddress
-  rewardTokenDecimals
+fragment IncentivesDataFragment on IncentiveData {
   incentiveControllerAddress
-  precision
-  priceFeed
-  priceFeedDecimals
-  priceFeedTimestamp
+  tokenAddress
+  rewardsTokenInformation {
+    emissionEndTimestamp
+    emissionPerSecond
+    incentivesLastUpdateTimestamp
+    precision
+    priceFeedDecimals
+    tokenIncentivesIndex
+
+    rewardPriceFeed
+    rewardTokenAddress
+    rewardTokenDecimals
+    rewardOracleAddress
+    rewardTokenSymbol
+  }
 }
 
-query C_ReservesIncentives(
-  $lendingPoolAddressProvider: String!
-  $chainlinkFeedsRegistry: String!
-  $quote: String!
-) {
-  reservesIncentives(
-    lendingPoolAddressProvider: $lendingPoolAddressProvider
-    chainlinkFeedsRegistry: $chainlinkFeedsRegistry
-    quote: $quote
-  ) {
+query C_ReservesIncentives($lendingPoolAddressProvider: String!) {
+  reservesIncentives(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
     underlyingAsset
     aIncentiveData {
       ...IncentivesDataFragment
@@ -36,16 +32,8 @@ query C_ReservesIncentives(
   }
 }
 
-subscription C_PoolIncentivesDataUpdate(
-  $lendingPoolAddressProvider: String!
-  $chainlinkFeedsRegistry: String!
-  $quote: String!
-) {
-  poolIncentivesDataUpdate(
-    lendingPoolAddressProvider: $lendingPoolAddressProvider
-    chainlinkFeedsRegistry: $chainlinkFeedsRegistry
-    quote: $quote
-  ) {
+subscription C_PoolIncentivesDataUpdate($lendingPoolAddressProvider: String!) {
+  poolIncentivesDataUpdate(lendingPoolAddressProvider: $lendingPoolAddressProvider) {
     underlyingAsset
     aIncentiveData {
       ...IncentivesDataFragment

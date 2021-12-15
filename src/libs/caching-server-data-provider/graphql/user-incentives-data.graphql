@@ -1,23 +1,22 @@
-fragment TokenIncentivesUserDataFragment on TokenIncentivesUserData {
-  tokenIncentivesUserIndex
-  userUnclaimedRewards
+fragment TokenIncentivesUserDataFragment on UserIncentiveData {
   tokenAddress
-  rewardTokenAddress
-  rewardTokenDecimals
   incentiveControllerAddress
+  userRewardsInformation {
+    rewardTokenSymbol
+    rewardOracleAddress
+    rewardTokenAddress
+    userUnclaimedRewards
+    tokenIncentivesUserIndex
+    rewardPriceFeed
+    priceFeedDecimals
+    rewardTokenDecimals
+  }
 }
 
-query C_UserIncentives(
-  $userAddress: String!
-  $lendingPoolAddressProvider: String!
-  $chainlinkFeedsRegistry: String!
-  $quote: String!
-) {
+query C_UserIncentives($userAddress: String!, $lendingPoolAddressProvider: String!) {
   userIncentives(
     userAddress: $userAddress
     lendingPoolAddressProvider: $lendingPoolAddressProvider
-    chainlinkFeedsRegistry: $chainlinkFeedsRegistry
-    quote: $quote
   ) {
     underlyingAsset
     aTokenIncentivesUserData {
@@ -35,14 +34,10 @@ query C_UserIncentives(
 subscription C_UserPoolIncentivesDataUpdate(
   $userAddress: String!
   $lendingPoolAddressProvider: String!
-  $chainlinkFeedsRegistry: String!
-  $quote: String!
 ) {
   userPoolIncentivesDataUpdate(
     userAddress: $userAddress
     lendingPoolAddressProvider: $lendingPoolAddressProvider
-    chainlinkFeedsRegistry: $chainlinkFeedsRegistry
-    quote: $quote
   ) {
     underlyingAsset
     aTokenIncentivesUserData {
