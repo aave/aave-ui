@@ -6439,7 +6439,6 @@ export type UserReserveData = {
   stableBorrowRate: Scalars['String'];
   underlyingAsset: Scalars['String'];
   usageAsCollateralEnabledOnUser: Scalars['Boolean'];
-  userEmodeCategoryId: Scalars['Float'];
 };
 
 export type UserReserve_Filter = {
@@ -7220,8 +7219,6 @@ export type _Block_ = {
   hash?: Maybe<Scalars['Bytes']>;
   /** The block number */
   number: Scalars['Int'];
-  /** The minimum block number */
-  number_gte: Scalars['Int'];
 };
 
 /** The type for the top-level _meta field */
@@ -7784,7 +7781,6 @@ export type UserReserveDataFragmentFragment = {
   stableBorrowRate: string;
   principalStableDebt: string;
   stableBorrowLastUpdateTimestamp: number;
-  userEmodeCategoryId: number;
 };
 
 export type C_UserDataQueryVariables = Exact<{
@@ -8105,7 +8101,6 @@ export const UserReserveDataFragmentFragmentDoc = gql`
     stableBorrowRate
     principalStableDebt
     stableBorrowLastUpdateTimestamp
-    userEmodeCategoryId
   }
 `;
 export const TokenIncentivesUserDataFragmentFragmentDoc = gql`

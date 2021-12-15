@@ -47,7 +47,7 @@ export function ConnectionStatusProvider({ children }: React.PropsWithChildren<{
     RPC_ONLY_MODE ||
     wsError.wsErrorCount >= WS_ATTEMPTS_LIMIT ||
     queryError.queryErrorCount >= 1 ||
-    networkConfig.rpcOnly;
+    !!networkConfig.rpcOnly;
   const isRPCActive = preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory;
   return (
     <ConnectionStatusDataContext.Provider

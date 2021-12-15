@@ -53,7 +53,6 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     baseAsset: 'MATIC',
     baseAssetWrappedAddress: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
     explorerLink: 'https://polygonscan.com',
-    rpcOnly: true,
     bridge: {
       brandColor: '130, 71, 229',
       name: 'Polygon PoS Bridge',

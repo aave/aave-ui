@@ -6,7 +6,6 @@ fragment UserReserveDataFragment on UserReserveData {
   stableBorrowRate
   principalStableDebt
   stableBorrowLastUpdateTimestamp
-  userEmodeCategoryId
 }
 
 query C_UserData($userAddress: String!, $lendingPoolAddressProvider: String!) {
