@@ -1,30 +1,33 @@
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { BigNumber, normalize } from '@aave/protocol-js';
+
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import {
   useIncentivesDataContext,
   UserIncentive,
 } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
-
-import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
-import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import Row from '../../../../components/basic/Row';
 import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationView';
 import Value from '../../../../components/basic/Value';
 import Link from '../../../../components/basic/Link';
 
 import messages from './messages';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
-export function RewardConfirm() {
+export default function RewardConfirm() {
   const intl = useIntl();
   const location = useLocation();
 
   const { user } = useDynamicPoolDataContext();
   const { userIncentives, incentivesTxBuilder, incentivesTxBuilderV2 } = useIncentivesDataContext();
   const { currentMarketData } = useProtocolDataContext();
+
+  // lock values to not update them after tx was executed
+  const [isTxExecuted, setIsTxExecuted] = useState(false);
+
   const rewardTokenAddress = location.pathname.split('/')[3];
   const mode = rewardTokenAddress === 'all' ? 'all' : 'single';
 
@@ -108,75 +111,89 @@ export function RewardConfirm() {
   };
 
   return (
-    <ScreenWrapper
-      pageTitle={intl.formatMessage(messages.pageTitle)}
-      isTitleOnDesktop={true}
-      withMobileGrayBg={true}
+    <PoolTxConfirmationView
+      caption={intl.formatMessage(messages.title)}
+      description={intl.formatMessage(messages.description)}
+      getTransactionsData={handleGetTransactions}
+      onMainTxExecuted={() => setIsTxExecuted(true)}
+      boxTitle={intl.formatMessage(messages.claim)}
+      boxDescription={intl.formatMessage(messages.boxDescription)}
+      mainTxName={intl.formatMessage(messages.claim)}
+      blockingError={blockingError}
+      aTokenData={aTokenData}
+      goToAfterSuccess="/dashboard"
+      dangerousMessage={
+        incentiveData && incentiveData.rewardTokenSymbol === 'TRIBE' ? (
+          <div>
+            <p>
+              {intl.formatMessage(messages.tribeWarningFirst, {
+                proposal: (
+                  <Link
+                    to="https://www.withtally.com/governance/fei/proposal/20"
+                    inNewWindow={true}
+                    absolute={true}
+                    color="secondary"
+                    title={intl.formatMessage(messages.proposal)}
+                  />
+                ),
+                link: (
+                  <Link
+                    to="https://app.fei.money/farm"
+                    inNewWindow={true}
+                    absolute={true}
+                    color="secondary"
+                    title={intl.formatMessage(messages.feiMessage)}
+                  />
+                ),
+              })}
+            </p>
+            <p style={{ marginTop: 15 }}>{intl.formatMessage(messages.tribeWarningSecond)}</p>
+          </div>
+        ) : undefined
+      }
     >
-      <ContentWrapper withBackButton={true} withFullHeight={true}>
-        <PoolTxConfirmationView
-          caption={intl.formatMessage(messages.title)}
-          description={intl.formatMessage(messages.description)}
-          getTransactionsData={handleGetTransactions}
-          boxTitle={intl.formatMessage(messages.claim)}
-          boxDescription={intl.formatMessage(messages.boxDescription)}
-          mainTxName={intl.formatMessage(messages.claim)}
-          blockingError={blockingError}
-          aTokenData={aTokenData}
-          goToAfterSuccess="/dashboard"
-          dangerousMessage={
-            incentiveData && incentiveData.rewardTokenSymbol === 'TRIBE' ? (
-              <div>
-                <p>
-                  {intl.formatMessage(messages.tribeWarningFirst, {
-                    proposal: (
-                      <Link
-                        to="https://www.withtally.com/governance/fei/proposal/20"
-                        inNewWindow={true}
-                        absolute={true}
-                        color="secondary"
-                        title={intl.formatMessage(messages.proposal)}
-                      />
-                    ),
-                    link: (
-                      <Link
-                        to="https://app.fei.money/farm"
-                        inNewWindow={true}
-                        absolute={true}
-                        color="secondary"
-                        title={intl.formatMessage(messages.feiMessage)}
-                      />
-                    ),
-                  })}
-                </p>
-                <p style={{ marginTop: 15 }}>{intl.formatMessage(messages.tribeWarningSecond)}</p>
-              </div>
-            ) : undefined
-          }
-        >
-          {mode === 'single' ? (
-            <Row title={intl.formatMessage(messages.claim)}>
-              <Value
-                symbol={incentiveData ? incentiveData.rewardTokenSymbol : ''}
-                value={formattedAmount}
-                tokenIcon={true}
-                tooltipId={incentiveData ? incentiveData.rewardTokenSymbol : ''}
-              />
-            </Row>
-          ) : (
-            Object.entries(userIncentives).map((incentive) => (
-              <Row title={intl.formatMessage(messages.claim)} key={incentive[1].rewardTokenSymbol}>
+      {mode === 'single' ? (
+        <Row title={intl.formatMessage(messages.claim)}>
+          <Value
+            symbol={incentiveData ? incentiveData.rewardTokenSymbol : ''}
+            value={formattedAmount}
+            subValue={1} // TODO: need formattedAmount in USD
+            subSymbol="USD"
+            tokenIcon={true}
+            tooltipId={incentiveData ? incentiveData.rewardTokenSymbol : ''}
+            updateCondition={isTxExecuted}
+          />
+        </Row>
+      ) : (
+        <>
+          <Row title={intl.formatMessage(messages.claim)} withMargin={true}>
+            <div>
+              {Object.entries(userIncentives).map((incentive) => (
                 <Value
                   symbol={incentive[1].rewardTokenSymbol}
                   value={normalize(incentive[1].claimableRewards, incentive[1].rewardTokenDecimals)}
+                  subValue={1} // TODO: need claimableRewards in USD
+                  subSymbol="USD"
                   tokenIcon={true}
-                  tooltipId={incentive[1].rewardTokenSymbol}
+                  tooltipId={incentive[0]}
+                  updateCondition={isTxExecuted}
+                  key={incentive[0]}
                 />
-              </Row>
-            ))
-          )}
-        </PoolTxConfirmationView>
-      </ContentWrapper>
-    </ScreenWrapper>
+              ))}
+            </div>
+          </Row>
+
+          <Row title={intl.formatMessage(messages.totalWorth)}>
+            <Value
+              value={1} // TODO: need calculate all claimableRewards in USD
+              symbol="USD"
+              tokenIcon={true}
+              withoutSymbol={true}
+              color="primary"
+            />
+          </Row>
+        </>
+      )}
+    </PoolTxConfirmationView>
   );
 }

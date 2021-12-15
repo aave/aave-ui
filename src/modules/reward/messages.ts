@@ -1,5 +1,5 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  claimAll: 'Claim All',
+  pageTitle: 'Reward',
 });
