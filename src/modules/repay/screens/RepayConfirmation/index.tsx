@@ -54,7 +54,6 @@ function RepayConfirmation({
   const assetAddress = query.assetAddress ? (query.assetAddress as string) : '';
 
   const repayWithATokens = assetAddress === poolReserve.aTokenAddress && currentMarketData.v3;
-
   if (!user) {
     return (
       <NoDataPanel

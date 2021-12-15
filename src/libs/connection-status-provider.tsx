@@ -22,7 +22,7 @@ const ConnectionStatusDataContext = React.createContext({} as ConnectionStatusPr
 
 export function ConnectionStatusProvider({ children }: React.PropsWithChildren<{}>) {
   const { networkConfig } = useProtocolDataContext();
-  const RPC_ONLY_MODE = networkConfig.rpcOnly;
+  const RPC_ONLY_MODE = !!networkConfig.rpcOnly;
   const [preferredConnectionMode, setPreferredConnectionMode] = useState<ConnectionMode>(
     RPC_ONLY_MODE
       ? ConnectionMode.rpc
@@ -44,10 +44,7 @@ export function ConnectionStatusProvider({ children }: React.PropsWithChildren<{
   const queryError = useQueryGraphCheck();
 
   const isRPCMandatory =
-    RPC_ONLY_MODE ||
-    wsError.wsErrorCount >= WS_ATTEMPTS_LIMIT ||
-    queryError.queryErrorCount >= 1 ||
-    !!networkConfig.rpcOnly;
+    RPC_ONLY_MODE || wsError.wsErrorCount >= WS_ATTEMPTS_LIMIT || queryError.queryErrorCount >= 1;
   const isRPCActive = preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory;
   return (
     <ConnectionStatusDataContext.Provider

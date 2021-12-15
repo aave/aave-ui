@@ -198,14 +198,6 @@ function buildClientQueries(
       query: wsConnectionStatus.query,
       data: { [wsConnectionStatus.connectionStatusKey]: true },
     });
-    const previous = client.readQuery({ query: cachedServerWsErrorContext.query });
-    client.writeQuery({
-      query: cachedServerWsErrorContext.query,
-      data: {
-        [cachedServerWsErrorContext.errorKey]:
-          (previous?.[cachedServerWsErrorContext.errorKey] || 0) + 1,
-      },
-    });
   });
 
   wsLink['client'].on('connected', async () => {
