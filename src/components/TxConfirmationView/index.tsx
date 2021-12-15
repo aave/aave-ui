@@ -238,7 +238,7 @@ export default function TxConfirmationView({
           name: mainTxName,
         });
       }
-      if (permitEnabled && getPermitSignatureRequest) {
+      if (approvalTx && permitEnabled && getPermitSignatureRequest) {
         const permitTxResponse = await getPermitSignatureRequest();
         setUnsignedPermitData(permitTxResponse);
       }
