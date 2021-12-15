@@ -1,35 +1,35 @@
-const {configEnvWithTenderlyMainnetFork} = require('../../../support/steps/configuration.steps');
-const {deposit, borrow, repay, withdraw} = require('../../../support/steps/main.steps')
-const {skipState} = require('../../../support/steps/common')
+const { configEnvWithTenderlyMainnetFork } = require('../../../support/steps/configuration.steps');
+const { deposit, borrow, repay, withdraw } = require('../../../support/steps/main.steps');
+const { skipState } = require('../../../support/steps/common');
 const assets = require('../../../fixtures/assets.json');
-const constants = require('../../../fixtures/constans.json')
+const constants = require('../../../fixtures/constans.json');
 const URL = Cypress.env('URL');
 
-const testData ={
-  depositETH:{
-    asset:assets.aaveMarket.ETH,
+const testData = {
+  depositETH: {
+    asset: assets.aaveMarket.ETH,
     amount: 0.9,
-    hasApproval: true
+    hasApproval: true,
   },
-  testCases:{
-    borrow:[
+  testCases: {
+    borrow: [
       {
-        asset:assets.aaveMarket.DAI,
+        asset: assets.aaveMarket.DAI,
         amount: 50,
         apyType: constants.borrowAPYType.variable,
-        hasApproval: true
+        hasApproval: true,
       },
       {
-        asset:assets.aaveMarket.DAI,
+        asset: assets.aaveMarket.DAI,
         amount: 50,
         apyType: constants.borrowAPYType.stable,
-        hasApproval: true
-      }
+        hasApproval: true,
+      },
     ],
-    deposit:{
+    deposit: {
       asset: assets.aaveMarket.DAI,
       amount: 50,
-      hasApproval: false
+      hasApproval: false,
     },
     // changeBorrowType:[
     //   {
@@ -45,93 +45,94 @@ const testData ={
     //     hasApproval: true
     //   }
     // ],
-    repay:[
+    repay: [
       {
-        asset:assets.aaveMarket.DAI,
+        asset: assets.aaveMarket.DAI,
         amount: 10,
         hasApproval: true,
-        repayOption: constants.repayType.wallet
+        repayOption: constants.repayType.wallet,
       },
       {
-        asset:assets.aaveMarket.DAI,
+        asset: assets.aaveMarket.DAI,
         amount: 10,
         hasApproval: false,
         repayOption: constants.repayType.collateral,
-        assetForRepay: assets.aaveMarket.ETH
-      }
+        assetForRepay: assets.aaveMarket.ETH,
+      },
     ],
-    withdraw:{
+    withdraw: {
       asset: assets.aaveMarket.DAI,
       amount: 10,
-      hasApproval: true
+      hasApproval: true,
     },
-  // verifications:{
-  //   finalDashboard:[
-  //     {
-  //       type: constants.dashboardTypes.deposit,
-  //       asset: assets.aaveMarket.DAI.shortName,
-  //       amount: 30,
-  //       collateralType: constants.collateralType.isCollateral
-  //     },
-  //     {
-  //       type: constants.dashboardTypes.borrow,
-  //       asset: assets.aaveMarket.DAI.shortName,
-  //       amount: 80,
-  //       aprType: constants.borrowAPRType.stable
-  //     }
-  //   ]
-  }
-}
+    // verifications:{
+    //   finalDashboard:[
+    //     {
+    //       type: constants.dashboardTypes.deposit,
+    //       asset: assets.aaveMarket.DAI.shortName,
+    //       amount: 30,
+    //       collateralType: constants.collateralType.isCollateral
+    //     },
+    //     {
+    //       type: constants.dashboardTypes.borrow,
+    //       asset: assets.aaveMarket.DAI.shortName,
+    //       amount: 80,
+    //       aprType: constants.borrowAPRType.stable
+    //     }
+    //   ]
+    // }
+  },
+};
 
-describe('DAI INTEGRATION SPEC',  ()=>{
+describe('DAI INTEGRATION SPEC', () => {
   const skipTestState = skipState(false);
-  configEnvWithTenderlyMainnetFork({})
+  configEnvWithTenderlyMainnetFork({});
 
   deposit(
     {
-      ...testData.depositETH
+      ...testData.depositETH,
     },
     skipTestState,
     true
-  )
+  );
 
   testData.testCases.borrow.forEach((borrowCase) => {
     borrow(
       {
-        ...borrowCase
+        ...borrowCase,
       },
       skipTestState,
       true
-    )
-  })
+    );
+  });
 
   deposit(
     {
-      ...testData.testCases.deposit
+      ...testData.testCases.deposit,
     },
     skipTestState,
     true
-  )
+  );
 
-  testData.testCases.repay.forEach((repayCase) =>{
+  testData.testCases.repay.forEach((repayCase) => {
     repay(
       {
-        ...repayCase
+        ...repayCase,
       },
       skipTestState,
       false
-    )
-  })
+    );
+  });
 
   withdraw(
     {
-      ...testData.testCases.withdraw
+      ...testData.testCases.withdraw,
     },
     skipTestState,
     false
-  )
+  );
 
   // dashboardAssetValuesVerification(
   //   testData.verifications.finalDashboard, skipTestState
   // )
-})
+});
