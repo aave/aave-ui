@@ -48,5 +48,5 @@ module.exports.configEnvWithTenderlyMainnetFork = ({
   wallet = DEFAULT_TEST_WALLET,
   network = forkNetworks.ethereum
 }) => {
-  configEnvWithTenderly({network, wallet, market})
+  configEnvWithTenderly({network, wallet, market});
 }

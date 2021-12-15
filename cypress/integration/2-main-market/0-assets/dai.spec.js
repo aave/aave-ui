@@ -1,5 +1,5 @@
 const {configEnvWithTenderlyMainnetFork} = require('../../../support/steps/configuration.steps');
-const {deposit, borrow, repay, withdraw} = require('../../../support/steps/main.steps')
+const {deposit, borrow, repay, withdraw, changeBorrowType} = require('../../../support/steps/main.steps')
 const {skipState} = require('../../../support/steps/common')
 const assets = require('../../../fixtures/assets.json');
 const constants = require('../../../fixtures/constans.json')
@@ -31,20 +31,20 @@ const testData ={
       amount: 50,
       hasApproval: false
     },
-    // changeBorrowType:[
-    //   {
-    //     asset:assets.aaveMarket.DAI,
-    //     aprType: constants.borrowAPRType.stable,
-    //     newAPR: constants.borrowAPRType.variable,
-    //     hasApproval: true
-    //   },
-    //   {
-    //     asset:assets.aaveMarket.DAI,
-    //     aprType: constants.borrowAPRType.variable,
-    //     newAPR: constants.borrowAPRType.stable,
-    //     hasApproval: true
-    //   }
-    // ],
+    changeBorrowType:[
+      {
+        asset:assets.aaveMarket.DAI,
+        apyType: constants.borrowAPYType.stable,
+        newAPY: constants.borrowAPYType.variable,
+        hasApproval: true
+      },
+      {
+        asset:assets.aaveMarket.DAI,
+        apyType: constants.borrowAPYType.variable,
+        newAPY: constants.borrowAPYType.stable,
+        hasApproval: true
+      }
+    ],
     repay:[
       {
         asset:assets.aaveMarket.DAI,
@@ -93,7 +93,7 @@ describe('DAI INTEGRATION SPEC',  ()=>{
     },
     skipTestState,
     true
-  )
+  );
 
   testData.testCases.borrow.forEach((borrowCase) => {
     borrow(
@@ -102,8 +102,18 @@ describe('DAI INTEGRATION SPEC',  ()=>{
       },
       skipTestState,
       true
-    )
-  })
+    );
+  });
+
+  testData.testCases.changeBorrowType.forEach((changeAPRCase) =>{
+    changeBorrowType(
+      {
+        ...changeAPRCase
+      },
+      skipTestState,
+      true
+    );
+  });
 
   deposit(
     {
@@ -111,7 +121,7 @@ describe('DAI INTEGRATION SPEC',  ()=>{
     },
     skipTestState,
     true
-  )
+  );
 
   testData.testCases.repay.forEach((repayCase) =>{
     repay(
@@ -120,8 +130,8 @@ describe('DAI INTEGRATION SPEC',  ()=>{
       },
       skipTestState,
       false
-    )
-  })
+    );
+  });
 
   withdraw(
     {
@@ -129,7 +139,7 @@ describe('DAI INTEGRATION SPEC',  ()=>{
     },
     skipTestState,
     false
-  )
+  );
 
   // dashboardAssetValuesVerification(
   //   testData.verifications.finalDashboard, skipTestState

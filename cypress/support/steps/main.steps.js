@@ -23,7 +23,7 @@ module.exports.deposit = ({asset, amount, hasApproval = true}, skip, updateSkipS
   let _fullName =asset.fullName;
 
   return describe(`Deposit process for ${_shortName}`, () => {
-    skipSetup({skip, updateSkipStatus})
+    skipSetup({skip, updateSkipStatus});
     it(`Open ${_shortName} borrow view`, () => {
       cy.get('.Menu strong').contains('Deposit').click();
       cy.get(".TokenIcon__name").contains(_fullName).click();
@@ -42,7 +42,7 @@ module.exports.borrow = ({asset, amount, apyType, hasApproval = true}, skip, upd
   let _fullName =asset.fullName;
 
   return describe(`Borrow process for ${_shortName}`, () => {
-    skipSetup({skip, updateSkipStatus})
+    skipSetup({skip, updateSkipStatus});
     it(`Open ${_shortName} borrow view`, () => {
       cy.get('.Menu strong').contains('Borrow').click();
       cy.get(".TokenIcon__name").contains(_fullName).click();
@@ -71,13 +71,13 @@ module.exports.borrow = ({asset, amount, apyType, hasApproval = true}, skip, upd
 }
 
 module.exports.repay = ({asset, amount, repayOption, assetForRepay= null,  hasApproval = false}, skip, updateSkipStatus = false) =>{
-  let _shortName =asset.shortName
-  let _shortNameAssetForRepay = assetForRepay != null ? assetForRepay.shortName : null
+  let _shortName =asset.shortName;
+  let _shortNameAssetForRepay = assetForRepay != null ? assetForRepay.shortName : null;
 
   return describe(`Repay by ${repayOption} process for ${_shortName}`, () => {
-    skipSetup({skip, updateSkipStatus})
+    skipSetup({skip, updateSkipStatus});
     it(`Open ${_shortName} repay view`, () => {
-      cy.get('.Menu strong').contains('dashboard').click().wait(1000);
+      cy.get('.Menu strong').contains('dashboard').click();
       let borrowTable = new Table('.MainDashboardTable__right-inner')
       borrowTable.openRepay(borrowTable.findRow(_shortName))
     })
@@ -122,20 +122,36 @@ module.exports.repay = ({asset, amount, repayOption, assetForRepay= null,  hasAp
 }
 
 module.exports.withdraw = ({asset, amount, hasApproval = false}, skip, updateSkipStatus = false) => {
-  let _shortName =asset.shortName
+  let _shortName =asset.shortName;
 
   return describe(`Withdraw process for ${_shortName}`, ()=>{
-    skipSetup({skip, updateSkipStatus})
+    skipSetup({skip, updateSkipStatus});
     it(`Open ${_shortName} repay view`, () => {
-      cy.get('.Menu strong').contains('dashboard').click().wait(1000);
-      let depositTable = new Table('.MainDashboardTable__left-inner')
-      depositTable.openWithdraw(depositTable.findRow(_shortName))
+      cy.get('.Menu strong').contains('dashboard').click();
+      let depositTable = new Table('.MainDashboardTable__left-inner');
+      depositTable.openWithdraw(depositTable.findRow(_shortName));
     })
     it(`Set ${amount} withdraw amount for ${_shortName}`, () => {
       setAmount({amount});
     })
     it(`Make approve for ${_shortName}, on confirmation page`, ()=>{
       doConfirm({hasApproval, actionName: "Withdraw"});
+    })
+  })
+}
+
+module.exports.changeBorrowType= ({asset, apyType, newAPY, hasApproval = true}, skip, updateSkipStatus = false) =>{
+  let _shortName =asset.shortName;
+
+  describe("Change APY of borrowing",()=>{
+    skipSetup({skip, updateSkipStatus});
+    it(`Change the ${_shortName} borrowing apr type from ${apyType} to ${newAPY}`, ()=>{
+      cy.get('.Menu strong').contains('dashboard').click();
+      let borrowTable = new Table('.MainDashboardTable__right-inner');
+      borrowTable.findRow(_shortName, apyType).find('.Switcher .Switcher__swiper').click()
+    })
+    it(`Make approve for ${_shortName}, on confirmation page`, () => {
+      doConfirm({hasApproval, actionName: "Submit"});
     })
   })
 }

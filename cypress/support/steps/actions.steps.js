@@ -10,20 +10,20 @@ module.exports.setAmount = ({amount, max =false}) => {
 }
 
 module.exports.doConfirm = ({hasApproval, actionName = null}) => {
+  let _confirmForm = dw cy.get('.TxConfirmationView');
   let clickActionButton = (name) =>{
     if(name != null){
-      cy.get('.Button').contains(name).click();
+      _confirmForm.find('.Button').contains(name).click();
     }else{
-      cy.get('.Button').click();
+      _confirmForm.find('.Button').click();
     }
   }
-
   if(hasApproval){
     clickActionButton(actionName)
     cy.get('.TextStatus > p').contains('2/2 Success!');
   }else{
     cy.get('.TxTopInfo__title').contains('1/3 Approve');
-    cy.get('.Button').contains('Approve').click();
+    _confirmForm.find('.Button').contains('Approve').click();
     if(actionName != null)
       cy.get(`.TxTopInfo__title:contains("2/3 ${actionName}")`)
     clickActionButton(actionName)
@@ -32,19 +32,19 @@ module.exports.doConfirm = ({hasApproval, actionName = null}) => {
 }
 
 function doChooseSwapToOption(assetName){
-  cy.get('.AssetSelect__reverse .AssetSelect__button').click()
-  cy.get('.AssetSelect__reverse .TokenIcon__name').contains(assetName).click()
+  cy.get('.AssetSelect__reverse .AssetSelect__button').click();
+  cy.get('.AssetSelect__reverse .TokenIcon__name').contains(assetName).click();
 }
 
 module.exports.doSwapForRepay = ({amount, assetName = null}) => {
-  cy.log('assetName,' + assetName)
-  cy.get(':nth-child(1) > .AmountFieldWithSelect__field-inner  [data-cy=amountInput]').type(amount)
+  cy.log('assetName,' + assetName);
+  cy.get(':nth-child(1) > .AmountFieldWithSelect__field-inner  [data-cy=amountInput]').type(amount);
   if(assetName != null){
-    doChooseSwapToOption(assetName)
+    doChooseSwapToOption(assetName);
   }
   cy.get('.Button')
     .contains('Continue')
     .parents('.Button')
     .should('not.be.disabled')
-    .click()
+    .click();
 }
