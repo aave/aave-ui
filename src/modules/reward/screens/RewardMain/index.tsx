@@ -18,7 +18,6 @@ import staticStyles from './style';
 export default function RewardMain() {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
-
   const { user } = useDynamicPoolDataContext();
   const { userIncentives } = useIncentivesDataContext();
 
@@ -43,6 +42,8 @@ export default function RewardMain() {
             incentive[1].claimableRewards,
             incentive[1].rewardTokenDecimals
           );
+          const claimableRewardsUSD =
+            Number(claimableRewards) * Number(incentive[1].rewardPriceFeed);
 
           return (
             <Link
@@ -53,7 +54,7 @@ export default function RewardMain() {
               <TokenIcon tokenSymbol={rewardTokenSymbol} height={30} width={30} />
               <Value
                 value={claimableRewards}
-                subValue={1} // TODO: need claimableRewards USD
+                subValue={claimableRewardsUSD}
                 subSymbol="USD"
                 compact={true}
                 maximumValueDecimals={2}

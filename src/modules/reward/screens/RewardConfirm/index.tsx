@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
-import { BigNumber, normalize } from '@aave/protocol-js';
 
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import {
@@ -16,6 +15,7 @@ import Value from '../../../../components/basic/Value';
 import Link from '../../../../components/basic/Link';
 
 import messages from './messages';
+import { normalize } from '@aave/math-utils';
 
 export default function RewardConfirm() {
   const intl = useIntl();
@@ -41,6 +41,7 @@ export default function RewardConfirm() {
   let incentivesControllerAddress = '';
   let blockingError = '';
   let formattedAmount = '0';
+  let totalClaimableUSD = 0;
 
   if (mode === 'single') {
     incentiveData = userIncentives[rewardTokenAddress];
@@ -60,7 +61,6 @@ export default function RewardConfirm() {
     assets = incentiveData.assets;
     incentivesControllerAddress = incentiveData.incentiveControllerAddress;
   } else {
-    let totalClaimable = new BigNumber('0');
     Object.entries(userIncentives).forEach((incentive) => {
       // We are assuming that all rewards are coming from the same incentive controller address so it doesn't matter which reward we fetch this from
       incentivesControllerAddress = incentive[1].incentiveControllerAddress;
@@ -69,12 +69,14 @@ export default function RewardConfirm() {
           assets.push(asset);
         }
       });
-      totalClaimable = totalClaimable.plus(incentive[1].claimableRewards);
+      const normalizedRewards = normalize(
+        incentive[1].claimableRewards,
+        incentive[1].rewardTokenDecimals
+      );
+      totalClaimableUSD =
+        totalClaimableUSD + Number(normalizedRewards) * Number(incentive[1].rewardPriceFeed);
     });
-    if (totalClaimable.lt(0) && !totalClaimable.eq(-1)) {
-      return null;
-    }
-    if (totalClaimable.eq('0')) {
+    if (totalClaimableUSD <= 0) {
       blockingError = intl.formatMessage(messages.notEnoughBalance);
     }
   }
@@ -82,9 +84,6 @@ export default function RewardConfirm() {
   const handleGetTransactions = async () => {
     if (currentMarketData.v3) {
       if (rewardTokenAddress === 'all') {
-        console.log(`user id: ${user.id}`);
-        console.log(assets);
-        console.log(incentivesControllerAddress);
         return incentivesTxBuilderV2.claimAllRewards({
           user: user.id,
           assets,
@@ -157,7 +156,7 @@ export default function RewardConfirm() {
           <Value
             symbol={incentiveData ? incentiveData.rewardTokenSymbol : ''}
             value={formattedAmount}
-            subValue={1} // TODO: need formattedAmount in USD
+            subValue={Number(formattedAmount) * Number(incentiveData?.rewardPriceFeed)}
             subSymbol="USD"
             tokenIcon={true}
             tooltipId={incentiveData ? incentiveData.rewardTokenSymbol : ''}
@@ -168,24 +167,32 @@ export default function RewardConfirm() {
         <>
           <Row title={intl.formatMessage(messages.claim)} withMargin={true}>
             <div>
-              {Object.entries(userIncentives).map((incentive) => (
-                <Value
-                  symbol={incentive[1].rewardTokenSymbol}
-                  value={normalize(incentive[1].claimableRewards, incentive[1].rewardTokenDecimals)}
-                  subValue={1} // TODO: need claimableRewards in USD
-                  subSymbol="USD"
-                  tokenIcon={true}
-                  tooltipId={incentive[0]}
-                  updateCondition={isTxExecuted}
-                  key={incentive[0]}
-                />
-              ))}
+              {Object.entries(userIncentives).map((incentive) => {
+                const claimableRewards = normalize(
+                  incentive[1].claimableRewards,
+                  incentive[1].rewardTokenDecimals
+                );
+                const claimableRewardsUSD =
+                  Number(claimableRewards) * Number(incentive[1].rewardPriceFeed);
+                return (
+                  <Value
+                    symbol={incentive[1].rewardTokenSymbol}
+                    value={claimableRewards}
+                    subValue={claimableRewardsUSD}
+                    subSymbol="USD"
+                    tokenIcon={true}
+                    tooltipId={incentive[0]}
+                    updateCondition={isTxExecuted}
+                    key={incentive[0]}
+                  />
+                );
+              })}
             </div>
           </Row>
 
           <Row title={intl.formatMessage(messages.totalWorth)}>
             <Value
-              value={1} // TODO: need calculate all claimableRewards in USD
+              value={totalClaimableUSD}
               symbol="USD"
               tokenIcon={true}
               withoutSymbol={true}
