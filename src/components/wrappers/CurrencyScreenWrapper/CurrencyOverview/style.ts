@@ -233,6 +233,16 @@ const staticStyles = css.global`
         display: none;
       }
     }
+
+    &__percentContent {
+      display: flex;
+      align-items: center;
+      img {
+        margin-right: 4px;
+        position: relative;
+        bottom: 1px;
+      }
+    }
   }
 `;
 

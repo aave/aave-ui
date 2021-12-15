@@ -54,8 +54,8 @@ function WithdrawConfirmation({
   }
 
   const underlyingBalance = valueToBigNumber(userReserve.underlyingBalance);
-  const availableLiquidity = valueToBigNumber(poolReserve.availableLiquidity);
-  let maxAmountToWithdraw = BigNumber.min(underlyingBalance, availableLiquidity);
+  const unborrowedLiquidity = valueToBigNumber(poolReserve.unborrowedLiquidity);
+  let maxAmountToWithdraw = BigNumber.min(underlyingBalance, unborrowedLiquidity);
   let maxCollateralToWithdrawInETH = valueToBigNumber('0');
 
   if (
@@ -136,7 +136,7 @@ function WithdrawConfirmation({
   }
   if (
     !blockingError &&
-    (availableLiquidity.eq('0') || displayAmountToWithdraw.gt(poolReserve.availableLiquidity))
+    (unborrowedLiquidity.eq('0') || displayAmountToWithdraw.gt(poolReserve.unborrowedLiquidity))
   ) {
     blockingError = intl.formatMessage(messages.errorPoolDoNotHaveEnoughFundsToWithdrawThisAmount);
   }

@@ -28,7 +28,8 @@ const staticStyles = css.global`
       align-items: center;
       justify-content: space-between;
       .Row__title-inner .Row__title,
-      .Value .Value__value {
+      .Value .Value__value,
+      .TextWithModal__text {
         font-size: $medium;
         @include respond-to(lg) {
           font-size: $small;
@@ -36,6 +37,12 @@ const staticStyles = css.global`
         @include respond-to(md) {
           font-size: $medium;
         }
+      }
+      .Row__title-inner .Row__title {
+        padding-right: 0;
+      }
+      .Value .Value__value {
+        padding-left: 5px;
       }
     }
 

@@ -18,6 +18,7 @@ import HistoryContent from '../../components/HistoryContent';
 
 import messages from './messages';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 const ITEMS_PER_PAGE = 50;
 
@@ -26,7 +27,7 @@ export default function History() {
   const location = useLocation();
   const history = useHistory();
   const { currentMarketData, networkConfig } = useProtocolDataContext();
-  const { marketRefPriceInUsd, userId, rawReserves } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, userId, rawReserves } = useStaticPoolDataContext();
   const query = queryString.parse(location.search);
   const page = query.page ? Number(query.page) : 0;
 
@@ -141,7 +142,8 @@ export default function History() {
           amount && reserveETHPrice
             ? valueToBigNumber(amount)
                 .multipliedBy(reserveETHPrice)
-                .multipliedBy(marketRefPriceInUsd)
+                .multipliedBy(marketReferencePriceInUsd)
+                .shiftedBy(-USD_DECIMALS)
             : undefined;
 
         return {

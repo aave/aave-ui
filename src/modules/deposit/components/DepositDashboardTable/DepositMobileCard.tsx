@@ -8,12 +8,13 @@ import CustomSwitch from '../../../../components/basic/CustomSwitch';
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
 import Row from '../../../../components/basic/Row';
 import Value from '../../../../components/basic/Value';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import NoData from '../../../../components/basic/NoData';
 import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import CollateralHelpModal from '../../../../components/HelpModal/CollateralHelpModal';
 import AMPLWarning from '../../../../components/AMPLWarning';
+import IsolationModeBadge from '../../../../components/isolationMode/IsolationModeBadge';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -23,15 +24,16 @@ import { DepositTableItem } from './types';
 export default function DepositMobileCard({
   reserve: { symbol, liquidityRate, id, underlyingAsset },
   usageAsCollateralEnabledOnUser,
-  usageAsCollateralEnabledOnThePool,
   underlyingBalance,
   underlyingBalanceUSD,
   onToggleSwitch,
   isActive,
   isFrozen,
-  avg30DaysLiquidityRate,
   borrowingEnabled,
-  aincentivesAPR,
+  aIncentives,
+  canBeEnabledAsCollateral,
+  isUserInIsolationMode,
+  isIsolated,
 }: DepositTableItem) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -44,7 +46,15 @@ export default function DepositMobileCard({
 
   return (
     <>
-      <MobileCardWrapper symbol={symbol}>
+      <MobileCardWrapper
+        symbol={symbol}
+        isIsolated={
+          isUserInIsolationMode &&
+          usageAsCollateralEnabledOnUser &&
+          canBeEnabledAsCollateral &&
+          isIsolated
+        }
+      >
         <Row title={intl.formatMessage(messages.secondTableColumnTitle)} withMargin={true}>
           <Value
             value={Number(underlyingBalance)}
@@ -54,13 +64,11 @@ export default function DepositMobileCard({
         </Row>
 
         <Row title={intl.formatMessage(messages.apyRowTitle)} withMargin={true}>
-          {borrowingEnabled || aincentivesAPR !== '0' ? (
-            <LiquidityMiningCard
+          {borrowingEnabled || aIncentives.length > 0 ? (
+            <IncentivesCard
               symbol={symbol}
               value={borrowingEnabled ? Number(liquidityRate) : 0}
-              thirtyDaysValue={avg30DaysLiquidityRate}
-              liquidityMiningValue={aincentivesAPR}
-              type="deposit"
+              incentives={aIncentives}
             />
           ) : (
             <NoData color="dark" />
@@ -78,13 +86,19 @@ export default function DepositMobileCard({
           className="Row__center"
         >
           <CustomSwitch
-            value={usageAsCollateralEnabledOnUser && usageAsCollateralEnabledOnThePool}
-            offLabel={intl.formatMessage(messages.offLabel)}
+            value={usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral}
+            offLabel={
+              isUserInIsolationMode && !canBeEnabledAsCollateral ? (
+                <IsolationModeBadge isIsolated={isIsolated} disabled={true} />
+              ) : (
+                intl.formatMessage(messages.offLabel)
+              )
+            }
             onLabel={intl.formatMessage(messages.onLabel)}
             onColor={currentTheme.green.hex}
-            offColor={currentTheme.red.hex}
+            offColor={!canBeEnabledAsCollateral ? currentTheme.lightBlue.hex : currentTheme.red.hex}
             onSwitch={onToggleSwitch}
-            disabled={!usageAsCollateralEnabledOnThePool}
+            disabled={!canBeEnabledAsCollateral}
             swiperHeight={swiperHeight}
             swiperWidth={swiperWidth}
           />

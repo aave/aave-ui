@@ -27,6 +27,7 @@ import messages from './messages';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 function BorrowConfirmation({
   currencySymbol,
@@ -37,7 +38,7 @@ function BorrowConfirmation({
   location,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd } = useStaticPoolDataContext();
   const { lendingPool } = useTxBuilderContext();
   const { currentTheme } = useThemeContext();
   let blockingError = '';
@@ -115,7 +116,8 @@ function BorrowConfirmation({
 
   const amountToBorrowInUsd = amount
     .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd);
+    .multipliedBy(marketReferencePriceInUsd)
+    .shiftedBy(-USD_DECIMALS);
 
   const newHealthFactor = calculateHealthFactorFromBalancesBigUnits(
     user.totalCollateralUSD,

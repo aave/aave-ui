@@ -3,11 +3,8 @@ import { useIntl } from 'react-intl';
 import { valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import {
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../../../../libs/pool-data-provider';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import toggleLocalStorageClick from '../../../../helpers/toggle-local-storage-click';
 import TopPanelWrapper from '../../../../components/wrappers/TopPanelWrapper';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
@@ -15,20 +12,16 @@ import SelectMarketPanel from '../../components/SelectMarketPanel';
 import MarketTable from '../../components/MarketTable';
 import MarketTableItem from '../../components/MarketTableItem';
 import TotalMarketsSize from '../../components/TotalMarketsSize';
-import BorrowRatesHelpModal from '../../../../components/HelpModal/BorrowRatesHelpModal';
 import LabeledSwitcher from '../../../../components/basic/LabeledSwitcher';
 import MarketMobileCard from '../../components/MarketMobileCard';
 
 import messages from './messages';
 import staticStyles from './style';
-import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 
 export default function Markets() {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { reserves } = useDynamicPoolDataContext();
-  const { currentMarketData } = useProtocolDataContext();
   const { reserveIncentives } = useIncentivesDataContext();
   const [isPriceInUSD, setIsPriceInUSD] = useState(
     localStorage.getItem('marketsIsPriceInUSD') === 'true'
@@ -39,24 +32,16 @@ export default function Markets() {
   let sortedData = reserves
     .filter((res) => res.isActive && !res.isFrozen)
     .map((reserve) => {
-      totalLockedInUsd = totalLockedInUsd.plus(
-        valueToBigNumber(reserve.totalLiquidity)
-          .multipliedBy(reserve.priceInMarketReferenceCurrency)
-          .multipliedBy(marketRefPriceInUsd)
-      );
+      totalLockedInUsd = totalLockedInUsd.plus(reserve.totalLiquidityUSD);
 
       const totalLiquidity = Number(reserve.totalLiquidity);
-      const totalLiquidityInUSD = valueToBigNumber(reserve.totalLiquidity)
-        .multipliedBy(reserve.priceInMarketReferenceCurrency)
-        .multipliedBy(marketRefPriceInUsd)
-        .toNumber();
+      const totalLiquidityInUSD = Number(reserve.totalLiquidityUSD);
 
       const totalBorrows = Number(reserve.totalDebt);
-      const totalBorrowsInUSD = valueToBigNumber(reserve.totalDebt)
-        .multipliedBy(reserve.priceInMarketReferenceCurrency)
-        .multipliedBy(marketRefPriceInUsd)
-        .toNumber();
-      const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
+      const totalBorrowsInUSD = Number(reserve.totalDebtUSD);
+      const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+        ? reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+        : { aIncentives: [], vIncentives: [], sIncentives: [] };
       return {
         totalLiquidity,
         totalLiquidityInUSD,
@@ -66,19 +51,22 @@ export default function Markets() {
         underlyingAsset: reserve.underlyingAsset,
         currencySymbol: reserve.symbol,
         depositAPY: reserve.borrowingEnabled ? Number(reserve.supplyAPY) : -1,
-        avg30DaysLiquidityRate: Number(reserve.avg30DaysLiquidityRate),
         stableBorrowRate:
           reserve.stableBorrowRateEnabled && reserve.borrowingEnabled
             ? Number(reserve.stableBorrowAPY)
             : -1,
         variableBorrowRate: reserve.borrowingEnabled ? Number(reserve.variableBorrowAPY) : -1,
-        avg30DaysVariableRate: Number(reserve.avg30DaysVariableBorrowRate),
         borrowingEnabled: reserve.borrowingEnabled,
         stableBorrowRateEnabled: reserve.stableBorrowRateEnabled,
         isFreezed: reserve.isFrozen,
-        aincentivesAPR: reserveIncentiveData ? reserveIncentiveData.aIncentives.incentiveAPR : '0',
-        vincentivesAPR: reserveIncentiveData ? reserveIncentiveData.vIncentives.incentiveAPR : '0',
-        sincentivesAPR: reserveIncentiveData ? reserveIncentiveData.sIncentives.incentiveAPR : '0',
+        aIncentives: reserveIncentiveData.aIncentives,
+        vIncentives: reserveIncentiveData.vIncentives,
+        sIncentives: reserveIncentiveData.sIncentives,
+        borrowCap: reserve.borrowCap,
+        borrowCapUSD: reserve.borrowCapUSD,
+        supplyCap: reserve.supplyCap,
+        supplyCapUSD: reserve.supplyCapUSD,
+        isIsolated: reserve.isIsolated,
       };
     });
 
@@ -149,16 +137,6 @@ export default function Markets() {
       </MarketTable>
 
       <div className="Markets__mobile--cards">
-        {currentMarketData.enabledFeatures?.incentives && (
-          <div className="Markets__help--modalInner">
-            <BorrowRatesHelpModal // TO-DO: Pass rewardTokenSymbol to this component
-              className="Markets__help--modal"
-              text={intl.formatMessage(messages.rewardsInformation)}
-              iconSize={14}
-            />
-          </div>
-        )}
-
         {sortedData.map((item, index) => (
           <MarketMobileCard {...item} key={index} />
         ))}

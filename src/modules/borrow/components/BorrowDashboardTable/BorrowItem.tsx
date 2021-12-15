@@ -22,7 +22,6 @@ export default function BorrowItem({
   currentBorrows,
   currentBorrowsUSD,
   borrowRate,
-  avg30DaysVariableRate,
   borrowRateMode,
   onSwitchToggle,
   isActive,
@@ -32,8 +31,8 @@ export default function BorrowItem({
   repayLink,
   borrowLink,
   index,
-  vincentivesAPR,
-  sincentivesAPR,
+  vIncentives,
+  sIncentives,
 }: BorrowTableItem) {
   const intl = useIntl();
   const { currentTheme, xl, lg, md, isCurrentThemeDark } = useThemeContext();
@@ -50,12 +49,8 @@ export default function BorrowItem({
       />
       <TableAprCol
         value={Number(borrowRate)}
-        thirtyDaysAverage={borrowRateMode === BorrowRateMode.Variable ? avg30DaysVariableRate : ''}
-        liquidityMiningValue={
-          borrowRateMode === BorrowRateMode.Variable ? vincentivesAPR : sincentivesAPR
-        }
+        incentives={borrowRateMode === BorrowRateMode.Variable ? vIncentives : sIncentives}
         symbol={symbol}
-        type={borrowRateMode === BorrowRateMode.Variable ? 'borrow-variable' : 'borrow-stable'}
       />
 
       <TableCol maxWidth={125}>
@@ -63,8 +58,8 @@ export default function BorrowItem({
           value={borrowRateMode === BorrowRateMode.Variable}
           offLabel={intl.formatMessage(messages.offLabel)}
           onLabel={intl.formatMessage(messages.onLabel)}
-          onColor={isCurrentThemeDark ? currentTheme.lightBlue.hex : currentTheme.darkBlue.hex}
-          offColor={isCurrentThemeDark ? currentTheme.lightBlue.hex : currentTheme.darkBlue.hex}
+          onColor={isCurrentThemeDark ? currentTheme.headerBg.hex : currentTheme.darkBlue.hex}
+          offColor={isCurrentThemeDark ? currentTheme.headerBg.hex : currentTheme.darkBlue.hex}
           onSwitch={onSwitchToggle}
           disabled={!stableBorrowRateEnabled || isFrozen || !isActive}
           swiperHeight={swiperHeight}

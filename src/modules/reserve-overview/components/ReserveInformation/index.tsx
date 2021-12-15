@@ -1,8 +1,10 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { valueToBigNumber } from '@aave/protocol-js';
-
 import { useThemeContext } from '@aave/aave-ui-kit';
+
+import { getLPTokenPoolLink } from '../../../../helpers/lp-tokens';
+import { ComputedReserveData } from '../../../../libs/pool-data-provider';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import MaxLTVHelpModal from '../../../../components/HelpModal/MaxLTVHelpModal';
 import Value from '../../../../components/basic/Value';
@@ -15,40 +17,38 @@ import TextBlock from '../InformationBlock/TextBlock';
 import APYCard from '../APYCard';
 import APYLine from '../APYLine';
 import Link from '../../../../components/basic/Link';
+import IsolationModeBadge from '../../../../components/isolationMode/IsolationModeBadge';
+import BlockWrapper from '../InformationBlock/BlockWrapper';
+import EModeCategoryHelpModal from '../../../../components/eMode/EModeCategoryHelpModal';
+import EmodeCategoryLabel from '../../../../components/eMode/EmodeCategoryLabel';
+import DebtCeilingInfo from '../DebtCeilingInfo';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import staticStyles from './style';
 
 import linkIcon from '../../../../images/blueLinkIcon.svg';
-import { getLPTokenPoolLink } from '../../../../helpers/lp-tokens';
-import { ComputedReserveData } from '../../../../libs/pool-data-provider';
 
 interface ReserveInformationProps {
   symbol: string;
   poolReserve: ComputedReserveData;
-  marketRefPriceInUsd: string;
+  userIsInIsolationMode: boolean;
+  userEmodeCategoryId: number;
 }
 
 export default function ReserveInformation({
   symbol,
   poolReserve,
-  marketRefPriceInUsd,
+  userIsInIsolationMode,
+  userEmodeCategoryId,
 }: ReserveInformationProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const totalLiquidityInUsd = valueToBigNumber(poolReserve.totalLiquidity)
-    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd)
-    .toString();
-  const totalBorrowsInUsd = valueToBigNumber(poolReserve.totalDebt)
-    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd)
-    .toString();
-  const availableLiquidityInUsd = valueToBigNumber(poolReserve.availableLiquidity)
-    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd)
-    .toString();
+  const totalLiquidityInUsd = poolReserve.totalLiquidityUSD;
+  const totalBorrowsInUsd = poolReserve.totalDebtUSD;
+  const availableLiquidityInUsd = poolReserve.availableLiquidityUSD;
+
+  const userIsInEMode = userEmodeCategoryId !== 0;
 
   const reserveOverviewData = {
     totalLiquidityInUsd,
@@ -59,7 +59,6 @@ export default function ReserveInformation({
     availableLiquidity: poolReserve.availableLiquidity,
     supplyAPY: Number(poolReserve.supplyAPY),
     supplyAPR: Number(poolReserve.supplyAPR),
-    avg30DaysLiquidityRate: Number(poolReserve.avg30DaysLiquidityRate),
     stableAPY: Number(poolReserve.stableBorrowAPY),
     stableAPR: Number(poolReserve.stableBorrowAPR),
     variableAPY: Number(poolReserve.variableBorrowAPY),
@@ -70,14 +69,29 @@ export default function ReserveInformation({
     variableOverTotal: valueToBigNumber(poolReserve.totalVariableDebt)
       .dividedBy(poolReserve.totalDebt)
       .toNumber(),
-    avg30DaysVariableRate: Number(poolReserve.avg30DaysVariableBorrowRate),
     utilizationRate: Number(poolReserve.utilizationRate),
-    baseLTVasCollateral: Number(poolReserve.baseLTVasCollateral),
-    liquidationThreshold: Number(poolReserve.reserveLiquidationThreshold),
-    liquidationBonus: Number(poolReserve.reserveLiquidationBonus),
+    baseLTVasCollateral:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.eModeLtv)
+        : Number(poolReserve.baseLTVasCollateral),
+    liquidationThreshold:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.eModeLiquidationThreshold)
+        : Number(poolReserve.reserveLiquidationThreshold),
+    liquidationBonus:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.eModeLiquidationBonus)
+        : Number(poolReserve.reserveLiquidationBonus),
     usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
     borrowingEnabled: poolReserve.borrowingEnabled,
+    debtCeilingUSD: poolReserve.debtCeiling,
+    totalDebtUSD: poolReserve.totalDebtUSD,
+    isIsolated: poolReserve.isIsolated,
+    supplyCap: poolReserve.supplyCap,
+    supplyCapUSD: poolReserve.supplyCapUSD,
+    borrowCap: poolReserve.borrowCap,
+    borrowCapUSD: poolReserve.borrowCapUSD,
   };
 
   const poolLink = getLPTokenPoolLink({
@@ -111,29 +125,16 @@ export default function ReserveInformation({
             </div>
           )}
 
-          <div className="ReserveInformation__top-info">
-            <div className="ReserveInformation__line">
-              <p>{intl.formatMessage(messages.reserveSize)}</p>
-              <strong>
-                <Value
-                  value={Number(reserveOverviewData.totalLiquidityInUsd)}
-                  maximumValueDecimals={2}
-                  minimumValueDecimals={2}
-                  symbol="USD"
-                  tokenIcon={true}
-                  withoutSymbol={true}
-                />
-              </strong>
-            </div>
-          </div>
-
           <div className="ReserveInformation__graph-inner">
             <TotalValue
+              symbol={symbol}
               color="red"
               title={intl.formatMessage(messages.totalBorrowed)}
               value={reserveOverviewData.totalBorrows}
               subValue={reserveOverviewData.totalBorrowsInUsd}
               borrowingEnabled={reserveOverviewData.borrowingEnabled}
+              capValue={reserveOverviewData.borrowCap}
+              capValueUSD={reserveOverviewData.borrowCapUSD}
             />
             <ReserveStatusGraph
               symbol={symbol}
@@ -141,10 +142,13 @@ export default function ReserveInformation({
               availableLiquidity={reserveOverviewData.availableLiquidity}
             />
             <TotalValue
+              symbol={symbol}
               title={intl.formatMessage(messages.availableLiquidity)}
               value={reserveOverviewData.availableLiquidity}
               subValue={reserveOverviewData.availableLiquidityInUsd}
               borrowingEnabled={reserveOverviewData.borrowingEnabled}
+              capValue={reserveOverviewData.supplyCap}
+              capValueUSD={reserveOverviewData.supplyCapUSD}
             />
           </div>
 
@@ -170,6 +174,11 @@ export default function ReserveInformation({
                 title={intl.formatMessage(messages.utilisationRate)}
               />
             </div>
+            {reserveOverviewData.debtCeilingUSD !== '0' && (
+              <div className="ReserveInformation__line">
+                <DebtCeilingInfo debtCeilingUSD={reserveOverviewData.debtCeilingUSD} />
+              </div>
+            )}
           </div>
 
           <div className="ReserveInformation__APY-info">
@@ -235,11 +244,14 @@ export default function ReserveInformation({
           <div className="ReserveInformation__bottom-info">
             <PercentBlock
               value={reserveOverviewData.baseLTVasCollateral}
+              withEModeIcon={
+                userEmodeCategoryId !== 0 && userEmodeCategoryId === poolReserve.eModeCategoryId
+              }
               titleComponent={<MaxLTVHelpModal text={intl.formatMessage(messages.maximumLTV)} />}
             />
             <PercentBlock
               value={
-                reserveOverviewData.liquidationBonus <= 0
+                reserveOverviewData.liquidationThreshold <= 0
                   ? 0
                   : reserveOverviewData.liquidationThreshold
               }
@@ -255,14 +267,35 @@ export default function ReserveInformation({
                 <LiquidationBonusHelpModal text={intl.formatMessage(messages.liquidationPenalty)} />
               }
             />
-            <TextBlock
-              condition={reserveOverviewData.usageAsCollateralEnabled}
-              title={intl.formatMessage(messages.usedAsCollateral)}
-            />
+            {!userIsInIsolationMode ? (
+              <>
+                {!reserveOverviewData.isIsolated ? (
+                  <TextBlock
+                    condition={reserveOverviewData.usageAsCollateralEnabled}
+                    title={intl.formatMessage(messages.usedAsCollateral)}
+                  />
+                ) : (
+                  <BlockWrapper title={intl.formatMessage(messages.usedAsCollateral)}>
+                    <IsolationModeBadge isIsolated={reserveOverviewData.isIsolated} />
+                  </BlockWrapper>
+                )}
+              </>
+            ) : (
+              <BlockWrapper title={intl.formatMessage(messages.usedAsCollateral)}>
+                <IsolationModeBadge isIsolated={reserveOverviewData.isIsolated} />
+              </BlockWrapper>
+            )}
+
             <TextBlock
               condition={reserveOverviewData.stableBorrowRateEnabled}
               title={intl.formatMessage(messages.stableBorrowing)}
             />
+
+            {!!poolReserve.eModeCategoryId && (
+              <BlockWrapper titleComponent={<EModeCategoryHelpModal />}>
+                <EmodeCategoryLabel categoryId={poolReserve.eModeCategoryId} />
+              </BlockWrapper>
+            )}
           </div>
         </ContentWrapper>
       </div>

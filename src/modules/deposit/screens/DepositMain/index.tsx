@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { PERMISSION } from '@aave/contract-helpers';
+import { BigNumber, valueToBigNumber } from '@aave/protocol-js';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 import {
   ComputedReserveData,
   useDynamicPoolDataContext,
   useStaticPoolDataContext,
 } from '../../../../libs/pool-data-provider';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
+import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import Preloader from '../../../../components/basic/Preloader';
 import AssetsFilterPanel from '../../../../components/AssetsFilterPanel';
@@ -17,19 +20,16 @@ import DepositAssetsTable from '../../components/DepositAssetsTable';
 import DepositMobileCard from '../../components/DepositAssetsTable/DepositMobileCard';
 import DepositBorrowMainWrapper from '../../../../components/wrappers/DepositBorrowMainWrapper';
 import Card from '../../../../components/wrappers/DepositBorrowMainWrapper/components/Card';
+import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { DepositTableItem } from '../../components/DepositAssetsTable/types';
-import { useWalletBalanceProviderContext } from '../../../../libs/wallet-balance-provider/WalletBalanceProvider';
-import { isAssetStable } from '../../../../helpers/config/assets-config';
-import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
-import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 
 export default function DepositsMain() {
   const intl = useIntl();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { walletData, marketReferencePriceInUsd } = useStaticPoolDataContext();
   const { reserves, user } = useDynamicPoolDataContext();
   const { reserveIncentives } = useIncentivesDataContext();
   const { sm } = useThemeContext();
@@ -39,8 +39,6 @@ export default function DepositsMain() {
 
   const [sortName, setSortName] = useState('');
   const [sortDesc, setSortDesc] = useState(false);
-
-  const { walletData } = useWalletBalanceProviderContext();
 
   if (!walletData) {
     return <Preloader withText={true} />;
@@ -67,36 +65,40 @@ export default function DepositsMain() {
         const userReserve = user?.userReservesData.find(
           (userRes) => userRes.reserve.symbol === reserve.symbol
         );
-        const walletBalance =
-          walletData[reserve.underlyingAsset] === '0'
-            ? valueToBigNumber('0')
-            : valueToBigNumber(walletData[reserve.underlyingAsset] || '0').dividedBy(
-                valueToBigNumber('10').pow(reserve.decimals)
-              );
-        const walletBalanceInUSD = walletBalance
+        const walletBalance = walletData[reserve.underlyingAsset]?.amount || '0';
+
+        let availableToDeposit = valueToBigNumber(walletBalance);
+        if (reserve.supplyCap !== '0') {
+          availableToDeposit = BigNumber.min(
+            availableToDeposit,
+            new BigNumber(reserve.supplyCap).minus(reserve.totalLiquidity).multipliedBy('0.995')
+          );
+        }
+        const availableToDepositUSD = valueToBigNumber(availableToDeposit)
           .multipliedBy(reserve.priceInMarketReferenceCurrency)
-          .multipliedBy(marketRefPriceInUsd)
+          .multipliedBy(marketReferencePriceInUsd)
+          .shiftedBy(-USD_DECIMALS)
           .toString();
-        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()];
+
+        const reserveIncentiveData = reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+          ? reserveIncentives[reserve.underlyingAsset.toLowerCase()]
+          : { aIncentives: [], vIncentives: [], sIncentives: [] };
+
         return {
           ...reserve,
           walletBalance,
-          walletBalanceInUSD,
+          availableToDeposit:
+            availableToDeposit.toNumber() <= 0 ? '0' : availableToDeposit.toString(),
+          availableToDepositUSD:
+            Number(availableToDepositUSD) <= 0 ? '0' : availableToDepositUSD.toString(),
           underlyingBalance: userReserve ? userReserve.underlyingBalance : '0',
           underlyingBalanceInUSD: userReserve ? userReserve.underlyingBalanceUSD : '0',
           liquidityRate: reserve.supplyAPY,
-          avg30DaysLiquidityRate: Number(reserve.avg30DaysLiquidityRate),
           borrowingEnabled: reserve.borrowingEnabled,
           interestHistory: [],
-          aincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.aIncentives.incentiveAPR
-            : '0',
-          vincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.vIncentives.incentiveAPR
-            : '0',
-          sincentivesAPR: reserveIncentiveData
-            ? reserveIncentiveData.sIncentives.incentiveAPR
-            : '0',
+          aIncentives: reserveIncentiveData.aIncentives,
+          vIncentives: reserveIncentiveData.vIncentives,
+          sIncentives: reserveIncentiveData.sIncentives,
         };
       });
 
@@ -104,14 +106,14 @@ export default function DepositsMain() {
       if (sortDesc) {
         return (
           data(filteredReserves)
-            .sort((a, b) => +b.walletBalanceInUSD - +a.walletBalanceInUSD)
+            .sort((a, b) => +b.availableToDepositUSD - +a.availableToDepositUSD)
             // @ts-ignore
             .sort((a, b) => a[sortName] - b[sortName])
         );
       } else {
         return (
           data(filteredReserves)
-            .sort((a, b) => +b.walletBalanceInUSD - +a.walletBalanceInUSD)
+            .sort((a, b) => +b.availableToDepositUSD - +a.availableToDepositUSD)
             // @ts-ignore
             .sort((a, b) => b[sortName] - a[sortName])
         );
@@ -138,6 +140,9 @@ export default function DepositsMain() {
             switchOnToggle={setShowOnlyStableCoins}
             searchValue={searchValue}
             searchOnChange={setSearchValue}
+            isolationText={
+              user?.isInIsolationMode ? intl.formatMessage(messages.isolationText) : undefined
+            }
           />
         )}
 
@@ -153,6 +158,7 @@ export default function DepositsMain() {
                   id={item.id}
                   value={item.underlyingBalance.toString()}
                   underlyingAsset={item.underlyingAsset}
+                  isIsolated={item.isIsolated}
                 />
               )}
             </React.Fragment>
@@ -164,6 +170,9 @@ export default function DepositsMain() {
           setShowOnlyStableCoins={setShowOnlyStableCoins}
           withSwitchMarket={true}
           totalValue={listData(false).reduce((a, b) => a + (+b['underlyingBalanceInUSD'] || 0), 0)}
+          isolationText={
+            user?.isInIsolationMode ? intl.formatMessage(messages.isolationText) : undefined
+          }
         >
           {!!listData(true).length ? (
             <>

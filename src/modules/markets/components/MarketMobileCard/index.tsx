@@ -4,10 +4,12 @@ import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import Row from '../../../../components/basic/Row';
 import FreezedWarning from '../../../../components/FreezedWarning';
 import Value from '../../../../components/basic/Value';
+import CapsHint from '../../../../components/caps/CapsHint';
+import { CapType } from '../../../../components/caps/helper';
 import NoData from '../../../../components/basic/NoData';
 
 import messages from './messages';
@@ -22,16 +24,17 @@ export default function MarketMobileCard({
   totalLiquidityInUSD,
   totalBorrowsInUSD,
   depositAPY,
-  aincentivesAPR,
-  vincentivesAPR,
-  sincentivesAPR,
-  avg30DaysLiquidityRate,
+  aIncentives,
+  vIncentives,
+  sIncentives,
   stableBorrowRate,
   variableBorrowRate,
-  avg30DaysVariableRate,
   borrowingEnabled,
   stableBorrowRateEnabled,
   isFreezed,
+  isIsolated,
+  supplyCapUSD,
+  borrowCapUSD,
 }: MarketTableItemProps) {
   const intl = useIntl();
   const history = useHistory();
@@ -41,27 +44,22 @@ export default function MarketMobileCard({
     {
       title: messages.deposit,
       value: depositAPY,
-      thirtyDaysValue: avg30DaysLiquidityRate,
-      liquidityMiningValue: aincentivesAPR,
+      incentives: aIncentives,
       enabled: true,
-      type: 'deposit',
     },
     {
       title: messages.borrow,
       subTitle: messages.variable,
       value: variableBorrowRate,
-      thirtyDaysValue: avg30DaysVariableRate,
-      liquidityMiningValue: vincentivesAPR,
+      incentives: vIncentives,
       enabled: borrowingEnabled,
-      type: 'borrow-variable',
     },
     {
       title: messages.borrow,
       subTitle: messages.stable,
       value: stableBorrowRate,
-      liquidityMiningValue: sincentivesAPR,
+      incentives: sIncentives,
       enabled: stableBorrowRateEnabled && borrowingEnabled,
-      type: 'borrow-stable',
     },
   ];
 
@@ -72,24 +70,34 @@ export default function MarketMobileCard({
   return (
     <MobileCardWrapper
       symbol={currencySymbol}
+      isIsolated={isIsolated}
       onClick={handleClick}
       withGoToTop={true}
       className="MarketMobileCard"
       subSymbolComponent={
         <div className="MarketMobileCard__topRows">
-          <Row title={intl.formatMessage(messages.marketSize)}>
-            <Value
-              value={totalLiquidityInUSD}
-              symbol="USD"
-              tokenIcon={true}
-              compact={true}
-              withoutSymbol={true}
-              maximumValueDecimals={2}
-            />
+          <Row title={intl.formatMessage(messages.totalDeposited)}>
+            <div className="MarketMobileCard__valueInner">
+              <Value
+                value={totalLiquidityInUSD}
+                symbol="USD"
+                tokenIcon={true}
+                compact={true}
+                withoutSymbol={true}
+                maximumValueDecimals={2}
+              />
+              <CapsHint
+                capType={CapType.supplyCap}
+                capAmount={supplyCapUSD}
+                totalAmount={totalLiquidityInUSD}
+                tooltipId={`supplyCap__${id}`}
+                isUSD={true}
+              />
+            </div>
           </Row>
           <Row title={intl.formatMessage(messages.totalBorrowed)}>
             {borrowingEnabled ? (
-              <>
+              <div className="MarketMobileCard__valueInner">
                 <Value
                   value={totalBorrowsInUSD}
                   symbol="USD"
@@ -98,7 +106,14 @@ export default function MarketMobileCard({
                   maximumValueDecimals={2}
                   withoutSymbol={true}
                 />
-              </>
+                <CapsHint
+                  capType={CapType.borrowCap}
+                  capAmount={borrowCapUSD}
+                  totalAmount={totalBorrowsInUSD}
+                  tooltipId={`borrowCap__${id}`}
+                  isUSD={true}
+                />
+              </div>
             ) : (
               <NoData color="dark" />
             )}
@@ -116,13 +131,11 @@ export default function MarketMobileCard({
               </p>
 
               {card.enabled ? (
-                <LiquidityMiningCard
+                <IncentivesCard
                   symbol={currencySymbol}
                   value={card.value}
-                  thirtyDaysValue={card.thirtyDaysValue}
-                  liquidityMiningValue={card.liquidityMiningValue}
+                  incentives={card.incentives}
                   mobilePosition="left"
-                  type={card.type}
                 />
               ) : (
                 <NoData color="dark" />

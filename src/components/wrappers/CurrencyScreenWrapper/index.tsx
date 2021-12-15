@@ -88,6 +88,7 @@ export default function CurrencyScreenWrapper({
           dots={dots}
           series={series}
           isCollapse={isCollapse}
+          isUserInIsolationMode={user?.isInIsolationMode}
         />
       </TopPanelWrapper>
 
@@ -118,6 +119,7 @@ export default function CurrencyScreenWrapper({
           showGraphCondition={showGraphCondition}
           dots={dots}
           series={series}
+          isUserInIsolationMode={user?.isInIsolationMode}
         />
       </div>
 

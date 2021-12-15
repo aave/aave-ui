@@ -1,27 +1,39 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import Value from '../../../../components/basic/Value';
+import CapsHelpModal from '../../../../components/caps/CapsHelpModal';
+import { CapType } from '../../../../components/caps/helper';
+import NoData from '../../../../components/basic/NoData';
 
+import messages from './messages';
 import staticStyles from './style';
 
 interface TotalValueProps {
+  symbol: string;
   color?: 'green' | 'red';
   title: string;
   value: number | string;
   subValue: number | string;
   borrowingEnabled: boolean;
+  capValue: string;
+  capValueUSD: string;
 }
 
 export default function TotalValue({
+  symbol,
   color = 'green',
   title,
   value,
   subValue,
   borrowingEnabled,
+  capValue,
+  capValueUSD,
 }: TotalValueProps) {
-  const { currentTheme } = useThemeContext();
+  const intl = useIntl();
+  const { currentTheme, xl, sm } = useThemeContext();
 
   return (
     <div className={classNames('TotalValue', `TotalValue__${color}`)}>
@@ -41,9 +53,24 @@ export default function TotalValue({
               subSymbol="USD"
             />
           ) : (
-            <>—</>
+            <NoData color="dark" />
           )}
         </strong>
+
+        {!(capValue === '0' && sm) && (
+          <div className="TotalValue__caps">
+            <CapsHelpModal
+              capType={color === 'red' ? CapType.borrowCap : CapType.supplyCap}
+              lightWeight={true}
+              iconSize={xl ? 10 : 12}
+            />
+            {capValue !== '0' ? (
+              <Value value={capValue} subValue={capValueUSD} subSymbol="USD" symbol={symbol} />
+            ) : (
+              <p className="TotalValue__noLimits">{intl.formatMessage(messages.noData)}</p>
+            )}
+          </div>
+        )}
       </div>
 
       <style jsx={true} global={true}>
@@ -53,14 +80,8 @@ export default function TotalValue({
         .TotalValue {
           color: ${currentTheme.textDarkBlue.hex};
 
-          .Value .Value__value {
-            &:after {
-              background: ${currentTheme.textDarkBlue.hex};
-            }
-          }
-
           .Value .SubValue {
-            color: ${currentTheme.textDarkBlue.hex};
+            color: ${currentTheme.lightBlue.hex};
           }
 
           &__green {
@@ -75,6 +96,12 @@ export default function TotalValue({
               i {
                 background: ${currentTheme.red.hex};
               }
+            }
+          }
+
+          &__caps {
+            &:after {
+              background: ${currentTheme.textDarkBlue.hex};
             }
           }
         }

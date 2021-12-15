@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import TableItemWrapper from '../../BasicTable/TableItemWrapper';
 import TableColumn from '../../BasicTable/TableColumn';
 import FreezedWarning from '../../FreezedWarning';
+import IsolatedBadge from '../../isolationMode/IsolatedBadge';
 import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import staticStyles from './style';
@@ -16,6 +17,8 @@ interface TableItemProps {
   isBorrow?: boolean;
   children?: ReactNode;
   darkOnDarkMode?: boolean;
+  isIsolated: boolean;
+  className?: string;
 }
 
 export default function TableItem({
@@ -25,16 +28,22 @@ export default function TableItem({
   isBorrow,
   children,
   darkOnDarkMode,
+  isIsolated,
+  className,
 }: TableItemProps) {
   const history = useHistory();
   const asset = getAssetInfo(symbol);
 
   return (
     <TableItemWrapper
-      className={classNames('TableItem', {
-        TableItem__withHeight: darkOnDarkMode,
-        TableItem__borrow: isBorrow,
-      })}
+      className={classNames(
+        'TableItem',
+        {
+          TableItem__withHeight: darkOnDarkMode,
+          TableItem__borrow: isBorrow,
+        },
+        className
+      )}
       onClick={() => history.push(url)}
       disabled={isFreezed}
       withGoToTop={true}
@@ -48,7 +57,9 @@ export default function TableItem({
           tokenFullName={asset.shortSymbol || asset.name}
           className="TableItem__tokenIcon"
         />
+        {isIsolated && <IsolatedBadge />}
       </TableColumn>
+
       <div className="TableItem__content">
         {children}
 

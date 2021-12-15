@@ -95,12 +95,18 @@ function SwapUsageAsCollateralModeConfirmation({
     query.asCollateral === 'true' ? messages.pageTitleFirst : messages.pageTitleSecond;
   const caption =
     query.asCollateral === 'true'
-      ? intl.formatMessage(messages.firstCaption, {
-          currencySymbol: asset.formattedName,
-        })
-      : intl.formatMessage(messages.secondCaption, {
-          currencySymbol: asset.formattedName,
-        });
+      ? intl.formatMessage(
+          poolReserve.isIsolated ? messages.firstCaptionIsolated : messages.firstCaption,
+          {
+            currencySymbol: asset.formattedName,
+          }
+        )
+      : intl.formatMessage(
+          poolReserve.isIsolated ? messages.secondCaptionIsolated : messages.secondCaption,
+          {
+            currencySymbol: asset.formattedName,
+          }
+        );
 
   const handleMainTxExecuted = () => setIsTxExecuted(true);
 
@@ -126,6 +132,7 @@ function SwapUsageAsCollateralModeConfirmation({
         onMainTxExecuted={handleMainTxExecuted}
         blockingError={blockingError}
         buttonTitle={intl.formatMessage(messages.buttonTitle)}
+        isolationWarning={poolReserve.isIsolated && query.asCollateral === 'true'}
       >
         <Row
           title={intl.formatMessage(messages.rowTitle)}

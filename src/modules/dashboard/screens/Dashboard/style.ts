@@ -32,83 +32,14 @@ const staticStyles = css.global`
     &__top--line {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
       margin: 40px 0 15px;
       @include respond-to(xl) {
         margin: 35px 0 10px;
       }
       @include respond-to(sm) {
-        display: none;
-      }
-
-      .Dashboard__topLine--button {
-        width: unset;
-        min-width: 140px;
-        min-height: 36px;
-        font-size: $medium;
-        @include respond-to(xl) {
-          min-width: 100px;
-          min-height: 26px;
-          font-size: $extraSmall;
-        }
-      }
-    }
-
-    &__mobileMigrate--inner {
-      display: none;
-      @include respond-to(sm) {
         display: block;
-        .Link {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 30px;
-          padding: 15px;
-          font-size: $regular;
-        }
-      }
-    }
-    &__mobileMigrateWithoutContent {
-      height: 30px;
-    }
-
-    .Row.Row__column {
-      .Row__title-inner {
-        text-align: left;
-      }
-      .Row__content,
-      .Value {
-        align-items: flex-start;
-        justify-content: flex-start;
-      }
-      .Row__content {
-        text-align: left;
-      }
-    }
-    .HealthFactor__column {
-      text-align: left;
-      .HealthFactor__percent {
-        justify-content: flex-start;
-      }
-      .HealthFactor__no-value {
-        text-align: left;
-        justify-content: flex-start;
-      }
-    }
-
-    .CollateralCompositionBar {
-      @include respond-to(sm) {
-        flex-direction: column;
-        &.Row {
-          align-items: flex-start;
-        }
-        .Row__title {
-          padding-right: 0;
-          margin-bottom: 5px;
-        }
-        .Row__content {
-          width: 100%;
-        }
+        margin: 0;
       }
     }
 

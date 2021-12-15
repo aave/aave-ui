@@ -38,7 +38,6 @@ const staticStyles = css.global`
       margin: 0;
       padding: 0;
       cursor: pointer;
-      transition: $transition;
       border-radius: 50%;
       position: absolute;
       top: 50%;

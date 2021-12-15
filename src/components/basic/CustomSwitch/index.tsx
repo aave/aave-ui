@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { rgba, useThemeContext, Switcher } from '@aave/aave-ui-kit';
+import { useThemeContext, Switcher } from '@aave/aave-ui-kit';
 
 type CustomSwitchProps = {
   onSwitch: (value: boolean) => void;
-  offLabel?: string;
-  onLabel?: string;
+  offLabel?: string | ReactNode;
+  onLabel?: string | ReactNode;
   onColor?: string;
   offColor?: string;
   value: boolean | undefined;
@@ -16,7 +16,6 @@ type CustomSwitchProps = {
   withOutDelay?: boolean;
   className?: string;
   classNameSwiper?: string;
-  onDarkBackground?: boolean;
 };
 
 export default function CustomSwitch({
@@ -32,13 +31,8 @@ export default function CustomSwitch({
   withOutDelay,
   className,
   classNameSwiper,
-  onDarkBackground,
 }: CustomSwitchProps) {
   const { currentTheme } = useThemeContext();
-
-  const disabledBackground = rgba(
-    `${onDarkBackground ? currentTheme.lightGray.rgb : currentTheme.textDarkBlue.rgb}, 0.3`
-  );
 
   return (
     <>
@@ -61,7 +55,7 @@ export default function CustomSwitch({
         .CustomSwitch {
           .Switcher__swiperDisabled {
             .react-switch-bg {
-              background: ${disabledBackground} !important;
+              background: ${currentTheme.lightBlue.hex} !important;
             }
           }
         }

@@ -6,7 +6,10 @@ import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper
 import Row from '../../../../components/basic/Row';
 import NoData from '../../../../components/basic/NoData';
 import Value from '../../../../components/basic/Value';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
+import CapsHint from '../../../../components/caps/CapsHint';
+import { CapType } from '../../../../components/caps/helper';
+import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
@@ -17,14 +20,16 @@ export default function DepositMobileCard({
   id,
   symbol,
   underlyingAsset,
-  walletBalance,
-  walletBalanceInUSD,
+  availableToDeposit,
+  availableToDepositUSD,
   liquidityRate,
-  avg30DaysLiquidityRate,
   userId,
   borrowingEnabled,
   isFreezed,
-  aincentivesAPR,
+  aIncentives,
+  isIsolated,
+  totalLiquidity,
+  supplyCap,
 }: DepositTableItem) {
   const intl = useIntl();
   const history = useHistory();
@@ -37,18 +42,28 @@ export default function DepositMobileCard({
       symbol={symbol}
       withGoToTop={true}
       disabled={isFreezed}
+      isIsolated={isIsolated}
     >
-      <Row title={intl.formatMessage(messages.yourWalletBalance)} withMargin={true}>
-        {!userId || Number(walletBalance) <= 0 ? (
+      <Row title={<AvailableCapsHelpModal capType={CapType.supplyCap} />} withMargin={true}>
+        {!userId || Number(availableToDeposit) <= 0 ? (
           <NoData color="dark" />
         ) : (
           <Value
-            value={Number(walletBalance)}
-            subValue={walletBalanceInUSD}
+            value={availableToDeposit}
+            subValue={availableToDepositUSD}
             maximumSubValueDecimals={2}
             subSymbol="USD"
             maximumValueDecimals={isAssetStable(symbol) ? 2 : 5}
             minimumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+            nextToValue={
+              <CapsHint
+                capType={CapType.supplyCap}
+                capAmount={supplyCap}
+                totalAmount={totalLiquidity}
+                tooltipId={`supplyCap__${id}`}
+                withoutText={true}
+              />
+            }
           />
         )}
       </Row>
@@ -56,13 +71,7 @@ export default function DepositMobileCard({
       {!isFreezed && (
         <Row title={intl.formatMessage(messages.APY)} withMargin={true}>
           {borrowingEnabled ? (
-            <LiquidityMiningCard
-              symbol={symbol}
-              value={liquidityRate}
-              thirtyDaysValue={avg30DaysLiquidityRate}
-              liquidityMiningValue={aincentivesAPR}
-              type="deposit"
-            />
+            <IncentivesCard symbol={symbol} value={liquidityRate} incentives={aIncentives} />
           ) : (
             <NoData color="dark" />
           )}

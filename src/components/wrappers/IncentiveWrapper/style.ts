@@ -10,7 +10,7 @@ const staticStyles = css`
     align-items: center;
     @include respond-to(sm) {
       flex-direction: column;
-      margin-bottom: 40px;
+      margin: 30px 0 0;
     }
 
     &__incentives {
@@ -24,6 +24,7 @@ const staticStyles = css`
     }
 
     &__title {
+      font-weight: 300;
       margin-right: 16px;
       font-size: $regular;
       @include respond-to(xl) {

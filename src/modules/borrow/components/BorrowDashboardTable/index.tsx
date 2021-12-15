@@ -23,7 +23,7 @@ export default function BorrowDashboardTable({ listData }: BorrowDashboardTableP
   const { lg, sm } = useThemeContext();
 
   const head = [
-    intl.formatMessage(messages.yourBorrows),
+    intl.formatMessage(messages.borrowedAssets),
     intl.formatMessage(messages.secondTableColumnTitle),
     intl.formatMessage(messages.apyRowTitle),
     intl.formatMessage(messages.fourthTableColumnTitle),

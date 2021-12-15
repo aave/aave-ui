@@ -1,7 +1,10 @@
 import React from 'react';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import LabeledSwitcher from '../basic/LabeledSwitcher';
 import SearchField from '../fields/SearchField';
+import IsolationInfoBanner from '../isolationMode/IsolationInfoBanner';
+import EModeButton from '../eMode/EModeButton';
 
 import staticStyles from './style';
 
@@ -13,6 +16,9 @@ export type AssetsFilterPanelProps = {
   searchValue: string;
   searchOnChange: (value: string) => void;
   darkOnDarkMode?: boolean;
+  isEmodeActive?: boolean;
+  showToggle?: boolean;
+  isolationText?: string;
 };
 
 export default function AssetsFilterPanel({
@@ -23,17 +29,41 @@ export default function AssetsFilterPanel({
   searchValue,
   searchOnChange,
   darkOnDarkMode,
+  isEmodeActive,
+  showToggle = true,
+  isolationText,
 }: AssetsFilterPanelProps) {
+  const { md } = useThemeContext();
+
   return (
     <div className="AssetsFilterPanel">
+      {isolationText && md && <IsolationInfoBanner text={isolationText} />}
+
       <div className="AssetsFilterPanel__content">
-        <LabeledSwitcher
-          leftOption={optionTitleLeft}
-          rightOption={optionTitleRight}
-          onToggle={switchOnToggle}
-          value={switchValue}
-          darkOnDarkMode={darkOnDarkMode}
-        />
+        <div className="AssetsFilterPanel__left--inner">
+          {!isEmodeActive && (
+            <>
+              {showToggle && (
+                <LabeledSwitcher
+                  leftOption={optionTitleLeft}
+                  rightOption={optionTitleRight}
+                  onToggle={switchOnToggle}
+                  value={switchValue}
+                  darkOnDarkMode={darkOnDarkMode}
+                />
+              )}
+            </>
+          )}
+
+          {isEmodeActive && <EModeButton size="normal" />}
+
+          {isolationText && !md && (
+            <IsolationInfoBanner
+              text={isolationText}
+              withoutMargin={!isEmodeActive && !showToggle}
+            />
+          )}
+        </div>
 
         <div className="AssetsFilterPanel__search-inner">
           <SearchField value={searchValue} onChange={searchOnChange} />

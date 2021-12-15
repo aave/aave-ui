@@ -3,9 +3,11 @@ import React from 'react';
 import TableItem from '../../../../components/BasicAssetsTable/TableItem';
 import TableColumn from '../../../../components/BasicTable/TableColumn';
 import Value from '../../../../components/basic/Value';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import NoData from '../../../../components/basic/NoData';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
+import CapsHint from '../../../../components/caps/CapsHint';
+import { CapType } from '../../../../components/caps/helper';
 
 import { DepositTableItem } from './types';
 
@@ -13,43 +15,53 @@ export default function DepositItem({
   id,
   symbol,
   underlyingAsset,
-  walletBalance,
-  walletBalanceInUSD,
+  availableToDeposit,
+  availableToDepositUSD,
   liquidityRate,
-  avg30DaysLiquidityRate,
   userId,
-  borrowingEnabled,
   isFreezed,
-  aincentivesAPR,
+  aIncentives,
+  isIsolated,
+  totalLiquidity,
+  supplyCap,
 }: DepositTableItem) {
   const url = `/deposit/${underlyingAsset}-${id}`;
 
   return (
-    <TableItem symbol={symbol} url={url} isFreezed={isFreezed} darkOnDarkMode={true}>
+    <TableItem
+      symbol={symbol}
+      url={url}
+      isFreezed={isFreezed}
+      darkOnDarkMode={true}
+      isIsolated={isIsolated}
+    >
       <TableColumn>
-        {!userId || Number(walletBalance) <= 0 ? (
+        {!userId || Number(availableToDeposit) <= 0 ? (
           <NoData color="dark" />
         ) : (
           <Value
-            value={Number(walletBalance)}
-            subValue={walletBalanceInUSD}
+            value={availableToDeposit}
+            subValue={availableToDepositUSD}
             maximumSubValueDecimals={2}
             subSymbol="USD"
             maximumValueDecimals={isAssetStable(symbol) ? 2 : 5}
             minimumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+            nextToValue={
+              <CapsHint
+                capType={CapType.supplyCap}
+                capAmount={supplyCap}
+                totalAmount={totalLiquidity}
+                tooltipId={`supplyCap__${id}`}
+                withoutText={true}
+              />
+            }
           />
         )}
       </TableColumn>
 
       {!isFreezed && (
         <TableColumn>
-          <LiquidityMiningCard
-            value={liquidityRate}
-            thirtyDaysValue={avg30DaysLiquidityRate}
-            liquidityMiningValue={aincentivesAPR}
-            symbol={symbol}
-            type="deposit"
-          />
+          <IncentivesCard value={liquidityRate} incentives={aIncentives} symbol={symbol} />
         </TableColumn>
       )}
     </TableItem>

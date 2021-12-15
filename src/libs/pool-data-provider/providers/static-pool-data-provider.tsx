@@ -1,16 +1,17 @@
-import React, { ReactElement, ReactNode, useContext } from 'react';
+import React, { ReactElement, ReactNode, useContext, useState } from 'react';
 import { API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useUserWalletDataContext } from '../../web3-data-provider';
 import { NetworkConfig } from '../../../helpers/config/types';
-import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/use-cached-protocol-data';
-import { useApolloConfigContext } from '../../apollo-config';
-import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
 import { assetsOrder } from '../../../ui-config/assets';
-import { ChainId } from '@aave/contract-helpers';
+import { ChainId, WalletBalanceProvider } from '@aave/contract-helpers';
 import { usePoolData } from '../hooks/use-pool-data';
 import { ReserveDataHumanized, UserReserveDataHumanized } from '@aave/contract-helpers';
-import { normalize } from '@aave/math-utils';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
+import useGetEns from '../../hooks/use-get-ens';
+import { usePolling } from '../../hooks/use-polling';
+import { nativeToUSD, normalize } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
 
 /**
  * removes the marketPrefix from a symbol
@@ -34,10 +35,15 @@ export interface StaticPoolDataContextData {
   rawUserReserves?: UserReserveDataExtended[];
   rawReservesWithBase: ReserveDataHumanized[];
   rawUserReservesWithBase?: UserReserveDataExtended[];
-  marketRefCurrencyDecimals: number;
-  marketRefPriceInUsd: string;
+  marketReferenceCurrencyDecimals: number;
+  marketReferencePriceInUsd: string;
   WrappedBaseNetworkAssetAddress: string;
-  refresh: () => Promise<void>;
+  ensName?: string;
+  ensAvatar?: string;
+  userEmodeCategoryId: number;
+  refresh?: () => Promise<void>;
+  walletData: { [address: string]: { amount: string; amountUSD: string } };
+  refetchWalletData: () => {};
 }
 
 const StaticPoolDataContext = React.createContext({} as StaticPoolDataContextData);
@@ -54,44 +60,74 @@ export function StaticPoolDataProvider({
   errorPage,
 }: StaticPoolDataProviderProps) {
   const { currentAccount } = useUserWalletDataContext();
-  const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
-  const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
-  const RPC_ONLY_MODE = networkConfig.rpcOnly;
+  const { name, avatar } = useGetEns(currentAccount);
+  const [walletData, setWalletsBalance] = useState<{
+    [address: string]: { amount: string; amountUSD: string };
+  }>({});
 
-  const {
-    error: cachedDataError,
-    loading: cachedDataLoading,
-    data: cachedData,
-  } = useCachedProtocolData(
-    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+  const { loading, data, error, refresh } = usePoolData();
+
+  const marketReferencePriceInUsd =
+    data?.reserves?.baseCurrencyData?.marketReferenceCurrencyPriceInUsd ?? '0';
+
+  const marketReferenceCurrencyDecimals =
+    data?.reserves?.baseCurrencyData?.marketReferenceCurrencyDecimals ?? 18;
+
+  async function fetchWalletData() {
+    if (!currentAccount || !data?.reserves) return;
+    const contract = new WalletBalanceProvider({
+      walletBalanceProviderAddress: currentMarketData.addresses.WALLET_BALANCE_PROVIDER,
+      provider: getProvider(chainId),
+    });
+    const { 0: reserves, 1: balances } = await contract.getUserWalletBalancesForLendingPoolProvider(
+      currentAccount,
+      currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER
+    );
+
+    const aggregatedBalance = reserves.reduce((acc, reserve, i) => {
+      const poolReserve = data.reserves?.reservesData.find((poolReserve) => {
+        // TODO: not 100% sure this is correct
+        if (reserve.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()) {
+          return (
+            poolReserve.underlyingAsset.toLowerCase() ===
+            networkConfig.baseAssetWrappedAddress?.toLowerCase()
+          );
+        }
+        return poolReserve.underlyingAsset.toLowerCase() === reserve.toLowerCase();
+      });
+      if (poolReserve) {
+        acc[reserve.toLowerCase()] = {
+          amount: normalize(balances[i].toString(), poolReserve.decimals),
+          amountUSD: nativeToUSD({
+            amount: new BigNumber(balances[i].toString()),
+            currencyDecimals: poolReserve.decimals,
+            priceInMarketReferenceCurrency: poolReserve.priceInMarketReferenceCurrency,
+            marketReferenceCurrencyDecimals,
+            marketReferencePriceInUsd,
+          }),
+        };
+      }
+      return acc;
+    }, {} as { [address: string]: { amount: string; amountUSD: string } });
+    setWalletsBalance(aggregatedBalance);
+  }
+
+  usePolling(fetchWalletData, 30000, !currentAccount, [
     currentAccount,
-    preferredConnectionMode === ConnectionMode.rpc || chainId !== apolloClientChainId
-  );
-
-  const {
-    error: rpcDataError,
-    loading: rpcDataLoading,
-    data: rpcData,
-    refresh,
-  } = usePoolData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
-    chainId,
-    networkConfig.addresses.uiPoolDataProvider,
-    !isRPCActive,
-    currentAccount
-  );
+    loading,
+  ]);
 
-  const activeData = isRPCActive && rpcData ? rpcData : cachedData;
-  if ((isRPCActive && rpcDataLoading && !rpcData) || (!isRPCActive && cachedDataLoading)) {
+  if (loading && !data) {
     return loader;
   }
 
-  if (!activeData || (isRPCActive && rpcDataError) || (!isRPCActive && cachedDataError)) {
+  if (!data || error) {
     return errorPage;
   }
 
-  const reserves: ReserveDataHumanized[] | undefined = activeData.reserves?.reservesData.map(
+  const reserves: ReserveDataHumanized[] | undefined = data.reserves?.reservesData.map(
     (reserve) => ({
       ...reserve,
     })
@@ -127,7 +163,7 @@ export function StaticPoolDataProvider({
 
   const userReserves: UserReserveDataExtended[] = [];
   const userReservesWithFixedUnderlying: UserReserveDataExtended[] = [];
-  activeData.userReserves?.forEach((userReserve) => {
+  data.userReserves?.forEach((userReserve) => {
     const reserve = reserves?.find(
       (reserve) =>
         reserve.underlyingAsset.toLowerCase() === userReserve.underlyingAsset.toLowerCase()
@@ -159,26 +195,13 @@ export function StaticPoolDataProvider({
     (userReserve) => userReserve.scaledATokenBalance !== '0'
   );
 
-  if (!RPC_ONLY_MODE && isRPCActive && rpcData) {
-    console.log('switched to RPC');
-  }
-
-  const marketRefPriceInUsd = activeData?.reserves?.baseCurrencyData
-    ?.marketReferenceCurrencyPriceInUsd
-    ? activeData.reserves.baseCurrencyData?.marketReferenceCurrencyPriceInUsd
-    : '0';
-
-  const marketRefCurrencyDecimals = activeData?.reserves?.baseCurrencyData
-    ?.marketReferenceCurrencyDecimals
-    ? activeData.reserves.baseCurrencyData?.marketReferenceCurrencyDecimals
-    : 18;
   return (
     <StaticPoolDataContext.Provider
       value={{
         userId: currentAccount,
         chainId,
         networkConfig,
-        refresh: isRPCActive ? refresh : async () => {},
+        refresh,
         WrappedBaseNetworkAssetAddress: networkConfig.baseAssetWrappedAddress
           ? networkConfig.baseAssetWrappedAddress
           : '', // TO-DO: Replace all instances of this with the value from protocol-data-provider instead
@@ -186,9 +209,14 @@ export function StaticPoolDataProvider({
         rawUserReserves: userReservesWithFixedUnderlying,
         rawReservesWithBase: reserves ? reserves : [],
         rawUserReservesWithBase: userReserves,
-        marketRefPriceInUsd: normalize(marketRefPriceInUsd, 8),
-        marketRefCurrencyDecimals,
+        marketReferencePriceInUsd: marketReferencePriceInUsd,
+        marketReferenceCurrencyDecimals,
         isUserHasDeposits,
+        ensName: name,
+        ensAvatar: avatar,
+        walletData,
+        refetchWalletData: fetchWalletData,
+        userEmodeCategoryId: data.userEmodeCategoryId || 0,
       }}
     >
       {children}

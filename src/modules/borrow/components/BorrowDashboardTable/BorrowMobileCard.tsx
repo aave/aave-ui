@@ -7,7 +7,7 @@ import CustomSwitch from '../../../../components/basic/CustomSwitch';
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
 import Row from '../../../../components/basic/Row';
 import Value from '../../../../components/basic/Value';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import NoData from '../../../../components/basic/NoData';
 import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
@@ -24,7 +24,6 @@ export default function BorrowMobileCard({
   currentBorrows,
   currentBorrowsUSD,
   borrowRate,
-  avg30DaysVariableRate,
   borrowRateMode,
   onSwitchToggle,
   isActive,
@@ -33,8 +32,8 @@ export default function BorrowMobileCard({
   stableBorrowRateEnabled,
   repayLink,
   borrowLink,
-  vincentivesAPR,
-  sincentivesAPR,
+  vIncentives,
+  sIncentives,
 }: BorrowTableItem) {
   const intl = useIntl();
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
@@ -55,18 +54,10 @@ export default function BorrowMobileCard({
 
         <Row title={intl.formatMessage(messages.apyRowTitle)} withMargin={true}>
           {borrowingEnabled ? (
-            <LiquidityMiningCard
+            <IncentivesCard
               symbol={symbol}
               value={Number(borrowRate)}
-              thirtyDaysValue={
-                borrowRateMode === BorrowRateMode.Variable ? avg30DaysVariableRate : ''
-              }
-              liquidityMiningValue={
-                borrowRateMode === BorrowRateMode.Variable ? vincentivesAPR : sincentivesAPR
-              }
-              type={
-                borrowRateMode === BorrowRateMode.Variable ? 'borrow-variable' : 'borrow-stable'
-              }
+              incentives={borrowRateMode === BorrowRateMode.Variable ? vIncentives : sIncentives}
             />
           ) : (
             <NoData color="dark" />
@@ -87,8 +78,8 @@ export default function BorrowMobileCard({
             value={borrowRateMode === BorrowRateMode.Variable}
             offLabel={intl.formatMessage(messages.offLabel)}
             onLabel={intl.formatMessage(messages.onLabel)}
-            onColor={isCurrentThemeDark ? currentTheme.lightBlue.hex : currentTheme.darkBlue.hex}
-            offColor={isCurrentThemeDark ? currentTheme.lightBlue.hex : currentTheme.darkBlue.hex}
+            onColor={isCurrentThemeDark ? currentTheme.headerBg.hex : currentTheme.darkBlue.hex}
+            offColor={isCurrentThemeDark ? currentTheme.headerBg.hex : currentTheme.darkBlue.hex}
             onSwitch={onSwitchToggle}
             disabled={!stableBorrowRateEnabled || isFrozen || !isActive}
             swiperHeight={swiperHeight}

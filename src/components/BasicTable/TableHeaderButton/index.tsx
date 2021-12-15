@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
@@ -13,7 +13,7 @@ interface TableHeaderButtonProps {
   setSortDesc?: (value: boolean) => void;
   withSorting?: boolean;
   subTitle?: string;
-  title: string;
+  title: string | ReactNode;
   className?: string;
   size?: 'normal' | 'small';
 }
@@ -43,7 +43,7 @@ export default function TableHeaderButton({
   return (
     <>
       {withSorting && sortKey ? (
-        <button
+        <div
           onClick={() => handleSorting(sortKey)}
           className={classNames(
             'TableHeaderButton TableHeaderButton__withSort',
@@ -55,11 +55,10 @@ export default function TableHeaderButton({
             className,
             `TableHeaderButton__${size}`
           )}
-          type="button"
         >
-          {!!subTitle && <span>{subTitle}</span>}
-          <p>{title}</p>
-        </button>
+          {!!subTitle && <span className="TableHeaderButton__subTitle">{subTitle}</span>}
+          <div className="TableHeaderButton__title">{title}</div>
+        </div>
       ) : (
         <div
           className={classNames(
@@ -70,28 +69,30 @@ export default function TableHeaderButton({
             className
           )}
         >
-          {!!subTitle && <span>{subTitle}</span>}
-          <p>{title}</p>
+          {!!subTitle && <span className="TableHeaderButton__subTitle">{subTitle}</span>}
+          <div className="TableHeaderButton__title">{title}</div>
         </div>
       )}
 
-      <style jsx={true}>{staticStyles}</style>
+      <style jsx={true} global={true}>
+        {staticStyles}
+      </style>
       <style jsx={true}>{`
         .TableHeaderButton {
           color: ${currentTheme.textDarkBlue.hex};
-          span {
+          .TableHeaderButton__subTitle {
             color: ${currentTheme.lightBlue.hex};
           }
 
           &__withSort {
             &:hover {
-              p {
+              .TableHeaderButton__title {
                 &:after {
                   border-top-color: ${currentTheme.textDarkBlue.hex};
                 }
               }
             }
-            p {
+            .TableHeaderButton__title {
               &:after {
                 border-top-color: ${currentTheme.lightBlue.hex};
               }
@@ -99,7 +100,7 @@ export default function TableHeaderButton({
           }
 
           &__sort {
-            p {
+            .TableHeaderButton__title {
               &:after {
                 border-top-color: ${currentTheme.textDarkBlue.hex};
               }
@@ -107,7 +108,7 @@ export default function TableHeaderButton({
           }
 
           &__desk {
-            p {
+            .TableHeaderButton__title {
               &:after {
                 border-bottom-color: ${currentTheme.textDarkBlue.hex};
               }

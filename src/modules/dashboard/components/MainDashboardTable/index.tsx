@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import NoDataPanel from '../../../../components/NoDataPanel';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
@@ -24,6 +25,7 @@ export default function MainDashboardTable({
   isBorrow,
 }: MainDashboardTableProps) {
   const intl = useIntl();
+  const { currentTheme } = useThemeContext();
 
   return (
     <div
@@ -40,20 +42,30 @@ export default function MainDashboardTable({
         {!!borrowedPositions.length ? (
           <BorrowDashboardTable listData={borrowedPositions} />
         ) : (
-          <ContentWrapper withFullHeight={true}>
-            <NoDataPanel
-              title={intl.formatMessage(messages.nothingBorrowed)}
-              description={intl.formatMessage(messages.nothingBorrowedDescription)}
-              buttonTitle={intl.formatMessage(messages.borrowNow)}
-              linkTo="/borrow"
-            />
-          </ContentWrapper>
+          <div className="MainDashboardTable__rightNoData--wrapper">
+            <strong className="MainDashboardTable__noData--title">
+              {intl.formatMessage(messages.borrowedAssets)}
+            </strong>
+            <ContentWrapper withFullHeight={true}>
+              <NoDataPanel
+                title={intl.formatMessage(messages.nothingBorrowed)}
+                description={intl.formatMessage(messages.nothingBorrowedDescription)}
+                buttonTitle={intl.formatMessage(messages.borrowNow)}
+                linkTo="/borrow"
+              />
+            </ContentWrapper>
+          </div>
         )}
       </div>
 
       <style jsx={true} global={true}>
         {staticStyles}
       </style>
+      <style jsx={true}>{`
+        .MainDashboardTable__noData--title {
+          color: ${currentTheme.textDarkBlue.hex};
+        }
+      `}</style>
     </div>
   );
 }

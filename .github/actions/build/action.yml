@@ -1,0 +1,18 @@
+name: build
+description: installs dependencies & generates a build
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+        cache: 'npm'
+
+    - name: install
+      run: npm ci
+      shell: bash
+
+    - name: build
+      run: npm run build
+      shell: bash

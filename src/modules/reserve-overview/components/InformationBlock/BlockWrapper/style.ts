@@ -11,8 +11,10 @@ const staticStyles = css.global`
     align-items: center;
     justify-content: center;
     text-align: center;
+    margin: 0 5px;
     @include respond-to(sm) {
       width: 48%;
+      margin: 0;
       margin-bottom: 30px;
       &:last-of-type {
         margin-bottom: 0;
@@ -68,6 +70,35 @@ const staticStyles = css.global`
         @include respond-to(sm) {
           width: 12px !important;
           height: 12px !important;
+        }
+      }
+    }
+
+    &__titleInnerWithComponent {
+      padding-right: 18px;
+      @include respond-to(xl) {
+        padding-right: 15px;
+      }
+      @include respond-to(lg) {
+        padding-right: 14px;
+      }
+    }
+
+    &__content {
+      .TextWithModal__text,
+      .EmodeCategoryLabel {
+        font-size: $regular;
+        @include respond-to(xl) {
+          font-size: $small;
+        }
+        @include respond-to(lg) {
+          font-size: $extraSmall;
+        }
+        @include respond-to(md) {
+          font-size: $small;
+        }
+        @include respond-to(sm) {
+          font-size: $regular;
         }
       }
     }

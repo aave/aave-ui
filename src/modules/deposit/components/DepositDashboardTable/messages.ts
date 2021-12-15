@@ -1,12 +1,11 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  yourDeposits: 'Your deposits',
+  depositedAssets: 'Deposited assets',
   secondTableColumnTitle: 'Current balance',
   collateral: 'Collateral',
 
   currentBalanceUSDRowTitle: 'Current balance in USD',
-  thirtyDaysAverageTitle: '30 Days Average',
 
   valueRowTitle: 'Earned',
   apyRowTitle: 'APY',

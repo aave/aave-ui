@@ -1,0 +1,25 @@
+name: Release
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - id: tag
+        name: tag
+        if: |
+          github.ref == 'refs/heads/master' &&
+          contains(github.event.head_commit.message, 'chore(release)')
+        run: |
+          git tag v$(node -pe "require('./package.json').version")
+          git push origin v$(node -pe "require('./package.json').version")

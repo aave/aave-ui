@@ -4,6 +4,7 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import TableCol from '../TableCol';
 import AMPLWarning from '../../../../../components/AMPLWarning';
+import IsolatedBadge from '../../../../../components/isolationMode/IsolatedBadge';
 import { getAssetInfo, TokenIcon } from '../../../../../helpers/config/assets-config';
 
 import staticStyles from './style';
@@ -12,16 +13,18 @@ interface TableItemProps {
   tokenSymbol: string;
   color?: string;
   children: ReactNode;
+  isIsolated?: boolean;
 }
 
-export default function TableItem({ tokenSymbol, color, children }: TableItemProps) {
-  const { currentTheme, lg } = useThemeContext();
+export default function TableItem({ tokenSymbol, color, children, isIsolated }: TableItemProps) {
+  const { currentTheme, isCurrentThemeDark, lg } = useThemeContext();
   const asset = getAssetInfo(tokenSymbol);
 
   return (
     <div
       className={classNames('TableItem', {
         TableItem__withInfo: tokenSymbol === 'AMPL',
+        TableItem__isolated: isIsolated,
       })}
     >
       <span className="TableItem__assetColor" style={{ backgroundColor: color }} />
@@ -41,12 +44,27 @@ export default function TableItem({ tokenSymbol, color, children }: TableItemPro
 
       {tokenSymbol === 'AMPL' && <AMPLWarning />}
 
+      {isIsolated && (
+        <div className="TableItem__isolated--inner">
+          <IsolatedBadge isWhiteIcon={true} />
+        </div>
+      )}
+
       <style jsx={true} global={true}>
         {staticStyles}
       </style>
       <style jsx={true} global={true}>{`
         .TableItem {
           background: ${currentTheme.whiteElement.hex};
+
+          &__isolated--inner {
+            background: ${isCurrentThemeDark
+              ? currentTheme.headerBg.hex
+              : currentTheme.darkBlue.hex};
+            .IsolatedBadge {
+              color: ${currentTheme.white.hex} !important;
+            }
+          }
         }
       `}</style>
     </div>

@@ -2,32 +2,10 @@ import React, { PropsWithChildren, useContext, useEffect, useState } from 'react
 
 import { useCurrentTimestamp } from '../hooks/use-current-timestamp';
 import { useStaticPoolDataContext } from './static-pool-data-provider';
-import {
-  formatReserve,
-  FormatReserveResponse,
-  formatUserSummary,
-  FormatUserSummaryResponse,
-  normalize,
-} from '@aave/math-utils';
+import { formatReserves, formatUserSummary, FormatUserSummaryResponse } from '@aave/math-utils';
+import { ReserveDataHumanized } from '@aave/contract-helpers';
 
-export interface ComputedReserveData extends FormatReserveResponse {
-  id: string;
-  underlyingAsset: string;
-  name: string;
-  symbol: string;
-  decimals: number;
-  usageAsCollateralEnabled: boolean;
-  borrowingEnabled: boolean;
-  stableBorrowRateEnabled: boolean;
-  isActive: boolean;
-  isFrozen: boolean;
-  aTokenAddress: string;
-  stableDebtTokenAddress: string;
-  variableDebtTokenAddress: string;
-  priceInMarketReferenceCurrency: string;
-  avg30DaysLiquidityRate?: string;
-  avg30DaysVariableBorrowRate?: string;
-}
+export type ComputedReserveData = ReturnType<typeof formatReserves>[0] & ReserveDataHumanized;
 
 export interface UserSummary extends FormatUserSummaryResponse {
   id: string;
@@ -41,8 +19,14 @@ export interface DynamicPoolDataContextData {
 const DynamicPoolDataContext = React.createContext({} as DynamicPoolDataContextData);
 
 export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
-  const { rawReserves, rawUserReserves, userId, marketRefCurrencyDecimals, marketRefPriceInUsd } =
-    useStaticPoolDataContext();
+  const {
+    rawReserves,
+    rawUserReserves,
+    userId,
+    marketReferenceCurrencyDecimals,
+    marketReferencePriceInUsd,
+    userEmodeCategoryId,
+  } = useStaticPoolDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const [lastAvgRatesUpdateTimestamp, setLastAvgRatesUpdateTimestamp] = useState(currentTimestamp);
 
@@ -56,25 +40,18 @@ export function DynamicPoolDataProvider({ children }: PropsWithChildren<{}>) {
     userId && rawUserReserves
       ? formatUserSummary({
           currentTimestamp,
-          marketRefPriceInUsd,
-          marketRefCurrencyDecimals,
-          rawUserReserves: rawUserReserves,
+          marketReferencePriceInUsd,
+          marketReferenceCurrencyDecimals,
+          rawUserReserves,
+          userEmodeCategoryId,
         })
       : undefined;
-  const formattedPoolReserves: ComputedReserveData[] = rawReserves.map((reserve) => {
-    const formattedReserve = formatReserve({
-      reserve,
-      currentTimestamp,
-    });
-    const fullReserve: ComputedReserveData = {
-      ...reserve,
-      ...formattedReserve,
-      priceInMarketReferenceCurrency: normalize(
-        reserve.priceInMarketReferenceCurrency,
-        marketRefCurrencyDecimals
-      ),
-    };
-    return fullReserve;
+
+  const formattedPoolReserves = formatReserves({
+    reserves: rawReserves,
+    currentTimestamp,
+    marketReferenceCurrencyDecimals,
+    marketReferencePriceInUsd,
   });
 
   let userSummary: UserSummary | undefined = undefined;

@@ -11,6 +11,7 @@ import TableAprCol from '../../../dashboard/components/DashboardTable/TableAprCo
 import TableCol from '../../../dashboard/components/DashboardTable/TableCol';
 import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import TableButtonCol from '../../../dashboard/components/DashboardTable/TableButtonCol';
+import IsolationModeBadge from '../../../../components/isolationMode/IsolationModeBadge';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -21,15 +22,16 @@ export default function DepositItem({
   reserve: { symbol, liquidityRate, id, underlyingAsset },
   uiColor,
   usageAsCollateralEnabledOnUser,
-  usageAsCollateralEnabledOnThePool,
   underlyingBalance,
   underlyingBalanceUSD,
   onToggleSwitch,
   isActive,
   isFrozen,
-  avg30DaysLiquidityRate,
   index,
-  aincentivesAPR,
+  aIncentives,
+  canBeEnabledAsCollateral,
+  isUserInIsolationMode,
+  isIsolated,
 }: DepositTableItem) {
   const intl = useIntl();
   const { currentTheme, xl, lg, md } = useThemeContext();
@@ -41,29 +43,38 @@ export default function DepositItem({
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
 
   return (
-    <TableItem tokenSymbol={symbol} color={uiColor}>
+    <TableItem
+      tokenSymbol={symbol}
+      color={uiColor}
+      isIsolated={
+        isUserInIsolationMode &&
+        usageAsCollateralEnabledOnUser &&
+        canBeEnabledAsCollateral &&
+        isIsolated
+      }
+    >
       <TableValueCol
         value={Number(underlyingBalance)}
         subValue={Number(underlyingBalanceUSD)}
         tooltipId={`deposit-${symbol}__${index}`}
       />
-      <TableAprCol
-        value={Number(liquidityRate)}
-        thirtyDaysAverage={avg30DaysLiquidityRate}
-        liquidityMiningValue={aincentivesAPR}
-        symbol={symbol}
-        type="deposit"
-      />
+      <TableAprCol value={Number(liquidityRate)} incentives={aIncentives} symbol={symbol} />
 
       <TableCol maxWidth={125}>
         <CustomSwitch
-          value={usageAsCollateralEnabledOnUser && usageAsCollateralEnabledOnThePool}
-          offLabel={intl.formatMessage(messages.offLabel)}
+          value={usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral}
+          offLabel={
+            isUserInIsolationMode && !canBeEnabledAsCollateral ? (
+              <IsolationModeBadge isIsolated={isIsolated} disabled={true} />
+            ) : (
+              intl.formatMessage(messages.offLabel)
+            )
+          }
           onLabel={intl.formatMessage(messages.onLabel)}
           onColor={currentTheme.green.hex}
-          offColor={currentTheme.red.hex}
+          offColor={!canBeEnabledAsCollateral ? currentTheme.lightBlue.hex : currentTheme.red.hex}
           onSwitch={onToggleSwitch}
-          disabled={!usageAsCollateralEnabledOnThePool}
+          disabled={!canBeEnabledAsCollateral}
           swiperHeight={swiperHeight}
           swiperWidth={swiperWidth}
         />

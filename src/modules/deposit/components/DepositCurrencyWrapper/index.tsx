@@ -20,6 +20,7 @@ interface DepositCurrencyWrapperProps
     'userReserve' | 'poolReserve' | 'user' | 'currencySymbol' | 'walletBalance'
   > {
   children: ReactNode;
+  goBack?: () => void;
 }
 
 export default function DepositCurrencyWrapper({
@@ -29,6 +30,7 @@ export default function DepositCurrencyWrapper({
   user,
   walletBalance,
   children,
+  goBack,
 }: DepositCurrencyWrapperProps) {
   const intl = useIntl();
   const { currentLangSlug } = useLanguageContext();
@@ -76,6 +78,7 @@ export default function DepositCurrencyWrapper({
       showGraphCondition={liquidityRateHistoryData.length > 1 && !!RATES_HISTORY_ENDPOINT}
       dots={[{ name: intl.formatMessage(messages.graphDotName) }]}
       series={series}
+      goBack={goBack}
     >
       {children}
     </CurrencyScreenWrapper>
