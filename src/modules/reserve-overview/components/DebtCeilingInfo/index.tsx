@@ -12,10 +12,9 @@ import staticStyles from './style';
 
 interface DebtCeilingInfoProps {
   debtCeilingUSD: string;
-  debtCeilingDebt: string;
 }
 
-export default function DebtCeilingInfo({ debtCeilingDebt, debtCeilingUSD }: DebtCeilingInfoProps) {
+export default function DebtCeilingInfo({ debtCeilingUSD }: DebtCeilingInfoProps) {
   const intl = useIntl();
   const { currentTheme, xl, sm } = useThemeContext();
 
@@ -50,11 +49,15 @@ export default function DebtCeilingInfo({ debtCeilingDebt, debtCeilingUSD }: Deb
         </div>
       </TextWithModal>
 
-      <p className="DebtCeilingInfo__values">
-        <Value value={debtCeilingDebt} symbol="USD" tokenIcon={true} withoutSymbol={true} />{' '}
-        <span className="DebtCeilingInfo__values--divider">/</span>{' '}
-        <Value value={debtCeilingUSD} symbol="USD" tokenIcon={true} withoutSymbol={true} />
-      </p>
+      <div className="DebtCeilingInfo__values">
+        <Value
+          value={debtCeilingUSD}
+          symbol="USD"
+          tokenIcon={true}
+          withoutSymbol={true}
+          maximumValueDecimals={2}
+        />
+      </div>
 
       <style jsx={true} global={true}>
         {staticStyles}

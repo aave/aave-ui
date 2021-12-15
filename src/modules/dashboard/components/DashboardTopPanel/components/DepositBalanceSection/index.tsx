@@ -33,6 +33,7 @@ export default function DepositBalanceSection({
         isCollapse={isCollapse}
         title={intl.formatMessage(messages.depositBalance)}
         value={balance}
+        type="deposit"
         children={
           !isCollapse || (md && !sm && !isCollapse) ? (
             <>

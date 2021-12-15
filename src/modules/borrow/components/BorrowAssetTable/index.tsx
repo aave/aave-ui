@@ -2,6 +2,8 @@ import React from 'react';
 
 import BasicAssetsTable from '../../../../components/BasicAssetsTable';
 import BorrowItem from './BorrowItem';
+import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
+import { CapType } from '../../../../components/caps/helper';
 
 import messages from './messages';
 
@@ -29,8 +31,8 @@ export default function BorrowAssetTable({
       title: messages.asset,
     },
     {
-      title: messages.availableToBorrow,
-      subtitle: messages.basedCollateral,
+      titleComponent: <AvailableCapsHelpModal capType={CapType.borrowCap} />,
+      sortKey: 'availableBorrowsInUSD',
     },
     {
       title: messages.variableAPY,
@@ -49,10 +51,26 @@ export default function BorrowAssetTable({
       setSortName={setSortName}
       sortDesc={sortDesc}
       setSortDesc={setSortDesc}
+      className="BorrowAssetTable"
     >
       {listData.map((item, index) => (
         <BorrowItem {...item} key={index} userId={userId} />
       ))}
+
+      <style jsx={true} global={true}>{`
+        @import 'src/_mixins/screen-size';
+        .BorrowAssetTable {
+          .TableHeaderWrapper {
+            .TableColumn {
+              &:nth-of-type(2) {
+                @include respond-to(md) {
+                  min-width: 180px;
+                }
+              }
+            }
+          }
+        }
+      `}</style>
     </BasicAssetsTable>
   );
 }

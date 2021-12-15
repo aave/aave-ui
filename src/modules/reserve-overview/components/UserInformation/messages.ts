@@ -4,7 +4,7 @@ export default defineMessages({
   yourInformation: 'Your information',
 
   deposits: 'Deposits',
-  yourWalletBalance: 'Your wallet balance',
+  walletBalance: 'Wallet balance',
   youAlreadyDeposited: 'You already deposited',
   collateral: 'Use as collateral',
   depositOffLabel: 'No',
@@ -16,7 +16,6 @@ export default defineMessages({
   borrowDebtCeilingWarning: 'Borrowing is not available due to debt ceiling.', // TODO: need change text
 
   borrows: 'Borrows',
-  borrowed: 'Borrowed',
+  borrowed: 'You already borrowed',
   loanToValue: 'Loan to value',
-  availableToYou: 'Available to you',
 });

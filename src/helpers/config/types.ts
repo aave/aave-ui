@@ -27,7 +27,7 @@ export type NetworkConfig = {
   // function returning a link to etherscan et al
   explorerLink: string;
   explorerLinkBuilder: (props: ExplorerLinkBuilderProps) => string;
-  rpcOnly: boolean;
+  rpcOnly?: boolean;
   // set this to show faucets and similar
   isTestnet?: boolean;
   // get's automatically populated on fork networks

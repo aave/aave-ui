@@ -12,7 +12,7 @@ import LabeledSwitcher from '../../../../components/basic/LabeledSwitcher';
 import NoDataPanel from '../../../../components/NoDataPanel';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import MainDashboardTable from '../../components/MainDashboardTable';
-import IncentiveWrapper from '../../../../components/wrappers/IncentiveWrapper';
+import IncentivesClaimPanel from '../../../../components/incentives/IncentivesClaimPanel';
 import DashboardNoData from '../../components/DashboardNoData';
 
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
@@ -155,7 +155,7 @@ export default function Dashboard() {
   return (
     <div className="Dashboard">
       <div className="Dashboard__top--line">
-        <IncentiveWrapper />
+        <IncentivesClaimPanel />
       </div>
 
       <DashboardTopPanel

@@ -20,6 +20,7 @@ type PoolData = {
     baseCurrencyData: BaseCurrencyData | undefined;
   };
   userReserves: UserReserveData[];
+  userEmodeCategoryId: number;
   userId?: string;
 };
 
@@ -95,7 +96,7 @@ export function useCachedProtocolData(
   const loading = (userId && userDataLoading) || poolDataLoading;
 
   const reserves = poolData?.protocolData.reserves || [];
-  const userReserves: UserReserveData[] = userData?.userData || [];
+  const userReserves = userData?.userData || { userReserves: [], userEmodeCategoryId: 0 };
   const baseCurrencyInfo = poolData?.protocolData.baseCurrencyData;
 
   // const usdPriceEth = new BigNumber(10)
@@ -134,7 +135,8 @@ export function useCachedProtocolData(
         reservesData: reserves,
         baseCurrencyData: baseCurrencyInfo,
       },
-      userReserves,
+      userReserves: userReserves.userReserves,
+      userEmodeCategoryId: userReserves.userEmodeCategoryId,
     },
   };
 }

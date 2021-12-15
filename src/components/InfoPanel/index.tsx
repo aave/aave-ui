@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-
+import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import staticStyles from './style';
@@ -9,13 +9,14 @@ import aaveGhost from '../../images/aaveGhost.svg';
 
 interface InfoPanelProps {
   children: ReactNode;
+  className?: string;
 }
 
-export default function InfoPanel({ children }: InfoPanelProps) {
+export default function InfoPanel({ children, className }: InfoPanelProps) {
   const { currentTheme } = useThemeContext();
 
   return (
-    <div className="InfoPanel">
+    <div className={classNames('InfoPanel', className)}>
       <img className="InfoPanel__circle" src={animationCircle} alt="" />
 
       <div className="InfoPanel__content-inner">

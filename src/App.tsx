@@ -22,10 +22,10 @@ import {
   Governance,
   Staking,
   AssetSwap,
+  Reward,
 } from './modules';
 import SwapBorrowRateModeConfirmation from './modules/swap/SwapBorrowRateModeConfirmation';
 import SwapUsageAsCollateralModeConfirmation from './modules/swap/SwapUsageAsCollateralModeConfirmation';
-import { RewardConfirm } from './modules/reward/screens/RewardConfirm';
 import { EModeConfirm } from './modules/emode/screens/EModeConfirm';
 import { governanceConfig, stakeConfig } from './ui-config';
 import { useProtocolDataContext } from './libs/protocol-data-provider';
@@ -88,11 +88,7 @@ function ModulesWithMenu() {
         {!!stakeConfig && [<Route path="/staking" component={Staking} key="Staking" />]}
 
         <Route path="/asset-swap" component={AssetSwap} key="AssetSwap" />
-        <Route
-          path="/rewards/confirm/:incentivesControllerAddress"
-          component={RewardConfirm}
-          key="Reward confirm"
-        />
+        <Route path="/rewards" component={Reward} key="Rewards" />
         <Route path="/emode/confirm/:newmode" component={EModeConfirm} key="E-Mode Confirm" />
 
         {userId && [<Route exact={true} path="/history" component={History} key="History" />]}

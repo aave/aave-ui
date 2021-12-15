@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { PERMISSION } from '@aave/contract-helpers';
+import { BigNumber, valueToBigNumber } from '@aave/protocol-js';
+import { USD_DECIMALS } from '@aave/math-utils';
 
 import { ComputedReserveData, useAppDataContext } from '../../../../libs/pool-data-provider';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
@@ -22,7 +24,7 @@ import { DepositTableItem } from '../../components/DepositAssetsTable/types';
 
 export default function DepositsMain() {
   const intl = useIntl();
-  const { walletBalances, reserves, user, userId } = useAppDataContext();
+  const { walletBalances, reserves, user, userId, marketReferencePriceInUsd } = useAppDataContext();
   const { sm } = useThemeContext();
 
   const [searchValue, setSearchValue] = useState('');
@@ -57,11 +59,27 @@ export default function DepositsMain() {
           (userRes) => userRes.reserve.symbol === reserve.symbol
         );
         const walletBalance = walletBalances[reserve.underlyingAsset]?.amount || '0';
-        const walletBalanceInUSD = walletBalances[reserve.underlyingAsset]?.amountUSD || '0';
+
+        let availableToDeposit = valueToBigNumber(walletBalance);
+        if (reserve.supplyCap !== '0') {
+          availableToDeposit = BigNumber.min(
+            availableToDeposit,
+            new BigNumber(reserve.supplyCap).minus(reserve.totalLiquidity).multipliedBy('0.995')
+          );
+        }
+        const availableToDepositUSD = valueToBigNumber(availableToDeposit)
+          .multipliedBy(reserve.priceInMarketReferenceCurrency)
+          .multipliedBy(marketReferencePriceInUsd)
+          .shiftedBy(-USD_DECIMALS)
+          .toString();
+
         return {
           ...reserve,
           walletBalance,
-          walletBalanceInUSD,
+          availableToDeposit:
+            availableToDeposit.toNumber() <= 0 ? '0' : availableToDeposit.toString(),
+          availableToDepositUSD:
+            Number(availableToDepositUSD) <= 0 ? '0' : availableToDepositUSD.toString(),
           underlyingBalance: userReserve ? userReserve.underlyingBalance : '0',
           underlyingBalanceInUSD: userReserve ? userReserve.underlyingBalanceUSD : '0',
           liquidityRate: reserve.supplyAPY,
@@ -77,14 +95,14 @@ export default function DepositsMain() {
       if (sortDesc) {
         return (
           data(filteredReserves)
-            .sort((a, b) => +b.walletBalanceInUSD - +a.walletBalanceInUSD)
+            .sort((a, b) => +b.availableToDepositUSD - +a.availableToDepositUSD)
             // @ts-ignore
             .sort((a, b) => a[sortName] - b[sortName])
         );
       } else {
         return (
           data(filteredReserves)
-            .sort((a, b) => +b.walletBalanceInUSD - +a.walletBalanceInUSD)
+            .sort((a, b) => +b.availableToDepositUSD - +a.availableToDepositUSD)
             // @ts-ignore
             .sort((a, b) => b[sortName] - a[sortName])
         );

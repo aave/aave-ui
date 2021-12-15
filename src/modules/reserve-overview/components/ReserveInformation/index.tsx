@@ -21,6 +21,7 @@ import IsolationModeBadge from '../../../../components/isolationMode/IsolationMo
 import BlockWrapper from '../InformationBlock/BlockWrapper';
 import EModeCategoryHelpModal from '../../../../components/eMode/EModeCategoryHelpModal';
 import EmodeCategoryLabel from '../../../../components/eMode/EmodeCategoryLabel';
+import DebtCeilingInfo from '../DebtCeilingInfo';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -84,10 +85,13 @@ export default function ReserveInformation({
     usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
     borrowingEnabled: poolReserve.borrowingEnabled,
-    debtCeilingUSD: poolReserve.debtCeiling, // TODO: should be debtCeilingUSD
-    debtCeilingDebt: poolReserve.isolationModeTotalDebt,
+    debtCeilingUSD: poolReserve.debtCeiling,
     totalDebtUSD: poolReserve.totalDebtUSD,
     isIsolated: poolReserve.isIsolated,
+    supplyCap: poolReserve.supplyCap,
+    supplyCapUSD: poolReserve.supplyCapUSD,
+    borrowCap: poolReserve.borrowCap,
+    borrowCapUSD: poolReserve.borrowCapUSD,
   };
 
   const poolLink = getLPTokenPoolLink({
@@ -121,29 +125,16 @@ export default function ReserveInformation({
             </div>
           )}
 
-          <div className="ReserveInformation__top-info">
-            <div className="ReserveInformation__line">
-              <p>{intl.formatMessage(messages.reserveSize)}</p>
-              <strong>
-                <Value
-                  value={Number(reserveOverviewData.totalLiquidityInUsd)}
-                  maximumValueDecimals={2}
-                  minimumValueDecimals={2}
-                  symbol="USD"
-                  tokenIcon={true}
-                  withoutSymbol={true}
-                />
-              </strong>
-            </div>
-          </div>
-
           <div className="ReserveInformation__graph-inner">
             <TotalValue
+              symbol={symbol}
               color="red"
               title={intl.formatMessage(messages.totalBorrowed)}
               value={reserveOverviewData.totalBorrows}
               subValue={reserveOverviewData.totalBorrowsInUsd}
               borrowingEnabled={reserveOverviewData.borrowingEnabled}
+              capValue={reserveOverviewData.borrowCap}
+              capValueUSD={reserveOverviewData.borrowCapUSD}
             />
             <ReserveStatusGraph
               symbol={symbol}
@@ -151,16 +142,13 @@ export default function ReserveInformation({
               availableLiquidity={reserveOverviewData.availableLiquidity}
             />
             <TotalValue
+              symbol={symbol}
               title={intl.formatMessage(messages.availableLiquidity)}
               value={reserveOverviewData.availableLiquidity}
               subValue={reserveOverviewData.availableLiquidityInUsd}
               borrowingEnabled={reserveOverviewData.borrowingEnabled}
-              debtCeilingUSD={
-                reserveOverviewData.isIsolated ? reserveOverviewData.debtCeilingUSD : undefined
-              }
-              debtCeilingDebt={
-                reserveOverviewData.isIsolated ? reserveOverviewData.debtCeilingDebt : undefined
-              }
+              capValue={reserveOverviewData.supplyCap}
+              capValueUSD={reserveOverviewData.supplyCapUSD}
             />
           </div>
 
@@ -186,6 +174,11 @@ export default function ReserveInformation({
                 title={intl.formatMessage(messages.utilisationRate)}
               />
             </div>
+            {reserveOverviewData.debtCeilingUSD !== '0' && (
+              <div className="ReserveInformation__line">
+                <DebtCeilingInfo debtCeilingUSD={reserveOverviewData.debtCeilingUSD} />
+              </div>
+            )}
           </div>
 
           <div className="ReserveInformation__APY-info">

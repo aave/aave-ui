@@ -45,7 +45,7 @@ export default function TableItemWrapper({
           background: ${darkOnDarkMode
             ? currentTheme.whiteItem.hex
             : currentTheme.whiteElement.hex};
-          color: ${currentTheme.darkBlue.hex};
+          color: ${darkOnDarkMode ? currentTheme.darkBlue.hex : currentTheme.textDarkBlue.hex};
           &:hover {
             box-shadow: 0 0 9px 0 ${currentTheme.primary.hex};
           }

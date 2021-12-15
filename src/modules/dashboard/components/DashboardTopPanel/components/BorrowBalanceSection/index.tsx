@@ -31,6 +31,7 @@ export default function BorrowBalanceSection({
       isCollapse={isCollapse}
       title={intl.formatMessage(messages.borrowBalance)}
       value={balance}
+      type="borrow"
       children={
         userId && currentMarketData.v3 ? (
           !isCollapse || (md && !sm && !isCollapse) ? (

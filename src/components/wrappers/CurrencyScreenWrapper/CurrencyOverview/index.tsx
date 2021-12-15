@@ -21,6 +21,8 @@ import { GraphLegendDot } from '../../../graphs/GraphLegend';
 import GraphInner from '../GraphInner';
 import IsolationModeBadge from '../../../isolationMode/IsolationModeBadge';
 import EModeIconWithTooltip from '../../../eMode/EModeIconWithTooltip';
+import CapsHelpModal from '../../../caps/CapsHelpModal';
+import { CapType } from '../../../caps/helper';
 import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
@@ -54,10 +56,6 @@ export default function CurrencyOverview({
   const { marketReferencePriceInUsd, userEmodeCategoryId } = useAppDataContext();
   const asset = getAssetInfo(currencySymbol);
 
-  // const { mode, setMode } = useReservesRateHistoryHelper({
-  //   poolReserveId: poolReserve.id,
-  // }); TODO: uncomment when filters are added to history graphs
-
   const userIsInEMode = userEmodeCategoryId !== 0;
 
   const overviewData = {
@@ -86,6 +84,10 @@ export default function CurrencyOverview({
         : Number(poolReserve.reserveLiquidationBonus),
     borrowingEnabled: poolReserve.borrowingEnabled,
     isIsolated: poolReserve.isIsolated,
+    supplyCap: poolReserve.supplyCap,
+    supplyCapUSD: poolReserve.supplyCapUSD,
+    borrowCap: poolReserve.borrowCap,
+    borrowCapUSD: poolReserve.borrowCapUSD,
   };
 
   const graphBorder = rgba(`${currentTheme.white.rgb}, 0.5`);
@@ -122,7 +124,7 @@ export default function CurrencyOverview({
           <Value symbol={currencySymbol} value={overviewData.availableLiquidity} color="white" />
         </Row>
 
-        {isDeposit ? (
+        {isDeposit && (
           <>
             <Row
               className="CurrencyOverview__row"
@@ -140,6 +142,67 @@ export default function CurrencyOverview({
               </div>
             </Row>
 
+            <Row
+              className="CurrencyOverview__row"
+              title={<CapsHelpModal capType={CapType.supplyCap} color="white" />}
+              color="white"
+              weight="light"
+              isColumn={isCollapse}
+            >
+              {overviewData.supplyCap !== '0' ? (
+                <Value
+                  value={overviewData.supplyCap}
+                  subValue={!isCollapse ? overviewData.supplyCapUSD : undefined}
+                  subSymbol="USD"
+                  symbol={currencySymbol}
+                  color="white"
+                />
+              ) : (
+                <span className="CurrencyOverview__no-data">—</span>
+              )}
+            </Row>
+          </>
+        )}
+
+        {!isDeposit && (
+          <Row
+            className="CurrencyOverview__row"
+            title={<CapsHelpModal capType={CapType.borrowCap} color="white" />}
+            color="white"
+            weight="light"
+            isColumn={isCollapse}
+          >
+            {overviewData.borrowCap !== '0' ? (
+              <Value
+                value={overviewData.borrowCap}
+                subValue={!isCollapse ? overviewData.borrowCapUSD : undefined}
+                subSymbol="USD"
+                symbol={currencySymbol}
+                color="white"
+              />
+            ) : (
+              <span className="CurrencyOverview__no-data">—</span>
+            )}
+          </Row>
+        )}
+      </>
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    isCollapse,
+    overviewData.borrowingEnabled,
+    overviewData.depositApy,
+    overviewData.priceInUsd,
+    overviewData.usageAsCollateralEnabled,
+
+    currentLangSlug,
+  ]);
+
+  const RightInformation = useCallback(() => {
+    return (
+      <>
+        {isDeposit ? (
+          <>
             <Row
               className="CurrencyOverview__row"
               title={intl.formatMessage(messages.canBeUsedAsCollateral)}
@@ -168,64 +231,6 @@ export default function CurrencyOverview({
                 <IsolationModeBadge isIsolated={overviewData.isIsolated} color="white" />
               )}
             </Row>
-          </>
-        ) : (
-          <>
-            {!isCollapse && (
-              <Row
-                className="CurrencyOverview__row"
-                title={intl.formatMessage(messages.assetPrice)}
-                color="white"
-                weight="light"
-                isColumn={isCollapse}
-              >
-                <Value
-                  tokenIcon={true}
-                  symbol="USD"
-                  value={overviewData.priceInUsd}
-                  maximumValueDecimals={2}
-                  color="white"
-                />
-              </Row>
-            )}
-          </>
-        )}
-      </>
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    isCollapse,
-    isUserInIsolationMode,
-    overviewData.borrowingEnabled,
-    overviewData.depositApy,
-    overviewData.priceInUsd,
-    overviewData.usageAsCollateralEnabled,
-    overviewData.isIsolated,
-    currentLangSlug,
-  ]);
-
-  const RightInformation = useCallback(() => {
-    return (
-      <>
-        {isDeposit ? (
-          <>
-            {!isCollapse && (
-              <Row
-                className="CurrencyOverview__row"
-                title={intl.formatMessage(messages.assetPrice)}
-                color="white"
-                weight="light"
-                isColumn={isCollapse}
-              >
-                <Value
-                  tokenIcon={true}
-                  symbol="USD"
-                  value={overviewData.priceInUsd}
-                  maximumValueDecimals={2}
-                  color="white"
-                />
-              </Row>
-            )}
 
             <Row
               className="CurrencyOverview__row"
@@ -365,36 +370,19 @@ export default function CurrencyOverview({
             </Row>
           </>
         )}
-
-        {isCollapse && (
-          <Row
-            className="CurrencyOverview__row"
-            title={intl.formatMessage(messages.assetPrice)}
-            color="white"
-            weight="light"
-            isColumn={isCollapse}
-          >
-            <Value
-              tokenIcon={true}
-              symbol="USD"
-              value={overviewData.priceInUsd}
-              maximumValueDecimals={2}
-              color="white"
-            />
-          </Row>
-        )}
       </>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isCollapse,
-    overviewData.priceInUsd,
+    isUserInIsolationMode,
     overviewData.baseLTVasCollateral,
     overviewData.liquidationThreshold,
     overviewData.liquidationBonus,
     overviewData.stableBorrowRateEnabled,
     overviewData.stableRate,
     overviewData.variableRate,
+    overviewData.isIsolated,
     currentLangSlug,
   ]);
 

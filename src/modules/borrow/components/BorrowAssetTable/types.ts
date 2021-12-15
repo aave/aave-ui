@@ -17,7 +17,6 @@ export type BorrowTableItem = {
   sIncentives: ReserveIncentiveResponse[];
   aIncentives: ReserveIncentiveResponse[];
   borrowCap: string;
-  borrowCapUSD: string;
-  isIsolated: boolean;
   borrowableInIsolation: boolean;
+  totalBorrows: string;
 };

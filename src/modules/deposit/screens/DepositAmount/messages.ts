@@ -8,8 +8,6 @@ export default defineMessages({
     'Do not deposit your AAVE tokens if you want to {stake} them in the Safety Module. To stake AAVE,  please continue to the {link}',
   stake: 'stake',
 
-  amountTitle: 'Available to deposit',
-
   noDataTitle: 'Your balance is zero',
   noDataDescription: `Your balance of {currencySymbol} is 0. Transfer {currencySymbol} to your wallet to be able to deposit`,
   noDataLPTokenDescription: `You don't have any {currencySymbol} in your wallet. Transfer {currencySymbol} to your wallet in order to deposit. To get {currencySymbol}, you need to provide liquidity to the correct pool.`,
@@ -27,4 +25,8 @@ export default defineMessages({
   aaveWarning:
     'Depositing your AAVE tokens is not the same as staking them. If you wish to stake your AAVE tokens, please go to the {link}',
   stakingView: 'staking view',
+
+  supplyCapReached: 'Deposit cap is reached',
+  supplyCapReachedDescription:
+    'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.', // TODO: need text
 });

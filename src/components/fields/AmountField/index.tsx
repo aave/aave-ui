@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
@@ -18,7 +18,7 @@ type AmountFieldProps = {
   onChange: (value: string) => void;
   onMaxButtonClick?: () => void;
   error?: string;
-  title?: string;
+  title?: string | ReactNode;
   maxAmount?: number | string;
   className?: string;
   disabled?: boolean;

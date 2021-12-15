@@ -58,12 +58,7 @@ export default function DepositItem({
         subValue={Number(underlyingBalanceUSD)}
         tooltipId={`deposit-${symbol}__${index}`}
       />
-      <TableAprCol
-        value={Number(liquidityRate)}
-        liquidityMiningValues={aIncentives}
-        symbol={symbol}
-        type="deposit"
-      />
+      <TableAprCol value={Number(liquidityRate)} incentives={aIncentives} symbol={symbol} />
 
       <TableCol maxWidth={125}>
         <CustomSwitch

@@ -37,7 +37,7 @@ generates:
       - 'typescript-react-apollo'
   src/libs/caching-server-data-provider/graphql/index.tsx:
     schema:
-      - http://localhost:3000/graphql
+      - https://cache-api-1.aave.com/graphql
     documents:
       - ./src/libs/caching-server-data-provider/graphql/*.graphql
     plugins:

@@ -12,12 +12,11 @@ export default function FaucetItem({
   userId,
   walletBalance,
   underlyingAsset,
-  isIsolated,
 }: FaucetTableItem) {
   const url = `/faucet/${underlyingAsset}-${id}`;
 
   return (
-    <TableItem className="FaucetItem" symbol={symbol} url={url} isIsolated={isIsolated}>
+    <TableItem className="FaucetItem" symbol={symbol} url={url} isIsolated={false}>
       <TableColumn>
         {!userId ? (
           <span>—</span>

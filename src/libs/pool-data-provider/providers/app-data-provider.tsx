@@ -79,7 +79,7 @@ export interface AppDataContextType {
   isUserHasDeposits: boolean;
   user?: FormatUserSummaryAndIncentivesResponse;
   userId: string;
-  refreshIncentives: () => Promise<void>;
+  refreshIncentives?: () => Promise<void>;
   loading: boolean;
   incentivesTxBuilder: IncentivesControllerInterface;
   incentivesTxBuilderV2: IncentivesControllerV2Interface;
