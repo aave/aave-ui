@@ -160,8 +160,6 @@ export default function Dashboard() {
 
       <DashboardTopPanel
         user={user}
-        depositedPositions={depositedPositions}
-        borrowedPositions={borrowedPositions}
         collateralUsagePercent={collateralUsagePercent}
         loanToValue={loanToValue}
       />

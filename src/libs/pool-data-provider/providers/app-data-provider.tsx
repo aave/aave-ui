@@ -249,6 +249,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
   const isUserHasDeposits = user.userReservesData.some(
     (userReserve) => userReserve.scaledATokenBalance !== '0'
   );
+
   return (
     <AppDataContext.Provider
       value={{

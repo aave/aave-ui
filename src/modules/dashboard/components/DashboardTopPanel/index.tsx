@@ -12,9 +12,6 @@ import DepositBalanceSection from './components/DepositBalanceSection';
 import BorrowBalanceSection from './components/BorrowBalanceSection';
 import HealthFactorSection from './components/HealthFactorSection';
 
-import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
-import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
-
 import messages from './messages';
 import staticStyles from './style';
 import { FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
@@ -22,16 +19,12 @@ import { useAppDataContext } from '../../../../libs/pool-data-provider';
 
 interface DashboardTopPanelProps {
   user?: FormatUserSummaryAndIncentivesResponse & { earnedAPY: number; debtAPY: number };
-  depositedPositions: DepositTableItem[];
-  borrowedPositions: BorrowTableItem[];
   collateralUsagePercent: string;
   loanToValue: string;
 }
 
 export default function DashboardTopPanel({
   user,
-  depositedPositions,
-  borrowedPositions,
   collateralUsagePercent,
   loanToValue,
 }: DashboardTopPanelProps) {
