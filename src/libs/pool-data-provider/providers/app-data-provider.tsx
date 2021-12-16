@@ -77,7 +77,7 @@ export interface AppDataContextType {
   walletBalances: { [address: string]: { amount: string; amountUSD: string } };
   refetchWalletData: () => Promise<void>;
   isUserHasDeposits: boolean;
-  user?: FormatUserSummaryAndIncentivesResponse;
+  user?: FormatUserSummaryAndIncentivesResponse & { earnedAPY: number; debtAPY: number };
   userId: string;
   refreshIncentives?: () => Promise<void>;
   loading: boolean;
@@ -191,53 +191,48 @@ export const AppDataProvider: React.FC = ({ children }) => {
     userIncentives: data?.userIncentiveData || [],
   });
 
-  /*
   const proportions = user.userReservesData.reduce(
     (acc, value) => {
-      // TODO: remove once user formatting accepts formatted reserve as input
       const reserve = formattedPoolReserves.find(
         (r) => r.underlyingAsset === value.reserve.underlyingAsset
       );
 
       if (reserve) {
-        acc.positiveProportion = acc.positiveProportion.plus(
-          new BigNumber(reserve.supplyAPR).multipliedBy(value.underlyingBalanceUSD)
-        );
-        acc.positiveSampleSize = acc.positiveSampleSize.plus(value.underlyingBalanceUSD);
-
-        acc.negativeProportion = acc.negativeProportion.plus(
-          new BigNumber(reserve.variableBorrowAPY).multipliedBy(value.variableBorrowsUSD)
-        );
-        acc.negativeSampleSize = acc.negativeSampleSize.plus(value.variableBorrowsUSD);
-
-        acc.negativeProportion = acc.negativeProportion.plus(
-          new BigNumber(value.stableBorrowAPY).multipliedBy(value.stableBorrowsUSD)
-        );
-        acc.negativeSampleSize = acc.negativeSampleSize.plus(value.stableBorrowsUSD);
-
-        if (reserve.aIncentivesData) {
-          reserve.aIncentivesData.forEach((incentive) => {
-            acc.positiveSampleSize = acc.positiveSampleSize.plus(value.underlyingBalanceUSD);
-            acc.positiveProportion = acc.positiveProportion.plus(
-              new BigNumber(incentive.incentiveAPR).multipliedBy(value.underlyingBalanceUSD) // TODO: is this the correct value?
-            );
-          });
+        if (value.underlyingBalanceUSD !== '0') {
+          acc.positiveProportion = acc.positiveProportion.plus(
+            new BigNumber(reserve.supplyAPY).multipliedBy(value.underlyingBalanceUSD)
+          );
+          if (reserve.aIncentivesData) {
+            reserve.aIncentivesData.forEach((incentive) => {
+              acc.positiveProportion = acc.positiveProportion.plus(
+                new BigNumber(incentive.incentiveAPR).multipliedBy(value.underlyingBalanceUSD)
+              );
+            });
+          }
         }
-        if (reserve.vIncentivesData) {
-          reserve.vIncentivesData.forEach((incentive) => {
-            acc.positiveSampleSize = acc.positiveSampleSize.plus(value.variableBorrowsUSD);
-            acc.positiveProportion = acc.positiveProportion.plus(
-              new BigNumber(incentive.incentiveAPR).multipliedBy(value.variableBorrowsUSD)
-            );
-          });
+        if (value.variableBorrowsUSD !== '0') {
+          acc.negativeProportion = acc.negativeProportion.plus(
+            new BigNumber(reserve.variableBorrowAPY).multipliedBy(value.variableBorrowsUSD)
+          );
+          if (reserve.vIncentivesData) {
+            reserve.vIncentivesData.forEach((incentive) => {
+              acc.positiveProportion = acc.positiveProportion.plus(
+                new BigNumber(incentive.incentiveAPR).multipliedBy(value.variableBorrowsUSD)
+              );
+            });
+          }
         }
-        if (reserve.sIncentivesData) {
-          reserve.sIncentivesData.forEach((incentive) => {
-            acc.positiveSampleSize = acc.positiveSampleSize.plus(value.stableBorrowsUSD);
-            acc.positiveProportion = acc.positiveProportion.plus(
-              new BigNumber(incentive.incentiveAPR).multipliedBy(value.stableBorrowsUSD)
-            );
-          });
+        if (value.stableBorrowsUSD !== '0') {
+          acc.negativeProportion = acc.negativeProportion.plus(
+            new BigNumber(value.stableBorrowAPY).multipliedBy(value.stableBorrowsUSD)
+          );
+          if (reserve.sIncentivesData) {
+            reserve.sIncentivesData.forEach((incentive) => {
+              acc.positiveProportion = acc.positiveProportion.plus(
+                new BigNumber(incentive.incentiveAPR).multipliedBy(value.stableBorrowsUSD)
+              );
+            });
+          }
         }
       } else {
         throw new Error('no possible to calculate net apy');
@@ -247,27 +242,33 @@ export const AppDataProvider: React.FC = ({ children }) => {
     },
     {
       positiveProportion: new BigNumber(0),
-      positiveSampleSize: new BigNumber(0),
       negativeProportion: new BigNumber(0),
-      negativeSampleSize: new BigNumber(0),
     }
   );
 
-  // console.log(proportions.positiveProportion.dividedBy(proportions.positiveSampleSize).toString());
- */
   const isUserHasDeposits = user.userReservesData.some(
     (userReserve) => userReserve.scaledATokenBalance !== '0'
   );
   return (
     <AppDataContext.Provider
       value={{
-        walletBalances: aggregatedBalance, // formerly walletData
+        walletBalances: aggregatedBalance,
         reserves: formattedPoolReserves,
-        user,
+        user: {
+          ...user,
+          earnedAPY: proportions.positiveProportion
+            .dividedBy(user.netWorthUSD)
+            .multipliedBy(100)
+            .toNumber(),
+          debtAPY: proportions.negativeProportion
+            .dividedBy(user.netWorthUSD)
+            .multipliedBy(100)
+            .toNumber(),
+        },
         userId: currentAccount,
         isUserHasDeposits,
         refetchWalletData,
-        refreshPoolData, // formerly "refresh"
+        refreshPoolData,
         refreshIncentives,
         loading,
         marketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,

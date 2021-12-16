@@ -21,7 +21,7 @@ import { FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
 
 interface DashboardTopPanelProps {
-  user?: FormatUserSummaryAndIncentivesResponse;
+  user?: FormatUserSummaryAndIncentivesResponse & { earnedAPY: number; debtAPY: number };
   depositedPositions: DepositTableItem[];
   borrowedPositions: BorrowTableItem[];
   collateralUsagePercent: string;
@@ -43,22 +43,6 @@ export default function DashboardTopPanel({
   const [isCollapse, setIsCollapse] = useState(localStorage.getItem(localStorageName) === 'true');
 
   const netWorthUSD = Number(user?.netWorthUSD || 0);
-
-  // EarnedAPY calculation (TODO: need check)
-  const depositedAPYs = depositedPositions.length
-    ? depositedPositions
-        .filter((pos) => +pos.reserve.liquidityRate > 0)
-        .map((pos) => +pos.reserve.liquidityRate)
-    : [];
-  const depositedAPYsSum = depositedAPYs.length ? depositedAPYs.reduce((a, b) => a + b) : 0;
-  const earnedAPY = depositedPositions.length ? (depositedAPYsSum * 100) / depositedAPYs.length : 0;
-
-  // DebtAPY calculation (TODO: need check)
-  const borrowedAPYs = borrowedPositions.length
-    ? borrowedPositions.filter((pos) => +pos.borrowRate > 0).map((pos) => +pos.borrowRate)
-    : [];
-  const borrowedAPYsSum = borrowedAPYs.length ? borrowedAPYs.reduce((a, b) => a + b) : 0;
-  const debtAPY = borrowedPositions.length ? (borrowedAPYsSum * 100) / borrowedAPYs.length : 0;
 
   const collapsed = !user || isCollapse;
 
@@ -90,8 +74,8 @@ export default function DashboardTopPanel({
           })}
         >
           <NetAPYSection
-            earnedAPY={earnedAPY}
-            debtAPY={debtAPY}
+            earnedAPY={user?.earnedAPY || 0}
+            debtAPY={user?.debtAPY || 0}
             netWorth={netWorthUSD}
             isCollapse={collapsed}
           />
