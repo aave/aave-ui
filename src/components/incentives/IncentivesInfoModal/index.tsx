@@ -59,7 +59,11 @@ export default function IncentivesInfoModal({
               <Row title={intl.formatMessage(messages.netAPR)} onWhiteBackground={true}>
                 {incentivesNetAPR !== 'Infinity' ? (
                   <div className="IncentivesInfoModal__valueInner">
-                    <ValuePercent value={incentivesNetAPR} color="dark" onWhiteBackground={true} />
+                    <ValuePercent
+                      value={incentivesNetAPR / 100}
+                      color="dark"
+                      onWhiteBackground={true}
+                    />
                     <p className="IncentivesInfoModal__text-apr">
                       {intl.formatMessage(messages.apr)}
                     </p>

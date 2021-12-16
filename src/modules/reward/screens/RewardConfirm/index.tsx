@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
+import { normalize } from '@aave/math-utils';
 
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import {
@@ -15,7 +16,6 @@ import Value from '../../../../components/basic/Value';
 import Link from '../../../../components/basic/Link';
 
 import messages from './messages';
-import { normalize } from '@aave/math-utils';
 
 export default function RewardConfirm() {
   const intl = useIntl();
@@ -161,6 +161,8 @@ export default function RewardConfirm() {
             tokenIcon={true}
             tooltipId={incentiveData ? incentiveData.rewardTokenSymbol : ''}
             updateCondition={isTxExecuted}
+            maximumSubValueDecimals={2}
+            minimumSubValueDecimals={2}
           />
         </Row>
       ) : (
@@ -184,6 +186,8 @@ export default function RewardConfirm() {
                     tooltipId={incentive[0]}
                     updateCondition={isTxExecuted}
                     key={incentive[0]}
+                    maximumSubValueDecimals={2}
+                    minimumSubValueDecimals={2}
                   />
                 );
               })}
@@ -197,6 +201,8 @@ export default function RewardConfirm() {
               tokenIcon={true}
               withoutSymbol={true}
               color="primary"
+              maximumValueDecimals={2}
+              minimumValueDecimals={2}
             />
           </Row>
         </>

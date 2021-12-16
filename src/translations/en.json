@@ -893,6 +893,7 @@
   "modules.reward.screens.RewardConfirm.tribeWarningFirst": "",
   "modules.reward.screens.RewardConfirm.tribeWarningSecond": "",
   "modules.reward.screens.RewardMain.caption": "",
+  "modules.reward.screens.RewardMain.claim": "",
   "modules.reward.screens.RewardMain.claimAll": "",
   "modules.staking.components.AboutStakingModal.aaveDescription": "",
   "modules.staking.components.AboutStakingModal.aaveStakingRewards": "",

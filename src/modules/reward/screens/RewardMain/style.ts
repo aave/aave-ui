@@ -21,38 +21,57 @@ const staticStyles = css.global`
 
     &__item {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       border-radius: $borderRadius;
       box-shadow: $boxShadow;
-      padding: 4px;
-      margin: 4px;
-      width: calc(50% - 8px);
+      width: 100%;
+      max-width: 400px;
+      height: 60px;
+      padding: 5px 20px;
+      margin-bottom: 10px;
+      font-size: $large;
+      @include respond-to(xl) {
+        font-size: $regular;
+      }
+      @include respond-to(lg) {
+        font-size: $medium;
+      }
+      @include respond-to(md) {
+        font-size: $regular;
+      }
 
       .TokenIcon {
-        margin-bottom: 4px;
         .TokenIcon__image {
-          margin: 0;
+          margin-right: 4px;
         }
       }
 
       .Value {
-        align-items: center;
+        align-items: flex-start;
       }
 
       &--text {
-        display: inline-flex;
-        margin-top: 4px;
+        font-weight: 500;
         font-size: $regular;
         @include respond-to(xl) {
+          font-size: $medium;
+        }
+        @include respond-to(lg) {
+          font-size: $small;
+        }
+        @include respond-to(md) {
           font-size: $medium;
         }
       }
     }
 
-    &__buttonInner {
-      margin-top: 32px;
+    &__itemClaimAll {
+      span {
+        display: inline-block;
+        padding: 4px;
+        transform: rotate(-45deg);
+      }
     }
   }
 `;

@@ -57,7 +57,7 @@ export default function TotalValue({
           )}
         </strong>
 
-        {!(capValue === '0' && sm) && (
+        {!(capValue === '0' && sm) && (borrowingEnabled || color === 'red') && (
           <div className="TotalValue__caps">
             <CapsHelpModal
               capType={color === 'red' ? CapType.borrowCap : CapType.supplyCap}

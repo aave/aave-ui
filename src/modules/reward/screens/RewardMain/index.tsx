@@ -6,11 +6,9 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
-import { TokenIcon } from '../../../../helpers/config/assets-config';
 import Value from '../../../../components/basic/Value';
 import Caption from '../../../../components/basic/Caption';
 import Link from '../../../../components/basic/Link';
-import DefaultButton from '../../../../components/basic/DefaultButton';
 
 import messages from './messages';
 import staticStyles from './style';
@@ -36,6 +34,14 @@ export default function RewardMain() {
       <Caption title={intl.formatMessage(messages.caption)} marginBottom={20} />
 
       <div className="RewardMain__items">
+        <Link
+          to="/rewards/confirm/all"
+          className="ButtonLink RewardMain__item RewardMain__itemClaimAll"
+        >
+          <strong>{intl.formatMessage(messages.claimAll)}</strong>
+          <span />
+        </Link>
+
         {Object.entries(userIncentives).map((incentive) => {
           const rewardTokenSymbol = incentive[1].rewardTokenSymbol;
           const claimableRewards = normalize(
@@ -51,25 +57,25 @@ export default function RewardMain() {
               className="ButtonLink RewardMain__item"
               key={incentive[0]}
             >
-              <TokenIcon tokenSymbol={rewardTokenSymbol} height={30} width={30} />
               <Value
                 value={claimableRewards}
                 subValue={claimableRewardsUSD}
                 subSymbol="USD"
                 compact={true}
+                symbol={rewardTokenSymbol}
+                tokenIcon={true}
                 maximumValueDecimals={2}
                 minimumValueDecimals={2}
+                maximumSubValueDecimals={2}
+                minimumSubValueDecimals={2}
                 tooltipId={incentive[0]}
               />
+              <p className="RewardMain__item--text">
+                {intl.formatMessage(messages.claim, { symbol: rewardTokenSymbol })}
+              </p>
             </Link>
           );
         })}
-      </div>
-
-      <div className="RewardMain__buttonInner">
-        <Link to="/rewards/confirm/all" className="ButtonLink">
-          <DefaultButton title={intl.formatMessage(messages.claimAll)} />
-        </Link>
       </div>
 
       <style jsx={true} global={true}>
@@ -81,8 +87,18 @@ export default function RewardMain() {
             background: ${sm ? currentTheme.whiteElement.hex : currentTheme.whiteItem.hex};
             color: ${currentTheme.textDarkBlue.hex};
             &:hover {
-              color: ${currentTheme.primary.hex};
+              color: ${currentTheme.secondary.hex};
               box-shadow: 0 0 9px 0 ${currentTheme.primary.hex};
+            }
+
+            &--text {
+              color: ${currentTheme.secondary.hex};
+            }
+          }
+          &__itemClaimAll {
+            span {
+              border: solid ${currentTheme.secondary.hex};
+              border-width: 0 2px 2px 0;
             }
           }
         }

@@ -893,6 +893,7 @@
   "modules.reward.screens.RewardConfirm.tribeWarningFirst": "",
   "modules.reward.screens.RewardConfirm.tribeWarningSecond": "",
   "modules.reward.screens.RewardMain.caption": "",
+  "modules.reward.screens.RewardMain.claim": "",
   "modules.reward.screens.RewardMain.claimAll": "",
   "modules.staking.components.AboutStakingModal.aaveDescription": "Le staking AAVE rend le protocole un peu plus sûr en cas d'urgence. En échange de ce risque, vous recevrez du AAVE. Les tokens AAVE représentent une voix dans la gouvernance du protocole. Dans le cas d'un {upTo} vos actifs stakés peuvent être utilisés pour couvrir le déficit.",
   "modules.staking.components.AboutStakingModal.aaveStakingRewards": "Récompenses de Staking AAVE",

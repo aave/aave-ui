@@ -29,12 +29,12 @@ export default function IncentivesButton({ incentives, symbol }: IncentivesButto
   );
   const incentivesAPRSum = isIncentivesInfinity
     ? 'Infinity'
-    : incentives.reduce((aIncentive, bIncentive) => aIncentive + +bIncentive.incentiveAPR * 100, 0);
+    : incentives.reduce((aIncentive, bIncentive) => aIncentive + +bIncentive.incentiveAPR, 0);
 
   const incentivesNetAPR = isIncentivesInfinity
     ? 'Infinity'
     : incentivesAPRSum !== 'Infinity'
-    ? valueToBigNumber(incentivesAPRSum).dividedBy(incentives.length).toNumber()
+    ? valueToBigNumber(incentivesAPRSum).multipliedBy(100).dividedBy(incentives.length).toNumber()
     : 'Infinity';
 
   const incentivesButtonValue = () => {
