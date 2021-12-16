@@ -254,7 +254,6 @@ export const AppDataProvider: React.FC = ({ children }) => {
   );
 
   // console.log(proportions.positiveProportion.dividedBy(proportions.positiveSampleSize).toString());
-  const netBalance = new BigNumber(user.totalLiquidityUSD).minus(user.totalBorrowsUSD).toString();
  */
   const isUserHasDeposits = user.userReservesData.some(
     (userReserve) => userReserve.scaledATokenBalance !== '0'

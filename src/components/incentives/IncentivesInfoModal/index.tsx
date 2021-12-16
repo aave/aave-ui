@@ -32,8 +32,6 @@ export default function IncentivesInfoModal({
   const { currentMarket } = useProtocolDataContext();
   const { currentTheme } = useThemeContext();
 
-  console.log();
-
   return (
     <BasicModal
       isVisible={isVisible}

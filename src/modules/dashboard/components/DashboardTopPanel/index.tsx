@@ -42,7 +42,7 @@ export default function DashboardTopPanel({
   const localStorageName = 'dashboardTopPanel';
   const [isCollapse, setIsCollapse] = useState(localStorage.getItem(localStorageName) === 'true');
 
-  const netWorthUSD = 0; // TODO: need data
+  const netWorthUSD = Number(user?.netWorthUSD || 0);
 
   // EarnedAPY calculation (TODO: need check)
   const depositedAPYs = depositedPositions.length
