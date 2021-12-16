@@ -44,10 +44,10 @@ const staticStyles = css.global`
           @include respond-to(xl) {
             font-size: $regular;
           }
+        }
 
-          .Value {
-            align-items: flex-start;
-          }
+        .Value {
+          align-items: flex-start;
         }
       }
     }

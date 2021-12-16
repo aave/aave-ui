@@ -52,7 +52,7 @@ export default function NetWorth({ isColumn, value }: NetWorthProps) {
         withoutSymbol={true}
         tokenIcon={true}
         compact={isValueCompact}
-        tooltipId="net_worth"
+        tooltipId={+value > 0 ? 'net_worth' : undefined}
         maximumTooltipDecimals={7}
         minimumTooltipDecimals={7}
       />

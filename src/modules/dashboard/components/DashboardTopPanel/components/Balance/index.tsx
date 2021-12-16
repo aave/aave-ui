@@ -51,7 +51,7 @@ export default function Balance({ title, value, isCollapse, type }: BalanceProps
         minimumValueDecimals={!value ? undefined : isValueCompact ? undefined : 0}
         color="white"
         compact={isValueCompact}
-        tooltipId={`${title}_${type}`}
+        tooltipId={+value > 0 ? `${title}_${type}` : undefined}
         maximumTooltipDecimals={7}
         minimumTooltipDecimals={7}
       />

@@ -166,7 +166,7 @@ export default function Value({
           <span>
             {intl.formatNumber(Number(newValue), {
               minimumFractionDigits: minimumTooltipDecimals,
-              maximumFractionDigits: maximumTooltipDecimals || 18,
+              maximumFractionDigits: maximumTooltipDecimals || 7,
             })}{' '}
             {symbol && !withoutSymbol && !!asset && asset.formattedName && (
               <>{asset.formattedName}</>

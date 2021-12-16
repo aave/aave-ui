@@ -12,9 +12,9 @@ const staticStyles = css.global`
     padding: 4px 4px 4px 8px;
     @include respond-to(sm) {
       flex-direction: column;
-      border: unset !important;
-      padding: 0;
-      margin-top: 15px;
+      margin: 15px 10px 0;
+      width: calc(100% - 20px);
+      padding: 10px 10px 4px;
     }
 
     &__title {
@@ -24,7 +24,7 @@ const staticStyles = css.global`
       @include respond-to(sm) {
         font-size: $regular;
         margin-right: 0;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
       }
     }
 
@@ -36,9 +36,7 @@ const staticStyles = css.global`
 
     &__items {
       @include respond-to(sm) {
-        padding: 4px;
-        border-radius: $borderRadius;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
       }
     }
 
@@ -68,10 +66,16 @@ const staticStyles = css.global`
       @include respond-to(sm) {
         margin-left: 0;
       }
+      @include respond-to(xs) {
+        width: 100%;
+      }
     }
     .DefaultButton {
       border: none;
       font-size: $small;
+      @include respond-to(xs) {
+        width: 100%;
+      }
     }
   }
 `;

@@ -76,17 +76,9 @@ export default function IncentivesClaimPanel() {
         {staticStyles}
       </style>
       <style jsx={true} global={true}>{`
-        @import 'src/_mixins/screen-size';
-
         .IncentivesClaimPanel {
           color: ${sm ? currentTheme.textDarkBlue.hex : currentTheme.white.hex};
           border: 1px solid ${currentTheme.lightBlue.hex};
-
-          &__items {
-            @include respond-to(sm) {
-              border: 1px solid ${currentTheme.lightBlue.hex};
-            }
-          }
 
           &__item {
             border-right: 1px solid ${currentTheme.darkBlue.hex};

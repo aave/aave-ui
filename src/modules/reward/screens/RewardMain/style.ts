@@ -51,6 +51,20 @@ const staticStyles = css.global`
         align-items: flex-start;
       }
 
+      &--content {
+        .Value__line {
+          &:first-of-type {
+            display: none;
+          }
+        }
+      }
+
+      &--leftTitle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
       &--text {
         font-weight: 500;
         font-size: $regular;
@@ -66,12 +80,13 @@ const staticStyles = css.global`
       }
     }
 
-    &__itemClaimAll {
-      span {
-        display: inline-block;
-        padding: 4px;
-        transform: rotate(-45deg);
-      }
+    &__arrow {
+      display: inline-block;
+      padding: 4px;
+      transform: rotate(-45deg);
+      position: relative;
+      bottom: 1px;
+      margin-left: 4px;
     }
   }
 `;

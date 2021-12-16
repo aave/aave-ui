@@ -27,6 +27,17 @@ export default function RewardMain() {
     return <Redirect to={`/rewards/confirm/${Object.keys(user.calculatedUserIncentives)[0]}`} />;
   }
 
+  let totalClaimableUSD = 0;
+
+  Object.entries(user.calculatedUserIncentives).forEach((incentive) => {
+    const normalizedRewards = normalize(
+      incentive[1].claimableRewards,
+      incentive[1].rewardTokenDecimals
+    );
+    totalClaimableUSD =
+      totalClaimableUSD + Number(normalizedRewards) * Number(incentive[1].rewardPriceFeed);
+  });
+
   return (
     <div className="RewardMain">
       <Caption title={intl.formatMessage(messages.caption)} marginBottom={20} />
@@ -36,8 +47,20 @@ export default function RewardMain() {
           to="/rewards/confirm/all"
           className="ButtonLink RewardMain__item RewardMain__itemClaimAll"
         >
-          <strong>{intl.formatMessage(messages.claimAll)}</strong>
-          <span />
+          <div className="RewardMain__item--content">
+            <p>{intl.formatMessage(messages.allRewards)}</p>
+            <Value
+              value={1}
+              subValue={totalClaimableUSD}
+              subSymbol="USD"
+              maximumSubValueDecimals={2}
+              minimumSubValueDecimals={2}
+            />
+          </div>
+          <div className="RewardMain__item--leftTitle">
+            <p className="RewardMain__item--text">{intl.formatMessage(messages.claimAll)}</p>
+            <span className="RewardMain__arrow" />
+          </div>
         </Link>
 
         {Object.entries(user.calculatedUserIncentives).map((incentive) => {
@@ -68,9 +91,12 @@ export default function RewardMain() {
                 minimumSubValueDecimals={2}
                 tooltipId={incentive[0]}
               />
-              <p className="RewardMain__item--text">
-                {intl.formatMessage(messages.claim, { symbol: rewardTokenSymbol })}
-              </p>
+              <div className="RewardMain__item--leftTitle">
+                <p className="RewardMain__item--text">
+                  {intl.formatMessage(messages.claim, { symbol: rewardTokenSymbol })}
+                </p>
+                <span className="RewardMain__arrow" />
+              </div>
             </Link>
           );
         })}
@@ -93,11 +119,10 @@ export default function RewardMain() {
               color: ${currentTheme.secondary.hex};
             }
           }
-          &__itemClaimAll {
-            span {
-              border: solid ${currentTheme.secondary.hex};
-              border-width: 0 2px 2px 0;
-            }
+
+          &__arrow {
+            border: solid ${currentTheme.secondary.hex};
+            border-width: 0 2px 2px 0;
           }
         }
       `}</style>
