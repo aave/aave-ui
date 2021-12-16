@@ -87,7 +87,7 @@ export const assetsList: Asset[] = [
   },
   {
     name: 'Cauris Global Fintech Fund 1 DROP',
-    symbol: 'CGF1DRP',
+    symbol: 'CGFF1DRP',
     color: '#0828BE',
     icon: 'https://storage.googleapis.com/tinlake/pool-media/cauris-1/drop.svg',
     aIcon: 'https://storage.googleapis.com/tinlake/pool-media/cauris-1/drop.svg',
