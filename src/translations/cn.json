@@ -113,8 +113,6 @@
   "components.MarketNotSupported.title": "",
   "components.NoDataPanel.connect": "连接",
   "components.NoDataPanel.goBack": "返回",
-  "components.PoolDataProviderWrapper.errorDescription": "未加载初始池数据",
-  "components.PoolDataProviderWrapper.errorTitle": "错误",
   "components.RouteParamsValidationWrapper.error": "交易金额不正确",
   "components.TextWithModal.buttonTitle": "好的，我知道了",
   "components.TxConfirmationView.ActionsWrapper.failed": "失败",

@@ -113,8 +113,6 @@
   "components.MarketNotSupported.title": "Market not supported",
   "components.NoDataPanel.connect": "Connect",
   "components.NoDataPanel.goBack": "Go back",
-  "components.PoolDataProviderWrapper.errorDescription": "Please wait a few seconds or try to reload the page manually.",
-  "components.PoolDataProviderWrapper.errorTitle": "Network connection error",
   "components.RouteParamsValidationWrapper.error": "Transaction amount is incorrect",
   "components.TextWithModal.buttonTitle": "Ok, I got it",
   "components.TxConfirmationView.ActionsWrapper.failed": "Failed",

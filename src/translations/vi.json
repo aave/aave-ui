@@ -113,8 +113,6 @@
   "components.MarketNotSupported.title": "",
   "components.NoDataPanel.connect": "Kết nối",
   "components.NoDataPanel.goBack": "Quay lại",
-  "components.PoolDataProviderWrapper.errorDescription": "Vui lòng đợi vài giây hoặc thử tải lại trang.",
-  "components.PoolDataProviderWrapper.errorTitle": "Lỗi kết nối mạng",
   "components.RouteParamsValidationWrapper.error": "Số tiền giao dịch không chính xác",
   "components.TextWithModal.buttonTitle": "Vâng, tôi hiểu rồi",
   "components.TxConfirmationView.ActionsWrapper.failed": "Không thành công",

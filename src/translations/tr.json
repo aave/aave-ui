@@ -113,8 +113,6 @@
   "components.MarketNotSupported.title": "",
   "components.NoDataPanel.connect": "Bağlan",
   "components.NoDataPanel.goBack": "Geri dön",
-  "components.PoolDataProviderWrapper.errorDescription": "İlk havuz verileri yüklenmedi",
-  "components.PoolDataProviderWrapper.errorTitle": "Hata",
   "components.RouteParamsValidationWrapper.error": "İşlem tutarı yanlış",
   "components.TextWithModal.buttonTitle": "Tamam, anladım.",
   "components.TxConfirmationView.ActionsWrapper.failed": "Başarısız",

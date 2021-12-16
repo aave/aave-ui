@@ -12,7 +12,7 @@ import {
   FormatUserSummaryAndIncentivesResponse,
   nativeToUSD,
   normalize,
-  RawReserveData,
+  UserReserveData,
 } from '@aave/math-utils';
 import { API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import React, { useContext, useState } from 'react';
@@ -166,24 +166,26 @@ export const AppDataProvider: React.FC = ({ children }) => {
     reserveIncentives: data?.reserveIncentiveData || [],
   });
 
-  const formattedUserReserves =
-    rawUserReserves && reserves.length
-      ? rawUserReserves.map((reserve) => ({
-          ...reserve,
-          reserve: reserves.find(
-            (r) => r.underlyingAsset.toLowerCase() === reserve.underlyingAsset.toLowerCase()
-          ) as RawReserveData,
-        }))
-      : [];
+  const userReserves: UserReserveData[] = [];
+  if (rawUserReserves && reserves.length) {
+    rawUserReserves.forEach((rawUserReserve) => {
+      const reserve = reserves.find(
+        (r) => r.underlyingAsset.toLowerCase() === rawUserReserve.underlyingAsset.toLowerCase()
+      );
+      if (reserve) {
+        userReserves.push({
+          ...rawUserReserve,
+          reserve,
+        });
+      }
+    });
+  }
 
-  console.log(formattedPoolReserves);
-  console.log(data?.reserveIncentiveData);
-  console.log(data?.userIncentiveData);
   const user: FormatUserSummaryAndIncentivesResponse = formatUserSummaryAndIncentives({
     currentTimestamp,
     marketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,
     marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
-    userReserves: formattedUserReserves,
+    userReserves: userReserves,
     userEmodeCategoryId,
     reserveIncentives: data?.reserveIncentiveData || [],
     userIncentives: data?.userIncentiveData || [],

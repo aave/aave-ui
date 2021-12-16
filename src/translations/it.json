@@ -113,8 +113,6 @@
   "components.MarketNotSupported.title": "",
   "components.NoDataPanel.connect": "Connetti",
   "components.NoDataPanel.goBack": "Torna indietro",
-  "components.PoolDataProviderWrapper.errorDescription": "Dati del pool iniziale non caricati",
-  "components.PoolDataProviderWrapper.errorTitle": "Errore",
   "components.RouteParamsValidationWrapper.error": "L'importo della transazione non è corretto",
   "components.TextWithModal.buttonTitle": "Ok, ho capito",
   "components.TxConfirmationView.ActionsWrapper.failed": "Fallito",

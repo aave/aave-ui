@@ -113,8 +113,6 @@
   "components.MarketNotSupported.title": "",
   "components.NoDataPanel.connect": "연결",
   "components.NoDataPanel.goBack": "돌아가기",
-  "components.PoolDataProviderWrapper.errorDescription": "몇초만 기다려주시거나 페이지를 수동으로 로드 해주세요",
-  "components.PoolDataProviderWrapper.errorTitle": "네트워크 연결 에러",
   "components.RouteParamsValidationWrapper.error": "거래 금액이 잘못되었습니다",
   "components.TextWithModal.buttonTitle": "예, 알겠습니다",
   "components.TxConfirmationView.ActionsWrapper.failed": "실패",
