@@ -125,11 +125,7 @@ export const usePoolData = () => {
 
   const rpcMode = isRPCActive || chainId !== apolloClientChainId;
 
-  const {
-    error: cachedDataError,
-    loading: cachedDataLoading,
-    data: cachedData,
-  } = useCachedProtocolData(
+  const { loading: cachedDataLoading, data: cachedData } = useCachedProtocolData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     currentAccount,
     rpcMode
@@ -160,7 +156,6 @@ export const usePoolData = () => {
   return {
     loading: cachedDataLoading,
     // TODO: fix caching data
-    data: { ...cachedData, userEmodeCategoryId: 0 },
-    error: cachedDataError,
+    data: cachedData,
   };
 };

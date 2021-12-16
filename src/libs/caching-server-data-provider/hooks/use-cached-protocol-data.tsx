@@ -1,40 +1,21 @@
 import { useEffect } from 'react';
 
 import {
-  BaseCurrencyData,
   C_ProtocolDataUpdateDocument,
   C_ProtocolDataUpdateSubscription,
   C_ProtocolDataUpdateSubscriptionVariables,
   C_UserDataUpdateDocument,
   C_UserDataUpdateSubscription,
   C_UserDataUpdateSubscriptionVariables,
-  ReserveData,
   useC_ProtocolDataQuery,
   useC_UserDataQuery,
-  UserReserveData,
 } from '../graphql';
-
-type PoolData = {
-  reserves: {
-    reservesData: ReserveData[];
-    baseCurrencyData: BaseCurrencyData | undefined;
-  };
-  userReserves: UserReserveData[];
-  userEmodeCategoryId: number;
-  userId?: string;
-};
-
-interface PoolReservesWithCache {
-  loading: boolean;
-  data?: PoolData;
-  error?: string;
-}
 
 export function useCachedProtocolData(
   lendingPoolAddressProvider: string,
   currentAccount?: string,
   skip = false
-): PoolReservesWithCache {
+) {
   const userId = currentAccount?.toLowerCase() || undefined;
   const {
     loading: poolDataLoading,

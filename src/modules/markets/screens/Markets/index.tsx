@@ -15,16 +15,19 @@ import MarketMobileCard from '../../components/MarketMobileCard';
 
 import messages from './messages';
 import staticStyles from './style';
+import Preloader from '../../../../components/basic/Preloader';
 
 export default function Markets() {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const { reserves } = useAppDataContext();
+  const { reserves, loading } = useAppDataContext();
   const [isPriceInUSD, setIsPriceInUSD] = useState(
     localStorage.getItem('marketsIsPriceInUSD') === 'true'
   );
   const [sortName, setSortName] = useState('');
   const [sortDesc, setSortDesc] = useState(false);
+
+  if (loading && !reserves.length) return <Preloader withText />;
   let totalLockedInUsd = valueToBigNumber('0');
   let sortedData = reserves
     .filter((res) => res.isActive && !res.isFrozen)
