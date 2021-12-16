@@ -5,7 +5,6 @@ import { normalize } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
-import { TokenIcon } from '../../../../helpers/config/assets-config';
 import Value from '../../../../components/basic/Value';
 import Caption from '../../../../components/basic/Caption';
 import Link from '../../../../components/basic/Link';
