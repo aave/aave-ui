@@ -29,6 +29,7 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
     reserves,
     marketReferenceCurrencyDecimals,
     marketReferencePriceInUsd,
+    userReserves,
   } = useAppDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const history = useHistory();
@@ -84,7 +85,7 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
   if (eModeEnabled && user) {
     const newSummary = formatUserSummary({
       currentTimestamp,
-      userReserves: user.userReservesData,
+      userReserves: userReserves,
       userEmodeCategoryId,
       marketReferenceCurrencyDecimals,
       marketReferencePriceInUsd,

@@ -88,6 +88,7 @@ export interface AppDataContextType {
   userEmodeCategoryId: number;
   ensName?: string;
   ensAvatar?: string;
+  userReserves: UserReserveData[];
 }
 
 const AppDataContext = React.createContext<AppDataContextType>({} as AppDataContextType);
@@ -186,7 +187,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
     currentTimestamp,
     marketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,
     marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
-    userReserves: userReserves,
+    userReserves,
     userEmodeCategoryId,
     reserveIncentives: data?.reserveIncentiveData || [],
     userIncentives: data?.userIncentiveData || [],
@@ -267,6 +268,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
             .multipliedBy(100)
             .toNumber(),
         },
+        userReserves,
         userId: currentAccount,
         isUserHasDeposits,
         refetchWalletData,

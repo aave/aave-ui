@@ -23,6 +23,7 @@ export function EModeConfirm() {
     userId,
     userEmodeCategoryId,
     user,
+    userReserves,
   } = useAppDataContext();
   const { lendingPool } = useTxBuilderContext();
   const currentTimestamp = useCurrentTimestamp(1);
@@ -32,11 +33,12 @@ export function EModeConfirm() {
 
   const newSummary = formatUserSummary({
     currentTimestamp,
-    userReserves: user ? user.userReservesData : [],
+    userReserves: user ? userReserves : [],
     userEmodeCategoryId: newEMode,
     marketReferenceCurrencyDecimals,
     marketReferencePriceInUsd,
   });
+
   const oldHealthFactor = user ? user.healthFactor : '0';
   const newHealthFactor = newSummary.healthFactor;
 
