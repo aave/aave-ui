@@ -79,6 +79,20 @@ export const assetsList: Asset[] = [
     aIcon: 'https://storage.googleapis.com/tinlake/pool-media/branch-3/drop.png',
   },
   {
+    name: 'databased.FINANCE 1 DROP',
+    symbol: 'DF1DRP',
+    color: '#0828BE',
+    icon: 'https://storage.googleapis.com/tinlake/pool-media/databased-finance/drop.svg',
+    aIcon: 'https://storage.googleapis.com/tinlake/pool-media/databased-finance/drop.svg',
+  },
+  {
+    name: 'Cauris Global Fintech Fund 1 DROP',
+    symbol: 'CGF1DRP',
+    color: '#0828BE',
+    icon: 'https://storage.googleapis.com/tinlake/pool-media/cauris-1/drop.svg',
+    aIcon: 'https://storage.googleapis.com/tinlake/pool-media/cauris-1/drop.svg',
+  },
+  {
     name: 'wCFG',
     symbol: 'wCFG',
     color: '#f7b14a',
