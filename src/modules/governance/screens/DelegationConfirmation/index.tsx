@@ -6,7 +6,7 @@ import { ethers } from 'ethers';
 import { canBeEnsAddress } from '@aave/aave-ui-kit';
 
 import { useGovernanceDataContext } from '../../../../libs/governance-provider';
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import GovernanceWrapper from '../../components/GovernanceWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import Row from '../../../../components/basic/Row';
@@ -27,7 +27,7 @@ export default function DelegationConfirmation() {
   const intl = useIntl();
   const location = useLocation();
 
-  const { userId } = useStaticPoolDataContext();
+  const { userId } = useAppDataContext();
   const { powerDelegation } = useGovernanceDataContext();
 
   const query = queryString.parse(location.search) as QueryParams;

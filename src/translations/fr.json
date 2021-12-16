@@ -113,8 +113,6 @@
   "components.MarketNotSupported.title": "",
   "components.NoDataPanel.connect": "Connexion",
   "components.NoDataPanel.goBack": "Revenir en arrière",
-  "components.PoolDataProviderWrapper.errorDescription": "Données initiales sur la réserve non chargées",
-  "components.PoolDataProviderWrapper.errorTitle": "Erreur",
   "components.RouteParamsValidationWrapper.error": "Le montant de la transaction est incorrect",
   "components.TextWithModal.buttonTitle": "D'accord, j'ai compris",
   "components.TxConfirmationView.ActionsWrapper.failed": "Échec",

@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { ETH_DECIMALS, normalize, valueToBigNumber } from '@aave/protocol-js';
 import queryString from 'query-string';
 
-import { unPrefixSymbol, useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { unPrefixSymbol, useAppDataContext } from '../../../../libs/pool-data-provider';
 import {
   BorrowRateMode,
   UserHistoryQuery,
@@ -27,7 +27,7 @@ export default function History() {
   const location = useLocation();
   const history = useHistory();
   const { currentMarketData, networkConfig } = useProtocolDataContext();
-  const { marketReferencePriceInUsd, userId, rawReserves } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, userId, reserves } = useAppDataContext();
   const query = queryString.parse(location.search);
   const page = query.page ? Number(query.page) : 0;
 
@@ -74,8 +74,8 @@ export default function History() {
           normalize(valueToBigNumber(amount), decimals);
         const ethPrice = (symbol: string) =>
           normalize(
-            rawReserves.find((reserve) => reserve.symbol === symbol)
-              ?.priceInMarketReferenceCurrency || '0',
+            reserves.find((reserve) => reserve.symbol === symbol)?.priceInMarketReferenceCurrency ||
+              '0',
             ETH_DECIMALS
           );
 

@@ -1,10 +1,10 @@
-import { ComputedUserReserve } from '@aave/math-utils';
+import { ComputedUserReserve, FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
 import {
   calculateHealthFactorFromBalancesBigUnits,
   valueToBigNumber,
   BigNumberValue,
 } from '@aave/protocol-js';
-import { ComputedReserveData, UserSummary } from '../../libs/pool-data-provider';
+import { ComputedReserveData } from '../../libs/pool-data-provider';
 
 export function calculateHFAfterSwap(
   fromAmount: BigNumberValue | undefined,
@@ -13,7 +13,7 @@ export function calculateHFAfterSwap(
   toAmount: BigNumberValue | undefined,
   toAssetData: ComputedReserveData | undefined,
   toAssetUserData: ComputedUserReserve | undefined,
-  user: UserSummary,
+  user: FormatUserSummaryAndIncentivesResponse,
   maxSlippage: BigNumberValue
 ) {
   const hfEffectOfFromAmount =

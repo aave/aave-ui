@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { BigNumber, valueToBigNumber } from '@aave/protocol-js';
-import { ComputedUserReserve } from '@aave/math-utils';
+import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
+import { ComputedUserReserve, FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { ComputedReserveData, UserSummary } from '../../../../libs/pool-data-provider';
+import { ComputedReserveData } from '../../../../libs/pool-data-provider';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 import { toggleUseAsCollateral } from '../../../../helpers/toggle-use-as-collateral';
 import Row from '../../../../components/basic/Row';
@@ -31,7 +31,7 @@ import messages from './messages';
 import staticStyles from './style';
 
 interface UserInformationProps {
-  user?: UserSummary;
+  user?: FormatUserSummaryAndIncentivesResponse;
   poolReserve: ComputedReserveData;
   userReserve?: ComputedUserReserve;
   symbol: string;

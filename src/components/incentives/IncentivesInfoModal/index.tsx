@@ -2,7 +2,6 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { BasicModal, useThemeContext } from '@aave/aave-ui-kit';
 
-import { ReserveIncentive } from '../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 import Caption from '../../basic/Caption';
@@ -12,11 +11,12 @@ import ValuePercent from '../../basic/ValuePercent';
 
 import messages from './messages';
 import staticStyles from './style';
+import { ReserveIncentiveResponse } from '../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 interface IncentivesInfoModalProps {
   isVisible: boolean;
   setVisible: (value: boolean) => void;
-  incentives: ReserveIncentive[];
+  incentives: ReserveIncentiveResponse[];
   incentivesNetAPR: 'Infinity' | number;
   symbol: string;
 }
@@ -31,8 +31,6 @@ export default function IncentivesInfoModal({
   const intl = useIntl();
   const { currentMarket } = useProtocolDataContext();
   const { currentTheme } = useThemeContext();
-
-  console.log();
 
   return (
     <BasicModal

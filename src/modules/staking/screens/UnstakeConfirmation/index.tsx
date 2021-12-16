@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js';
 import queryString from 'query-string';
 
 import { useStakeDataContext } from '../../../../libs/pool-data-provider/hooks/use-stake-data-context';
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import Row from '../../../../components/basic/Row';
 import Value from '../../../../components/basic/Value';
 
@@ -15,7 +15,7 @@ import StakeTxConfirmationView from '../../components/StakeTxConfirmationView';
 export default function UnstakeConfirmation() {
   const intl = useIntl();
   const location = useLocation();
-  const { userId } = useStaticPoolDataContext();
+  const { userId } = useAppDataContext();
   const { selectedStakeData, selectedStake, stakingService, cooldownStep } = useStakeDataContext();
 
   const query = queryString.parse(location.search);

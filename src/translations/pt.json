@@ -113,8 +113,6 @@
   "components.MarketNotSupported.title": "",
   "components.NoDataPanel.connect": "Conectar",
   "components.NoDataPanel.goBack": "Regressar",
-  "components.PoolDataProviderWrapper.errorDescription": "Por favor aguarde alguns segundos ou tente carregar novamente a página manualmente.",
-  "components.PoolDataProviderWrapper.errorTitle": "Erro de conexão de rede",
   "components.RouteParamsValidationWrapper.error": "O montante da transação está incorreto",
   "components.TextWithModal.buttonTitle": "Ok, já percebi",
   "components.TxConfirmationView.ActionsWrapper.failed": "Falhou",

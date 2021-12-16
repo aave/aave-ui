@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { ReserveIncentive } from '../../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import TableCol from '../TableCol';
 import IncentivesCard from '../../../../../components/incentives/IncentivesCard';
 
 import staticStyles from './style';
+import { ReserveIncentiveResponse } from '../../../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 interface TableAprColProps {
   value: number;
-  incentives: ReserveIncentive[];
+  incentives: ReserveIncentiveResponse[];
   symbol: string;
 }
 

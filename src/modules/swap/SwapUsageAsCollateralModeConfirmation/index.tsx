@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../libs/tx-provider';
 import SwapConfirmationWrapper from '../../../components/wrappers/SwapConfirmationWrapper';
 import PoolTxConfirmationView from '../../../components/PoolTxConfirmationView';
@@ -18,6 +18,7 @@ import routeParamValidationHOC, {
 import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
+import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 
 function SwapUsageAsCollateralModeConfirmation({
   currencySymbol,
@@ -27,7 +28,8 @@ function SwapUsageAsCollateralModeConfirmation({
   location,
 }: ValidationWrapperComponentProps) {
   const { lendingPool } = useTxBuilderContext();
-  const { WrappedBaseNetworkAssetAddress, networkConfig } = useStaticPoolDataContext();
+  const { userId } = useAppDataContext();
+  const { networkConfig } = useProtocolDataContext();
   const [isTxExecuted, setIsTxExecuted] = useState(false);
   const { lg, md } = useThemeContext();
   const intl = useIntl();
@@ -51,10 +53,12 @@ function SwapUsageAsCollateralModeConfirmation({
 
   const handleGetTransactions = async () =>
     await lendingPool.setUsageAsCollateral({
-      user: user.id,
+      user: userId,
       reserve:
         poolReserve.symbol === networkConfig.baseAsset
-          ? WrappedBaseNetworkAssetAddress
+          ? networkConfig.baseAssetWrappedAddress
+            ? networkConfig.baseAssetWrappedAddress
+            : ''
           : poolReserve.underlyingAsset,
       usageAsCollateral: query.asCollateral === 'true',
     });

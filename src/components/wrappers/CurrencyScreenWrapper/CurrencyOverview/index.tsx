@@ -6,7 +6,7 @@ import { valueToBigNumber } from '@aave/protocol-js';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
 
 import { useLanguageContext } from '../../../../libs/language-provider';
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import Row from '../../../basic/Row';
 import ValuePercent from '../../../basic/ValuePercent';
 import Value from '../../../basic/Value';
@@ -53,7 +53,7 @@ export default function CurrencyOverview({
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
   const { currentLangSlug } = useLanguageContext();
-  const { marketReferencePriceInUsd, userEmodeCategoryId } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, userEmodeCategoryId } = useAppDataContext();
   const asset = getAssetInfo(currencySymbol);
 
   const userIsInEMode = userEmodeCategoryId !== 0;

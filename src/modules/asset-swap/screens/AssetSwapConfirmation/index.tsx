@@ -4,10 +4,7 @@ import { useIntl } from 'react-intl';
 import { valueToBigNumber } from '@aave/protocol-js';
 import queryString from 'query-string';
 
-import {
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import Row from '../../../../components/basic/Row';
 import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationView';
@@ -22,6 +19,7 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import { ChainId } from '@aave/contract-helpers';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
 interface QueryParams {
   fromAsset?: string;
@@ -42,8 +40,8 @@ interface QueryParams {
 export default function AssetSwapConfirmation() {
   const intl = useIntl();
   const location = useLocation();
-  const { WrappedBaseNetworkAssetAddress, networkConfig, chainId } = useStaticPoolDataContext();
-  const { user, reserves } = useDynamicPoolDataContext();
+  const { networkConfig, chainId } = useProtocolDataContext();
+  const { user, reserves, userId } = useAppDataContext();
   const { lendingPool } = useTxBuilderContext();
   const query = queryString.parse(location.search) as QueryParams;
 
@@ -73,7 +71,7 @@ export default function AssetSwapConfirmation() {
     reserveIn,
     reserveOut,
   } = useSwap({
-    userId: user?.id,
+    userId: userId,
     swapIn: {
       address: fromAsset as string,
       amount: fromAmountQuery.toString(),
@@ -142,22 +140,21 @@ export default function AssetSwapConfirmation() {
       srcDecimals: reserveIn.decimals,
       destToken: reserveOut.address,
       destDecimals: reserveOut.decimals,
-      user: user?.id,
+      user: userId,
       route: priceRoute,
       chainId: underlyingChainId,
     });
+    const wrappedBaseAsset = networkConfig.baseAssetWrappedAddress
+      ? networkConfig.baseAssetWrappedAddress
+      : '';
     return lendingPool.swapCollateral({
-      fromAsset:
-        fromPoolReserve.symbol === networkConfig.baseAsset
-          ? WrappedBaseNetworkAssetAddress
-          : fromAsset,
-      toAsset:
-        toPoolReserve.symbol === networkConfig.baseAsset ? WrappedBaseNetworkAssetAddress : toAsset,
+      fromAsset: fromPoolReserve.symbol === networkConfig.baseAsset ? wrappedBaseAsset : fromAsset,
+      toAsset: toPoolReserve.symbol === networkConfig.baseAsset ? wrappedBaseAsset : toAsset,
       swapAll,
       fromAToken: fromPoolReserve.aTokenAddress,
       fromAmount: inputAmount.toString(),
       minToAmount: toAmountQuery.toString(),
-      user: user.id,
+      user: userId,
       flash:
         user.healthFactor !== '-1' &&
         valueToBigNumber(user.healthFactor).minus(hfEffectOfFromAmount).lt(1.01),

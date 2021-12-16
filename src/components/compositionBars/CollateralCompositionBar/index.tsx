@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
 
-import { useDynamicPoolDataContext } from '../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../libs/pool-data-provider';
 import Row from '../../basic/Row';
 import CompositionBar from '../CompositionBar';
 import { getAssetInfo, getAssetColor } from '../../../helpers/config/assets-config';
@@ -20,7 +20,7 @@ export default function CollateralCompositionBar({
   className,
   isColumn,
 }: CollateralCompositionBarProps) {
-  const { user, reserves } = useDynamicPoolDataContext();
+  const { user, reserves } = useAppDataContext();
   const intl = useIntl();
   if (!user) {
     return null;

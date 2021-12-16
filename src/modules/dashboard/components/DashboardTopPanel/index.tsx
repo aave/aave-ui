@@ -3,7 +3,6 @@ import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { UserSummary } from '../../../../libs/pool-data-provider';
 import toggleLocalStorageClick from '../../../../helpers/toggle-local-storage-click';
 import TopPanelWrapper from '../../../../components/wrappers/TopPanelWrapper';
 import GradientLine from '../../../../components/basic/GradientLine';
@@ -18,9 +17,11 @@ import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable
 
 import messages from './messages';
 import staticStyles from './style';
+import { FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 
 interface DashboardTopPanelProps {
-  user?: UserSummary;
+  user?: FormatUserSummaryAndIncentivesResponse;
   depositedPositions: DepositTableItem[];
   borrowedPositions: BorrowTableItem[];
   collateralUsagePercent: string;
@@ -36,11 +37,12 @@ export default function DashboardTopPanel({
 }: DashboardTopPanelProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
+  const { userId } = useAppDataContext();
 
   const localStorageName = 'dashboardTopPanel';
   const [isCollapse, setIsCollapse] = useState(localStorage.getItem(localStorageName) === 'true');
 
-  const netWorthUSD = 0; // TODO: need data
+  const netWorthUSD = Number(user?.netWorthUSD || 0);
 
   // EarnedAPY calculation (TODO: need check)
   const depositedAPYs = depositedPositions.length
@@ -106,7 +108,7 @@ export default function DashboardTopPanel({
             <BorrowBalanceSection
               isCollapse={collapsed}
               balance={user && user.totalBorrowsUSD !== '0' ? user.totalBorrowsUSD : 0}
-              userId={user?.id}
+              userId={userId}
             />
             <HealthFactorSection
               isCollapse={collapsed}

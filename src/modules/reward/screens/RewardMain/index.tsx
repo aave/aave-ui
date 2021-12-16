@@ -4,8 +4,7 @@ import { useIntl } from 'react-intl';
 import { normalize } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
-import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import Value from '../../../../components/basic/Value';
 import Caption from '../../../../components/basic/Caption';
 import Link from '../../../../components/basic/Link';
@@ -16,17 +15,16 @@ import staticStyles from './style';
 export default function RewardMain() {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
-  const { user } = useDynamicPoolDataContext();
-  const { userIncentives } = useIncentivesDataContext();
+  const { user } = useAppDataContext();
 
   if (!user) {
     return <Redirect to="/dashboard" />;
   }
-  if (Object.keys(userIncentives).length === 0) {
+  if (Object.keys(user.calculatedUserIncentives).length === 0) {
     return <Redirect to="/dashboard" />;
   }
-  if (Object.keys(userIncentives).length === 1) {
-    return <Redirect to={`/rewards/confirm/${Object.keys(userIncentives)[0]}`} />;
+  if (Object.keys(user.calculatedUserIncentives).length === 1) {
+    return <Redirect to={`/rewards/confirm/${Object.keys(user.calculatedUserIncentives)[0]}`} />;
   }
 
   return (
@@ -42,7 +40,7 @@ export default function RewardMain() {
           <span />
         </Link>
 
-        {Object.entries(userIncentives).map((incentive) => {
+        {Object.entries(user.calculatedUserIncentives).map((incentive) => {
           const rewardTokenSymbol = incentive[1].rewardTokenSymbol;
           const claimableRewards = normalize(
             incentive[1].claimableRewards,

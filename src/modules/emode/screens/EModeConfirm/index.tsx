@@ -3,11 +3,7 @@ import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router';
 import { Pool } from '@aave/contract-helpers';
 import { formatUserSummary } from '@aave/math-utils';
-
-import {
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import { useCurrentTimestamp } from '../../../../libs/pool-data-provider/hooks/use-current-timestamp';
 import { getEmodeMessage } from '../../../../helpers/e-mode/getEmodeMessage';
@@ -24,10 +20,10 @@ export function EModeConfirm() {
   const {
     marketReferencePriceInUsd,
     marketReferenceCurrencyDecimals,
-    rawUserReserves,
+    userId,
     userEmodeCategoryId,
-  } = useStaticPoolDataContext();
-  const { user } = useDynamicPoolDataContext();
+    user,
+  } = useAppDataContext();
   const { lendingPool } = useTxBuilderContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const location = useLocation();
@@ -36,10 +32,10 @@ export function EModeConfirm() {
 
   const newSummary = formatUserSummary({
     currentTimestamp,
-    marketReferencePriceInUsd,
-    marketReferenceCurrencyDecimals,
-    rawUserReserves: rawUserReserves ? rawUserReserves : [],
+    userReserves: user ? user.userReservesData : [],
     userEmodeCategoryId: newEMode,
+    marketReferenceCurrencyDecimals,
+    marketReferencePriceInUsd,
   });
   const oldHealthFactor = user ? user.healthFactor : '0';
   const newHealthFactor = newSummary.healthFactor;
@@ -66,12 +62,12 @@ export function EModeConfirm() {
     const newPool: Pool = lendingPool as Pool;
     if (eModeEnabled) {
       return newPool.setUserEMode({
-        user: user ? user.id : '',
+        user: userId,
         categoryId: 0,
       });
     } else {
       return newPool.setUserEMode({
-        user: user ? user.id : '',
+        user: userId,
         categoryId: newEMode,
       });
     }

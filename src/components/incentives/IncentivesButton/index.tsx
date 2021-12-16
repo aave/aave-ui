@@ -4,16 +4,16 @@ import classNames from 'classnames';
 import { valueToBigNumber } from '@aave/math-utils';
 import { gradient, TokenIcon, useThemeContext } from '@aave/aave-ui-kit';
 
-import { ReserveIncentive } from '../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import { CompactNumber } from '../../basic/CompactNumber';
 import TribeRewardHelpModal from '../../HelpModal/TribeRewardHelpModal';
 import IncentivesInfoModal from '../IncentivesInfoModal';
 
 import staticStyles from './style';
+import { ReserveIncentiveResponse } from '../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 interface IncentivesButtonProps {
   symbol: string;
-  incentives?: ReserveIncentive[];
+  incentives?: ReserveIncentiveResponse[];
 }
 
 export default function IncentivesButton({ incentives, symbol }: IncentivesButtonProps) {
@@ -34,7 +34,7 @@ export default function IncentivesButton({ incentives, symbol }: IncentivesButto
   const incentivesNetAPR = isIncentivesInfinity
     ? 'Infinity'
     : incentivesAPRSum !== 'Infinity'
-    ? valueToBigNumber(incentivesAPRSum).multipliedBy(100).dividedBy(incentives.length).toNumber()
+    ? valueToBigNumber(incentivesAPRSum).multipliedBy(100).toNumber()
     : 'Infinity';
 
   const incentivesButtonValue = () => {

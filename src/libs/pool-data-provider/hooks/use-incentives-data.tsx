@@ -16,11 +16,27 @@ import {
 import { useUserWalletDataContext } from '../../web3-data-provider';
 import { useConnectionStatusContext } from '../../connection-status-provider';
 import { useApolloConfigContext } from '../../apollo-config';
+import { BigNumber } from '@aave/protocol-js';
 
 // interval in which the rpc data is refreshed
 const POOLING_INTERVAL = 30 * 1000;
 // decreased interval in case there was a network error for faster recovery
 const RECOVER_INTERVAL = 10 * 1000;
+
+export interface ReserveIncentiveResponse {
+  incentiveAPR: string;
+  rewardTokenAddress: string;
+  rewardTokenSymbol: string;
+}
+
+export interface UserIncentiveResponse {
+  incentiveControllerAddress: string;
+  rewardTokenSymbol: string;
+  rewardPriceFeed: string;
+  rewardTokenDecimals: number;
+  claimableRewards: BigNumber;
+  assets: string[];
+}
 
 export interface IncentiveDataResponse {
   loading: boolean;
@@ -73,12 +89,12 @@ export function useRPCIncentivesData(
   // Fetch and format reserve incentive data from UiIncentiveDataProvider contract
   const fetchReserveIncentiveData = async (
     lendingPoolAddressProvider: string,
-    incentiveDataProviderAddress: string
+    uiIncentiveDataProviderAddress: string
   ) => {
     const provider = getProvider(chainId);
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
       provider,
-      uiIncentiveDataProviderAddress: incentiveDataProviderAddress,
+      uiIncentiveDataProviderAddress,
     });
 
     try {
@@ -99,11 +115,11 @@ export function useRPCIncentivesData(
   const fetchUserIncentiveData = async (
     currentAccount: string,
     lendingPoolAddressProvider: string,
-    incentiveDataProviderAddress: string
+    uiIncentiveDataProviderAddress: string
   ) => {
     const provider = getProvider(chainId);
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
-      uiIncentiveDataProviderAddress: incentiveDataProviderAddress,
+      uiIncentiveDataProviderAddress,
       provider,
     });
 
@@ -154,7 +170,7 @@ export function useRPCIncentivesData(
   };
 }
 
-export const useIncentiveData = () => {
+export const useIncentiveData = (skip: boolean) => {
   const { currentAccount } = useUserWalletDataContext();
   const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { chainId, currentMarketData } = useProtocolDataContext();

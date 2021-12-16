@@ -1,17 +1,17 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { ReserveIncentive } from '../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import ValuePercent from '../../basic/ValuePercent';
 import NoData from '../../basic/NoData';
 import IncentivesButton from '../IncentivesButton';
 
 import staticStyles from './style';
+import { ReserveIncentiveResponse } from '../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 interface IncentivesCardProps {
   symbol: string;
   value: string | number;
-  incentives?: ReserveIncentive[];
+  incentives?: ReserveIncentiveResponse[];
   className?: string;
   mobilePosition?: 'left' | 'right';
 }

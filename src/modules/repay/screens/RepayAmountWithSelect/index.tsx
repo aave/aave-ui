@@ -4,7 +4,7 @@ import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
 import queryString from 'query-string';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
-import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
@@ -30,7 +30,7 @@ export function RepayAmountWithSelect({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { md } = useThemeContext();
-  const { reserves } = useDynamicPoolDataContext();
+  const { reserves } = useAppDataContext();
   const { currentTheme } = useThemeContext();
   const {
     loading,

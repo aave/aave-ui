@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
-import { useStaticPoolDataContext } from '../../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../../libs/pool-data-provider';
 import NoDataPanel from '../../../../../components/NoDataPanel';
 import GovernanceTxConfirmationView from '../../GovernanceTxConfirmationView';
 import { useProposalDataContext } from '../../../screens/Proposal';
@@ -30,7 +30,7 @@ export default function VoteConfirmationWrapper({
   children,
 }: TxConfirmationWrapperProps) {
   const intl = useIntl();
-  const { userId } = useStaticPoolDataContext();
+  const { userId } = useAppDataContext();
   const { vote } = useParams<ProposalVoteParams>();
   const { governanceService } = useGovernanceDataContext();
   const { forceUpdateVoteData, proposalId, proposalHash } = useProposalDataContext();

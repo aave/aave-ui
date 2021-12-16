@@ -4,10 +4,7 @@ import { useIntl } from 'react-intl';
 import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/protocol-js';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
-import {
-  useStaticPoolDataContext,
-  useDynamicPoolDataContext,
-} from '../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../libs/pool-data-provider';
 import ValuePercent from '../ValuePercent';
 
 import messages from './messages';
@@ -24,8 +21,7 @@ interface RiskBarProps {
 export default function RiskBar({ value, onChange, maxAmount, currencySymbol }: RiskBarProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const { marketReferencePriceInUsd } = useStaticPoolDataContext();
-  const { reserves, user } = useDynamicPoolDataContext();
+  const { marketReferencePriceInUsd, reserves, user } = useAppDataContext();
 
   if (!user) {
     return null;

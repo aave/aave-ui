@@ -113,8 +113,6 @@
   "components.MarketNotSupported.title": "",
   "components.NoDataPanel.connect": "接続する",
   "components.NoDataPanel.goBack": "戻る",
-  "components.PoolDataProviderWrapper.errorDescription": "初期プールデータがロードされていません",
-  "components.PoolDataProviderWrapper.errorTitle": "エラー",
   "components.RouteParamsValidationWrapper.error": "取引量が正しくありません",
   "components.TextWithModal.buttonTitle": "はい、わかりました。",
   "components.TxConfirmationView.ActionsWrapper.failed": "失敗しました",

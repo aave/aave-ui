@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { valueToBigNumber, GasType, normalize } from '@aave/protocol-js';
 
-import { useStaticPoolDataContext } from '../../libs/pool-data-provider';
+import { useAppDataContext } from '../../libs/pool-data-provider';
 import EditorModal, { GasEstimations, Gas, GasKeys } from './EditorModal';
 import Summary from './Summary';
 
@@ -26,7 +26,7 @@ export default function TxEstimation({
   step,
   editDisabled,
 }: TxEstimationProps) {
-  const { marketReferencePriceInUsd } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd } = useAppDataContext();
 
   const [visible, setVisible] = useState(false);
 

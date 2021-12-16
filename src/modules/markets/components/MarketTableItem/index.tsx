@@ -1,7 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-
-import { ReserveIncentive } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import TableItemWrapper from '../../../../components/BasicTable/TableItemWrapper';
 import TableColumn from '../../../../components/BasicTable/TableColumn';
 import Value from '../../../../components/basic/Value';
@@ -14,6 +12,7 @@ import { CapType } from '../../../../components/caps/helper';
 import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import staticStyles from './style';
+import { ReserveIncentiveResponse } from '../../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 export interface MarketTableItemProps {
   id: string;
@@ -24,9 +23,9 @@ export interface MarketTableItemProps {
   totalBorrows: number;
   totalBorrowsInUSD: number;
   depositAPY: number;
-  aIncentives?: ReserveIncentive[];
-  vIncentives?: ReserveIncentive[];
-  sIncentives?: ReserveIncentive[];
+  aIncentives?: ReserveIncentiveResponse[];
+  vIncentives?: ReserveIncentiveResponse[];
+  sIncentives?: ReserveIncentiveResponse[];
   stableBorrowRate: number;
   variableBorrowRate: number;
   borrowingEnabled?: boolean;

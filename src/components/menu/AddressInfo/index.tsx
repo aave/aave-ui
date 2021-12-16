@@ -14,7 +14,7 @@ import {
 import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 import { useMenuContext } from '../../../libs/menu';
 import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
-import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../libs/pool-data-provider';
 import Link from '../../basic/Link';
 import ConnectButton from '../../ConnectButton';
 
@@ -34,7 +34,7 @@ export default function AddressInfo() {
     currentProviderName,
     availableAccounts,
   } = useUserWalletDataContext();
-  const { ensName, ensAvatar } = useStaticPoolDataContext();
+  const { ensName, ensAvatar } = useAppDataContext();
   const ensNameAbbreviated = ensName
     ? ensName.length > 18
       ? textCenterEllipsis(ensName, 12, 3)

@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
 import { useStakeDataContext } from '../../../../libs/pool-data-provider/hooks/use-stake-data-context';
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import StakeTxConfirmationView from '../../components/StakeTxConfirmationView';
 
 import messages from './messages';
@@ -11,7 +11,7 @@ import messages from './messages';
 export default function ActivateCooldownConfirmation() {
   const intl = useIntl();
   const { selectedStake, selectedStakeData, stakingService } = useStakeDataContext();
-  const { userId } = useStaticPoolDataContext();
+  const { userId } = useAppDataContext();
 
   if (!userId) {
     return null;

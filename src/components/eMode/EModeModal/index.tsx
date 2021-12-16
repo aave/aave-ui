@@ -3,10 +3,7 @@ import { useHistory } from 'react-router';
 import { formatUserSummary } from '@aave/math-utils';
 import { useThemeContext, BasicModal, rgba } from '@aave/aave-ui-kit';
 
-import {
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../libs/pool-data-provider';
 import { useCurrentTimestamp } from '../../../libs/pool-data-provider/hooks/use-current-timestamp';
 import { getEmodeMessage } from '../../../helpers/e-mode/getEmodeMessage';
 import Caption from '../../basic/Caption';
@@ -28,11 +25,11 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
   const {
     userEmodeCategoryId,
-    rawUserReserves,
+    user,
+    reserves,
     marketReferenceCurrencyDecimals,
     marketReferencePriceInUsd,
-  } = useStaticPoolDataContext();
-  const { reserves, user } = useDynamicPoolDataContext();
+  } = useAppDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
   const history = useHistory();
 
@@ -84,13 +81,13 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
     }
   });
 
-  if (eModeEnabled && rawUserReserves) {
+  if (eModeEnabled && user) {
     const newSummary = formatUserSummary({
       currentTimestamp,
-      marketReferencePriceInUsd,
+      userReserves: user.userReservesData,
+      userEmodeCategoryId,
       marketReferenceCurrencyDecimals,
-      rawUserReserves,
-      userEmodeCategoryId: 0,
+      marketReferencePriceInUsd,
     });
     if (Number(newSummary.healthFactor) < 1.01 && newSummary.healthFactor !== '-1') {
       disableError = intl.formatMessage(messages.eModeDisabledLiquidation);

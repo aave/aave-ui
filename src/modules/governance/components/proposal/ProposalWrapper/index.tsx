@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useVotingPowerLoader } from '../../../../../libs/governance-provider/hooks/use-voting-power-rpc';
-import { useStaticPoolDataContext } from '../../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../../libs/pool-data-provider';
 import { getLink } from '../../../../../libs/governance-provider/helper';
 import ScreenWrapper from '../../../../../components/wrappers/ScreenWrapper';
 import Link from '../../../../../components/basic/Link';
@@ -39,7 +39,7 @@ export default function ProposalWrapper({
 }: ProposalWrapperProps) {
   const intl = useIntl();
   const { currentTheme, sm, isCurrentThemeDark } = useThemeContext();
-  const { userId } = useStaticPoolDataContext();
+  const { userId } = useAppDataContext();
   const { governanceService } = useGovernanceDataContext();
   const location = useLocation();
 

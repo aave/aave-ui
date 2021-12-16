@@ -11,7 +11,7 @@ import messages from './messages';
 import staticStyles from './style';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
-import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../libs/pool-data-provider';
 import { isFeatureEnabled } from '../../../helpers/config/markets-and-network-config';
 
 interface PermissionWarningProps {
@@ -29,7 +29,7 @@ const PermissionWarning: React.FC<
 > = ({ children, requiredPermission, match }) => {
   const intl = useIntl();
   const { currentMarketData } = useProtocolDataContext();
-  const { userId } = useStaticPoolDataContext();
+  const { userId } = useAppDataContext();
   const { permissions } = usePermissions();
 
   if (

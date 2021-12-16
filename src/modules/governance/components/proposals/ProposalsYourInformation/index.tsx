@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { useWeb3React } from '@web3-react/core';
 import { useThemeContext, textCenterEllipsis } from '@aave/aave-ui-kit';
 
-import { useStaticPoolDataContext } from '../../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../../libs/protocol-data-provider';
 import { useCurrentVotingPowerRPC } from '../../../../../libs/governance-provider/hooks/use-current-voting-power-rpc';
 import ContentWrapperWithTopLine from '../../../../../components/wrappers/ContentWrapperWithTopLine';
@@ -26,7 +26,7 @@ export default function ProposalsYourInformation() {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { networkConfig } = useProtocolDataContext();
-  const { userId } = useStaticPoolDataContext();
+  const { userId } = useAppDataContext();
   const { library: provider } = useWeb3React();
   const { governanceService, governanceConfig } = useGovernanceDataContext();
 

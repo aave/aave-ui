@@ -4,7 +4,7 @@ import { useSwipeable } from 'react-swipeable';
 import css from 'styled-jsx/css';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { useStaticPoolDataContext } from './libs/pool-data-provider';
+import { useAppDataContext } from './libs/pool-data-provider';
 import { useMenuContext } from './libs/menu';
 import { CURRENCY_ROUTE_PARAMS } from './helpers/router-types';
 import ScreensWrapper from './components/wrappers/ScreensWrapper';
@@ -49,7 +49,7 @@ const staticStyles = css.global`
 `;
 
 function ModulesWithMenu() {
-  const { isUserHasDeposits, userId } = useStaticPoolDataContext();
+  const { isUserHasDeposits, userId } = useAppDataContext();
   const { currentMarketData } = useProtocolDataContext();
 
   return (

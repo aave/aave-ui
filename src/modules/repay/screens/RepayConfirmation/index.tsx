@@ -9,7 +9,7 @@ import {
 } from '@aave/protocol-js';
 import { Pool, PoolInterface } from '@aave/contract-helpers';
 
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import RepayContentWrapper from '../../components/RepayContentWrapper';
@@ -39,8 +39,8 @@ function RepayConfirmation({
   location,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
-  const { marketReferencePriceInUsd, networkConfig } = useStaticPoolDataContext();
-  const { currentMarketData } = useProtocolDataContext();
+  const { marketReferencePriceInUsd, userId } = useAppDataContext();
+  const { currentMarketData, networkConfig } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
 
   const [isTxExecuted, setIsTxExecuted] = useState(false);
@@ -121,14 +121,14 @@ function RepayConfirmation({
       // TO-DO: No need for this cast once a single Pool type is used in use-tx-builder-context
       const newPool: Pool = lendingPool as Pool;
       return await newPool.repay({
-        user: user.id,
+        user: userId,
         reserve: poolReserve.underlyingAsset,
         amount: amountToRepay.toString(),
         interestRateMode: debtType as InterestRate,
       });
     } else {
       return await lendingPool.repay({
-        user: user.id,
+        user: userId,
         reserve: poolReserve.underlyingAsset,
         amount: amountToRepay.toString(),
         interestRateMode: debtType as InterestRate,
@@ -142,7 +142,7 @@ function RepayConfirmation({
     setSignedAmount(amountToRepay.toString());
     const newPool: Pool = lendingPool as Pool;
     return await newPool.signERC20Approval({
-      user: user.id,
+      user: userId,
       reserve: poolReserve.underlyingAsset,
       amount: amountToRepay.toString(),
     });
@@ -153,7 +153,7 @@ function RepayConfirmation({
     // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
     const newPool: Pool = lendingPool as Pool;
     return await newPool.repayWithPermit({
-      user: user.id,
+      user: userId,
       reserve: poolReserve.underlyingAsset,
       amount: signedAmount, // amountToRepay.toString(),
       interestRateMode: debtType as InterestRate,
@@ -163,7 +163,7 @@ function RepayConfirmation({
 
   const handleGetATokenTransactions = async () =>
     await (lendingPool as PoolInterface).repayWithATokens({
-      user: user.id,
+      user: userId,
       reserve: poolReserve.underlyingAsset,
       amount: amountToRepay.toString(),
       rateMode: debtType as InterestRate,

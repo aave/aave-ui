@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { valueToBigNumber, Stake } from '@aave/protocol-js';
 import { gradient, rgba, Timer, useThemeContext } from '@aave/aave-ui-kit';
 
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useStakeDataContext } from '../../../../libs/pool-data-provider/hooks/use-stake-data-context';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
@@ -33,7 +33,7 @@ export default function StakingWrapper({ children }: StakingWrapperProps) {
   const intl = useIntl();
   const location = useLocation();
   const { currentTheme } = useThemeContext();
-  const { userId } = useStaticPoolDataContext();
+  const { userId } = useAppDataContext();
   const { data, cooldownStep, setCooldownStep, usdPriceEth } = useStakeDataContext();
 
   const [isShowYourIncentives, setShowYourIncentives] = useState(false);

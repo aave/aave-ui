@@ -10,7 +10,7 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { getReferralCode } from '../../../../libs/referral-handler';
 import Row from '../../../../components/basic/Row';
 import NoDataPanel from '../../../../components/NoDataPanel';
@@ -38,7 +38,7 @@ function BorrowConfirmation({
   location,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
-  const { marketReferencePriceInUsd } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, userId } = useAppDataContext();
   const { lendingPool } = useTxBuilderContext();
   const { currentTheme } = useThemeContext();
   let blockingError = '';
@@ -130,7 +130,7 @@ function BorrowConfirmation({
     return await lendingPool.borrow({
       interestRateMode,
       referralCode,
-      user: user.id,
+      user: userId,
       amount: amount.toString(),
       reserve: poolReserve.underlyingAsset,
       debtTokenAddress:

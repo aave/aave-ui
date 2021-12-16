@@ -1,4 +1,4 @@
-import { ReserveIncentive } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import { ReserveIncentiveResponse } from '../../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 export type DepositTableItem = {
   id: string;
@@ -10,7 +10,7 @@ export type DepositTableItem = {
   underlyingBalance: number | string;
   underlyingBalanceInUSD: number | string;
   liquidityRate: number | string;
-  aIncentives: ReserveIncentive[];
+  aIncentives: ReserveIncentiveResponse[];
   userId?: string;
   borrowingEnabled: boolean;
   isFreezed?: boolean;

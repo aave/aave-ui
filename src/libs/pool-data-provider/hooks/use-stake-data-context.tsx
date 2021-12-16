@@ -7,7 +7,7 @@ import Preloader from '../../../components/basic/Preloader';
 import ErrorPage from '../../../components/ErrorPage';
 import { useCachedStakeData } from '../../caching-server-data-provider/hooks/use-cached-stake-data';
 import { useProtocolDataContext } from '../../protocol-data-provider';
-import { useStaticPoolDataContext } from '../providers/static-pool-data-provider';
+import { useAppDataContext } from '../providers/app-data-provider';
 import { ComputedStakeData, ComputedStakesData, StakeData } from '../types/stake';
 import {
   useMainnetCachedServerWsGraphCheck,
@@ -87,7 +87,7 @@ export function StakeDataProvider({
   stakeConfig: StakeConfig;
   children: ReactNode;
 }) {
-  const { userId } = useStaticPoolDataContext();
+  const { userId } = useAppDataContext();
   const location = useLocation();
   const [cooldownStep, setCooldownStep] = useState(0);
   const { preferredConnectionMode } = useConnectionStatusContext();

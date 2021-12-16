@@ -1,13 +1,8 @@
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
-import { normalize } from '@aave/math-utils';
-
-import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
-import {
-  useIncentivesDataContext,
-  UserIncentive,
-} from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import { normalize } from '@aave/protocol-js';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import Row from '../../../../components/basic/Row';
@@ -16,13 +11,13 @@ import Value from '../../../../components/basic/Value';
 import Link from '../../../../components/basic/Link';
 
 import messages from './messages';
+import { UserIncentiveResponse } from '../../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 export default function RewardConfirm() {
   const intl = useIntl();
   const location = useLocation();
 
-  const { user } = useDynamicPoolDataContext();
-  const { userIncentives, incentivesTxBuilder, incentivesTxBuilderV2 } = useIncentivesDataContext();
+  const { user, incentivesTxBuilder, incentivesTxBuilderV2, userId } = useAppDataContext();
   const { currentMarketData } = useProtocolDataContext();
 
   // lock values to not update them after tx was executed
@@ -35,7 +30,7 @@ export default function RewardConfirm() {
     return null;
   }
 
-  let incentiveData: UserIncentive | undefined = undefined;
+  let incentiveData: UserIncentiveResponse | undefined = undefined;
   let aTokenData = undefined;
   let assets: string[] = [];
   let incentivesControllerAddress = '';
@@ -44,7 +39,7 @@ export default function RewardConfirm() {
   let totalClaimableUSD = 0;
 
   if (mode === 'single') {
-    incentiveData = userIncentives[rewardTokenAddress];
+    incentiveData = user.calculatedUserIncentives[rewardTokenAddress];
     aTokenData = getAtokenInfo({
       address: rewardTokenAddress,
       symbol: incentiveData.rewardTokenSymbol,
@@ -61,7 +56,7 @@ export default function RewardConfirm() {
     assets = incentiveData.assets;
     incentivesControllerAddress = incentiveData.incentiveControllerAddress;
   } else {
-    Object.entries(userIncentives).forEach((incentive) => {
+    Object.entries(user.calculatedUserIncentives).forEach((incentive) => {
       // We are assuming that all rewards are coming from the same incentive controller address so it doesn't matter which reward we fetch this from
       incentivesControllerAddress = incentive[1].incentiveControllerAddress;
       incentive[1].assets.forEach((asset) => {
@@ -85,25 +80,25 @@ export default function RewardConfirm() {
     if (currentMarketData.v3) {
       if (rewardTokenAddress === 'all') {
         return incentivesTxBuilderV2.claimAllRewards({
-          user: user.id,
+          user: userId,
           assets,
-          to: user.id,
+          to: userId,
           incentivesControllerAddress,
         });
       } else {
         return incentivesTxBuilderV2.claimRewards({
-          user: user.id,
+          user: userId,
           assets,
-          to: user.id,
+          to: userId,
           incentivesControllerAddress,
           reward: rewardTokenAddress,
         });
       }
     } else {
       return incentivesTxBuilder.claimRewards({
-        user: user.id,
+        user: userId,
         assets,
-        to: user.id,
+        to: userId,
         incentivesControllerAddress,
       });
     }
@@ -169,7 +164,7 @@ export default function RewardConfirm() {
         <>
           <Row title={intl.formatMessage(messages.claim)} withMargin={true}>
             <div>
-              {Object.entries(userIncentives).map((incentive) => {
+              {Object.entries(user.calculatedUserIncentives).map((incentive) => {
                 const claimableRewards = normalize(
                   incentive[1].claimableRewards,
                   incentive[1].rewardTokenDecimals

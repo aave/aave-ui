@@ -3,8 +3,7 @@ import { useIntl } from 'react-intl';
 import { normalize } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { useDynamicPoolDataContext } from '../../../libs/pool-data-provider';
-import { useIncentivesDataContext } from '../../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import { useAppDataContext } from '../../../libs/pool-data-provider';
 import { TokenIcon } from '../../../helpers/config/assets-config';
 import Value from '../../basic/Value';
 import DefaultButton from '../../basic/DefaultButton';
@@ -18,13 +17,16 @@ export default function IncentivesClaimPanel() {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
 
-  const { user } = useDynamicPoolDataContext();
-  const { userIncentives } = useIncentivesDataContext();
+  const { user } = useAppDataContext();
 
   // Only display assets for which user has claimable rewards
-  const userIncentivesFiltered = Object.fromEntries(
-    Object.entries(userIncentives).filter((entry) => Number(entry[1].claimableRewards) > 0)
-  );
+  const userIncentivesFiltered = user
+    ? Object.fromEntries(
+        Object.entries(user?.calculatedUserIncentives).filter(
+          (entry) => Number(entry[1].claimableRewards) > 0
+        )
+      )
+    : {};
 
   if (!user || Object.keys(userIncentivesFiltered).length === 0) return null;
 

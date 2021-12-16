@@ -5,7 +5,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import queryString from 'query-string';
 import { useThemeContext, canBeEnsAddress } from '@aave/aave-ui-kit';
 
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import GovernanceWrapper from '../../components/GovernanceWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
@@ -45,7 +45,7 @@ export default function Delegation() {
 
   // Get the users balance for AAVE and stkAave
   const { aaveTokens } = useAaveTokensProviderContext();
-  const { userId } = useStaticPoolDataContext();
+  const { userId } = useAppDataContext();
   const {
     governanceConfig: { aaveTokenAddress, stkAaveTokenAddress },
   } = useGovernanceDataContext();

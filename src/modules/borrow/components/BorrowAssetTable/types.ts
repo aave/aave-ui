@@ -1,4 +1,4 @@
-import { ReserveIncentive } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
+import { ReserveIncentiveResponse } from '../../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 export type BorrowTableItem = {
   id: string;
@@ -13,9 +13,9 @@ export type BorrowTableItem = {
   stableBorrowRateEnabled?: boolean;
   userId?: string;
   isFreezed?: boolean;
-  vIncentives: ReserveIncentive[];
-  sIncentives: ReserveIncentive[];
-  aIncentives: ReserveIncentive[];
+  vIncentives: ReserveIncentiveResponse[];
+  sIncentives: ReserveIncentiveResponse[];
+  aIncentives: ReserveIncentiveResponse[];
   borrowCap: string;
   borrowableInIsolation: boolean;
   totalBorrows: string;

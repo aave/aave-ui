@@ -5,7 +5,7 @@ import { valueToBigNumber } from '@aave/protocol-js';
 import queryString from 'query-string';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
-import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import NoDataPanel from '../../../../components/NoDataPanel';
 import MarketNotSupported from '../../../../components/MarketNotSupported';
@@ -29,7 +29,7 @@ export default function AssetSwapMain() {
   const history = useHistory();
   const location = useLocation();
   const { currentTheme, md } = useThemeContext();
-  const { user, reserves } = useDynamicPoolDataContext();
+  const { user, reserves, userId } = useAppDataContext();
   const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
   const [fromAmount, setAmountFrom] = useState<string>('');
   const [fromAsset, setAssetFrom] = useState('');
@@ -54,7 +54,7 @@ export default function AssetSwapMain() {
     outputAmountUSD: toAmountInUSD,
     inputAmountUSD: fromAmountInUSD,
   } = useSwap({
-    userId: user?.id,
+    userId: userId,
     swapIn: {
       address: fromAsset,
       amount: fromAmount,
