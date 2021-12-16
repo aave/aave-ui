@@ -68,8 +68,6 @@
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemCaption": "Variable Interest",
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemDescription": "Your interest rate will {fluctuate} based on the market. Recommended for short-term loans.",
   "components.HelpModal.BorrowInterestHelpModal.stayTheSame": "stay the same",
-  "components.HelpModal.BorrowRatesHelpModal.caption": "Rewards information",
-  "components.HelpModal.BorrowRatesHelpModal.description": "Participating in this Aave market gives rewards in {token} token. The APR is just a representation on how these rewards would be during a 1-year period",
   "components.HelpModal.CollateralHelpModal.caption": "Adding and removing assets as collateral",
   "components.HelpModal.CollateralHelpModal.description": "Allows you to decide whether to use a deposited asset as collateral. An asset used as collateral will affect your borrowing power and health factor.",
   "components.HelpModal.CooldownUnstakeHelpModal.caption": "Cooldown & Unstake Window Period",

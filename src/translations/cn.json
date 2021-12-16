@@ -68,8 +68,6 @@
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemCaption": "可变利息",
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemDescription": "利率将根据市场而{fluctuate} ，建议用于短期贷款。",
   "components.HelpModal.BorrowInterestHelpModal.stayTheSame": "保持不变",
-  "components.HelpModal.BorrowRatesHelpModal.caption": "",
-  "components.HelpModal.BorrowRatesHelpModal.description": "",
   "components.HelpModal.CollateralHelpModal.caption": "添加和删除用作抵押品的资产",
   "components.HelpModal.CollateralHelpModal.description": "允许你决定是否使用存入资产作为抵押。用作抵押的资产将影响你的借贷能力和健康系数。",
   "components.HelpModal.CooldownUnstakeHelpModal.caption": "冷却 & 取消质押窗口周期",

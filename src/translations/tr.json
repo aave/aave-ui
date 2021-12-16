@@ -68,8 +68,6 @@
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemCaption": "Değişken Faiz",
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemDescription": "Faiz oranınız pazara göre {fluctuate} . Kısa vadeli krediler için önerilir.",
   "components.HelpModal.BorrowInterestHelpModal.stayTheSame": "aynı kal",
-  "components.HelpModal.BorrowRatesHelpModal.caption": "",
-  "components.HelpModal.BorrowRatesHelpModal.description": "",
   "components.HelpModal.CollateralHelpModal.caption": "Varlıkları teminat olarak ekleme ve çıkarma",
   "components.HelpModal.CollateralHelpModal.description": "Teminat olarak yatırılan bir varlığı kullanıp kullanmayacağınıza karar vermenizi sağlar. Teminat olarak kullanılan bir varlık, borçlanma gücünüzü ve sağlık faktörünüzü etkileyecektir.",
   "components.HelpModal.CooldownUnstakeHelpModal.caption": "Bekleme Süresi & Unstake Pencere Dönemi",

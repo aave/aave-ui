@@ -68,8 +68,6 @@
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemCaption": "Intérêt variable",
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemDescription": "Votre taux d'intérêt {fluctuate} fonction du marché. Recommandé pour les prêts à court terme.",
   "components.HelpModal.BorrowInterestHelpModal.stayTheSame": "rester le même",
-  "components.HelpModal.BorrowRatesHelpModal.caption": "",
-  "components.HelpModal.BorrowRatesHelpModal.description": "",
   "components.HelpModal.CollateralHelpModal.caption": "Ajout et suppression d'actifs en collatéral",
   "components.HelpModal.CollateralHelpModal.description": "Vous permet de décider d'utiliser ou non un actif déposé comme collatéral. Un actif utilisé comme collatéral affectera votre capacité d'emprunt et votre Health Factor.",
   "components.HelpModal.CooldownUnstakeHelpModal.caption": "Cooldown & période d'Unstake Window",

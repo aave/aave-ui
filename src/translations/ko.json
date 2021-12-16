@@ -68,8 +68,6 @@
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemCaption": "변동 이자",
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemDescription": "이자율은 시장에 따라 {fluctuate}할 것입니다. 단기 대출에 추천합니다.",
   "components.HelpModal.BorrowInterestHelpModal.stayTheSame": "그대로 있다",
-  "components.HelpModal.BorrowRatesHelpModal.caption": "",
-  "components.HelpModal.BorrowRatesHelpModal.description": "",
   "components.HelpModal.CollateralHelpModal.caption": "자산을 담보로 추가 및 제거하기",
   "components.HelpModal.CollateralHelpModal.description": "특정 예치금을 담보로 사용할지 여부를 결정할 수 있습니다. 담보로 사용되는 통화는 차입 능력과 건전 계수에 영향을 미칩니다.",
   "components.HelpModal.CooldownUnstakeHelpModal.caption": "쿨다운 & 언스테이킹 기간",

@@ -68,8 +68,6 @@
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemCaption": "Interés variable",
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemDescription": "Tu tasa de interés {fluctuate} según el mercado. Recomendado para préstamos a corto plazo.",
   "components.HelpModal.BorrowInterestHelpModal.stayTheSame": "permanecer igual",
-  "components.HelpModal.BorrowRatesHelpModal.caption": "",
-  "components.HelpModal.BorrowRatesHelpModal.description": "",
   "components.HelpModal.CollateralHelpModal.caption": "Habilitar y deshabilitar activos como garantía",
   "components.HelpModal.CollateralHelpModal.description": "Permite decidir si utilizar o no un depósito específico como garantía. Una divisa utilizada como garantía afectará tu poder de endeudamiento (cantidad máxima para tomar prestado en relación con la garantía) y a tu factor de salud.",
   "components.HelpModal.CooldownUnstakeHelpModal.caption": "Ventana de tiempo de Cooldown & Unstakeo",
