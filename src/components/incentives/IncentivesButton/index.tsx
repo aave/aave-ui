@@ -34,7 +34,7 @@ export default function IncentivesButton({ incentives, symbol }: IncentivesButto
   const incentivesNetAPR = isIncentivesInfinity
     ? 'Infinity'
     : incentivesAPRSum !== 'Infinity'
-    ? valueToBigNumber(incentivesAPRSum).dividedBy(incentives.length).toNumber()
+    ? valueToBigNumber(incentivesAPRSum).toNumber()
     : 'Infinity';
 
   const incentivesButtonValue = () => {

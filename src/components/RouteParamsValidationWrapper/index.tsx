@@ -44,8 +44,7 @@ export default function routeParamValidationHOC({
       const underlyingAsset = match.params.underlyingAsset.toUpperCase();
       const reserveId = match.params.id;
 
-      const { walletBalances, userEmodeCategoryId } = useAppDataContext();
-      const { reserves, user } = useAppDataContext();
+      const { walletBalances, userEmodeCategoryId, reserves, user } = useAppDataContext();
 
       const poolReserve = reserves.find((res) =>
         reserveId

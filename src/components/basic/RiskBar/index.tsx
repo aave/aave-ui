@@ -21,8 +21,7 @@ interface RiskBarProps {
 export default function RiskBar({ value, onChange, maxAmount, currencySymbol }: RiskBarProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const { marketReferencePriceInUsd } = useAppDataContext();
-  const { reserves, user } = useAppDataContext();
+  const { marketReferencePriceInUsd, reserves, user } = useAppDataContext();
 
   if (!user) {
     return null;
