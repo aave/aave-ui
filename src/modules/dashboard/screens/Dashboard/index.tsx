@@ -21,14 +21,17 @@ import { getAssetColor } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';
+import Preloader from '../../../../components/basic/Preloader';
 
 export default function Dashboard() {
   const intl = useIntl();
   const history = useHistory();
-  const { user, reserves } = useAppDataContext();
+  const { user, reserves, loading } = useAppDataContext();
   const { currentTheme } = useThemeContext();
 
   const [isBorrow, setIsBorrow] = useState(false);
+
+  if (loading) return <Preloader withText={true} />;
 
   const maxBorrowAmount = valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0').plus(
     user?.availableBorrowsMarketReferenceCurrency || '0'

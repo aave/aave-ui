@@ -37,7 +37,7 @@ export function useRPCPoolData(
   userAddress?: string
 ): PoolDataResponse {
   const currentAccount: string | undefined = userAddress ? userAddress.toLowerCase() : undefined;
-  const [loadingReserves, setLoadingReserves] = useState<boolean>(false);
+  const [loadingReserves, setLoadingReserves] = useState<boolean>(true);
   const [errorReserves, setErrorReserves] = useState<boolean>(false);
   const [loadingUserReserves, setLoadingUserReserves] = useState<boolean>(false);
   const [errorUserReserves, setErrorUserReserves] = useState<boolean>(false);

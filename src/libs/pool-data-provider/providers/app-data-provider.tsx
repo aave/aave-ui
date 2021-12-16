@@ -131,7 +131,8 @@ export const AppDataProvider: React.FC = ({ children }) => {
     refresh: refreshIncentives,
   } = useIncentiveData(skipIncentiveLoading);
   const { walletBalances, refetch: refetchWalletData } = useWalletBalances(skipIncentiveLoading);
-  const loading = (loadingReserves && !reserves.length) || (_loading && !data);
+  const loading =
+    (loadingReserves && !reserves.length) || (_loading && !data?.reserveIncentiveData);
 
   const aggregatedBalance = Object.keys(walletBalances).reduce((acc, reserve) => {
     const poolReserve = reserves.find((poolReserve) => {
