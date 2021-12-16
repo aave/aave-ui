@@ -891,6 +891,7 @@
   "modules.reward.screens.RewardConfirm.tribeWarningFirst": "",
   "modules.reward.screens.RewardConfirm.tribeWarningSecond": "",
   "modules.reward.screens.RewardMain.caption": "",
+  "modules.reward.screens.RewardMain.claim": "",
   "modules.reward.screens.RewardMain.claimAll": "",
   "modules.staking.components.AboutStakingModal.aaveDescription": "Stakear tus AAVE ayuda a incrementar la seguridad en caso de una emergencia. Por tomar este riesgo seras recompensando con tokens AAVE. En el caso de un {upTo} de tus activos podrán ser slasheados para cubrir el déficit. ",
   "modules.staking.components.AboutStakingModal.aaveStakingRewards": "Recompensas de Staking de AAVE",

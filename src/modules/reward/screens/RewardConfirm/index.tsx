@@ -3,6 +3,10 @@ import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { normalize } from '@aave/protocol-js';
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
+import {
+  useIncentivesDataContext,
+  UserIncentive,
+} from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import Row from '../../../../components/basic/Row';
@@ -12,6 +16,7 @@ import Link from '../../../../components/basic/Link';
 
 import messages from './messages';
 import { UserIncentiveResponse } from '../../../../libs/pool-data-provider/hooks/use-incentives-data';
+
 
 export default function RewardConfirm() {
   const intl = useIntl();
@@ -156,6 +161,8 @@ export default function RewardConfirm() {
             tokenIcon={true}
             tooltipId={incentiveData ? incentiveData.rewardTokenSymbol : ''}
             updateCondition={isTxExecuted}
+            maximumSubValueDecimals={2}
+            minimumSubValueDecimals={2}
           />
         </Row>
       ) : (
@@ -179,6 +186,8 @@ export default function RewardConfirm() {
                     tooltipId={incentive[0]}
                     updateCondition={isTxExecuted}
                     key={incentive[0]}
+                    maximumSubValueDecimals={2}
+                    minimumSubValueDecimals={2}
                   />
                 );
               })}
@@ -192,6 +201,8 @@ export default function RewardConfirm() {
               tokenIcon={true}
               withoutSymbol={true}
               color="primary"
+              maximumValueDecimals={2}
+              minimumValueDecimals={2}
             />
           </Row>
         </>

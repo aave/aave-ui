@@ -891,6 +891,7 @@
   "modules.reward.screens.RewardConfirm.tribeWarningFirst": "The Fei Protocol governance has decided to give TRIBE rewards to variable borrowing of FEI on Aave in this {proposal}. For more information about the rewards visit the {link}.",
   "modules.reward.screens.RewardConfirm.tribeWarningSecond": "This is offered strictly by the Fei Protocol and the Aave Protocol does not have any involvement in the TRIBE rewards. The Fei Protocol App is a third party application affiliated with Fei and not with Aave in any way.",
   "modules.reward.screens.RewardMain.caption": "Select the reward you want to claim or claim all rewards at once",
+  "modules.reward.screens.RewardMain.claim": "Claim {symbol}",
   "modules.reward.screens.RewardMain.claimAll": "Claim all",
   "modules.staking.components.AboutStakingModal.aaveDescription": "Staking AAVE makes the protocol a bit safer in case of an emergency. For taking this risk you will receive AAVE. The AAVE tokens represent voting power in the protocol governance. In the case of a {upTo} of your staked assets can be slashed to cover the deficit.",
   "modules.staking.components.AboutStakingModal.aaveStakingRewards": "AAVE Staking rewards",

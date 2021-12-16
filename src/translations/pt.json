@@ -891,6 +891,7 @@
   "modules.reward.screens.RewardConfirm.tribeWarningFirst": "",
   "modules.reward.screens.RewardConfirm.tribeWarningSecond": "",
   "modules.reward.screens.RewardMain.caption": "",
+  "modules.reward.screens.RewardMain.claim": "",
   "modules.reward.screens.RewardMain.claimAll": "",
   "modules.staking.components.AboutStakingModal.aaveDescription": "O Staking de AAVE torna o protocolo um pouco mais seguro em caso de emergência. Por assumir este risco, receberá a AAVE. As fichas da AAVE representam o poder de voto na governação do protocolo. No caso de um {upTo} dos seus ativos em stake, estes poderão ser cortados para cobrir o défice.",
   "modules.staking.components.AboutStakingModal.aaveStakingRewards": "Recompensas da AAVE Staking",
