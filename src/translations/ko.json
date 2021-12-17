@@ -707,6 +707,7 @@
   "modules.history.components.HistoryContent.download": ".CSV 다운로드",
   "modules.history.components.HistoryContent.liquidation": "청산",
   "modules.history.components.HistoryContent.repayment": "상환",
+  "modules.history.components.HistoryContent.supply": "",
   "modules.history.components.HistoryContent.withdrawal": "출금",
   "modules.history.components.HistoryModal.APYTypeChangeDescription": "해당 자산에 대한 APY 유형을 변경하셨습니다",
   "modules.history.components.HistoryModal.BorrowContent.interest": "금리 (APY)",

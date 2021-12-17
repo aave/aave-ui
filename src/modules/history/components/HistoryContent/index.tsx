@@ -35,6 +35,9 @@ export default function HistoryContent({ data }: HistoryContentProps) {
       case 'Deposit':
         title = messages.deposit;
         break;
+      case 'Supply':
+        title = messages.supply;
+        break;
       case 'Borrow':
         title = messages.borrowed;
         break;
@@ -79,6 +82,7 @@ export default function HistoryContent({ data }: HistoryContentProps) {
               key={index}
             >
               {(item.type === 'Deposit' ||
+                item.type === 'Supply' ||
                 item.type === 'Borrow' ||
                 item.type === 'RedeemUnderlying' ||
                 item.type === 'Repay' ||

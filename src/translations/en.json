@@ -707,6 +707,7 @@
   "modules.history.components.HistoryContent.download": "",
   "modules.history.components.HistoryContent.liquidation": "",
   "modules.history.components.HistoryContent.repayment": "",
+  "modules.history.components.HistoryContent.supply": "",
   "modules.history.components.HistoryContent.withdrawal": "",
   "modules.history.components.HistoryModal.APYTypeChangeDescription": "",
   "modules.history.components.HistoryModal.BorrowContent.interest": "",

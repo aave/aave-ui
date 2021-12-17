@@ -707,6 +707,7 @@
   "modules.history.components.HistoryContent.download": "Descarga el .CSV",
   "modules.history.components.HistoryContent.liquidation": "Liquidación",
   "modules.history.components.HistoryContent.repayment": "Pago",
+  "modules.history.components.HistoryContent.supply": "",
   "modules.history.components.HistoryContent.withdrawal": "Retiro",
   "modules.history.components.HistoryModal.APYTypeChangeDescription": "Has cambiado el tipo de interés para tu activo",
   "modules.history.components.HistoryModal.BorrowContent.interest": "Interés (APY)",

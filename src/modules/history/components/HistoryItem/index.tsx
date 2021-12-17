@@ -39,6 +39,10 @@ export default function HistoryItem({ title, type, date, onClick, children }: Hi
       icon = depositIcon;
       darkIcon = depositIconDark;
       break;
+    case 'Supply':
+      icon = depositIcon;
+      darkIcon = depositIconDark;
+      break;
     case 'Borrow':
       icon = borrowIcon;
       darkIcon = borrowIconDark;

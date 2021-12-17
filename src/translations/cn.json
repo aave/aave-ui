@@ -707,6 +707,7 @@
   "modules.history.components.HistoryContent.download": "下载.CSV",
   "modules.history.components.HistoryContent.liquidation": "清算",
   "modules.history.components.HistoryContent.repayment": "还款",
+  "modules.history.components.HistoryContent.supply": "",
   "modules.history.components.HistoryContent.withdrawal": "提款",
   "modules.history.components.HistoryModal.APYTypeChangeDescription": "你已更改资产的APY（年利率）类型",
   "modules.history.components.HistoryModal.BorrowContent.interest": "利息（APY）",

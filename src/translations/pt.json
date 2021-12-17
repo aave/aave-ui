@@ -707,6 +707,7 @@
   "modules.history.components.HistoryContent.download": "Baixar .CSV",
   "modules.history.components.HistoryContent.liquidation": "liquidação",
   "modules.history.components.HistoryContent.repayment": "Reembolso",
+  "modules.history.components.HistoryContent.supply": "",
   "modules.history.components.HistoryContent.withdrawal": "Retirada",
   "modules.history.components.HistoryModal.APYTypeChangeDescription": "Mudou o seu tipo de Taxa de Juro para o seu ativo",
   "modules.history.components.HistoryModal.BorrowContent.interest": "Juro (Taxa Anual)",

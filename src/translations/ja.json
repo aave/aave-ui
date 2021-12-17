@@ -707,6 +707,7 @@
   "modules.history.components.HistoryContent.download": ".CSVをダウンロード",
   "modules.history.components.HistoryContent.liquidation": "清算",
   "modules.history.components.HistoryContent.repayment": "返済",
+  "modules.history.components.HistoryContent.supply": "",
   "modules.history.components.HistoryContent.withdrawal": "出金",
   "modules.history.components.HistoryModal.APYTypeChangeDescription": "資産のAPYタイプを変更しました",
   "modules.history.components.HistoryModal.BorrowContent.interest": "金利（APY）",

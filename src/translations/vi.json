@@ -707,6 +707,7 @@
   "modules.history.components.HistoryContent.download": "Tải xuống CSV",
   "modules.history.components.HistoryContent.liquidation": "Thanh lý",
   "modules.history.components.HistoryContent.repayment": "Sự hoàn trả",
+  "modules.history.components.HistoryContent.supply": "",
   "modules.history.components.HistoryContent.withdrawal": "Rút tiền",
   "modules.history.components.HistoryModal.APYTypeChangeDescription": "Bạn đã thay đổi loại APY cho tài sản của mình",
   "modules.history.components.HistoryModal.BorrowContent.interest": "Lãi suất (APY)",
