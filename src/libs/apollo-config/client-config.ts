@@ -16,7 +16,7 @@ import { DocumentNode, NameNode } from 'graphql';
 import gql from 'graphql-tag';
 import { NetworkConfig } from '../../helpers/config/types';
 import { getNetworkConfig } from '../../helpers/config/markets-and-network-config';
-import introspectionQueryResultData from '../pool-data-provider/graphql/fragmentTypes.json';
+// import introspectionQueryResultData from '../pool-data-provider/graphql/fragmentTypes.json';
 import {
   GET_MAINNET_CACHED_SERVER_WS_ERROR,
   GET_NETWORK_CACHED_SERVER_WS_ERROR,
@@ -282,7 +282,7 @@ export function getApolloClient({
         );
 
   const cache = new InMemoryCache({
-    possibleTypes: introspectionQueryResultData.possibleTypes,
+    // possibleTypes: introspectionQueryResultData.possibleTypes,
   });
 
   const client = new ApolloClient({
