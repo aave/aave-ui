@@ -12,10 +12,6 @@ config:
   apolloReactHooksImportFrom: '@apollo/client'
   apolloReactCommonImportFrom: '@apollo/client'
 generates:
-  # src/libs/pool-data-provider/graphql/fragmentTypes.json:
-  #   schema: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-kovan'
-  #   plugins:
-  #     - fragment-matcher
   src/libs/pool-data-provider/graphql/index.tsx:
     schema:
       - https://api.thegraph.com/subgraphs/name/aave/aave-v2-matic
