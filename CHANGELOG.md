@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/aave/aave-ui/compare/v0.2.0...v0.2.1) (2021-12-17)
+
+
+### Bug Fixes
+
+* remove rewards modal ([#153](https://github.com/aave/aave-ui/issues/153)) ([74dd795](https://github.com/aave/aave-ui/commit/74dd795c131cfb7869e18c2eed3c0acd431e0028)), closes [#76](https://github.com/aave/aave-ui/issues/76)
+* use correct stable rate in userSummary ([#249](https://github.com/aave/aave-ui/issues/249)) ([dd7ad7f](https://github.com/aave/aave-ui/commit/dd7ad7f3786bbfa0fe224c434ede2c4eac146478))
+
 ## 0.2.0 (2021-12-14)
 
 ### ⚠ BREAKING CHANGES
