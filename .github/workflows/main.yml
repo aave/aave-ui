@@ -22,6 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'npm'
       - name: download build
         uses: actions/download-artifact@v2
         with:
@@ -49,6 +53,10 @@ jobs:
     outputs:
       uri: ${{ steps.pinata.outputs.uri }}
     steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'npm'
       - name: download build
         uses: actions/download-artifact@v2
         with:
