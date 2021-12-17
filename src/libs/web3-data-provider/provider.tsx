@@ -143,7 +143,7 @@ export function Web3Provider({
   );
   // TODO: most probably useless, check it and remove
   const [showLedgerBanner, setLedgerBanner] = useState(false);
-  console.log(isAvailableAccountsLoading);
+
   /** Handlers */
   const handleActivation = async (
     connectorName: AvailableWeb3Connectors,
