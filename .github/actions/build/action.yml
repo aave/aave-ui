@@ -5,9 +5,9 @@ runs:
   using: 'composite'
   steps:
     - name: restore build
+      continue-on-error: true
       id: restore
       uses: actions/download-artifact@v2
-      continue-on-error: true
       with:
         name: build_${{github.sha}}
 
