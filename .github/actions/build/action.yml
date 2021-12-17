@@ -16,3 +16,9 @@ runs:
     - name: build
       run: npm run build
       shell: bash
+
+    - name: store artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: build_${{github.sha}}
+        path: build/

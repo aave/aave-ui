@@ -8,10 +8,8 @@ on:
   pull_request:
 
 jobs:
-  deploy_ipfs:
+  build:
     runs-on: ubuntu-latest
-    outputs:
-      uri: ${{ steps.pinata.outputs.uri }}
     steps:
       - uses: actions/checkout@v2
 
@@ -19,6 +17,15 @@ jobs:
         run: cp ${ENV:-'.github/.env.preview'} .env
 
       - uses: ./.github/actions/build
+
+  cypress_test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: download build
+        uses: actions/download-artifact@v2
+        with:
+          name: build_${{github.sha}}
 
       - name: test
         uses: cypress-io/github-action@v2
@@ -35,6 +42,17 @@ jobs:
           CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
           CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
           CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
+
+  upload:
+    runs-on: ubuntu-latest
+    needs: build
+    outputs:
+      uri: ${{ steps.pinata.outputs.uri }}
+    steps:
+      - name: download build
+        uses: actions/download-artifact@v2
+        with:
+          name: build_${{github.sha}}
 
       - name: pinata
         id: pinata
@@ -57,7 +75,7 @@ jobs:
   # legacy testing setup till cypress has the same coverage
   test:
     runs-on: ubuntu-latest
-    needs: deploy_ipfs
+    needs: upload
     container: 'wolphin/e2e-image'
     env:
       DOMAIN: '${{ needs.deploy_ipfs.outputs.uri }}'
