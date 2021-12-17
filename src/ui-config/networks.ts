@@ -114,7 +114,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     name: 'Arbitrum Rinkeby',
     publicJsonRPCUrl: ['https://rinkeby.arbitrum.io/rpc'],
     publicJsonRPCWSUrl: 'wss://rinkeby.arbitrum.io/rpc',
-    protocolDataUrl: '',
+    protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v3-arbitrum-rinkeby',
     baseUniswapAdapter: '0x0',
     baseAsset: 'ARETH',
     baseAssetWrappedAddress: '0xd7680C4cfe94CBBea7A0345d7061020c27403986',
