@@ -15,7 +15,7 @@ import HealthFactor from '../../../components/HealthFactor';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../components/RouteParamsValidationWrapper';
-import { getAssetInfo, TokenIcon } from '../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
 

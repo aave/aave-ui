@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { Network } from '@aave/protocol-js';
 
-import { getProvider } from '../../../helpers/markets/markets-data';
 import {
   UiPoolDataProvider,
   ReservesDataHumanized,
   UserReserveDataHumanized,
+  ChainId,
 } from '@aave/contract-helpers';
 import { usePolling } from '../../hooks/use-polling';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
 
 // interval in which the rpc data is refreshed
 const POLLING_INTERVAL = 30 * 1000;
@@ -25,7 +25,7 @@ export interface PoolDataResponse {
 // Fetch reserve and user incentive data from UiIncentiveDataProvider
 export function usePoolData(
   lendingPoolAddressProvider: string,
-  network: Network,
+  chainId: ChainId,
   poolDataProviderAddress: string,
   skip: boolean,
   userAddress?: string
@@ -42,7 +42,7 @@ export function usePoolData(
 
   // Fetch and format reserve incentive data from UiIncentiveDataProvider contract
   const fetchReserves = async () => {
-    const provider = getProvider(network);
+    const provider = getProvider(chainId);
     const poolDataProviderContract = new UiPoolDataProvider({
       uiPoolDataProviderAddress: poolDataProviderAddress,
       provider,
@@ -65,7 +65,7 @@ export function usePoolData(
   // Fetch and format user incentive data from UiIncentiveDataProvider
   const fetchUserReserves = async () => {
     if (!currentAccount) return;
-    const provider = getProvider(network);
+    const provider = getProvider(chainId);
     const poolDataProviderContract = new UiPoolDataProvider({
       uiPoolDataProviderAddress: poolDataProviderAddress,
       provider,
@@ -88,11 +88,11 @@ export function usePoolData(
     setLoadingUserReserves(false);
   };
 
-  usePolling(fetchReserves, POLLING_INTERVAL, skip, [skip, poolDataProviderAddress, network]);
+  usePolling(fetchReserves, POLLING_INTERVAL, skip, [skip, poolDataProviderAddress, chainId]);
   usePolling(fetchUserReserves, POLLING_INTERVAL, skip, [
     skip,
     poolDataProviderAddress,
-    network,
+    chainId,
     currentAccount,
   ]);
 

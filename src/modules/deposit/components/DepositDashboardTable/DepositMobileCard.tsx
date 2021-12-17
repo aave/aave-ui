@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-import { isFeatureEnabled } from '../../../../helpers/markets/markets-data';
+import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
 import CustomSwitch from '../../../../components/basic/CustomSwitch';
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
 import Row from '../../../../components/basic/Row';
@@ -118,13 +118,13 @@ export default function DepositMobileCard({
           <Link
             to={`/withdraw/${underlyingAsset}-${id}`}
             className="ButtonLink"
-            disabled={!isActive || isFrozen}
+            disabled={!isActive}
           >
             <DefaultButton
               title={intl.formatMessage(defaultMessages.withdraw)}
               color="dark"
               transparent={!isSwapButton}
-              disabled={!isActive || isFrozen}
+              disabled={!isActive}
             />
           </Link>
         </Row>

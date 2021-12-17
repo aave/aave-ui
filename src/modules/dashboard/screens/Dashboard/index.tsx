@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
-import { valueToBigNumber, InterestRate, Network } from '@aave/protocol-js';
+import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import classNames from 'classnames';
 
@@ -35,15 +35,16 @@ import DashboardNoData from '../../components/DashboardNoData';
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
 import { DashboardLeftTopLine } from '../../../../ui-config';
-import { getAssetColor } from '../../../../helpers/markets/assets';
+import { getAssetColor } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';
+import { ChainId } from '@aave/contract-helpers';
 
 export default function Dashboard() {
   const intl = useIntl();
   const history = useHistory();
-  const { network } = useProtocolDataContext();
+  const { chainId } = useProtocolDataContext();
   const { user, reserves } = useDynamicPoolDataContext();
   const { reserveIncentives } = useIncentivesDataContext();
   const { currentTheme, sm } = useThemeContext();
@@ -188,10 +189,10 @@ export default function Dashboard() {
       <div
         className={classNames('Dashboard__mobileMigrate--inner', {
           Dashboard__mobileMigrateWithoutContent:
-            network !== Network.mainnet && !depositedPositions.length,
+            chainId !== ChainId.mainnet && !depositedPositions.length,
         })}
       >
-        <DashboardLeftTopLine intl={intl} network={network} onMobile={true} />
+        <DashboardLeftTopLine intl={intl} chainId={chainId} onMobile={true} />
       </div>
 
       {user && !!depositedPositions.length && (
@@ -212,7 +213,7 @@ export default function Dashboard() {
 
       <div className="Dashboard__top--line">
         <div className="ButtonLink">
-          <DashboardLeftTopLine intl={intl} network={network} />
+          <DashboardLeftTopLine intl={intl} chainId={chainId} />
         </div>
         <IncentiveWrapper />
       </div>

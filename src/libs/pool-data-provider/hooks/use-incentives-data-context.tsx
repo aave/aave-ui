@@ -13,11 +13,10 @@ import {
   UserReserveCalculationData,
 } from '@aave/math-utils';
 import { API_ETH_MOCK_ADDRESS, calculateSupplies } from '@aave/protocol-js';
-import { ethers } from 'ethers';
 import React, { ReactNode, useContext } from 'react';
 import Preloader from '../../../components/basic/Preloader';
 import ErrorPage from '../../../components/ErrorPage';
-import { getProvider } from '../../../helpers/markets/markets-data';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { useApolloConfigContext } from '../../apollo-config';
 import {
   PoolIncentivesWithCache,
@@ -45,13 +44,13 @@ const IncentivesDataContext = React.createContext({} as IncentivesContext);
 
 export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const { userId, rawReservesWithBase, rawUserReservesWithBase } = useStaticPoolDataContext();
-  const { network, networkConfig, currentMarketData } = useProtocolDataContext();
-  const { network: apolloClientNetwork } = useApolloConfigContext();
+  const { chainId, networkConfig, currentMarketData } = useProtocolDataContext();
+  const { chainId: apolloClientChainId } = useApolloConfigContext();
   const { preferredConnectionMode, isRPCActive } = useConnectionStatusContext();
   const currentTimestamp = useCurrentTimestamp(1);
-  const currentAccount = userId ? userId.toLowerCase() : ethers.constants.AddressZero;
+  const currentAccount = userId ? userId.toLowerCase() : undefined;
   const incentivesTxBuilder: IncentivesControllerInterface = new IncentivesController(
-    getProvider(network)
+    getProvider(chainId)
   );
 
   const {
@@ -63,7 +62,9 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     currentAccount,
     networkConfig.addresses.chainlinkFeedRegistry,
     networkConfig.usdMarket ? Denominations.usd : Denominations.eth,
-    preferredConnectionMode === ConnectionMode.rpc || network !== apolloClientNetwork
+    preferredConnectionMode === ConnectionMode.rpc ||
+      chainId !== apolloClientChainId ||
+      !networkConfig.addresses.uiIncentiveDataProvider
   );
 
   const {
@@ -73,9 +74,9 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
     refresh,
   }: IncentiveDataResponse = useIncentivesData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
-    network,
+    chainId,
     networkConfig.addresses.uiIncentiveDataProvider,
-    !isRPCActive,
+    !isRPCActive || !networkConfig.addresses.uiIncentiveDataProvider,
     currentAccount
   );
 

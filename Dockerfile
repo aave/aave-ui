@@ -1,4 +1,4 @@
-FROM node:14 as build-deps
+FROM node:16 as build-deps
 WORKDIR /app
 
 ADD package.json package-lock.json /app/
@@ -30,7 +30,6 @@ ARG REACT_APP_AUTHEREUM_API_KEY
 ARG REACT_APP_PORTIS_DAPP_ID
 
 ADD ./ /app
-RUN REACT_APP_ENABLE_CACHING_BACKEND=true npm run build
 
 FROM nginx:alpine
 

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import goToTop from '../../../helpers/goToTop';
-import { getAssetInfo, TokenIcon } from '../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import staticStyles from './style';
 

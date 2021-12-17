@@ -15,27 +15,32 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'npm'
-
-      - name: install
-        run: npm ci
-
       - name: prepare env
         run: cp ${ENV:-'.github/.env.staging'} .env
 
-      - name: build
-        run: npm run build:ipfs
+      - uses: ./.github/actions/build
+
+      - name: pinata
+        id: pinata
+        env:
+          PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
+          PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
+          PIN_ALIAS: staging
+        run: node scripts/pin-pinata.js
+
+      - name: crust
+        uses: crustio/ipfs-crust-action@f51bf12d352d230e12bfd8fa00b07f1f6c7aa735
+        continue-on-error: true
+        timeout-minutes: 2
+        with:
+          cid: ${{ steps.pinata.outputs.hash }}
+          seeds: ${{ secrets.CRUST_SEEDS }}
 
       - name: deploy
         id: deploy
         env:
-          PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
-          PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
-          PIN_ALIAS: staging
+          HASH: ${{ steps.pinata.outputs.hash }}
           CF_DEPLOYMENT_DOMAIN: staging.aave.com
-        run: npm run pinata:ipfs-publish
+        run: node scripts/update-cloudflare.js

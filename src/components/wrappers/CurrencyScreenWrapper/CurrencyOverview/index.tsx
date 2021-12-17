@@ -20,7 +20,7 @@ import { ValidationWrapperComponentProps } from '../../../RouteParamsValidationW
 import { InterestRateSeries } from '../../../graphs/types';
 import { GraphLegendDot } from '../../../graphs/GraphLegend';
 import GraphInner from '../GraphInner';
-import { getAssetInfo, TokenIcon } from '../../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';

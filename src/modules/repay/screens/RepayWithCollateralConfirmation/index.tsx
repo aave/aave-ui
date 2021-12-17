@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
-import {
-  valueToBigNumber,
-  BigNumber,
-  InterestRate,
-  API_ETH_MOCK_ADDRESS,
-  Network,
-} from '@aave/protocol-js';
+import { valueToBigNumber, BigNumber, InterestRate, API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 
 import {
   useDynamicPoolDataContext,
@@ -25,10 +19,11 @@ import { calculateHFAfterRepay } from '../../helpers';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
+import { ChainId } from '@aave/contract-helpers';
 
 interface QueryParams {
   fromAsset?: string;
@@ -187,7 +182,7 @@ function RepayWithCollateralConfirmation({
       goToAfterSuccess="/dashboard/borrowings"
       warningMessage={warningMessage}
       dangerousMessage={intl.formatMessage(messages.dangerousMessage)}
-      allowedNetworks={[Network.mainnet, Network.fork, Network.kovan]}
+      allowedChainIds={[ChainId.mainnet, ChainId.kovan]}
     >
       <Row title={intl.formatMessage(messages.rowTitle)} withMargin={true}>
         <Value

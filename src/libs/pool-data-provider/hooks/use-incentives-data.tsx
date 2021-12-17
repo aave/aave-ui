@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { Network } from '@aave/protocol-js';
 
-import { getProvider } from '../../../helpers/markets/markets-data';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import {
   UiIncentiveDataProvider,
   UserReserveIncentiveDataHumanizedResponse,
   Denominations,
+  ChainId,
 } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 
@@ -67,8 +67,8 @@ export interface IncentiveDataResponse {
 // Fetch reserve and user incentive data from UiIncentiveDataProvider
 export function useIncentivesData(
   lendingPoolAddressProvider: string,
-  network: Network,
-  incentiveDataProviderAddress: string,
+  chainId: ChainId,
+  incentiveDataProviderAddress: string | undefined,
   skip: boolean,
   userAddress?: string
 ): IncentiveDataResponse {
@@ -108,7 +108,7 @@ export function useIncentivesData(
     lendingPoolAddressProvider: string,
     incentiveDataProviderAddress: string
   ) => {
-    const provider = getProvider(network);
+    const provider = getProvider(chainId);
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
       incentiveDataProviderAddress,
       provider,
@@ -136,7 +136,7 @@ export function useIncentivesData(
     lendingPoolAddressProvider: string,
     incentiveDataProviderAddress: string
   ) => {
-    const provider = getProvider(network);
+    const provider = getProvider(chainId);
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
       incentiveDataProviderAddress,
       provider,
@@ -162,7 +162,7 @@ export function useIncentivesData(
     setLoadingReserveIncentives(true);
     setLoadingUserIncentives(true);
 
-    if (!skip) {
+    if (!skip && incentiveDataProviderAddress) {
       fetchData(currentAccount, lendingPoolAddressProvider, incentiveDataProviderAddress);
       const intervalID = setInterval(
         () => fetchData(currentAccount, lendingPoolAddressProvider, incentiveDataProviderAddress),
@@ -182,7 +182,9 @@ export function useIncentivesData(
     loading,
     error,
     data: { reserveIncentiveData, userIncentiveData },
-    refresh: () =>
-      fetchData(currentAccount, lendingPoolAddressProvider, incentiveDataProviderAddress),
+    refresh: async () => {
+      if (incentiveDataProviderAddress)
+        return fetchData(currentAccount, lendingPoolAddressProvider, incentiveDataProviderAddress);
+    },
   };
 }

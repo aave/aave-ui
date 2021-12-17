@@ -6,7 +6,7 @@ import { useDynamicPoolDataContext } from '../../../libs/pool-data-provider';
 import Row from '../../basic/Row';
 import CompositionBar from '../CompositionBar';
 
-import { getAssetColor, getAssetInfo } from '../../../helpers/markets/assets';
+import { getAssetColor, getAssetInfo } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';

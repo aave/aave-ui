@@ -42,6 +42,7 @@ exports.config = {
     './e2e/specs/mainMarket/assets/mana.test.js',
     './e2e/specs/mainMarket/reward.test.js',
     './e2e/specs/mainMarket/swap.test.js',
+    './e2e/specs/mainMarket/stake.test.js',
 
     './e2e/specs/polygonMarket/assets/matic.polygon.test.js',
     './e2e/specs/polygonMarket/assets/dai.polygon.test.js',
@@ -69,7 +70,6 @@ exports.config = {
     './e2e/specs/mainMarket/stake.kovan.test.js',
   ],
   maxInstances: 1,
-  specFileRetries: 1,
   capabilities: [{
     maxInstances: 1,
     browserName: 'chrome',

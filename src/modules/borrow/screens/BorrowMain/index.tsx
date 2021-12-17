@@ -21,7 +21,7 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { BorrowTableItem } from '../../components/BorrowAssetTable/types';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 

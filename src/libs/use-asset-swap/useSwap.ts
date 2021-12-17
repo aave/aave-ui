@@ -7,28 +7,22 @@ import {
   valueToBigNumber,
   API_ETH_MOCK_ADDRESS,
   ChainId,
-  Network,
   BigNumberZD,
 } from '@aave/protocol-js';
-
 import {
   ComputedReserveData,
   useDynamicPoolDataContext,
   useStaticPoolDataContext,
 } from '../pool-data-provider';
-import { mapChainIdToName } from '../web3-data-provider';
 
 const mainnetParaswap = new ParaSwap(ChainId.mainnet);
 const polygonParaswap = new ParaSwap(ChainId.polygon);
 const avalancheParaswap = new ParaSwap(ChainId.avalanche);
 
 const getParaswap = (chainId: ChainId) => {
-  if ([Network.fork, Network.mainnet].includes(mapChainIdToName(chainId) as Network))
-    return mainnetParaswap;
-  if ([Network.polygon, Network.polygon_fork].includes(mapChainIdToName(chainId) as Network))
-    return polygonParaswap;
-  if ([Network.avalanche, Network.avalanche_fork].includes(mapChainIdToName(chainId) as Network))
-    return avalancheParaswap;
+  if (ChainId.mainnet === chainId) return mainnetParaswap;
+  if (ChainId.polygon === chainId) return polygonParaswap;
+  if (ChainId.avalanche === chainId) return avalancheParaswap;
   throw new Error('chain not supported');
 };
 

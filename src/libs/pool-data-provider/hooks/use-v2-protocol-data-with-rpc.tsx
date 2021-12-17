@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { ethers, providers } from 'ethers';
 import BigNumber from 'bignumber.js';
-import { Network, ReserveData, UserReserveData } from '@aave/protocol-js';
+import { ReserveData, UserReserveData } from '@aave/protocol-js';
 
 import { IUiPoolDataProviderFactory } from '../contracts/IUiPoolDataProviderFactory';
-import { getProvider } from '../../../helpers/markets/markets-data';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
+import { ChainId } from '@aave/contract-helpers';
 
 // interval in which the rpc data is refreshed
 const POOLING_INTERVAL = 30 * 1000;
@@ -46,7 +47,7 @@ interface PoolReservesWithRPC {
 export function useProtocolDataWithRpc(
   poolAddress: string,
   rawCurrentAccount: string,
-  network: Network,
+  chainId: ChainId,
   batchPoolDataProviderAddress: string,
   skip: boolean,
   injectedProvider?: providers.Web3Provider
@@ -61,10 +62,10 @@ export function useProtocolDataWithRpc(
   const fetchData = async (
     poolAddress: string,
     userAddress: string,
-    network: Network,
+    chainId: ChainId,
     poolDataProvider: string
   ) => {
-    const provider = getProvider(network);
+    const provider = getProvider(chainId);
     const helperContract = IUiPoolDataProviderFactory.connect(poolDataProvider, provider);
     try {
       const result = await helperContract.getReservesData(poolAddress, userAddress);
@@ -133,10 +134,10 @@ export function useProtocolDataWithRpc(
     }
 
     setLoading(true);
-    fetchData(poolAddress, currentAccount, network, batchPoolDataProviderAddress);
+    fetchData(poolAddress, currentAccount, chainId, batchPoolDataProviderAddress);
 
     const intervalID = setInterval(
-      () => fetchData(poolAddress, currentAccount, network, batchPoolDataProviderAddress),
+      () => fetchData(poolAddress, currentAccount, chainId, batchPoolDataProviderAddress),
       error ? RECOVER_INTERVAL : POOLING_INTERVAL
     );
     return () => clearInterval(intervalID);
@@ -147,6 +148,6 @@ export function useProtocolDataWithRpc(
     loading,
     data: poolData,
     error,
-    refresh: () => fetchData(poolAddress, currentAccount, network, batchPoolDataProviderAddress),
+    refresh: () => fetchData(poolAddress, currentAccount, chainId, batchPoolDataProviderAddress),
   };
 }

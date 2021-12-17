@@ -97,7 +97,7 @@ export default function TxEstimation({ getTransactionsData, amount }: TxEstimati
       <div className="TxEstimation__values">
         <Value value={Number(estimatedTx)} symbol={'ETH'} /> /
         <Value
-          value={valueToBigNumber(estimatedTx).div(marketRefPriceInUsd).toNumber()}
+          value={valueToBigNumber(estimatedTx).multipliedBy(marketRefPriceInUsd).toNumber()}
           symbol={'USD'}
         />
       </div>

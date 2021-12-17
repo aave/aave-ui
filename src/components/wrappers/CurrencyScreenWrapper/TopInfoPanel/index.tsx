@@ -8,7 +8,7 @@ import Value from '../../../basic/Value';
 import ValuePercent from '../../../basic/ValuePercent';
 import HealthFactor from '../../../HealthFactor';
 import { ValidationWrapperComponentProps } from '../../../RouteParamsValidationWrapper';
-import { isAssetStable } from '../../../../helpers/markets/assets';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';

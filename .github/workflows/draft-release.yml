@@ -1,0 +1,52 @@
+name: Draft release
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: setup config
+        run: |
+          git config --global user.email "release-bot@aave.com"
+          git config --global user.name "Release bot :robot:"
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'npm'
+
+      - name: install
+        run: npm i -g standard-version
+
+      # this ci will just generate the changelog in a pr
+      - name: release
+        run: |
+          standard-version --message "chore(release): Release v%s :rocket: :tada:" --skip.tag
+          git checkout -b release/${{ github.sha }}
+          git push origin release/${{ github.sha }}
+
+      - name: version
+        id: version
+        run: echo ::set-output name=VERSION::$(node -pe "require('./package.json').version")
+
+      - uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.pulls.create({
+              title: 'chore(release): release ${{ steps.version.outputs.VERSION }} :rocket: :tada:',
+              body: 'Please review and refine the changelog carefully, before approving this pr.',
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head: 'release/${{ github.sha }}',
+              base: 'master'
+            })

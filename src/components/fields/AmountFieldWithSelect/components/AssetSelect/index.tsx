@@ -6,7 +6,7 @@ import { rgba, useThemeContext, AnimationArrow, DropdownWrapper } from '@aave/aa
 import CustomScroll from '../../../../basic/CustomScroll';
 import BasicField from '../../../BasicField';
 import ValuePercent from '../../../../basic/ValuePercent';
-import { getAssetInfo, TokenIcon } from '../../../../../helpers/markets/assets';
+import { getAssetInfo, TokenIcon } from '../../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';

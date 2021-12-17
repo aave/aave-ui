@@ -5,7 +5,7 @@ import { BigNumber } from 'bignumber.js';
 
 import Row from '../../basic/Row';
 import CompositionBar from '../CompositionBar';
-import { getAssetInfo, getAssetColor } from '../../../helpers/markets/assets';
+import { getAssetInfo, getAssetColor } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';

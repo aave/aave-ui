@@ -16,7 +16,7 @@ web-report/
 .vscode
 yarn-error.log
 dist/
-build/
+/build
 .idea
 web-build
 yalc.lock

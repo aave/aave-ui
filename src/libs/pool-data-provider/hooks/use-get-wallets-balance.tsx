@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { normalize, Network } from '@aave/protocol-js';
+import { normalize } from '@aave/protocol-js';
 
 import { WalletBalanceProviderFactory } from '../contracts/WalletBalanceProviderContract';
 import { useProtocolDataContext } from '../../protocol-data-provider';
-import { getNetworkConfig, getProvider } from '../../../helpers/markets/markets-data';
+import { getNetworkConfig, getProvider } from '../../../helpers/config/markets-and-network-config';
+import { ChainId } from '@aave/contract-helpers';
 
 interface AddressBalance {
   [key: string]: string;
@@ -20,7 +21,7 @@ const reduceDefaultBalance = (assets: string[]) =>
   }, {});
 
 const retrieveBalances = async (
-  network: Network,
+  chainId: ChainId,
   addresses: string[],
   reserveAssets: string[],
   assetDecimals: number = 18
@@ -28,8 +29,8 @@ const retrieveBalances = async (
   if (!addresses.length || !reserveAssets.length) {
     throw new Error('[retrieveBalance] Missing params');
   }
-  const networkConfig = getNetworkConfig(network);
-  const provider = getProvider(network);
+  const networkConfig = getNetworkConfig(chainId);
+  const provider = getProvider(chainId);
   const walletBalanceContract = WalletBalanceProviderFactory.connect(
     networkConfig.addresses.walletBalanceProvider,
     provider
@@ -61,7 +62,7 @@ export function useGetWalletsBalance(
   const [walletsData, setWalletsData] = useState<WalletBalance[]>(
     walletAddresses.map((address) => ({ address, balances: reduceDefaultBalance(assetAddresses) }))
   );
-  const { network } = useProtocolDataContext();
+  const { chainId } = useProtocolDataContext();
 
   const getBalances = async (
     addresses: string[],
@@ -70,7 +71,7 @@ export function useGetWalletsBalance(
   ) => {
     setLoading(true);
     try {
-      const balances = await retrieveBalances(network, addresses, reserveAssets, assetDecimals);
+      const balances = await retrieveBalances(chainId, addresses, reserveAssets, assetDecimals);
       setWalletsData(balances);
     } catch (e) {
       console.error(e);

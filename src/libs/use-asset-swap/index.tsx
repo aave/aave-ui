@@ -23,7 +23,7 @@ interface AssetSwapParams {
 
 export function useAssetSwap(params?: AssetSwapParams) {
   const poolingInterval = params?.poolingInterval || 10 * 1000;
-  const { jsonRpcProvider, networkConfig, network } = useProtocolDataContext();
+  const { jsonRpcProvider, networkConfig, chainId } = useProtocolDataContext();
   const { WrappedBaseNetworkAssetAddress } = useStaticPoolDataContext();
 
   const [loading, setLoading] = useState(false);
@@ -59,7 +59,7 @@ export function useAssetSwap(params?: AssetSwapParams) {
       !((!_toAmount || _toAmount === '0') && _isReverse)
     ) {
       if (!networkConfig.baseUniswapAdapter) {
-        throw new Error(`baseUniswapAdapter not configured on ${network}`);
+        throw new Error(`baseUniswapAdapter not configured on ${chainId}`);
       }
 
       setLoading(true);
@@ -146,7 +146,7 @@ export function useAssetSwap(params?: AssetSwapParams) {
     fromAssetDecimals,
     toAssetDecimals,
     poolingInterval,
-    network,
+    chainId,
   ]);
 
   const onSetFromAsset = (newFromAsset: string, decimals: number) => {

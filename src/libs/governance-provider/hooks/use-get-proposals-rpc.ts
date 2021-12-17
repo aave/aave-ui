@@ -1,16 +1,22 @@
 import { useState } from 'react';
-import { Proposal, normalize, AaveGovernanceV2Interface, Network } from '@aave/protocol-js';
+import { normalize } from '@aave/protocol-js';
 import { providers } from 'ethers';
 
 import { ProposalItem } from '../types';
-import { getProposalExpiry } from '../helper';
+import { getProposalExpiry, IPFS_ENDPOINT } from '../helper';
 
 import { useStateLoading, LOADING_STATE } from '../../hooks/use-state-loading';
 import { usePolling } from '../../hooks/use-polling';
 import { IpfsMeta } from '../types';
 
 import fm from 'front-matter';
-import { getProvider } from '../../../helpers/markets/markets-data';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
+import {
+  AaveGovernanceService,
+  ChainId,
+  getProposalMetadata,
+  Proposal,
+} from '@aave/contract-helpers';
 
 const MemorizeStartTimestamp: { [id: string]: number } = {};
 const MemorizeProposalTimestamp: { [id: string]: number } = {};
@@ -32,15 +38,16 @@ const generateProposal = async (
       );
       MemorizeProposalTimestamp[memorizeId] = Number(proposalTimestamp);
     }
+    const meta = await getProposalMetadata(prop.ipfsHash, IPFS_ENDPOINT);
     // Fix Bug with the @
-    const parsedDesc = !!prop.description
-      ? prop.description.replace(/@/gi, '')
+    const parsedDesc = !!meta.description
+      ? meta.description.replace(/@/gi, '')
       : 'no description, or description loading failed';
     const processed = fm<IpfsMeta>(parsedDesc);
 
     const proposal: ProposalItem = {
       id: Number(prop.id),
-      title: prop.title || '',
+      title: meta.title || '',
       state: prop.state || '',
       ipfsHash: prop.ipfsHash,
       description: {
@@ -50,7 +57,7 @@ const generateProposal = async (
       },
       creator: prop.creator,
       executor: prop.executor,
-      shortDescription: prop.shortDescription,
+      shortDescription: meta.shortDescription,
       totalVotingSupply: normalize(prop.totalVotingSupply, 18),
       executionTime: prop.executionTime,
       startBlock: Number(prop.startBlock),
@@ -90,7 +97,7 @@ const parserProposals = async (
   provider: providers.Provider,
   averageNetworkBlockTime: number
 ) => {
-  const proposalPromises: Promise<ProposalItem | undefined>[] = data.map((prop: Proposal) =>
+  const proposalPromises: Promise<ProposalItem | undefined>[] = data.map((prop) =>
     generateProposal(prop, provider, averageNetworkBlockTime)
   );
   const results: (ProposalItem | undefined)[] = await Promise.all(proposalPromises);
@@ -109,12 +116,12 @@ const useGetProposalsRPC = ({
   skip = false,
   averageNetworkBlockTime,
   governanceService,
-  network,
+  chainId,
 }: {
   skip: boolean;
   averageNetworkBlockTime: number;
-  governanceService: AaveGovernanceV2Interface;
-  network: Network;
+  governanceService: AaveGovernanceService;
+  chainId: ChainId;
 }) => {
   const [proposals, setProposals] = useState<ProposalItem[]>([]);
   const { loading, setLoading } = useStateLoading();
@@ -124,7 +131,7 @@ const useGetProposalsRPC = ({
     try {
       const rawProposals = await governanceService.getProposals({ skip: 0, limit: 100 });
       setProposals(
-        await parserProposals(rawProposals, getProvider(network), averageNetworkBlockTime)
+        await parserProposals(rawProposals, getProvider(chainId), averageNetworkBlockTime)
       );
     } catch (e) {
       console.error(`ERROR Proposals RPC : ${e.message}`);
@@ -132,7 +139,7 @@ const useGetProposalsRPC = ({
     setLoading(LOADING_STATE.FINISHED);
   };
 
-  usePolling(getProposals, INTERVAL_POOL, skip, [skip, network]);
+  usePolling(getProposals, INTERVAL_POOL, skip, [skip, chainId]);
 
   return { proposals, loading };
 };

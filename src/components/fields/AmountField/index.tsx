@@ -7,7 +7,7 @@ import Row from '../../basic/Row';
 import BasicField from '../BasicField';
 import Value from '../../basic/Value';
 import Preloader from '../../basic/Preloader';
-import { TokenIcon } from '../../../helpers/markets/assets';
+import { TokenIcon } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';

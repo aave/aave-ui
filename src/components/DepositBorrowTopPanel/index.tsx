@@ -24,7 +24,7 @@ import ApproximateBalanceHelpModal from '../HelpModal/ApproximateBalanceHelpModa
 
 import messages from './messages';
 import staticStyles from './style';
-import { getAssetInfo, getAssetColor } from '../../helpers/markets/assets';
+import { getAssetInfo, getAssetColor } from '../../helpers/config/assets-config';
 
 export default function DepositBorrowTopPanel() {
   const intl = useIntl();

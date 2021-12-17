@@ -19,7 +19,7 @@ const SPEC_LIST = {
       './e2e/specs/mainMarket/assets/bat.test.js',
     ],
     reward: './e2e/specs/mainMarket/reward.test.js',
-    stake: './e2e/specs/mainMarket/stake.kovan.test.js',
+    stake: './e2e/specs/mainMarket/stake.test.js',
     swap: './e2e/specs/mainMarket/swap.test.js'
   },
   polygonMarket: {
@@ -67,7 +67,7 @@ let executionList = () => {
   _specs.push(SPEC_LIST.aaveMarket.variableAssets[random(SPEC_LIST.aaveMarket.variableAssets.length)])
   _specs.push(SPEC_LIST.aaveMarket.reward)
   _specs.push(SPEC_LIST.aaveMarket.swap)
-  // _specs.push(SPEC_LIST.aaveMarket.stake) - bugged
+  _specs.push(SPEC_LIST.aaveMarket.stake)
   _specs.push(SPEC_LIST.polygonMarket.baseAsset)
   _specs.push(SPEC_LIST.polygonMarket.otherAssets[random(SPEC_LIST.polygonMarket.otherAssets.length)])
   _specs.push(SPEC_LIST.polygonMarket.reward)
@@ -87,7 +87,7 @@ exports.config = {
   specs: executionList(),
   exclude: [],
   maxInstances: 5,
-  specFileRetries: 3,
+  specFileRetries: 2,
   capabilities: [{
     alwaysMatch: {
       browserName: "Chrome",
@@ -108,7 +108,7 @@ exports.config = {
   logLevel: 'error',
   coloredLogs: true,
   baseUrl: '',
-  waitforTimeout: 400000,
+  waitforTimeout: 600000,
   connectionRetryTimeout: 300000,
   connectionRetryCount: 5,
   path: '/wd/hub',
@@ -132,6 +132,6 @@ exports.config = {
   framework: 'mocha',
   mochaOpts: {
     ui: 'bdd',
-    timeout: 600000
+    timeout: 500000
   }
 }
