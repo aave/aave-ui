@@ -33,8 +33,6 @@ export default function HistoryContent({ data }: HistoryContentProps) {
 
     switch (type) {
       case 'Deposit':
-        title = messages.deposit;
-        break;
       case 'Supply':
         title = messages.supply;
         break;
