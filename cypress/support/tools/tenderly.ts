@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 export const DEFAULT_TEST_ACCOUNT = {
   privateKey: '0x54c6ae44611f38e662093c9a3f4b26c3bf13f5b8adb02da1a76f321bd18efe92',
@@ -17,6 +17,10 @@ const tenderly = axios.create({
 });
 
 export class TenderlyFork {
+  private _forkNetworkID: string;
+  private _chainID: number;
+  private fork_id: string;
+
   constructor({ forkNetworkID }) {
     this._forkNetworkID = forkNetworkID.toString();
     this._chainID = 3030;
