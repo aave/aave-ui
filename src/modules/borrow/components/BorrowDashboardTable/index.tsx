@@ -47,9 +47,7 @@ export default function BorrowDashboardTable({ listData }: BorrowDashboardTableP
                 {...item}
                 index={index}
                 key={index}
-                data-cy={`dashboardBorrowListItem_${item.reserve.symbol.toUpperCase()}${
-                  item.stableBorrowRateEnabled ? '_stable' : ''
-                }`}
+                data-cy={`dashboardBorrowListItem_${item.reserve.symbol.toUpperCase()}`}
               />
             ))}
           </DashboardTable>

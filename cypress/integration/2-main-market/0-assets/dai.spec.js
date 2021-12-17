@@ -1,5 +1,6 @@
 const { configEnvWithTenderlyMainnetFork } = require('../../../support/steps/configuration.steps');
-const { deposit, borrow, repay, withdraw } = require('../../../support/steps/main.steps');
+const { deposit, borrow, repay, withdraw, changeBorrowType } = require('../../../support/steps/main.steps');
+const { dashboardAssetValuesVerification } = require('../../../support/steps/verefication.steps')
 const { skipState } = require('../../../support/steps/common');
 const assets = require('../../../fixtures/assets.json');
 const constants = require('../../../fixtures/constans.json');
@@ -57,7 +58,7 @@ const testData = {
         amount: 10,
         hasApproval: false,
         repayOption: constants.repayType.collateral,
-        assetForRepay: assets.aaveMarket.ETH,
+        assetForRepay: assets.aaveMarket.DAI,
       },
     ],
     withdraw: {
@@ -65,22 +66,22 @@ const testData = {
       amount: 10,
       hasApproval: true,
     },
-    // verifications:{
-    //   finalDashboard:[
-    //     {
-    //       type: constants.dashboardTypes.deposit,
-    //       asset: assets.aaveMarket.DAI.shortName,
-    //       amount: 30,
-    //       collateralType: constants.collateralType.isCollateral
-    //     },
-    //     {
-    //       type: constants.dashboardTypes.borrow,
-    //       asset: assets.aaveMarket.DAI.shortName,
-    //       amount: 80,
-    //       aprType: constants.borrowAPRType.stable
-    //     }
-    //   ]
-    // }
+  },
+  verifications:{
+    finalDashboard:[
+      {
+        type: constants.dashboardTypes.deposit,
+        asset: assets.aaveMarket.DAI.shortName,
+        amount: 30,
+        collateralType: constants.collateralType.isCollateral,
+      },
+      {
+        type: constants.dashboardTypes.borrow,
+        asset: assets.aaveMarket.DAI.shortName,
+        amount: 80,
+        apyType: constants.borrowAPYType.stable,
+      }
+    ]
   },
 };
 
@@ -142,7 +143,7 @@ describe('DAI INTEGRATION SPEC', () => {
     false
   );
 
-  // dashboardAssetValuesVerification(
-  //   testData.verifications.finalDashboard, skipTestState
-  // )
+  dashboardAssetValuesVerification(
+    testData.verifications.finalDashboard, skipTestState
+  );
 });

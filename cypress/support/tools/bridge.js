@@ -1,7 +1,5 @@
-import { DEFAULT_TEST_ACCOUNT, TenderlyFork } from './tenderly';
 import { Eip1193Bridge } from '@ethersproject/experimental/lib/eip1193-bridge';
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { Wallet } from '@ethersproject/wallet';
 
 export class CustomizedBridge extends Eip1193Bridge {
   chainId = 3030;

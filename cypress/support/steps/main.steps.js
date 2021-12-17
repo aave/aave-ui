@@ -1,6 +1,5 @@
-import Table from '../page-objects/table.obj';
-const { setAmount, doConfirm, doSwapForRepay } = require('./actions.steps');
-const constants = require('../../fixtures/constans.json');
+import { setAmount, doConfirm, doSwapForRepay, getDashBoardBorrowRow, getDashBoardDepositRow } from './actions.steps';
+import constants from'../../fixtures/constans.json';
 
 const URL = Cypress.env('URL');
 
@@ -86,9 +85,7 @@ module.exports.repay = (
     skipSetup({ skip, updateSkipStatus });
     it(`Open ${_shortName} repay view`, () => {
       cy.get('.Menu strong').contains('dashboard').click();
-      cy.get(`[data-cy=dashboardBorrowListItem_${_shortName}_stable]`).contains('Repay').click();
-      //let borrowTable = new Table('.MainDashboardTable__right-inner');
-      //borrowTable.openRepay(borrowTable.findRow(_shortName));
+      getDashBoardBorrowRow(_shortName).contains('Repay').click();
     });
     it(`Choose ${repayOption} repay option`, () => {
       switch (repayOption) {
@@ -130,13 +127,11 @@ module.exports.withdraw = (
   updateSkipStatus = false
 ) => {
   let _shortName = asset.shortName;
-
   return describe(`Withdraw process for ${_shortName}`, () => {
     skipSetup({ skip, updateSkipStatus });
     it(`Open ${_shortName} repay view`, () => {
-      cy.get('.Menu strong').contains('dashboard').click().wait(1000);
-      let depositTable = new Table('.MainDashboardTable__left-inner');
-      depositTable.openWithdraw(depositTable.findRow(_shortName));
+      cy.get('.Menu strong').contains('dashboard').click()
+      getDashBoardDepositRow(_shortName).contains('Withdraw').click();
     });
     it(`Set ${amount} withdraw amount for ${_shortName}`, () => {
       setAmount({ amount });
@@ -146,3 +141,22 @@ module.exports.withdraw = (
     });
   });
 };
+
+module.exports.changeBorrowType= (
+  {asset, apyType, newAPY, hasApproval = true},
+  skip,
+  updateSkipStatus = false
+) => {
+  let _shortName =asset.shortName;
+
+  describe("Change APY of borrowing",()=>{
+    skipSetup({skip, updateSkipStatus});
+    it(`Change the ${_shortName} borrowing apr type from ${apyType} to ${newAPY}`, ()=>{
+      cy.get('.Menu strong').contains('dashboard').click()
+      getDashBoardBorrowRow(_shortName, apyType).find('.Switcher__swiper').click();
+    })
+    it(`Make approve for ${_shortName}, on confirmation page`, () => {
+      doConfirm({hasApproval, actionName: "Submit"});
+    });
+  });
+}

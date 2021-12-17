@@ -1,5 +1,3 @@
-const { click } = require('@testing-library/user-event/dist/click');
-
 module.exports.setAmount = ({amount, max =false}) => {
   if(max){
     cy.get(`[data-cy=amountInput-maxBtn]`)
@@ -10,12 +8,11 @@ module.exports.setAmount = ({amount, max =false}) => {
 }
 
 module.exports.doConfirm = ({hasApproval, actionName = null}) => {
-  let _confirmForm = dw cy.get('.TxConfirmationView');
   let clickActionButton = (name) =>{
     if(name != null){
-      _confirmForm.find('.Button').contains(name).click();
+      cy.get('.TxConfirmationView').get('.Button').contains(name).click();
     }else{
-      _confirmForm.find('.Button').click();
+      cy.get('.TxConfirmationView').get('.Button').click();
     }
   }
   if(hasApproval){
@@ -23,7 +20,7 @@ module.exports.doConfirm = ({hasApproval, actionName = null}) => {
     cy.get('.TextStatus > p').contains('2/2 Success!');
   }else{
     cy.get('.TxTopInfo__title').contains('1/3 Approve');
-    _confirmForm.find('.Button').contains('Approve').click();
+    cy.get('.TxConfirmationView').find('.Button').contains('Approve').click();
     if(actionName != null)
       cy.get(`.TxTopInfo__title:contains("2/3 ${actionName}")`)
     clickActionButton(actionName)
@@ -47,4 +44,22 @@ module.exports.doSwapForRepay = ({amount, assetName = null}) => {
     .parents('.Button')
     .should('not.be.disabled')
     .click();
+}
+
+module.exports.getDashBoardBorrowRow = (assetName, apyType = null) => {
+  if(apyType == null){
+    return cy.get(`[data-cy=dashboardBorrowListItem_${assetName}]`).first()
+  }else{
+    return cy.get(`[data-cy=dashboardBorrowListItem_${assetName}] .Switcher__label:contains('${apyType}')`)
+      .parents(`[data-cy=dashboardBorrowListItem_${assetName}]`)
+  }
+}
+
+module.exports.getDashBoardDepositRow = (assetName, collateralType = null) => {
+  if(collateralType == null){
+    return cy.get(`[data-cy=dashboardDespositListItem${assetName}]`).first()
+  }else{
+    return cy.get(`[data-cy=dashboardDespositListItem${assetName}] .Switcher__label:contains('${collateralType}')`)
+      .parents(`[data-cy=dashboardDespositListItem${assetName}]`)
+  }
 }
