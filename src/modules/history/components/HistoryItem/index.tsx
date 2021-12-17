@@ -36,6 +36,7 @@ export default function HistoryItem({ title, type, date, onClick, children }: Hi
 
   switch (type) {
     case 'Deposit':
+    case 'Supply':
       icon = depositIcon;
       darkIcon = depositIconDark;
       break;

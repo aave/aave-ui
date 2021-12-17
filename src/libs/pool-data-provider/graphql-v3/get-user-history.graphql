@@ -1,0 +1,77 @@
+query UserHistory($id: String!, $pool: String, $first: Int, $skip: Int) {
+  userTransactions(
+    first: $first
+    skip: $skip
+    where: { user: $id, pool: $pool }
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    id
+    timestamp
+    ... on Supply {
+      amount
+      reserve {
+        symbol
+        decimals
+      }
+    }
+    ... on RedeemUnderlying {
+      amount
+      reserve {
+        symbol
+        decimals
+      }
+    }
+    ... on Borrow {
+      amount
+      borrowRateMode
+      borrowRate
+      stableTokenDebt
+      variableTokenDebt
+      reserve {
+        symbol
+        decimals
+      }
+    }
+    ... on UsageAsCollateral {
+      fromState
+      toState
+      reserve {
+        symbol
+      }
+    }
+    ... on Repay {
+      amount
+      reserve {
+        symbol
+        decimals
+      }
+    }
+    ... on Swap {
+      borrowRateModeFrom
+      borrowRateModeTo
+      variableBorrowRate
+      stableBorrowRate
+      reserve {
+        symbol
+        decimals
+      }
+    }
+    ... on LiquidationCall {
+      collateralAmount
+      collateralReserve {
+        symbol
+        decimals
+      }
+      principalAmount
+      principalReserve {
+        symbol
+        decimals
+      }
+    }
+  }
+}
+
+query ConnectionStatus {
+  isDisconnected @client
+}

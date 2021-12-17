@@ -29,11 +29,12 @@ export default function HistoryContent({ data }: HistoryContentProps) {
   };
 
   const getTitle = (type: string) => {
-    let title: MessageDescriptor = messages.deposit;
+    let title: MessageDescriptor = messages.supply;
 
     switch (type) {
       case 'Deposit':
-        title = messages.deposit;
+      case 'Supply':
+        title = messages.supply;
         break;
       case 'Borrow':
         title = messages.borrowed;
@@ -79,6 +80,7 @@ export default function HistoryContent({ data }: HistoryContentProps) {
               key={index}
             >
               {(item.type === 'Deposit' ||
+                item.type === 'Supply' ||
                 item.type === 'Borrow' ||
                 item.type === 'RedeemUnderlying' ||
                 item.type === 'Repay' ||
