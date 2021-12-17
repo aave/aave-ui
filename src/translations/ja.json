@@ -68,8 +68,6 @@
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemCaption": "変動型金利",
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemDescription": "お客様の金利は市場に基づいて{fluctuate}します。短期ローンにおすすめです。",
   "components.HelpModal.BorrowInterestHelpModal.stayTheSame": "そのまま",
-  "components.HelpModal.BorrowRatesHelpModal.caption": "",
-  "components.HelpModal.BorrowRatesHelpModal.description": "",
   "components.HelpModal.CollateralHelpModal.caption": "資産を担保として追加および削除する",
   "components.HelpModal.CollateralHelpModal.description": "預入資産を担保として使用するかどうかを決定できます。担保として使用される資産は、借入能力と健康指数に影響を与えます。",
   "components.HelpModal.CooldownUnstakeHelpModal.caption": "クールダウンとステーク解除ウィンドウ期間",

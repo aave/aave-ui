@@ -7,7 +7,6 @@ import {
   useDynamicPoolDataContext,
   useStaticPoolDataContext,
 } from '../../../../libs/pool-data-provider';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import toggleLocalStorageClick from '../../../../helpers/toggle-local-storage-click';
 import TopPanelWrapper from '../../../../components/wrappers/TopPanelWrapper';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
@@ -15,7 +14,6 @@ import SelectMarketPanel from '../../components/SelectMarketPanel';
 import MarketTable from '../../components/MarketTable';
 import MarketTableItem from '../../components/MarketTableItem';
 import TotalMarketsSize from '../../components/TotalMarketsSize';
-import BorrowRatesHelpModal from '../../../../components/HelpModal/BorrowRatesHelpModal';
 import LabeledSwitcher from '../../../../components/basic/LabeledSwitcher';
 import MarketMobileCard from '../../components/MarketMobileCard';
 
@@ -28,7 +26,6 @@ export default function Markets() {
   const { currentTheme } = useThemeContext();
   const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { reserves } = useDynamicPoolDataContext();
-  const { currentMarketData } = useProtocolDataContext();
   const { reserveIncentives } = useIncentivesDataContext();
   const [isPriceInUSD, setIsPriceInUSD] = useState(
     localStorage.getItem('marketsIsPriceInUSD') === 'true'
@@ -149,16 +146,6 @@ export default function Markets() {
       </MarketTable>
 
       <div className="Markets__mobile--cards">
-        {currentMarketData.enabledFeatures?.incentives && (
-          <div className="Markets__help--modalInner">
-            <BorrowRatesHelpModal // TO-DO: Pass rewardTokenSymbol to this component
-              className="Markets__help--modal"
-              text={intl.formatMessage(messages.rewardsInformation)}
-              iconSize={14}
-            />
-          </div>
-        )}
-
         {sortedData.map((item, index) => (
           <MarketMobileCard {...item} key={index} />
         ))}

@@ -68,8 +68,6 @@
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemCaption": "Lãi suất có thể thay đổi",
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemDescription": "Lãi suất của bạn sẽ {fluctuate} dựa trên thị trường. Được đề xuất cho các khoản vay ngắn hạn.",
   "components.HelpModal.BorrowInterestHelpModal.stayTheSame": "giữ nguyên",
-  "components.HelpModal.BorrowRatesHelpModal.caption": "",
-  "components.HelpModal.BorrowRatesHelpModal.description": "",
   "components.HelpModal.CollateralHelpModal.caption": "Thêm và xóa tài sản làm tài sản thế chấp",
   "components.HelpModal.CollateralHelpModal.description": "Cho phép bạn quyết định có sử dụng tài sản ký gửi làm tài sản thế chấp hay không. Một tài sản được sử dụng để thế chấp sẽ ảnh hưởng đến khả năng vay và chỉ số an toàn của bạn.",
   "components.HelpModal.CooldownUnstakeHelpModal.caption": "Giai đoạn unstake và cooldown",

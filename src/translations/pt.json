@@ -68,8 +68,6 @@
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemCaption": "Interesse variável",
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemDescription": "A sua taxa de juro irá {fluctuate} com base no mercado. Recomendado para empréstimos a curto prazo.",
   "components.HelpModal.BorrowInterestHelpModal.stayTheSame": "permanecer o mesmo",
-  "components.HelpModal.BorrowRatesHelpModal.caption": "",
-  "components.HelpModal.BorrowRatesHelpModal.description": "",
   "components.HelpModal.CollateralHelpModal.caption": "Acréscimo e remoção de ativos como garantia",
   "components.HelpModal.CollateralHelpModal.description": "Permite-lhe decidir se pretende utilizar um bem depositado como garantia. Um bem usado como garantia afetará o seu poder de empréstimo e o seu fator saúde.",
   "components.HelpModal.CooldownUnstakeHelpModal.caption": "Período de Janela de Cooldown & Unstake",

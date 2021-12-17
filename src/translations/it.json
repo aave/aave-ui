@@ -68,8 +68,6 @@
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemCaption": "Interesse variabile",
   "components.HelpModal.BorrowInterestHelpModal.secondHelpItemDescription": "Il tasso d'interesse sarà {fluctuate} in base al mercato. Consigliato per i prestiti a breve termine.",
   "components.HelpModal.BorrowInterestHelpModal.stayTheSame": "rimanere lo stesso",
-  "components.HelpModal.BorrowRatesHelpModal.caption": "",
-  "components.HelpModal.BorrowRatesHelpModal.description": "",
   "components.HelpModal.CollateralHelpModal.caption": "Aggiunta e rimozione di asset come garanzia",
   "components.HelpModal.CollateralHelpModal.description": "Ti permette di decidere se utilizzare un asset depositato come garanzia. Un bene utilizzato come garanzia influenzerà il tuo borrowing power e il tuo health factor.",
   "components.HelpModal.CooldownUnstakeHelpModal.caption": "Cooldown & Unstake Window Period",
