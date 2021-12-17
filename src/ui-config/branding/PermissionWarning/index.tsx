@@ -51,6 +51,7 @@ const PermissionWarning: React.FC<
   return (
     <ScreenWrapper isTopLineSmall={true} className="PermissionWarning">
       <ContentWrapper withBackButton={true} withFullHeight={true}>
+        {console.log({ requiredPermission, permissions, underlyingAsset: match.params.underlyingAsset, usdc: currentMarketData.USDCAddress })}
         {requiredPermission === PERMISSION.DEPOSITOR &&
         match.params.underlyingAsset &&
         !isUSDC &&
