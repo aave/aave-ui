@@ -8,6 +8,7 @@ import staticStyles from './style';
 
 interface PercentBlockProps extends Pick<BlockWrapperProps, 'title' | 'titleComponent'> {
   value: number;
+  eModeCategoryId?: number;
   withEModeIcon?: boolean;
 }
 
@@ -16,6 +17,7 @@ export default function PercentBlock({
   titleComponent,
   value,
   withEModeIcon,
+  eModeCategoryId,
 }: PercentBlockProps) {
   return (
     <BlockWrapper title={title} titleComponent={titleComponent}>
@@ -23,7 +25,12 @@ export default function PercentBlock({
         <span className="PercentBlock__no-value">—</span>
       ) : (
         <div className="PercentBlock__content">
-          {withEModeIcon && <EModeIconWithTooltip tooltipId={title || 'tooltipId'} />}
+          {withEModeIcon && eModeCategoryId && (
+            <EModeIconWithTooltip
+              tooltipId={title || 'tooltipId'}
+              eModeCategoryId={eModeCategoryId}
+            />
+          )}
           <ValuePercent
             value={value}
             color="dark"

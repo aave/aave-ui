@@ -94,6 +94,12 @@ function BorrowAmount({
     .dividedBy(poolReserve.borrowCap)
     .toNumber();
 
+  const isBorrowNotAvailableDueDebtCeiling =
+    user &&
+    user.isInIsolationMode &&
+    user.isolatedReserve &&
+    user.isolatedReserve.debtCeiling === user.isolatedReserve.isolationModeTotalDebt;
+
   return (
     <BorrowCurrencyWrapper
       poolReserve={poolReserve}
@@ -138,33 +144,42 @@ function BorrowAmount({
               description={intl.formatMessage(messages.borrowCapReachedDescription)}
             />
           ) : (
-            <NoDataPanel
-              title={
-                !user
-                  ? intl.formatMessage(messages.connectWallet)
-                  : poolReserve.availableLiquidity === '0'
-                  ? intl.formatMessage(messages.noLiquidityAvailableTitle)
-                  : !user || user.totalLiquidityMarketReferenceCurrency === '0'
-                  ? intl.formatMessage(messages.noDataTitle)
-                  : intl.formatMessage(messages.healthFactorTooLowTitle)
-              }
-              description={
-                !user
-                  ? intl.formatMessage(messages.connectWalletDescription)
-                  : poolReserve.availableLiquidity === '0'
-                  ? intl.formatMessage(messages.noLiquidityAvailableDescription, {
-                      symbol: asset.formattedName,
-                    })
-                  : !user || user.totalLiquidityMarketReferenceCurrency === '0'
-                  ? intl.formatMessage(messages.noDataDescription)
-                  : intl.formatMessage(messages.healthFactorTooLowDescription)
-              }
-              buttonTitle={!user ? undefined : intl.formatMessage(messages.noDataButtonTitle)}
-              linkTo={
-                !user ? undefined : `/deposit/${poolReserve.underlyingAsset}-${poolReserve.id}`
-              }
-              withConnectButton={!user}
-            />
+            <>
+              {isBorrowNotAvailableDueDebtCeiling ? (
+                <NoDataPanel
+                  title={intl.formatMessage(messages.borrowingAgainst)}
+                  description={intl.formatMessage(messages.borrowingAgainstDescription)}
+                />
+              ) : (
+                <NoDataPanel
+                  title={
+                    !user
+                      ? intl.formatMessage(messages.connectWallet)
+                      : poolReserve.availableLiquidity === '0'
+                      ? intl.formatMessage(messages.noLiquidityAvailableTitle)
+                      : !user || user.totalLiquidityMarketReferenceCurrency === '0'
+                      ? intl.formatMessage(messages.noDataTitle)
+                      : intl.formatMessage(messages.healthFactorTooLowTitle)
+                  }
+                  description={
+                    !user
+                      ? intl.formatMessage(messages.connectWalletDescription)
+                      : poolReserve.availableLiquidity === '0'
+                      ? intl.formatMessage(messages.noLiquidityAvailableDescription, {
+                          symbol: asset.formattedName,
+                        })
+                      : !user || user.totalLiquidityMarketReferenceCurrency === '0'
+                      ? intl.formatMessage(messages.noDataDescription)
+                      : intl.formatMessage(messages.healthFactorTooLowDescription)
+                  }
+                  buttonTitle={!user ? undefined : intl.formatMessage(messages.noDataButtonTitle)}
+                  linkTo={
+                    !user ? undefined : `/deposit/${poolReserve.underlyingAsset}-${poolReserve.id}`
+                  }
+                  withConnectButton={!user}
+                />
+              )}
+            </>
           )}
         </>
       )}

@@ -254,7 +254,10 @@ export default function CurrencyOverview({
                       {overviewData.isIsolated ? (
                         <div className="CurrencyOverview__percentContent">
                           {userIsInEMode && userEmodeCategoryId === poolReserve.eModeCategoryId && (
-                            <EModeIconWithTooltip tooltipId={poolReserve.id} />
+                            <EModeIconWithTooltip
+                              tooltipId={poolReserve.id}
+                              eModeCategoryId={userEmodeCategoryId}
+                            />
                           )}
                           <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
                         </div>
@@ -265,7 +268,10 @@ export default function CurrencyOverview({
                   ) : (
                     <div className="CurrencyOverview__percentContent">
                       {userIsInEMode && userEmodeCategoryId === poolReserve.eModeCategoryId && (
-                        <EModeIconWithTooltip tooltipId={poolReserve.id} />
+                        <EModeIconWithTooltip
+                          tooltipId={poolReserve.id}
+                          eModeCategoryId={userEmodeCategoryId}
+                        />
                       )}
                       <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
                     </div>

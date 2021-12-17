@@ -56,9 +56,9 @@ export default function IsolationModeBadge({
               </p>
             </>
           ) : (
-            <>
-              <p>TODO: need text</p>
-            </>
+            <p className="IsolationModeBadge__modal--text">
+              {intl.formatMessage(messages.cannotUsedAsCollateral)}
+            </p>
           )}
         </div>
       </TextWithModal>

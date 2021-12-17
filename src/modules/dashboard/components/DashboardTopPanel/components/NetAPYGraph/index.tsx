@@ -1,4 +1,5 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import { BigNumber, valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
@@ -10,6 +11,7 @@ interface NetAPYGraphProps {
 }
 
 export default function NetAPYGraph({ earnedAPY, debtAPY }: NetAPYGraphProps) {
+  const intl = useIntl();
   const { currentTheme } = useThemeContext();
 
   const topValue = earnedAPY > debtAPY ? Math.ceil(earnedAPY) : Math.ceil(debtAPY);
@@ -29,9 +31,11 @@ export default function NetAPYGraph({ earnedAPY, debtAPY }: NetAPYGraphProps) {
 
   return (
     <div className="NetAPYGraph">
-      <div className="NetAPYGraph__line NetAPYGraph__lineTop">{topValue > 0 ? topValue : 2}%</div>
+      <div className="NetAPYGraph__line NetAPYGraph__lineTop">
+        {topValue > 0 ? intl.formatNumber(topValue) : 2}%
+      </div>
       <div className="NetAPYGraph__line NetAPYGraph__lineCenter">
-        {topValue > 0 ? centerValue : 1}%
+        {topValue > 0 ? intl.formatNumber(centerValue) : 1}%
       </div>
       <div className="NetAPYGraph__line NetAPYGraph__lineBottom">0%</div>
 

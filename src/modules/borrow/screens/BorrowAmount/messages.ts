@@ -17,6 +17,10 @@ export default defineMessages({
   connectWallet: 'Please connect a wallet',
   connectWalletDescription: 'We couldn’t detect a wallet. Connect a wallet to borrow.',
 
+  borrowingAgainst: 'Borrowing against collateral is not available',
+  borrowingAgainstDescription:
+    'Borrowing against collateral is not available because it has reached total debt ceiling.',
+
   borrowCapReached: 'Borrow cap is reached',
   borrowCapReachedDescription:
     'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.', // TODO: need text

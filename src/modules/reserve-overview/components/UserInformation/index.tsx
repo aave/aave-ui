@@ -335,7 +335,10 @@ export default function UserInformation({
               >
                 <div className="UserInformation__rowContent">
                   {isReserveInEmode && (
-                    <EModeIconWithTooltip tooltipId={`${poolReserve.id}__loanToValue`} />
+                    <EModeIconWithTooltip
+                      tooltipId={`${poolReserve.id}__loanToValue`}
+                      eModeCategoryId={userEmodeCategoryId}
+                    />
                   )}
                   <ValuePercent value={user?.currentLoanToValue || 0} color={elementsColor} />
                 </div>
@@ -361,6 +364,7 @@ export default function UserInformation({
                               {isReserveInEmode && (
                                 <EModeIconWithTooltip
                                   tooltipId={`${poolReserve.id}__availableBorrow`}
+                                  eModeCategoryId={userEmodeCategoryId}
                                 />
                               )}
                               <Value

@@ -248,6 +248,7 @@ export default function ReserveInformation({
                 userEmodeCategoryId !== 0 && userEmodeCategoryId === poolReserve.eModeCategoryId
               }
               titleComponent={<MaxLTVHelpModal text={intl.formatMessage(messages.maximumLTV)} />}
+              eModeCategoryId={userEmodeCategoryId}
             />
             <PercentBlock
               value={
