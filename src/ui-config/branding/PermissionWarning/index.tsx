@@ -44,7 +44,10 @@ const PermissionWarning: React.FC<
     (!isFeatureEnabled.permissions(currentMarketData) ||
       !userId ||
       permissions.includes(requiredPermission)) &&
-    (requiredPermission !== PERMISSION.DEPOSITOR || isUSDC || canDepositAndBorrow)
+    (requiredPermission !== PERMISSION.DEPOSITOR ||
+      isUSDC ||
+      canDepositAndBorrow ||
+      (requiredPermission === PERMISSION.DEPOSITOR && match.params.underlyingAsset === undefined))
   ) {
     return children;
   }
