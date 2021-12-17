@@ -31,7 +31,7 @@ jobs:
           wait-on: 'http://localhost:3000'
           command: npm run test
         env:
-          CYPRESS_DOMAIN: 'http://localhost:3000'
+          CYPRESS_URL: 'http://localhost:3000'
           CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
           CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
           CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
