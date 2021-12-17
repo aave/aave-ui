@@ -32,7 +32,7 @@ export default function NetAPY({ value, isCollapse }: NetAPYProps) {
       }
       isColumn={!sm}
     >
-      <ValuePercent value={value / 100} color="white" />
+      <ValuePercent value={value / 100} color="white" isCompact={true} />
 
       <style jsx={true} global={true}>
         {staticStyles}

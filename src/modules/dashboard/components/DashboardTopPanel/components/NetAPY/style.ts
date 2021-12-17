@@ -20,6 +20,19 @@ const staticStyles = css.global`
       margin-bottom: 10px;
     }
 
+    .TextWithModal {
+      align-items: center;
+    }
+
+    .Row__title-inner {
+      align-items: center;
+    }
+    .TextWithModal__button {
+      position: static;
+      transform: unset !important;
+      margin-left: 4px;
+    }
+
     .TextWithModal__text {
       font-size: $regular !important;
       @include respond-to(xl) {
@@ -55,6 +68,10 @@ const staticStyles = css.global`
       @include respond-to(sm) {
         padding-right: 0;
         margin-bottom: 10px;
+      }
+
+      .Row__title-inner {
+        align-items: flex-start;
       }
 
       .TextWithModal__text {

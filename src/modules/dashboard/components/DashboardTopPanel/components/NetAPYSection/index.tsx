@@ -7,10 +7,10 @@ import ValuePercent from '../../../../../../components/basic/ValuePercent';
 import SectionWrapper from '../SectionWrapper';
 import NetAPYGraph from '../NetAPYGraph';
 import NetWorth from '../NetWorth';
+import NetAPY from '../NetAPY';
 
 import messages from './messages';
 import staticStyles from './style';
-import NetAPY from '../NetAPY';
 
 interface NetAPYSectionProps {
   earnedAPY: number;
