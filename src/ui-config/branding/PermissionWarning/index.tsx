@@ -34,7 +34,8 @@ const PermissionWarning: React.FC<
   const { userId } = useStaticPoolDataContext();
   const { permissions } = usePermissions();
 
-  const isUSDC = match.params.underlyingAsset === currentMarketData.USDCAddress;
+  const isUSDC =
+    match.params.underlyingAsset?.toLowerCase() === currentMarketData.USDCAddress?.toLowerCase();
   const canDepositAndBorrow = [PERMISSION.DEPOSITOR, PERMISSION.BORROWER].every((p) =>
     permissions.includes(p)
   );
