@@ -28,7 +28,7 @@ export class TenderlyFork {
       {
         network_id: this._forkNetworkID,
         chain_config: { chain_id: this._chainID },
-      }
+      },
     );
     this.fork_id = response.data.simulation_fork.id;
   }
@@ -42,13 +42,13 @@ export class TenderlyFork {
     if (!this.fork_id) throw new Error('Fork not initialized!');
     tenderly.post(
       `account/${TENDERLY_ACCOUNT}/project/${TENDERLY_PROJECT}/fork/${this.fork_id}/balance`,
-      { accounts: [address], amount: amount }
+      { accounts: [address], amount: amount },
     );
   }
 
   async deleteFork() {
     await tenderly.delete(
-      `account/${TENDERLY_ACCOUNT}/project/${TENDERLY_PROJECT}/fork/${this.fork_id}`
+      `account/${TENDERLY_ACCOUNT}/project/${TENDERLY_PROJECT}/fork/${this.fork_id}`,
     );
   }
 }

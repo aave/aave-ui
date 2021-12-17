@@ -6,6 +6,6 @@ module.exports.skipState = (initialValue = false) => {
     },
     get: () => {
       return _value;
-    }
+    },
   };
 };

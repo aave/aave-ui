@@ -46,7 +46,7 @@ export class CustomizedBridge extends Eip1193Bridge {
       const req = JsonRpcProvider.hexlifyTransaction(
         // @ts-ignore
         params[0],
-        { from: true, gas: true }
+        { from: true, gas: true },
       );
       const tx = await this.signer.sendTransaction(req);
       return tx.hash;

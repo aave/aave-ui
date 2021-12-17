@@ -1,9 +1,10 @@
-const { configEnvWithTenderlyMainnetFork } = require('../../../support/steps/configuration.steps');
-const { deposit, borrow, repay, withdraw, changeBorrowType } = require('../../../support/steps/main.steps');
-const { dashboardAssetValuesVerification } = require('../../../support/steps/verefication.steps')
-const { skipState } = require('../../../support/steps/common');
-const assets = require('../../../fixtures/assets.json');
-const constants = require('../../../fixtures/constans.json');
+import { configEnvWithTenderlyMainnetFork } from '../../../support/steps/configuration.steps';
+import { deposit, borrow, repay, withdraw, changeBorrowType } from '../../../support/steps/main.steps';
+import { dashboardAssetValuesVerification } from '../../../support/steps/verefication.steps';
+import { skipState } from '../../../support/steps/common';
+import assets from '../../../fixtures/assets.json';
+import constants from '../../../fixtures/constans.json';
+
 const URL = Cypress.env('URL');
 
 const testData = {
@@ -32,21 +33,21 @@ const testData = {
       amount: 50,
       hasApproval: false,
     },
-    changeBorrowType:[
+    changeBorrowType: [
       {
-        asset:assets.aaveMarket.DAI,
+        asset: assets.aaveMarket.DAI,
         apyType: constants.borrowAPYType.stable,
         newAPY: constants.borrowAPYType.variable,
-        hasApproval: true
+        hasApproval: true,
       },
       {
-        asset:assets.aaveMarket.DAI,
+        asset: assets.aaveMarket.DAI,
         apyType: constants.borrowAPYType.variable,
         newAPY: constants.borrowAPYType.stable,
-        hasApproval: true
-      }
+        hasApproval: true,
+      },
     ],
-    repay:[
+    repay: [
       {
         asset: assets.aaveMarket.DAI,
         amount: 10,
@@ -67,8 +68,8 @@ const testData = {
       hasApproval: true,
     },
   },
-  verifications:{
-    finalDashboard:[
+  verifications: {
+    finalDashboard: [
       {
         type: constants.dashboardTypes.deposit,
         asset: assets.aaveMarket.DAI.shortName,
@@ -80,8 +81,8 @@ const testData = {
         asset: assets.aaveMarket.DAI.shortName,
         amount: 80,
         apyType: constants.borrowAPYType.stable,
-      }
-    ]
+      },
+    ],
   },
 };
 
@@ -94,7 +95,7 @@ describe('DAI INTEGRATION SPEC', () => {
       ...testData.depositETH,
     },
     skipTestState,
-    true
+    true,
   );
 
   testData.testCases.borrow.forEach((borrowCase) => {
@@ -103,17 +104,17 @@ describe('DAI INTEGRATION SPEC', () => {
         ...borrowCase,
       },
       skipTestState,
-      true
+      true,
     );
   });
 
-  testData.testCases.changeBorrowType.forEach((changeAPRCase) =>{
+  testData.testCases.changeBorrowType.forEach((changeAPRCase) => {
     changeBorrowType(
       {
-        ...changeAPRCase
+        ...changeAPRCase,
       },
       skipTestState,
-      true
+      true,
     );
   });
 
@@ -122,7 +123,7 @@ describe('DAI INTEGRATION SPEC', () => {
       ...testData.testCases.deposit,
     },
     skipTestState,
-    true
+    true,
   );
 
   testData.testCases.repay.forEach((repayCase) => {
@@ -131,7 +132,7 @@ describe('DAI INTEGRATION SPEC', () => {
         ...repayCase,
       },
       skipTestState,
-      false
+      false,
     );
   });
 
@@ -140,10 +141,10 @@ describe('DAI INTEGRATION SPEC', () => {
       ...testData.testCases.withdraw,
     },
     skipTestState,
-    false
+    false,
   );
 
   dashboardAssetValuesVerification(
-    testData.verifications.finalDashboard, skipTestState
+    testData.verifications.finalDashboard, skipTestState,
   );
 });

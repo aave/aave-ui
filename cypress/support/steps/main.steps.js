@@ -1,10 +1,10 @@
 import { setAmount, doConfirm, doSwapForRepay, getDashBoardBorrowRow, getDashBoardDepositRow } from './actions.steps';
-import constants from'../../fixtures/constans.json';
+import constants from '../../fixtures/constans.json';
 
 const URL = Cypress.env('URL');
 
 const skipSetup = ({ skip, updateSkipStatus }) => {
-  before(function () {
+  before(function() {
     if (skip.get()) {
       this.skip();
     }
@@ -17,9 +17,9 @@ const skipSetup = ({ skip, updateSkipStatus }) => {
   });
 };
 
-module.exports.deposit = ({asset, amount, hasApproval = true}, skip, updateSkipStatus = false) =>{
-  let _shortName =asset.shortName;
-  let _fullName =asset.fullName;
+module.exports.deposit = ({ asset, amount, hasApproval = true }, skip, updateSkipStatus = false) => {
+  let _shortName = asset.shortName;
+  let _fullName = asset.fullName;
 
   return describe(`Deposit process for ${_shortName}`, () => {
     skipSetup({ skip, updateSkipStatus });
@@ -39,7 +39,7 @@ module.exports.deposit = ({asset, amount, hasApproval = true}, skip, updateSkipS
 module.exports.borrow = (
   { asset, amount, apyType, hasApproval = true },
   skip,
-  updateSkipStatus = false
+  updateSkipStatus = false,
 ) => {
   let _shortName = asset.shortName;
   let _fullName = asset.fullName;
@@ -50,11 +50,11 @@ module.exports.borrow = (
       cy.get('.Menu strong').contains('Borrow').click();
       cy.get('.TokenIcon__name').contains(_fullName).click();
     });
-    it(`Set ${amount} borrow amount for ${_shortName}`, ()=>{
-      setAmount({amount});
-    })
-    it(`Choose ${apyType === constants.borrowAPYType.variable ? "Variable" : "Stable"} APY type`, () => {
-      switch(apyType){
+    it(`Set ${amount} borrow amount for ${_shortName}`, () => {
+      setAmount({ amount });
+    });
+    it(`Choose ${apyType === constants.borrowAPYType.variable ? 'Variable' : 'Stable'} APY type`, () => {
+      switch (apyType) {
         case constants.borrowAPYType.variable:
           cy.get('.InterestRateButton__inner p').contains('Variable APY').click();
           break;
@@ -76,7 +76,7 @@ module.exports.borrow = (
 module.exports.repay = (
   { asset, amount, repayOption, assetForRepay = null, hasApproval = false },
   skip,
-  updateSkipStatus = false
+  updateSkipStatus = false,
 ) => {
   let _shortName = asset.shortName;
   let _shortNameAssetForRepay = assetForRepay != null ? assetForRepay.shortName : null;
@@ -124,13 +124,13 @@ module.exports.repay = (
 module.exports.withdraw = (
   { asset, amount, hasApproval = false },
   skip,
-  updateSkipStatus = false
+  updateSkipStatus = false,
 ) => {
   let _shortName = asset.shortName;
   return describe(`Withdraw process for ${_shortName}`, () => {
     skipSetup({ skip, updateSkipStatus });
     it(`Open ${_shortName} repay view`, () => {
-      cy.get('.Menu strong').contains('dashboard').click()
+      cy.get('.Menu strong').contains('dashboard').click();
       getDashBoardDepositRow(_shortName).contains('Withdraw').click();
     });
     it(`Set ${amount} withdraw amount for ${_shortName}`, () => {
@@ -142,21 +142,21 @@ module.exports.withdraw = (
   });
 };
 
-module.exports.changeBorrowType= (
-  {asset, apyType, newAPY, hasApproval = true},
+module.exports.changeBorrowType = (
+  { asset, apyType, newAPY, hasApproval = true },
   skip,
-  updateSkipStatus = false
+  updateSkipStatus = false,
 ) => {
-  let _shortName =asset.shortName;
+  let _shortName = asset.shortName;
 
-  describe("Change APY of borrowing",()=>{
-    skipSetup({skip, updateSkipStatus});
-    it(`Change the ${_shortName} borrowing apr type from ${apyType} to ${newAPY}`, ()=>{
-      cy.get('.Menu strong').contains('dashboard').click()
+  describe('Change APY of borrowing', () => {
+    skipSetup({ skip, updateSkipStatus });
+    it(`Change the ${_shortName} borrowing apr type from ${apyType} to ${newAPY}`, () => {
+      cy.get('.Menu strong').contains('dashboard').click();
       getDashBoardBorrowRow(_shortName, apyType).find('.Switcher__swiper').click();
-    })
+    });
     it(`Make approve for ${_shortName}, on confirmation page`, () => {
-      doConfirm({hasApproval, actionName: "Submit"});
+      doConfirm({ hasApproval, actionName: 'Submit' });
     });
   });
-}
+};
