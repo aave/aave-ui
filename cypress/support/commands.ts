@@ -25,11 +25,6 @@
 // -- This will overwrite an existing command --
 // injects a web3 provider into the local window state
 
-import { DEFAULT_TEST_ACCOUNT, TenderlyFork } from './tenderly';
-import { Eip1193Bridge } from '@ethersproject/experimental/lib/eip1193-bridge';
-import { JsonRpcProvider } from '@ethersproject/providers';
-import { Wallet } from '@ethersproject/wallet';
-
 // https://github.com/quasarframework/quasar/issues/2233
 const resizeObserverLoopErrRe = /^[^(ResizeObserver loop limit exceeded)]/;
 Cypress.on('uncaught:exception', (err) => {
@@ -38,4 +33,3 @@ Cypress.on('uncaught:exception', (err) => {
     return false;
   }
 });
-

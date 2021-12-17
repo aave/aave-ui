@@ -1,9 +1,10 @@
+/// <reference types="cypress" />
 import { getDashBoardBorrowRow, getDashBoardDepositRow } from './actions.steps';
 import constants from '../../fixtures/constans.json';
-import mathUtil from '../tools/math.util';
+import { getRoundDegree } from '../tools/math.util';
 
 const skipSetup = (skip) => {
-  before(function() {
+  before(function () {
     if (skip.get()) {
       this.skip();
     }
@@ -11,18 +12,17 @@ const skipSetup = (skip) => {
 };
 
 const amountVerification = ($row, estimatedAmount) => {
-  let _degree = mathUtil.getRoundDegree(estimatedAmount);
-  let _balanceValue = Math.floor(parseFloat(
-    $row.find('.Value__value').text().replace(/,/g, ''),
-  ) * _degree) / _degree;
+  let _degree = getRoundDegree(estimatedAmount);
+  let _balanceValue =
+    Math.floor(parseFloat($row.find('.Value__value').text().replace(/,/g, '')) * _degree) / _degree;
   expect(estimatedAmount).to.be.equal(_balanceValue, 'Amount');
 };
 
-module.exports.dashboardAssetValuesVerification = (estimatedCases, skip) => {
+export const dashboardAssetValuesVerification = (estimatedCases, skip) => {
   return describe(`Verification dashboard values`, () => {
     skipSetup(skip);
     it(`Open dashboard page`, () => {
-      cy.get('.Menu strong').contains('dashboard').click().wait(4000);// awaitng sync
+      cy.get('.Menu strong').contains('dashboard').click().wait(4000); // awaitng sync
     });
     estimatedCases.forEach((estimatedCase) => {
       describe(`Verification ${estimatedCase.asset} ${estimatedCase.type}, have right values`, () => {
@@ -42,12 +42,16 @@ module.exports.dashboardAssetValuesVerification = (estimatedCases, skip) => {
             it(`Check that asset name is ${estimatedCase.asset},
             with collateral type ${estimatedCase.collateralType},
             and amount ${estimatedCase.amount}`, () => {
-              getDashBoardDepositRow(estimatedCase.asset, estimatedCase.collateralType).within(($row) => {
-                expect($row.find('.TokenIcon__name')).to.contain(estimatedCase.asset);
-                expect($row.find('.Switcher__label')).to.contain(estimatedCase.collateralType);
-                amountVerification($row, estimatedCase.amount);
-              });
+              getDashBoardDepositRow(estimatedCase.asset, estimatedCase.collateralType).within(
+                ($row) => {
+                  expect($row.find('.TokenIcon__name')).to.contain(estimatedCase.asset);
+                  expect($row.find('.Switcher__label')).to.contain(estimatedCase.collateralType);
+                  amountVerification($row, estimatedCase.amount);
+                }
+              );
             });
+            break;
+          default:
             break;
         }
       });

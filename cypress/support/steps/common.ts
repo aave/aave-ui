@@ -1,7 +1,7 @@
-module.exports.skipState = (initialValue = false) => {
+export const skipState = (initialValue = false) => {
   let _value = initialValue;
   return {
-    set: value => {
+    set: (value) => {
       _value = value;
     },
     get: () => {

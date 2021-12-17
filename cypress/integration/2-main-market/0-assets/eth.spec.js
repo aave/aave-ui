@@ -1,10 +1,8 @@
 import { configEnvWithTenderlyMainnetFork } from '../../../support/steps/configuration.steps';
-import { deposit, borrow, repay } from '../../../support/steps/main.steps';
+import { deposit, borrow } from '../../../support/steps/main.steps';
 import { skipState } from '../../../support/steps/common';
 import assets from '../../../fixtures/assets.json';
 import constants from '../../../fixtures/constans.json';
-
-const URL = Cypress.env('URL');
 
 const testData = {
   asset: {
@@ -58,21 +56,9 @@ describe('ETH INTEGRATION SPEC', () => {
   const skipTestState = skipState(false);
   configEnvWithTenderlyMainnetFork({});
 
-  deposit(
-    {
-      ...testData.asset.deposit,
-    },
-    skipTestState,
-    true,
-  );
+  deposit(testData.asset.deposit, skipTestState, true);
 
-  borrow(
-    {
-      ...testData.asset.borrow,
-    },
-    skipTestState,
-    true,
-  );
+  borrow(testData.asset.borrow, skipTestState, true);
 
   // testData.asset.repay.forEach((repayCase) =>{
   //   repay(

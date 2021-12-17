@@ -1,10 +1,15 @@
-import { setAmount, doConfirm, doSwapForRepay, getDashBoardBorrowRow, getDashBoardDepositRow } from './actions.steps';
+/// <reference types="cypress" />
+import {
+  setAmount,
+  doConfirm,
+  doSwapForRepay,
+  getDashBoardBorrowRow,
+  getDashBoardDepositRow,
+} from './actions.steps';
 import constants from '../../fixtures/constans.json';
 
-const URL = Cypress.env('URL');
-
 const skipSetup = ({ skip, updateSkipStatus }) => {
-  before(function() {
+  before(function () {
     if (skip.get()) {
       this.skip();
     }
@@ -17,7 +22,7 @@ const skipSetup = ({ skip, updateSkipStatus }) => {
   });
 };
 
-module.exports.deposit = ({ asset, amount, hasApproval = true }, skip, updateSkipStatus = false) => {
+export const deposit = ({ asset, amount, hasApproval = true }, skip, updateSkipStatus = false) => {
   let _shortName = asset.shortName;
   let _fullName = asset.fullName;
 
@@ -36,10 +41,10 @@ module.exports.deposit = ({ asset, amount, hasApproval = true }, skip, updateSki
   });
 };
 
-module.exports.borrow = (
+export const borrow = (
   { asset, amount, apyType, hasApproval = true },
   skip,
-  updateSkipStatus = false,
+  updateSkipStatus = false
 ) => {
   let _shortName = asset.shortName;
   let _fullName = asset.fullName;
@@ -53,7 +58,9 @@ module.exports.borrow = (
     it(`Set ${amount} borrow amount for ${_shortName}`, () => {
       setAmount({ amount });
     });
-    it(`Choose ${apyType === constants.borrowAPYType.variable ? 'Variable' : 'Stable'} APY type`, () => {
+    it(`Choose ${
+      apyType === constants.borrowAPYType.variable ? 'Variable' : 'Stable'
+    } APY type`, () => {
       switch (apyType) {
         case constants.borrowAPYType.variable:
           cy.get('.InterestRateButton__inner p').contains('Variable APY').click();
@@ -73,10 +80,10 @@ module.exports.borrow = (
   });
 };
 
-module.exports.repay = (
+export const repay = (
   { asset, amount, repayOption, assetForRepay = null, hasApproval = false },
   skip,
-  updateSkipStatus = false,
+  updateSkipStatus = false
 ) => {
   let _shortName = asset.shortName;
   let _shortNameAssetForRepay = assetForRepay != null ? assetForRepay.shortName : null;
@@ -121,10 +128,10 @@ module.exports.repay = (
   });
 };
 
-module.exports.withdraw = (
+export const withdraw = (
   { asset, amount, hasApproval = false },
   skip,
-  updateSkipStatus = false,
+  updateSkipStatus = false
 ) => {
   let _shortName = asset.shortName;
   return describe(`Withdraw process for ${_shortName}`, () => {
@@ -142,10 +149,10 @@ module.exports.withdraw = (
   });
 };
 
-module.exports.changeBorrowType = (
+export const changeBorrowType = (
   { asset, apyType, newAPY, hasApproval = true },
   skip,
-  updateSkipStatus = false,
+  updateSkipStatus = false
 ) => {
   let _shortName = asset.shortName;
 

@@ -1,11 +1,15 @@
 import { configEnvWithTenderlyMainnetFork } from '../../../support/steps/configuration.steps';
-import { deposit, borrow, repay, withdraw, changeBorrowType } from '../../../support/steps/main.steps';
-import { dashboardAssetValuesVerification } from '../../../support/steps/verefication.steps';
+import {
+  deposit,
+  borrow,
+  repay,
+  withdraw,
+  changeBorrowType,
+} from '../../../support/steps/main.steps';
+import { dashboardAssetValuesVerification } from '../../../support/steps/verification.steps';
 import { skipState } from '../../../support/steps/common';
 import assets from '../../../fixtures/assets.json';
 import constants from '../../../fixtures/constans.json';
-
-const URL = Cypress.env('URL');
 
 const testData = {
   depositETH: {
@@ -90,61 +94,23 @@ describe('DAI INTEGRATION SPEC', () => {
   const skipTestState = skipState(false);
   configEnvWithTenderlyMainnetFork({});
 
-  deposit(
-    {
-      ...testData.depositETH,
-    },
-    skipTestState,
-    true,
-  );
+  deposit(testData.depositETH, skipTestState, true);
 
   testData.testCases.borrow.forEach((borrowCase) => {
-    borrow(
-      {
-        ...borrowCase,
-      },
-      skipTestState,
-      true,
-    );
+    borrow(borrowCase, skipTestState, true);
   });
 
   testData.testCases.changeBorrowType.forEach((changeAPRCase) => {
-    changeBorrowType(
-      {
-        ...changeAPRCase,
-      },
-      skipTestState,
-      true,
-    );
+    changeBorrowType(changeAPRCase, skipTestState, true);
   });
 
-  deposit(
-    {
-      ...testData.testCases.deposit,
-    },
-    skipTestState,
-    true,
-  );
+  deposit(testData.testCases.deposit, skipTestState, true);
 
   testData.testCases.repay.forEach((repayCase) => {
-    repay(
-      {
-        ...repayCase,
-      },
-      skipTestState,
-      false,
-    );
+    repay(repayCase, skipTestState, false);
   });
 
-  withdraw(
-    {
-      ...testData.testCases.withdraw,
-    },
-    skipTestState,
-    false,
-  );
+  withdraw(testData.testCases.withdraw, skipTestState, false);
 
-  dashboardAssetValuesVerification(
-    testData.verifications.finalDashboard, skipTestState,
-  );
+  dashboardAssetValuesVerification(testData.verifications.finalDashboard, skipTestState);
 });
