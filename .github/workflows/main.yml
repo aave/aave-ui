@@ -61,3 +61,24 @@ jobs:
               repo: context.repo.repo,
               body: 'Preview link: ${{steps.deploy.outputs.uri}}'
             })
+
+  # legacy testing setup till cypress has the same coverage
+  test:
+    runs-on: ubuntu-latest
+    needs: deploy_ipfs
+    container: 'wolphin/e2e-image'
+    env:
+      DOMAIN: '${{ needs.deploy_ipfs.outputs.uri }}'
+      LAMBDATEST_ACCOUNT: ${{ secrets.LAMBDATEST_ACCOUNT }}
+      LAMBDATEST_KEY: ${{ secrets.LAMBDATEST_KEY }}
+      TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
+      TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
+      TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install
+        run: cd tests && npm ci
+
+      - name: Main
+        run: cd tests && BUILD="${GITHUB_REF}_${GITHUB_SHA}" npm run lambdaTest
