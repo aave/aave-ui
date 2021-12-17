@@ -16,8 +16,6 @@
 // Import commands.js using ES2015 syntax:
 import './commands';
 
-
-
 afterEach(function onAfterEach() {
   if (this.currentTest.state === 'failed') {
     cy.setCookie('shouldSkip', 'true');

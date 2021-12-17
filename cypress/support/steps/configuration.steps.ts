@@ -3,7 +3,6 @@ import { JsonRpcProvider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
 import { CustomizedBridge } from '../tools/bridge';
 import forkNetworks from '../../fixtures/fork-networks.json';
-import { CustomMarket } from '../../../src/ui-config/markets';
 
 const URL = Cypress.env('URL');
 const DEFAULT_TEST_WALLET = {
