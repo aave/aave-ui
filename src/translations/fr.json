@@ -703,7 +703,6 @@
   "modules.history.components.HistoryContent.borrowed": "Emprunté",
   "modules.history.components.HistoryContent.changeOfAPYType": "Changement du type APY",
   "modules.history.components.HistoryContent.changeOfUsageAsCollateral": "Changement d'utilisation comme collatéral",
-  "modules.history.components.HistoryContent.deposit": "Déposer",
   "modules.history.components.HistoryContent.download": "Télécharger .CSV",
   "modules.history.components.HistoryContent.liquidation": "Liquidation",
   "modules.history.components.HistoryContent.repayment": "Remboursement",

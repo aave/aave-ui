@@ -29,7 +29,7 @@ export default function HistoryContent({ data }: HistoryContentProps) {
   };
 
   const getTitle = (type: string) => {
-    let title: MessageDescriptor = messages.deposit;
+    let title: MessageDescriptor = messages.supply;
 
     switch (type) {
       case 'Deposit':

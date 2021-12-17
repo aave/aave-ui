@@ -703,7 +703,6 @@
   "modules.history.components.HistoryContent.borrowed": "",
   "modules.history.components.HistoryContent.changeOfAPYType": "",
   "modules.history.components.HistoryContent.changeOfUsageAsCollateral": "",
-  "modules.history.components.HistoryContent.deposit": "",
   "modules.history.components.HistoryContent.download": "",
   "modules.history.components.HistoryContent.liquidation": "",
   "modules.history.components.HistoryContent.repayment": "",

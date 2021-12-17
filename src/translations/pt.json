@@ -703,7 +703,6 @@
   "modules.history.components.HistoryContent.borrowed": "Emprestado",
   "modules.history.components.HistoryContent.changeOfAPYType": "Mudança do tipo de Taxa de Juro",
   "modules.history.components.HistoryContent.changeOfUsageAsCollateral": "Mudança da utilização como garantia",
-  "modules.history.components.HistoryContent.deposit": "Depósito",
   "modules.history.components.HistoryContent.download": "Baixar .CSV",
   "modules.history.components.HistoryContent.liquidation": "liquidação",
   "modules.history.components.HistoryContent.repayment": "Reembolso",

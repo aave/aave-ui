@@ -703,7 +703,6 @@
   "modules.history.components.HistoryContent.borrowed": "借入れた",
   "modules.history.components.HistoryContent.changeOfAPYType": "APYタイプの変更",
   "modules.history.components.HistoryContent.changeOfUsageAsCollateral": "担保の利用方法の変更",
-  "modules.history.components.HistoryContent.deposit": "預入",
   "modules.history.components.HistoryContent.download": ".CSVをダウンロード",
   "modules.history.components.HistoryContent.liquidation": "清算",
   "modules.history.components.HistoryContent.repayment": "返済",

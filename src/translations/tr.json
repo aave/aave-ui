@@ -703,7 +703,6 @@
   "modules.history.components.HistoryContent.borrowed": "Borç alındı",
   "modules.history.components.HistoryContent.changeOfAPYType": "APY Tipi Değişikliği",
   "modules.history.components.HistoryContent.changeOfUsageAsCollateral": "Teminat olarak kullanım değişikliği",
-  "modules.history.components.HistoryContent.deposit": "Depozito",
   "modules.history.components.HistoryContent.download": ".CSV'yi indirin",
   "modules.history.components.HistoryContent.liquidation": "Likidasyon",
   "modules.history.components.HistoryContent.repayment": "Geri ödeme",

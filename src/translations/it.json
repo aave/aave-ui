@@ -703,7 +703,6 @@
   "modules.history.components.HistoryContent.borrowed": "Preso in prestito",
   "modules.history.components.HistoryContent.changeOfAPYType": "Cambio di tipo APY",
   "modules.history.components.HistoryContent.changeOfUsageAsCollateral": "Utilizza come garanzia",
-  "modules.history.components.HistoryContent.deposit": "Depositare",
   "modules.history.components.HistoryContent.download": "Scaricare .CSV",
   "modules.history.components.HistoryContent.liquidation": "Liquidazione",
   "modules.history.components.HistoryContent.repayment": "Pagamento",
