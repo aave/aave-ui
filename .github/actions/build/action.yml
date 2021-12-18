@@ -4,31 +4,21 @@ description: installs dependencies & generates a build
 runs:
   using: 'composite'
   steps:
-    - name: restore build
-      continue-on-error: true
-      id: restore
-      uses: actions/download-artifact@v2
-      with:
-        name: build_${{github.sha}}
-
     - uses: actions/setup-node@v2
       with:
         node-version: '16'
         cache: 'npm'
 
     - name: install
-      if: steps.restore.outcome != 'success'
       run: npm ci
       shell: bash
 
     - name: build
-      if: steps.restore.outcome != 'success'
       run: npm run build
       shell: bash
 
     - name: store artifact
       uses: actions/upload-artifact@v2
-      if: steps.restore.outcome != 'success'
       with:
         name: build_${{github.sha}}
         path: build/

@@ -13,10 +13,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: restore build
+        continue-on-error: true
+        id: restore
+        uses: actions/download-artifact@v2
+        with:
+          name: build_${{github.sha}}
+
       - name: prepare env
+        if: steps.restore.outcome != 'success'
         run: cp ${ENV:-'.github/.env.preview'} .env
 
       - uses: ./.github/actions/build
+        if: steps.restore.outcome != 'success'
 
   cypress_test:
     runs-on: ubuntu-latest
