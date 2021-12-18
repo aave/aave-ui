@@ -35,7 +35,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version-file: '.nvmrc'
           cache: 'npm'
 
       - name: install
@@ -46,6 +46,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build_${{github.sha}}
+          path: build
 
       - name: test
         uses: cypress-io/github-action@v2
@@ -73,7 +74,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version-file: '.nvmrc'
           cache: 'npm'
 
       - name: install
@@ -84,6 +85,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build_${{github.sha}}
+          path: build
 
       - name: pinata
         id: pinata
