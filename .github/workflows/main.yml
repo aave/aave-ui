@@ -111,7 +111,7 @@ jobs:
     needs: upload
     container: 'wolphin/e2e-image'
     env:
-      DOMAIN: '${{ needs.deploy_ipfs.outputs.uri }}'
+      DOMAIN: '${{ needs.upload.outputs.uri }}'
       LAMBDATEST_ACCOUNT: ${{ secrets.LAMBDATEST_ACCOUNT }}
       LAMBDATEST_KEY: ${{ secrets.LAMBDATEST_KEY }}
       TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
