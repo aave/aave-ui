@@ -10,7 +10,7 @@ runs:
         cache: 'npm'
 
     - name: install
-      run: npm ci
+      run: yarn install --frozen-lockfile
       shell: bash
 
     - name: build
