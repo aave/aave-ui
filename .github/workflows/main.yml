@@ -39,7 +39,7 @@ jobs:
           cache: 'yarn'
 
       - name: install
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --prefer-offline
         shell: bash
 
       - name: download build
@@ -78,7 +78,7 @@ jobs:
           cache: 'yarn'
 
       - name: install
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --prefer-offline
         shell: bash
 
       - name: download build
