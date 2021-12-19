@@ -64,6 +64,13 @@ jobs:
           CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
           CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
 
+      - name: video
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-fail-videos
+          path: cypress/video
+
   upload:
     runs-on: ubuntu-latest
     needs: build
