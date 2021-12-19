@@ -36,10 +36,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version-file: '.nvmrc'
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: install
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: npm ci --prefer-offline --no-audit
         shell: bash
 
       - name: download build
@@ -75,10 +75,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version-file: '.nvmrc'
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: install
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: npm ci --prefer-offline --no-audit
         shell: bash
 
       - name: download build
