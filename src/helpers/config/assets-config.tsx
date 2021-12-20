@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   getAssetInfoFactory,
   TokenIcon as DefaultTokenIcon,
@@ -21,9 +21,6 @@ export const isAssetStable = (assetSymbol: string) => {
   return stableAssets.includes(assetInfo.symbol.toLocaleUpperCase());
 };
 
-export const TokenIcon = (props: Omit<TokenIconProps, 'getAssetInfo'>) => {
-  useEffect(() => {
-    console.log(`assetsList`, assetsList);
-  }, [props]);
-  return <DefaultTokenIcon {...props} getAssetInfo={getAssetInfo} />;
-};
+export const TokenIcon = (props: Omit<TokenIconProps, 'getAssetInfo'>) => (
+  <DefaultTokenIcon {...props} getAssetInfo={getAssetInfo} />
+);
