@@ -43,7 +43,12 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
 
           <DashboardTable>
             {listData.map((item, index) => (
-              <DepositItem {...item} index={index} key={index} />
+              <DepositItem
+                {...item}
+                index={index}
+                key={index}
+                data-cy={`dashboardDespositListItem${item.reserve.symbol.toUpperCase()}`}
+              />
             ))}
           </DashboardTable>
         </>
