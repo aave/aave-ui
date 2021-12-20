@@ -30,40 +30,36 @@ export const dashboardAssetValuesVerification = (
   return describe(`Verification dashboard values`, () => {
     skipSetup(skip);
     it(`Open dashboard page`, () => {
-      cy.get('.Menu strong').contains('dashboard').click().wait(4000); // awaitng sync
+      cy.get('.Menu strong').contains('dashboard').click().wait(4000);// awaitng sync
     });
     estimatedCases.forEach((estimatedCase) => {
       describe(`Verification ${estimatedCase.asset} ${estimatedCase.type}, have right values`, () => {
         switch (estimatedCase.type) {
           case constants.dashboardTypes.borrow:
             it(`Check that asset name is ${estimatedCase.asset},
-            with apy type ${estimatedCase.apyType},
-            and amount ${estimatedCase.amount}`, () => {
-              getDashBoardBorrowRow({
-                assetName: estimatedCase.asset,
-                apyType: estimatedCase.apyType,
-              }).within(($row) => {
+            with apy type ${estimatedCase.apyType}
+             ${estimatedCase.amount ? ' and amount ' + estimatedCase.amount : ''}`, () => {
+              getDashBoardBorrowRow(estimatedCase.asset, estimatedCase.apyType).within(($row) => {
                 expect($row.find('.TokenIcon__name')).to.contain(estimatedCase.asset);
                 expect($row.find('.Switcher__label')).to.contain(estimatedCase.apyType);
-                amountVerification($row, estimatedCase.amount);
+                if(estimatedCase.amount){
+                  amountVerification($row, estimatedCase.amount);
+                }
               });
             });
             break;
           case constants.dashboardTypes.deposit:
             it(`Check that asset name is ${estimatedCase.asset},
-            with collateral type ${estimatedCase.collateralType},
-            and amount ${estimatedCase.amount}`, () => {
-              getDashBoardDepositRow({
-                assetName: estimatedCase.asset,
-                collateralType: estimatedCase.collateralType,
-              }).within(($row) => {
+            with collateral type ${estimatedCase.collateralType}
+            ${estimatedCase.amount ? ' and amount ' + estimatedCase.amount : ''}`, () => {
+              getDashBoardDepositRow(estimatedCase.asset, estimatedCase.collateralType).within(($row) => {
                 expect($row.find('.TokenIcon__name')).to.contain(estimatedCase.asset);
                 expect($row.find('.Switcher__label')).to.contain(estimatedCase.collateralType);
-                amountVerification($row, estimatedCase.amount);
+                if(estimatedCase.amount){
+                  amountVerification($row, estimatedCase.amount);
+                }
               });
             });
-            break;
-          default:
             break;
         }
       });
