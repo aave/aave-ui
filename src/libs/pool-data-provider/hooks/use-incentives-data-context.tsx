@@ -87,6 +87,8 @@ export function IncentivesDataProvider({ children }: { children: ReactNode }) {
   const reserveIncentiveData: ReserveIncentiveData[] =
     activeData && activeData.reserveIncentiveData ? activeData.reserveIncentiveData : [];
 
+  console.log(reserveIncentiveData);
+
   // Create array of formatted user and reserve data used for user incentive calculations
   let computedUserReserves: UserReserveCalculationData[] = [];
   if (rawUserReservesWithBase) {
