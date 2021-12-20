@@ -15,16 +15,7 @@ import { UnlockWalletExtraText as UnlockWalletExtraTextUI } from './UnlockWallet
 
 export const LOGO = logo;
 
-export const socialIcons: SocialIcon[] = [
-  {
-    url: 'https://github.com/centrifuge/aave-ui',
-    type: SocialType.Github,
-  },
-  {
-    url: 'http://centrifuge.io/discord',
-    type: SocialType.Discord,
-  },
-];
+export const socialIcons: SocialIcon[] = [];
 
 export const TopDisclaimer: React.FC = TopDisclaimerUI;
 export const BottomDisclaimer: React.FC = LegalBanner;
