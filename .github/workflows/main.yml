@@ -64,12 +64,19 @@ jobs:
           CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
           CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
 
-      - name: video
+      - name: upload videos
         uses: actions/upload-artifact@v2
         if: failure()
         with:
           name: cypress-fail-videos
           path: cypress/video
+
+      - name: upload screenshots
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-fail-screenshots
+          path: cypress/screenshots
 
   upload:
     runs-on: ubuntu-latest
@@ -96,11 +103,13 @@ jobs:
 
       - name: pinata
         id: pinata
-        env:
+        uses: ./.github/actions/pinata
+        with:
           PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
           PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
           PIN_ALIAS: "${{ format('pull_request_{0}', github.head_ref) }}"
-        run: node scripts/pin-pinata.js
+          BUILD_LOCATION: './build'
+          CID_VERSION: 1
 
       - uses: actions/github-script@v5
         with:

@@ -1,0 +1,26 @@
+name: "Pinata ipfs upload"
+description: "Upload folder to ipfs"
+inputs:
+  BUILD_LOCATION: # id of input
+    description: "Folder path to upload"
+    required: true
+  PIN_ALIAS: # id of input
+    description: "Pin alias"
+    required: true
+  PINATA_API_KEY: # id of input
+    description: "Pinata api key"
+    required: true
+  PINATA_SECRET_KEY: # id of input
+    description: "Pinata secret key"
+    required: true
+  CID_VERSION: # id of input
+    description: "CID version (0 or 1)"
+    required: true
+outputs:
+  hash: # id of output
+    description: "The ipfs hash"
+  uri:
+    description: "A uri embeddign the hash in a public gateway"
+runs:
+  using: "node16"
+  main: "dist/index.js"
