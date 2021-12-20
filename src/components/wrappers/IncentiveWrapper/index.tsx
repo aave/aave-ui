@@ -15,6 +15,7 @@ export function getRewardTokenSymbol(
   reserves: ComputedReserveData[],
   rewardTokenAddress: string
 ): string {
+  console.log(`getRewardTokenSymbol(${rewardTokenAddress})`);
   if (rewardTokenAddress.toLowerCase() === '0x4da27a545c0c5b758a6ba100e3a049001de870f5') {
     return 'stkAAVE';
   } else if (rewardTokenAddress.toLowerCase() === '0xc7283b66eb1eb5fb86327f08e1b5816b0720212b') {
@@ -24,7 +25,7 @@ export function getRewardTokenSymbol(
   } else if (rewardTokenAddress.toLowerCase() === '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270') {
     return 'WMATIC';
   } else if (rewardTokenAddress.toLowerCase() === '0xc221b7E65FfC80DE234bbB6667aBDd46593D34F0') {
-    return 'wCFG';
+    return 'WCFG';
   } else {
     let rewardReserve = reserves.find(
       (reserve) => reserve.underlyingAsset.toLowerCase() === rewardTokenAddress.toLowerCase()
