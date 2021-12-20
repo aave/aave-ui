@@ -61,7 +61,7 @@ export default function routeParamValidationHOC({
 
       const currencySymbol = poolReserve?.symbol || '';
 
-      if (loading) {
+      if (!loading) {
         return <Preloader withText={true} />;
       }
 

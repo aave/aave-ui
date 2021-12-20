@@ -16,7 +16,13 @@ interface TableItemProps {
   isIsolated?: boolean;
 }
 
-export default function TableItem({ tokenSymbol, color, children, isIsolated }: TableItemProps) {
+export default function TableItem({
+  tokenSymbol,
+  color,
+  children,
+  isIsolated,
+  ...rest
+}: TableItemProps) {
   const { currentTheme, isCurrentThemeDark, lg } = useThemeContext();
   const asset = getAssetInfo(tokenSymbol);
 
@@ -26,6 +32,7 @@ export default function TableItem({ tokenSymbol, color, children, isIsolated }: 
         TableItem__withInfo: tokenSymbol === 'AMPL',
         TableItem__isolated: isIsolated,
       })}
+      {...rest}
     >
       <span className="TableItem__assetColor" style={{ backgroundColor: color }} />
 

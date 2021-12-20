@@ -27,11 +27,11 @@ export default function DepositItem({
   onToggleSwitch,
   isActive,
   isFrozen,
-  index,
   aIncentives,
   canBeEnabledAsCollateral,
   isUserInIsolationMode,
   isIsolated,
+  ...rest
 }: DepositTableItem) {
   const intl = useIntl();
   const { currentTheme, xl, lg, md } = useThemeContext();
@@ -52,11 +52,12 @@ export default function DepositItem({
         canBeEnabledAsCollateral &&
         isIsolated
       }
+      {...rest}
     >
       <TableValueCol
         value={Number(underlyingBalance)}
         subValue={Number(underlyingBalanceUSD)}
-        tooltipId={`deposit-${symbol}__${index}`}
+        tooltipId={`deposit-${symbol}__${id}`}
       />
       <TableAprCol value={Number(liquidityRate)} incentives={aIncentives} symbol={symbol} />
 

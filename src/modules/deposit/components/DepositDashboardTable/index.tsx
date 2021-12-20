@@ -46,15 +46,19 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
           <Header />
 
           <DashboardTable>
-            {sortedListData.map((item, index) => (
-              <DepositItem {...item} index={index} key={index} />
+            {sortedListData.map((item) => (
+              <DepositItem
+                {...item}
+                key={item.reserve.id}
+                data-cy={`dashboardDespositListItem${item.reserve.symbol.toUpperCase()}`}
+              />
             ))}
           </DashboardTable>
         </>
       ) : (
         <DashboardMobileCardsWrapper>
-          {sortedListData.map((item, index) => (
-            <DepositMobileCard {...item} key={index} />
+          {sortedListData.map((item) => (
+            <DepositMobileCard {...item} key={item.reserve.id} />
           ))}
         </DashboardMobileCardsWrapper>
       )}

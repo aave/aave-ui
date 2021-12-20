@@ -13,7 +13,6 @@ export type DepositTableItem = {
   >;
   aIncentives: ReserveIncentiveResponse[];
   borrowingEnabled: boolean;
-  index?: number;
   /**
    * false when isolation mode makes it impossible to use asset as collateral
    */

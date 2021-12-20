@@ -33,6 +33,7 @@ export default function BorrowItem({
   index,
   vIncentives,
   sIncentives,
+  ...rest
 }: BorrowTableItem) {
   const intl = useIntl();
   const { currentTheme, xl, lg, md, isCurrentThemeDark } = useThemeContext();
@@ -41,7 +42,7 @@ export default function BorrowItem({
   const swiperHeight = xl && !lg ? 16 : md ? 16 : 20;
 
   return (
-    <TableItem tokenSymbol={symbol} color={uiColor}>
+    <TableItem tokenSymbol={symbol} color={uiColor} {...rest}>
       <TableValueCol
         value={Number(currentBorrows)}
         subValue={Number(currentBorrowsUSD)}
