@@ -22,7 +22,7 @@ jobs:
 
       - name: pinata
         id: pinata
-        uses: aave/pinata-action@v1
+        uses: aave/pinata-action@v1.1
         with:
           PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
           PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
