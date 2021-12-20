@@ -4,12 +4,12 @@ import { JsonRpcProvider } from '@ethersproject/providers';
 export class CustomizedBridge extends Eip1193Bridge {
   chainId = 3030;
 
-  async sendAsync(...args) {
+  async sendAsync(...args: any[]) {
     console.debug('sendAsync called', ...args);
     return this.send(...args);
   }
 
-  async send(...args) {
+  async send(...args: any[]) {
     console.debug('send called', ...args);
     const isCallbackForm = typeof args[0] === 'object' && typeof args[1] === 'function';
     let callback;
