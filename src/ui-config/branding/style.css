@@ -19,6 +19,6 @@
   -webkit-text-fill-color: initial;
 }
 
-.Menu__navigation-inner ul li:last-child, .MarketSwitcher, .SelectMarketPanel__markets {
+.Menu__navigation-inner ul li:last-child, .MarketSwitcher, .SelectMarketPanel__markets, .DepositBorrowMainWrapper__changeMarket-inner {
   display: none !important;
 }
