@@ -18,10 +18,7 @@ import {
   getFortmaticKeyByChainId,
   PORTIS_DAPP_ID,
 } from '../../../helpers/config/wallet-config';
-import {
-  getSupportedChainIds,
-  getNetworkConfig,
-} from '../../../helpers/config/markets-and-network-config';
+import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
 import { ChainId } from '@aave/contract-helpers';
 
 export type AvailableWeb3Connectors =
@@ -65,7 +62,7 @@ export function getWeb3Connector(
 
   switch (connectorName) {
     case 'browser':
-      return new InjectedConnector({ supportedChainIds: getSupportedChainIds() });
+      return new InjectedConnector({});
     case 'ledger':
       return new LedgerConnector({
         chainId,
