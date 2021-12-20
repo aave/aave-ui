@@ -30,6 +30,7 @@ export default function DepositItem({
   avg30DaysLiquidityRate,
   index,
   aincentivesAPR,
+  ...rest
 }: DepositTableItem) {
   const intl = useIntl();
   const { currentTheme, xl, lg, md } = useThemeContext();
@@ -41,7 +42,7 @@ export default function DepositItem({
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
 
   return (
-    <TableItem tokenSymbol={symbol} color={uiColor}>
+    <TableItem tokenSymbol={symbol} color={uiColor} {...rest}>
       <TableValueCol
         value={Number(underlyingBalance)}
         subValue={Number(underlyingBalanceUSD)}

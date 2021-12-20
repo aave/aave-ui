@@ -12,27 +12,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'npm'
-
-      - name: install
-        run: npm ci
-
       - name: prepare env
         run: cp ${ENV:-'.github/.env.production'} .env
 
-      - name: build
-        run: npm run build
+      - uses: ./.github/actions/build
 
       - name: pinata
         id: pinata
-        env:
+        uses: aave/pinata-action@v1.1
+        with:
           PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
           PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
-          PIN_ALIAS: staging
-        run: node scripts/pin-pinata.js
+          PIN_ALIAS: production
+          BUILD_LOCATION: './build'
+          CID_VERSION: 1
 
       - name: crust
         uses: crustio/ipfs-crust-action@f51bf12d352d230e12bfd8fa00b07f1f6c7aa735

@@ -5,7 +5,7 @@ import { getProvider } from '../../helpers/config/markets-and-network-config';
 const mainnetProvider = getProvider(ChainId.mainnet);
 
 const useGetEnsName = (address: string) => {
-  const [ensName, setEnsName] = useState<string | undefined>(undefined);
+  const [ensName, setEnsName] = useState<string | null>(null);
 
   const getRecord = async (address: string) => {
     try {
@@ -20,7 +20,7 @@ const useGetEnsName = (address: string) => {
     if (address) {
       getRecord(address);
     } else {
-      setEnsName(undefined);
+      setEnsName(null);
     }
   }, [address]);
 

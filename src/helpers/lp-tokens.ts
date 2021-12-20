@@ -5,6 +5,6 @@ export const getLPTokenPoolLink = (poolReserve: { symbol: string; underlyingAsse
   if (isBPTPool(poolReserve.symbol))
     return `https://pools.balancer.exchange/#/pool/${poolReserve.underlyingAsset}/`;
   if (isUNIPool(poolReserve.symbol))
-    return `https://info.uniswap.org/pair/${poolReserve.underlyingAsset}`;
+    return `https://v2.info.uniswap.org/pair/${poolReserve.underlyingAsset}`;
   return null;
 };

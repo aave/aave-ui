@@ -1,13 +1,13 @@
 {
   "name": "aave-ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "license": "BSD-3-Clause",
   "dependencies": {
     "@0x/subproviders": "^6.5.4",
-    "@aave/aave-ui-kit": "^0.1.14",
-    "@aave/math-utils": "0.26.2",
-    "@aave/contract-helpers": "0.26.2",
+    "@aave/aave-ui-kit": "^0.1.16",
+    "@aave/contract-helpers": "0.27.2",
+    "@aave/math-utils": "0.27.2",
     "@aave/protocol-js": "4.3.0",
     "@apollo/client": "^3.4.16",
     "@apollo/react-common": "^3.1.4",
@@ -44,7 +44,7 @@
     "d3-array": "^3.1.1",
     "dayjs": "^1.10.7",
     "ethereumjs-tx": "^2.1.2",
-    "ethers": "^5.1.4",
+    "ethers": "5.5.1",
     "front-matter": "^4.0.2",
     "graphql": "^15.6.1",
     "intl": "^1.2.5",
@@ -63,6 +63,7 @@
     "react-swipeable": "^6.2.0",
     "react-tooltip": "^4.2.21",
     "reflect-metadata": "^0.1.13",
+    "serve": "^13.0.2",
     "strip-hex-prefix": "^1.0.0",
     "styled-jsx": "^4.0.1",
     "subscriptions-transport-ws": "^0.10.0",
@@ -71,12 +72,12 @@
     "web3-provider-engine": "^16.0.3"
   },
   "devDependencies": {
+    "@ethersproject/experimental": "5.4.0",
     "@graphql-codegen/cli": "^2.2.1",
     "@graphql-codegen/fragment-matcher": "^3.1.0",
     "@graphql-codegen/typescript": "^2.2.4",
     "@graphql-codegen/typescript-operations": "^2.1.8",
     "@graphql-codegen/typescript-react-apollo": "^3.1.6",
-    "@pinata/sdk": "^1.1.23",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
@@ -95,6 +96,7 @@
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-react-intl-auto": "^3.3.0",
     "customize-cra": "^1.0.0",
+    "cypress": "8.7.0",
     "dotenv": "^10.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -106,23 +108,26 @@
     "node-sass": "^6.0.1",
     "prettier": "^2.4.1",
     "react-app-rewired": "^2.1.8",
+    "start-server-and-test": "^1.14.0",
     "styled-jsx-plugin-sass": "^1.0.0",
+    "truffle-privatekey-provider": "^1.5.0",
     "typescript": "^4.4.4"
   },
   "scripts": {
     "start": "npm i && sed -i 's/git+ssh/git+https/g' package-lock.json && react-app-rewired start",
     "start:dev": "react-app-rewired start",
+    "start:prod": "serve -s build",
     "build": "GENERATE_SOURCEMAP=false react-app-rewired build",
-    "test": "react-app-rewired tests",
+    "build:ipfs": "REACT_APP_IPFS_MODE=true npm run build",
+    "test": "DOTENV_CONFIG_PATH='.env.local' cypress run",
+    "test:ci": "start-server-and-test start:prod http://localhost:3000 test",
+    "test:open": "DOTENV_CONFIG_PATH='.env.local' cypress open",
+    "lint:fix": "prettier --write src",
     "eject": "react-scripts eject",
     "gql-gen": "graphql-codegen --config codegen.yml",
     "i18n": "NODE_ENV=development node ./scripts/extract-intl-messages.js",
-    "pinata:ipfs-publish": "node scripts/publish.js"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && npm run i18n && git add ./src/translations"
-    }
+    "prepare": "husky install",
+    "pre-commit": "lint-staged && npm run i18n && git add ./src/translations"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
@@ -145,5 +150,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "."
 }

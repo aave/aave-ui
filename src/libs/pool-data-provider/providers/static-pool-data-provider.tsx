@@ -91,17 +91,14 @@ export function StaticPoolDataProvider({
     return errorPage;
   }
 
-  const reserves: ReserveDataHumanized[] | undefined = activeData.reserves?.reservesData
-    .map((reserve) => ({
+  const reserves: ReserveDataHumanized[] | undefined = activeData.reserves?.reservesData.map(
+    (reserve) => ({
       ...reserve,
-    }))
-    .sort(
-      ({ symbol: a }, { symbol: b }) =>
-        assetsOrder.indexOf(a.toUpperCase()) - assetsOrder.indexOf(b.toUpperCase())
-    );
+    })
+  );
 
-  const reservesWithFixedUnderlying: ReserveDataHumanized[] | undefined = reserves?.map(
-    (reserve) => {
+  const reservesWithFixedUnderlying: ReserveDataHumanized[] | undefined = reserves
+    ?.map((reserve) => {
       if (reserve.symbol.toUpperCase() === `W${networkConfig.baseAsset}`) {
         return {
           ...reserve,
@@ -109,9 +106,24 @@ export function StaticPoolDataProvider({
           underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
         };
       }
+      if (
+        reserve.underlyingAsset.toLowerCase() ===
+        '0x50379f632ca68d36e50cfbc8f78fe16bd1499d1e'.toLowerCase()
+      ) {
+        reserve.symbol = 'GUNIDAIUSDC';
+      }
+      if (
+        reserve.underlyingAsset.toLowerCase() ===
+        '0xd2eec91055f07fe24c9ccb25828ecfefd4be0c41'.toLowerCase()
+      ) {
+        reserve.symbol = 'GUNIUSDCUSDT';
+      }
       return reserve;
-    }
-  );
+    })
+    .sort(
+      ({ symbol: a }, { symbol: b }) =>
+        assetsOrder.indexOf(a.toUpperCase()) - assetsOrder.indexOf(b.toUpperCase())
+    );
 
   const userReserves: UserReserveDataExtended[] = [];
   const userReservesWithFixedUnderlying: UserReserveDataExtended[] = [];

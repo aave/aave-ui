@@ -1,9 +1,10 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import ReactTooltip from 'react-tooltip';
-import { rgba, TokenIcon, useThemeContext } from '@aave/aave-ui-kit';
+import { rgba, useThemeContext } from '@aave/aave-ui-kit';
 import classNames from 'classnames';
 
+import { TokenIcon } from '../../../helpers/config/assets-config';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import ValuePercent from '../../basic/ValuePercent';
 import TribeRewardHelpModal from '../../HelpModal/TribeRewardHelpModal';

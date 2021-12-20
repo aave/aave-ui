@@ -6,6 +6,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "types": ["cypress"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -23,6 +24,7 @@
   },
   "include": [
     "src",
-    "node_modules/babel-plugin-react-intl-auto/**/*.d.ts"
+    "node_modules/babel-plugin-react-intl-auto/**/*.d.ts",
+    "node_modules/cypress",
   ]
 }

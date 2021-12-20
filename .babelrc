@@ -1,11 +1,11 @@
 {
   "presets": ["react-app"],
-  "plugins":[
-    "styled-jsx/babel",
+  "plugins": [
+    ["styled-jsx/babel", { "plugins": ["styled-jsx-plugin-sass"] }],
     [
       "react-intl-auto",
       {
-      "removePrefix": "src/"
+        "removePrefix": "src/"
       }
     ]
   ]
