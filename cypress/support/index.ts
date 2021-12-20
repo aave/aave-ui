@@ -17,7 +17,7 @@
 import './commands';
 
 afterEach(function onAfterEach() {
-  if (this.currentTest.state === 'failed') {
+  if ((this.currentTest as Mocha.Test).state === 'failed') {
     cy.setCookie('shouldSkip', 'true');
     Cypress.Cookies.defaults({
       preserve: 'shouldSkip',

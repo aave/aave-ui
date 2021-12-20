@@ -1,15 +1,25 @@
-export const setAmount = ({ amount, max = false }) => {
+type SetAmount = {
+  amount: number;
+  max?: boolean;
+};
+
+export const setAmount = ({ amount, max }: SetAmount) => {
   if (max) {
     cy.get(`[data-cy=amountInput-maxBtn]`);
   } else {
-    cy.get(`[data-cy=amountInput]`).type(amount);
+    cy.get(`[data-cy=amountInput]`).type(amount.toString());
   }
   cy.get('.BasicForm').contains('Continue').click();
 };
 
-export const doConfirm = ({ hasApproval, actionName = null }) => {
-  let clickActionButton = (name) => {
-    if (name != null) {
+type ConfirmAction = {
+  hasApproval: boolean;
+  actionName?: string;
+};
+
+export const doConfirm = ({ hasApproval, actionName }: ConfirmAction) => {
+  let clickActionButton = (name?: string) => {
+    if (name) {
       cy.get('.TxConfirmationView').get('.Button').contains(name).click();
     } else {
       cy.get('.TxConfirmationView').get('.Button').click();
@@ -27,21 +37,33 @@ export const doConfirm = ({ hasApproval, actionName = null }) => {
   }
 };
 
-function doChooseSwapToOption(assetName) {
+function doChooseSwapToOption(assetName: string) {
   cy.get('.AssetSelect__reverse .AssetSelect__button').click();
   cy.get('.AssetSelect__reverse .TokenIcon__name').contains(assetName).click();
 }
 
-export const doSwapForRepay = ({ amount, assetName = null }) => {
+type SwapForRepayAction = {
+  amount: number;
+  assetName?: string;
+};
+
+export const doSwapForRepay = ({ amount, assetName }: SwapForRepayAction) => {
   cy.log('assetName,' + assetName);
-  cy.get(':nth-child(1) > .AmountFieldWithSelect__field-inner  [data-cy=amountInput]').type(amount);
-  if (assetName != null) {
+  cy.get(':nth-child(1) > .AmountFieldWithSelect__field-inner  [data-cy=amountInput]').type(
+    amount.toString()
+  );
+  if (assetName) {
     doChooseSwapToOption(assetName);
   }
   cy.get('.Button').contains('Continue').parents('.Button').should('not.be.disabled').click();
 };
 
-export const getDashBoardBorrowRow = (assetName, apyType = null) => {
+type GetDashBoardBorrowRow = {
+  assetName: string;
+  apyType?: string;
+};
+
+export const getDashBoardBorrowRow = ({ assetName, apyType }: GetDashBoardBorrowRow) => {
   if (apyType == null) {
     return cy.get(`[data-cy=dashboardBorrowListItem_${assetName}]`).first();
   } else {
@@ -51,8 +73,13 @@ export const getDashBoardBorrowRow = (assetName, apyType = null) => {
   }
 };
 
-export const getDashBoardDepositRow = (assetName, collateralType = null) => {
-  if (collateralType == null) {
+type GetDashBoardDepositRow = {
+  assetName: string;
+  collateralType?: string;
+};
+
+export const getDashBoardDepositRow = ({ assetName, collateralType }: GetDashBoardDepositRow) => {
+  if (!collateralType) {
     return cy.get(`[data-cy=dashboardDespositListItem${assetName}]`).first();
   } else {
     return cy

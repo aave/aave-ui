@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 import {
   setAmount,
   doConfirm,
@@ -8,7 +7,12 @@ import {
 } from './actions.steps';
 import constants from '../../fixtures/constans.json';
 
-const skipSetup = ({ skip, updateSkipStatus }) => {
+type SkipType = {
+  set: (val: boolean) => void;
+  get: () => boolean;
+};
+
+const skipSetup = ({ skip, updateSkipStatus }: { skip: SkipType; updateSkipStatus: boolean }) => {
   before(function () {
     if (skip.get()) {
       this.skip();
@@ -16,13 +20,21 @@ const skipSetup = ({ skip, updateSkipStatus }) => {
   });
 
   afterEach(function onAfterEach() {
-    if (this.currentTest.state === 'failed' && updateSkipStatus) {
+    if ((this.currentTest as Mocha.Test).state === 'failed' && updateSkipStatus) {
       skip.set(true);
     }
   });
 };
 
-export const deposit = ({ asset, amount, hasApproval = true }, skip, updateSkipStatus = false) => {
+export const deposit = (
+  {
+    asset,
+    amount,
+    hasApproval = true,
+  }: { asset: { shortName: string; fullName: string }; amount: number; hasApproval: boolean },
+  skip: SkipType,
+  updateSkipStatus = false
+) => {
   let _shortName = asset.shortName;
   let _fullName = asset.fullName;
 
@@ -42,8 +54,18 @@ export const deposit = ({ asset, amount, hasApproval = true }, skip, updateSkipS
 };
 
 export const borrow = (
-  { asset, amount, apyType, hasApproval = true },
-  skip,
+  {
+    asset,
+    amount,
+    apyType,
+    hasApproval = true,
+  }: {
+    asset: { shortName: string; fullName: string };
+    amount: number;
+    apyType: string;
+    hasApproval: boolean;
+  },
+  skip: SkipType,
   updateSkipStatus = false
 ) => {
   let _shortName = asset.shortName;
@@ -81,18 +103,30 @@ export const borrow = (
 };
 
 export const repay = (
-  { asset, amount, repayOption, assetForRepay = null, hasApproval = false },
-  skip,
+  {
+    asset,
+    amount,
+    repayOption,
+    assetForRepay,
+    hasApproval = false,
+  }: {
+    asset: { shortName: string; fullName: string };
+    amount: number;
+    repayOption: string;
+    assetForRepay?: { shortName: string; fullName: string };
+    hasApproval: boolean;
+  },
+  skip: SkipType,
   updateSkipStatus = false
 ) => {
   let _shortName = asset.shortName;
-  let _shortNameAssetForRepay = assetForRepay != null ? assetForRepay.shortName : null;
+  let _shortNameAssetForRepay = assetForRepay ? assetForRepay.shortName : undefined;
 
   return describe(`Repay by ${repayOption} process for ${_shortName}`, () => {
     skipSetup({ skip, updateSkipStatus });
     it(`Open ${_shortName} repay view`, () => {
       cy.get('.Menu strong').contains('dashboard').click();
-      getDashBoardBorrowRow(_shortName).contains('Repay').click();
+      getDashBoardBorrowRow({ assetName: _shortName }).contains('Repay').click();
     });
     it(`Choose ${repayOption} repay option`, () => {
       switch (repayOption) {
@@ -129,8 +163,16 @@ export const repay = (
 };
 
 export const withdraw = (
-  { asset, amount, hasApproval = false },
-  skip,
+  {
+    asset,
+    amount,
+    hasApproval = false,
+  }: {
+    asset: { shortName: string; fullName: string };
+    amount: number;
+    hasApproval: boolean;
+  },
+  skip: SkipType,
   updateSkipStatus = false
 ) => {
   let _shortName = asset.shortName;
@@ -138,7 +180,7 @@ export const withdraw = (
     skipSetup({ skip, updateSkipStatus });
     it(`Open ${_shortName} repay view`, () => {
       cy.get('.Menu strong').contains('dashboard').click();
-      getDashBoardDepositRow(_shortName).contains('Withdraw').click();
+      getDashBoardDepositRow({ assetName: _shortName }).contains('Withdraw').click();
     });
     it(`Set ${amount} withdraw amount for ${_shortName}`, () => {
       setAmount({ amount });
@@ -150,8 +192,18 @@ export const withdraw = (
 };
 
 export const changeBorrowType = (
-  { asset, apyType, newAPY, hasApproval = true },
-  skip,
+  {
+    asset,
+    apyType,
+    newAPY,
+    hasApproval = true,
+  }: {
+    asset: { shortName: string; fullName: string };
+    apyType: string;
+    newAPY: string;
+    hasApproval: boolean;
+  },
+  skip: SkipType,
   updateSkipStatus = false
 ) => {
   let _shortName = asset.shortName;
@@ -160,7 +212,7 @@ export const changeBorrowType = (
     skipSetup({ skip, updateSkipStatus });
     it(`Change the ${_shortName} borrowing apr type from ${apyType} to ${newAPY}`, () => {
       cy.get('.Menu strong').contains('dashboard').click();
-      getDashBoardBorrowRow(_shortName, apyType).find('.Switcher__swiper').click();
+      getDashBoardBorrowRow({ assetName: _shortName, apyType }).find('.Switcher__swiper').click();
     });
     it(`Make approve for ${_shortName}, on confirmation page`, () => {
       doConfirm({ hasApproval, actionName: 'Submit' });
