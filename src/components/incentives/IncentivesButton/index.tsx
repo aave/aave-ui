@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { valueToBigNumber } from '@aave/math-utils';
-import { gradient, TokenIcon, useThemeContext } from '@aave/aave-ui-kit';
+import { gradient, useThemeContext } from '@aave/aave-ui-kit';
 
+import { ReserveIncentiveResponse } from '../../../libs/pool-data-provider/hooks/use-incentives-data';
+import { TokenIcon } from '../../../helpers/config/assets-config';
 import { CompactNumber } from '../../basic/CompactNumber';
 import TribeRewardHelpModal from '../../HelpModal/TribeRewardHelpModal';
 import IncentivesInfoModal from '../IncentivesInfoModal';
 
 import staticStyles from './style';
-import { ReserveIncentiveResponse } from '../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 interface IncentivesButtonProps {
   symbol: string;
