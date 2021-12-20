@@ -69,7 +69,7 @@ jobs:
         if: failure()
         with:
           name: cypress-fail-videos
-          path: cypress/video
+          path: cypress/videos
 
       - name: upload screenshots
         uses: actions/upload-artifact@v2
