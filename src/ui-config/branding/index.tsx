@@ -1,6 +1,6 @@
 import React from 'react';
 import { IntlShape } from 'react-intl/src/types';
-import { SocialIcon, SocialType } from '@aave/aave-ui-kit';
+import { SocialIcon } from '@aave/aave-ui-kit';
 
 import FormattedTxErrorTextUI from './FormattedTxErrorText';
 import logo from './images/rwaLogo.svg';
