@@ -19,9 +19,9 @@ const tenderly = axios.create({
 export class TenderlyFork {
   private _forkNetworkID: string;
   private _chainID: number;
-  private fork_id: string;
+  private fork_id?: string;
 
-  constructor({ forkNetworkID }) {
+  constructor({ forkNetworkID }: { forkNetworkID: number }) {
     this._forkNetworkID = forkNetworkID.toString();
     this._chainID = 3030;
   }
@@ -42,7 +42,7 @@ export class TenderlyFork {
     return `https://rpc.tenderly.co/fork/${this.fork_id}`;
   }
 
-  async add_balance(address, amount) {
+  async add_balance(address: string, amount: number) {
     if (!this.fork_id) throw new Error('Fork not initialized!');
     tenderly.post(
       `account/${TENDERLY_ACCOUNT}/project/${TENDERLY_PROJECT}/fork/${this.fork_id}/balance`,
