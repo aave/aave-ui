@@ -30,10 +30,8 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
   },
   [ChainId.mainnet]: {
     name: 'Ethereum Mainnet',
-    publicJsonRPCUrl: [
-      'https://cloudflare-eth.com',
-      'https://mainnet.infura.io/v3/ed5e0e19bcbc427cbf8f661736d44516',
-    ],
+    privateJsonRPCUrl: 'https://mainnet.infura.io/v3/ed5e0e19bcbc427cbf8f661736d44516',
+    publicJsonRPCUrl: ['https://cloudflare-eth.com'],
     addresses: {
       walletBalanceProvider: '0x8E8dAd5409E0263a51C0aB5055dA66Be28cFF922',
       uiPoolDataProvider: '0x47e300dDd1d25447482E2F7e5a5a967EA2DA8634',
