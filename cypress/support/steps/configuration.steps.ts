@@ -6,7 +6,13 @@ import forkNetworks from '../../fixtures/fork-networks.json';
 
 const URL = Cypress.env('URL');
 
-const configEnvWithTenderly = ({ network, market }) => {
+const configEnvWithTenderly = ({
+  network,
+  market,
+}: {
+  network: { networkID: number; forkChainID: number; chainID: number };
+  market: string;
+}) => {
   const tenderly = new TenderlyFork({ forkNetworkID: network.networkID });
   before(async () => {
     await tenderly.init();
