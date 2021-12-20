@@ -55,6 +55,7 @@ export default function LiquidityMiningAPYLine({
             width={xl ? 10 : 12}
             height={xl ? 10 : 12}
           />
+          {console.log(`tokenSymbol = ${networkConfig.rewardTokenSymbol}`)}
           <ValuePercent value={value} maximumDecimals={2} minimumDecimals={2} />
         </>
       )}
