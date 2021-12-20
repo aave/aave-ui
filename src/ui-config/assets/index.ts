@@ -94,7 +94,7 @@ export const assetsList: Asset[] = [
   },
   {
     name: 'wCFG',
-    symbol: 'wCFG',
+    symbol: 'WCFG',
     color: '#f7b14a',
     icon: 'https://tinlake.centrifuge.io/static/cfg-white.svg',
     aIcon: 'https://tinlake.centrifuge.io/static/cfg-white.svg',
