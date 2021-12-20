@@ -78,7 +78,6 @@
     "@graphql-codegen/typescript": "^2.2.4",
     "@graphql-codegen/typescript-operations": "^2.1.8",
     "@graphql-codegen/typescript-react-apollo": "^3.1.6",
-    "@pinata/sdk": "^1.1.23",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
@@ -127,7 +126,6 @@
     "eject": "react-scripts eject",
     "gql-gen": "graphql-codegen --config codegen.yml",
     "i18n": "NODE_ENV=development node ./scripts/extract-intl-messages.js",
-    "pinata:ipfs-publish": "node scripts/publish.js",
     "prepare": "husky install",
     "pre-commit": "lint-staged && npm run i18n && git add ./src/translations"
   },

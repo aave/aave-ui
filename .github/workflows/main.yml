@@ -94,23 +94,13 @@ jobs:
 
       - name: pinata
         id: pinata
-        uses: aave/pinata-action@v1
+        uses: aave/pinata-action@9c0714d5fa367295ad7baf7d11dee2d45e751999
         with:
           PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
           PINATA_SECRET_KEY: ${{ secrets.PINATA_SECRET_KEY }}
           PIN_ALIAS: "${{ format('pull_request_{0}', github.head_ref) }}"
           BUILD_LOCATION: './build'
           CID_VERSION: 1
-
-      - uses: actions/github-script@v5
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.payload.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'Preview link: ${{steps.pinata.outputs.uri}}'
-            })
 
   # legacy testing setup till cypress has the same coverage
   test:
