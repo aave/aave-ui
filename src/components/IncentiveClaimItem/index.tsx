@@ -1,9 +1,10 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { CustomTooltip, TokenIcon, useThemeContext } from '@aave/aave-ui-kit';
+import { CustomTooltip, useThemeContext } from '@aave/aave-ui-kit';
 
 import Value from '../basic/Value';
 import Link from '../basic/Link';
+import { TokenIcon } from '../../helpers/config/assets-config';
 
 import defaultMessages from '../../defaultMessages';
 import staticStyles from './style';
