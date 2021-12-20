@@ -26,3 +26,7 @@ __pycache__/
 # cypress
 cypress/screenshots
 cypress/videos
+
+
+# custom github actions
+!.github/actions/pinata/dist
