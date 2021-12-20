@@ -19,6 +19,6 @@
   -webkit-text-fill-color: initial;
 }
 
-.Menu__navigation-inner ul li:last-child, .MarketSwitcher, .SelectMarketPanel {
-  display: none;
+.Menu__navigation-inner ul li:last-child, .MarketSwitcher, .SelectMarketPanel__markets {
+  display: none !important;
 }
