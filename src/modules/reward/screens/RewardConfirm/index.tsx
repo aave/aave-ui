@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
-import { normalize } from '@aave/protocol-js';
+import { normalize } from '@aave/math-utils';
+
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';

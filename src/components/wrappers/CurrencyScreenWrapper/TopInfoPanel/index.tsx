@@ -1,6 +1,5 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import Row from '../../../basic/Row';
@@ -12,6 +11,7 @@ import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';
+import { valueToBigNumber } from '@aave/math-utils';
 
 interface TopInfoPanelProps
   extends Pick<

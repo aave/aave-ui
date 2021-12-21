@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
-import { BigNumber, InterestRate } from '@aave/protocol-js';
-import { PoolInterface } from '@aave/contract-helpers';
+import { InterestRate, PoolInterface } from '@aave/contract-helpers';
+import BigNumber from 'bignumber.js';
 
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
@@ -119,10 +119,7 @@ function RepayAmount({
     <RepayContentWrapper
       rightPanel={
         <RightPanelWrapper title={intl.formatMessage(messages.rightPanelTitle)}>
-          <HFChangeValue
-            healthFactor={user?.healthFactor || '0'}
-            hfAfterSwap={'2'} // TODO: need calculate or remove right panel
-          />
+          <HFChangeValue healthFactor={user?.healthFactor || '0'} hfAfterSwap={'2'} />
         </RightPanelWrapper>
       }
     >

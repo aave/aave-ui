@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/math-utils';
 
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';

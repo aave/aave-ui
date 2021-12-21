@@ -12,7 +12,7 @@ import staticStyles from './style';
 
 import { ProposalItem } from '../../../../libs/governance-provider/types';
 import { Vote } from '../../../../libs/governance-provider/types';
-import { valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/math-utils';
 import { useGovernanceDataContext } from '../../../../libs/governance-provider';
 
 interface VoteInfoModalProps {

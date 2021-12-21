@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import {
-  calculateHealthFactorFromBalancesBigUnits,
-  valueToBigNumber,
-  BigNumber,
-} from '@aave/protocol-js';
 
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
@@ -21,6 +16,8 @@ import { isAssetStable } from '../../../../helpers/config/assets-config';
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
+import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
 
 function WithdrawConfirmation({
   currencySymbol,
@@ -119,11 +116,11 @@ function WithdrawConfirmation({
       .div(totalCollateralInETHAfterWithdraw)
       .toFixed(4, BigNumber.ROUND_DOWN);
 
-    healthFactorAfterWithdraw = calculateHealthFactorFromBalancesBigUnits(
-      totalCollateralInETHAfterWithdraw,
-      user.totalBorrowsMarketReferenceCurrency,
-      liquidationThresholdAfterWithdraw
-    );
+    healthFactorAfterWithdraw = calculateHealthFactorFromBalancesBigUnits({
+      collateralBalanceMarketReferenceCurrency: totalCollateralInETHAfterWithdraw,
+      borrowBalanceMarketReferenceCurrency: user.totalBorrowsMarketReferenceCurrency,
+      currentLiquidationThreshold: liquidationThresholdAfterWithdraw,
+    });
 
     if (healthFactorAfterWithdraw.lt('1') && user.totalBorrowsMarketReferenceCurrency !== '0') {
       blockingError = intl.formatMessage(messages.errorCanNotWithdrawThisAmount);

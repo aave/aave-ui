@@ -1,9 +1,9 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
 import classNames from 'classnames';
-
+import { valueToBigNumber } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
+
 import AmountField from '../AmountField';
 import AssetSelect from './components/AssetSelect';
 

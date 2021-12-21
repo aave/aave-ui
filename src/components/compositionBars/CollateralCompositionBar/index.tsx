@@ -1,7 +1,8 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
 
 import { useAppDataContext } from '../../../libs/pool-data-provider';
 import Row from '../../basic/Row';

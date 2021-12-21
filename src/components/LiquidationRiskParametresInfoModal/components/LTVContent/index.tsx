@@ -1,8 +1,9 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { BigNumber, valueToBigNumber } from '@aave/protocol-js';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
+import { valueToBigNumber } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
 
 import ValuePercent from '../../../basic/ValuePercent';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { getLPTokenPoolLink } from '../../../../helpers/lp-tokens';

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
-import { valueToBigNumber } from '@aave/protocol-js';
 import queryString from 'query-string';
+import { valueToBigNumber } from '@aave/math-utils';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { useAppDataContext } from '../../../../libs/pool-data-provider';

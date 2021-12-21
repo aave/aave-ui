@@ -1,7 +1,6 @@
 import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { ETH_DECIMALS, normalize, valueToBigNumber } from '@aave/protocol-js';
 import queryString from 'query-string';
 
 import { unPrefixSymbol, useAppDataContext } from '../../../../libs/pool-data-provider';
@@ -23,7 +22,7 @@ import HistoryContent from '../../components/HistoryContent';
 
 import messages from './messages';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-import { USD_DECIMALS } from '@aave/math-utils';
+import { normalize, USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 
 const ITEMS_PER_PAGE = 50;
 
@@ -105,7 +104,7 @@ export default function History() {
             normalize(
               reserves.find((reserve) => reserve.symbol === symbol)
                 ?.priceInMarketReferenceCurrency || '0',
-              ETH_DECIMALS
+              18
             );
 
           if (

@@ -1,8 +1,7 @@
 import React, { FormEvent, ReactNode, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { valueToBigNumber, EthereumTransactionTypeExtended } from '@aave/protocol-js';
-import { ChainId } from '@aave/contract-helpers';
+import { ChainId, EthereumTransactionTypeExtended } from '@aave/contract-helpers';
 
 import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
@@ -19,6 +18,7 @@ import AmountFieldWithSelect, {
 
 import messages from './messages';
 import staticStyles from './style';
+import { valueToBigNumber } from '@aave/math-utils';
 
 interface BasicFormProps {
   title?: string;

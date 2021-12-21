@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
 import queryString from 'query-string';
+import { valueToBigNumber } from '@aave/math-utils';
+import { InterestRate } from '@aave/contract-helpers';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { useAppDataContext } from '../../../../libs/pool-data-provider';

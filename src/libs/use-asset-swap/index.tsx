@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { normalize, valueToBigNumber, API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import { useDebouncedCallback } from 'use-debounce';
 import { IBaseUniswapAdapterFactory } from './IBaseUniswapAdapterFactory';
 import { useProtocolDataContext } from '../protocol-data-provider';
+import { API_ETH_MOCK_ADDRESS } from '@aave/contract-helpers';
+import { normalize, normalizeBN } from '@aave/math-utils';
 
 const USD_DECIMALS = 8;
 
@@ -88,7 +89,7 @@ export function useAssetSwap(params?: AssetSwapParams) {
             3: calcToUSDAmount,
             4: path,
           } = await swapAdapter.getAmountsOut(
-            valueToBigNumber(normalize(_fromAmount, _fromAssetDecimals * -1)).toFixed(0),
+            normalizeBN(_fromAmount, _fromAssetDecimals * -1).toFixed(0),
             fixedFromAsset,
             fixedToAsset
           );
@@ -104,7 +105,7 @@ export function useAssetSwap(params?: AssetSwapParams) {
             3: calcToUSDAmount,
             4: path,
           } = await swapAdapter.getAmountsIn(
-            valueToBigNumber(normalize(_toAmount, _toAssetDecimals * -1)).toFixed(0),
+            normalizeBN(_toAmount, _toAssetDecimals * -1).toFixed(0),
             fixedFromAsset,
             fixedToAsset
           );

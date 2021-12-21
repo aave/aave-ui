@@ -1,6 +1,6 @@
 import React, { ReactNode, useContext, useState } from 'react';
-import { normalize, Stake, valueToBigNumber } from '@aave/protocol-js';
-
+import { ChainId, Stake, StakingService } from '@aave/contract-helpers';
+import { normalize, valueToBigNumber } from '@aave/math-utils';
 import { useLocation } from 'react-router-dom';
 
 import Preloader from '../../../components/basic/Preloader';
@@ -23,7 +23,6 @@ import {
 import { useApolloConfigContext } from '../../apollo-config';
 import { StakeConfig } from '../../../ui-config';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
-import { ChainId, StakingService } from '@aave/contract-helpers';
 
 export function computeStakeData(data: StakeData): ComputedStakeData {
   return {

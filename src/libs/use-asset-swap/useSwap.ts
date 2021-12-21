@@ -2,15 +2,10 @@ import { ParaSwap, APIError, Transaction } from 'paraswap';
 import { ContractMethod, SwapSide } from 'paraswap/build/constants';
 import { OptimalRate } from 'paraswap-core';
 import { useCallback, useEffect, useState } from 'react';
-import {
-  normalize,
-  valueToBigNumber,
-  API_ETH_MOCK_ADDRESS,
-  ChainId,
-  BigNumberZD,
-} from '@aave/protocol-js';
 import { ComputedReserveData, useAppDataContext } from '../pool-data-provider';
 import { useProtocolDataContext } from '../protocol-data-provider';
+import { API_ETH_MOCK_ADDRESS, ChainId } from '@aave/contract-helpers';
+import { BigNumberZeroDecimal, normalize, valueToBigNumber } from '@aave/math-utils';
 
 const mainnetParaswap = new ParaSwap(ChainId.mainnet);
 const polygonParaswap = new ParaSwap(ChainId.polygon);
@@ -166,7 +161,7 @@ export const getSwapCallData = async ({
   chainId,
 }: GetSwapCallDataProps) => {
   const paraSwap = getParaswap(chainId);
-  const destAmountWithSlippage = new BigNumberZD(route.destAmount)
+  const destAmountWithSlippage = new BigNumberZeroDecimal(route.destAmount)
     .multipliedBy(99)
     .dividedBy(100)
     .toFixed(0);

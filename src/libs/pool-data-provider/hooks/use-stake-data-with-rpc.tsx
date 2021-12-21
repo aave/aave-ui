@@ -4,8 +4,7 @@ import { BigNumber, ethers } from 'ethers';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { StakeUiHelperIFactory } from '../contracts/StakeUiHelperIContract';
 import { StakeData, StakeGeneralDataT, StakesData, StakeUserDataT } from '../types/stake';
-import { Stake } from '@aave/protocol-js';
-import { ChainId } from '@aave/contract-helpers';
+import { ChainId, Stake } from '@aave/contract-helpers';
 
 function formatRawStakeData(
   data: StakeGeneralDataT<BigNumber, BigNumber> & StakeUserDataT<BigNumber, BigNumber>

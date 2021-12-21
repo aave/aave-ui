@@ -1,4 +1,4 @@
-import { InterestRate } from '@aave/protocol-js';
+import { InterestRate } from '@aave/contract-helpers';
 
 export function loanActionLinkComposer(
   action: 'borrow' | 'repay',

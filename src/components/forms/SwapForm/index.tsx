@@ -1,8 +1,8 @@
 import React, { FormEvent, ReactNode, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
 import classNames from 'classnames';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
+import { valueToBigNumber } from '@aave/math-utils';
 
 import Caption from '../../basic/Caption';
 import BasicField from '../../fields/BasicField';
