@@ -15,7 +15,7 @@ import { SupplyTableItem } from './types';
 import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import TableButtonCol from '../../../dashboard/components/DashboardTable/TableButtonCol';
 import messages from './messages';
-import TableValueCol from '../../../dashboard/components/DashboardTable/TableValueCol';
+// import TableValueCol from '../../../dashboard/components/DashboardTable/TableValueCol';
 import TableAprCol from '../../../dashboard/components/DashboardTable/TableAprCol';
 
 export default function SupplyItem({

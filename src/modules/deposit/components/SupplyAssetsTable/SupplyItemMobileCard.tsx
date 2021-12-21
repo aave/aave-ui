@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
