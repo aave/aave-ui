@@ -60,7 +60,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
   );
 
   const filteredSupplyReserves = tokensToSupply.filter((reserve) => {
-    if (reserve.availableToDepositUSD != '0') return true;
+    if (reserve.availableToDepositUSD !== '0') return true;
     return false;
   });
 
