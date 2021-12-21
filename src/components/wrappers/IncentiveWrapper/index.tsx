@@ -15,7 +15,6 @@ export function getRewardTokenSymbol(
   reserves: ComputedReserveData[],
   rewardTokenAddress: string
 ): string {
-  console.log(`getRewardTokenSymbol(${rewardTokenAddress})`);
   if (rewardTokenAddress.toLowerCase() === '0x4da27a545c0c5b758a6ba100e3a049001de870f5') {
     return 'stkAAVE';
   } else if (rewardTokenAddress.toLowerCase() === '0xc7283b66eb1eb5fb86327f08e1b5816b0720212b') {
