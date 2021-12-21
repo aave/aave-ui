@@ -95,7 +95,7 @@ export default function NetworkMismatch({
                             chainName: neededNetworkConfig.name,
                             nativeCurrency: {
                               symbol: neededNetworkConfig.baseAsset.toUpperCase(),
-                              decimals: 18,
+                              decimals: neededNetworkConfig.baseAssetDecimals,
                               name:
                                 neededNetworkConfig.baseAsset.charAt(0).toUpperCase() +
                                 neededNetworkConfig.baseAsset.slice(1).toLowerCase(),
