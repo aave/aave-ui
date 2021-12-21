@@ -1,0 +1,24 @@
+.MarketTable .TokenIcon__name span {
+  display: block;
+}
+
+.Menu__logo-link.Menu__logo-link img {
+  height: 36px;
+  width: auto;
+}
+
+.MarketSwitcher > button > div {
+  background: black;
+}
+
+.MarketSelectButton.MarketSelectButton.MarketSelectButton .MarketSelectButton__marketText {
+  background-image: initial;
+  color: black;
+  background-clip: initial;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+}
+
+.Menu__navigation-inner ul li:last-child, .MarketSwitcher, .SelectMarketPanel__markets, .DepositBorrowMainWrapper__changeMarket-inner {
+  display: none !important;
+}

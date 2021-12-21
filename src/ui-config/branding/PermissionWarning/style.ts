@@ -16,7 +16,7 @@ const staticStyles = css.global`
 
     .Caption {
       .Caption__description {
-        max-width: 400px;
+        max-width: 600px;
         margin: 0 auto;
       }
     }

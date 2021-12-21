@@ -1,4 +1,6 @@
 import aaveLogo from './aave.svg';
+import rwaLogo from './rwa.svg';
+import rwaLogoActive from './rwaActive.svg';
 import aaveActiveLogo from './aaveActive.svg';
 import aavev2Logo from './aavev2.svg';
 import aavev2ActiveLogo from './aavev2Active.svg';
@@ -9,6 +11,8 @@ import arbitrium from './arbitrium.svg';
 import avalanche from './avalanche.svg';
 
 export {
+  rwaLogo,
+  rwaLogoActive,
   aaveLogo,
   aaveActiveLogo,
   ammLogo,
