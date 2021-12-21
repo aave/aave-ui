@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { USD_DECIMALS } from '@aave/math-utils';
-import { valueToBigNumber } from '@aave/protocol-js';
+import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
 
 import { useLanguageContext } from '../../../../libs/language-provider';

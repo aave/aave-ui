@@ -1,10 +1,9 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
-
 import { textCenterEllipsis, useThemeContext } from '@aave/aave-ui-kit';
 
 import staticStyles from './style';
+import { valueToBigNumber } from '@aave/math-utils';
 
 interface ValueWithSmallDecimalsProps {
   value: number;

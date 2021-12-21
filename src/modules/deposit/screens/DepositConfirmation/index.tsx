@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { Pool } from '@aave/contract-helpers';
-import { USD_DECIMALS } from '@aave/math-utils';
+import {
+  calculateHealthFactorFromBalancesBigUnits,
+  USD_DECIMALS,
+  valueToBigNumber,
+} from '@aave/math-utils';
 
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
@@ -78,11 +81,13 @@ function DepositConfirmation({
     .plus(amountIntEth.multipliedBy(poolReserve.reserveLiquidationThreshold))
     .dividedBy(totalCollateralMarketReferenceCurrencyAfter);
 
-  const healthFactorAfterDeposit = calculateHealthFactorFromBalancesBigUnits(
-    totalCollateralMarketReferenceCurrencyAfter,
-    valueToBigNumber(user.totalBorrowsMarketReferenceCurrency),
-    liquidationThresholdAfter
-  );
+  const healthFactorAfterDeposit = calculateHealthFactorFromBalancesBigUnits({
+    collateralBalanceMarketReferenceCurrency: totalCollateralMarketReferenceCurrencyAfter,
+    borrowBalanceMarketReferenceCurrency: valueToBigNumber(
+      user.totalBorrowsMarketReferenceCurrency
+    ),
+    currentLiquidationThreshold: liquidationThresholdAfter,
+  });
 
   // Get approve and supply transactions without using permit flow
   const handleGetTransactions = async () => {

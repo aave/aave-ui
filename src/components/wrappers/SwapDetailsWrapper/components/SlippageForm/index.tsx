@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { valueToBigNumber } from '@aave/protocol-js';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
+import { valueToBigNumber } from '@aave/math-utils';
 
 import ValuePercent from '../../../../basic/ValuePercent';
 import BasicField from '../../../../fields/BasicField';

@@ -2,8 +2,9 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { valueToBigNumber, Stake } from '@aave/protocol-js';
 import { gradient, rgba, Timer, useThemeContext } from '@aave/aave-ui-kit';
+import { Stake } from '@aave/contract-helpers';
+import { valueToBigNumber } from '@aave/math-utils';
 
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useStakeDataContext } from '../../../../libs/pool-data-provider/hooks/use-stake-data-context';

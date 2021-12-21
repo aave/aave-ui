@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { PERMISSION } from '@aave/contract-helpers';
-import { BigNumber, valueToBigNumber } from '@aave/protocol-js';
-import { USD_DECIMALS } from '@aave/math-utils';
+import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
 
 import { ComputedReserveData, useAppDataContext } from '../../../../libs/pool-data-provider';
 import { isAssetStable } from '../../../../helpers/config/assets-config';

@@ -14,8 +14,8 @@ import {
 import { useUserWalletDataContext } from '../../web3-data-provider';
 import { useConnectionStatusContext } from '../../connection-status-provider';
 import { useApolloConfigContext } from '../../apollo-config';
-import { BigNumber } from '@aave/protocol-js';
 import { usePolling } from '../../hooks/use-polling';
+import BigNumber from 'bignumber.js';
 
 // interval in which the rpc data is refreshed
 const POOLING_INTERVAL = 30 * 1000;

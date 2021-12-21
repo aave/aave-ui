@@ -1,4 +1,4 @@
-import { tEthereumAddress } from '@aave/protocol-js/dist/tx-builder/types';
+import { tEthereumAddress } from '@aave/contract-helpers';
 
 export function addERC20Token(
   address: tEthereumAddress,

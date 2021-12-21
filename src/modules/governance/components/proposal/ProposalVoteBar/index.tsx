@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import ContentWrapperWithTopLine from '../../../../../components/wrappers/ContentWrapperWithTopLine';

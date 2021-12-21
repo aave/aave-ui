@@ -1,9 +1,10 @@
-import { ComputedUserReserve, FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
 import {
-  calculateHealthFactorFromBalancesBigUnits,
-  valueToBigNumber,
   BigNumberValue,
-} from '@aave/protocol-js';
+  calculateHealthFactorFromBalancesBigUnits,
+  ComputedUserReserve,
+  FormatUserSummaryAndIncentivesResponse,
+  valueToBigNumber,
+} from '@aave/math-utils';
 import { ComputedReserveData } from '../../libs/pool-data-provider';
 
 export function calculateHFAfterSwap(
@@ -21,11 +22,13 @@ export function calculateHFAfterSwap(
     fromAssetData &&
     fromAssetData.usageAsCollateralEnabled &&
     fromAssetUserData?.usageAsCollateralEnabledOnUser
-      ? calculateHealthFactorFromBalancesBigUnits(
-          valueToBigNumber(fromAmount).multipliedBy(fromAssetData.priceInMarketReferenceCurrency),
-          user.totalBorrowsMarketReferenceCurrency,
-          fromAssetData.reserveLiquidationThreshold
-        ).toString()
+      ? calculateHealthFactorFromBalancesBigUnits({
+          collateralBalanceMarketReferenceCurrency: valueToBigNumber(fromAmount).multipliedBy(
+            fromAssetData.priceInMarketReferenceCurrency
+          ),
+          borrowBalanceMarketReferenceCurrency: user.totalBorrowsMarketReferenceCurrency,
+          currentLiquidationThreshold: fromAssetData.reserveLiquidationThreshold,
+        }).toString()
       : '0';
   const hfEffectOfToAmount =
     toAmount &&
@@ -34,13 +37,13 @@ export function calculateHFAfterSwap(
     (toAssetUserData && toAssetUserData.underlyingBalance !== '0'
       ? toAssetUserData.usageAsCollateralEnabledOnUser
       : true)
-      ? calculateHealthFactorFromBalancesBigUnits(
-          valueToBigNumber(toAmount)
+      ? calculateHealthFactorFromBalancesBigUnits({
+          collateralBalanceMarketReferenceCurrency: valueToBigNumber(toAmount)
             .multipliedBy(toAssetData.priceInMarketReferenceCurrency)
             .multipliedBy(1 - +maxSlippage / 100),
-          user.totalBorrowsMarketReferenceCurrency,
-          toAssetData.reserveLiquidationThreshold
-        ).toString()
+          borrowBalanceMarketReferenceCurrency: user.totalBorrowsMarketReferenceCurrency,
+          currentLiquidationThreshold: toAssetData.reserveLiquidationThreshold,
+        }).toString()
       : '0';
 
   return {

@@ -1,6 +1,6 @@
+import { valueToBigNumber } from '@aave/math-utils';
 import React from 'react';
 import { CustomFormatConfig, FormattedNumber, FormatNumberOptions } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
 
 interface CompactNumberProps {
   value: string | number;

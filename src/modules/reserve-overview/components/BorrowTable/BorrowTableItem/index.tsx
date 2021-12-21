@@ -1,8 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { InterestRate } from '@aave/contract-helpers';
+import { ComputedUserReserve, valueToBigNumber } from '@aave/math-utils';
 
 import { BorrowRateMode } from '../../../../../libs/pool-data-provider/graphql';
 import { loanActionLinkComposer } from '../../../../../helpers/loan-action-link-composer';
@@ -16,7 +17,6 @@ import { TokenIcon } from '../../../../../helpers/config/assets-config';
 import defaultMessages from '../../../../../defaultMessages';
 import messages from './messages';
 import staticStyles from './style';
-import { ComputedUserReserve } from '@aave/math-utils';
 import { ComputedReserveData } from '../../../../../libs/pool-data-provider';
 
 interface BorrowTableItemProps {

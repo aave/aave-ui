@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
-import {
-  calculateHealthFactorFromBalancesBigUnits,
-  valueToBigNumber,
-  BigNumber,
-  InterestRate,
-} from '@aave/protocol-js';
-import { Pool, PoolInterface } from '@aave/contract-helpers';
+import { InterestRate, Pool, PoolInterface } from '@aave/contract-helpers';
 
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
@@ -27,7 +21,12 @@ import { getAssetInfo, isAssetStable } from '../../../../helpers/config/assets-c
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
-import { USD_DECIMALS } from '@aave/math-utils';
+import {
+  calculateHealthFactorFromBalancesBigUnits,
+  USD_DECIMALS,
+  valueToBigNumber,
+} from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
 
 function RepayConfirmation({
   currencySymbol,
@@ -110,11 +109,13 @@ function RepayConfirmation({
     .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
 
-  const healthFactorAfterRepay = calculateHealthFactorFromBalancesBigUnits(
-    user.totalCollateralUSD,
-    valueToBigNumber(user.totalBorrowsUSD).minus(displayAmountToRepayInUsd.toNumber()),
-    user.currentLiquidationThreshold
-  );
+  const healthFactorAfterRepay = calculateHealthFactorFromBalancesBigUnits({
+    collateralBalanceMarketReferenceCurrency: user.totalCollateralUSD,
+    borrowBalanceMarketReferenceCurrency: valueToBigNumber(user.totalBorrowsUSD).minus(
+      displayAmountToRepayInUsd.toNumber()
+    ),
+    currentLiquidationThreshold: user.currentLiquidationThreshold,
+  });
 
   const handleGetTransactions = async () => {
     if (currentMarketData.v3) {

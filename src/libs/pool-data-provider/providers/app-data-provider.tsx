@@ -1,4 +1,5 @@
 import {
+  API_ETH_MOCK_ADDRESS,
   IncentivesController,
   IncentivesControllerInterface,
   IncentivesControllerV2,
@@ -14,7 +15,6 @@ import {
   normalize,
   UserReserveData,
 } from '@aave/math-utils';
-import { API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import React, { useContext, useState } from 'react';
 import BigNumber from 'bignumber.js';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';

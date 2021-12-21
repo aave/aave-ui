@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import queryString from 'query-string';
 import { useIntl } from 'react-intl';
-import {
-  calculateHealthFactorFromBalancesBigUnits,
-  InterestRate,
-  valueToBigNumber,
-} from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
@@ -27,7 +22,12 @@ import messages from './messages';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
-import { USD_DECIMALS } from '@aave/math-utils';
+import {
+  calculateHealthFactorFromBalancesBigUnits,
+  USD_DECIMALS,
+  valueToBigNumber,
+} from '@aave/math-utils';
+import { InterestRate } from '@aave/contract-helpers';
 
 function BorrowConfirmation({
   currencySymbol,
@@ -119,11 +119,13 @@ function BorrowConfirmation({
     .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
 
-  const newHealthFactor = calculateHealthFactorFromBalancesBigUnits(
-    user.totalCollateralUSD,
-    valueToBigNumber(user.totalBorrowsUSD).plus(amountToBorrowInUsd),
-    user.currentLiquidationThreshold
-  );
+  const newHealthFactor = calculateHealthFactorFromBalancesBigUnits({
+    collateralBalanceMarketReferenceCurrency: user.totalCollateralUSD,
+    borrowBalanceMarketReferenceCurrency: valueToBigNumber(user.totalBorrowsUSD).plus(
+      amountToBorrowInUsd
+    ),
+    currentLiquidationThreshold: user.currentLiquidationThreshold,
+  });
 
   const handleGetTransactions = async () => {
     const referralCode = getReferralCode() || undefined;

@@ -2,7 +2,12 @@ import React from 'react';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import queryString from 'query-string';
 import { useIntl } from 'react-intl';
-import { BigNumber, valueToBigNumber } from '@aave/protocol-js';
+import {
+  ComputedUserReserve,
+  FormatUserSummaryAndIncentivesResponse,
+  valueToBigNumber,
+} from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
 
 import { ComputedReserveData, useAppDataContext } from '../../libs/pool-data-provider';
 import { CurrencyRouteParamsInterface } from '../../helpers/router-types';
@@ -10,7 +15,6 @@ import Preloader from '../basic/Preloader';
 import ErrorPage from '../ErrorPage';
 
 import messages from './messages';
-import { ComputedUserReserve, FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
 
 export interface ValidationWrapperComponentProps
   extends Pick<RouteComponentProps, 'history' | 'location'> {

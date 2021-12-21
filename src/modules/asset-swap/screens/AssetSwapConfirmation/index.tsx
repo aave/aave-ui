@@ -1,8 +1,9 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
 import queryString from 'query-string';
+import { ChainId } from '@aave/contract-helpers';
+import { valueToBigNumber } from '@aave/math-utils';
 
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
@@ -14,11 +15,9 @@ import ValuePercent from '../../../../components/basic/ValuePercent';
 import Preloader from '../../../../components/basic/Preloader';
 import { getSwapCallData, useSwap } from '../../../../libs/use-asset-swap/useSwap';
 import { calculateHFAfterSwap } from '../../helpers';
-
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
-import { ChainId } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
 interface QueryParams {

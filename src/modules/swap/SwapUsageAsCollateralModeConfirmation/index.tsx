@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import queryString from 'query-string';
 import { useIntl } from 'react-intl';
-import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useAppDataContext } from '../../../libs/pool-data-provider';
@@ -19,6 +18,7 @@ import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
+import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/math-utils';
 
 function SwapUsageAsCollateralModeConfirmation({
   currencySymbol,
@@ -71,11 +71,11 @@ function SwapUsageAsCollateralModeConfirmation({
     usageAsCollateralModeAfterSwitch ? 'plus' : 'minus'
   ](userReserve.underlyingBalanceMarketReferenceCurrency);
 
-  const healthFactorAfterSwitch = calculateHealthFactorFromBalancesBigUnits(
-    totalCollateralAfterSwitchETH,
-    user.totalBorrowsMarketReferenceCurrency,
-    user.currentLiquidationThreshold
-  );
+  const healthFactorAfterSwitch = calculateHealthFactorFromBalancesBigUnits({
+    collateralBalanceMarketReferenceCurrency: totalCollateralAfterSwitchETH,
+    borrowBalanceMarketReferenceCurrency: user.totalBorrowsMarketReferenceCurrency,
+    currentLiquidationThreshold: user.currentLiquidationThreshold,
+  });
 
   let blockingError = '';
   if (valueToBigNumber(userReserve.underlyingBalance).eq(0)) {

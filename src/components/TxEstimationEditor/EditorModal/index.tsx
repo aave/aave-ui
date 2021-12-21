@@ -3,7 +3,7 @@ import { MessageDescriptor, useIntl } from 'react-intl';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { useThemeContext, BasicModal, rgba } from '@aave/aave-ui-kit';
-import { valueToBigNumber, normalize } from '@aave/protocol-js';
+import { normalize, USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 
 import Row from '../../basic/Row';
 import Value from '../../basic/Value';
@@ -19,7 +19,6 @@ import staticStyles from './style';
 import whiteCloseIcon from '../../../images/whiteCloseIcon.svg';
 import closeIcon from '../../../images/closeIcon.svg';
 import warningIcon from '../../../images/warningIconOrange.svg';
-import { USD_DECIMALS } from '@aave/math-utils';
 
 export interface Gas {
   txName: string;

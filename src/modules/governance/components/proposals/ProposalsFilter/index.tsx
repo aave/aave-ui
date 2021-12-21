@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { ProposalState } from '@aave/protocol-js';
+import { ProposalState } from '@aave/contract-helpers';
 import { rgba, useThemeContext, AnimationArrow, DropdownWrapper } from '@aave/aave-ui-kit';
 
 import { ProposalItem } from '../../../../../libs/governance-provider/types';

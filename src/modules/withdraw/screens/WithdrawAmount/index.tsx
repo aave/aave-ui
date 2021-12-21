@@ -1,7 +1,9 @@
 import React from 'react';
 import queryString from 'query-string';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
+import { PERMISSION } from '@aave/contract-helpers';
+import BigNumber from 'bignumber.js';
+import { valueToBigNumber } from '@aave/math-utils';
 
 import BasicForm from '../../../../components/forms/BasicForm';
 import NoDataPanel from '../../../../components/NoDataPanel';
@@ -13,7 +15,6 @@ import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
-import { PERMISSION } from '@aave/contract-helpers';
 
 function WithdrawAmount({
   currencySymbol,
