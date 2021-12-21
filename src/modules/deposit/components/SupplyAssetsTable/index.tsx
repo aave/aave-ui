@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import BasicAssetsTable from '../../../../components/BasicAssetsTable';
 import SupplyItem from './SupplyItem';
@@ -12,6 +12,7 @@ import { ComputedReserveData, useAppDataContext } from '../../../../libs/pool-da
 import { DepositTableItem } from '../DepositDashboardTable/types';
 import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 import BigNumber from 'bignumber.js';
+import Preloader from '../../../../components/basic/Preloader';
 
 interface SupplyAssetTableProps {
   suppliedReserves: DepositTableItem[];
@@ -19,6 +20,13 @@ interface SupplyAssetTableProps {
 
 export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableProps) {
   const { user, userId, walletBalances, reserves, marketReferencePriceInUsd } = useAppDataContext();
+
+  const [sortDesc, setSortDesc] = useState(false);
+  const [sortName, setSortName] = useState('');
+
+  if (!walletBalances) {
+    return <Preloader withText={true} />;
+  }
 
   const tokensToSupply: SupplyTableItem[] = reserves.map<SupplyTableItem>(
     (reserve: ComputedReserveData) => {
@@ -59,10 +67,22 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
     }
   );
 
-  const filteredSupplyReserves = tokensToSupply.filter((reserve) => {
-    if (reserve.availableToDepositUSD !== '0') return true;
-    return false;
-  });
+  const reserveAssets = suppliedReserves.map((reserve) =>
+    reserve.reserve.underlyingAsset.toLowerCase()
+  );
+  const filteredSupplyReserves = tokensToSupply.filter(
+    (reserve) =>
+      reserveAssets.indexOf(reserve.underlyingAsset.toLowerCase()) === -1 &&
+      reserve.availableToDepositUSD !== '0'
+  );
+
+  if (sortDesc) {
+    // @ts-ignore
+    filteredSupplyReserves.sort((a, b) => a[sortName] - b[sortName]);
+  } else {
+    // @ts-ignore
+    filteredSupplyReserves.sort((a, b) => b[sortName] - a[sortName]);
+  }
 
   const columns = [
     {
@@ -79,7 +99,13 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
   ];
 
   return (
-    <BasicAssetsTable columns={columns}>
+    <BasicAssetsTable
+      sortName={sortName}
+      setSortName={setSortName}
+      sortDesc={sortDesc}
+      setSortDesc={setSortDesc}
+      columns={columns}
+    >
       {filteredSupplyReserves.map((item, index) => (
         <SupplyItem userId={userId} {...item} key={index} />
       ))}
