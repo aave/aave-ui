@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 
-import BasicAssetsTable from '../../../../components/BasicAssetsTable';
 import SupplyItem from './SupplyItem';
-import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
-import { CapType } from '../../../../components/caps/helper';
 
 import messages from './messages';
 
@@ -13,16 +10,23 @@ import { DepositTableItem } from '../DepositDashboardTable/types';
 import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 import BigNumber from 'bignumber.js';
 import Preloader from '../../../../components/basic/Preloader';
+import { useLanguageContext } from '../../../../libs/language-provider';
+import { useThemeContext } from '@aave/aave-ui-kit';
+import { useIntl } from 'react-intl';
+import DashboardTable from '../../../dashboard/components/DashboardTable';
+import SupplyTableHeader from '../../../dashboard/components/DashboardTable/SupplyTableHeader ';
+import DashboardMobileCardsWrapper from '../../../dashboard/components/DashboardMobileCardsWrapper';
+import SupplyItemMobileCard from './SupplyItemMobileCard';
 
 interface SupplyAssetTableProps {
   suppliedReserves: DepositTableItem[];
 }
 
 export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableProps) {
+  const intl = useIntl();
   const { user, userId, walletBalances, reserves, marketReferencePriceInUsd } = useAppDataContext();
-
-  const [sortDesc, setSortDesc] = useState(false);
-  const [sortName, setSortName] = useState('');
+  const { currentLangSlug } = useLanguageContext();
+  const { lg, sm } = useThemeContext();
 
   if (!walletBalances) {
     return <Preloader withText={true} />;
@@ -70,50 +74,44 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
   const reserveAssets = suppliedReserves.map((reserve) =>
     reserve.reserve.underlyingAsset.toLowerCase()
   );
+  //TODO: use this array once all is beeing rendered correctly
   const filteredSupplyReserves = tokensToSupply.filter(
     (reserve) =>
       reserveAssets.indexOf(reserve.underlyingAsset.toLowerCase()) === -1 &&
       reserve.availableToDepositUSD !== '0'
   );
 
-  if (sortDesc) {
-    // @ts-ignore
-    filteredSupplyReserves.sort((a, b) => a[sortName] - b[sortName]);
-  } else {
-    // @ts-ignore
-    filteredSupplyReserves.sort((a, b) => b[sortName] - a[sortName]);
-  }
-
-  const columns = [
-    {
-      title: messages.asset,
-    },
-    {
-      titleComponent: <AvailableCapsHelpModal capType={CapType.supplyCap} />,
-      sortKey: 'availableToDepositUSD',
-    },
-    {
-      title: messages.APY,
-      sortKey: 'liquidityRate',
-    },
+  const head = [
+    intl.formatMessage(messages.supplyAssets),
+    intl.formatMessage(messages.secondTableColumnTitle),
+    intl.formatMessage(messages.apyRowTitle),
   ];
+  const colWidth = [lg ? 250 : 160, '100%', '100%', 180];
+
+  const Header = useCallback(() => {
+    return <SupplyTableHeader head={head} colWidth={colWidth} isDeposit={true} />;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentLangSlug]);
 
   return (
-    <BasicAssetsTable
-      sortName={sortName}
-      setSortName={setSortName}
-      sortDesc={sortDesc}
-      setSortDesc={setSortDesc}
-      columns={columns}
-    >
-      {filteredSupplyReserves.map((item, index) => (
-        <SupplyItem userId={userId} {...item} key={index} />
-      ))}
-      <style jsx={true} global={true}>{`
-        .BasicTable__content-inner .TableItem__content {
-          flex: 2;
-        }
-      `}</style>
-    </BasicAssetsTable>
+    <>
+      {!sm ? (
+        <>
+          <Header />
+
+          <DashboardTable>
+            {tokensToSupply.map((item) => (
+              <SupplyItem {...item} key={item.id} userId={userId} />
+            ))}
+          </DashboardTable>
+        </>
+      ) : (
+        <DashboardMobileCardsWrapper>
+          {tokensToSupply.map((item) => (
+            <SupplyItemMobileCard userId={userId} {...item} key={item.id} />
+          ))}
+        </DashboardMobileCardsWrapper>
+      )}
+    </>
   );
 }

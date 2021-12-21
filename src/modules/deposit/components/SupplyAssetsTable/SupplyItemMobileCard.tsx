@@ -1,24 +1,24 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
-// import TableItem from '../../../../components/BasicAssetsTable/TableItem';
-
-import TableItem from '../../../dashboard/components/DashboardTable/TableItem';
-import TableColumn from '../../../../components/BasicTable/TableColumn';
-import Value from '../../../../components/basic/Value';
+import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
+import Row from '../../../../components/basic/Row';
 import NoData from '../../../../components/basic/NoData';
-import { isAssetStable } from '../../../../helpers/config/assets-config';
+import Value from '../../../../components/basic/Value';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
+import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
+
+import messages from './messages';
 
 import { SupplyTableItem } from './types';
 import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import TableButtonCol from '../../../dashboard/components/DashboardTable/TableButtonCol';
-import messages from './messages';
-import TableValueCol from '../../../dashboard/components/DashboardTable/TableValueCol';
-import TableAprCol from '../../../dashboard/components/DashboardTable/TableAprCol';
 
-export default function SupplyItem({
+export default function SupplyItemMobileCard({
   id,
   symbol,
   underlyingAsset,
@@ -26,19 +26,24 @@ export default function SupplyItem({
   availableToDepositUSD,
   liquidityRate,
   userId,
+  borrowingEnabled,
   isFreezed,
   aIncentives,
   isIsolated,
   totalLiquidity,
   supplyCap,
-  uiColor,
   isActive,
 }: SupplyTableItem) {
   const intl = useIntl();
 
   return (
-    <TableItem tokenSymbol={symbol} isIsolated={isIsolated}>
-      <TableColumn>
+    <MobileCardWrapper
+      symbol={symbol}
+      withGoToTop={true}
+      disabled={isFreezed}
+      isIsolated={isIsolated}
+    >
+      <Row title={<AvailableCapsHelpModal capType={CapType.supplyCap} />} withMargin={true}>
         {!userId || Number(availableToDeposit) <= 0 ? (
           <NoData color="dark" />
         ) : (
@@ -60,15 +65,17 @@ export default function SupplyItem({
             }
           />
         )}
-      </TableColumn>
+      </Row>
 
-      {/* <TableValueCol
-        value={Number(availableToDeposit)}
-        subValue={Number(availableToDepositUSD)}
-        tooltipId={`deposit-${symbol}__${id}`}
-      /> */}
-
-      <TableAprCol value={Number(liquidityRate)} incentives={aIncentives} symbol={symbol} />
+      {!isFreezed && (
+        <Row title={intl.formatMessage(messages.APY)} withMargin={true}>
+          {borrowingEnabled ? (
+            <IncentivesCard symbol={symbol} value={liquidityRate} incentives={aIncentives} />
+          ) : (
+            <NoData color="dark" />
+          )}
+        </Row>
+      )}
 
       <TableButtonsWrapper>
         <TableButtonCol
@@ -77,6 +84,6 @@ export default function SupplyItem({
           linkTo={`/deposit/${underlyingAsset}-${id}`}
         />
       </TableButtonsWrapper>
-    </TableItem>
+    </MobileCardWrapper>
   );
 }
