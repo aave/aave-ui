@@ -9,14 +9,16 @@ import messages from './messages';
 
 import { SupplyTableItem } from './types';
 import { ComputedReserveData, useAppDataContext } from '../../../../libs/pool-data-provider';
-import { DepositTableItem } from '../DepositAssetsTable/types';
+import { DepositTableItem } from '../DepositDashboardTable/types';
+import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
 
 interface SupplyAssetTableProps {
   suppliedReserves: DepositTableItem[];
 }
 
 export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableProps) {
-  const { userId, walletBalances, reserves, marketReferencePriceInUsd } = useAppDataContext();
+  const { user, userId, walletBalances, reserves, marketReferencePriceInUsd } = useAppDataContext();
 
   const tokensToSupply: SupplyTableItem[] = reserves.map<SupplyTableItem>(
     (reserve: ComputedReserveData) => {
@@ -57,6 +59,11 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
     }
   );
 
+  const filteredSupplyReserves = tokensToSupply.filter((reserve) => {
+    if (reserve.availableToDepositUSD != '0') return true;
+    return false;
+  });
+
   const columns = [
     {
       title: messages.asset,
@@ -73,7 +80,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
 
   return (
     <BasicAssetsTable columns={columns}>
-      {listData.map((item, index) => (
+      {filteredSupplyReserves.map((item, index) => (
         <SupplyItem userId={userId} {...item} key={index} />
       ))}
       <style jsx={true} global={true}>{`

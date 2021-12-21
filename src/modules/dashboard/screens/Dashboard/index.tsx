@@ -192,7 +192,6 @@ export default function Dashboard() {
             <MainDashboardTable
               borrowedPositions={borrowedPositions}
               depositedPositions={depositedPositions}
-              tokensToSupply={tokensToSupply}
               isBorrow={isBorrow}
             />
           ) : (
