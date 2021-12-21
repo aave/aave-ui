@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import dayjs from 'dayjs';
-import { ProposalState } from '@aave/protocol-js';
+import { ProposalState } from '@aave/contract-helpers';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import useGetTopVoters from '../../../../../libs/governance-provider/hooks/use-get-top-voters';

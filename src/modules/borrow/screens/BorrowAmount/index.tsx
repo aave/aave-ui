@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
-import { BigNumber, InterestRate, valueToBigNumber } from '@aave/protocol-js';
 
 import NoDataPanel from '../../../../components/NoDataPanel';
 import BasicForm from '../../../../components/forms/BasicForm';
@@ -19,6 +18,9 @@ import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHel
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 
 import messages from './messages';
+import { valueToBigNumber } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
+import { InterestRate } from '@aave/contract-helpers';
 
 enum BorrowStep {
   AmountForm,

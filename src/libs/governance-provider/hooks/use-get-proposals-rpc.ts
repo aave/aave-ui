@@ -1,22 +1,20 @@
 import { useState } from 'react';
-import { normalize } from '@aave/protocol-js';
 import { providers } from 'ethers';
-
-import { ProposalItem } from '../types';
-import { getProposalExpiry, IPFS_ENDPOINT } from '../helper';
-
-import { useStateLoading, LOADING_STATE } from '../../hooks/use-state-loading';
-import { usePolling } from '../../hooks/use-polling';
-import { IpfsMeta } from '../types';
-
-import fm from 'front-matter';
-import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import {
   AaveGovernanceService,
   ChainId,
   getProposalMetadata,
   Proposal,
 } from '@aave/contract-helpers';
+import { normalize } from '@aave/math-utils';
+import fm from 'front-matter';
+
+import { ProposalItem } from '../types';
+import { getProposalExpiry, IPFS_ENDPOINT } from '../helper';
+import { useStateLoading, LOADING_STATE } from '../../hooks/use-state-loading';
+import { usePolling } from '../../hooks/use-polling';
+import { IpfsMeta } from '../types';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
 
 const MemorizeStartTimestamp: { [id: string]: number } = {};
 const MemorizeProposalTimestamp: { [id: string]: number } = {};

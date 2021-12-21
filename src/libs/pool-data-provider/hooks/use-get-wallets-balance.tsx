@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { normalize } from '@aave/protocol-js';
+import { normalize } from '@aave/math-utils';
 
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';

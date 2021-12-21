@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
-import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { loanActionLinkComposer } from '../../../../helpers/loan-action-link-composer';
@@ -22,6 +21,8 @@ import { getAssetColor } from '../../../../helpers/config/assets-config';
 import messages from './messages';
 import staticStyles from './style';
 import Preloader from '../../../../components/basic/Preloader';
+import { valueToBigNumber } from '@aave/math-utils';
+import { InterestRate } from '@aave/contract-helpers';
 
 export default function Dashboard() {
   const intl = useIntl();

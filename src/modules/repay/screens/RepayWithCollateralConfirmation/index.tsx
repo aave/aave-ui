@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
-import { valueToBigNumber, BigNumber, InterestRate, API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import RepayContentWrapper from '../../components/RepayContentWrapper';
@@ -20,9 +19,10 @@ import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
-import { ChainId } from '@aave/contract-helpers';
-import { USD_DECIMALS } from '@aave/math-utils';
+import { API_ETH_MOCK_ADDRESS, ChainId, InterestRate } from '@aave/contract-helpers';
+import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import BigNumber from 'bignumber.js';
 
 interface QueryParams {
   fromAsset?: string;

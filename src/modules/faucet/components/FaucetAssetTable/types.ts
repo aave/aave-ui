@@ -1,4 +1,4 @@
-import { BigNumber } from '@aave/protocol-js';
+import BigNumber from 'bignumber.js';
 
 export type FaucetTableItem = {
   id: string;

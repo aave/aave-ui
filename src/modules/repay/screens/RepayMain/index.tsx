@@ -2,9 +2,8 @@ import React from 'react';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
-import { InterestRate } from '@aave/protocol-js';
 import { gradient, useThemeContext } from '@aave/aave-ui-kit';
-import { PERMISSION } from '@aave/contract-helpers';
+import { PERMISSION, InterestRate } from '@aave/contract-helpers';
 
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';

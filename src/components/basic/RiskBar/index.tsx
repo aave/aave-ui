@@ -1,15 +1,17 @@
 import React from 'react';
 import { Range } from 'react-range';
 import { useIntl } from 'react-intl';
-import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/protocol-js';
-
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { useAppDataContext } from '../../../libs/pool-data-provider';
 import ValuePercent from '../ValuePercent';
 
 import messages from './messages';
 import staticStyles from './style';
-import { USD_DECIMALS } from '@aave/math-utils';
+import {
+  calculateHealthFactorFromBalancesBigUnits,
+  USD_DECIMALS,
+  valueToBigNumber,
+} from '@aave/math-utils';
 
 interface RiskBarProps {
   value: number;
@@ -36,11 +38,13 @@ export default function RiskBar({ value, onChange, maxAmount, currencySymbol }: 
     .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
 
-  const newHealthFactor = calculateHealthFactorFromBalancesBigUnits(
-    user.totalCollateralMarketReferenceCurrency,
-    valueToBigNumber(user.totalBorrowsUSD).plus(amountToBorrowInUsd),
-    user.currentLiquidationThreshold
-  );
+  const newHealthFactor = calculateHealthFactorFromBalancesBigUnits({
+    collateralBalanceMarketReferenceCurrency: user.totalCollateralMarketReferenceCurrency,
+    borrowBalanceMarketReferenceCurrency: valueToBigNumber(user.totalBorrowsUSD).plus(
+      amountToBorrowInUsd
+    ),
+    currentLiquidationThreshold: user.currentLiquidationThreshold,
+  });
 
   const handleChange = (value: number[]) => {
     onChange(value[0].toString());

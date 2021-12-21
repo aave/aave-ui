@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { PERMISSION } from '@aave/contract-helpers';
-import { USD_DECIMALS } from '@aave/math-utils';
+import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 
 import { ComputedReserveData, useAppDataContext } from '../../../../libs/pool-data-provider';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
@@ -20,6 +19,7 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { BorrowTableItem } from '../../components/BorrowAssetTable/types';
+import BigNumber from 'bignumber.js';
 
 export default function BorrowMain() {
   const intl = useIntl();

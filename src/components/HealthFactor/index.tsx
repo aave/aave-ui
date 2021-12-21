@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { valueToBigNumber } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
 
 import ValuePercent from '../basic/ValuePercent';
 import HealthFactorHelpModal from '../HelpModal/HealthFactorHelpModal';

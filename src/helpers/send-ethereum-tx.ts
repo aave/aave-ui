@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { BigNumber, providers } from 'ethers';
-import { eEthereumTxType, transactionType, GasResponse } from '@aave/protocol-js';
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
+import { eEthereumTxType, GasResponse, transactionType } from '@aave/contract-helpers';
 
 function hexToAscii(_hex: string): string {
   const hex = _hex.toString();

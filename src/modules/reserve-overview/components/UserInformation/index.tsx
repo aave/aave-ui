@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
-import { ComputedUserReserve, FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
+import {
+  ComputedUserReserve,
+  FormatUserSummaryAndIncentivesResponse,
+  valueToBigNumber,
+} from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import BigNumber from 'bignumber.js';
 
 import { ComputedReserveData } from '../../../../libs/pool-data-provider';
 import { isAssetStable } from '../../../../helpers/config/assets-config';

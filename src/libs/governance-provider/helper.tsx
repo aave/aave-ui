@@ -1,4 +1,6 @@
-import { BigNumber, normalize, ProposalState } from '@aave/protocol-js';
+import { ProposalState } from '@aave/contract-helpers';
+import { normalize } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
 import dayjs from 'dayjs';
 
 import { ProposalItem } from './types';

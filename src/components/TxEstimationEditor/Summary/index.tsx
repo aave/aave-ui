@@ -1,13 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber, normalize } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { normalize, USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 
 import Value from '../../basic/Value';
 
 import messages from './messages';
 import staticStyles from './style';
-import { USD_DECIMALS } from '@aave/math-utils';
 
 interface SummaryProps {
   visible: boolean;

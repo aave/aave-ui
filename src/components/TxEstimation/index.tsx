@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useIntl } from 'react-intl';
-import { EthereumTransactionTypeExtended, valueToBigNumber, normalize } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { normalize, USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
+import { EthereumTransactionTypeExtended } from '@aave/contract-helpers';
 
 import { useAppDataContext } from '../../libs/pool-data-provider';
 import Value from '../basic/Value';
 
 import messages from './messages';
 import staticStyles from './style';
-import { USD_DECIMALS } from '@aave/math-utils';
 
 const INTERVAL = 10000;
 

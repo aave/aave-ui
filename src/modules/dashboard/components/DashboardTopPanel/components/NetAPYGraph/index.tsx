@@ -1,10 +1,11 @@
 import React from 'react';
-import { BigNumber, valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { CompactNumber } from '../../../../../../components/basic/CompactNumber';
 
 import staticStyles from './style';
+import { valueToBigNumber } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
 
 interface NetAPYGraphProps {
   earnedAPY: number;

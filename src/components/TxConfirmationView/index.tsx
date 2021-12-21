@@ -8,11 +8,10 @@ import React, {
 } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { EthereumTransactionTypeExtended } from '@aave/protocol-js';
 import { useWeb3React } from '@web3-react/core';
 import { providers } from 'ethers';
 import { useThemeContext } from '@aave/aave-ui-kit';
-import { ChainId } from '@aave/contract-helpers';
+import { ChainId, EthereumTransactionTypeExtended } from '@aave/contract-helpers';
 
 import {
   getDefaultChainId,

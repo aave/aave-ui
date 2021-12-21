@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { valueToBigNumber, GasType, normalize } from '@aave/protocol-js';
+import { normalize, valueToBigNumber } from '@aave/math-utils';
+import { GasType } from '@aave/contract-helpers';
 
 import { useAppDataContext } from '../../libs/pool-data-provider';
 import EditorModal, { GasEstimations, Gas, GasKeys } from './EditorModal';
 import Summary from './Summary';
 
 import { EthTransactionData } from '../../helpers/send-ethereum-tx';
+
 interface TxEstimationProps {
   txs: EthTransactionData[];
   setCustomGasPrice: React.Dispatch<React.SetStateAction<string | null>>;

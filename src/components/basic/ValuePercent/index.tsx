@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { BigNumberValue } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { BigNumberValue } from '@aave/math-utils';
 
 import { CompactNumber } from '../CompactNumber';
 

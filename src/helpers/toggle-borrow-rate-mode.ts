@@ -1,5 +1,5 @@
+import { InterestRate } from '@aave/contract-helpers';
 import { History } from 'history';
-import { InterestRate } from '@aave/protocol-js';
 
 export const toggleBorrowRateMode = (
   history: History,
