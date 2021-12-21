@@ -51,6 +51,7 @@ export default function Dashboard() {
 
   const depositedPositions: DepositTableItem[] = [];
   const borrowedPositions: BorrowTableItem[] = [];
+
   user?.userReservesData.forEach((userReserve) => {
     const poolReserve = reserves.find((res) => res.symbol === userReserve.reserve.symbol);
     if (!poolReserve) {
@@ -190,6 +191,7 @@ export default function Dashboard() {
             <MainDashboardTable
               borrowedPositions={borrowedPositions}
               depositedPositions={depositedPositions}
+              tokensToSupply={tokensToSupply}
               isBorrow={isBorrow}
             />
           ) : (

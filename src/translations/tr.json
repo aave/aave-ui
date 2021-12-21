@@ -516,6 +516,8 @@
   "modules.deposit.components.PaymentsPanel.countryOfResidence": "",
   "modules.deposit.components.PaymentsPanel.description": "Bu varlığı doğrudan ortaklarımız aracılığıyla satın alın. Lütfen ülkenizden yapılabildiğinden emin olun {countryIsEligible}",
   "modules.deposit.components.PaymentsPanel.or": "Veya",
+  "modules.deposit.components.SupplyAssetsTable.APY": "",
+  "modules.deposit.components.SupplyAssetsTable.asset": "",
   "modules.deposit.screens.DepositAmount.aaveDescription": "",
   "modules.deposit.screens.DepositAmount.aaveWarning": "",
   "modules.deposit.screens.DepositAmount.connectWallet": "",

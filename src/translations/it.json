@@ -516,6 +516,8 @@
   "modules.deposit.components.PaymentsPanel.countryOfResidence": "",
   "modules.deposit.components.PaymentsPanel.description": "Acquista direttamente questo asset tramite i nostri partners. Assicurati che il tuo {countryIsEligible}",
   "modules.deposit.components.PaymentsPanel.or": "O",
+  "modules.deposit.components.SupplyAssetsTable.APY": "",
+  "modules.deposit.components.SupplyAssetsTable.asset": "",
   "modules.deposit.screens.DepositAmount.aaveDescription": "",
   "modules.deposit.screens.DepositAmount.aaveWarning": "",
   "modules.deposit.screens.DepositAmount.connectWallet": "Per favore connettere un portafoglio",

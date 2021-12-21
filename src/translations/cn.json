@@ -516,6 +516,8 @@
   "modules.deposit.components.PaymentsPanel.countryOfResidence": "",
   "modules.deposit.components.PaymentsPanel.description": "通过我们的合作伙伴直接购买此资产，请确保你的 {countryIsEligible}。",
   "modules.deposit.components.PaymentsPanel.or": "或者",
+  "modules.deposit.components.SupplyAssetsTable.APY": "",
+  "modules.deposit.components.SupplyAssetsTable.asset": "",
   "modules.deposit.screens.DepositAmount.aaveDescription": "",
   "modules.deposit.screens.DepositAmount.aaveWarning": "",
   "modules.deposit.screens.DepositAmount.connectWallet": "请连接钱包",

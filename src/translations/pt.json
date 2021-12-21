@@ -516,6 +516,8 @@
   "modules.deposit.components.PaymentsPanel.countryOfResidence": "",
   "modules.deposit.components.PaymentsPanel.description": "Adquira diretamente este ativo através dos nossos parceiros. Por favor, certifique-se de que o seu {countryIsEligible}",
   "modules.deposit.components.PaymentsPanel.or": "Ou",
+  "modules.deposit.components.SupplyAssetsTable.APY": "",
+  "modules.deposit.components.SupplyAssetsTable.asset": "",
   "modules.deposit.screens.DepositAmount.aaveDescription": "",
   "modules.deposit.screens.DepositAmount.aaveWarning": "",
   "modules.deposit.screens.DepositAmount.connectWallet": "Ligue a uma carteira",

@@ -516,6 +516,8 @@
   "modules.deposit.components.PaymentsPanel.countryOfResidence": "",
   "modules.deposit.components.PaymentsPanel.description": "Compra directamente este activo a través de nuestros socios. Por favor, asegurate de que tu {país es elegible}",
   "modules.deposit.components.PaymentsPanel.or": "O",
+  "modules.deposit.components.SupplyAssetsTable.APY": "",
+  "modules.deposit.components.SupplyAssetsTable.asset": "",
   "modules.deposit.screens.DepositAmount.aaveDescription": "",
   "modules.deposit.screens.DepositAmount.aaveWarning": "",
   "modules.deposit.screens.DepositAmount.connectWallet": "",

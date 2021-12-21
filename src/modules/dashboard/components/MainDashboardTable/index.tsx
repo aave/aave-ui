@@ -9,6 +9,8 @@ import BorrowDashboardTable from '../../../borrow/components/BorrowDashboardTabl
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
 import DepositDashboardTable from '../../../deposit/components/DepositDashboardTable';
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
+import { SupplyTableItem } from '../../../deposit/components/SupplyAssetsTable/types';
+import SupplyAssetTable from '../../../deposit/components/SupplyAssetsTable';
 
 import messages from './messages';
 import staticStyles from './style';
@@ -16,12 +18,14 @@ import staticStyles from './style';
 interface MainDashboardTableProps {
   depositedPositions: DepositTableItem[];
   borrowedPositions: BorrowTableItem[];
+  tokensToSupply: SupplyTableItem[];
   isBorrow: boolean;
 }
 
 export default function MainDashboardTable({
   depositedPositions,
   borrowedPositions,
+  tokensToSupply,
   isBorrow,
 }: MainDashboardTableProps) {
   const intl = useIntl();
@@ -36,6 +40,7 @@ export default function MainDashboardTable({
     >
       <div className="MainDashboardTable__left-inner">
         {!!depositedPositions.length && <DepositDashboardTable listData={depositedPositions} />}
+        {!!tokensToSupply.length && <SupplyAssetTable listData={tokensToSupply} />}
       </div>
 
       <div className="MainDashboardTable__right-inner">

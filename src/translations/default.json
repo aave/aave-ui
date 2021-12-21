@@ -516,6 +516,8 @@
   "modules.deposit.components.PaymentsPanel.countryOfResidence": "country of residence",
   "modules.deposit.components.PaymentsPanel.description": "Directly purchase this asset via these services. Please make sure you are eligible to use these services based on your {countryOfResidence} or other factors.",
   "modules.deposit.components.PaymentsPanel.or": "Or",
+  "modules.deposit.components.SupplyAssetsTable.APY": "APY",
+  "modules.deposit.components.SupplyAssetsTable.asset": "Asset",
   "modules.deposit.screens.DepositAmount.aaveDescription": "Do not deposit your AAVE tokens if you want to {stake} them in the Safety Module. To stake AAVE,  please continue to the {link}",
   "modules.deposit.screens.DepositAmount.aaveWarning": "Depositing your AAVE tokens is not the same as staking them. If you wish to stake your AAVE tokens, please go to the {link}",
   "modules.deposit.screens.DepositAmount.connectWallet": "Please connect a wallet",

@@ -516,6 +516,8 @@
   "modules.deposit.components.PaymentsPanel.countryOfResidence": "",
   "modules.deposit.components.PaymentsPanel.description": "파트너를 통해 해당 자산을 바로 구매하세요. 귀하의 나라가 {countryIsEligible}인지 확인해보세요.",
   "modules.deposit.components.PaymentsPanel.or": "혹은",
+  "modules.deposit.components.SupplyAssetsTable.APY": "",
+  "modules.deposit.components.SupplyAssetsTable.asset": "",
   "modules.deposit.screens.DepositAmount.aaveDescription": "",
   "modules.deposit.screens.DepositAmount.aaveWarning": "",
   "modules.deposit.screens.DepositAmount.connectWallet": "지갑을 연결해 주시기 바랍니다",
