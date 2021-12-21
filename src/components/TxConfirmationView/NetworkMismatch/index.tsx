@@ -21,51 +21,6 @@ interface NetworkMismatchProps {
   currentProviderName: AvailableWeb3Connectors;
 }
 
-const ADD_CONFIG: {
-  [key: number]: {
-    name: string;
-    explorerUrls: string[];
-    nativeCurrency: { name: string; symbol: string; decimals: number };
-  };
-} = {
-  [ChainId.polygon]: {
-    name: 'Polygon',
-    explorerUrls: ['https://explorer.matic.network'],
-    nativeCurrency: {
-      name: 'Matic',
-      symbol: 'MATIC',
-      decimals: 18,
-    },
-  },
-  [ChainId.mumbai]: {
-    name: 'Mumbai',
-    explorerUrls: ['https://explorer-mumbai.maticvigil.com'],
-    nativeCurrency: {
-      name: 'Matic',
-      symbol: 'MATIC',
-      decimals: 18,
-    },
-  },
-  [ChainId.avalanche]: {
-    name: 'Avalanche',
-    explorerUrls: ['https://cchain.explorer.avax.network'],
-    nativeCurrency: {
-      name: 'Avalanche',
-      symbol: 'AVAX',
-      decimals: 18,
-    },
-  },
-  [ChainId.fuji]: {
-    name: 'Avalanche Fuji',
-    explorerUrls: ['https://cchain.explorer.avax-test.network'],
-    nativeCurrency: {
-      name: 'Avalanche',
-      symbol: 'AVAX',
-      decimals: 18,
-    },
-  },
-};
-
 export default function NetworkMismatch({
   neededChainId,
   currentChainId,
@@ -75,10 +30,8 @@ export default function NetworkMismatch({
   const { currentTheme } = useThemeContext();
   const { handleNetworkChange } = useUserWalletDataContext();
 
-  const config = ADD_CONFIG[neededChainId];
   const isAddableByMetamask =
     (global.window as any)?.ethereum?.isMetaMask && currentProviderName === 'browser';
-  const { publicJsonRPCWSUrl, publicJsonRPCUrl } = getNetworkConfig(neededChainId);
 
   // const isExternalNetworkUpdateNeeded =
   //   !isMetaMaskForMatic && ['browser', 'wallet-connect'].includes(currentProviderName);
@@ -132,17 +85,26 @@ export default function NetworkMismatch({
                     params: [{ chainId: `0x${neededChainId.toString(16)}` }],
                   });
                 } catch (switchError) {
-                  if (config && switchError.code === 4902) {
+                  if (neededNetworkConfig && switchError.code === 4902) {
                     try {
                       await (window as any).ethereum?.request({
                         method: 'wallet_addEthereumChain',
                         params: [
                           {
                             chainId: `0x${neededChainId.toString(16)}`,
-                            chainName: config.name,
-                            nativeCurrency: config.nativeCurrency,
-                            rpcUrls: [...publicJsonRPCUrl, publicJsonRPCWSUrl],
-                            blockExplorerUrls: config.explorerUrls,
+                            chainName: neededNetworkConfig.name,
+                            nativeCurrency: {
+                              symbol: neededNetworkConfig.baseAsset.toUpperCase(),
+                              decimals: 18,
+                              name:
+                                neededNetworkConfig.baseAsset.charAt(0).toUpperCase() +
+                                neededNetworkConfig.baseAsset.slice(1).toLowerCase(),
+                            },
+                            rpcUrls: [
+                              ...neededNetworkConfig.publicJsonRPCUrl,
+                              neededNetworkConfig.publicJsonRPCWSUrl,
+                            ],
+                            blockExplorerUrls: [neededNetworkConfig.explorerLink],
                           },
                         ],
                       });
