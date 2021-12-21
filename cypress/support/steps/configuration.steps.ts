@@ -37,13 +37,18 @@ const configEnvWithTenderly = ({
     });
   });
   after(async () => {
-    await tenderly.deleteFork();
+    // await tenderly.deleteFork();
   });
 };
 
 export const configEnvWithTenderlyMainnetFork = ({
   market = `fork_proto_mainnet`,
   network = forkNetworks.ethereum,
+  tokens
+}:{
+  market?: string
+  network?: { networkID: number; forkChainID: number; chainID: number }
+  tokens?: string[]
 }) => {
   configEnvWithTenderly({ network, market });
 };
