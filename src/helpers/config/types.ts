@@ -22,6 +22,8 @@ export type NetworkConfig = {
   cachingWSServerUrl?: string;
   baseUniswapAdapter?: string;
   baseAsset: string;
+  // needed for configuring the chain on metemask when it doesn't exist yet
+  baseAssetDecimals: number;
   baseAssetWrappedAddress?: string;
   usdMarket?: boolean;
   // function returning a link to etherscan et al
