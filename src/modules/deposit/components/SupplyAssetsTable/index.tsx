@@ -71,15 +71,15 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
     }
   );
 
-  // const reserveAssets = suppliedReserves.map((reserve) =>
-  //   reserve.reserve.underlyingAsset.toLowerCase()
-  // );
-  //TODO: use this array once all is beeing rendered correctly
-  // const filteredSupplyReserves = tokensToSupply.filter(
-  //   (reserve) =>
-  //     reserveAssets.indexOf(reserve.underlyingAsset.toLowerCase()) === -1 &&
-  //     reserve.availableToDepositUSD !== '0'
-  // );
+  const reserveAssets = suppliedReserves.map((reserve) =>
+    reserve.reserve.underlyingAsset.toLowerCase()
+  );
+
+  const filteredSupplyReserves = tokensToSupply.filter(
+    (reserve) =>
+      reserveAssets.indexOf(reserve.underlyingAsset.toLowerCase()) === -1 &&
+      reserve.availableToDepositUSD !== '0'
+  );
 
   const head = [
     intl.formatMessage(messages.supplyAssets),
@@ -100,7 +100,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
           <Header />
 
           <DashboardTable>
-            {tokensToSupply.map((item) => (
+            {filteredSupplyReserves.map((item) => (
               <SupplyItem {...item} key={item.id} userId={userId} />
             ))}
           </DashboardTable>
@@ -110,7 +110,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
           title={intl.formatMessage(messages.supplyAssets)}
           withTopMargin={true}
         >
-          {tokensToSupply.map((item) => (
+          {filteredSupplyReserves.map((item) => (
             <SupplyItemMobileCard userId={userId} {...item} key={item.id} />
           ))}
         </DashboardMobileCardsWrapper>
