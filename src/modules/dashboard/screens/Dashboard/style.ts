@@ -56,6 +56,14 @@ const staticStyles = css.global`
       font-size: $small;
       margin-left: 10px;
     }
+
+    &__bridgeWrapper {
+      margin-bottom: 20px;
+      @include respond-to(sm) {
+        margin: 20px 10px;
+        width: calc(100% - 20px);
+      }
+    }
   }
 
   @media (max-height: 750px) {

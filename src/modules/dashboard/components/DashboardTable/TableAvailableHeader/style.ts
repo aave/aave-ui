@@ -36,7 +36,8 @@ const staticStyles = css.global`
           font-weight: 600;
         }
       }
-      &:last-of-type {
+      &:last-of-type,
+      &:nth-last-of-type(2) {
         max-width: 100px;
         @include respond-to(xl) {
           max-width: 80px;

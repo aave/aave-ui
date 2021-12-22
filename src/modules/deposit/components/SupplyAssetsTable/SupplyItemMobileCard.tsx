@@ -12,6 +12,7 @@ import DefaultButton from '../../../../components/basic/DefaultButton';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
 import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
+import TableUsageAsCollateral from '../../../dashboard/components/DashboardTable/TableUsageAsCollateral';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
@@ -33,16 +34,13 @@ export default function SupplyItemMobileCard({
   totalLiquidity,
   supplyCap,
   isActive,
+  isUserInIsolationMode,
+  usageAsCollateralEnabled,
 }: SupplyTableItem) {
   const intl = useIntl();
 
   return (
-    <MobileCardWrapper
-      symbol={symbol}
-      withGoToTop={true}
-      disabled={isFreezed}
-      isIsolated={isIsolated}
-    >
+    <MobileCardWrapper symbol={symbol} disabled={isFreezed} isIsolated={isIsolated}>
       <Row title={<AvailableCapsHelpModal capType={CapType.supplyCap} />} withMargin={true}>
         {!userId || Number(availableToDeposit) <= 0 ? (
           <NoData color="dark" />
@@ -77,7 +75,15 @@ export default function SupplyItemMobileCard({
         </Row>
       )}
 
-      <Row title={intl.formatMessage(messages.supply)} className="Row__center">
+      <Row title={intl.formatMessage(messages.usageAsCollateral)} withMargin={true}>
+        <TableUsageAsCollateral
+          isIsolated={isIsolated}
+          usageAsCollateralEnabled={usageAsCollateralEnabled}
+          isUserInIsolationMode={isUserInIsolationMode}
+        />
+      </Row>
+
+      <Row title={intl.formatMessage(messages.supply)} className="Row__center" withMargin={true}>
         <Link
           to={`/deposit/${underlyingAsset}-${id}`}
           className="ButtonLink"
@@ -86,6 +92,21 @@ export default function SupplyItemMobileCard({
           <DefaultButton
             title={intl.formatMessage(messages.supply)}
             color="dark"
+            disabled={!isActive || isFreezed}
+          />
+        </Link>
+      </Row>
+
+      <Row title={intl.formatMessage(messages.showDetails)} className="Row__center">
+        <Link
+          to={`/reserve-overview/${underlyingAsset}-${id}`}
+          className="ButtonLink"
+          disabled={!isActive || isFreezed}
+        >
+          <DefaultButton
+            title={intl.formatMessage(messages.details)}
+            color="dark"
+            transparent={true}
             disabled={!isActive || isFreezed}
           />
         </Link>

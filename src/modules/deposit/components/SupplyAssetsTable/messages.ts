@@ -6,5 +6,9 @@ export default defineMessages({
   supplyAssets: 'Assets to supply',
   secondTableColumnTitle: 'Available to deposit',
   apyRowTitle: 'APY',
+  collateralRowTitle: 'Collateral',
   supply: 'Supply',
+  details: 'Details',
+  showDetails: 'Show details',
+  usageAsCollateral: 'Usage as collateral',
 });

@@ -1,22 +1,21 @@
 import React, { useCallback } from 'react';
+import { useIntl } from 'react-intl';
+import BigNumber from 'bignumber.js';
+import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 import SupplyItem from './SupplyItem';
-
-import messages from './messages';
-
-import { SupplyTableItem } from './types';
-import { ComputedReserveData, useAppDataContext } from '../../../../libs/pool-data-provider';
-import { DepositTableItem } from '../DepositDashboardTable/types';
-import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
-import BigNumber from 'bignumber.js';
-import Preloader from '../../../../components/basic/Preloader';
-import { useLanguageContext } from '../../../../libs/language-provider';
-import { useThemeContext } from '@aave/aave-ui-kit';
-import { useIntl } from 'react-intl';
 import DashboardTable from '../../../dashboard/components/DashboardTable';
 import TableAvailableHeader from '../../../dashboard/components/DashboardTable/TableAvailableHeader';
 import DashboardMobileCardsWrapper from '../../../dashboard/components/DashboardMobileCardsWrapper';
 import SupplyItemMobileCard from './SupplyItemMobileCard';
+import { SupplyTableItem } from './types';
+import { ComputedReserveData, useAppDataContext } from '../../../../libs/pool-data-provider';
+import { DepositTableItem } from '../DepositDashboardTable/types';
+import Preloader from '../../../../components/basic/Preloader';
+import { useLanguageContext } from '../../../../libs/language-provider';
+
+import messages from './messages';
 
 interface SupplyAssetTableProps {
   suppliedReserves: DepositTableItem[];
@@ -67,6 +66,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
         aIncentives: reserve.aIncentivesData ? reserve.aIncentivesData : [],
         vIncentives: reserve.vIncentivesData ? reserve.vIncentivesData : [],
         sIncentives: reserve.sIncentivesData ? reserve.sIncentivesData : [],
+        isUserInIsolationMode: user?.isInIsolationMode,
       };
     }
   );
@@ -85,8 +85,9 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
     intl.formatMessage(messages.supplyAssets),
     intl.formatMessage(messages.secondTableColumnTitle),
     intl.formatMessage(messages.apyRowTitle),
+    intl.formatMessage(messages.collateralRowTitle),
   ];
-  const colWidth = [lg ? 280 : 200, '100%', '100%'];
+  const colWidth = [lg ? 250 : 160, '100%', '100%', '100%'];
 
   const Header = useCallback(() => {
     return <TableAvailableHeader head={head} colWidth={colWidth} isDeposit={true} />;

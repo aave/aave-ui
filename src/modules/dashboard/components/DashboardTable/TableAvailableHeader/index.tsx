@@ -31,7 +31,7 @@ export default function TableAvailableHeader({
             style={{ maxWidth: colWidth[i] }}
             key={title + i}
           >
-            {!sm && i === head.length - 2 ? (
+            {!sm && i === 1 ? (
               <AvailableCapsHelpModal
                 className="TableAvailableHeader__help-text"
                 iconSize={12}
@@ -42,6 +42,7 @@ export default function TableAvailableHeader({
             )}
           </div>
         ))}
+        <div className="TableAvailableHeader__item" />
         <div className="TableAvailableHeader__item" />
       </div>
 

@@ -19,6 +19,7 @@ export type DepositTableItem = {
   canBeEnabledAsCollateral: boolean;
   isUserInIsolationMode: boolean;
   isIsolated: boolean;
+  availableToDeposit: string;
 } & Pick<
   ComputedUserReserve,
   'usageAsCollateralEnabledOnUser' | 'underlyingBalance' | 'underlyingBalanceUSD'

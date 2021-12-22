@@ -11,6 +11,7 @@ import { CapType } from '../../../../components/caps/helper';
 import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import TableButtonCol from '../../../dashboard/components/DashboardTable/TableButtonCol';
 import TableAprCol from '../../../dashboard/components/DashboardTable/TableAprCol';
+import TableUsageAsCollateral from '../../../dashboard/components/DashboardTable/TableUsageAsCollateral';
 
 import { SupplyTableItem } from './types';
 
@@ -30,6 +31,8 @@ export default function SupplyItem({
   totalLiquidity,
   supplyCap,
   isActive,
+  usageAsCollateralEnabled,
+  isUserInIsolationMode,
 }: SupplyTableItem) {
   const intl = useIntl();
 
@@ -63,11 +66,25 @@ export default function SupplyItem({
 
       <TableAprCol value={Number(liquidityRate)} incentives={aIncentives} symbol={symbol} />
 
+      <TableCol>
+        <TableUsageAsCollateral
+          isUserInIsolationMode={isUserInIsolationMode}
+          isIsolated={isIsolated}
+          usageAsCollateralEnabled={usageAsCollateralEnabled}
+        />
+      </TableCol>
+
       <TableButtonsWrapper>
         <TableButtonCol
           disabled={!isActive || isFreezed}
           title={intl.formatMessage(messages.supply)}
           linkTo={`/deposit/${underlyingAsset}-${id}`}
+        />
+        <TableButtonCol
+          disabled={!isActive || isFreezed}
+          title={intl.formatMessage(messages.details)}
+          linkTo={`/reserve-overview/${underlyingAsset}-${id}`}
+          withoutBorder={true}
         />
       </TableButtonsWrapper>
     </TableAvailablePosition>

@@ -23,12 +23,6 @@ const staticStyles = css`
       }
     }
   }
-
-  @media (max-height: 750px) {
-    .DashboardTable {
-      display: block;
-    }
-  }
 `;
 
 export default staticStyles;

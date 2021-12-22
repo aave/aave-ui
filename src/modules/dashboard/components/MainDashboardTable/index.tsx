@@ -36,15 +36,30 @@ export default function MainDashboardTable({
       })}
     >
       <div className="MainDashboardTable__left-inner">
-        {!!depositedPositions.length && <DepositDashboardTable listData={depositedPositions} />}
-        {<SupplyAssetTable suppliedReserves={depositedPositions} />}
+        {!!depositedPositions.length ? (
+          <DepositDashboardTable listData={depositedPositions} />
+        ) : (
+          <div className="MainDashboardTable__noData--wrapper">
+            <strong className="MainDashboardTable__noData--title">
+              {intl.formatMessage(messages.depositedAssets)}
+            </strong>
+            <ContentWrapper withFullHeight={true}>
+              <NoDataPanel
+                title={intl.formatMessage(messages.nothingDeposited)}
+                description={intl.formatMessage(messages.nothingDepositedDescription)}
+              />
+            </ContentWrapper>
+          </div>
+        )}
+
+        <SupplyAssetTable suppliedReserves={depositedPositions} />
       </div>
 
       <div className="MainDashboardTable__right-inner">
         {!!borrowedPositions.length ? (
           <BorrowDashboardTable listData={borrowedPositions} />
         ) : (
-          <div className="MainDashboardTable__rightNoData--wrapper">
+          <div className="MainDashboardTable__noData--wrapper">
             <strong className="MainDashboardTable__noData--title">
               {intl.formatMessage(messages.borrowedAssets)}
             </strong>
@@ -52,8 +67,6 @@ export default function MainDashboardTable({
               <NoDataPanel
                 title={intl.formatMessage(messages.nothingBorrowed)}
                 description={intl.formatMessage(messages.nothingBorrowedDescription)}
-                buttonTitle={intl.formatMessage(messages.borrowNow)}
-                linkTo="/borrow"
               />
             </ContentWrapper>
           </div>

@@ -18,4 +18,6 @@ export type SupplyTableItem = {
   totalLiquidity: string;
   supplyCap: string;
   isActive?: boolean;
+  usageAsCollateralEnabled: boolean;
+  isUserInIsolationMode?: boolean;
 };

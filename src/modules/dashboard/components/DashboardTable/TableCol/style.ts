@@ -1,7 +1,7 @@
 import css from 'styled-jsx/css';
 
 /*language=SCSS*/
-const staticStyles = css`
+const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
 
@@ -16,6 +16,23 @@ const staticStyles = css`
     padding: 2px;
     @include respond-to(md) {
       padding: 0;
+    }
+  }
+
+  .TableValueCol__value {
+    align-items: center;
+    .Value__value {
+      @include respond-to(xl) {
+        font-size: $medium;
+      }
+      @include respond-to(sm) {
+        font-size: $small;
+      }
+    }
+    .SubValue {
+      @include respond-to(xl) {
+        font-size: $extraSmall;
+      }
     }
   }
 `;

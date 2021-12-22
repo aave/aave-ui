@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 import { useLanguageContext } from '../../../libs/language-provider';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
+import goToTop from '../../../helpers/goToTop';
 import BridgeBanner from '../../BridgeBanner';
 import DesktopPageTitle from '../../DesktopPageTitle';
 import { useHeaderTitle, useWithDesktopTitle } from '../ScreensWrapper';
@@ -58,6 +59,10 @@ export default function ScreenWrapper({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLangSlug, location.pathname]);
+
+  useEffect(() => {
+    goToTop();
+  }, []);
 
   return (
     <section

@@ -21,17 +21,18 @@ export default function TableAvailablePosition({
   isIsolated,
   ...rest
 }: TableAvailablePositionProps) {
-  const { currentTheme, lg } = useThemeContext();
+  const { currentTheme, isCurrentThemeDark, lg } = useThemeContext();
   const asset = getAssetInfo(tokenSymbol);
 
   return (
     <div
       className={classNames('TableAvailablePosition', {
         TableAvailablePosition__withInfo: tokenSymbol === 'AMPL',
+        TableAvailablePosition__isolated: isIsolated,
       })}
       {...rest}
     >
-      <TableCol className="TableAvailablePosition__inner" maxWidth={lg ? 280 : 200}>
+      <TableCol className="TableAvailablePosition__inner" maxWidth={lg ? 250 : 160}>
         <TokenIcon
           tokenSymbol={tokenSymbol}
           tokenFullName={asset.shortSymbol || asset.formattedName}
@@ -40,12 +41,17 @@ export default function TableAvailablePosition({
           className="TableAvailablePosition__token"
           tooltipId={tokenSymbol}
         />
-        {isIsolated && <IsolatedBadge />}
       </TableCol>
 
       {children}
 
       {tokenSymbol === 'AMPL' && <AMPLWarning />}
+
+      {isIsolated && (
+        <div className="TableAvailablePosition__isolated--inner">
+          <IsolatedBadge isWhiteIcon={true} />
+        </div>
+      )}
 
       <style jsx={true} global={true}>
         {staticStyles}
@@ -53,6 +59,15 @@ export default function TableAvailablePosition({
       <style jsx={true} global={true}>{`
         .TableAvailablePosition {
           background: ${currentTheme.whiteElement.hex};
+
+          &__isolated--inner {
+            background: ${isCurrentThemeDark
+              ? currentTheme.headerBg.hex
+              : currentTheme.darkBlue.hex};
+            .IsolatedBadge {
+              color: ${currentTheme.white.hex} !important;
+            }
+          }
         }
       `}</style>
     </div>

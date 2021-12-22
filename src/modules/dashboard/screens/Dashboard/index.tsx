@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
+import BigNumber from 'bignumber.js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { valueToBigNumber } from '@aave/math-utils';
+import { InterestRate } from '@aave/contract-helpers';
+
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { loanActionLinkComposer } from '../../../../helpers/loan-action-link-composer';
 import { toggleUseAsCollateral } from '../../../../helpers/toggle-use-as-collateral';
 import { toggleBorrowRateMode } from '../../../../helpers/toggle-borrow-rate-mode';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import Preloader from '../../../../components/basic/Preloader';
 import DashboardTopPanel from '../../components/DashboardTopPanel';
 import LabeledSwitcher from '../../../../components/basic/LabeledSwitcher';
 import NoDataPanel from '../../../../components/NoDataPanel';
@@ -13,6 +19,7 @@ import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import MainDashboardTable from '../../components/MainDashboardTable';
 import IncentivesClaimPanel from '../../../../components/incentives/IncentivesClaimPanel';
 import DashboardNoData from '../../components/DashboardNoData';
+import BridgeBanner from '../../../../components/BridgeBanner';
 
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
@@ -20,14 +27,16 @@ import { getAssetColor } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';
-import Preloader from '../../../../components/basic/Preloader';
-import { valueToBigNumber } from '@aave/math-utils';
-import { InterestRate } from '@aave/contract-helpers';
 
 export default function Dashboard() {
   const intl = useIntl();
   const history = useHistory();
-  const { user, reserves, loading } = useAppDataContext();
+
+  const { user, reserves, loading, walletBalances } = useAppDataContext();
+  const {
+    networkConfig: { bridge, name },
+  } = useProtocolDataContext();
+
   const { currentTheme } = useThemeContext();
 
   const [isBorrow, setIsBorrow] = useState(false);
@@ -59,106 +68,117 @@ export default function Dashboard() {
       throw new Error('data is inconsistent pool reserve is not available');
     }
 
-    if (userReserve.underlyingBalance !== '0' || userReserve.totalBorrows !== '0') {
-      const baseListData = {
-        uiColor: getAssetColor(userReserve.reserve.symbol),
-        isActive: poolReserve.isActive,
-        isFrozen: poolReserve.isFrozen,
-        stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
-        reserve: {
-          ...userReserve.reserve,
-          liquidityRate: poolReserve.supplyAPY,
-        },
-      };
-      if (userReserve.underlyingBalance !== '0') {
-        depositedPositions.push({
-          ...baseListData,
-          borrowingEnabled: poolReserve.borrowingEnabled,
-          usageAsCollateralEnabledOnUser: userReserve.usageAsCollateralEnabledOnUser,
-          canBeEnabledAsCollateral:
-            poolReserve.usageAsCollateralEnabled &&
-            ((!poolReserve.isIsolated && !user.isInIsolationMode) ||
-              user.isolatedReserve?.underlyingAsset === poolReserve.underlyingAsset ||
-              (poolReserve.isIsolated && user.totalCollateralMarketReferenceCurrency === '0')),
-          underlyingBalance: userReserve.underlyingBalance,
-          underlyingBalanceUSD: userReserve.underlyingBalanceUSD,
-          isUserInIsolationMode: user?.isInIsolationMode,
-          isIsolated: poolReserve.isIsolated,
-          aIncentives: poolReserve.aIncentivesData ? poolReserve.aIncentivesData : [],
-          onToggleSwitch: () =>
-            toggleUseAsCollateral(
-              history,
-              poolReserve.id,
-              !userReserve.usageAsCollateralEnabledOnUser,
-              poolReserve.underlyingAsset
-            ),
-        });
-      }
+    const baseListData = {
+      uiColor: getAssetColor(userReserve.reserve.symbol),
+      isActive: poolReserve.isActive,
+      isFrozen: poolReserve.isFrozen,
+      stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
+      reserve: {
+        ...userReserve.reserve,
+        liquidityRate: poolReserve.supplyAPY,
+      },
+    };
 
-      if (userReserve.variableBorrows !== '0') {
-        borrowedPositions.push({
-          ...baseListData,
-          borrowingEnabled: poolReserve.borrowingEnabled,
-          currentBorrows: userReserve.variableBorrows,
-          currentBorrowsUSD: userReserve.variableBorrowsUSD,
-          borrowRateMode: InterestRate.Variable,
-          borrowRate: poolReserve.variableBorrowAPY,
-          vIncentives: poolReserve.vIncentivesData ? poolReserve.vIncentivesData : [],
-          sIncentives: poolReserve.sIncentivesData ? poolReserve.sIncentivesData : [],
-          repayLink: loanActionLinkComposer(
-            'repay',
+    const walletBalance = walletBalances[poolReserve.underlyingAsset]?.amount || '0';
+
+    let availableToDeposit = valueToBigNumber(walletBalance);
+    if (poolReserve.supplyCap !== '0') {
+      availableToDeposit = BigNumber.min(
+        availableToDeposit,
+        new BigNumber(poolReserve.supplyCap).minus(poolReserve.totalLiquidity).multipliedBy('0.995')
+      );
+    }
+
+    depositedPositions.push({
+      ...baseListData,
+      borrowingEnabled: poolReserve.borrowingEnabled,
+      usageAsCollateralEnabledOnUser: userReserve.usageAsCollateralEnabledOnUser,
+      canBeEnabledAsCollateral:
+        poolReserve.usageAsCollateralEnabled &&
+        ((!poolReserve.isIsolated && !user.isInIsolationMode) ||
+          user.isolatedReserve?.underlyingAsset === poolReserve.underlyingAsset ||
+          (poolReserve.isIsolated && user.totalCollateralMarketReferenceCurrency === '0')),
+      underlyingBalance: userReserve.underlyingBalance,
+      underlyingBalanceUSD: userReserve.underlyingBalanceUSD,
+      isUserInIsolationMode: user?.isInIsolationMode,
+      isIsolated: poolReserve.isIsolated,
+      aIncentives: poolReserve.aIncentivesData ? poolReserve.aIncentivesData : [],
+      availableToDeposit: availableToDeposit.toNumber() <= 0 ? '0' : availableToDeposit.toString(),
+      onToggleSwitch: () =>
+        toggleUseAsCollateral(
+          history,
+          poolReserve.id,
+          !userReserve.usageAsCollateralEnabledOnUser,
+          poolReserve.underlyingAsset
+        ),
+    });
+
+    if (userReserve.variableBorrows !== '0') {
+      borrowedPositions.push({
+        ...baseListData,
+        borrowingEnabled: poolReserve.borrowingEnabled,
+        currentBorrows: userReserve.variableBorrows,
+        currentBorrowsUSD: userReserve.variableBorrowsUSD,
+        borrowRateMode: InterestRate.Variable,
+        borrowRate: poolReserve.variableBorrowAPY,
+        vIncentives: poolReserve.vIncentivesData ? poolReserve.vIncentivesData : [],
+        sIncentives: poolReserve.sIncentivesData ? poolReserve.sIncentivesData : [],
+        repayLink: loanActionLinkComposer(
+          'repay',
+          poolReserve.id,
+          InterestRate.Variable,
+          poolReserve.underlyingAsset
+        ),
+        borrowLink: loanActionLinkComposer(
+          'borrow',
+          poolReserve.id,
+          InterestRate.Variable,
+          poolReserve.underlyingAsset
+        ),
+        onSwitchToggle: () =>
+          toggleBorrowRateMode(
+            history,
             poolReserve.id,
             InterestRate.Variable,
             poolReserve.underlyingAsset
           ),
-          borrowLink: loanActionLinkComposer(
-            'borrow',
-            poolReserve.id,
-            InterestRate.Variable,
-            poolReserve.underlyingAsset
-          ),
-          onSwitchToggle: () =>
-            toggleBorrowRateMode(
-              history,
-              poolReserve.id,
-              InterestRate.Variable,
-              poolReserve.underlyingAsset
-            ),
-        });
-      }
-      if (userReserve.stableBorrows !== '0') {
-        borrowedPositions.push({
-          ...baseListData,
-          borrowingEnabled: poolReserve.borrowingEnabled && poolReserve.stableBorrowRateEnabled,
-          currentBorrows: userReserve.stableBorrows,
-          currentBorrowsUSD: userReserve.stableBorrowsUSD,
-          borrowRateMode: InterestRate.Stable,
-          borrowRate: userReserve.stableBorrowAPY,
-          vIncentives: poolReserve.vIncentivesData ? poolReserve.vIncentivesData : [],
-          sIncentives: poolReserve.sIncentivesData ? poolReserve.sIncentivesData : [],
-          repayLink: loanActionLinkComposer(
-            'repay',
-            poolReserve.id,
-            InterestRate.Stable,
-            poolReserve.underlyingAsset
-          ),
-          borrowLink: loanActionLinkComposer(
-            'borrow',
+      });
+    }
+    if (userReserve.stableBorrows !== '0') {
+      borrowedPositions.push({
+        ...baseListData,
+        borrowingEnabled: poolReserve.borrowingEnabled && poolReserve.stableBorrowRateEnabled,
+        currentBorrows: userReserve.stableBorrows,
+        currentBorrowsUSD: userReserve.stableBorrowsUSD,
+        borrowRateMode: InterestRate.Stable,
+        borrowRate: userReserve.stableBorrowAPY,
+        vIncentives: poolReserve.vIncentivesData ? poolReserve.vIncentivesData : [],
+        sIncentives: poolReserve.sIncentivesData ? poolReserve.sIncentivesData : [],
+        repayLink: loanActionLinkComposer(
+          'repay',
+          poolReserve.id,
+          InterestRate.Stable,
+          poolReserve.underlyingAsset
+        ),
+        borrowLink: loanActionLinkComposer(
+          'borrow',
+          poolReserve.id,
+          InterestRate.Stable,
+          poolReserve.underlyingAsset
+        ),
+        onSwitchToggle: () =>
+          toggleBorrowRateMode(
+            history,
             poolReserve.id,
             InterestRate.Stable,
             poolReserve.underlyingAsset
           ),
-          onSwitchToggle: () =>
-            toggleBorrowRateMode(
-              history,
-              poolReserve.id,
-              InterestRate.Stable,
-              poolReserve.underlyingAsset
-            ),
-        });
-      }
+      });
     }
   });
+
+  const isTableShow =
+    !!depositedPositions.length && depositedPositions.some((pos) => pos.availableToDeposit !== '0');
 
   return (
     <div className="Dashboard">
@@ -172,7 +192,13 @@ export default function Dashboard() {
         loanToValue={loanToValue}
       />
 
-      {user && !!depositedPositions.length && (
+      {bridge && (
+        <div className="Dashboard__bridgeWrapper">
+          <BridgeBanner networkName={name} {...bridge} />
+        </div>
+      )}
+
+      {user && isTableShow && (
         <div className="Dashboard__switcher-inner">
           <LabeledSwitcher
             rightOption={intl.formatMessage(messages.switchRightOption)}
@@ -188,10 +214,10 @@ export default function Dashboard() {
 
       {user ? (
         <>
-          {!!depositedPositions.length ? (
+          {isTableShow ? (
             <MainDashboardTable
               borrowedPositions={borrowedPositions}
-              depositedPositions={depositedPositions}
+              depositedPositions={depositedPositions.filter((pos) => pos.underlyingBalance !== '0')}
               isBorrow={isBorrow}
             />
           ) : (
