@@ -8,7 +8,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { ComputedReserveData } from '../../libs/pool-data-provider';
 
-export function calculateHFAfterRepay(
+export function calculateHFAfterSwapRepay(
   fromAmount: BigNumberValue,
   fromAssetData: ComputedReserveData | undefined,
   fromAssetUserData: ComputedUserReserve | undefined,

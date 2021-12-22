@@ -53,7 +53,7 @@ const staticStyles = css`
       position: relative;
       z-index: 2;
       @include respond-to(sm) {
-        width: 110px;
+        width: 294px;
         min-height: 54px;
         padding: 0 10px;
       }
@@ -63,6 +63,12 @@ const staticStyles = css`
           font-size: $regular;
         }
       }
+    }
+  }
+
+  .ConnectButton__small {
+    @include respond-to(sm) {
+      margin-top: 16px;
     }
   }
 

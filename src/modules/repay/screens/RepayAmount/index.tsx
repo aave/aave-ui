@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { InterestRate, PoolInterface } from '@aave/contract-helpers';
 import BigNumber from 'bignumber.js';
+import { calculateHealthFactorFromBalancesBigUnits } from '@aave/math-utils';
 
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
@@ -19,6 +20,7 @@ import InfoPanel from '../../../../components/InfoPanel';
 import RepayInfoPanel from '../../components/RepayInfoPanel';
 
 import messages from './messages';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 
 function RepayAmount({
   user,
@@ -31,11 +33,13 @@ function RepayAmount({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { networkConfig, currentMarketData } = useProtocolDataContext();
+  const { marketReferenceCurrencyDecimals } = useAppDataContext();
   const { lendingPool } = useTxBuilderContext();
   const query = queryString.parse(location.search);
   const debtType = query.debtType || InterestRate.Variable;
 
   const [assetAddress, setAssetAddress] = useState(poolReserve.underlyingAsset);
+  const [amount, setAmount] = useState('');
   const [maxAmountToRepay, setMaxAmountToRepay] = useState(new BigNumber(0));
 
   if (!userReserve) {
@@ -43,7 +47,7 @@ function RepayAmount({
   }
 
   const { v3 } = currentMarketData;
-  const { underlyingBalance } = userReserve;
+  const { underlyingBalance, usageAsCollateralEnabledOnUser, reserve } = userReserve;
 
   const repayWithATokens = assetAddress === poolReserve.aTokenAddress && v3;
 
@@ -85,7 +89,6 @@ function RepayAmount({
       rateMode: debtType as InterestRate,
     });
 
-  // TODO: get aToken symbol and name
   const asset = getAtokenInfo({
     address: poolReserve.underlyingAsset,
     symbol: currencySymbol,
@@ -115,11 +118,35 @@ function RepayAmount({
     setAssetAddress(address);
   };
 
+  const newHF = amount
+    ? calculateHealthFactorFromBalancesBigUnits({
+        collateralBalanceMarketReferenceCurrency:
+          repayWithATokens && usageAsCollateralEnabledOnUser
+            ? new BigNumber(user?.totalCollateralMarketReferenceCurrency || '0').minus(
+                new BigNumber(reserve.priceInMarketReferenceCurrency)
+                  .shiftedBy(-marketReferenceCurrencyDecimals)
+                  .multipliedBy(amount)
+              )
+            : user?.totalCollateralMarketReferenceCurrency || '0',
+        borrowBalanceMarketReferenceCurrency: new BigNumber(
+          user?.totalBorrowsMarketReferenceCurrency || '0'
+        ).minus(
+          new BigNumber(reserve.priceInMarketReferenceCurrency)
+            .shiftedBy(-marketReferenceCurrencyDecimals)
+            .multipliedBy(amount)
+        ),
+        currentLiquidationThreshold: user?.currentLiquidationThreshold || '0',
+      }).toString()
+    : user?.healthFactor!;
+
   return (
     <RepayContentWrapper
       rightPanel={
         <RightPanelWrapper title={intl.formatMessage(messages.rightPanelTitle)}>
-          <HFChangeValue healthFactor={user?.healthFactor || '0'} hfAfterSwap={'2'} />
+          <HFChangeValue
+            healthFactor={user?.healthFactor || '0'}
+            hfAfterAction={Number(newHF) > 10 * 10 ? '-1' : newHF}
+          />
         </RightPanelWrapper>
       }
     >
@@ -142,6 +169,8 @@ function RepayAmount({
         setAsset={setAsset}
         amountTitle={intl.formatMessage(messages.amountTitle)}
         selectTitle={intl.formatMessage(messages.selectTitle)}
+        amount={amount}
+        setAmount={setAmount}
       />
 
       <InfoWrapper>

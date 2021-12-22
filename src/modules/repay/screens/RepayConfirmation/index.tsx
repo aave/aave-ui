@@ -38,7 +38,8 @@ function RepayConfirmation({
   location,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
-  const { marketReferencePriceInUsd, userId } = useAppDataContext();
+  const { marketReferencePriceInUsd, userId, marketReferenceCurrencyDecimals } =
+    useAppDataContext();
   const { currentMarketData, networkConfig } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
 
@@ -67,7 +68,7 @@ function RepayConfirmation({
     return null;
   }
 
-  const { underlyingBalance } = userReserve;
+  const { underlyingBalance, usageAsCollateralEnabledOnUser, reserve } = userReserve;
 
   const maxAmountToRepay = valueToBigNumber(
     debtType === InterestRate.Stable ? userReserve.stableBorrows : userReserve.variableBorrows
@@ -110,9 +111,20 @@ function RepayConfirmation({
     .shiftedBy(-USD_DECIMALS);
 
   const healthFactorAfterRepay = calculateHealthFactorFromBalancesBigUnits({
-    collateralBalanceMarketReferenceCurrency: user.totalCollateralUSD,
-    borrowBalanceMarketReferenceCurrency: valueToBigNumber(user.totalBorrowsUSD).minus(
-      displayAmountToRepayInUsd.toNumber()
+    collateralBalanceMarketReferenceCurrency:
+      repayWithATokens && usageAsCollateralEnabledOnUser
+        ? new BigNumber(user.totalCollateralMarketReferenceCurrency).minus(
+            new BigNumber(reserve.priceInMarketReferenceCurrency)
+              .shiftedBy(-marketReferenceCurrencyDecimals)
+              .multipliedBy(amountToRepayUI)
+          )
+        : user.totalCollateralMarketReferenceCurrency,
+    borrowBalanceMarketReferenceCurrency: new BigNumber(
+      user.totalBorrowsMarketReferenceCurrency
+    ).minus(
+      new BigNumber(reserve.priceInMarketReferenceCurrency)
+        .shiftedBy(-marketReferenceCurrencyDecimals)
+        .multipliedBy(amountToRepayUI)
     ),
     currentLiquidationThreshold: user.currentLiquidationThreshold,
   });

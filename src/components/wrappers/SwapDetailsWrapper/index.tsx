@@ -81,7 +81,7 @@ export default function SwapDetailsWrapper({
       )}
 
       {+healthFactor > 0 && (
-        <HFChangeValue healthFactor={healthFactor} hfAfterSwap={hfAfterSwap.toString()} />
+        <HFChangeValue healthFactor={healthFactor} hfAfterAction={hfAfterSwap.toString()} />
       )}
 
       <SlippageForm maxSlippage={maxSlippage} setMaxSlippage={setMaxSlippage} />

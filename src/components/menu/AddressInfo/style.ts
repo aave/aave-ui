@@ -26,7 +26,7 @@ const staticStyles = css.global`
       transition: $transition;
 
       @include respond-to(sm) {
-        width: 100%;
+        width: 300px;
         margin-top: 10px;
         height: 54px;
         font-size: $small;

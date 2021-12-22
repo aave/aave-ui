@@ -136,6 +136,7 @@ const staticStyles = css.global`
         flex-direction: column;
         flex-wrap: wrap;
         padding: 20px;
+        align-items: center;
       }
       &:after {
         bottom: 0;

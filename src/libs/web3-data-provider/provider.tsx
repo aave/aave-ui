@@ -21,6 +21,7 @@ import {
 
 import messages from './messages';
 import { ChainId } from '@aave/contract-helpers';
+import { useProtocolDataContext } from '../protocol-data-provider';
 
 interface UserWalletData {
   availableAccounts: string[];
@@ -103,7 +104,6 @@ export interface ConnectWalletModalProps {
 }
 
 interface Web3ProviderProps {
-  defaultChainId: ChainId;
   supportedChainIds: ChainId[];
   preloader: (props: { currentProviderName?: AvailableWeb3Connectors }) => JSX.Element;
   connectWalletModal: (props: ConnectWalletModalProps) => JSX.Element;
@@ -111,7 +111,6 @@ interface Web3ProviderProps {
 
 export function Web3Provider({
   children,
-  defaultChainId,
   supportedChainIds,
   preloader: Preloader,
   connectWalletModal: ConnectWalletModal,
@@ -120,12 +119,15 @@ export function Web3Provider({
   const { library, account, activate, error, deactivate } =
     useWeb3React<ethers.providers.Web3Provider>();
 
+  const { chainId } = useProtocolDataContext();
+
   const [currentProviderName, setCurrentProviderName] = useState<
     AvailableWeb3Connectors | undefined
   >();
-  const [preferredNetwork, setPreferredNetwork] = useState(
-    (Number(localStorage.getItem('preferredChainId')) || defaultChainId) as ChainId
+  const [_preferredNetwork, setPreferredNetwork] = useState(
+    Number(localStorage.getItem('preferredChainId')) as ChainId
   );
+  const preferredNetwork = _preferredNetwork || chainId;
   const [activating, setActivation] = useState(true);
   const [isSelectWalletModalVisible, setSelectWalletModalVisible] = useState(false);
   const [isErrorDetected, setErrorDetected] = useState(false);
