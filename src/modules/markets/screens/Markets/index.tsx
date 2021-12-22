@@ -128,14 +128,14 @@ export default function Markets() {
         sortDesc={sortDesc}
         setSortDesc={setSortDesc}
       >
-        {sortedData.map((item, index) => (
-          <MarketTableItem {...item} isPriceInUSD={isPriceInUSD} key={index} />
+        {sortedData.map((item) => (
+          <MarketTableItem {...item} isPriceInUSD={isPriceInUSD} key={item.id} />
         ))}
       </MarketTable>
 
       <div className="Markets__mobile--cards">
-        {sortedData.map((item, index) => (
-          <MarketMobileCard {...item} key={index} />
+        {sortedData.map((item) => (
+          <MarketMobileCard {...item} key={item.id} />
         ))}
       </div>
 
