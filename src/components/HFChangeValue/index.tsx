@@ -9,17 +9,17 @@ import messages from './messages';
 
 interface HFChangeValueProps {
   healthFactor: string;
-  hfAfterSwap: string;
+  hfAfterAction: string;
 }
 
-export default function HFChangeValue({ healthFactor, hfAfterSwap }: HFChangeValueProps) {
+export default function HFChangeValue({ healthFactor, hfAfterAction }: HFChangeValueProps) {
   const intl = useIntl();
 
   return (
     <Row title={intl.formatMessage(messages.newHealthFactor)}>
       <ChangeValue
         leftComponent={<HealthFactor value={healthFactor} withoutTitle={true} />}
-        rightComponent={<HealthFactor value={hfAfterSwap.toString()} withoutTitle={true} />}
+        rightComponent={<HealthFactor value={hfAfterAction.toString()} withoutTitle={true} />}
       />
     </Row>
   );

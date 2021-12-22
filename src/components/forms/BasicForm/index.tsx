@@ -1,6 +1,7 @@
 import React, { FormEvent, ReactNode, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
+import { valueToBigNumber } from '@aave/math-utils';
 import { ChainId, EthereumTransactionTypeExtended } from '@aave/contract-helpers';
 
 import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
@@ -18,7 +19,6 @@ import AmountFieldWithSelect, {
 
 import messages from './messages';
 import staticStyles from './style';
-import { valueToBigNumber } from '@aave/math-utils';
 
 interface BasicFormProps {
   title?: string;
@@ -43,6 +43,8 @@ interface BasicFormProps {
   options?: AmountFieldWithSelectOption[];
   selectTitle?: string;
   amountTitle?: string;
+  amount?: string;
+  setAmount?: (value: string) => void;
 }
 
 export default function BasicForm({
@@ -66,31 +68,36 @@ export default function BasicForm({
   options,
   selectTitle,
   amountTitle,
+  amount,
+  setAmount,
 }: BasicFormProps) {
   const intl = useIntl();
   const { chainId } = useProtocolDataContext();
   const { currentAccount } = useUserWalletDataContext();
 
   const [isMaxSelected, setIsMaxSelected] = useState(false);
-  const [amount, setAmount] = useState('');
+  const [amountState, setAmountState] = useState('');
   const [error, setError] = useState('');
+
+  const formattedAmount = amount || amountState;
+  const formattedSetAmount = setAmount || setAmountState;
 
   const handleAmountChange = (newAmount: string) => {
     const newAmountValue = valueToBigNumber(newAmount);
     setError('');
     if (newAmountValue.gt(maxAmount)) {
-      setAmount(maxAmount);
+      formattedSetAmount(maxAmount);
       return setIsMaxSelected(true);
     } else if (newAmountValue.isNegative()) {
-      setAmount('0');
+      formattedSetAmount('0');
     } else {
-      setAmount(newAmount);
+      formattedSetAmount(newAmount);
     }
     setIsMaxSelected(false);
   };
 
   const handleMaxButtonClick = () => {
-    setAmount(maxAmount);
+    formattedSetAmount(maxAmount);
     setIsMaxSelected(true);
     setError('');
   };
@@ -98,8 +105,8 @@ export default function BasicForm({
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!valueToBigNumber(amount).isNaN() && +amount !== 0) {
-      return onSubmit(amount, absoluteMaximum && isMaxSelected);
+    if (!valueToBigNumber(formattedAmount).isNaN() && +formattedAmount !== 0) {
+      return onSubmit(formattedAmount, absoluteMaximum && isMaxSelected);
     }
 
     setError(intl.formatMessage(messages.error));
@@ -118,13 +125,13 @@ export default function BasicForm({
             asset={assetAddress}
             setAsset={(address: string, decimals: number) => {
               setAsset(address, decimals);
-              setAmount('');
+              formattedSetAmount('');
             }}
             options={options}
             selectTitle={selectTitle}
             amountTitle={amountTitle}
             maxAmount={maxAmount}
-            amount={amount}
+            amount={formattedAmount}
             onChangeAmount={handleAmountChange}
             setMaxSelected={setIsMaxSelected}
             error={error}
@@ -136,7 +143,7 @@ export default function BasicForm({
             maxAmount={maxAmount}
             symbol={currencySymbol}
             maxDecimals={maxDecimals}
-            value={amount}
+            value={formattedAmount}
             onChange={handleAmountChange}
             onMaxButtonClick={handleMaxButtonClick}
             error={error}
@@ -144,12 +151,12 @@ export default function BasicForm({
         )}
 
         {[ChainId.mainnet].includes(chainId) && getTransactionData && (
-          <TxEstimation getTransactionsData={getTransactionData} amount={amount} />
+          <TxEstimation getTransactionsData={getTransactionData} amount={formattedAmount} />
         )}
 
         {withRiskBar && maxRiskBarAmount && (
           <RiskBar
-            value={Number(amount)}
+            value={Number(formattedAmount)}
             onChange={handleAmountChange}
             maxAmount={maxRiskBarAmount}
             currencySymbol={currencySymbol}

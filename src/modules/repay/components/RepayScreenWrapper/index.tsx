@@ -55,10 +55,11 @@ export default function RepayScreenWrapper({
               color="white"
               symbol={currencySymbol}
               subSymbol="USD"
-              maximumValueDecimals={isAssetStable(currencySymbol) ? 4 : 18}
+              maximumValueDecimals={isAssetStable(currencySymbol) ? 4 : 7}
               minimumValueDecimals={isAssetStable(currencySymbol) ? 1 : 5}
               maximumSubValueDecimals={2}
               minimumSubValueDecimals={2}
+              tooltipId={`${currencySymbol}__currentBorrows`}
             />
           </Row>
 
@@ -69,10 +70,11 @@ export default function RepayScreenWrapper({
               color="white"
               symbol={currencySymbol}
               subSymbol="USD"
-              maximumValueDecimals={isAssetStable(currencySymbol) ? 4 : 18}
+              maximumValueDecimals={isAssetStable(currencySymbol) ? 4 : 7}
               minimumValueDecimals={isAssetStable(currencySymbol) ? 1 : 5}
               maximumSubValueDecimals={2}
               minimumSubValueDecimals={2}
+              tooltipId={`${currencySymbol}__walletBalance`}
             />
           </Row>
         </div>

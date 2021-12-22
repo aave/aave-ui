@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { InterestRate, PoolInterface } from '@aave/contract-helpers';
 import BigNumber from 'bignumber.js';
+import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/math-utils';
 
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
@@ -36,6 +37,7 @@ function RepayAmount({
   const debtType = query.debtType || InterestRate.Variable;
 
   const [assetAddress, setAssetAddress] = useState(poolReserve.underlyingAsset);
+  const [amount, setAmount] = useState('');
   const [maxAmountToRepay, setMaxAmountToRepay] = useState(new BigNumber(0));
 
   if (!userReserve) {
@@ -115,11 +117,24 @@ function RepayAmount({
     setAssetAddress(address);
   };
 
+  const healthFactorAfterRepay = calculateHealthFactorFromBalancesBigUnits({
+    collateralBalanceMarketReferenceCurrency: user?.totalCollateralMarketReferenceCurrency || '0',
+    borrowBalanceMarketReferenceCurrency:
+      valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0').minus(Number(amount)) ||
+      '0',
+    currentLiquidationThreshold: user?.currentLiquidationThreshold || '0',
+  });
+
   return (
     <RepayContentWrapper
       rightPanel={
         <RightPanelWrapper title={intl.formatMessage(messages.rightPanelTitle)}>
-          <HFChangeValue healthFactor={user?.healthFactor || '0'} hfAfterSwap={'2'} />
+          <HFChangeValue
+            healthFactor={user?.healthFactor || '0'}
+            hfAfterAction={
+              healthFactorAfterRepay.toNumber() > 10 * 10 ? '-1' : healthFactorAfterRepay.toString()
+            }
+          />
         </RightPanelWrapper>
       }
     >
@@ -142,6 +157,8 @@ function RepayAmount({
         setAsset={setAsset}
         amountTitle={intl.formatMessage(messages.amountTitle)}
         selectTitle={intl.formatMessage(messages.selectTitle)}
+        amount={amount}
+        setAmount={setAmount}
       />
 
       <InfoWrapper>
