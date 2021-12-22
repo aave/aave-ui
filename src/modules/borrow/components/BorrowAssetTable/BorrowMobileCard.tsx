@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
@@ -10,6 +9,8 @@ import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
 import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
+import Link from '../../../../components/basic/Link';
+import DefaultButton from '../../../../components/basic/DefaultButton';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
@@ -33,18 +34,9 @@ export default function BorrowMobileCard({
   totalBorrows,
 }: BorrowTableItem) {
   const intl = useIntl();
-  const history = useHistory();
-
-  const url = `/borrow/${underlyingAsset}-${id}`;
 
   return (
-    <MobileCardWrapper
-      onClick={() => history.push(url)}
-      symbol={symbol}
-      withGoToTop={true}
-      disabled={isFreezed}
-      isIsolated={false}
-    >
+    <MobileCardWrapper symbol={symbol} disabled={isFreezed} isIsolated={false}>
       <Row title={<AvailableCapsHelpModal capType={CapType.borrowCap} />} withMargin={true}>
         {!userId || Number(availableBorrows) <= 0 ? (
           <NoData color="dark" />
@@ -84,6 +76,26 @@ export default function BorrowMobileCard({
           )}
         </Row>
       )}
+
+      <Row title={intl.formatMessage(messages.borrow)} className="Row__center" withMargin={true}>
+        <Link to={`/borrow/${underlyingAsset}-${id}`} className="ButtonLink" disabled={isFreezed}>
+          <DefaultButton
+            title={intl.formatMessage(messages.borrow)}
+            color="dark"
+            disabled={isFreezed}
+          />
+        </Link>
+      </Row>
+
+      <Row title={intl.formatMessage(messages.showDetails)} className="Row__center">
+        <Link to={`/reserve-overview/${underlyingAsset}-${id}`} className="ButtonLink">
+          <DefaultButton
+            title={intl.formatMessage(messages.details)}
+            color="dark"
+            transparent={true}
+          />
+        </Link>
+      </Row>
     </MobileCardWrapper>
   );
 }

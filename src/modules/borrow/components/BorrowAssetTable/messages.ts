@@ -1,10 +1,12 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  asset: 'Asset',
+  borrowAssets: 'Assets to borrow',
+  secondTableColumnTitle: 'Available to borrow',
   stableAPY: 'Stable APY',
   variableAPY: 'Variable APY',
-  dividerTitle: 'To borrow, deposit any of these assets into your wallet.',
 
-  connectWallet: 'To borrow, please connect a wallet',
+  borrow: 'Borrow',
+  details: 'Details',
+  showDetails: 'Show details',
 });

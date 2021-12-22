@@ -81,7 +81,6 @@ export default function SupplyItem({
           linkTo={`/deposit/${underlyingAsset}-${id}`}
         />
         <TableButtonCol
-          disabled={!isActive || isFreezed}
           title={intl.formatMessage(messages.details)}
           linkTo={`/reserve-overview/${underlyingAsset}-${id}`}
           withoutBorder={true}

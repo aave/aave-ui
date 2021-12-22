@@ -89,12 +89,6 @@ const staticStyles = css.global`
       }
     }
 
-    .TableCol {
-      &:nth-of-type(3) {
-        max-width: 130px;
-      }
-    }
-
     .Value {
       .Value__Value {
         @include respond-to(xl) {

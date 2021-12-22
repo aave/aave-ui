@@ -61,7 +61,7 @@ export default function DepositItem({
       />
       <TableAprCol value={Number(liquidityRate)} incentives={aIncentives} symbol={symbol} />
 
-      <TableCol maxWidth={125}>
+      <TableCol>
         <CustomSwitch
           value={usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral}
           offLabel={

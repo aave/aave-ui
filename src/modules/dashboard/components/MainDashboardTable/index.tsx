@@ -10,6 +10,7 @@ import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable
 import DepositDashboardTable from '../../../deposit/components/DepositDashboardTable';
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import SupplyAssetTable from '../../../deposit/components/SupplyAssetsTable';
+import BorrowAssetTable from '../../../borrow/components/BorrowAssetTable';
 
 import messages from './messages';
 import staticStyles from './style';
@@ -71,6 +72,8 @@ export default function MainDashboardTable({
             </ContentWrapper>
           </div>
         )}
+
+        <BorrowAssetTable borrowedReserves={borrowedPositions} />
       </div>
 
       <style jsx={true} global={true}>

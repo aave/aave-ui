@@ -1,10 +1,12 @@
 import React from 'react';
-import { useThemeContext } from '@aave/aave-ui-kit';
+import { useIntl } from 'react-intl';
 
-import TableItem from '../../../../components/BasicAssetsTable/TableItem';
-import TableColumn from '../../../../components/BasicTable/TableColumn';
+import TableAvailablePosition from '../../../dashboard/components/DashboardTable/TableAvailablePosition';
+import TableCol from '../../../dashboard/components/DashboardTable/TableCol';
+import TableAprCol from '../../../dashboard/components/DashboardTable/TableAprCol';
+import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
+import TableButtonCol from '../../../dashboard/components/DashboardTable/TableButtonCol';
 import Value from '../../../../components/basic/Value';
-import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import NoData from '../../../../components/basic/NoData';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
@@ -12,36 +14,28 @@ import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import { BorrowTableItem } from './types';
 
+import messages from './messages';
+
 export default function BorrowItem({
   id,
   symbol,
-  underlyingAsset,
   availableBorrows,
   availableBorrowsInUSD,
   stableBorrowRate,
   variableBorrowRate,
-  stableBorrowRateEnabled,
   userId,
-  isFreezed,
   vIncentives,
+  underlyingAsset,
+  isFreezed,
   sIncentives,
   borrowCap,
   totalBorrows,
 }: BorrowTableItem) {
-  const { md } = useThemeContext();
-
-  const url = `/borrow/${underlyingAsset}-${id}`;
+  const intl = useIntl();
 
   return (
-    <TableItem
-      symbol={symbol}
-      url={url}
-      isFreezed={isFreezed}
-      isBorrow={true}
-      darkOnDarkMode={true}
-      isIsolated={false}
-    >
-      <TableColumn minWidth={md ? 180 : undefined}>
+    <TableAvailablePosition tokenSymbol={symbol} isIsolated={false}>
+      <TableCol>
         {!userId || Number(availableBorrows) <= 0 ? (
           <NoData color="dark" />
         ) : (
@@ -52,6 +46,8 @@ export default function BorrowItem({
             maximumSubValueDecimals={2}
             minimumValueDecimals={isAssetStable(symbol) ? 2 : 5}
             maximumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+            className="TableValueCol__value"
+            tooltipId={`availableBorrows__${id}`}
             nextToValue={
               <CapsHint
                 capType={CapType.borrowCap}
@@ -63,23 +59,23 @@ export default function BorrowItem({
             }
           />
         )}
-      </TableColumn>
+      </TableCol>
 
-      {!isFreezed && (
-        <TableColumn>
-          <IncentivesCard value={variableBorrowRate} incentives={vIncentives} symbol={symbol} />
-        </TableColumn>
-      )}
+      <TableAprCol value={Number(variableBorrowRate)} incentives={vIncentives} symbol={symbol} />
+      <TableAprCol value={Number(stableBorrowRate)} incentives={sIncentives} symbol={symbol} />
 
-      {!isFreezed && (
-        <TableColumn>
-          {stableBorrowRateEnabled ? (
-            <IncentivesCard value={stableBorrowRate} incentives={sIncentives} symbol={symbol} />
-          ) : (
-            <NoData color="dark" />
-          )}
-        </TableColumn>
-      )}
-    </TableItem>
+      <TableButtonsWrapper>
+        <TableButtonCol
+          disabled={isFreezed}
+          title={intl.formatMessage(messages.borrow)}
+          linkTo={`/borrow/${underlyingAsset}-${id}`}
+        />
+        <TableButtonCol
+          title={intl.formatMessage(messages.details)}
+          linkTo={`/reserve-overview/${underlyingAsset}-${id}`}
+          withoutBorder={true}
+        />
+      </TableButtonsWrapper>
+    </TableAvailablePosition>
   );
 }

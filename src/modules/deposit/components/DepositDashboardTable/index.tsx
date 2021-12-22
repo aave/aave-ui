@@ -28,7 +28,7 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
     intl.formatMessage(messages.apyRowTitle),
     intl.formatMessage(messages.collateral),
   ];
-  const colWidth = [lg ? 250 : 160, '100%', '100%', 180];
+  const colWidth = [lg ? 250 : 160, '100%', '100%', '100%'];
 
   const Header = useCallback(() => {
     return <TableHeader head={head} colWidth={colWidth} isDeposit={true} />;

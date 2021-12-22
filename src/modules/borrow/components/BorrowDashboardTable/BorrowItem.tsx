@@ -54,7 +54,7 @@ export default function BorrowItem({
         symbol={symbol}
       />
 
-      <TableCol maxWidth={125}>
+      <TableCol>
         <CustomSwitch
           value={borrowRateMode === BorrowRateMode.Variable}
           offLabel={intl.formatMessage(messages.offLabel)}

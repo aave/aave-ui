@@ -51,12 +51,6 @@ const staticStyles = css.global`
           max-width: 80px;
         }
       }
-      &:nth-of-type(3) {
-        max-width: 130px !important;
-      }
-      &:nth-of-type(4) {
-        max-width: 125px !important;
-      }
 
       @include respond-to(sm) {
         &:last-child {

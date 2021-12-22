@@ -28,7 +28,7 @@ export default function BorrowDashboardTable({ listData }: BorrowDashboardTableP
     intl.formatMessage(messages.apyRowTitle),
     intl.formatMessage(messages.fourthTableColumnTitle),
   ];
-  const colWidth = [lg ? 250 : 160, '100%', '100%', 180];
+  const colWidth = [lg ? 250 : 160, '100%', '100%', '100%'];
 
   const Header = useCallback(() => {
     return <TableHeader head={head} colWidth={colWidth} />;
@@ -53,7 +53,7 @@ export default function BorrowDashboardTable({ listData }: BorrowDashboardTableP
           </DashboardTable>
         </>
       ) : (
-        <DashboardMobileCardsWrapper>
+        <DashboardMobileCardsWrapper title={intl.formatMessage(messages.borrowedAssets)}>
           {listData.map((item, index) => (
             <BorrowMobileCard {...item} key={index} />
           ))}

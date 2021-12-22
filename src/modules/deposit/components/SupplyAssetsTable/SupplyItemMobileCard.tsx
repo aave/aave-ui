@@ -98,16 +98,11 @@ export default function SupplyItemMobileCard({
       </Row>
 
       <Row title={intl.formatMessage(messages.showDetails)} className="Row__center">
-        <Link
-          to={`/reserve-overview/${underlyingAsset}-${id}`}
-          className="ButtonLink"
-          disabled={!isActive || isFreezed}
-        >
+        <Link to={`/reserve-overview/${underlyingAsset}-${id}`} className="ButtonLink">
           <DefaultButton
             title={intl.formatMessage(messages.details)}
             color="dark"
             transparent={true}
-            disabled={!isActive || isFreezed}
           />
         </Link>
       </Row>
