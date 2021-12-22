@@ -32,7 +32,7 @@ export default function Dashboard() {
   const intl = useIntl();
   const history = useHistory();
 
-  const { user, reserves, loading, walletBalances } = useAppDataContext();
+  const { user, userId, reserves, loading, walletBalances } = useAppDataContext();
   const {
     networkConfig: { bridge, name },
   } = useProtocolDataContext();
@@ -198,7 +198,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {user && isTableShow && (
+      {userId && isTableShow && (
         <div className="Dashboard__switcher-inner">
           <LabeledSwitcher
             rightOption={intl.formatMessage(messages.switchRightOption)}
@@ -212,7 +212,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {user ? (
+      {userId ? (
         <>
           {isTableShow ? (
             <MainDashboardTable

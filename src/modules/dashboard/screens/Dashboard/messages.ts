@@ -5,6 +5,5 @@ export default defineMessages({
   switchLeftOption: 'Deposits',
 
   connectWallet: 'Please connect your wallet',
-  connectWalletDescription:
-    'To see your deposited / borrowed assets, you need to connect your wallet.',
+  connectWalletDescription: 'To see your dashboard, you need to connect your wallet.', // TODO: maybe need fix
 });

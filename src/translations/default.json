@@ -489,7 +489,7 @@
   "modules.dashboard.components.MainDashboardTable.nothingDeposited": "Nothing deposited yet",
   "modules.dashboard.components.MainDashboardTable.nothingDepositedDescription": "There will be a list of all the assets you have deposited. For now, it’s empty since you have not deposited.",
   "modules.dashboard.screens.Dashboard.connectWallet": "Please connect your wallet",
-  "modules.dashboard.screens.Dashboard.connectWalletDescription": "To see your deposited / borrowed assets, you need to connect your wallet.",
+  "modules.dashboard.screens.Dashboard.connectWalletDescription": "To see your dashboard, you need to connect your wallet.",
   "modules.dashboard.screens.Dashboard.switchLeftOption": "Deposits",
   "modules.dashboard.screens.Dashboard.switchRightOption": "Borrowings",
   "modules.deposit.components.DepositCurrencyWrapper.firstInfoValueTitle": "Your balance in Aave",
