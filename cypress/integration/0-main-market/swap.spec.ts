@@ -57,9 +57,7 @@ describe('SWAP SPEC FOR MAINMARKET', () => {
     configEnvWithTenderlyMainnetFork({});
 
     deposit(
-      {
-        ...testData.depositETH,
-      },
+      testData.depositETH,
       skipTestState,
       true,
     );
@@ -94,9 +92,7 @@ describe('SWAP SPEC FOR MAINMARKET', () => {
     configEnvWithTenderlyMainnetFork({});
 
     deposit(
-      {
-        ...testData.depositETH,
-      },
+      testData.depositETH,
       skipTestState,
       true,
     );

@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { ethers } from 'ethers';
+import ERC20_ABI from '../../fixtures/erc20_abi.json';
 
 const TENDERLY_KEY = Cypress.env('TENDERLY_KEY');
 const TENDERLY_ACCOUNT = Cypress.env('TENDERLY_ACCOUNT');
 const TENDERLY_PROJECT = Cypress.env('TENDERLY_PROJECT');
-const ERC20_ABI = require("../fixtures/erc20_abi.json")
 
 export const DEFAULT_TEST_ACCOUNT = {
   privateKey: '0x54c6ae44611f38e662093c9a3f4b26c3bf13f5b8adb02da1a76f321bd18efe92',
@@ -34,7 +34,7 @@ export class TenderlyFork {
       {
         network_id: this._forkNetworkID,
         chain_config: { chain_id: this._chainID },
-      }
+      },
     );
     this.fork_id = response.data.simulation_fork.id;
   }
@@ -48,30 +48,30 @@ export class TenderlyFork {
     if (!this.fork_id) throw new Error('Fork not initialized!');
     tenderly.post(
       `account/${TENDERLY_ACCOUNT}/project/${TENDERLY_PROJECT}/fork/${this.fork_id}/balance`,
-      { accounts: [address], amount: amount }
+      { accounts: [address], amount: amount },
     );
   }
 
-  async getERC20Token(walletAddress:string, tokenAddress:string){
+  async getERC20Token(walletAddress: string, tokenAddress: string) {
     let _url = this.get_rpc_url();
     let provider = ethers.getDefaultProvider(_url);
     const TOP_HOLDER_ADDRESS = await this.getTopHolder(tokenAddress);
     // @ts-ignore
-    const topHolderSigner = await provider.getSigner(TOP_HOLDER_ADDRESS)
+    const topHolderSigner = await provider.getSigner(TOP_HOLDER_ADDRESS);
     const token = new ethers.Contract(tokenAddress, ERC20_ABI, topHolderSigner);
-    await token.transfer(walletAddress, ethers.utils.parseEther('1000'))
+    await token.transfer(walletAddress, ethers.utils.parseEther('1000'));
   }
 
-  async getTopHolder(token:string){
+  async getTopHolder(token: string) {
     const res = (await axios.get(
-      `https://ethplorer.io/service/service.php?data=${token}&page=tab%3Dtab-holders%26pageSize%3D10%26holders%3D1`
+      `https://ethplorer.io/service/service.php?data=${token}&page=tab%3Dtab-holders%26pageSize%3D10%26holders%3D1`,
     )).data.holders[0].address;
     return res;
   };
 
   async deleteFork() {
     await tenderly.delete(
-      `account/${TENDERLY_ACCOUNT}/project/${TENDERLY_PROJECT}/fork/${this.fork_id}`
+      `account/${TENDERLY_ACCOUNT}/project/${TENDERLY_PROJECT}/fork/${this.fork_id}`,
     );
   }
 }
