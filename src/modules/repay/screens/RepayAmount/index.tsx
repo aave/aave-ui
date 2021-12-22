@@ -118,24 +118,26 @@ function RepayAmount({
     setAssetAddress(address);
   };
 
-  const newHF = calculateHealthFactorFromBalancesBigUnits({
-    collateralBalanceMarketReferenceCurrency:
-      repayWithATokens && usageAsCollateralEnabledOnUser
-        ? new BigNumber(user?.totalCollateralMarketReferenceCurrency || '0').minus(
-            new BigNumber(reserve.priceInMarketReferenceCurrency)
-              .shiftedBy(-marketReferenceCurrencyDecimals)
-              .multipliedBy(amount)
-          )
-        : user?.totalCollateralMarketReferenceCurrency || '0',
-    borrowBalanceMarketReferenceCurrency: new BigNumber(
-      user?.totalBorrowsMarketReferenceCurrency || '0'
-    ).minus(
-      new BigNumber(reserve.priceInMarketReferenceCurrency)
-        .shiftedBy(-marketReferenceCurrencyDecimals)
-        .multipliedBy(amount)
-    ),
-    currentLiquidationThreshold: user?.currentLiquidationThreshold || '0',
-  }).toString();
+  const newHF = amount
+    ? calculateHealthFactorFromBalancesBigUnits({
+        collateralBalanceMarketReferenceCurrency:
+          repayWithATokens && usageAsCollateralEnabledOnUser
+            ? new BigNumber(user?.totalCollateralMarketReferenceCurrency || '0').minus(
+                new BigNumber(reserve.priceInMarketReferenceCurrency)
+                  .shiftedBy(-marketReferenceCurrencyDecimals)
+                  .multipliedBy(amount)
+              )
+            : user?.totalCollateralMarketReferenceCurrency || '0',
+        borrowBalanceMarketReferenceCurrency: new BigNumber(
+          user?.totalBorrowsMarketReferenceCurrency || '0'
+        ).minus(
+          new BigNumber(reserve.priceInMarketReferenceCurrency)
+            .shiftedBy(-marketReferenceCurrencyDecimals)
+            .multipliedBy(amount)
+        ),
+        currentLiquidationThreshold: user?.currentLiquidationThreshold || '0',
+      }).toString()
+    : user?.healthFactor!;
 
   return (
     <RepayContentWrapper
@@ -143,7 +145,7 @@ function RepayAmount({
         <RightPanelWrapper title={intl.formatMessage(messages.rightPanelTitle)}>
           <HFChangeValue
             healthFactor={user?.healthFactor || '0'}
-            hfAfterAction={Number(newHF) > 10 * 10 ? '-1' : newHF.toString()}
+            hfAfterAction={Number(newHF) > 10 * 10 ? '-1' : newHF}
           />
         </RightPanelWrapper>
       }
