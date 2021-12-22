@@ -9,3 +9,22 @@ export const skipState = (initialValue = false) => {
     },
   };
 };
+
+type SkipType = {
+  set: (val: boolean) => void;
+  get: () => boolean;
+};
+
+export const skipSetup = ({ skip, updateSkipStatus }: { skip: SkipType; updateSkipStatus: boolean }) => {
+  before(function() {
+    if (skip.get()) {
+      this.skip();
+    }
+  });
+
+  afterEach(function onAfterEach() {
+    if ((this.currentTest as Mocha.Test).state === 'failed' && updateSkipStatus) {
+      skip.set(true);
+    }
+  });
+};

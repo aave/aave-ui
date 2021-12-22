@@ -3,25 +3,38 @@ import { JsonRpcProvider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
 import { CustomizedBridge } from '../tools/bridge';
 import forkNetworks from '../../fixtures/fork-networks.json';
+import { AsyncTool } from '../tools/async.tool';
+import { browserWallets } from '../../../src/components/ConnectWalletModal/images';
 
 const URL = Cypress.env('URL');
 
 const configEnvWithTenderly = ({
-  network,
-  market,
-}: {
+                                 network,
+                                 market,
+                                 tokens,
+                                 account,
+                               }: {
   network: { networkID: number; forkChainID: number; chainID: number };
   market: string;
+  tokens?: string[];
+  account: { privateKey: string; address: string }
 }) => {
   const tenderly = new TenderlyFork({ forkNetworkID: network.networkID });
   before(async () => {
     await tenderly.init();
-    await tenderly.add_balance(DEFAULT_TEST_ACCOUNT.address, 10000);
+    await tenderly.add_balance(account.address, 10000);
+    if (tokens) {
+      const asyncTool = new AsyncTool();
+      await asyncTool.asyncForEach(tokens,
+        async (token: { address: string; shortName: string; fullName: string }) => {
+          await tenderly.getERC20Token(account.address, token.address);
+        });
+    }
   });
   before('Open main page', () => {
     const rpc = tenderly.get_rpc_url();
     const provider = new JsonRpcProvider(rpc, network.forkChainID);
-    const signer = new Wallet(DEFAULT_TEST_ACCOUNT.privateKey, provider);
+    const signer = new Wallet(account.privateKey, provider);
     cy.visit(URL, {
       onBeforeLoad(win: any) {
         win.ethereum = new CustomizedBridge(signer, provider);
@@ -31,7 +44,7 @@ const configEnvWithTenderly = ({
         win.localStorage.setItem('forkBaseChainId', network.chainID);
         win.localStorage.setItem('forkRPCUrl', rpc);
         win.localStorage.setItem('currentProvider', 'browser');
-        win.localStorage.setItem('selectedAccount', DEFAULT_TEST_ACCOUNT.address.toLowerCase());
+        win.localStorage.setItem('selectedAccount', account.address.toLowerCase());
         win.localStorage.setItem('selectedMarket', market);
       },
     });
@@ -42,13 +55,15 @@ const configEnvWithTenderly = ({
 };
 
 export const configEnvWithTenderlyMainnetFork = ({
-  market = `fork_proto_mainnet`,
-  network = forkNetworks.ethereum,
-  tokens
-}:{
+                                                   market = `fork_proto_mainnet`,
+                                                   network = forkNetworks.ethereum,
+                                                   tokens,
+                                                   account = DEFAULT_TEST_ACCOUNT,
+                                                 }: {
   market?: string
   network?: { networkID: number; forkChainID: number; chainID: number }
-  tokens?: string[]
+  tokens?: any[]
+  account?: { privateKey: string, address: string }
 }) => {
-  configEnvWithTenderly({ network, market });
+  configEnvWithTenderly({ network, market, tokens, account });
 };

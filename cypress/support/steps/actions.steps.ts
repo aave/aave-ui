@@ -9,7 +9,7 @@ export const setAmount = ({ amount, max }: SetAmount) => {
   } else {
     cy.get(`[data-cy=amountInput]`).type(amount.toString());
   }
-  cy.get('.BasicForm').contains('Continue').click();
+  cy.get('.BasicForm').find('.Button').click();
 };
 
 type ConfirmAction = {
@@ -50,7 +50,7 @@ type SwapForRepayAction = {
 export const doSwapForRepay = ({ amount, assetName }: SwapForRepayAction) => {
   cy.log('assetName,' + assetName);
   cy.get(':nth-child(1) > .AmountFieldWithSelect__field-inner  [data-cy=amountInput]').type(
-    amount.toString()
+    amount.toString(),
   );
   if (assetName) {
     doChooseSwapToOption(assetName);
@@ -84,7 +84,7 @@ export const getDashBoardDepositRow = ({ assetName, collateralType }: GetDashBoa
   } else {
     return cy
       .get(
-        `[data-cy=dashboardDespositListItem${assetName}] .Switcher__label:contains('${collateralType}')`
+        `[data-cy=dashboardDespositListItem${assetName}] .Switcher__label:contains('${collateralType}')`,
       )
       .parents(`[data-cy=dashboardDespositListItem${assetName}]`);
   }
