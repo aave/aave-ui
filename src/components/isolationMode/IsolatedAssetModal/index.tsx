@@ -39,15 +39,15 @@ export default function IsolatedAssetModal({ isVisible, onClose }: IsolatedAsset
           <p>{intl.formatMessage(messages.howItWorksDescriptionSecond)}</p>
         </aside>
 
-        <aside>
+        {/* <aside>
           <strong>{intl.formatMessage(messages.debtCeiling)}</strong>
           <p>{intl.formatMessage(messages.debtCeilingDescription)}</p>
-        </aside>
+        </aside> */}
 
-        <aside>
+        {/* <aside>
           <strong>{intl.formatMessage(messages.whoCanUseIt)}</strong>
           <p>{intl.formatMessage(messages.whoCanUseItDescription)}</p>
-        </aside>
+        </aside> */}
 
         <p>
           {intl.formatMessage(messages.learnMore, {

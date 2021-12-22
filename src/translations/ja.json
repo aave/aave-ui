@@ -72,6 +72,7 @@
   "components.HelpModal.LiquidationBonusHelpModal.description": "清算が発生した場合、清算人は借り手に代わって借入残高の一部または全部を返済します。その代わりに、彼らは割引で担保を購入し、ボーナスとして差額を獲得することができます！",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "清算閾値",
   "components.HelpModal.LiquidationThresholdHelpModal.description": "最大の融資価値比率は、特定のローンの最大借入能力を表します。たとえば、担保のLTVが75％の場合、利用者はローンの1 ETHごとに最大0.75の元本を借りることができます。",
+  "components.HelpModal.MarketCapsHelpModal.availableToSupply": "",
   "components.HelpModal.MaxLTVHelpModal.caption": "ローントゥバリュー（LTV）比率",
   "components.HelpModal.MaxLTVHelpModal.description": "特定の担保の最大借入能力。担保のローントゥバリューが75％の場合、1ETH相当の担保ごとに利用者は0.75ETH相当の元本通貨を借りることができます。Loan to Valueは担保ごとに指定され、パーセンテージポイントで表されます。",
   "components.HelpModal.MinimumReceivedHelpModal.caption": "",

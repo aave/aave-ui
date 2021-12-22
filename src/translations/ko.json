@@ -72,6 +72,7 @@
   "components.HelpModal.LiquidationBonusHelpModal.description": "청산이 이루어질때, 청산인들은 대출인을 대신하여 부분 또는 모든 빛을 값습니다. 그 대가로, 그들은 담보물을 할인 된 가격에 구매 할 수 있고 차익을 얻을 수 있습니다.",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "청산 한계점",
   "components.HelpModal.LiquidationThresholdHelpModal.description": "이는 대출 포지션이 담보가 부족한 상태가 되는 임계점을 나타냅니다. 에를 들어, 어떠한 담보물의 청산 한계점이 80%라면, 대출 가치가 담보물의 80%일때에 대출이 청산된다는 뜻 입니다.",
+  "components.HelpModal.MarketCapsHelpModal.availableToSupply": "",
   "components.HelpModal.MaxLTVHelpModal.caption": "담보인정비율(LTV)",
   "components.HelpModal.MaxLTVHelpModal.description": "최대 LTV 비율은 어떠한 담보물에 대한 최대 차입 능력을 의미합니다. 예를 들어 어떠한 담보물의 LTV 가 75%라면, 유저들은 0.75 ETH 상당의 자산을 1 ETH 상당의 담보물로 빌릴 수 있습니다.",
   "components.HelpModal.MinimumReceivedHelpModal.caption": "",

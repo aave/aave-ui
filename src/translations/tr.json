@@ -72,6 +72,7 @@
   "components.HelpModal.LiquidationBonusHelpModal.description": "Bir tasfiye gerçekleştiğinde, likidasyon memurları borçlu adına ödenmemiş borçlanmış tutarın bir kısmını veya tamamını geri öderler. Karşılığında teminatı indirimli olarak satın alabilir ve farkı bonus olarak koruyabilirler!",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "Likidasyon eşiği",
   "components.HelpModal.LiquidationThresholdHelpModal.description": "Bu, bir borçlanma pozisyonunun eksik teminatlandırılmış olarak kabul edileceği ve her bir teminat için likidasyona tabi olacağı eşiği temsil eder. Örneğin, bir teminatın tasfiye eşiğinin% 80 olması, borç değerinin teminat değerinin% 80'i değerinde olması durumunda kredinin tasfiye edileceği anlamına gelir.",
+  "components.HelpModal.MarketCapsHelpModal.availableToSupply": "",
   "components.HelpModal.MaxLTVHelpModal.caption": "Kredinin Değere (LTV) Oranı",
   "components.HelpModal.MaxLTVHelpModal.description": "Belirli bir teminatın maksimum borçlanma gücü. Bir teminatın %75 Değerinde Krediye sahip olması durumunda, kullanıcı her 1 ETH değerinde teminat için 0.75 ETH değerinde ana para birimi ödünç alabilecektir. Kredi Değer Oranı, teminat başına belirlenir ve yüzde puanı olarak ifade edilir.",
   "components.HelpModal.MinimumReceivedHelpModal.caption": "",
