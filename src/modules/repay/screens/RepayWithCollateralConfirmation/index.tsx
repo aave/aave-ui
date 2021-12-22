@@ -10,7 +10,7 @@ import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationVie
 import Value from '../../../../components/basic/Value';
 import HealthFactor from '../../../../components/HealthFactor';
 import ValuePercent from '../../../../components/basic/ValuePercent';
-import { calculateHFAfterRepay } from '../../helpers';
+import { calculateHFAfterSwapRepay } from '../../helpers';
 
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
@@ -124,7 +124,7 @@ function RepayWithCollateralConfirmation({
     .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
 
-  const { hfAfterSwap, hfInitialEffectOfFromAmount } = calculateHFAfterRepay(
+  const { hfAfterSwap, hfInitialEffectOfFromAmount } = calculateHFAfterSwapRepay(
     fromAmountQuery,
     fromAssetData,
     fromAssetUserData,

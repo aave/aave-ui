@@ -14,7 +14,7 @@ import SwapForm, { DEFAULT_MAX_SLIPPAGE } from '../../../../components/forms/Swa
 import AmountFieldWithSelect from '../../../../components/fields/AmountFieldWithSelect';
 import RepayContentWrapper from '../../components/RepayContentWrapper';
 import { useAssetSwap } from '../../../../libs/use-asset-swap';
-import { calculateHFAfterRepay } from '../../helpers';
+import { calculateHFAfterSwapRepay } from '../../helpers';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -126,7 +126,7 @@ export function RepayAmountWithSelect({
         .toFixed(2)
     : '0';
 
-  const { hfAfterSwap, hfInitialEffectOfFromAmount } = calculateHFAfterRepay(
+  const { hfAfterSwap, hfInitialEffectOfFromAmount } = calculateHFAfterSwapRepay(
     fromAmountWithSlippage,
     fromAssetData,
     fromAssetUserData,
