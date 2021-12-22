@@ -5,13 +5,11 @@ const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
 
-  .TableHeader {
+  .TableAvailableHeader {
     display: block;
     width: 100%;
     padding: 0 10px;
-    @include respond-to(sm) {
-      padding: 0 20px;
-    }
+    margin-top: 25px;
 
     &__inner {
       display: flex;
@@ -34,12 +32,11 @@ const staticStyles = css.global`
       &:first-child {
         align-items: flex-start;
         text-align: left;
-        .TableHeader__title {
+        .TableAvailableHeader__title {
           font-weight: 600;
         }
       }
-      &:last-of-type,
-      &:nth-last-of-type(2) {
+      &:last-of-type {
         max-width: 100px;
         @include respond-to(xl) {
           max-width: 80px;
@@ -49,18 +46,6 @@ const staticStyles = css.global`
         }
         @include respond-to(md) {
           max-width: 80px;
-        }
-      }
-      &:nth-of-type(3) {
-        max-width: 130px !important;
-      }
-      &:nth-of-type(4) {
-        max-width: 125px !important;
-      }
-
-      @include respond-to(sm) {
-        &:last-child {
-          align-items: flex-end;
         }
       }
     }

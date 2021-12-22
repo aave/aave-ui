@@ -64,6 +64,7 @@ const staticStyles = css.global`
       display: flex;
       flex-direction: column;
       flex: 1;
+      max-height: 70vh;
     }
 
     &__noData--title {

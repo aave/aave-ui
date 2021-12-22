@@ -14,7 +14,7 @@ import { useLanguageContext } from '../../../../libs/language-provider';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { useIntl } from 'react-intl';
 import DashboardTable from '../../../dashboard/components/DashboardTable';
-import SupplyTableHeader from '../../../dashboard/components/DashboardTable/SupplyTableHeader ';
+import TableAvailableHeader from '../../../dashboard/components/DashboardTable/TableAvailableHeader';
 import DashboardMobileCardsWrapper from '../../../dashboard/components/DashboardMobileCardsWrapper';
 import SupplyItemMobileCard from './SupplyItemMobileCard';
 
@@ -86,10 +86,10 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
     intl.formatMessage(messages.secondTableColumnTitle),
     intl.formatMessage(messages.apyRowTitle),
   ];
-  const colWidth = [lg ? 250 : 160, '100%', '100%', 180];
+  const colWidth = [lg ? 280 : 200, '100%', '100%'];
 
   const Header = useCallback(() => {
-    return <SupplyTableHeader head={head} colWidth={colWidth} isDeposit={true} />;
+    return <TableAvailableHeader head={head} colWidth={colWidth} isDeposit={true} />;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLangSlug]);
 
@@ -106,7 +106,10 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
           </DashboardTable>
         </>
       ) : (
-        <DashboardMobileCardsWrapper>
+        <DashboardMobileCardsWrapper
+          title={intl.formatMessage(messages.supplyAssets)}
+          withTopMargin={true}
+        >
           {tokensToSupply.map((item) => (
             <SupplyItemMobileCard userId={userId} {...item} key={item.id} />
           ))}

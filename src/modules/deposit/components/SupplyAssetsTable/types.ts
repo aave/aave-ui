@@ -17,6 +17,5 @@ export type SupplyTableItem = {
   isIsolated: boolean;
   totalLiquidity: string;
   supplyCap: string;
-  uiColor?: string;
   isActive?: boolean;
 };

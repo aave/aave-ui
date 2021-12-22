@@ -56,7 +56,7 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
           </DashboardTable>
         </>
       ) : (
-        <DashboardMobileCardsWrapper>
+        <DashboardMobileCardsWrapper title={intl.formatMessage(messages.depositedAssets)}>
           {sortedListData.map((item) => (
             <DepositMobileCard {...item} key={item.reserve.id} />
           ))}

@@ -21,6 +21,20 @@ const staticStyles = css`
     @include respond-to(md) {
       max-width: 160px;
     }
+
+    &__onlyOne {
+      justify-content: flex-end;
+      max-width: 100px;
+      @include respond-to(xl) {
+        max-width: 80px;
+      }
+      @include respond-to(lg) {
+        max-width: 90px;
+      }
+      @include respond-to(md) {
+        max-width: 80px;
+      }
+    }
   }
 `;
 

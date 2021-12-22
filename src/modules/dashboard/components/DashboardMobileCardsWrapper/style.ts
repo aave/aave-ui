@@ -7,6 +7,16 @@ const staticStyles = css.global`
 
   .DashboardMobileCardsWrapper {
     padding: 0 10px;
+
+    &__withTopMargin {
+      margin-top: 25px;
+    }
+
+    &__title {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: $regular;
+    }
   }
 `;
 

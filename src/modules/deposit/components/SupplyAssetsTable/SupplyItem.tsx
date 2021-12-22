@@ -1,22 +1,20 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-// import TableItem from '../../../../components/BasicAssetsTable/TableItem';
-
-import TableItem from '../../../dashboard/components/DashboardTable/TableItem';
-import TableColumn from '../../../../components/BasicTable/TableColumn';
+import TableAvailablePosition from '../../../dashboard/components/DashboardTable/TableAvailablePosition';
+import TableCol from '../../../dashboard/components/DashboardTable/TableCol';
 import Value from '../../../../components/basic/Value';
 import NoData from '../../../../components/basic/NoData';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
-
-import { SupplyTableItem } from './types';
 import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import TableButtonCol from '../../../dashboard/components/DashboardTable/TableButtonCol';
-import messages from './messages';
-// import TableValueCol from '../../../dashboard/components/DashboardTable/TableValueCol';
 import TableAprCol from '../../../dashboard/components/DashboardTable/TableAprCol';
+
+import { SupplyTableItem } from './types';
+
+import messages from './messages';
 
 export default function SupplyItem({
   id,
@@ -31,14 +29,13 @@ export default function SupplyItem({
   isIsolated,
   totalLiquidity,
   supplyCap,
-  uiColor,
   isActive,
 }: SupplyTableItem) {
   const intl = useIntl();
 
   return (
-    <TableItem tokenSymbol={symbol} isIsolated={isIsolated}>
-      <TableColumn>
+    <TableAvailablePosition tokenSymbol={symbol} isIsolated={isIsolated}>
+      <TableCol>
         {!userId || Number(availableToDeposit) <= 0 ? (
           <NoData color="dark" />
         ) : (
@@ -49,6 +46,8 @@ export default function SupplyItem({
             subSymbol="USD"
             maximumValueDecimals={isAssetStable(symbol) ? 2 : 5}
             minimumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+            className="TableValueCol__value"
+            tooltipId={`availableToDeposit__${id}`}
             nextToValue={
               <CapsHint
                 capType={CapType.supplyCap}
@@ -60,13 +59,7 @@ export default function SupplyItem({
             }
           />
         )}
-      </TableColumn>
-
-      {/* <TableValueCol
-        value={Number(availableToDeposit)}
-        subValue={Number(availableToDepositUSD)}
-        tooltipId={`deposit-${symbol}__${id}`}
-      /> */}
+      </TableCol>
 
       <TableAprCol value={Number(liquidityRate)} incentives={aIncentives} symbol={symbol} />
 
@@ -77,6 +70,6 @@ export default function SupplyItem({
           linkTo={`/deposit/${underlyingAsset}-${id}`}
         />
       </TableButtonsWrapper>
-    </TableItem>
+    </TableAvailablePosition>
   );
 }

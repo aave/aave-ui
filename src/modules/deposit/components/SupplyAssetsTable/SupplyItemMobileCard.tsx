@@ -1,5 +1,5 @@
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
+
 import { useIntl } from 'react-intl';
 
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
@@ -7,6 +7,8 @@ import Row from '../../../../components/basic/Row';
 import NoData from '../../../../components/basic/NoData';
 import Value from '../../../../components/basic/Value';
 import IncentivesCard from '../../../../components/incentives/IncentivesCard';
+import Link from '../../../../components/basic/Link';
+import DefaultButton from '../../../../components/basic/DefaultButton';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
 import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
@@ -15,8 +17,6 @@ import { isAssetStable } from '../../../../helpers/config/assets-config';
 import messages from './messages';
 
 import { SupplyTableItem } from './types';
-import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
-import TableButtonCol from '../../../dashboard/components/DashboardTable/TableButtonCol';
 
 export default function SupplyItemMobileCard({
   id,
@@ -77,13 +77,19 @@ export default function SupplyItemMobileCard({
         </Row>
       )}
 
-      <TableButtonsWrapper>
-        <TableButtonCol
+      <Row title={intl.formatMessage(messages.supply)} className="Row__center">
+        <Link
+          to={`/deposit/${underlyingAsset}-${id}`}
+          className="ButtonLink"
           disabled={!isActive || isFreezed}
-          title={intl.formatMessage(messages.supply)}
-          linkTo={`/deposit/${underlyingAsset}-${id}`}
-        />
-      </TableButtonsWrapper>
+        >
+          <DefaultButton
+            title={intl.formatMessage(messages.supply)}
+            color="dark"
+            disabled={!isActive || isFreezed}
+          />
+        </Link>
+      </Row>
     </MobileCardWrapper>
   );
 }
