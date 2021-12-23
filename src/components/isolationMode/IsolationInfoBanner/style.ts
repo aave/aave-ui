@@ -30,6 +30,10 @@ const staticStyles = css.global`
         justify-content: center;
         min-height: 34px;
       }
+      @include respond-to(sm) {
+        margin: 0 10px;
+        width: calc(100% - 20px);
+      }
     }
 
     &__small {

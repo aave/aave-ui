@@ -100,7 +100,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
         <>
           <Header />
 
-          <DashboardTable>
+          <DashboardTable withBottomText={true}>
             {filteredSupplyReserves.map((item) => (
               <SupplyItem {...item} key={item.id} userId={userId} />
             ))}
@@ -110,6 +110,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
         <DashboardMobileCardsWrapper
           title={intl.formatMessage(messages.supplyAssets)}
           withTopMargin={true}
+          withBottomText={true}
         >
           {filteredSupplyReserves.map((item) => (
             <SupplyItemMobileCard userId={userId} {...item} key={item.id} />

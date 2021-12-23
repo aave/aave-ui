@@ -89,7 +89,7 @@ export default function DepositMobileCard({
             value={usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral}
             offLabel={
               isUserInIsolationMode && !canBeEnabledAsCollateral ? (
-                <IsolationModeBadge isIsolated={isIsolated} disabled={true} />
+                <IsolationModeBadge isIsolated={false} disabled={true} />
               ) : (
                 intl.formatMessage(messages.offLabel)
               )

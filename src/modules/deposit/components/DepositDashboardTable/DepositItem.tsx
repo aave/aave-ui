@@ -31,7 +31,6 @@ export default function DepositItem({
   canBeEnabledAsCollateral,
   isUserInIsolationMode,
   isIsolated,
-  ...rest
 }: DepositTableItem) {
   const intl = useIntl();
   const { currentTheme, xl, lg, md } = useThemeContext();
@@ -52,7 +51,6 @@ export default function DepositItem({
         canBeEnabledAsCollateral &&
         isIsolated
       }
-      {...rest}
     >
       <TableValueCol
         value={Number(underlyingBalance)}
@@ -66,7 +64,7 @@ export default function DepositItem({
           value={usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral}
           offLabel={
             isUserInIsolationMode && !canBeEnabledAsCollateral ? (
-              <IsolationModeBadge isIsolated={isIsolated} disabled={true} />
+              <IsolationModeBadge isIsolated={false} disabled={true} />
             ) : (
               intl.formatMessage(messages.offLabel)
             )

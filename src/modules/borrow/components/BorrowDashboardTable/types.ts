@@ -16,6 +16,6 @@ export type BorrowTableItem = {
   currentBorrowsUSD: string;
   repayLink: string;
   borrowLink: string;
-  reserve: Pick<ComputedReserveData, 'symbol'>;
+  reserve: Pick<ComputedReserveData, 'symbol' | 'underlyingAsset'>;
   index?: number;
 };

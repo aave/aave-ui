@@ -19,7 +19,6 @@ export default function TableAvailablePosition({
   tokenSymbol,
   children,
   isIsolated,
-  ...rest
 }: TableAvailablePositionProps) {
   const { currentTheme, isCurrentThemeDark, lg } = useThemeContext();
   const asset = getAssetInfo(tokenSymbol);
@@ -30,7 +29,6 @@ export default function TableAvailablePosition({
         TableAvailablePosition__withInfo: tokenSymbol === 'AMPL',
         TableAvailablePosition__isolated: isIsolated,
       })}
-      {...rest}
     >
       <TableCol className="TableAvailablePosition__inner" maxWidth={lg ? 250 : 160}>
         <TokenIcon

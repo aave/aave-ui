@@ -29,11 +29,11 @@ const staticStyles = css.global`
 
     &__isolated {
       position: relative;
-      margin-top: 24px;
+      padding-top: 30px;
       border-top-left-radius: unset;
       border-top-right-radius: unset;
       @include respond-to(xl) {
-        margin-top: 20px;
+        padding-top: 26px;
       }
     }
 
@@ -41,7 +41,7 @@ const staticStyles = css.global`
       position: absolute;
       left: 0;
       right: 0;
-      top: -24px;
+      top: 0;
       height: 24px;
       border-top-left-radius: 2px;
       border-top-right-radius: 2px;
@@ -51,7 +51,6 @@ const staticStyles = css.global`
       justify-content: flex-start;
       @include respond-to(xl) {
         height: 20px;
-        top: -20px;
       }
 
       .IsolatedBadge {

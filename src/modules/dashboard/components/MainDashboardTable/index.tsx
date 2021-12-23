@@ -1,16 +1,17 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
+import { FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import NoDataPanel from '../../../../components/NoDataPanel';
-import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
+import TableNoData from '../DashboardTable/TableNoData';
 import BorrowDashboardTable from '../../../borrow/components/BorrowDashboardTable';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
 import DepositDashboardTable from '../../../deposit/components/DepositDashboardTable';
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import SupplyAssetTable from '../../../deposit/components/SupplyAssetsTable';
 import BorrowAssetTable from '../../../borrow/components/BorrowAssetTable';
+import IsolationInfoBanner from '../../../../components/isolationMode/IsolationInfoBanner';
 
 import messages from './messages';
 import staticStyles from './style';
@@ -19,15 +20,17 @@ interface MainDashboardTableProps {
   depositedPositions: DepositTableItem[];
   borrowedPositions: BorrowTableItem[];
   isBorrow: boolean;
+  user?: FormatUserSummaryAndIncentivesResponse;
 }
 
 export default function MainDashboardTable({
   depositedPositions,
   borrowedPositions,
   isBorrow,
+  user,
 }: MainDashboardTableProps) {
   const intl = useIntl();
-  const { currentTheme } = useThemeContext();
+  const { sm } = useThemeContext();
 
   return (
     <div
@@ -40,17 +43,11 @@ export default function MainDashboardTable({
         {!!depositedPositions.length ? (
           <DepositDashboardTable listData={depositedPositions} />
         ) : (
-          <div className="MainDashboardTable__noData--wrapper">
-            <strong className="MainDashboardTable__noData--title">
-              {intl.formatMessage(messages.depositedAssets)}
-            </strong>
-            <ContentWrapper withFullHeight={true}>
-              <NoDataPanel
-                title={intl.formatMessage(messages.nothingDeposited)}
-                description={intl.formatMessage(messages.nothingDepositedDescription)}
-              />
-            </ContentWrapper>
-          </div>
+          <TableNoData
+            caption={intl.formatMessage(messages.depositedAssets)}
+            title={intl.formatMessage(messages.nothingDeposited)}
+            description={intl.formatMessage(messages.nothingDepositedDescription)}
+          />
         )}
 
         <SupplyAssetTable suppliedReserves={depositedPositions} />
@@ -60,17 +57,20 @@ export default function MainDashboardTable({
         {!!borrowedPositions.length ? (
           <BorrowDashboardTable listData={borrowedPositions} />
         ) : (
-          <div className="MainDashboardTable__noData--wrapper">
-            <strong className="MainDashboardTable__noData--title">
-              {intl.formatMessage(messages.borrowedAssets)}
-            </strong>
-            <ContentWrapper withFullHeight={true}>
-              <NoDataPanel
-                title={intl.formatMessage(messages.nothingBorrowed)}
-                description={intl.formatMessage(messages.nothingBorrowedDescription)}
-              />
-            </ContentWrapper>
-          </div>
+          <TableNoData
+            caption={intl.formatMessage(messages.borrowedAssets)}
+            title={intl.formatMessage(messages.nothingBorrowed)}
+            description={intl.formatMessage(messages.nothingBorrowedDescription)}
+          />
+        )}
+
+        {user?.isInIsolationMode && (
+          <IsolationInfoBanner
+            text={intl.formatMessage(messages.isolationText)}
+            size="normal"
+            withoutMargin={!sm}
+            withIcon={!sm}
+          />
         )}
 
         <BorrowAssetTable borrowedReserves={borrowedPositions} />
@@ -79,11 +79,6 @@ export default function MainDashboardTable({
       <style jsx={true} global={true}>
         {staticStyles}
       </style>
-      <style jsx={true}>{`
-        .MainDashboardTable__noData--title {
-          color: ${currentTheme.textDarkBlue.hex};
-        }
-      `}</style>
     </div>
   );
 }

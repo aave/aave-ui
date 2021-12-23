@@ -19,4 +19,8 @@ export type BorrowTableItem = {
   borrowCap: string;
   borrowableInIsolation: boolean;
   totalBorrows: string;
+  totalLiquidityUSD: string;
+  borrowingEnabled: boolean;
+  isActive: boolean;
+  eModeCategoryId: number;
 };

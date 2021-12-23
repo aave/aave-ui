@@ -2,11 +2,14 @@ import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
+import TableBottomText from '../DashboardTable/TableBottomText';
+
 import staticStyles from './style';
 
 interface DashboardMobileCardsWrapperProps {
   title?: string;
   withTopMargin?: boolean;
+  withBottomText?: boolean;
   children: ReactNode;
 }
 
@@ -14,6 +17,7 @@ export default function DashboardMobileCardsWrapper({
   title,
   withTopMargin,
   children,
+  withBottomText,
 }: DashboardMobileCardsWrapperProps) {
   const { currentTheme } = useThemeContext();
 
@@ -30,6 +34,8 @@ export default function DashboardMobileCardsWrapper({
       )}
 
       {children}
+
+      {withBottomText && <TableBottomText />}
 
       <style jsx={true} global={true}>
         {staticStyles}

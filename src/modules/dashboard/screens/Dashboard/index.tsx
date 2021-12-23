@@ -216,6 +216,7 @@ export default function Dashboard() {
         <>
           {isTableShow ? (
             <MainDashboardTable
+              user={user}
               borrowedPositions={borrowedPositions}
               depositedPositions={depositedPositions.filter((pos) => pos.underlyingBalance !== '0')}
               isBorrow={isBorrow}
