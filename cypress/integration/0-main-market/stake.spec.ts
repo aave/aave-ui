@@ -32,13 +32,13 @@ const stakeTest = (asset: { fullName: string; shortName: string; address: string
       it('Open stake AAVE', () => {
         switch (_shortName) {
           case assets.staking.AAVE.shortName:
-            cy.get('[href="/staking/aave"]').click();
+            cy.get('[href="/staking/aave"], [href="#/staking/aave"]').click();
             break;
           case assets.staking.ABPT.shortName:
-            cy.get('[href="/staking/bpt"]').click();
+            cy.get('[href="/staking/bpt"], [href="#/staking/bpt"]').click();
             break;
           default:
-            cy.get('[href="/staking/aave"]').click();
+            cy.get('[href="/staking/aave"], [href="#/staking/aave"]').click();
             break;
         }
       });
