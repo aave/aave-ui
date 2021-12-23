@@ -44,9 +44,9 @@ const configEnvWithTenderly = ({
 export const configEnvWithTenderlyMainnetFork = ({
   market = `fork_proto_mainnet`,
   network = forkNetworks.ethereum,
-}:{
-  market?: string
-  network?: { networkID: number; forkChainID: number; chainID: number }
+}: {
+  market?: string;
+  network?: { networkID: number; forkChainID: number; chainID: number };
 }) => {
   configEnvWithTenderly({ network, market });
 };
