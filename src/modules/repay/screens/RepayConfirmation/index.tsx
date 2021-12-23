@@ -91,7 +91,9 @@ function RepayConfirmation({
       repayWithPermitEnabled
     ) {
       amountToRepay = BigNumber.min(
-        repayWithATokens ? underlyingBalance : walletBalance,
+        repayWithATokens
+          ? valueToBigNumber(underlyingBalance).multipliedBy(0.999999) // TODO: should just be -1 one the contract is adjusted
+          : walletBalance,
         safeAmountToRepayAll
       ).toString();
     }
