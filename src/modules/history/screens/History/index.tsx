@@ -222,7 +222,7 @@ export default function History() {
           description={intl.formatMessage(messages.noDataDescription)}
           buttonTitle={intl.formatMessage(messages.deposit)}
           infoTextDescription={intl.formatMessage(messages.infoDescription)}
-          linkTo="/deposit"
+          linkTo="/dashboard"
         />
       )}
     </ScreenWrapper>

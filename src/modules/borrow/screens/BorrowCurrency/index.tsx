@@ -20,7 +20,7 @@ export default function BorrowCurrency() {
           component={BorrowConfirmation}
         />
 
-        <Redirect to="/borrow" />
+        <Redirect to="/dashboard" />
       </Switch>
     </PermissionWarning>
   );

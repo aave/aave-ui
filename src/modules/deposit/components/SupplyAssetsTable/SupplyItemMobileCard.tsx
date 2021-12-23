@@ -83,14 +83,14 @@ export default function SupplyItemMobileCard({
         />
       </Row>
 
-      <Row title={intl.formatMessage(messages.supply)} className="Row__center" withMargin={true}>
+      <Row title={intl.formatMessage(messages.deposit)} className="Row__center" withMargin={true}>
         <Link
           to={`/deposit/${underlyingAsset}-${id}`}
           className="ButtonLink"
           disabled={!isActive || isFreezed}
         >
           <DefaultButton
-            title={intl.formatMessage(messages.supply)}
+            title={intl.formatMessage(messages.deposit)}
             color="dark"
             disabled={!isActive || isFreezed}
           />
