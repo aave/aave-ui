@@ -138,33 +138,42 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
   }, [currentLangSlug]);
 
   return filteredBorrowReserves.length ? (
-    !sm ? (
-      <>
-        <Header />
+    <>
+      {!borrowedReserves.length && (
+        <TableNoData
+          caption={intl.formatMessage(messages.borrowedAssets)}
+          title={intl.formatMessage(messages.nothingBorrowed)}
+          description={intl.formatMessage(messages.nothingBorrowedDescription)}
+        />
+      )}
 
-        <DashboardTable withBottomText={true}>
+      {!sm ? (
+        <>
+          <Header />
+
+          <DashboardTable withBottomText={true}>
+            {filteredBorrowReserves.map((item) => (
+              <BorrowItem {...item} key={item.id} userId={userId} />
+            ))}
+          </DashboardTable>
+        </>
+      ) : (
+        <DashboardMobileCardsWrapper
+          title={intl.formatMessage(messages.borrowAssets)}
+          withTopMargin={true}
+          withBottomText={true}
+        >
           {filteredBorrowReserves.map((item) => (
-            <BorrowItem {...item} key={item.id} userId={userId} />
+            <BorrowMobileCard userId={userId} {...item} key={item.id} />
           ))}
-        </DashboardTable>
-      </>
-    ) : (
-      <DashboardMobileCardsWrapper
-        title={intl.formatMessage(messages.borrowAssets)}
-        withTopMargin={true}
-        withBottomText={true}
-      >
-        {filteredBorrowReserves.map((item) => (
-          <BorrowMobileCard userId={userId} {...item} key={item.id} />
-        ))}
-      </DashboardMobileCardsWrapper>
-    )
+        </DashboardMobileCardsWrapper>
+      )}
+    </>
   ) : (
     <TableNoData
       caption={intl.formatMessage(messages.borrowAssets)}
       title={intl.formatMessage(messages.noDataCaption)}
       description={intl.formatMessage(messages.noDataDescription)}
-      withTopMargin={true}
     />
   );
 }

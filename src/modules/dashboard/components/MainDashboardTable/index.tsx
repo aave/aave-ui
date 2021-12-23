@@ -54,22 +54,13 @@ export default function MainDashboardTable({
       </div>
 
       <div className="MainDashboardTable__right-inner">
-        {!!borrowedPositions.length ? (
-          <BorrowDashboardTable listData={borrowedPositions} />
-        ) : (
-          <TableNoData
-            caption={intl.formatMessage(messages.borrowedAssets)}
-            title={intl.formatMessage(messages.nothingBorrowed)}
-            description={intl.formatMessage(messages.nothingBorrowedDescription)}
-          />
-        )}
+        {!!borrowedPositions.length && <BorrowDashboardTable listData={borrowedPositions} />}
 
         {user?.isInIsolationMode && (
           <IsolationInfoBanner
             text={intl.formatMessage(messages.isolationText)}
             size="normal"
             withoutMargin={!sm}
-            withIcon={!sm}
           />
         )}
 

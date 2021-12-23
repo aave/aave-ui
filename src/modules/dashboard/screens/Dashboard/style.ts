@@ -9,15 +9,17 @@ const staticStyles = css.global`
     display: flex;
     flex-direction: column;
     flex: 1;
-    @include respond-to(sm) {
+    @include respond-to(lg) {
       display: block;
     }
 
     &__switcher-inner {
       margin: 30px 0;
       display: none;
-      @include respond-to(sm) {
+      @include respond-to(lg) {
         display: flex;
+      }
+      @include respond-to(sm) {
         align-items: center;
         justify-content: center;
       }

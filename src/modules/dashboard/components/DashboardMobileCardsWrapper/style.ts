@@ -9,7 +9,7 @@ const staticStyles = css.global`
     padding: 0 10px;
 
     &__withTopMargin {
-      margin-top: 25px;
+      margin-top: 50px;
     }
 
     &__title {

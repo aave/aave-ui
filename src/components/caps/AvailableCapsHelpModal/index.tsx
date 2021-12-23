@@ -9,6 +9,7 @@ import Caption from '../../basic/Caption';
 import messages from './messages';
 
 interface AvailableCapsHelpModalProps {
+  shortTitle?: boolean;
   capType: CapType;
   className?: string;
   iconSize?: number;
@@ -22,6 +23,7 @@ export default function AvailableCapsHelpModal({
   iconSize,
   onWhiteBackground,
   color,
+  shortTitle,
 }: AvailableCapsHelpModalProps) {
   const intl = useIntl();
 
@@ -32,7 +34,7 @@ export default function AvailableCapsHelpModal({
   return (
     <TextWithModal
       className={classNames('AvailableCapsHelpModal', className)}
-      text={intl.formatMessage(title)}
+      text={intl.formatMessage(shortTitle ? messages.shortTitle : title)}
       withCloseButton={true}
       onWhiteBackground={onWhiteBackground}
       iconSize={iconSize}

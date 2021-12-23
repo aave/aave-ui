@@ -36,7 +36,13 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
   }, [currentLangSlug]);
 
   const sortedListData = listData.some((item) => item.isUserInIsolationMode && item.isIsolated)
-    ? listData.sort((a, b) => (a.isIsolated === b.isIsolated ? 0 : a.isIsolated ? -1 : 1))
+    ? listData.sort((a, b) =>
+        a.isIsolated === b.isIsolated && b.usageAsCollateralEnabledOnUser
+          ? 0
+          : a.isIsolated && a.usageAsCollateralEnabledOnUser
+          ? -1
+          : 1
+      )
     : listData;
 
   return (

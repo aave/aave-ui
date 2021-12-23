@@ -33,13 +33,13 @@ const staticStyles = css.global`
     }
 
     &__right-inner {
-      @include respond-to(sm) {
+      @include respond-to(lg) {
         display: none;
       }
     }
 
     &__onlyOne {
-      @include respond-to(sm) {
+      @include respond-to(lg) {
         .MainDashboardTable__left-inner {
           display: none;
         }

@@ -7,7 +7,6 @@ const staticStyles = css.global`
 
   .TableBottomText {
     font-size: $regular;
-    text-align: right;
     @include respond-to(xl) {
       font-size: $medium;
     }

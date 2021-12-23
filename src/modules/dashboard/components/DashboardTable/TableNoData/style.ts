@@ -40,7 +40,7 @@ const staticStyles = css.global`
     }
 
     &__withTopMargin {
-      margin-top: 25px;
+      margin-top: 50px;
     }
   }
 `;

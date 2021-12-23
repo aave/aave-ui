@@ -20,7 +20,7 @@ export default function TableAvailableHeader({
   isDeposit,
   className,
 }: TableAvailableHeaderProps) {
-  const { currentTheme, sm } = useThemeContext();
+  const { currentTheme, lg, sm } = useThemeContext();
 
   return (
     <div className={classNames('TableAvailableHeader', className)}>
@@ -33,6 +33,7 @@ export default function TableAvailableHeader({
           >
             {!sm && i === 1 ? (
               <AvailableCapsHelpModal
+                shortTitle={!lg}
                 className="TableAvailableHeader__help-text"
                 iconSize={12}
                 capType={isDeposit ? CapType.supplyCap : CapType.borrowCap}

@@ -38,7 +38,7 @@ export default function IsolationInfoBanner({
       })}
     >
       {withIcon && <img src={isCurrentThemeDark || sm ? alertDark : alert} alt="" />}
-      {size === 'normal' && sm && <img src={isCurrentThemeDark ? warningDark : warning} alt="" />}
+      {size === 'normal' && <img src={isCurrentThemeDark ? warningDark : warning} alt="" />}
       <p>
         {text}{' '}
         <Link
@@ -61,9 +61,7 @@ export default function IsolationInfoBanner({
           color: ${currentTheme.textDarkBlue.hex};
 
           &__normal {
-            @include respond-to(sm) {
-              border: 1px solid ${currentTheme.textDarkBlue.hex};
-            }
+            border: 1px solid ${currentTheme.textDarkBlue.hex};
           }
 
           &__small {

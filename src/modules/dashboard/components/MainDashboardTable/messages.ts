@@ -6,9 +6,5 @@ export default defineMessages({
   nothingDepositedDescription:
     'There will be a list of all the assets you have deposited. For now, it’s empty since you have not deposited.',
 
-  borrowedAssets: 'Borrowed assets',
-  nothingBorrowed: 'Nothing borrowed yet',
-  nothingBorrowedDescription:
-    'There will be a list of all the assets you have borrowed. For now, it’s empty since you have not borrowed.',
   isolationText: 'Borrow power and assets are limited due to Isolation mode.',
 });

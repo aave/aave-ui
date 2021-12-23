@@ -9,7 +9,7 @@ const staticStyles = css.global`
     display: block;
     width: 100%;
     padding: 0 10px;
-    margin-top: 25px;
+    margin-top: 50px;
 
     &__inner {
       display: flex;
