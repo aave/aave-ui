@@ -69,7 +69,6 @@ export async function sendEthTransaction(
 
   const { from, ...txData } = extendedTxData;
   const signer = provider.getSigner(from);
-
   let txResponse: TransactionResponse | undefined;
   try {
     txResponse = await signer.sendTransaction({

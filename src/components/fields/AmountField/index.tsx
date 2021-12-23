@@ -96,6 +96,7 @@ export default function AmountField({
           className="AmountField__input"
           disabled={disabled || loading}
           onKeyDown={blockInvalidChar}
+          data-cy={'amountInput'}
         />
 
         {maxAmount && !loading && !!onMaxButtonClick && (
@@ -105,6 +106,7 @@ export default function AmountField({
               type="button"
               onClick={onMaxButtonClick}
               disabled={disabled}
+              data-cy={'amountInput-maxBtn'}
             >
               {intl.formatMessage(messages.max)}
             </button>

@@ -35,8 +35,10 @@ export default function Proposal() {
   const { userId } = useStaticPoolDataContext();
   const { proposals, governanceService } = useGovernanceDataContext();
   const proposal = proposals.find((prop) => prop.id === proposalId);
-
-  const { body, loading } = useGetMetadataDescription(proposalHash, !!proposal?.description);
+  const { body, loading } = useGetMetadataDescription(
+    proposalHash,
+    !!proposal?.description && proposal.ipfsHash === proposalHash
+  );
   const parsedBody = proposal?.description ? proposal?.description : body;
   const {
     data: voteData,

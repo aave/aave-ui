@@ -45,9 +45,12 @@ export default function DepositBorrowTopPanel() {
         .div(maxBorrowAmount)
         .toFixed();
 
-  const loanToValue = valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0')
-    .dividedBy(user?.totalCollateralMarketReferenceCurrency || '1')
-    .toFixed();
+  const loanToValue =
+    user?.totalCollateralMarketReferenceCurrency === '0'
+      ? '0'
+      : valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0')
+          .dividedBy(user?.totalCollateralMarketReferenceCurrency || '1')
+          .toFixed();
 
   const depositCompositionData: CircleCompositionBarItem[] = [];
   const borrowCompositionData: CircleCompositionBarItem[] = [];

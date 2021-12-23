@@ -2,9 +2,10 @@ version: '3.8'
 
 services:
   frontend:
-    image: node:14
+    image: node:16
     command: npm run start
     working_dir: /app
+    user: node
     volumes:
       - ./:/app
     ports:
