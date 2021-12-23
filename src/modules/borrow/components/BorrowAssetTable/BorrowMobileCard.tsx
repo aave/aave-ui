@@ -13,6 +13,7 @@ import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 
+import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { BorrowTableItem } from './types';
@@ -77,10 +78,14 @@ export default function BorrowMobileCard({
         </Row>
       )}
 
-      <Row title={intl.formatMessage(messages.borrow)} className="Row__center" withMargin={true}>
+      <Row
+        title={intl.formatMessage(defaultMessages.borrow)}
+        className="Row__center"
+        withMargin={true}
+      >
         <Link to={`/borrow/${underlyingAsset}-${id}`} className="ButtonLink" disabled={isFreezed}>
           <DefaultButton
-            title={intl.formatMessage(messages.borrow)}
+            title={intl.formatMessage(defaultMessages.borrow)}
             color="dark"
             disabled={isFreezed}
           />
@@ -90,7 +95,7 @@ export default function BorrowMobileCard({
       <Row title={intl.formatMessage(messages.showDetails)} className="Row__center">
         <Link to={`/reserve-overview/${underlyingAsset}-${id}`} className="ButtonLink">
           <DefaultButton
-            title={intl.formatMessage(messages.details)}
+            title={intl.formatMessage(defaultMessages.details)}
             color="dark"
             transparent={true}
           />

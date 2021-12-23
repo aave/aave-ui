@@ -82,9 +82,9 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
   );
 
   const head = [
-    intl.formatMessage(messages.supplyAssets),
+    intl.formatMessage(messages.depositsAssets),
     intl.formatMessage(messages.secondTableColumnTitle),
-    intl.formatMessage(messages.apyRowTitle),
+    intl.formatMessage(messages.APY),
     intl.formatMessage(messages.collateralRowTitle),
   ];
   const colWidth = [lg ? 250 : 160, '100%', '100%', '100%'];
@@ -108,7 +108,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
         </>
       ) : (
         <DashboardMobileCardsWrapper
-          title={intl.formatMessage(messages.supplyAssets)}
+          title={intl.formatMessage(messages.depositsAssets)}
           withTopMargin={true}
           withBottomText={true}
         >

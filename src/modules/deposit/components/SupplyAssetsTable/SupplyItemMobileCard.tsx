@@ -15,6 +15,7 @@ import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHel
 import TableUsageAsCollateral from '../../../dashboard/components/DashboardTable/TableUsageAsCollateral';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 
+import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { SupplyTableItem } from './types';
@@ -83,14 +84,18 @@ export default function SupplyItemMobileCard({
         />
       </Row>
 
-      <Row title={intl.formatMessage(messages.deposit)} className="Row__center" withMargin={true}>
+      <Row
+        title={intl.formatMessage(defaultMessages.deposit)}
+        className="Row__center"
+        withMargin={true}
+      >
         <Link
           to={`/deposit/${underlyingAsset}-${id}`}
           className="ButtonLink"
           disabled={!isActive || isFreezed}
         >
           <DefaultButton
-            title={intl.formatMessage(messages.deposit)}
+            title={intl.formatMessage(defaultMessages.deposit)}
             color="dark"
             disabled={!isActive || isFreezed}
           />
@@ -100,7 +105,7 @@ export default function SupplyItemMobileCard({
       <Row title={intl.formatMessage(messages.showDetails)} className="Row__center">
         <Link to={`/reserve-overview/${underlyingAsset}-${id}`} className="ButtonLink">
           <DefaultButton
-            title={intl.formatMessage(messages.details)}
+            title={intl.formatMessage(defaultMessages.details)}
             color="dark"
             transparent={true}
           />

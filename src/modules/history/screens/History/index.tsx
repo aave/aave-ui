@@ -2,7 +2,9 @@ import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
+import { normalize, USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { unPrefixSymbol, useAppDataContext } from '../../../../libs/pool-data-provider';
 import {
   BorrowRateMode,
@@ -21,8 +23,6 @@ import NoDataPanelWithInfo from '../../../../components/NoDataPanelWithInfo';
 import HistoryContent from '../../components/HistoryContent';
 
 import messages from './messages';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
-import { normalize, USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 
 const ITEMS_PER_PAGE = 50;
 
@@ -220,7 +220,7 @@ export default function History() {
         <NoDataPanelWithInfo
           title={intl.formatMessage(messages.noDataTitle)}
           description={intl.formatMessage(messages.noDataDescription)}
-          buttonTitle={intl.formatMessage(messages.deposit)}
+          buttonTitle={intl.formatMessage(messages.depositNow)}
           infoTextDescription={intl.formatMessage(messages.infoDescription)}
           linkTo="/dashboard"
         />

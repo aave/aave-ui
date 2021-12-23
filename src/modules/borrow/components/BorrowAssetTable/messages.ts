@@ -6,8 +6,6 @@ export default defineMessages({
   stableAPY: 'Stable APY',
   variableAPY: 'Variable APY',
 
-  borrow: 'Borrow',
-  details: 'Details',
   showDetails: 'Show details',
 
   noDataCaption: 'No borrow assets available yet', // TODO: need text

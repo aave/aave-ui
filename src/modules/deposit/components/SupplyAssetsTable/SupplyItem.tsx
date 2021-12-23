@@ -15,7 +15,7 @@ import TableUsageAsCollateral from '../../../dashboard/components/DashboardTable
 
 import { SupplyTableItem } from './types';
 
-import messages from './messages';
+import defaultMessages from '../../../../defaultMessages';
 
 export default function SupplyItem({
   id,
@@ -77,11 +77,11 @@ export default function SupplyItem({
       <TableButtonsWrapper>
         <TableButtonCol
           disabled={!isActive || isFreezed}
-          title={intl.formatMessage(messages.deposit)}
+          title={intl.formatMessage(defaultMessages.deposit)}
           linkTo={`/deposit/${underlyingAsset}-${id}`}
         />
         <TableButtonCol
-          title={intl.formatMessage(messages.details)}
+          title={intl.formatMessage(defaultMessages.details)}
           linkTo={`/reserve-overview/${underlyingAsset}-${id}`}
           withoutBorder={true}
         />

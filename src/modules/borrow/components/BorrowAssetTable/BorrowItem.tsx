@@ -14,7 +14,7 @@ import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import { BorrowTableItem } from './types';
 
-import messages from './messages';
+import defaultMessages from '../../../../defaultMessages';
 
 export default function BorrowItem({
   id,
@@ -67,11 +67,11 @@ export default function BorrowItem({
       <TableButtonsWrapper>
         <TableButtonCol
           disabled={isFreezed}
-          title={intl.formatMessage(messages.borrow)}
+          title={intl.formatMessage(defaultMessages.borrow)}
           linkTo={`/borrow/${underlyingAsset}-${id}`}
         />
         <TableButtonCol
-          title={intl.formatMessage(messages.details)}
+          title={intl.formatMessage(defaultMessages.details)}
           linkTo={`/reserve-overview/${underlyingAsset}-${id}`}
           withoutBorder={true}
         />
