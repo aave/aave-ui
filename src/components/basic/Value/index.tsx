@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import ReactTooltip from 'react-tooltip';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
+import { isAtoken } from '../../../helpers/get-atoken-info';
+import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import { CompactNumber } from '../CompactNumber';
 import SubValue from './SubValue';
 import ValueWithSmallDecimals from './ValueWithSmallDecimals';
@@ -60,8 +62,9 @@ export default function Value({
   maximumTooltipDecimals,
   minimumTooltipDecimals,
 }: ValueProps) {
-  const { currentTheme, xl } = useThemeContext();
   const intl = useIntl();
+  const { currentTheme, xl } = useThemeContext();
+  const { currentMarketData } = useProtocolDataContext();
 
   const asset = symbol && getAssetInfo(symbol);
   const [newValue, setNewValue]: any = useState(value);
@@ -95,9 +98,10 @@ export default function Value({
         {tokenIcon && symbol && (
           <TokenIcon
             className="Value__token-icon"
-            tokenSymbol={symbol}
+            tokenSymbol={isAtoken(currentMarketData.aTokenPrefix, symbol).symbol.toUpperCase()}
             width={xl ? 16 : 18}
             height={xl ? 16 : 18}
+            isAtokenIcon={isAtoken(currentMarketData.aTokenPrefix, symbol).isAtoken}
           />
         )}
 
