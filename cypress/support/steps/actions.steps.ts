@@ -27,14 +27,16 @@ export const doConfirm = ({ hasApproval, actionName }: ConfirmAction) => {
   };
   if (hasApproval) {
     clickActionButton(actionName);
-    cy.get('.TextStatus > p:contains("2/2 Success!")').should('be.visible');
+    cy.get('.TextStatus > p:contains("2/2 Success!")').scrollIntoView().should('be.visible');
   } else {
-    cy.get('.TxTopInfo__title:contains("1/3 Approve")').should('be.visible');
+    cy.get('.TxTopInfo__title:contains("1/3 Approve")').scrollIntoView().should('be.visible');
     cy.get('.TxConfirmationView').find('.Button').contains('Approve').click();
     if (actionName != null)
-      cy.get(`.TxTopInfo__title:contains("2/3 ${actionName}")`).should('be.visible');
+      cy.get(`.TxTopInfo__title:contains("2/3 ${actionName}")`)
+        .scrollIntoView()
+        .should('be.visible');
     clickActionButton(actionName);
-    cy.get('.TextStatus > p:contains("3/3 Success!")').should('be.visible');
+    cy.get('.TextStatus > p:contains("3/3 Success!")').scrollIntoView().should('be.visible');
   }
 };
 
