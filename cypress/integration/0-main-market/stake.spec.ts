@@ -12,18 +12,14 @@ const testData = {
   },
 };
 
-const stakeTest = (
-  asset: { fullName: string, shortName: string, address: string },
-) => {
+const stakeTest = (asset: { fullName: string; shortName: string; address: string }) => {
   let _shortName = asset.shortName;
   let _address = asset.address;
   return describe(`Stake AAVE ${_shortName}`, () => {
     const skipTestState = skipState(false);
     configEnvWithTenderlyMainnetFork({
       account: testData.testWallet,
-      tokens: [
-        asset,
-      ],
+      tokens: [asset],
     });
     it('Open stake Page', () => {
       cy.get('.Menu strong').contains('Stake').click();
@@ -63,14 +59,11 @@ const stakeTest = (
       });
       if (assets.staking.ABPT.shortName == _shortName) {
         it('Switch to BPT tab', () => {
-          cy.get(`.LabeledSwitch__inner Button:contains('bpt')`)
-            .click();
+          cy.get(`.LabeledSwitch__inner Button:contains('bpt')`).click();
         });
       }
       it('Open Claim', () => {
-        cy.get(`.Button:contains('Claim')`)
-          .should('not.be.disabled')
-          .click();
+        cy.get(`.Button:contains('Claim')`).should('not.be.disabled').click();
       });
       it('Make confirm', () => {
         doConfirm({ hasApproval: true, actionName: 'Claim' });
@@ -82,16 +75,13 @@ const stakeTest = (
         updateSkipStatus: false,
       });
       it('Open notification popup', () => {
-        cy.get(`.Button:contains('Activate Cooldown')`)
-          .should('not.be.disabled')
-          .click();
+        cy.get(`.Button:contains('Activate Cooldown')`).should('not.be.disabled').click();
       });
       it('Accept notification', () => {
         cy.get('.CooldownInfoModal__buttonInner')
           .find('.Button:contains("Activate Cooldown")')
           .should('be.disabled');
-        cy.get('.CheckBoxField__label')
-          .click();
+        cy.get('.CheckBoxField__label').click();
         cy.get('.CooldownInfoModal__buttonInner')
           .find('.Button:contains("Activate Cooldown")')
           .should('not.be.disabled')
@@ -99,8 +89,7 @@ const stakeTest = (
       });
       it('Activate cooldown', () => {
         doConfirm({ hasApproval: true, actionName: 'Activate' });
-        cy.get('.StakingWrapper__info-timerInner')
-          .should('be.visible');
+        cy.get('.StakingWrapper__info-timerInner').should('be.visible');
       });
     });
   });

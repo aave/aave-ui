@@ -15,8 +15,14 @@ type SkipType = {
   get: () => boolean;
 };
 
-export const skipSetup = ({ skip, updateSkipStatus }: { skip: SkipType; updateSkipStatus: boolean }) => {
-  before(function() {
+export const skipSetup = ({
+  skip,
+  updateSkipStatus,
+}: {
+  skip: SkipType;
+  updateSkipStatus: boolean;
+}) => {
+  before(function () {
     if (skip.get()) {
       this.skip();
     }

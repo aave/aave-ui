@@ -27,13 +27,14 @@ export const doConfirm = ({ hasApproval, actionName }: ConfirmAction) => {
   };
   if (hasApproval) {
     clickActionButton(actionName);
-    cy.get('.TextStatus > p').contains('2/2 Success!');
+    cy.get('.TextStatus > p:contains("2/2 Success!")').should('be.visible');
   } else {
-    cy.get('.TxTopInfo__title').contains('1/3 Approve');
+    cy.get('.TxTopInfo__title:contains("1/3 Approve")').should('be.visible');
     cy.get('.TxConfirmationView').find('.Button').contains('Approve').click();
-    if (actionName != null) cy.get(`.TxTopInfo__title:contains("2/3 ${actionName}")`);
+    if (actionName != null)
+      cy.get(`.TxTopInfo__title:contains("2/3 ${actionName}")`).should('be.visible');
     clickActionButton(actionName);
-    cy.get('.TextStatus').contains('3/3 Success!');
+    cy.get('.TextStatus > p:contains("3/3 Success!")').should('be.visible');
   }
 };
 
@@ -50,7 +51,7 @@ type SwapForRepayAction = {
 export const doSwapForRepay = ({ amount, assetName }: SwapForRepayAction) => {
   cy.log('assetName,' + assetName);
   cy.get(':nth-child(1) > .AmountFieldWithSelect__field-inner  [data-cy=amountInput]').type(
-    amount.toString(),
+    amount.toString()
   );
   if (assetName) {
     doChooseSwapToOption(assetName);
@@ -84,7 +85,7 @@ export const getDashBoardDepositRow = ({ assetName, collateralType }: GetDashBoa
   } else {
     return cy
       .get(
-        `[data-cy=dashboardDespositListItem${assetName}] .Switcher__label:contains('${collateralType}')`,
+        `[data-cy=dashboardDespositListItem${assetName}] .Switcher__label:contains('${collateralType}')`
       )
       .parents(`[data-cy=dashboardDespositListItem${assetName}]`);
   }

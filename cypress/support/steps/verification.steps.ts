@@ -36,7 +36,7 @@ export const dashboardAssetValuesVerification = (
   return describe(`Verification dashboard values`, () => {
     skipSetup(skip);
     it(`Open dashboard page`, () => {
-      cy.get('.Menu strong').contains('dashboard').click().wait(4000);// awaitng sync
+      cy.get('.Menu strong').contains('dashboard').click().wait(4000); // awaitng sync
     });
     estimatedCases.forEach((estimatedCase) => {
       describe(`Verification ${estimatedCase.asset} ${estimatedCase.type}, have right values`, () => {

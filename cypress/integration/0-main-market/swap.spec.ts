@@ -59,7 +59,7 @@ describe('SWAP SPEC FOR MAINMARKET', () => {
         hasApproval: false,
       },
       skipTestState,
-      true,
+      true
     );
     dashboardAssetValuesVerification(
       [

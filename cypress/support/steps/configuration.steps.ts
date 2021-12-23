@@ -9,15 +9,15 @@ import { browserWallets } from '../../../src/components/ConnectWalletModal/image
 const URL = Cypress.env('URL');
 
 const configEnvWithTenderly = ({
-                                 network,
-                                 market,
-                                 tokens,
-                                 account,
-                               }: {
+  network,
+  market,
+  tokens,
+  account,
+}: {
   network: { networkID: number; forkChainID: number; chainID: number };
   market: string;
   tokens?: string[];
-  account: { privateKey: string; address: string }
+  account: { privateKey: string; address: string };
 }) => {
   const tenderly = new TenderlyFork({ forkNetworkID: network.networkID });
   before(async () => {
@@ -25,10 +25,12 @@ const configEnvWithTenderly = ({
     await tenderly.add_balance(account.address, 10000);
     if (tokens) {
       const asyncTool = new AsyncTool();
-      await asyncTool.asyncForEach(tokens,
+      await asyncTool.asyncForEach(
+        tokens,
         async (token: { address: string; shortName: string; fullName: string }) => {
           await tenderly.getERC20Token(account.address, token.address);
-        });
+        }
+      );
     }
   });
   before('Open main page', () => {
@@ -55,15 +57,15 @@ const configEnvWithTenderly = ({
 };
 
 export const configEnvWithTenderlyMainnetFork = ({
-                                                   market = `fork_proto_mainnet`,
-                                                   network = forkNetworks.ethereum,
-                                                   tokens,
-                                                   account = DEFAULT_TEST_ACCOUNT,
-                                                 }: {
-  market?: string
-  network?: { networkID: number; forkChainID: number; chainID: number }
-  tokens?: any[]
-  account?: { privateKey: string, address: string }
+  market = `fork_proto_mainnet`,
+  network = forkNetworks.ethereum,
+  tokens,
+  account = DEFAULT_TEST_ACCOUNT,
+}: {
+  market?: string;
+  network?: { networkID: number; forkChainID: number; chainID: number };
+  tokens?: any[];
+  account?: { privateKey: string; address: string };
 }) => {
   configEnvWithTenderly({ network, market, tokens, account });
 };

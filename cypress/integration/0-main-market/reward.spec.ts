@@ -17,29 +17,13 @@ const testData = {
   },
 };
 
-describe('REWARD MAIN MARKET INTEGRATION SPEC',  ()=>{
+describe('REWARD MAIN MARKET INTEGRATION SPEC', () => {
   const skipTestState = skipState(false);
   configEnvWithTenderlyMainnetFork({});
 
-  deposit(
-    testData.deposit,
-    skipTestState,
-    true
-  )
-  claimReward(
-    skipTestState,
-    true
-  )
-  withdraw(
-    testData.withdraw,
-    skipTestState,
-    true
-  )
-  claimReward(
-    skipTestState,
-    true
-  )
-  rewardIsNotAvailable(
-    skipTestState
-  )
-})
+  deposit(testData.deposit, skipTestState, true);
+  claimReward(skipTestState, true);
+  withdraw(testData.withdraw, skipTestState, true);
+  claimReward(skipTestState, true);
+  rewardIsNotAvailable(skipTestState);
+});
