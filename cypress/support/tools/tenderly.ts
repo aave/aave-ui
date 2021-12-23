@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { ethers } from 'ethers';
+import ERC20_ABI from '../../fixtures/erc20_abi.json';
 
 const TENDERLY_KEY = Cypress.env('TENDERLY_KEY');
 const TENDERLY_ACCOUNT = Cypress.env('TENDERLY_ACCOUNT');
 const TENDERLY_PROJECT = Cypress.env('TENDERLY_PROJECT');
-const ERC20_ABI = require('../../fixtures/erc20_abi.json');
 
 export const DEFAULT_TEST_ACCOUNT = {
   privateKey: '0x54c6ae44611f38e662093c9a3f4b26c3bf13f5b8adb02da1a76f321bd18efe92',

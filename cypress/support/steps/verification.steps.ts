@@ -1,3 +1,4 @@
+/// <reference types="cypress" />
 import { getDashBoardBorrowRow, getDashBoardDepositRow } from './actions.steps';
 import constants from '../../fixtures/constans.json';
 import { getRoundDegree } from '../tools/math.util';
@@ -50,7 +51,7 @@ export const dashboardAssetValuesVerification = (
               }).within(($row) => {
                 expect($row.find('.TokenIcon__name')).to.contain(estimatedCase.asset);
                 expect($row.find('.Switcher__label')).to.contain(estimatedCase.apyType);
-                if(estimatedCase.amount){
+                if (estimatedCase.amount) {
                   amountVerification($row, estimatedCase.amount);
                 }
               });
@@ -66,11 +67,13 @@ export const dashboardAssetValuesVerification = (
               }).within(($row) => {
                 expect($row.find('.TokenIcon__name')).to.contain(estimatedCase.asset);
                 expect($row.find('.Switcher__label')).to.contain(estimatedCase.collateralType);
-                if(estimatedCase.amount){
+                if (estimatedCase.amount) {
                   amountVerification($row, estimatedCase.amount);
                 }
               });
             });
+            break;
+          default:
             break;
         }
       });
@@ -79,24 +82,25 @@ export const dashboardAssetValuesVerification = (
 };
 
 export const borrowsUnavailable = (skip: SkipType) => {
-  return describe('Check that borrows unavailable',()=>{
+  return describe('Check that borrows unavailable', () => {
     skipSetup(skip);
-    it('Open borrow page', ()=>{
+    it('Open borrow page', () => {
       cy.get('.Menu strong').contains('Borrow').click();
-      cy.get('.TableItem').first().click()
-    })
-    it('Check blocked message', ()=>{
-      cy.get('.Caption__description')
-        .contains('Deposit more collateral or repay part of your borrowings to increase your health factor and be able to borrow.')
-    })
-  })
-}
+      cy.get('.TableItem').first().click();
+    });
+    it('Check blocked message', () => {
+      cy.get('.Caption__description').contains(
+        'Deposit more collateral or repay part of your borrowings to increase your health factor and be able to borrow.'
+      );
+    });
+  });
+};
 
-export const rewardIsNotAvailable = (skip: SkipType) =>{
-  return describe('Check that reward not available', ()=>{
-    it('Check that reward not exist on dashboard page', ()=>{
+export const rewardIsNotAvailable = (skip: SkipType) => {
+  return describe('Check that reward not available', () => {
+    it('Check that reward not exist on dashboard page', () => {
       cy.get('.Menu strong').contains('dashboard').click();
       cy.get('body').find(`.IncentiveWrapper`).should('not.exist');
-    })
-  })
-}
+    });
+  });
+};

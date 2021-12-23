@@ -1,5 +1,5 @@
 import { configEnvWithTenderlyMainnetFork } from '../../support/steps/configuration.steps';
-import { deposit, withdraw, claimReward} from '../../support/steps/main.steps';
+import { deposit, withdraw, claimReward } from '../../support/steps/main.steps';
 import { rewardIsNotAvailable } from '../../support/steps/verification.steps';
 import { skipState } from '../../support/steps/common';
 import assets from '../../fixtures/assets.json';

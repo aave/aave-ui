@@ -1,3 +1,4 @@
+/// <reference types="cypress" />
 import {
   setAmount,
   doConfirm,
@@ -222,15 +223,15 @@ export const changeBorrowType = (
 
 export const swap = (
   {
-     fromAsset,
-     toAsset,
-     amount,
-     hasApproval = true,
-     failCase = false,
-   }:{
+    fromAsset,
+    toAsset,
+    amount,
+    hasApproval = true,
+    failCase = false,
+  }: {
     fromAsset: { shortName: string; fullName: string };
     toAsset: { shortName: string; fullName: string };
-    amount: number
+    amount: number;
     hasApproval: boolean;
     failCase?: boolean;
   },
@@ -250,36 +251,28 @@ export const swap = (
         .invoke('text')
         .then((text) => {
           if (text != _shortNameFrom) {
-            cy.get('.AssetSelect__button')
+            cy.get('.AssetSelect__button').first().click();
+            cy.get('.AssetSelect__content')
               .first()
-              .click();
-            cy.get('.AssetSelect__content').first()
               .get('.AssetSelect__option')
               .contains(_shortNameFrom)
               .click();
           }
         });
-      cy.get(':nth-child(1) > .AmountFieldWithSelect__field-inner  [data-cy=amountInput]')
-        .type(amount.toString());
+      cy.get(':nth-child(1) > .AmountFieldWithSelect__field-inner  [data-cy=amountInput]').type(
+        amount.toString()
+      );
       cy.get('.AssetSelect__reverse .AssetSelect__button').click();
       cy.get('.AssetSelect__reverse .TokenIcon__name').contains(_shortNameTo).click();
     });
-    if(failCase){
-      it(`Should not be clickable`, ()=>{
-        cy.get('.Button')
-          .contains('Continue')
-          .parents('.Button')
-          .wait(1000)
-          .should('be.disabled')
-      })
-    }else{
-      it('Click continue', ()=>{
-        cy.get('.Button')
-          .contains('Continue')
-          .parents('.Button')
-          .should('not.be.disabled')
-          .click();
-      })
+    if (failCase) {
+      it(`Should not be clickable`, () => {
+        cy.get('.Button').contains('Continue').parents('.Button').wait(1000).should('be.disabled');
+      });
+    } else {
+      it('Click continue', () => {
+        cy.get('.Button').contains('Continue').parents('.Button').should('not.be.disabled').click();
+      });
       it(`Make approve for swap`, () => {
         doConfirm({ hasApproval, actionName: 'Swap' });
       });
@@ -291,48 +284,43 @@ export const changeCollateral = (
   {
     asset,
     collateralType,
-    hasApproval = true
-  }:{
-    asset:{ shortName: string; fullName: string };
+    hasApproval = true,
+  }: {
+    asset: { shortName: string; fullName: string };
     collateralType: string;
-    hasApproval?: boolean
+    hasApproval?: boolean;
   },
   skip: SkipType,
   updateSkipStatus = false
 ) => {
-  let _shortName =asset.shortName
-  return describe(`Switch collateral type from ${collateralType}`, ()=>{
+  let _shortName = asset.shortName;
+  return describe(`Switch collateral type from ${collateralType}`, () => {
     skipSetup({ skip, updateSkipStatus });
-    it('Open dashboard',()=>{
+    it('Open dashboard', () => {
       cy.get('.Menu strong').contains('dashboard').click();
-    })
-    it('Switch type',()=>{
+    });
+    it('Switch type', () => {
       getDashBoardDepositRow({ assetName: _shortName, collateralType })
-        .find('.Switcher__swiper').click();
-    })
-    it('Confirm switching',()=>{
+        .find('.Switcher__swiper')
+        .click();
+    });
+    it('Confirm switching', () => {
       doConfirm({ hasApproval });
-    })
-  })
-}
+    });
+  });
+};
 
-export const claimReward = (
-  skip: SkipType,
-  updateSkipStatus = false
-) => {
-  return describe(`Claim reward`, ()=>{
+export const claimReward = (skip: SkipType, updateSkipStatus = false) => {
+  return describe(`Claim reward`, () => {
     skipSetup({ skip, updateSkipStatus });
-    it('Open dashboard page', ()=>{
+    it('Open dashboard page', () => {
       cy.get('.Menu strong').contains('dashboard').click();
-    })
-    it('Open claim confirmation page', ()=>{
-      cy.get('.IncentiveWrapper .Link')
-        .contains('Claim')
-        .click()
-    })
-    it('Confirm claim', ()=>{
+    });
+    it('Open claim confirmation page', () => {
+      cy.get('.IncentiveWrapper .Link').contains('Claim').click();
+    });
+    it('Confirm claim', () => {
       doConfirm({ hasApproval: true });
-    })
-  })
-}
-
+    });
+  });
+};

@@ -18,13 +18,7 @@ describe('SWAP SPEC FOR MAINMARKET', () => {
     const skipTestState = skipState(false);
     configEnvWithTenderlyMainnetFork({});
 
-    deposit(
-      {
-        ...testData.depositETH,
-      },
-      skipTestState,
-      true,
-    );
+    deposit(testData.depositETH, skipTestState, true);
     swap(
       {
         fromAsset: assets.aaveMarket.ETH,
@@ -33,7 +27,7 @@ describe('SWAP SPEC FOR MAINMARKET', () => {
         hasApproval: false,
       },
       skipTestState,
-      true,
+      true
     );
     dashboardAssetValuesVerification(
       [
@@ -49,20 +43,14 @@ describe('SWAP SPEC FOR MAINMARKET', () => {
           collateralType: constants.collateralType.isCollateral,
         },
       ],
-      skipTestState,
+      skipTestState
     );
   });
   describe('CASE2: swap to not collateral asset', () => {
     const skipTestState = skipState(false);
     configEnvWithTenderlyMainnetFork({});
 
-    deposit(
-      {
-        ...testData.depositETH,
-      },
-      skipTestState,
-      true,
-    );
+    deposit(testData.depositETH, skipTestState, true);
     swap(
       {
         fromAsset: assets.aaveMarket.ETH,
@@ -86,20 +74,15 @@ describe('SWAP SPEC FOR MAINMARKET', () => {
           asset: assets.aaveMarket.USDT.shortName,
           collateralType: constants.collateralType.isNotCollateral,
         },
-      ], skipTestState,
+      ],
+      skipTestState
     );
   });
   describe('CASE3: try to swap for health factor low then 1', () => {
     const skipTestState = skipState(false);
     configEnvWithTenderlyMainnetFork({});
 
-    deposit(
-      {
-        ...testData.depositETH,
-      },
-      skipTestState,
-      true,
-    );
+    deposit(testData.depositETH, skipTestState, true);
     borrow(
       {
         asset: assets.aaveMarket.ETH,
@@ -108,7 +91,7 @@ describe('SWAP SPEC FOR MAINMARKET', () => {
         hasApproval: false,
       },
       skipTestState,
-      true,
+      true
     );
     swap(
       {
@@ -119,7 +102,7 @@ describe('SWAP SPEC FOR MAINMARKET', () => {
         hasApproval: false,
       },
       skipTestState,
-      true,
+      true
     );
   });
 });

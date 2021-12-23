@@ -50,7 +50,7 @@ const configEnvWithTenderly = ({
     });
   });
   after(async () => {
-    // await tenderly.deleteFork();
+    await tenderly.deleteFork();
   });
 };
 
