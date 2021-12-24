@@ -1,3 +1,4 @@
+/// <reference types="cypress" />
 import { getDashBoardBorrowRow, getDashBoardDepositRow } from './actions.steps';
 import constants from '../../fixtures/constans.json';
 import { getRoundDegree } from '../tools/math.util';
