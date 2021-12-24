@@ -163,7 +163,7 @@ function RepayAmount({
         onSubmit={handleSubmit}
         absoluteMaximum={true}
         maxDecimals={poolReserve.decimals}
-        getTransactionData={repayWithATokens ? handleGetTransactions : handleGetATokenTransactions}
+        getTransactionData={repayWithATokens ? handleGetATokenTransactions : handleGetTransactions}
         assetAddress={assetAddress}
         options={options}
         setAsset={setAsset}

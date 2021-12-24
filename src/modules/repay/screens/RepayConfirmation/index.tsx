@@ -91,7 +91,9 @@ function RepayConfirmation({
       repayWithPermitEnabled
     ) {
       amountToRepay = BigNumber.min(
-        repayWithATokens ? underlyingBalance : walletBalance,
+        repayWithATokens
+          ? valueToBigNumber(underlyingBalance).multipliedBy(0.999999) // TODO: should just be -1 one the contract is adjusted
+          : walletBalance,
         safeAmountToRepayAll
       ).toString();
     }
@@ -209,6 +211,8 @@ function RepayConfirmation({
       ? valueToBigNumber(underlyingBalance).lt(maxAmountToRepay)
       : walletBalance.lt(maxAmountToRepay));
 
+  console.log(assetDetails);
+
   return (
     <RepayContentWrapper>
       <PoolTxConfirmationView
@@ -233,7 +237,11 @@ function RepayConfirmation({
       >
         <Row title={intl.formatMessage(messages.rowTitle)} withMargin={true}>
           <Value
-            symbol={currencySymbol}
+            symbol={
+              repayWithATokens
+                ? `${currentMarketData.aTokenPrefix}${currencySymbol}`
+                : currencySymbol
+            }
             value={displayAmountToRepay.toString()}
             tokenIcon={true}
             subValue={displayAmountToRepayInUsd.toString()}
@@ -257,7 +265,11 @@ function RepayConfirmation({
           withMargin={true}
         >
           <Value
-            symbol={currencySymbol}
+            symbol={
+              repayWithATokens
+                ? `${currentMarketData.aTokenPrefix}${currencySymbol}`
+                : currencySymbol
+            }
             value={Number(displayAmountAfterRepay) > 0 ? Number(displayAmountAfterRepay) : 0}
             subValue={
               Number(displayAmountAfterRepayInUsd) > 0 ? Number(displayAmountAfterRepayInUsd) : 0
