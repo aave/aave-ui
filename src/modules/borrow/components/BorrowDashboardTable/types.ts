@@ -7,7 +7,6 @@ export type BorrowTableItem = {
   isFrozen: boolean;
   borrowingEnabled: boolean;
   stableBorrowRateEnabled: boolean;
-  uiColor: string;
   borrowRate: string;
   vIncentives: ReserveIncentiveResponse[];
   sIncentives: ReserveIncentiveResponse[];

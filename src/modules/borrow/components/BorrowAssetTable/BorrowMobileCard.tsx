@@ -8,7 +8,6 @@ import Value from '../../../../components/basic/Value';
 import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
-import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
 import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
@@ -38,7 +37,7 @@ export default function BorrowMobileCard({
 
   return (
     <MobileCardWrapper symbol={symbol} disabled={isFreezed} isIsolated={false}>
-      <Row title={<AvailableCapsHelpModal capType={CapType.borrowCap} />} withMargin={true}>
+      <Row title={intl.formatMessage(messages.maxAmount)} withMargin={true}>
         {!userId || Number(availableBorrows) <= 0 ? (
           <NoData color="dark" />
         ) : (
@@ -63,13 +62,13 @@ export default function BorrowMobileCard({
       </Row>
 
       {!isFreezed && (
-        <Row title={intl.formatMessage(messages.variableAPY)} withMargin={true}>
+        <Row title={intl.formatMessage(messages.APYVariable)} withMargin={true}>
           <IncentivesCard symbol={symbol} value={variableBorrowRate} incentives={vIncentives} />
         </Row>
       )}
 
       {!isFreezed && (
-        <Row title={intl.formatMessage(messages.stableAPY)} withMargin={true}>
+        <Row title={intl.formatMessage(messages.APYStable)} withMargin={true}>
           {stableBorrowRateEnabled ? (
             <IncentivesCard symbol={symbol} value={stableBorrowRate} incentives={sIncentives} />
           ) : (

@@ -6,7 +6,6 @@ export type DepositTableItem = {
   onToggleSwitch: () => void;
   isActive: boolean;
   isFrozen: boolean;
-  uiColor: string;
   reserve: Pick<
     ComputedReserveData,
     'id' | 'symbol' | 'name' | 'liquidityRate' | 'underlyingAsset'

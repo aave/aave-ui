@@ -6,9 +6,11 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import SupplyItem from './SupplyItem';
 import DashboardTable from '../../../dashboard/components/DashboardTable';
-import TableAvailableHeader from '../../../dashboard/components/DashboardTable/TableAvailableHeader';
 import DashboardMobileCardsWrapper from '../../../dashboard/components/DashboardMobileCardsWrapper';
+import TableHeader from '../../../dashboard/components/DashboardTable/TableHeader';
 import SupplyItemMobileCard from './SupplyItemMobileCard';
+import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
+import { CapType } from '../../../../components/caps/helper';
 import { SupplyTableItem } from './types';
 import { ComputedReserveData, useAppDataContext } from '../../../../libs/pool-data-provider';
 import { DepositTableItem } from '../DepositDashboardTable/types';
@@ -25,7 +27,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
   const intl = useIntl();
   const { user, userId, walletBalances, reserves, marketReferencePriceInUsd } = useAppDataContext();
   const { currentLangSlug } = useLanguageContext();
-  const { lg, sm } = useThemeContext();
+  const { sm } = useThemeContext();
 
   if (!walletBalances) {
     return <Preloader withText={true} />;
@@ -82,25 +84,31 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
   );
 
   const head = [
-    intl.formatMessage(messages.depositsAssets),
-    intl.formatMessage(messages.secondTableColumnTitle),
+    intl.formatMessage(messages.maxAmount),
     intl.formatMessage(messages.APY),
-    intl.formatMessage(messages.collateralRowTitle),
+    intl.formatMessage(messages.collateral),
   ];
-  const colWidth = [lg ? 250 : 160, '100%', '100%', '100%'];
 
   const Header = useCallback(() => {
-    return <TableAvailableHeader head={head} colWidth={colWidth} isDeposit={true} />;
+    return <TableHeader head={head} />;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLangSlug]);
 
-  return (
+  return filteredSupplyReserves.length ? (
     <>
       {!sm ? (
         <>
-          <Header />
-
-          <DashboardTable withBottomText={true}>
+          <DashboardTable
+            title={
+              <AvailableCapsHelpModal
+                title={intl.formatMessage(messages.availableToDeposit)}
+                capType={CapType.supplyCap}
+              />
+            }
+            withBottomText={true}
+            localStorageName="supplyDashboardTableCollapse"
+          >
+            <Header />
             {filteredSupplyReserves.map((item) => (
               <SupplyItem {...item} key={item.id} userId={userId} />
             ))}
@@ -108,7 +116,12 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
         </>
       ) : (
         <DashboardMobileCardsWrapper
-          title={intl.formatMessage(messages.depositsAssets)}
+          title={
+            <AvailableCapsHelpModal
+              title={intl.formatMessage(messages.availableToDeposit)}
+              capType={CapType.supplyCap}
+            />
+          }
           withTopMargin={true}
           withBottomText={true}
         >
@@ -118,5 +131,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
         </DashboardMobileCardsWrapper>
       )}
     </>
+  ) : (
+    <></>
   );
 }

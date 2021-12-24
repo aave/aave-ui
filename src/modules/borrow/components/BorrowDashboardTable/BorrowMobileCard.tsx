@@ -44,7 +44,7 @@ export default function BorrowMobileCard({
   return (
     <>
       <MobileCardWrapper symbol={symbol}>
-        <Row title={intl.formatMessage(messages.secondTableColumnTitle)} withMargin={true}>
+        <Row title={intl.formatMessage(messages.balance)} withMargin={true}>
           <Value
             value={Number(currentBorrows)}
             subValue={Number(currentBorrowsUSD)}
@@ -66,10 +66,7 @@ export default function BorrowMobileCard({
 
         <Row
           title={
-            <BorrowInterestHelpModal
-              text={intl.formatMessage(messages.fourthTableColumnTitle)}
-              iconSize={12}
-            />
+            <BorrowInterestHelpModal text={intl.formatMessage(messages.APYType)} iconSize={12} />
           }
           withMargin={true}
           className="Row__center"

@@ -20,7 +20,6 @@ import { DepositTableItem } from './types';
 
 export default function DepositItem({
   reserve: { symbol, liquidityRate, id, underlyingAsset },
-  uiColor,
   usageAsCollateralEnabledOnUser,
   underlyingBalance,
   underlyingBalanceUSD,
@@ -44,7 +43,6 @@ export default function DepositItem({
   return (
     <TableItem
       tokenSymbol={symbol}
-      color={uiColor}
       isIsolated={
         isUserInIsolationMode &&
         usageAsCollateralEnabledOnUser &&

@@ -6,41 +6,50 @@ const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
 
   .TableNoData {
-    display: block;
-    margin: 0 auto;
-    .ContentWrapper {
-      padding-top: 40px;
-      padding-bottom: 40px;
-      @include respond-to(sm) {
-        padding-top: 20px;
-        padding-bottom: 20px;
-      }
-    }
-    .Caption {
-      margin-bottom: 0;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+    border-radius: $borderRadius;
+    @include respond-to(sm) {
+      margin: 0 10px;
+      width: calc(100% - 20px);
     }
 
     &__title {
-      display: block;
-      padding: 0 10px;
-      font-size: $regular;
+      display: flex;
+      font-weight: 600;
+      font-size: $large;
+      padding: 20px;
       @include respond-to(xl) {
-        font-size: $small;
+        font-size: $regular;
       }
       @include respond-to(lg) {
-        font-size: $medium;
+        padding: 15px;
       }
       @include respond-to(md) {
-        font-size: $small;
+        padding: 20px;
       }
-      margin-bottom: 10px;
       @include respond-to(sm) {
-        display: none;
+        align-items: center;
+        justify-content: center;
       }
     }
 
-    &__withTopMargin {
-      margin-top: 50px;
+    .AvailableCapsHelpModal .TextWithModal__text {
+      font-weight: 600;
+      font-size: $large;
+      @include respond-to(xl) {
+        font-size: $regular;
+      }
+    }
+
+    .NoDataPanel {
+      display: block;
+      flex: unset;
+      min-height: unset;
+      padding: 20px 0;
+      @include respond-to(sm) {
+        padding: 20px 15px;
+      }
     }
   }
 `;

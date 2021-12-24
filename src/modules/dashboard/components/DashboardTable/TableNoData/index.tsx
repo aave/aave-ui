@@ -1,39 +1,31 @@
-import React from 'react';
-import classNames from 'classnames';
+import React, { ReactNode } from 'react';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import ContentWrapper from '../../../../../components/wrappers/ContentWrapper';
 import NoDataPanel from '../../../../../components/NoDataPanel';
 
 import staticStyles from './style';
 
 interface TableNoDataProps {
-  caption: string;
+  caption: string | ReactNode;
   title: string;
   description: string;
-  withTopMargin?: boolean;
 }
 
-export default function TableNoData({
-  caption,
-  title,
-  description,
-  withTopMargin,
-}: TableNoDataProps) {
+export default function TableNoData({ caption, title, description }: TableNoDataProps) {
   const { currentTheme } = useThemeContext();
 
   return (
-    <div className={classNames('TableNoData', { TableNoData__withTopMargin: withTopMargin })}>
-      <strong className="TableNoData__title">{caption}</strong>
-      <ContentWrapper withFullHeight={true}>
-        <NoDataPanel title={title} description={description} />
-      </ContentWrapper>
+    <div className="TableNoData">
+      <div className="TableNoData__title">{caption}</div>
+
+      <NoDataPanel title={title} description={description} />
 
       <style jsx={true} global={true}>
         {staticStyles}
       </style>
       <style jsx={true}>{`
         .TableNoData {
+          background: ${currentTheme.whiteElement.hex};
           color: ${currentTheme.textDarkBlue.hex};
         }
       `}</style>

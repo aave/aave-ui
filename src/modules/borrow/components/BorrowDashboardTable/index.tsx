@@ -8,6 +8,7 @@ import TableHeader from '../../../dashboard/components/DashboardTable/TableHeade
 import BorrowItem from './BorrowItem';
 import DashboardMobileCardsWrapper from '../../../dashboard/components/DashboardMobileCardsWrapper';
 import BorrowMobileCard from './BorrowMobileCard';
+import BorrowInterestHelpModal from '../../../../components/HelpModal/BorrowInterestHelpModal';
 
 import messages from './messages';
 
@@ -20,18 +21,16 @@ interface BorrowDashboardTableProps {
 export default function BorrowDashboardTable({ listData }: BorrowDashboardTableProps) {
   const intl = useIntl();
   const { currentLangSlug } = useLanguageContext();
-  const { lg, sm } = useThemeContext();
+  const { sm } = useThemeContext();
 
   const head = [
-    intl.formatMessage(messages.borrowedAssets),
-    intl.formatMessage(messages.secondTableColumnTitle),
+    intl.formatMessage(messages.balance),
     intl.formatMessage(messages.apyRowTitle),
-    intl.formatMessage(messages.fourthTableColumnTitle),
+    <BorrowInterestHelpModal text={intl.formatMessage(messages.APYType)} iconSize={12} />,
   ];
-  const colWidth = [lg ? 250 : 160, '100%', '100%', '100%'];
 
   const Header = useCallback(() => {
-    return <TableHeader head={head} colWidth={colWidth} />;
+    return <TableHeader head={head} />;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLangSlug]);
 
@@ -39,9 +38,8 @@ export default function BorrowDashboardTable({ listData }: BorrowDashboardTableP
     <>
       {!sm ? (
         <>
-          <Header />
-
-          <DashboardTable>
+          <DashboardTable title={intl.formatMessage(messages.yourBorrows)}>
+            <Header />
             {listData.map((item, index) => (
               <BorrowItem
                 {...item}
@@ -53,7 +51,7 @@ export default function BorrowDashboardTable({ listData }: BorrowDashboardTableP
           </DashboardTable>
         </>
       ) : (
-        <DashboardMobileCardsWrapper title={intl.formatMessage(messages.borrowedAssets)}>
+        <DashboardMobileCardsWrapper title={intl.formatMessage(messages.yourBorrows)}>
           {listData.map((item, index) => (
             <BorrowMobileCard {...item} key={index} />
           ))}

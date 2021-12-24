@@ -1,10 +1,12 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  depositsAssets: 'Assets to deposit',
+  availableToDeposit: 'Assets available to deposit',
+
+  maxAmount: 'Max amount',
   APY: 'APY',
-  secondTableColumnTitle: 'Available to deposit',
-  collateralRowTitle: 'Collateral',
+  collateral: 'Collateral',
+
   showDetails: 'Show details',
   usageAsCollateral: 'Usage as collateral',
 });

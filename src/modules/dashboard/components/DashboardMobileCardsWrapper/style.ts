@@ -13,9 +13,12 @@ const staticStyles = css.global`
     }
 
     &__title {
-      text-align: center;
       margin-bottom: 10px;
       font-size: $regular;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 `;

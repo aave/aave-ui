@@ -7,7 +7,7 @@ import TableBottomText from '../DashboardTable/TableBottomText';
 import staticStyles from './style';
 
 interface DashboardMobileCardsWrapperProps {
-  title?: string;
+  title?: string | ReactNode;
   withTopMargin?: boolean;
   withBottomText?: boolean;
   children: ReactNode;
@@ -27,11 +27,7 @@ export default function DashboardMobileCardsWrapper({
         DashboardMobileCardsWrapper__withTopMargin: withTopMargin,
       })}
     >
-      {title && (
-        <div className="DashboardMobileCardsWrapper__title">
-          <strong>{title}</strong>
-        </div>
-      )}
+      {title && <div className="DashboardMobileCardsWrapper__title">{title}</div>}
 
       {children}
 

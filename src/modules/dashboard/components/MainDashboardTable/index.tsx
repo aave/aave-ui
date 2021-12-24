@@ -1,8 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
-import { useThemeContext } from '@aave/aave-ui-kit';
 
 import TableNoData from '../DashboardTable/TableNoData';
 import BorrowDashboardTable from '../../../borrow/components/BorrowDashboardTable';
@@ -11,7 +9,6 @@ import DepositDashboardTable from '../../../deposit/components/DepositDashboardT
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import SupplyAssetTable from '../../../deposit/components/SupplyAssetsTable';
 import BorrowAssetTable from '../../../borrow/components/BorrowAssetTable';
-import IsolationInfoBanner from '../../../../components/isolationMode/IsolationInfoBanner';
 
 import messages from './messages';
 import staticStyles from './style';
@@ -20,17 +17,14 @@ interface MainDashboardTableProps {
   depositedPositions: DepositTableItem[];
   borrowedPositions: BorrowTableItem[];
   isBorrow: boolean;
-  user?: FormatUserSummaryAndIncentivesResponse;
 }
 
 export default function MainDashboardTable({
   depositedPositions,
   borrowedPositions,
   isBorrow,
-  user,
 }: MainDashboardTableProps) {
   const intl = useIntl();
-  const { sm } = useThemeContext();
 
   return (
     <div
@@ -55,14 +49,6 @@ export default function MainDashboardTable({
 
       <div className="MainDashboardTable__right-inner">
         {!!borrowedPositions.length && <BorrowDashboardTable listData={borrowedPositions} />}
-
-        {user?.isInIsolationMode && (
-          <IsolationInfoBanner
-            text={intl.formatMessage(messages.isolationText)}
-            size="normal"
-            withoutMargin={!sm}
-          />
-        )}
 
         <BorrowAssetTable borrowedReserves={borrowedPositions} />
       </div>

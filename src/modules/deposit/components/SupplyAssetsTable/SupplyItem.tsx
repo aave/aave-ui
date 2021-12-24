@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import TableAvailablePosition from '../../../dashboard/components/DashboardTable/TableAvailablePosition';
+import TableItem from '../../../dashboard/components/DashboardTable/TableItem';
 import TableCol from '../../../dashboard/components/DashboardTable/TableCol';
 import Value from '../../../../components/basic/Value';
 import NoData from '../../../../components/basic/NoData';
@@ -37,7 +37,7 @@ export default function SupplyItem({
   const intl = useIntl();
 
   return (
-    <TableAvailablePosition tokenSymbol={symbol} isIsolated={isIsolated}>
+    <TableItem tokenSymbol={symbol} isIsolated={isIsolated}>
       <TableCol>
         {!userId || Number(availableToDeposit) <= 0 ? (
           <NoData color="dark" />
@@ -86,6 +86,6 @@ export default function SupplyItem({
           withoutBorder={true}
         />
       </TableButtonsWrapper>
-    </TableAvailablePosition>
+    </TableItem>
   );
 }

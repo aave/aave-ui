@@ -7,28 +7,14 @@ const staticStyles = css.global`
 
   .MainDashboardTable {
     display: flex;
-    align-items: flex-start;
     justify-content: space-between;
     margin-bottom: 10px;
-    flex: 1;
-    @include respond-to(lg) {
-      display: block;
-    }
 
     &__left-inner,
     &__right-inner {
       width: calc(50% - 10px);
       @include respond-to(lg) {
         width: 100%;
-      }
-    }
-
-    &__left-inner {
-      @include respond-to(lg) {
-        margin-bottom: 20px;
-      }
-      @include respond-to(md) {
-        margin-bottom: 30px;
       }
     }
 

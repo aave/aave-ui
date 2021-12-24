@@ -57,7 +57,6 @@ export default function IsolationInfoBanner({
         @import 'src/_mixins/screen-size';
 
         .IsolationInfoBanner {
-          background: ${currentTheme.mainBg.hex};
           color: ${currentTheme.textDarkBlue.hex};
 
           &__normal {

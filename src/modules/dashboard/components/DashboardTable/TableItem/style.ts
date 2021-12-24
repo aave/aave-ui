@@ -9,17 +9,22 @@ const staticStyles = css.global`
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 6px 10px;
+    padding: 7px 10px 6px;
     position: relative;
-    box-shadow: $boxShadow;
-    border-radius: $borderRadius;
-    margin-bottom: 6px;
     min-height: 70px;
     @include respond-to(xl) {
       min-height: 60px;
     }
     @include respond-to(lg) {
       min-height: 55px;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
     }
 
     &__withInfo {
@@ -35,6 +40,9 @@ const staticStyles = css.global`
       @include respond-to(xl) {
         padding-top: 26px;
       }
+      &:after {
+        display: none;
+      }
     }
 
     &__isolated--inner {
@@ -43,8 +51,6 @@ const staticStyles = css.global`
       right: 0;
       top: 0;
       height: 24px;
-      border-top-left-radius: 2px;
-      border-top-right-radius: 2px;
       padding: 2px 10px;
       display: flex;
       align-items: center;
@@ -63,14 +69,6 @@ const staticStyles = css.global`
     .TableItem__inner {
       align-items: flex-start;
       justify-content: flex-start;
-    }
-
-    &__assetColor {
-      display: inline-block;
-      position: absolute;
-      left: 0;
-      width: 2px;
-      height: 25px;
     }
 
     .TableItem__token {

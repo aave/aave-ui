@@ -8,6 +8,7 @@ import TableHeader from '../../../dashboard/components/DashboardTable/TableHeade
 import DepositItem from './DepositItem';
 import DashboardMobileCardsWrapper from '../../../dashboard/components/DashboardMobileCardsWrapper';
 import DepositMobileCard from './DepositMobileCard';
+import CollateralHelpModal from '../../../../components/HelpModal/CollateralHelpModal';
 
 import messages from './messages';
 
@@ -20,18 +21,16 @@ interface DepositDashboardTableProps {
 export default function DepositDashboardTable({ listData }: DepositDashboardTableProps) {
   const intl = useIntl();
   const { currentLangSlug } = useLanguageContext();
-  const { lg, sm } = useThemeContext();
+  const { sm } = useThemeContext();
 
   const head = [
-    intl.formatMessage(messages.depositedAssets),
-    intl.formatMessage(messages.secondTableColumnTitle),
+    intl.formatMessage(messages.balance),
     intl.formatMessage(messages.apyRowTitle),
-    intl.formatMessage(messages.collateral),
+    <CollateralHelpModal text={intl.formatMessage(messages.collateral)} iconSize={12} />,
   ];
-  const colWidth = [lg ? 250 : 160, '100%', '100%', '100%'];
 
   const Header = useCallback(() => {
-    return <TableHeader head={head} colWidth={colWidth} isDeposit={true} />;
+    return <TableHeader head={head} />;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLangSlug]);
 
@@ -49,9 +48,8 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
     <>
       {!sm ? (
         <>
-          <Header />
-
-          <DashboardTable>
+          <DashboardTable title={intl.formatMessage(messages.yourDeposits)}>
+            <Header />
             {sortedListData.map((item) => (
               <DepositItem
                 {...item}
@@ -62,7 +60,7 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
           </DashboardTable>
         </>
       ) : (
-        <DashboardMobileCardsWrapper title={intl.formatMessage(messages.depositedAssets)}>
+        <DashboardMobileCardsWrapper title={intl.formatMessage(messages.yourDeposits)}>
           {sortedListData.map((item) => (
             <DepositMobileCard {...item} key={item.reserve.id} />
           ))}

@@ -16,8 +16,6 @@ const staticStyles = css.global`
       font-size: $regular;
       min-height: 36px;
       display: inline-flex;
-      position: relative;
-      top: 40px;
       @include respond-to(xl) {
         font-size: $medium;
         min-height: 32px;
@@ -35,6 +33,8 @@ const staticStyles = css.global`
         min-height: 34px;
       }
       @include respond-to(sm) {
+        position: relative;
+        top: 40px;
         margin: 0 10px;
         width: calc(100% - 20px);
       }

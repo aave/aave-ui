@@ -11,7 +11,6 @@ import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
-import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
 import TableUsageAsCollateral from '../../../dashboard/components/DashboardTable/TableUsageAsCollateral';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 
@@ -42,7 +41,7 @@ export default function SupplyItemMobileCard({
 
   return (
     <MobileCardWrapper symbol={symbol} disabled={isFreezed} isIsolated={isIsolated}>
-      <Row title={<AvailableCapsHelpModal capType={CapType.supplyCap} />} withMargin={true}>
+      <Row title={intl.formatMessage(messages.maxAmount)} withMargin={true}>
         {!userId || Number(availableToDeposit) <= 0 ? (
           <NoData color="dark" />
         ) : (

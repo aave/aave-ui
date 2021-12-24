@@ -18,7 +18,7 @@ export default function TableBottomText() {
           link: (
             <Link
               to="/markets"
-              title={intl.formatMessage(messages.marketsOverview)}
+              title={intl.formatMessage(messages.marketStats)}
               color="secondary"
             />
           ),
@@ -31,6 +31,7 @@ export default function TableBottomText() {
       <style jsx={true}>{`
         .TableBottomText {
           color: ${currentTheme.textDarkBlue.hex};
+          border-top: 1px solid ${currentTheme.mainBg.hex};
         }
       `}</style>
     </div>

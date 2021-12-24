@@ -55,7 +55,7 @@ export default function DepositMobileCard({
           isIsolated
         }
       >
-        <Row title={intl.formatMessage(messages.secondTableColumnTitle)} withMargin={true}>
+        <Row title={intl.formatMessage(messages.balance)} withMargin={true}>
           <Value
             value={Number(underlyingBalance)}
             subValue={Number(underlyingBalanceUSD)}

@@ -9,6 +9,7 @@ import Caption from '../../basic/Caption';
 import messages from './messages';
 
 interface AvailableCapsHelpModalProps {
+  title?: string;
   shortTitle?: boolean;
   capType: CapType;
   className?: string;
@@ -18,6 +19,7 @@ interface AvailableCapsHelpModalProps {
 }
 
 export default function AvailableCapsHelpModal({
+  title,
   capType,
   className,
   iconSize,
@@ -27,21 +29,22 @@ export default function AvailableCapsHelpModal({
 }: AvailableCapsHelpModalProps) {
   const intl = useIntl();
 
-  const title = capType === CapType.supplyCap ? messages.supplyCapTitle : messages.borrowCapTitle;
+  const formattedTitle =
+    capType === CapType.supplyCap ? messages.supplyCapTitle : messages.borrowCapTitle;
   const description =
     capType === CapType.supplyCap ? messages.supplyCapDescription : messages.borrowCapDescription;
 
   return (
     <TextWithModal
       className={classNames('AvailableCapsHelpModal', className)}
-      text={intl.formatMessage(shortTitle ? messages.shortTitle : title)}
+      text={title || intl.formatMessage(shortTitle ? messages.shortTitle : formattedTitle)}
       withCloseButton={true}
       onWhiteBackground={onWhiteBackground}
       iconSize={iconSize}
       color={color}
     >
       <Caption
-        title={intl.formatMessage(title)}
+        title={intl.formatMessage(formattedTitle)}
         description={intl.formatMessage(description)}
         onWhiteBackground={true}
       />

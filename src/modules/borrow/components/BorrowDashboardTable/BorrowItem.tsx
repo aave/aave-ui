@@ -18,7 +18,6 @@ import { BorrowTableItem } from './types';
 
 export default function BorrowItem({
   reserve: { symbol },
-  uiColor,
   currentBorrows,
   currentBorrowsUSD,
   borrowRate,
@@ -41,7 +40,7 @@ export default function BorrowItem({
   const swiperHeight = xl && !lg ? 16 : md ? 16 : 20;
 
   return (
-    <TableItem tokenSymbol={symbol} color={uiColor}>
+    <TableItem tokenSymbol={symbol}>
       <TableValueCol
         value={Number(currentBorrows)}
         subValue={Number(currentBorrowsUSD)}

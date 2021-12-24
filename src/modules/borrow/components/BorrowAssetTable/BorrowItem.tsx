@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import TableAvailablePosition from '../../../dashboard/components/DashboardTable/TableAvailablePosition';
+import TableItem from '../../../dashboard/components/DashboardTable/TableItem';
 import TableCol from '../../../dashboard/components/DashboardTable/TableCol';
 import TableAprCol from '../../../dashboard/components/DashboardTable/TableAprCol';
 import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
@@ -34,7 +34,7 @@ export default function BorrowItem({
   const intl = useIntl();
 
   return (
-    <TableAvailablePosition tokenSymbol={symbol} isIsolated={false}>
+    <TableItem tokenSymbol={symbol} isIsolated={false}>
       <TableCol>
         {!userId || Number(availableBorrows) <= 0 ? (
           <NoData color="dark" />
@@ -76,6 +76,6 @@ export default function BorrowItem({
           withoutBorder={true}
         />
       </TableButtonsWrapper>
-    </TableAvailablePosition>
+    </TableItem>
   );
 }

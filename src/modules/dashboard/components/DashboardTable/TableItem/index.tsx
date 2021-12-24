@@ -11,12 +11,11 @@ import staticStyles from './style';
 
 interface TableItemProps {
   tokenSymbol: string;
-  color?: string;
   children: ReactNode;
   isIsolated?: boolean;
 }
 
-export default function TableItem({ tokenSymbol, color, children, isIsolated }: TableItemProps) {
+export default function TableItem({ tokenSymbol, children, isIsolated }: TableItemProps) {
   const { currentTheme, isCurrentThemeDark, lg } = useThemeContext();
   const asset = getAssetInfo(tokenSymbol);
 
@@ -27,8 +26,6 @@ export default function TableItem({ tokenSymbol, color, children, isIsolated }: 
         TableItem__isolated: isIsolated,
       })}
     >
-      <span className="TableItem__assetColor" style={{ backgroundColor: color }} />
-
       <TableCol className="TableItem__inner" maxWidth={lg ? 250 : 160}>
         <TokenIcon
           tokenSymbol={tokenSymbol}
@@ -55,7 +52,9 @@ export default function TableItem({ tokenSymbol, color, children, isIsolated }: 
       </style>
       <style jsx={true} global={true}>{`
         .TableItem {
-          background: ${currentTheme.whiteElement.hex};
+          &:after {
+            background: ${currentTheme.mainBg.hex};
+          }
 
           &__isolated--inner {
             background: ${isCurrentThemeDark

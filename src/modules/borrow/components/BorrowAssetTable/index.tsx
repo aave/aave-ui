@@ -6,12 +6,15 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 import DashboardTable from '../../../dashboard/components/DashboardTable';
-import TableAvailableHeader from '../../../dashboard/components/DashboardTable/TableAvailableHeader';
+import TableHeader from '../../../dashboard/components/DashboardTable/TableHeader';
 import DashboardMobileCardsWrapper from '../../../dashboard/components/DashboardMobileCardsWrapper';
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useLanguageContext } from '../../../../libs/language-provider';
 import BorrowItem from './BorrowItem';
 import BorrowMobileCard from './BorrowMobileCard';
+import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
+import { CapType } from '../../../../components/caps/helper';
+import IsolationInfoBanner from '../../../../components/isolationMode/IsolationInfoBanner';
 import TableNoData from '../../../dashboard/components/DashboardTable/TableNoData';
 
 import { BorrowTableItem as InternalBorrowTableItem } from './types';
@@ -28,7 +31,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
   const { user, userId, reserves, marketReferencePriceInUsd, userEmodeCategoryId } =
     useAppDataContext();
   const { currentLangSlug } = useLanguageContext();
-  const { lg, sm } = useThemeContext();
+  const { sm } = useThemeContext();
 
   const availableBorrowsMarketReferenceCurrency = valueToBigNumber(
     user?.availableBorrowsMarketReferenceCurrency || 0
@@ -125,15 +128,13 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
   );
 
   const head = [
-    intl.formatMessage(messages.borrowAssets),
-    intl.formatMessage(messages.secondTableColumnTitle),
-    intl.formatMessage(messages.variableAPY),
-    intl.formatMessage(messages.stableAPY),
+    intl.formatMessage(messages.maxAmount),
+    intl.formatMessage(messages.APYVariable),
+    intl.formatMessage(messages.APYStable),
   ];
-  const colWidth = [lg ? 250 : 160, '100%', '100%', '100%'];
 
   const Header = useCallback(() => {
-    return <TableAvailableHeader head={head} colWidth={colWidth} />;
+    return <TableHeader head={head} />;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLangSlug]);
 
@@ -141,17 +142,41 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
     <>
       {!borrowedReserves.length && (
         <TableNoData
-          caption={intl.formatMessage(messages.borrowedAssets)}
+          caption={intl.formatMessage(messages.yourBorrows)}
           title={intl.formatMessage(messages.nothingBorrowed)}
           description={intl.formatMessage(messages.nothingBorrowedDescription)}
         />
       )}
 
+      {user?.isInIsolationMode && sm && (
+        <IsolationInfoBanner
+          text={intl.formatMessage(messages.isolationText)}
+          size="normal"
+          withoutMargin={!sm}
+        />
+      )}
+
       {!sm ? (
         <>
-          <Header />
-
-          <DashboardTable withBottomText={true}>
+          <DashboardTable
+            title={
+              <AvailableCapsHelpModal
+                title={intl.formatMessage(messages.availableToBorrow)}
+                capType={CapType.borrowCap}
+              />
+            }
+            localStorageName="borrowDashboardTableCollapse"
+            subTitleComponent={
+              user?.isInIsolationMode && (
+                <IsolationInfoBanner
+                  text={intl.formatMessage(messages.isolationText)}
+                  size="normal"
+                />
+              )
+            }
+            withBottomText={true}
+          >
+            <Header />
             {filteredBorrowReserves.map((item) => (
               <BorrowItem {...item} key={item.id} userId={userId} />
             ))}
@@ -159,7 +184,12 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
         </>
       ) : (
         <DashboardMobileCardsWrapper
-          title={intl.formatMessage(messages.borrowAssets)}
+          title={
+            <AvailableCapsHelpModal
+              title={intl.formatMessage(messages.availableToBorrow)}
+              capType={CapType.borrowCap}
+            />
+          }
           withTopMargin={true}
           withBottomText={true}
         >
@@ -171,7 +201,12 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
     </>
   ) : (
     <TableNoData
-      caption={intl.formatMessage(messages.borrowAssets)}
+      caption={
+        <AvailableCapsHelpModal
+          title={intl.formatMessage(messages.availableToBorrow)}
+          capType={CapType.borrowCap}
+        />
+      }
       title={intl.formatMessage(messages.noDataCaption)}
       description={intl.formatMessage(messages.noDataDescription)}
     />
