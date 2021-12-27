@@ -47,8 +47,7 @@ export default function SupplyItem({
             subValue={availableToDepositUSD}
             maximumSubValueDecimals={2}
             subSymbol="USD"
-            maximumValueDecimals={isAssetStable(symbol) ? 2 : 5}
-            minimumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+            maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}
             className="TableValueCol__value"
             tooltipId={`availableToDeposit__${id}`}
             nextToValue={

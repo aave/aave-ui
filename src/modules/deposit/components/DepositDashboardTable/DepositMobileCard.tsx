@@ -20,6 +20,7 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { DepositTableItem } from './types';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 export default function DepositMobileCard({
   reserve: { symbol, liquidityRate, id, underlyingAsset },
@@ -58,7 +59,9 @@ export default function DepositMobileCard({
         <Row title={intl.formatMessage(messages.balance)} withMargin={true}>
           <Value
             value={Number(underlyingBalance)}
+            maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}
             subValue={Number(underlyingBalanceUSD)}
+            maximumSubValueDecimals={2}
             subSymbol="USD"
           />
         </Row>
@@ -104,10 +107,28 @@ export default function DepositMobileCard({
           />
         </Row>
 
+        <Row
+          title={intl.formatMessage(messages.withdrawYourDeposit)}
+          withMargin={true}
+          className="Row__center"
+        >
+          <Link
+            to={`/withdraw/${underlyingAsset}-${id}`}
+            className="ButtonLink"
+            disabled={!isActive}
+          >
+            <DefaultButton
+              title={intl.formatMessage(defaultMessages.withdraw)}
+              color="dark"
+              disabled={!isActive}
+            />
+          </Link>
+        </Row>
+
         {!isSwapButton && (
           <Row
             title={intl.formatMessage(messages.depositMore)}
-            withMargin={true}
+            withMargin={isSwapButton}
             className="Row__center"
           >
             <Link
@@ -119,29 +140,11 @@ export default function DepositMobileCard({
                 title={intl.formatMessage(defaultMessages.deposit)}
                 color="dark"
                 disabled={!isActive || isFrozen}
+                transparent={!isSwapButton}
               />
             </Link>
           </Row>
         )}
-
-        <Row
-          title={intl.formatMessage(messages.withdrawYourDeposit)}
-          withMargin={isSwapButton}
-          className="Row__center"
-        >
-          <Link
-            to={`/withdraw/${underlyingAsset}-${id}`}
-            className="ButtonLink"
-            disabled={!isActive}
-          >
-            <DefaultButton
-              title={intl.formatMessage(defaultMessages.withdraw)}
-              color="dark"
-              transparent={!isSwapButton}
-              disabled={!isActive}
-            />
-          </Link>
-        </Row>
 
         {isSwapButton && (
           <Row title={intl.formatMessage(messages.swapYourDeposit)} className="Row__center">

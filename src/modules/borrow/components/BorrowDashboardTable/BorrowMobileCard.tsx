@@ -18,6 +18,7 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { BorrowTableItem } from './types';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 export default function BorrowMobileCard({
   reserve: { symbol },
@@ -47,7 +48,9 @@ export default function BorrowMobileCard({
         <Row title={intl.formatMessage(messages.balance)} withMargin={true}>
           <Value
             value={Number(currentBorrows)}
+            maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}
             subValue={Number(currentBorrowsUSD)}
+            maximumSubValueDecimals={2}
             subSymbol="USD"
           />
         </Row>
@@ -85,10 +88,20 @@ export default function BorrowMobileCard({
         </Row>
 
         <Row
-          title={intl.formatMessage(messages.borrowMore)}
+          title={intl.formatMessage(messages.repayYourBorrow)}
           className="Row__center"
           withMargin={true}
         >
+          <Link to={repayLink} className="ButtonLink" disabled={!isActive}>
+            <DefaultButton
+              title={intl.formatMessage(defaultMessages.repay)}
+              color="dark"
+              disabled={!isActive}
+            />
+          </Link>
+        </Row>
+
+        <Row title={intl.formatMessage(messages.borrowMore)} className="Row__center">
           <Link
             to={borrowLink}
             className="ButtonLink"
@@ -97,18 +110,8 @@ export default function BorrowMobileCard({
             <DefaultButton
               title={intl.formatMessage(defaultMessages.borrow)}
               color="dark"
-              disabled={!isActive || !borrowingEnabled || isFrozen}
-            />
-          </Link>
-        </Row>
-
-        <Row title={intl.formatMessage(messages.repayYourBorrow)} className="Row__center">
-          <Link to={repayLink} className="ButtonLink" disabled={!isActive}>
-            <DefaultButton
-              title={intl.formatMessage(defaultMessages.repay)}
-              color="dark"
               transparent={true}
-              disabled={!isActive}
+              disabled={!isActive || !borrowingEnabled || isFrozen}
             />
           </Link>
         </Row>

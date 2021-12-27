@@ -51,6 +51,7 @@ export default function DepositItem({
       }
     >
       <TableValueCol
+        symbol={symbol}
         value={Number(underlyingBalance)}
         subValue={Number(underlyingBalanceUSD)}
         tooltipId={`deposit-${symbol}__${id}`}
@@ -78,20 +79,20 @@ export default function DepositItem({
       </TableCol>
 
       <TableButtonsWrapper>
+        <TableButtonCol
+          disabled={!isActive}
+          title={intl.formatMessage(defaultMessages.withdraw)}
+          linkTo={`/withdraw/${underlyingAsset}-${id}`}
+        />
+
         {!isSwapButton && (
           <TableButtonCol
             disabled={!isActive || isFrozen}
             title={intl.formatMessage(defaultMessages.deposit)}
             linkTo={`/deposit/${underlyingAsset}-${id}`}
+            withoutBorder={!isSwapButton}
           />
         )}
-
-        <TableButtonCol
-          disabled={!isActive}
-          title={intl.formatMessage(defaultMessages.withdraw)}
-          linkTo={`/withdraw/${underlyingAsset}-${id}`}
-          withoutBorder={!isSwapButton}
-        />
 
         {isSwapButton && (
           <TableButtonCol

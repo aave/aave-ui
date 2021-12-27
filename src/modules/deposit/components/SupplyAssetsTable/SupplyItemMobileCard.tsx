@@ -50,8 +50,7 @@ export default function SupplyItemMobileCard({
             subValue={availableToDepositUSD}
             maximumSubValueDecimals={2}
             subSymbol="USD"
-            maximumValueDecimals={isAssetStable(symbol) ? 2 : 5}
-            minimumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+            maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}
             nextToValue={
               <CapsHint
                 capType={CapType.supplyCap}

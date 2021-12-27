@@ -44,8 +44,7 @@ export default function BorrowItem({
             subValue={availableBorrowsInUSD}
             subSymbol="USD"
             maximumSubValueDecimals={2}
-            minimumValueDecimals={isAssetStable(symbol) ? 2 : 5}
-            maximumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+            maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}
             className="TableValueCol__value"
             tooltipId={`availableBorrows__${id}`}
             nextToValue={

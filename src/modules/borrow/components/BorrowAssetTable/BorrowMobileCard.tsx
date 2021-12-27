@@ -46,8 +46,7 @@ export default function BorrowMobileCard({
             subValue={availableBorrowsInUSD}
             subSymbol="USD"
             maximumSubValueDecimals={2}
-            minimumValueDecimals={isAssetStable(symbol) ? 2 : 5}
-            maximumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+            maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}
             nextToValue={
               <CapsHint
                 capType={CapType.borrowCap}

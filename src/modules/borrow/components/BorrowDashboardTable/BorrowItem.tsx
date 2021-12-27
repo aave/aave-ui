@@ -42,6 +42,7 @@ export default function BorrowItem({
   return (
     <TableItem tokenSymbol={symbol}>
       <TableValueCol
+        symbol={symbol}
         value={Number(currentBorrows)}
         subValue={Number(currentBorrowsUSD)}
         tooltipId={`borrow-${symbol}__${index}`}
@@ -68,14 +69,14 @@ export default function BorrowItem({
 
       <TableButtonsWrapper>
         <TableButtonCol
-          disabled={!isActive || !borrowingEnabled || isFrozen}
-          title={intl.formatMessage(defaultMessages.borrow)}
-          linkTo={borrowLink}
-        />
-        <TableButtonCol
           disabled={!isActive}
           title={intl.formatMessage(defaultMessages.repay)}
           linkTo={repayLink}
+        />
+        <TableButtonCol
+          disabled={!isActive || !borrowingEnabled || isFrozen}
+          title={intl.formatMessage(defaultMessages.borrow)}
+          linkTo={borrowLink}
           withoutBorder={true}
         />
       </TableButtonsWrapper>
