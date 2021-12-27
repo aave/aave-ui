@@ -9,7 +9,7 @@ export const setAmount = ({ amount, max }: SetAmount) => {
   } else {
     cy.get(`[data-cy=amountInput]`).type(amount.toString());
   }
-  cy.get('.BasicForm').contains('Continue').click();
+  cy.get('.BasicForm').find('.Button').click();
 };
 
 type ConfirmAction = {
@@ -27,13 +27,16 @@ export const doConfirm = ({ hasApproval, actionName }: ConfirmAction) => {
   };
   if (hasApproval) {
     clickActionButton(actionName);
-    cy.get('.TextStatus > p').contains('2/2 Success!');
+    cy.get('.TextStatus > p:contains("2/2 Success!")').scrollIntoView().should('be.visible');
   } else {
-    cy.get('.TxTopInfo__title').contains('1/3 Approve');
+    cy.get('.TxTopInfo__title:contains("1/3 Approve")').scrollIntoView().should('be.visible');
     cy.get('.TxConfirmationView').find('.Button').contains('Approve').click();
-    if (actionName != null) cy.get(`.TxTopInfo__title:contains("2/3 ${actionName}")`);
+    if (actionName != null)
+      cy.get(`.TxTopInfo__title:contains("2/3 ${actionName}")`)
+        .scrollIntoView()
+        .should('be.visible');
     clickActionButton(actionName);
-    cy.get('.TextStatus').contains('3/3 Success!');
+    cy.get('.TextStatus > p:contains("3/3 Success!")').scrollIntoView().should('be.visible');
   }
 };
 
