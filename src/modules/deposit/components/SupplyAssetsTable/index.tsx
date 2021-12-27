@@ -73,14 +73,8 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
     }
   );
 
-  const reserveAssets = suppliedReserves.map((reserve) =>
-    reserve.reserve.underlyingAsset.toLowerCase()
-  );
-
   const filteredSupplyReserves = tokensToSupply.filter(
-    (reserve) =>
-      reserveAssets.indexOf(reserve.underlyingAsset.toLowerCase()) === -1 &&
-      reserve.availableToDepositUSD !== '0'
+    (reserve) => reserve.availableToDepositUSD !== '0'
   );
 
   const head = [
