@@ -4,26 +4,28 @@ import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import toggleLocalStorageClick from '../../../../helpers/toggle-local-storage-click';
-import TableBottomText from './TableBottomText';
+import DashboardItemsBottomText from '../DashboardItemsBottomText';
 
 import messages from './messages';
 import staticStyles from './style';
 
-interface DashboardTableProps {
+interface DashboardItemsWrapperProps {
   title: string | ReactNode;
   localStorageName?: string;
   subTitleComponent?: ReactNode;
   children: ReactNode;
   withBottomText?: boolean;
+  withTopMargin?: boolean;
 }
 
-export default function DashboardTable({
+export default function DashboardItemsWrapper({
   title,
   localStorageName,
   subTitleComponent,
   children,
   withBottomText,
-}: DashboardTableProps) {
+  withTopMargin,
+}: DashboardItemsWrapperProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
 
@@ -33,36 +35,53 @@ export default function DashboardTable({
 
   return (
     <div
-      className={classNames('DashboardTable', {
-        DashboardTable__collapsed: !!localStorageName && isCollapse,
+      className={classNames('DashboardItemsWrapper', {
+        DashboardItemsWrapper__collapsed: !!localStorageName && isCollapse,
+        DashboardItemsWrapper__withTopMargin: withTopMargin,
       })}
     >
-      <div className="DashboardTable__title--inner">
-        <div className="DashboardTable__title">{title}</div>
+      <div
+        className={classNames('DashboardItemsWrapper__title--inner', {
+          DashboardItemsWrapper__titleWithClick: !!localStorageName,
+        })}
+        onClick={() =>
+          !!localStorageName
+            ? toggleLocalStorageClick(isCollapse, setIsCollapse, localStorageName)
+            : undefined
+        }
+      >
+        <div className="DashboardItemsWrapper__title">{title}</div>
 
         {!!localStorageName && (
-          <button
-            className="DashboardTable__collapseButton"
-            onClick={() => toggleLocalStorageClick(isCollapse, setIsCollapse, localStorageName)}
-            type="button"
-          >
+          <div className="DashboardItemsWrapper__collapseButton">
             <p>{intl.formatMessage(isCollapse ? messages.show : messages.hide)}</p>
             <span />
-          </button>
+          </div>
         )}
       </div>
 
-      <div className="DashboardTable__subTitle--inner">{subTitleComponent}</div>
-      <div className="DashboardTable__content">{children}</div>
+      <div className="DashboardItemsWrapper__subTitle--inner">{subTitleComponent}</div>
+      <div className="DashboardItemsWrapper__content">{children}</div>
 
-      {withBottomText && !isCollapse && <TableBottomText />}
+      {withBottomText && !isCollapse && <DashboardItemsBottomText />}
 
       <style jsx={true} global={true}>
         {staticStyles}
       </style>
       <style jsx={true} global={true}>{`
-        .DashboardTable {
+        @import 'src/_mixins/screen-size';
+
+        .DashboardItemsWrapper {
           background: ${currentTheme.whiteElement.hex};
+          @include respond-to(sm) {
+            background: unset;
+          }
+
+          &__collapsed {
+            @include respond-to(sm) {
+              background: ${currentTheme.whiteElement.hex};
+            }
+          }
 
           &__title {
             color: ${currentTheme.textDarkBlue.hex};

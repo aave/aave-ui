@@ -4,12 +4,14 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 import CustomSwitch from '../../../../components/basic/CustomSwitch';
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
 import Row from '../../../../components/basic/Row';
 import Value from '../../../../components/basic/Value';
 import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import NoData from '../../../../components/basic/NoData';
+import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import CollateralHelpModal from '../../../../components/HelpModal/CollateralHelpModal';
@@ -20,7 +22,6 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { DepositTableItem } from './types';
-import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 export default function DepositMobileCard({
   reserve: { symbol, liquidityRate, id, underlyingAsset },
@@ -107,11 +108,7 @@ export default function DepositMobileCard({
           />
         </Row>
 
-        <Row
-          title={intl.formatMessage(messages.withdrawYourDeposit)}
-          withMargin={true}
-          className="Row__center"
-        >
+        <TableButtonsWrapper>
           <Link
             to={`/withdraw/${underlyingAsset}-${id}`}
             className="ButtonLink"
@@ -123,14 +120,8 @@ export default function DepositMobileCard({
               disabled={!isActive}
             />
           </Link>
-        </Row>
 
-        {!isSwapButton && (
-          <Row
-            title={intl.formatMessage(messages.depositMore)}
-            withMargin={isSwapButton}
-            className="Row__center"
-          >
+          {!isSwapButton ? (
             <Link
               to={`/deposit/${underlyingAsset}-${id}`}
               className="ButtonLink"
@@ -143,11 +134,7 @@ export default function DepositMobileCard({
                 transparent={!isSwapButton}
               />
             </Link>
-          </Row>
-        )}
-
-        {isSwapButton && (
-          <Row title={intl.formatMessage(messages.swapYourDeposit)} className="Row__center">
+          ) : (
             <Link
               to={`/asset-swap?asset=${underlyingAsset}`}
               className="ButtonLink"
@@ -180,8 +167,8 @@ export default function DepositMobileCard({
                 }
               />
             </Link>
-          </Row>
-        )}
+          )}
+        </TableButtonsWrapper>
       </MobileCardWrapper>
 
       {symbol === 'AMPL' && <AMPLWarning />}

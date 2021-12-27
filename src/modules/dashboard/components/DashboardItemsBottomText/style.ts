@@ -5,7 +5,7 @@ const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
 
-  .TableBottomText {
+  .DashboardItemsBottomText {
     padding: 10px;
     font-size: $regular;
     @include respond-to(xl) {

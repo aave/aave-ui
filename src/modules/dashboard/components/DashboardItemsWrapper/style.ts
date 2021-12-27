@@ -5,22 +5,45 @@ const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
 
-  .DashboardTable {
+  .DashboardItemsWrapper {
     margin-bottom: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
     border-radius: $borderRadius;
 
+    @include respond-to(sm) {
+      margin: 0 10px 10px;
+      width: calc(100% - 20px);
+      box-shadow: unset;
+      border-radius: unset;
+    }
+
     &__collapsed {
-      .DashboardTable__collapseButton {
+      @include respond-to(sm) {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+        border-radius: $borderRadius;
+      }
+
+      .DashboardItemsWrapper__collapseButton {
         span {
           &:after {
             transform: translate(-50%, -50%);
           }
         }
       }
-      .DashboardTable__subTitle--inner,
-      .DashboardTable__content {
+      .DashboardItemsWrapper__subTitle--inner,
+      .DashboardItemsWrapper__content {
         display: none;
+      }
+      .DashboardItemsWrapper__title--inner {
+        @include respond-to(sm) {
+          padding: 20px;
+        }
+      }
+    }
+
+    &__withTopMargin {
+      @include respond-to(sm) {
+        margin-top: 40px;
       }
     }
 
@@ -35,6 +58,12 @@ const staticStyles = css.global`
       @include respond-to(md) {
         padding: 20px;
       }
+      @include respond-to(sm) {
+        padding: 0 5px;
+      }
+    }
+    &__titleWithClick {
+      cursor: pointer;
     }
 
     &__title,

@@ -7,6 +7,5 @@ export default defineMessages({
   APY: 'APY',
   collateral: 'Collateral',
 
-  showDetails: 'Show details',
   usageAsCollateral: 'Usage as collateral',
 });

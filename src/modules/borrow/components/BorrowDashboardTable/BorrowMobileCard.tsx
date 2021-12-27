@@ -3,12 +3,14 @@ import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { BorrowRateMode } from '../../../../libs/pool-data-provider/graphql';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 import CustomSwitch from '../../../../components/basic/CustomSwitch';
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
 import Row from '../../../../components/basic/Row';
 import Value from '../../../../components/basic/Value';
 import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import NoData from '../../../../components/basic/NoData';
+import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import BorrowInterestHelpModal from '../../../../components/HelpModal/BorrowInterestHelpModal';
@@ -18,7 +20,6 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { BorrowTableItem } from './types';
-import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 export default function BorrowMobileCard({
   reserve: { symbol },
@@ -87,11 +88,7 @@ export default function BorrowMobileCard({
           />
         </Row>
 
-        <Row
-          title={intl.formatMessage(messages.repayYourBorrow)}
-          className="Row__center"
-          withMargin={true}
-        >
+        <TableButtonsWrapper>
           <Link to={repayLink} className="ButtonLink" disabled={!isActive}>
             <DefaultButton
               title={intl.formatMessage(defaultMessages.repay)}
@@ -99,9 +96,6 @@ export default function BorrowMobileCard({
               disabled={!isActive}
             />
           </Link>
-        </Row>
-
-        <Row title={intl.formatMessage(messages.borrowMore)} className="Row__center">
           <Link
             to={borrowLink}
             className="ButtonLink"
@@ -114,7 +108,7 @@ export default function BorrowMobileCard({
               disabled={!isActive || !borrowingEnabled || isFrozen}
             />
           </Link>
-        </Row>
+        </TableButtonsWrapper>
       </MobileCardWrapper>
 
       {symbol === 'AMPL' && <AMPLWarning />}

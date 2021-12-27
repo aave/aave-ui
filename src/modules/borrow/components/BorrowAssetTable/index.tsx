@@ -5,9 +5,8 @@ import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { isAssetStable } from '../../../../helpers/config/assets-config';
-import DashboardTable from '../../../dashboard/components/DashboardTable';
+import DashboardItemsWrapper from '../../../dashboard/components/DashboardItemsWrapper';
 import TableHeader from '../../../dashboard/components/DashboardTable/TableHeader';
-import DashboardMobileCardsWrapper from '../../../dashboard/components/DashboardMobileCardsWrapper';
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useLanguageContext } from '../../../../libs/language-provider';
 import BorrowItem from './BorrowItem';
@@ -146,46 +145,30 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
         />
       )}
 
-      {user?.isInIsolationMode && sm && (
-        <IsolationInfoBanner
-          text={intl.formatMessage(messages.isolationText)}
-          size="normal"
-          withoutMargin={!sm}
-        />
-      )}
-
-      {!sm ? (
-        <>
-          <DashboardTable
-            title={intl.formatMessage(messages.assetsToBorrow)}
-            localStorageName="borrowAssetsDashboardTableCollapse"
-            subTitleComponent={
-              user?.isInIsolationMode && (
-                <IsolationInfoBanner
-                  text={intl.formatMessage(messages.isolationText)}
-                  size="normal"
-                />
-              )
-            }
-            withBottomText={true}
-          >
+      <DashboardItemsWrapper
+        title={intl.formatMessage(messages.assetsToBorrow)}
+        localStorageName="borrowAssetsDashboardTableCollapse"
+        subTitleComponent={
+          user?.isInIsolationMode && (
+            <IsolationInfoBanner text={intl.formatMessage(messages.isolationText)} size="normal" />
+          )
+        }
+        withBottomText={true}
+        withTopMargin={true}
+      >
+        {!sm ? (
+          <>
             <Header />
             {filteredBorrowReserves.map((item) => (
               <BorrowItem {...item} key={item.id} userId={userId} />
             ))}
-          </DashboardTable>
-        </>
-      ) : (
-        <DashboardMobileCardsWrapper
-          title={intl.formatMessage(messages.assetsToBorrow)}
-          withTopMargin={true}
-          withBottomText={true}
-        >
-          {filteredBorrowReserves.map((item) => (
+          </>
+        ) : (
+          filteredBorrowReserves.map((item) => (
             <BorrowMobileCard userId={userId} {...item} key={item.id} />
-          ))}
-        </DashboardMobileCardsWrapper>
-      )}
+          ))
+        )}
+      </DashboardItemsWrapper>
     </>
   ) : (
     <TableNoData

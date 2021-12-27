@@ -8,9 +8,6 @@ export default defineMessages({
   balance: 'Balance',
   APYType: 'APY Type',
 
-  borrowMore: 'Borrow more',
-  repayYourBorrow: 'Repay your borrow',
-
   offLabel: 'Stable',
   onLabel: 'Variable',
 });

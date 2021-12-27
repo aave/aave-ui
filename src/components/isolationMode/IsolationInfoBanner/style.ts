@@ -32,10 +32,7 @@ const staticStyles = css.global`
         min-height: 34px;
       }
       @include respond-to(sm) {
-        position: relative;
-        top: 40px;
-        margin: 0 10px;
-        width: calc(100% - 20px);
+        margin: 10px 0 20px;
       }
     }
 

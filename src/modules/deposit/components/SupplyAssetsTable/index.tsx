@@ -5,8 +5,7 @@ import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import SupplyItem from './SupplyItem';
-import DashboardTable from '../../../dashboard/components/DashboardTable';
-import DashboardMobileCardsWrapper from '../../../dashboard/components/DashboardMobileCardsWrapper';
+import DashboardItemsWrapper from '../../../dashboard/components/DashboardItemsWrapper';
 import TableHeader from '../../../dashboard/components/DashboardTable/TableHeader';
 import SupplyItemMobileCard from './SupplyItemMobileCard';
 import { SupplyTableItem } from './types';
@@ -89,30 +88,25 @@ export default function SupplyAssetTable() {
 
   return filteredSupplyReserves.length ? (
     <>
-      {!sm ? (
-        <>
-          <DashboardTable
-            title={intl.formatMessage(messages.assetsToDeposit)}
-            withBottomText={true}
-            localStorageName="supplyAssetsDashboardTableCollapse"
-          >
+      <DashboardItemsWrapper
+        title={intl.formatMessage(messages.assetsToDeposit)}
+        localStorageName="supplyAssetsDashboardTableCollapse"
+        withBottomText={true}
+        withTopMargin={true}
+      >
+        {!sm ? (
+          <>
             <Header />
             {filteredSupplyReserves.map((item) => (
               <SupplyItem {...item} key={item.id} userId={userId} />
             ))}
-          </DashboardTable>
-        </>
-      ) : (
-        <DashboardMobileCardsWrapper
-          title={intl.formatMessage(messages.assetsToDeposit)}
-          withTopMargin={true}
-          withBottomText={true}
-        >
-          {filteredSupplyReserves.map((item) => (
+          </>
+        ) : (
+          filteredSupplyReserves.map((item) => (
             <SupplyItemMobileCard userId={userId} {...item} key={item.id} />
-          ))}
-        </DashboardMobileCardsWrapper>
-      )}
+          ))
+        )}
+      </DashboardItemsWrapper>
     </>
   ) : (
     <></>

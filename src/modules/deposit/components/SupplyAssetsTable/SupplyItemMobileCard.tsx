@@ -7,6 +7,7 @@ import Row from '../../../../components/basic/Row';
 import NoData from '../../../../components/basic/NoData';
 import Value from '../../../../components/basic/Value';
 import IncentivesCard from '../../../../components/incentives/IncentivesCard';
+import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import CapsHint from '../../../../components/caps/CapsHint';
@@ -82,11 +83,7 @@ export default function SupplyItemMobileCard({
         />
       </Row>
 
-      <Row
-        title={intl.formatMessage(defaultMessages.deposit)}
-        className="Row__center"
-        withMargin={true}
-      >
+      <TableButtonsWrapper>
         <Link
           to={`/deposit/${underlyingAsset}-${id}`}
           className="ButtonLink"
@@ -98,9 +95,7 @@ export default function SupplyItemMobileCard({
             disabled={!isActive || isFreezed}
           />
         </Link>
-      </Row>
 
-      <Row title={intl.formatMessage(messages.showDetails)} className="Row__center">
         <Link to={`/reserve-overview/${underlyingAsset}-${id}`} className="ButtonLink">
           <DefaultButton
             title={intl.formatMessage(defaultMessages.details)}
@@ -108,7 +103,7 @@ export default function SupplyItemMobileCard({
             transparent={true}
           />
         </Link>
-      </Row>
+      </TableButtonsWrapper>
     </MobileCardWrapper>
   );
 }

@@ -7,8 +7,6 @@ export default defineMessages({
   APYVariable: 'APY variable',
   APYStable: 'APY stable',
 
-  showDetails: 'Show details',
-
   yourBorrows: 'Your borrows',
   nothingBorrowed: 'Nothing borrowed yet', // TODO: need text
   nothingBorrowedDescription:

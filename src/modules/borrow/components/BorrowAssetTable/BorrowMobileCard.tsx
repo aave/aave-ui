@@ -8,6 +8,7 @@ import Value from '../../../../components/basic/Value';
 import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
+import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
@@ -76,11 +77,7 @@ export default function BorrowMobileCard({
         </Row>
       )}
 
-      <Row
-        title={intl.formatMessage(defaultMessages.borrow)}
-        className="Row__center"
-        withMargin={true}
-      >
+      <TableButtonsWrapper>
         <Link to={`/borrow/${underlyingAsset}-${id}`} className="ButtonLink" disabled={isFreezed}>
           <DefaultButton
             title={intl.formatMessage(defaultMessages.borrow)}
@@ -88,9 +85,6 @@ export default function BorrowMobileCard({
             disabled={isFreezed}
           />
         </Link>
-      </Row>
-
-      <Row title={intl.formatMessage(messages.showDetails)} className="Row__center">
         <Link to={`/reserve-overview/${underlyingAsset}-${id}`} className="ButtonLink">
           <DefaultButton
             title={intl.formatMessage(defaultMessages.details)}
@@ -98,7 +92,7 @@ export default function BorrowMobileCard({
             transparent={true}
           />
         </Link>
-      </Row>
+      </TableButtonsWrapper>
     </MobileCardWrapper>
   );
 }
