@@ -5,7 +5,7 @@ const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
 
-  .IsolationInfoBanner {
+  .InfoBanner {
     display: flex;
     align-items: center;
     text-align: left;

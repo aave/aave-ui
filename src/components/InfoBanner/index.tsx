@@ -3,17 +3,17 @@ import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import Link from '../../basic/Link';
+import Link from '../basic/Link';
 
 import messages from './messages';
 import staticStyles from './style';
 
-import alert from '../../../images/alertCircleGray.svg';
-import alertDark from '../../../images/alertCircleWhite.svg';
-import warning from '../../../images/warningTransparentDarkBlue.svg';
-import warningDark from '../../../images/warningTransparentWhite.svg';
+import alert from '../../images/alertCircleGray.svg';
+import alertDark from '../../images/alertCircleWhite.svg';
+import warning from '../../images/warningTransparentDarkBlue.svg';
+import warningDark from '../../images/warningTransparentWhite.svg';
 
-interface IsolationInfoBannerProps {
+interface InfoBannerProps {
   text: string;
   size?: 'small' | 'normal';
   link?: string;
@@ -21,20 +21,20 @@ interface IsolationInfoBannerProps {
   withoutMargin?: boolean;
 }
 
-export default function IsolationInfoBanner({
+export default function InfoBanner({
   text,
   size = 'normal',
   link,
   withIcon,
   withoutMargin,
-}: IsolationInfoBannerProps) {
+}: InfoBannerProps) {
   const intl = useIntl();
   const { currentTheme, isCurrentThemeDark, sm } = useThemeContext();
 
   return (
     <div
-      className={classNames('IsolationInfoBanner', `IsolationInfoBanner__${size}`, {
-        IsolationInfoBanner__withoutMargin: withoutMargin,
+      className={classNames('InfoBanner', `InfoBanner__${size}`, {
+        InfoBanner__withoutMargin: withoutMargin,
       })}
     >
       {withIcon && <img src={isCurrentThemeDark || sm ? alertDark : alert} alt="" />}
@@ -56,11 +56,14 @@ export default function IsolationInfoBanner({
       <style jsx={true} global={true}>{`
         @import 'src/_mixins/screen-size';
 
-        .IsolationInfoBanner {
+        .InfoBanner {
+          background: ${currentTheme.mainBg.hex};
           color: ${currentTheme.textDarkBlue.hex};
 
           &__normal {
-            border: 1px solid ${currentTheme.textDarkBlue.hex};
+            @include respond-to(sm) {
+              border: 1px solid ${currentTheme.textDarkBlue.hex};
+            }
           }
 
           &__small {

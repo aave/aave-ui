@@ -65,7 +65,7 @@ export default function BorrowItem({
 
       <TableButtonsWrapper>
         <TableButtonCol
-          disabled={isFreezed}
+          disabled={isFreezed || Number(availableBorrows) <= 0}
           title={intl.formatMessage(defaultMessages.borrow)}
           linkTo={`/borrow/${underlyingAsset}-${id}`}
         />

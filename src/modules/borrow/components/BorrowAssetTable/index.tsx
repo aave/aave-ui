@@ -11,7 +11,7 @@ import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useLanguageContext } from '../../../../libs/language-provider';
 import BorrowItem from './BorrowItem';
 import BorrowMobileCard from './BorrowMobileCard';
-import IsolationInfoBanner from '../../../../components/isolationMode/IsolationInfoBanner';
+import InfoBanner from '../../../../components/InfoBanner';
 import TableNoData from '../../../dashboard/components/DashboardTable/TableNoData';
 
 import { BorrowTableItem as InternalBorrowTableItem } from './types';
@@ -77,52 +77,40 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
     }
   );
 
-  const reserveAssets = borrowedReserves.map((reserve) =>
-    reserve.reserve.underlyingAsset.toLowerCase()
-  );
-
   const isEModeActive = userEmodeCategoryId !== 0;
 
-  const filteredBorrowReserves = tokensToBorrow.filter(
-    ({
-      symbol,
-      borrowingEnabled,
-      isActive,
-      borrowableInIsolation,
-      underlyingAsset,
-      availableBorrowsInUSD,
-      totalLiquidityUSD,
-      eModeCategoryId,
-    }) => {
-      const defaultFilter =
-        reserveAssets.indexOf(underlyingAsset.toString()) === -1 &&
-        availableBorrowsInUSD !== '0.00' &&
-        totalLiquidityUSD !== '0';
-
-      if (!isEModeActive) {
-        return (
-          (defaultFilter && borrowingEnabled && isActive && !user?.isInIsolationMode) ||
-          (defaultFilter &&
-            user?.isInIsolationMode &&
-            borrowableInIsolation &&
-            isAssetStable(symbol))
-        );
-      } else {
-        return (
-          (eModeCategoryId === userEmodeCategoryId &&
-            defaultFilter &&
-            borrowingEnabled &&
-            isActive &&
-            !user?.isInIsolationMode) ||
-          (eModeCategoryId === userEmodeCategoryId &&
-            defaultFilter &&
-            user?.isInIsolationMode &&
-            borrowableInIsolation &&
-            isAssetStable(symbol))
-        );
+  const filteredBorrowReserves = tokensToBorrow
+    .filter(
+      ({
+        symbol,
+        borrowingEnabled,
+        isActive,
+        borrowableInIsolation,
+        underlyingAsset,
+        availableBorrowsInUSD,
+        totalLiquidityUSD,
+        eModeCategoryId,
+      }) => {
+        if (!isEModeActive) {
+          return (
+            (borrowingEnabled && isActive && !user?.isInIsolationMode) ||
+            (user?.isInIsolationMode && borrowableInIsolation && isAssetStable(symbol))
+          );
+        } else {
+          return (
+            (eModeCategoryId === userEmodeCategoryId &&
+              borrowingEnabled &&
+              isActive &&
+              !user?.isInIsolationMode) ||
+            (eModeCategoryId === userEmodeCategoryId &&
+              user?.isInIsolationMode &&
+              borrowableInIsolation &&
+              isAssetStable(symbol))
+          );
+        }
       }
-    }
-  );
+    )
+    .sort((a, b) => (+a.availableBorrowsInUSD > +b.availableBorrowsInUSD ? -1 : 0));
 
   const head = [
     intl.formatMessage(messages.maxAmount),
@@ -149,8 +137,13 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
         title={intl.formatMessage(messages.assetsToBorrow)}
         localStorageName="borrowAssetsDashboardTableCollapse"
         subTitleComponent={
-          user?.isInIsolationMode && (
-            <IsolationInfoBanner text={intl.formatMessage(messages.isolationText)} size="normal" />
+          (user?.isInIsolationMode || user?.totalBorrowsMarketReferenceCurrency === '0') && (
+            <InfoBanner
+              text={intl.formatMessage(
+                user?.isInIsolationMode ? messages.isolationText : messages.noCollateralText
+              )}
+              size="normal"
+            />
           )
         }
         withBottomText={true}

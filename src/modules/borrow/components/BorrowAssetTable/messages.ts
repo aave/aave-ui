@@ -16,5 +16,6 @@ export default defineMessages({
   noDataDescription:
     'There will be a list of all available assets you can borrow. For now, it’s empty since you have not collateral.', // TODO: need text
 
+  noCollateralText: 'To borrow you need to deposit any asset to be used as collateral.', // TODO: maybe need fix
   isolationText: 'Borrow power and assets are limited due to Isolation mode.',
 });

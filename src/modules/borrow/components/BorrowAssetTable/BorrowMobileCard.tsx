@@ -78,11 +78,15 @@ export default function BorrowMobileCard({
       )}
 
       <TableButtonsWrapper>
-        <Link to={`/borrow/${underlyingAsset}-${id}`} className="ButtonLink" disabled={isFreezed}>
+        <Link
+          to={`/borrow/${underlyingAsset}-${id}`}
+          className="ButtonLink"
+          disabled={isFreezed || Number(availableBorrows) <= 0}
+        >
           <DefaultButton
             title={intl.formatMessage(defaultMessages.borrow)}
             color="dark"
-            disabled={isFreezed}
+            disabled={isFreezed || Number(availableBorrows) <= 0}
           />
         </Link>
         <Link to={`/reserve-overview/${underlyingAsset}-${id}`} className="ButtonLink">
