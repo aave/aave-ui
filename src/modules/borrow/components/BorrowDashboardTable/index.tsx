@@ -38,7 +38,10 @@ export default function BorrowDashboardTable({ listData }: BorrowDashboardTableP
     <>
       {!sm ? (
         <>
-          <DashboardTable title={intl.formatMessage(messages.yourBorrows)}>
+          <DashboardTable
+            title={intl.formatMessage(messages.yourBorrows)}
+            localStorageName="borrowedAssetsDashboardTableCollapse"
+          >
             <Header />
             {listData.map((item, index) => (
               <BorrowItem

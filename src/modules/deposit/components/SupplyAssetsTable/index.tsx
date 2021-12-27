@@ -106,7 +106,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
               />
             }
             withBottomText={true}
-            localStorageName="supplyDashboardTableCollapse"
+            localStorageName="supplyAssetsDashboardTableCollapse"
           >
             <Header />
             {filteredSupplyReserves.map((item) => (

@@ -48,7 +48,10 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
     <>
       {!sm ? (
         <>
-          <DashboardTable title={intl.formatMessage(messages.yourDeposits)}>
+          <DashboardTable
+            title={intl.formatMessage(messages.yourDeposits)}
+            localStorageName="suppliedAssetsDashboardTableCollapse"
+          >
             <Header />
             {sortedListData.map((item) => (
               <DepositItem

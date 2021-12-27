@@ -165,7 +165,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
                 capType={CapType.borrowCap}
               />
             }
-            localStorageName="borrowDashboardTableCollapse"
+            localStorageName="borrowAssetsDashboardTableCollapse"
             subTitleComponent={
               user?.isInIsolationMode && (
                 <IsolationInfoBanner
