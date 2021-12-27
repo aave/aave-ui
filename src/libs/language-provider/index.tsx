@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useState } from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { IntlProvider } from 'react-intl';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
@@ -17,17 +17,6 @@ import 'dayjs/locale/pt';
 import { getCurrentLocale } from './get-language';
 import { SupportedLanguage } from './constants';
 
-import enMessages from '../../translations/en.json';
-import esMessages from '../../translations/es.json';
-import frMessages from '../../translations/fr.json';
-import itMessages from '../../translations/it.json';
-import cnMessages from '../../translations/cn.json';
-import jaMessages from '../../translations/ja.json';
-import trMessages from '../../translations/tr.json';
-import viMessages from '../../translations/vi.json';
-import koMessages from '../../translations/ko.json';
-import ptMessages from '../../translations/pt.json';
-
 dayjs.extend(localizedFormat);
 
 interface LanguageContextProps {
@@ -35,19 +24,17 @@ interface LanguageContextProps {
   changeLang: (langCode: SupportedLanguage) => void;
 }
 
-const messages: {
-  [key: string]: {};
-} = {
-  en: enMessages,
-  es: esMessages,
-  fr: frMessages,
-  it: itMessages,
-  zh: cnMessages,
-  ja: jaMessages,
-  tr: trMessages,
-  vi: viMessages,
-  ko: koMessages,
-  pt: ptMessages,
+const messageLoader = {
+  en: () => import('../../translations/en.json'),
+  es: () => import('../../translations/es.json'),
+  fr: () => import('../../translations/fr.json'),
+  it: () => import('../../translations/it.json'),
+  zh: () => import('../../translations/cn.json'),
+  ja: () => import('../../translations/ja.json'),
+  tr: () => import('../../translations/tr.json'),
+  vi: () => import('../../translations/vi.json'),
+  ko: () => import('../../translations/ko.json'),
+  pt: () => import('../../translations/pt.json'),
 };
 
 const LanguageContext = React.createContext({} as LanguageContextProps);
@@ -58,6 +45,7 @@ interface LanguageProviderProps {
 
 export function LanguageProvider({ children }: LanguageProviderProps) {
   const [currentLang, setCurrentLangSlug] = useState<SupportedLanguage>(getCurrentLocale());
+  const [messages, setMessages] = useState();
 
   const changeLang = (langCode: SupportedLanguage) => {
     localStorage.setItem('locale', langCode);
@@ -66,11 +54,15 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
 
   dayjs.locale(currentLang === 'zh' ? 'zh-cn' : currentLang);
 
+  useEffect(() => {
+    messageLoader[currentLang]?.().then(setMessages as any);
+  }, [currentLang]);
+
   return (
     <LanguageContext.Provider value={{ currentLangSlug: currentLang, changeLang }}>
       <IntlProvider
         locale={currentLang === 'zh' ? 'zh-cn' : currentLang}
-        messages={messages[currentLang]}
+        messages={messages}
         defaultLocale="en"
       >
         {children}
