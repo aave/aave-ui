@@ -23,8 +23,8 @@ export default function SupplyItemMobileCard({
   id,
   symbol,
   underlyingAsset,
-  availableToDeposit,
-  availableToDepositUSD,
+  walletBalance,
+  walletBalanceUSD,
   liquidityRate,
   userId,
   borrowingEnabled,
@@ -41,13 +41,13 @@ export default function SupplyItemMobileCard({
 
   return (
     <MobileCardWrapper symbol={symbol} disabled={isFreezed} isIsolated={isIsolated}>
-      <Row title={intl.formatMessage(messages.maxAmount)} withMargin={true}>
-        {!userId || Number(availableToDeposit) <= 0 ? (
+      <Row title={intl.formatMessage(messages.walletBalance)} withMargin={true}>
+        {!userId || Number(walletBalance) <= 0 ? (
           <NoData color="dark" />
         ) : (
           <Value
-            value={availableToDeposit}
-            subValue={availableToDepositUSD}
+            value={walletBalance}
+            subValue={walletBalanceUSD}
             maximumSubValueDecimals={2}
             subSymbol="USD"
             maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}

@@ -1,7 +1,7 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  availableToBorrow: 'Assets available to borrow',
+  assetsToBorrow: 'Assets to borrow',
 
   maxAmount: 'Max amount',
   APYVariable: 'APY variable',

@@ -5,6 +5,7 @@ export type SupplyTableItem = {
   underlyingAsset: string;
   symbol: string;
   walletBalance: string;
+  walletBalanceUSD: string;
   availableToDeposit: string;
   availableToDepositUSD: string;
   underlyingBalance: number | string;

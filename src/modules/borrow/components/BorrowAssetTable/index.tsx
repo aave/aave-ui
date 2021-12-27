@@ -12,8 +12,6 @@ import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useLanguageContext } from '../../../../libs/language-provider';
 import BorrowItem from './BorrowItem';
 import BorrowMobileCard from './BorrowMobileCard';
-import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
-import { CapType } from '../../../../components/caps/helper';
 import IsolationInfoBanner from '../../../../components/isolationMode/IsolationInfoBanner';
 import TableNoData from '../../../dashboard/components/DashboardTable/TableNoData';
 
@@ -159,12 +157,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
       {!sm ? (
         <>
           <DashboardTable
-            title={
-              <AvailableCapsHelpModal
-                title={intl.formatMessage(messages.availableToBorrow)}
-                capType={CapType.borrowCap}
-              />
-            }
+            title={intl.formatMessage(messages.assetsToBorrow)}
             localStorageName="borrowAssetsDashboardTableCollapse"
             subTitleComponent={
               user?.isInIsolationMode && (
@@ -184,12 +177,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
         </>
       ) : (
         <DashboardMobileCardsWrapper
-          title={
-            <AvailableCapsHelpModal
-              title={intl.formatMessage(messages.availableToBorrow)}
-              capType={CapType.borrowCap}
-            />
-          }
+          title={intl.formatMessage(messages.assetsToBorrow)}
           withTopMargin={true}
           withBottomText={true}
         >
@@ -201,12 +189,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
     </>
   ) : (
     <TableNoData
-      caption={
-        <AvailableCapsHelpModal
-          title={intl.formatMessage(messages.availableToBorrow)}
-          capType={CapType.borrowCap}
-        />
-      }
+      caption={intl.formatMessage(messages.assetsToBorrow)}
       title={intl.formatMessage(messages.noDataCaption)}
       description={intl.formatMessage(messages.noDataDescription)}
     />

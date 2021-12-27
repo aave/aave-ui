@@ -6,9 +6,15 @@ const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
 
   .TableNoData {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
     border-radius: $borderRadius;
+    min-height: 162px;
+    @include respond-to(xl) {
+      min-height: 155px;
+    }
     @include respond-to(sm) {
       margin: 0 10px;
       width: calc(100% - 20px);
@@ -43,12 +49,13 @@ const staticStyles = css.global`
     }
 
     .NoDataPanel {
-      display: block;
-      flex: unset;
       min-height: unset;
-      padding: 20px 0;
+      padding: 10px 0;
       @include respond-to(sm) {
         padding: 20px 15px;
+      }
+      .Caption {
+        margin-bottom: 0;
       }
     }
   }

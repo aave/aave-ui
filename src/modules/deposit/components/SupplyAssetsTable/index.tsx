@@ -9,21 +9,14 @@ import DashboardTable from '../../../dashboard/components/DashboardTable';
 import DashboardMobileCardsWrapper from '../../../dashboard/components/DashboardMobileCardsWrapper';
 import TableHeader from '../../../dashboard/components/DashboardTable/TableHeader';
 import SupplyItemMobileCard from './SupplyItemMobileCard';
-import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
-import { CapType } from '../../../../components/caps/helper';
 import { SupplyTableItem } from './types';
 import { ComputedReserveData, useAppDataContext } from '../../../../libs/pool-data-provider';
-import { DepositTableItem } from '../DepositDashboardTable/types';
 import Preloader from '../../../../components/basic/Preloader';
 import { useLanguageContext } from '../../../../libs/language-provider';
 
 import messages from './messages';
 
-interface SupplyAssetTableProps {
-  suppliedReserves: DepositTableItem[];
-}
-
-export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableProps) {
+export default function SupplyAssetTable() {
   const intl = useIntl();
   const { user, userId, walletBalances, reserves, marketReferencePriceInUsd } = useAppDataContext();
   const { currentLangSlug } = useLanguageContext();
@@ -39,6 +32,11 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
         (userRes) => userRes.reserve.symbol === reserve.symbol
       );
       const walletBalance = walletBalances[reserve.underlyingAsset]?.amount || '0';
+      const walletBalanceUSD = valueToBigNumber(walletBalance)
+        .multipliedBy(reserve.priceInMarketReferenceCurrency)
+        .multipliedBy(marketReferencePriceInUsd)
+        .shiftedBy(-USD_DECIMALS)
+        .toString();
 
       let availableToDeposit = valueToBigNumber(walletBalance);
       if (reserve.supplyCap !== '0') {
@@ -56,6 +54,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
       return {
         ...reserve,
         walletBalance,
+        walletBalanceUSD,
         availableToDeposit:
           availableToDeposit.toNumber() <= 0 ? '0' : availableToDeposit.toString(),
         availableToDepositUSD:
@@ -78,7 +77,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
   );
 
   const head = [
-    intl.formatMessage(messages.maxAmount),
+    intl.formatMessage(messages.walletBalance),
     intl.formatMessage(messages.APY),
     intl.formatMessage(messages.collateral),
   ];
@@ -93,12 +92,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
       {!sm ? (
         <>
           <DashboardTable
-            title={
-              <AvailableCapsHelpModal
-                title={intl.formatMessage(messages.availableToDeposit)}
-                capType={CapType.supplyCap}
-              />
-            }
+            title={intl.formatMessage(messages.assetsToDeposit)}
             withBottomText={true}
             localStorageName="supplyAssetsDashboardTableCollapse"
           >
@@ -110,12 +104,7 @@ export default function SupplyAssetTable({ suppliedReserves }: SupplyAssetTableP
         </>
       ) : (
         <DashboardMobileCardsWrapper
-          title={
-            <AvailableCapsHelpModal
-              title={intl.formatMessage(messages.availableToDeposit)}
-              capType={CapType.supplyCap}
-            />
-          }
+          title={intl.formatMessage(messages.assetsToDeposit)}
           withTopMargin={true}
           withBottomText={true}
         >

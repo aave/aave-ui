@@ -21,8 +21,8 @@ export default function SupplyItem({
   id,
   symbol,
   underlyingAsset,
-  availableToDeposit,
-  availableToDepositUSD,
+  walletBalance,
+  walletBalanceUSD,
   liquidityRate,
   userId,
   isFreezed,
@@ -37,14 +37,14 @@ export default function SupplyItem({
   const intl = useIntl();
 
   return (
-    <TableItem tokenSymbol={symbol} isIsolated={isIsolated}>
+    <TableItem tokenSymbol={symbol} isIsolated={false}>
       <TableCol>
-        {!userId || Number(availableToDeposit) <= 0 ? (
+        {!userId || Number(walletBalance) <= 0 ? (
           <NoData color="dark" />
         ) : (
           <Value
-            value={availableToDeposit}
-            subValue={availableToDepositUSD}
+            value={walletBalance}
+            subValue={walletBalanceUSD}
             maximumSubValueDecimals={2}
             subSymbol="USD"
             maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}

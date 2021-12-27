@@ -9,7 +9,7 @@ const staticStyles = css.global`
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 7px 10px 6px;
+    padding: 11px 10px 10px;
     position: relative;
     min-height: 70px;
     @include respond-to(xl) {
@@ -34,11 +34,11 @@ const staticStyles = css.global`
 
     &__isolated {
       position: relative;
-      padding-top: 30px;
+      padding-top: 33px;
       border-top-left-radius: unset;
       border-top-right-radius: unset;
       @include respond-to(xl) {
-        padding-top: 26px;
+        padding-top: 29px;
       }
       &:after {
         display: none;
