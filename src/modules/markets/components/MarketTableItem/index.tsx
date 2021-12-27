@@ -80,7 +80,7 @@ export default function MarketTableItem({
           tokenFullName={asset.name}
           className="MarketTableItem__token"
         />
-        {isIsolated && <IsolatedBadge />}
+        {borrowingEnabled && isIsolated && <IsolatedBadge />}
       </TableColumn>
 
       <TableColumn className="MarketTableItem__column">
