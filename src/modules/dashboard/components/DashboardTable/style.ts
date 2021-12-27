@@ -14,7 +14,7 @@ const staticStyles = css.global`
       .DashboardTable__collapseButton {
         span {
           &:after {
-            transform: translate(-50%, -50%) rotate(90deg);
+            transform: translate(-50%, -50%);
           }
         }
       }
@@ -46,6 +46,10 @@ const staticStyles = css.global`
       }
     }
 
+    &__content {
+      margin-top: 10px;
+    }
+
     &__collapseButton {
       display: flex;
       align-items: center;
@@ -72,7 +76,7 @@ const staticStyles = css.global`
           position: absolute;
           left: 50%;
           top: 50%;
-          transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%) rotate(90deg);
           height: 14px;
           width: 2px;
           transition: all 0.3s ease;

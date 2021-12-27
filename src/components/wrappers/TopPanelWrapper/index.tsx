@@ -40,7 +40,9 @@ export default function TopPanelWrapper({
         >
           <span />
           {intl.formatMessage(
-            isCollapse ? expandMessage || messages.expand : minimizeMessage || messages.minimize
+            isCollapse
+              ? expandMessage || messages.showDetails
+              : minimizeMessage || messages.hideDetails
           )}
         </button>
       )}

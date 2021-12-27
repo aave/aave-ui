@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  expand: 'Expand',
-  minimize: 'Minimize',
+  showDetails: 'Show details',
+  hideDetails: 'Hide details',
 });

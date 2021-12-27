@@ -6,11 +6,15 @@ const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
 
   .Dashboard {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    @include respond-to(lg) {
-      display: block;
+    display: block;
+
+    &__fullHeight {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      @include respond-to(lg) {
+        display: block;
+      }
     }
 
     &__switcher-inner {
@@ -18,8 +22,6 @@ const staticStyles = css.global`
       display: none;
       @include respond-to(lg) {
         display: flex;
-      }
-      @include respond-to(sm) {
         align-items: center;
         justify-content: center;
       }

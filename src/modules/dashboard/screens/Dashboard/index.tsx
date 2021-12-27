@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import BigNumber from 'bignumber.js';
+import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { valueToBigNumber } from '@aave/math-utils';
 import { InterestRate } from '@aave/contract-helpers';
@@ -181,7 +182,7 @@ export default function Dashboard() {
     !!depositedPositions.length && depositedPositions.some((pos) => pos.availableToDeposit !== '0');
 
   return (
-    <div className="Dashboard">
+    <div className={classNames('Dashboard', { Dashboard__fullHeight: !userId || !isTableShow })}>
       <div className="Dashboard__top--line">
         <IncentivesClaimPanel />
       </div>
