@@ -97,7 +97,7 @@ describe('SWAP SPEC FOR MAINMARKET', () => {
       {
         fromAsset: assets.aaveMarket.ETH,
         toAsset: assets.aaveMarket.USDT,
-        amount: 2000,
+        amount: 1,
         failCase: true,
         hasApproval: false,
       },
