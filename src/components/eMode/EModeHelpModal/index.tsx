@@ -2,7 +2,6 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import Link from '../../basic/Link';
-import Row from '../../basic/Row';
 
 import HelpModalWrapper, { HelpModalWrapperProps } from '../../HelpModal/HelpModalWrapper';
 import messages from './messages';
