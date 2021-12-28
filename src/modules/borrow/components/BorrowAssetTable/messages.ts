@@ -8,9 +8,7 @@ export default defineMessages({
   APYStable: 'APY stable',
 
   yourBorrows: 'Your borrows',
-  nothingBorrowed: 'Nothing borrowed yet', // TODO: need text
-  nothingBorrowedDescription:
-    'There will be a list of all the assets you have borrowed. For now, it’s empty since you have not borrowed.', // TODO: need text
+  nothingBorrowed: 'Nothing borrowed yet',
 
   noDataCaption: 'No borrow assets available yet', // TODO: need text
   noDataDescription:

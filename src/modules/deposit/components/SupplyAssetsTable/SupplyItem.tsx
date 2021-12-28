@@ -9,7 +9,7 @@ import { CapType } from '../../../../components/caps/helper';
 import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import TableButtonCol from '../../../dashboard/components/DashboardTable/TableButtonCol';
 import TableAprCol from '../../../dashboard/components/DashboardTable/TableAprCol';
-import TableUsageAsCollateral from '../../../dashboard/components/DashboardTable/TableUsageAsCollateral';
+import TableCanBeCollateral from '../../../dashboard/components/DashboardTable/TableCanBeCollateral';
 
 import { SupplyTableItem } from './types';
 
@@ -29,8 +29,7 @@ export default function SupplyItem({
   totalLiquidity,
   supplyCap,
   isActive,
-  usageAsCollateralEnabled,
-  isUserInIsolationMode,
+  usageAsCollateralEnabledOnUser,
 }: SupplyTableItem) {
   const intl = useIntl();
 
@@ -56,10 +55,9 @@ export default function SupplyItem({
       <TableAprCol value={Number(liquidityRate)} incentives={aIncentives} symbol={symbol} />
 
       <TableCol>
-        <TableUsageAsCollateral
-          isUserInIsolationMode={isUserInIsolationMode}
+        <TableCanBeCollateral
           isIsolated={isIsolated}
-          usageAsCollateralEnabled={usageAsCollateralEnabled}
+          usageAsCollateralEnabled={usageAsCollateralEnabledOnUser}
         />
       </TableCol>
 

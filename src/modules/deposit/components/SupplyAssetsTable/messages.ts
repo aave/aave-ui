@@ -5,7 +5,7 @@ export default defineMessages({
 
   walletBalance: 'Wallet balance',
   APY: 'APY',
-  collateral: 'Collateral',
+  collateral: 'Can be collateral',
 
-  usageAsCollateral: 'Usage as collateral',
+  isolationText: 'Collateral usage is limited because of isolation mode.',
 });

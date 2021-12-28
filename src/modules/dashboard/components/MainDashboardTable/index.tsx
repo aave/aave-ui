@@ -40,7 +40,6 @@ export default function MainDashboardTable({
           <TableNoData
             caption={intl.formatMessage(messages.depositedAssets)}
             title={intl.formatMessage(messages.nothingDeposited)}
-            description={intl.formatMessage(messages.nothingDepositedDescription)}
           />
         )}
 

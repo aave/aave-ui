@@ -8,7 +8,7 @@ import staticStyles from './style';
 interface TableNoDataProps {
   caption: string | ReactNode;
   title: string;
-  description: string;
+  description?: string;
 }
 
 export default function TableNoData({ caption, title, description }: TableNoDataProps) {

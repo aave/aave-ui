@@ -11,13 +11,7 @@ const staticStyles = css.global`
     align-items: center;
     padding: 11px 10px 10px;
     position: relative;
-    min-height: 70px;
-    @include respond-to(xl) {
-      min-height: 60px;
-    }
-    @include respond-to(lg) {
-      min-height: 55px;
-    }
+    min-height: 72px;
     &:after {
       content: '';
       position: absolute;

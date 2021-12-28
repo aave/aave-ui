@@ -5,7 +5,7 @@ const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
 
-  .TableUsageAsCollateralWrapper {
+  .TableCanBeCollateralWrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -14,7 +14,7 @@ const staticStyles = css.global`
     }
 
     .TextWithModal__text,
-    .TableUsageAsCollateral {
+    .TableCanBeCollateral {
       font-size: $regular;
       @include respond-to(xl) {
         font-size: $medium;
@@ -30,8 +30,19 @@ const staticStyles = css.global`
       }
     }
 
-    .TableUsageAsCollateral {
-      font-weight: 600;
+    .TableCanBeCollateral {
+      &__image {
+        width: 12px;
+        height: 8px;
+        @include respond-to(xl) {
+          width: 11px;
+          height: 6px;
+        }
+        @include respond-to(sm) {
+          width: 12px;
+          height: 8px;
+        }
+      }
     }
   }
 `;

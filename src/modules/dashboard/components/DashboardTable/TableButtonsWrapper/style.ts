@@ -38,7 +38,7 @@ const staticStyles = css.global`
       }
 
       .Link {
-        width: 46%;
+        width: calc(50% - 7.5px);
       }
 
       &.TableButtonsWrapper .DefaultButton {

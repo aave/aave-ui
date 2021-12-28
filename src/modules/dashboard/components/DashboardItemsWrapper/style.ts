@@ -39,6 +39,10 @@ const staticStyles = css.global`
           padding: 20px;
         }
       }
+
+      &.DashboardItemsWrapper__withTopMargin {
+        margin-top: 10px;
+      }
     }
 
     &__withTopMargin {

@@ -11,6 +11,7 @@ import SupplyItemMobileCard from './SupplyItemMobileCard';
 import { SupplyTableItem } from './types';
 import { ComputedReserveData, useAppDataContext } from '../../../../libs/pool-data-provider';
 import Preloader from '../../../../components/basic/Preloader';
+import InfoBanner from '../../../../components/InfoBanner';
 import { useLanguageContext } from '../../../../libs/language-provider';
 
 import messages from './messages';
@@ -50,6 +51,18 @@ export default function SupplyAssetTable() {
         .shiftedBy(-USD_DECIMALS)
         .toString();
 
+      const isIsolated = reserve.isIsolated;
+      const hasDifferentCollateral = user?.userReservesData.find(
+        (userRes) => userRes.usageAsCollateralEnabledOnUser && userRes.reserve.id !== reserve.id
+      );
+
+      const usageAsCollateralEnabledOnUser = !user?.isInIsolationMode
+        ? reserve.usageAsCollateralEnabled &&
+          (!isIsolated || (isIsolated && !hasDifferentCollateral))
+        : !isIsolated
+        ? false
+        : !hasDifferentCollateral;
+
       return {
         ...reserve,
         walletBalance,
@@ -66,7 +79,7 @@ export default function SupplyAssetTable() {
         aIncentives: reserve.aIncentivesData ? reserve.aIncentivesData : [],
         vIncentives: reserve.vIncentivesData ? reserve.vIncentivesData : [],
         sIncentives: reserve.sIncentivesData ? reserve.sIncentivesData : [],
-        isUserInIsolationMode: user?.isInIsolationMode,
+        usageAsCollateralEnabledOnUser,
       };
     }
   );
@@ -93,6 +106,11 @@ export default function SupplyAssetTable() {
         localStorageName="supplyAssetsDashboardTableCollapse"
         withBottomText={true}
         withTopMargin={true}
+        subTitleComponent={
+          user?.isInIsolationMode && (
+            <InfoBanner text={intl.formatMessage(messages.isolationText)} size="normal" />
+          )
+        }
       >
         {!sm ? (
           <>

@@ -12,7 +12,7 @@ import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
-import TableUsageAsCollateral from '../../../dashboard/components/DashboardTable/TableUsageAsCollateral';
+import TableCanBeCollateral from '../../../dashboard/components/DashboardTable/TableCanBeCollateral';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
@@ -35,8 +35,7 @@ export default function SupplyItemMobileCard({
   totalLiquidity,
   supplyCap,
   isActive,
-  isUserInIsolationMode,
-  usageAsCollateralEnabled,
+  usageAsCollateralEnabledOnUser,
 }: SupplyTableItem) {
   const intl = useIntl();
 
@@ -78,11 +77,10 @@ export default function SupplyItemMobileCard({
         </Row>
       )}
 
-      <Row title={intl.formatMessage(messages.usageAsCollateral)} withMargin={true}>
-        <TableUsageAsCollateral
+      <Row title={intl.formatMessage(messages.collateral)} withMargin={true}>
+        <TableCanBeCollateral
           isIsolated={isIsolated}
-          usageAsCollateralEnabled={usageAsCollateralEnabled}
-          isUserInIsolationMode={isUserInIsolationMode}
+          usageAsCollateralEnabled={usageAsCollateralEnabledOnUser}
         />
       </Row>
 

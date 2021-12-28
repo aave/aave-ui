@@ -129,7 +129,6 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
         <TableNoData
           caption={intl.formatMessage(messages.yourBorrows)}
           title={intl.formatMessage(messages.nothingBorrowed)}
-          description={intl.formatMessage(messages.nothingBorrowedDescription)}
         />
       )}
 

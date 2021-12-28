@@ -30,8 +30,8 @@ export default function TableItem({ tokenSymbol, children, isIsolated }: TableIt
         <TokenIcon
           tokenSymbol={tokenSymbol}
           tokenFullName={asset.shortSymbol || asset.formattedName}
-          height={26}
-          width={26}
+          height={30}
+          width={30}
           className="TableItem__token"
           tooltipId={tokenSymbol}
         />

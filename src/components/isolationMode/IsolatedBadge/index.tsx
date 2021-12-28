@@ -9,13 +9,19 @@ import staticStyles from './style';
 
 import info from '../../../images/info.svg';
 import infoWhite from '../../../images/infoGrayDark.svg';
+import infoLightBlue from '../../../images/infoLightBlue.svg';
 
 interface IsolatedBadgeProps {
   isWhiteIcon?: boolean;
   isWhite?: boolean;
+  isLightBlueIcon?: boolean;
 }
 
-export default function IsolatedBadge({ isWhiteIcon, isWhite }: IsolatedBadgeProps) {
+export default function IsolatedBadge({
+  isWhiteIcon,
+  isWhite,
+  isLightBlueIcon,
+}: IsolatedBadgeProps) {
   const intl = useIntl();
   const { currentTheme, xl } = useThemeContext();
 
@@ -37,7 +43,7 @@ export default function IsolatedBadge({ isWhiteIcon, isWhite }: IsolatedBadgePro
         <img
           width={xl ? 10 : 12}
           height={xl ? 10 : 12}
-          src={isWhiteIcon ? infoWhite : info}
+          src={isWhiteIcon ? infoWhite : isLightBlueIcon ? infoLightBlue : info}
           alt=""
         />
       </button>

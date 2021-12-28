@@ -184,7 +184,7 @@ export default function Value({
               {tooltipSymbol && tooltipSymbol === 'USD' && <>$ </>}
               {intl.formatNumber(Number(tooltipValue || newValue), {
                 minimumFractionDigits: minimumTooltipDecimals,
-                maximumFractionDigits: maximumTooltipDecimals || 18,
+                maximumFractionDigits: maximumTooltipDecimals || 7,
               })}{' '}
               {symbol && !withoutSymbol && !!asset && asset.formattedName && (
                 <>{asset.formattedName}</>
@@ -196,7 +196,7 @@ export default function Value({
                 {tooltipSubSymbol && tooltipSubSymbol === 'USD' && <>$ </>}
                 {intl.formatNumber(Number(tooltipSubValue), {
                   minimumFractionDigits: minimumTooltipSubDecimals,
-                  maximumFractionDigits: maximumTooltipSubDecimals || 18,
+                  maximumFractionDigits: maximumTooltipSubDecimals || 7,
                 })}{' '}
                 {tooltipSubSymbol && tooltipSubSymbol !== 'USD' && <>{tooltipSubSymbol}</>}
               </span>
