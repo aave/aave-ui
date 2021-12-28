@@ -71,9 +71,9 @@ export default function SupplyAssetTable() {
     }
   );
 
-  const filteredSupplyReserves = tokensToSupply.filter(
-    (reserve) => reserve.availableToDepositUSD !== '0'
-  );
+  const filteredSupplyReserves = tokensToSupply
+    .filter((reserve) => reserve.availableToDepositUSD !== '0')
+    .sort((a, b) => (+a.walletBalanceUSD > +b.walletBalanceUSD ? -1 : 1));
 
   const head = [
     intl.formatMessage(messages.walletBalance),

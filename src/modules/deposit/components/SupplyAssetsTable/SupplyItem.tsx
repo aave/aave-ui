@@ -3,9 +3,7 @@ import { useIntl } from 'react-intl';
 
 import TableItem from '../../../dashboard/components/DashboardTable/TableItem';
 import TableCol from '../../../dashboard/components/DashboardTable/TableCol';
-import Value from '../../../../components/basic/Value';
-import NoData from '../../../../components/basic/NoData';
-import { isAssetStable } from '../../../../helpers/config/assets-config';
+import TableValueCol from '../../../dashboard/components/DashboardTable/TableValueCol';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
 import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
@@ -38,30 +36,22 @@ export default function SupplyItem({
 
   return (
     <TableItem tokenSymbol={symbol} isIsolated={false}>
-      <TableCol>
-        {!userId || Number(walletBalance) <= 0 ? (
-          <NoData color="dark" />
-        ) : (
-          <Value
-            value={walletBalance}
-            subValue={walletBalanceUSD}
-            maximumSubValueDecimals={2}
-            subSymbol="USD"
-            maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}
-            className="TableValueCol__value"
-            tooltipId={`availableToDeposit__${id}`}
-            nextToValue={
-              <CapsHint
-                capType={CapType.supplyCap}
-                capAmount={supplyCap}
-                totalAmount={totalLiquidity}
-                tooltipId={`supplyCap__${id}`}
-                withoutText={true}
-              />
-            }
+      <TableValueCol
+        userId={userId}
+        symbol={symbol}
+        value={Number(walletBalanceUSD)}
+        subValue={Number(walletBalance)}
+        tooltipId={`availableToDeposit__${id}`}
+        nextToValue={
+          <CapsHint
+            capType={CapType.supplyCap}
+            capAmount={supplyCap}
+            totalAmount={totalLiquidity}
+            tooltipId={`supplyCap__${id}`}
+            withoutText={true}
           />
-        )}
-      </TableCol>
+        }
+      />
 
       <TableAprCol value={Number(liquidityRate)} incentives={aIncentives} symbol={symbol} />
 

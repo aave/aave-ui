@@ -2,15 +2,12 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import TableItem from '../../../dashboard/components/DashboardTable/TableItem';
-import TableCol from '../../../dashboard/components/DashboardTable/TableCol';
+import TableValueCol from '../../../dashboard/components/DashboardTable/TableValueCol';
 import TableAprCol from '../../../dashboard/components/DashboardTable/TableAprCol';
 import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import TableButtonCol from '../../../dashboard/components/DashboardTable/TableButtonCol';
-import Value from '../../../../components/basic/Value';
-import NoData from '../../../../components/basic/NoData';
 import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
-import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import { BorrowTableItem } from './types';
 
@@ -35,30 +32,22 @@ export default function BorrowItem({
 
   return (
     <TableItem tokenSymbol={symbol} isIsolated={false}>
-      <TableCol>
-        {!userId || Number(availableBorrows) <= 0 ? (
-          <NoData color="dark" />
-        ) : (
-          <Value
-            value={Number(availableBorrows)}
-            subValue={availableBorrowsInUSD}
-            subSymbol="USD"
-            maximumSubValueDecimals={2}
-            maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}
-            className="TableValueCol__value"
-            tooltipId={`availableBorrows__${id}`}
-            nextToValue={
-              <CapsHint
-                capType={CapType.borrowCap}
-                capAmount={borrowCap}
-                totalAmount={totalBorrows}
-                tooltipId={`borrowCap__${id}`}
-                withoutText={true}
-              />
-            }
+      <TableValueCol
+        userId={userId}
+        symbol={symbol}
+        value={Number(availableBorrowsInUSD)}
+        subValue={Number(availableBorrows)}
+        tooltipId={`availableBorrows__${id}`}
+        nextToValue={
+          <CapsHint
+            capType={CapType.borrowCap}
+            capAmount={borrowCap}
+            totalAmount={totalBorrows}
+            tooltipId={`borrowCap__${id}`}
+            withoutText={true}
           />
-        )}
-      </TableCol>
+        }
+      />
 
       <TableAprCol value={Number(variableBorrowRate)} incentives={vIncentives} symbol={symbol} />
       <TableAprCol value={Number(stableBorrowRate)} incentives={sIncentives} symbol={symbol} />

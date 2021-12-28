@@ -2,6 +2,7 @@ import { ComputedReserveData } from '../../../../libs/pool-data-provider';
 import { ReserveIncentiveResponse } from '../../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 export type BorrowTableItem = {
+  userId?: string;
   onSwitchToggle: () => void;
   isActive: boolean;
   isFrozen: boolean;

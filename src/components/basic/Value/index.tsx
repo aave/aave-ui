@@ -34,8 +34,14 @@ interface ValueProps {
   isSmallValueCenterEllipsis?: boolean;
   onWhiteBackground?: boolean;
   nextToValue?: ReactNode;
+  tooltipValue?: string | number;
+  tooltipSubValue?: string | number;
+  tooltipSymbol?: string;
+  tooltipSubSymbol?: string;
   maximumTooltipDecimals?: number;
   minimumTooltipDecimals?: number;
+  maximumTooltipSubDecimals?: number;
+  minimumTooltipSubDecimals?: number;
 }
 
 export default function Value({
@@ -59,8 +65,14 @@ export default function Value({
   isSmallValueCenterEllipsis,
   onWhiteBackground,
   nextToValue,
+  tooltipValue,
+  tooltipSubValue,
+  tooltipSymbol,
+  tooltipSubSymbol,
   maximumTooltipDecimals,
   minimumTooltipDecimals,
+  maximumTooltipSubDecimals,
+  minimumTooltipSubDecimals,
 }: ValueProps) {
   const intl = useIntl();
   const { currentTheme, xl } = useThemeContext();
@@ -167,15 +179,29 @@ export default function Value({
 
       {!!tooltipId && (
         <ReactTooltip className="Value__tooltip" id={tooltipId} effect="solid">
-          <span>
-            {intl.formatNumber(Number(newValue), {
-              minimumFractionDigits: minimumTooltipDecimals,
-              maximumFractionDigits: maximumTooltipDecimals || 7,
-            })}{' '}
-            {symbol && !withoutSymbol && !!asset && asset.formattedName && (
-              <>{asset.formattedName}</>
+          <div className="Value__tooltip--content">
+            <span>
+              {tooltipSymbol && tooltipSymbol === 'USD' && <>$ </>}
+              {intl.formatNumber(Number(tooltipValue || newValue), {
+                minimumFractionDigits: minimumTooltipDecimals,
+                maximumFractionDigits: maximumTooltipDecimals || 18,
+              })}{' '}
+              {symbol && !withoutSymbol && !!asset && asset.formattedName && (
+                <>{asset.formattedName}</>
+              )}
+              {tooltipSymbol && tooltipSymbol !== 'USD' && <>{tooltipSymbol}</>}
+            </span>
+            {tooltipSubValue && (
+              <span>
+                {tooltipSubSymbol && tooltipSubSymbol === 'USD' && <>$ </>}
+                {intl.formatNumber(Number(tooltipSubValue), {
+                  minimumFractionDigits: minimumTooltipSubDecimals,
+                  maximumFractionDigits: maximumTooltipSubDecimals || 18,
+                })}{' '}
+                {tooltipSubSymbol && tooltipSubSymbol !== 'USD' && <>{tooltipSubSymbol}</>}
+              </span>
             )}
-          </span>
+          </div>
         </ReactTooltip>
       )}
 

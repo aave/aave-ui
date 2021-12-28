@@ -19,6 +19,7 @@ import messages from './messages';
 import { DepositTableItem } from './types';
 
 export default function DepositItem({
+  userId,
   reserve: { symbol, liquidityRate, id, underlyingAsset },
   usageAsCollateralEnabledOnUser,
   underlyingBalance,
@@ -51,11 +52,13 @@ export default function DepositItem({
       }
     >
       <TableValueCol
+        userId={userId}
         symbol={symbol}
-        value={Number(underlyingBalance)}
-        subValue={Number(underlyingBalanceUSD)}
+        value={Number(underlyingBalanceUSD)}
+        subValue={Number(underlyingBalance)}
         tooltipId={`deposit-${symbol}__${id}`}
       />
+
       <TableAprCol value={Number(liquidityRate)} incentives={aIncentives} symbol={symbol} />
 
       <TableCol>

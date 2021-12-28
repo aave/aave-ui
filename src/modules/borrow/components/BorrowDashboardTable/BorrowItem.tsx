@@ -17,6 +17,7 @@ import messages from './messages';
 import { BorrowTableItem } from './types';
 
 export default function BorrowItem({
+  userId,
   reserve: { symbol },
   currentBorrows,
   currentBorrowsUSD,
@@ -42,9 +43,10 @@ export default function BorrowItem({
   return (
     <TableItem tokenSymbol={symbol}>
       <TableValueCol
+        userId={userId}
         symbol={symbol}
-        value={Number(currentBorrows)}
-        subValue={Number(currentBorrowsUSD)}
+        value={Number(currentBorrowsUSD)}
+        subValue={Number(currentBorrows)}
         tooltipId={`borrow-${symbol}__${index}`}
       />
       <TableAprCol

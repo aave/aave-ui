@@ -3,6 +3,7 @@ import { ComputedReserveData } from '../../../../libs/pool-data-provider';
 import { ReserveIncentiveResponse } from '../../../../libs/pool-data-provider/hooks/use-incentives-data';
 
 export type DepositTableItem = {
+  userId?: string;
   onToggleSwitch: () => void;
   isActive: boolean;
   isFrozen: boolean;

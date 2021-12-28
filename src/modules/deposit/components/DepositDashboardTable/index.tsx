@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useLanguageContext } from '../../../../libs/language-provider';
 import DashboardItemsWrapper from '../../../dashboard/components/DashboardItemsWrapper';
 import TableHeader from '../../../dashboard/components/DashboardTable/TableHeader';
@@ -19,6 +20,7 @@ interface DepositDashboardTableProps {
 
 export default function DepositDashboardTable({ listData }: DepositDashboardTableProps) {
   const intl = useIntl();
+  const { userId } = useAppDataContext();
   const { currentLangSlug } = useLanguageContext();
   const { sm } = useThemeContext();
 
@@ -54,6 +56,7 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
           {sortedListData.map((item) => (
             <DepositItem
               {...item}
+              userId={userId}
               key={item.reserve.id}
               data-cy={`dashboardDespositListItem${item.reserve.symbol.toUpperCase()}`}
             />
