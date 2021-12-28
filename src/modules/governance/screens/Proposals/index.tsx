@@ -77,6 +77,11 @@ export default function Proposals() {
             topRightInfo={
               <div className="Proposals__content-links">
                 {linkWithIcon(
+                  governanceConfig.governanceSnapshotLink,
+                  'white',
+                  intl.formatMessage(messages.visitSnapshots)
+                )}
+                {linkWithIcon(
                   governanceConfig.governanceForumLink,
                   'white',
                   intl.formatMessage(messages.visitForum)

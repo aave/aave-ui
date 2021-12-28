@@ -10,4 +10,5 @@ export default defineMessages({
 
   governanceFAQ: 'Governance FAQ',
   visitForum: 'Visit forum',
+  visitSnapshots: 'Visit Snapshots',
 });
