@@ -40,7 +40,7 @@ function RepayConfirmation({
   const intl = useIntl();
   const { marketReferencePriceInUsd, userId, marketReferenceCurrencyDecimals } =
     useAppDataContext();
-  const { currentMarketData, networkConfig, chainId } = useProtocolDataContext();
+  const { currentMarketData, chainId } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
 
   const [isTxExecuted, setIsTxExecuted] = useState(false);
@@ -77,13 +77,11 @@ function RepayConfirmation({
   const safeAmountToRepayAll = valueToBigNumber(maxAmountToRepay).multipliedBy('1.0025');
 
   let amountToRepay = amount.toString();
-  console.log('amount to repay: ', amountToRepay);
   let amountToRepayUI = amount;
   if (amountToRepay === '-1') {
     amountToRepayUI = BigNumber.min(
       repayWithATokens ? underlyingBalance : walletBalance,
       maxAmountToRepay
-      // safeAmountToRepayAll
     );
 
     if (
@@ -93,21 +91,6 @@ function RepayConfirmation({
     ) {
       amountToRepay = BigNumber.min(walletBalance, safeAmountToRepayAll).toString();
     }
-
-    // if (
-    //   userReserve.reserve.symbol.toUpperCase() === networkConfig.baseAsset ||
-    //   (repayWithATokens
-    //     ? valueToBigNumber(underlyingBalance).eq(amountToRepayUI)
-    //     : walletBalance.eq(amountToRepayUI)) ||
-    //   repayWithPermitEnabled
-    // ) {
-    //   amountToRepay = BigNumber.min(
-    //     repayWithATokens
-    //       ? valueToBigNumber(underlyingBalance).multipliedBy(0.999999) // TODO: should just be -1 one the contract is adjusted
-    //       : walletBalance,
-    //     safeAmountToRepayAll
-    //   ).toString();
-    // }
   }
 
   const displayAmountToRepay = BigNumber.min(amountToRepayUI, maxAmountToRepay);
@@ -145,7 +128,6 @@ function RepayConfirmation({
   const handleGetTransactions = async () => {
     if (currentMarketData.v3) {
       // TO-DO: No need for this cast once a single Pool type is used in use-tx-builder-context
-      console.log('repay v3: ', amountToRepay.toString());
       const newPool: Pool = lendingPool as Pool;
       return await newPool.repay({
         user: userId,
@@ -154,7 +136,6 @@ function RepayConfirmation({
         interestRateMode: debtType as InterestRate,
       });
     } else {
-      console.log('repay : ', amountToRepay.toString());
       return await lendingPool.repay({
         user: userId,
         reserve: poolReserve.underlyingAsset,
@@ -167,12 +148,6 @@ function RepayConfirmation({
   // Generate signature request payload
   const handleGetPermitSignatureRequest = async () => {
     // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
-    console.log(
-      'repay amount signature: ',
-      amountToRepay.toString(),
-      ' address: ',
-      poolReserve.underlyingAsset
-    );
     setSignedAmount(amountToRepay.toString());
     const newPool: Pool = lendingPool as Pool;
     return await newPool.signERC20Approval({
@@ -185,12 +160,6 @@ function RepayConfirmation({
   // Generate supply transaction with signed permit
   const handleGetPermitRepay = async (signature: string) => {
     // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
-    console.log(
-      'repay amount with permit: ',
-      amountToRepay.toString(),
-      ' address: ',
-      poolReserve.underlyingAsset
-    );
     const newPool: Pool = lendingPool as Pool;
     return await newPool.repayWithPermit({
       user: userId,
@@ -202,12 +171,6 @@ function RepayConfirmation({
   };
 
   const handleGetATokenTransactions = async () => {
-    console.log(
-      'repay amount a tokens: ',
-      amountToRepay.toString(),
-      ' address: ',
-      poolReserve.underlyingAsset
-    );
     return (lendingPool as PoolInterface).repayWithATokens({
       user: userId,
       reserve: poolReserve.underlyingAsset,
