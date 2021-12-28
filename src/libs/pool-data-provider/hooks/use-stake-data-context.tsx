@@ -7,7 +7,6 @@ import Preloader from '../../../components/basic/Preloader';
 import ErrorPage from '../../../components/ErrorPage';
 import { useCachedStakeData } from '../../caching-server-data-provider/hooks/use-cached-stake-data';
 import { useProtocolDataContext } from '../../protocol-data-provider';
-import { useAppDataContext } from '../providers/app-data-provider';
 import { ComputedStakeData, ComputedStakesData, StakeData } from '../types/stake';
 import {
   useMainnetCachedServerWsGraphCheck,
@@ -23,6 +22,7 @@ import {
 import { useApolloConfigContext } from '../../apollo-config';
 import { StakeConfig } from '../../../ui-config';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
+import { useUserWalletDataContext } from '../../web3-data-provider';
 
 export function computeStakeData(data: StakeData): ComputedStakeData {
   return {
@@ -86,7 +86,7 @@ export function StakeDataProvider({
   stakeConfig: StakeConfig;
   children: ReactNode;
 }) {
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const location = useLocation();
   const [cooldownStep, setCooldownStep] = useState(0);
   const { preferredConnectionMode } = useConnectionStatusContext();
@@ -111,7 +111,7 @@ export function StakeDataProvider({
     loading: cachedDataLoading,
     data: cachedData,
     usdPriceEth: usdPriceEthCached,
-  } = useCachedStakeData(userId, chainId !== apolloClientChainId || RPC_ONLY_MODE);
+  } = useCachedStakeData(currentAccount, chainId !== apolloClientChainId || RPC_ONLY_MODE);
 
   const wsNetworkError = useNetworkCachedServerWsGraphCheck();
   const wsMainnetError = useMainnetCachedServerWsGraphCheck();
@@ -134,7 +134,7 @@ export function StakeDataProvider({
   } = useStakeDataWithRpc(
     stakeConfig.stakeDataProvider,
     isStakeFork ? chainId : stakeConfig.chainId,
-    userId,
+    currentAccount,
     !isRPCActive
   );
 

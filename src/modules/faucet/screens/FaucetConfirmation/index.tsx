@@ -13,7 +13,7 @@ import NoDataPanel from '../../../../components/NoDataPanel';
 import { getAssetInfo } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
-import { useAppDataContext } from '../../../../libs/pool-data-provider';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 function FaucetConfirmation({
   currencySymbol,
@@ -22,7 +22,7 @@ function FaucetConfirmation({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { faucetService } = useTxBuilderContext();
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
 
   const asset = getAssetInfo(currencySymbol);
 
@@ -38,7 +38,7 @@ function FaucetConfirmation({
 
   const handleGetTransactions = async () =>
     await faucetService.mint({
-      userAddress: userId,
+      userAddress: currentAccount,
       tokenSymbol: poolReserve.symbol,
       reserve: poolReserve.underlyingAsset,
     });

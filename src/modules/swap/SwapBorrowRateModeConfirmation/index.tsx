@@ -5,7 +5,6 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 import { InterestRate } from '@aave/contract-helpers';
 import { valueToBigNumber } from '@aave/math-utils';
 
-import { useAppDataContext } from '../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../libs/tx-provider';
 import SwapConfirmationWrapper from '../../../components/wrappers/SwapConfirmationWrapper';
 import Row from '../../../components/basic/Row';
@@ -20,6 +19,7 @@ import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
+import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 
 function SwapBorrowRateModeConfirmation({
   currencySymbol,
@@ -29,7 +29,7 @@ function SwapBorrowRateModeConfirmation({
   location,
 }: ValidationWrapperComponentProps) {
   const { lendingPool } = useTxBuilderContext();
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { networkConfig } = useProtocolDataContext();
   const [isTxExecuted, setIsTxExecuted] = useState(false);
   const { lg, md } = useThemeContext();
@@ -72,7 +72,7 @@ function SwapBorrowRateModeConfirmation({
 
   const handleGetTransactions = async () =>
     await lendingPool.swapBorrowRateMode({
-      user: userId,
+      user: currentAccount,
       reserve:
         poolReserve.symbol === networkConfig.baseAsset
           ? networkConfig.baseAssetWrappedAddress

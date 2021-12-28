@@ -4,7 +4,6 @@ import { useIntl } from 'react-intl';
 import BigNumber from 'bignumber.js';
 import queryString from 'query-string';
 
-import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useStakeDataContext } from '../../../../libs/pool-data-provider/hooks/use-stake-data-context';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import Row from '../../../../components/basic/Row';
@@ -12,11 +11,12 @@ import StakeTxConfirmationView from '../../components/StakeTxConfirmationView';
 import Value from '../../../../components/basic/Value';
 
 import messages from './messages';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 export default function StakeWithApprovalConfirmation() {
   const intl = useIntl();
   const location = useLocation();
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { selectedStake, selectedStakeData, stakingService } = useStakeDataContext();
 
   const aTokenData = getAtokenInfo({
@@ -29,11 +29,12 @@ export default function StakeWithApprovalConfirmation() {
   const query = queryString.parse(location.search);
   let amount = new BigNumber(typeof query.amount === 'string' ? query.amount : 0);
 
-  if (!amount || !userId) {
+  if (!amount || !currentAccount) {
     return null;
   }
 
-  const handleGetTransactions = async () => await stakingService.stake(userId, amount.toString());
+  const handleGetTransactions = async () =>
+    await stakingService.stake(currentAccount, amount.toString());
 
   let blockingError = '';
   if (amount.gt(selectedStakeData.underlyingTokenUserBalance)) {

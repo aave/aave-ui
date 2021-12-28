@@ -11,8 +11,8 @@ import messages from './messages';
 import staticStyles from './style';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
-import { useAppDataContext } from '../../../libs/pool-data-provider';
 import { isFeatureEnabled } from '../../../helpers/config/markets-and-network-config';
+import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 
 interface PermissionWarningProps {
   requiredPermission: PERMISSION;
@@ -29,12 +29,12 @@ const PermissionWarning: React.FC<
 > = ({ children, requiredPermission, match }) => {
   const intl = useIntl();
   const { currentMarketData } = useProtocolDataContext();
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { permissions } = usePermissions();
 
   if (
     !isFeatureEnabled.permissions(currentMarketData) ||
-    !userId ||
+    !currentAccount ||
     permissions.includes(requiredPermission)
   ) {
     return children;

@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useLanguageContext } from '../../../../libs/language-provider';
 import DashboardItemsWrapper from '../../../dashboard/components/DashboardItemsWrapper';
 import TableHeader from '../../../dashboard/components/DashboardTable/TableHeader';
@@ -13,6 +12,7 @@ import BorrowInterestHelpModal from '../../../../components/HelpModal/BorrowInte
 import messages from './messages';
 
 import { BorrowTableItem } from './types';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 interface BorrowDashboardTableProps {
   listData: BorrowTableItem[];
@@ -20,7 +20,7 @@ interface BorrowDashboardTableProps {
 
 export default function BorrowDashboardTable({ listData }: BorrowDashboardTableProps) {
   const intl = useIntl();
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { currentLangSlug } = useLanguageContext();
   const { sm } = useThemeContext();
 
@@ -46,7 +46,7 @@ export default function BorrowDashboardTable({ listData }: BorrowDashboardTableP
           {listData.map((item, index) => (
             <BorrowItem
               {...item}
-              userId={userId}
+              userId={currentAccount}
               index={index}
               key={index}
               data-cy={`dashboardBorrowListItem_${item.reserve.symbol.toUpperCase()}`}

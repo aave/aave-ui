@@ -4,7 +4,6 @@ import { useSwipeable } from 'react-swipeable';
 import css from 'styled-jsx/css';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { useAppDataContext } from './libs/pool-data-provider';
 import { useMenuContext } from './libs/menu';
 import { CURRENCY_ROUTE_PARAMS } from './helpers/router-types';
 import ScreensWrapper from './components/wrappers/ScreensWrapper';
@@ -30,6 +29,7 @@ import { EModeConfirm } from './modules/emode/screens/EModeConfirm';
 import { governanceConfig, stakeConfig } from './ui-config';
 import { useProtocolDataContext } from './libs/protocol-data-provider';
 import { isFeatureEnabled } from './helpers/config/markets-and-network-config';
+import { useUserWalletDataContext } from './libs/web3-data-provider';
 
 const staticStyles = css.global`
   .App {
@@ -49,7 +49,7 @@ const staticStyles = css.global`
 `;
 
 function ModulesWithMenu() {
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { currentMarketData } = useProtocolDataContext();
 
   return (
@@ -91,7 +91,9 @@ function ModulesWithMenu() {
         <Route path="/rewards" component={Reward} key="Rewards" />
         <Route path="/emode/confirm/:newmode" component={EModeConfirm} key="E-Mode Confirm" />
 
-        {userId && [<Route exact={true} path="/history" component={History} key="History" />]}
+        {currentAccount && [
+          <Route exact={true} path="/history" component={History} key="History" />,
+        ]}
 
         {isFeatureEnabled.faucet(currentMarketData) && [
           <Route path="/faucet" component={Faucet} key="Faucet" />,

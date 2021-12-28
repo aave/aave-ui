@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useLanguageContext } from '../../../../libs/language-provider';
 import DashboardItemsWrapper from '../../../dashboard/components/DashboardItemsWrapper';
 import TableHeader from '../../../dashboard/components/DashboardTable/TableHeader';
@@ -13,6 +12,7 @@ import CollateralHelpModal from '../../../../components/HelpModal/CollateralHelp
 import messages from './messages';
 
 import { DepositTableItem } from './types';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 interface DepositDashboardTableProps {
   listData: DepositTableItem[];
@@ -20,7 +20,7 @@ interface DepositDashboardTableProps {
 
 export default function DepositDashboardTable({ listData }: DepositDashboardTableProps) {
   const intl = useIntl();
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { currentLangSlug } = useLanguageContext();
   const { sm } = useThemeContext();
 
@@ -56,7 +56,7 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
           {sortedListData.map((item) => (
             <DepositItem
               {...item}
-              userId={userId}
+              userId={currentAccount}
               key={item.reserve.id}
               data-cy={`dashboardDespositListItem${item.reserve.symbol.toUpperCase()}`}
             />
