@@ -73,7 +73,7 @@ export default function IncentivesButton({ incentives, symbol }: IncentivesButto
             />
           ) : (
             <p className="IncentivesButton__valueInner">
-              + <strong>{incentivesButtonValue()}</strong> %
+              <strong>{incentivesButtonValue()}</strong> %
             </p>
           )}
 
