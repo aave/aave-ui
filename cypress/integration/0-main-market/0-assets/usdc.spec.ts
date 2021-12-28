@@ -11,84 +11,84 @@ import { skipState } from '../../../support/steps/common';
 import assets from '../../../fixtures/assets.json';
 import constants from '../../../fixtures/constans.json';
 
-const testData ={
-  depositETH:{
-    asset:assets.aaveMarket.ETH,
+const testData = {
+  depositETH: {
+    asset: assets.aaveMarket.ETH,
     amount: 0.1,
-    hasApproval: true
+    hasApproval: true,
   },
-  testCases:{
-    deposit:{
+  testCases: {
+    deposit: {
       asset: assets.aaveMarket.USDC,
       amount: 50,
-      hasApproval: false
+      hasApproval: false,
     },
-    borrow:[
+    borrow: [
       {
-        asset:assets.aaveMarket.USDC,
+        asset: assets.aaveMarket.USDC,
         amount: 50,
         apyType: constants.borrowAPYType.variable,
-        hasApproval: true
+        hasApproval: true,
       },
       {
-        asset:assets.aaveMarket.USDC,
+        asset: assets.aaveMarket.USDC,
         amount: 50,
         apyType: constants.borrowAPYType.stable,
-        hasApproval: true
-      }
+        hasApproval: true,
+      },
     ],
-    changeBorrowType:[
+    changeBorrowType: [
       {
-        asset:assets.aaveMarket.USDC,
+        asset: assets.aaveMarket.USDC,
         apyType: constants.borrowAPYType.stable,
         newAPY: constants.borrowAPYType.variable,
-        hasApproval: true
+        hasApproval: true,
       },
       {
-        asset:assets.aaveMarket.USDC,
+        asset: assets.aaveMarket.USDC,
         apyType: constants.borrowAPYType.variable,
         newAPY: constants.borrowAPYType.stable,
-        hasApproval: true
-      }
+        hasApproval: true,
+      },
     ],
-    repay:[
+    repay: [
       {
-        asset:assets.aaveMarket.USDC,
+        asset: assets.aaveMarket.USDC,
         amount: 10,
         hasApproval: true,
-        repayOption: constants.repayType.wallet
+        repayOption: constants.repayType.wallet,
       },
       {
-        asset:assets.aaveMarket.USDC,
+        asset: assets.aaveMarket.USDC,
         amount: 10,
         hasApproval: false,
         repayOption: constants.repayType.collateral,
         assetForRepay: assets.aaveMarket.USDC,
-      }
+      },
     ],
-    withdraw:{
+    withdraw: {
       asset: assets.aaveMarket.USDC,
       amount: 10,
-      hasApproval: true
+      hasApproval: true,
     },
   },
-  verifications:{
-    finalDashboard:[
+  verifications: {
+    finalDashboard: [
       {
         type: constants.dashboardTypes.deposit,
         asset: assets.aaveMarket.USDC.shortName,
         amount: 30,
-        collateralType: constants.collateralType.isCollateral
+        collateralType: constants.collateralType.isCollateral,
       },
       {
         type: constants.dashboardTypes.borrow,
         asset: assets.aaveMarket.USDC.shortName,
         amount: 80,
-        apyType: constants.borrowAPYType.stable
-      }
-    ]
-  }
-}
+        apyType: constants.borrowAPYType.stable,
+      },
+    ],
+  },
+};
 
 describe('USDC INTEGRATION SPEC', () => {
   const skipTestState = skipState(false);

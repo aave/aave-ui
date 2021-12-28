@@ -6,65 +6,68 @@ import {
   withdraw,
   changeBorrowType,
 } from '../../../support/steps/main.steps';
-import { dashboardAssetValuesVerification, switchApyBlocked } from '../../../support/steps/verification.steps';
+import {
+  dashboardAssetValuesVerification,
+  switchApyBlocked,
+} from '../../../support/steps/verification.steps';
 import { skipState } from '../../../support/steps/common';
 import assets from '../../../fixtures/assets.json';
 import constants from '../../../fixtures/constans.json';
 
-const testData ={
-  depositETH:{
-    asset:assets.aaveMarket.ETH,
+const testData = {
+  depositETH: {
+    asset: assets.aaveMarket.ETH,
     amount: 0.1,
-    hasApproval: true
+    hasApproval: true,
   },
-  testCases:{
-    deposit:{
+  testCases: {
+    deposit: {
       asset: assets.aaveMarket.USDC,
       amount: 50,
-      hasApproval: false
+      hasApproval: false,
     },
-    borrow:[
+    borrow: [
       {
-        asset:assets.aaveMarket.USDC,
+        asset: assets.aaveMarket.USDC,
         amount: 100,
         apyType: constants.borrowAPYType.variable,
-        hasApproval: true
+        hasApproval: true,
       },
     ],
-    repay:[
+    repay: [
       {
-        asset:assets.aaveMarket.USDC,
+        asset: assets.aaveMarket.USDC,
         amount: 10,
         hasApproval: true,
-        repayOption: constants.repayType.default
+        repayOption: constants.repayType.default,
       },
     ],
-    withdraw:{
+    withdraw: {
       asset: assets.aaveMarket.USDC,
       amount: 10,
-      hasApproval: true
+      hasApproval: true,
     },
     switchApyBlocked: {
       asset: assets.aaveMarket.USDC,
     },
   },
-  verifications:{
-    finalDashboard:[
+  verifications: {
+    finalDashboard: [
       {
         type: constants.dashboardTypes.deposit,
         asset: assets.aaveMarket.USDC.shortName,
         amount: 40,
-        collateralType: constants.collateralType.isCollateral
+        collateralType: constants.collateralType.isCollateral,
       },
       {
         type: constants.dashboardTypes.borrow,
         asset: assets.aaveMarket.USDC.shortName,
         amount: 90,
-        apyType: constants.borrowAPYType.variable
-      }
-    ]
-  }
-}
+        apyType: constants.borrowAPYType.variable,
+      },
+    ],
+  },
+};
 
 describe('USDC INTEGRATION SPEC, AMM MARKET', () => {
   const skipTestState = skipState(false);

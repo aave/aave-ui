@@ -10,7 +10,8 @@ import {
 } from '../../../support/steps/main.steps';
 import {
   dashboardAssetValuesVerification,
-  borrowsUnavailable, switchApyBlocked,
+  borrowsUnavailable,
+  switchApyBlocked,
 } from '../../../support/steps/verification.steps';
 import { skipState } from '../../../support/steps/common';
 import assets from '../../../fixtures/assets.json';

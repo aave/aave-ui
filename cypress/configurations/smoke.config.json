@@ -1,0 +1,21 @@
+{
+  "testFiles": [
+    "../integration/0-main-market/0-assets/eth.spec.ts",
+    "../integration/0-main-market/0-assets/usdt.spec.ts",
+    "../integration/0-main-market/0-assets/dai.spec.ts",
+    "../integration/0-main-market/reward.spec.ts",
+    "../integration/0-main-market/stake.spec.ts",
+    "../integration/0-main-market/swap.spec.ts",
+    "../integration/1-amm-market/0-assets/eth.amm.spec.ts",
+    "../integration/1-amm-market/0-assets/usdt.amm.spec.ts",
+    "../integration/2-polygon-market/0-assets/weth.polygon.spec.ts",
+    "../integration/2-polygon-market/0-assets/usdt.polygon.spec.ts",
+    "../integration/2-polygon-market/0-assets/matic.polygon.spec.ts",
+    "../integration/2-polygon-market/reward.polygon.spec.ts",
+    "../integration/2-polygon-market/swap.polygon.spec.ts"
+  ],
+  "retries": {
+    "runMode": 2,
+    "openMode": 0
+  }
+}

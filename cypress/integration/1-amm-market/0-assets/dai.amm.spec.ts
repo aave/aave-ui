@@ -6,7 +6,10 @@ import {
   withdraw,
   changeBorrowType,
 } from '../../../support/steps/main.steps';
-import { dashboardAssetValuesVerification, switchApyBlocked } from '../../../support/steps/verification.steps';
+import {
+  dashboardAssetValuesVerification,
+  switchApyBlocked,
+} from '../../../support/steps/verification.steps';
 import { skipState } from '../../../support/steps/common';
 import assets from '../../../fixtures/assets.json';
 import constants from '../../../fixtures/constans.json';

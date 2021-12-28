@@ -1,13 +1,9 @@
-import {
-  configEnvWithTenderlyAvalancheFork,
-  configEnvWithTenderlyPolygonFork,
-} from '../../../support/steps/configuration.steps';
+import { configEnvWithTenderlyPolygonFork } from '../../../support/steps/configuration.steps';
 import {
   deposit,
   borrow,
   repay,
   withdraw,
-  changeBorrowType,
 } from '../../../support/steps/main.steps';
 import { dashboardAssetValuesVerification } from '../../../support/steps/verification.steps';
 import { skipState } from '../../../support/steps/common';
@@ -16,7 +12,7 @@ import constants from '../../../fixtures/constans.json';
 
 const testData = {
   depositBaseAmount: {
-    asset: assets.avalancheMarket.AVAX,
+    asset: assets.polygonMarket.MATIC,
     amount: 800,
     hasApproval: true,
   },
@@ -56,15 +52,15 @@ const testData = {
         type: constants.dashboardTypes.borrow,
         asset: assets.polygonMarket.DAI.shortName,
         amount: 23,
-        apyType: constants.borrowAPYType.stable,
+        apyType: constants.borrowAPYType.variable,
       },
     ],
   },
 };
 
-describe.skip('DAI INTEGRATION SPEC, POLYGON MARKET', () => {
+describe('DAI INTEGRATION SPEC, POLYGON MARKET', () => {
   const skipTestState = skipState(false);
-  configEnvWithTenderlyAvalancheFork({});
+  configEnvWithTenderlyPolygonFork({});
 
   deposit(testData.depositBaseAmount, skipTestState, true);
   borrow(testData.testCases.borrow, skipTestState, true);
