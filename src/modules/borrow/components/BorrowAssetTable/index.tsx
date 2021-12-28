@@ -137,7 +137,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
         title={intl.formatMessage(messages.assetsToBorrow)}
         localStorageName="borrowAssetsDashboardTableCollapse"
         subTitleComponent={
-          (user?.isInIsolationMode || user?.totalBorrowsMarketReferenceCurrency === '0') && (
+          (user?.isInIsolationMode || user?.totalCollateralMarketReferenceCurrency === '0') && (
             <InfoBanner
               text={intl.formatMessage(
                 user?.isInIsolationMode ? messages.isolationText : messages.noCollateralText
