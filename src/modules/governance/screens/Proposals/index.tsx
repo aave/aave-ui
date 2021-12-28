@@ -51,6 +51,11 @@ export default function Proposals() {
         })}
       >
         {linkWithIcon(
+          governanceConfig.governanceSnapshotLink,
+          'dark',
+          intl.formatMessage(messages.visitSnapshots)
+        )}
+        {linkWithIcon(
           governanceConfig.governanceForumLink,
           'dark',
           intl.formatMessage(messages.visitForum)
