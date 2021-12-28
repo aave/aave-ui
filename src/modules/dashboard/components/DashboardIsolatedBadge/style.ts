@@ -17,7 +17,7 @@ const staticStyles = css.global`
     .IsolatedBadge {
       border: unset !important;
       padding: unset !important;
-      margin: 8px 0 0 0 !important;
+      margin: 4px 0 0 1px !important;
 
       .IsolatedBadge__text {
         font-weight: 400;

@@ -12,7 +12,7 @@ const staticStyles = css.global`
     border-radius: $borderRadius;
     &__normal {
       padding: 6px 8px;
-      margin: 0 15px 20px;
+      margin: 10px 15px 25px;
       font-size: $regular;
       min-height: 36px;
       display: flex;
@@ -26,7 +26,7 @@ const staticStyles = css.global`
       }
       @include respond-to(md) {
         font-size: $medium;
-        margin: 0 0 15px;
+        margin: 10px 0 15px;
         text-align: center;
         justify-content: center;
         min-height: 34px;

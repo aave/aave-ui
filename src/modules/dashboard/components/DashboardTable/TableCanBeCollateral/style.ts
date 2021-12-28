@@ -31,6 +31,22 @@ const staticStyles = css.global`
     }
 
     .TableCanBeCollateral {
+      &__imageInner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 21px;
+        @include respond-to(xl) {
+          height: 19px;
+        }
+        @include respond-to(lg) {
+          height: 16px;
+        }
+        @include respond-to(md) {
+          height: 19px;
+        }
+      }
+
       &__image {
         width: 12px;
         height: 8px;

@@ -18,7 +18,11 @@ export default function TableCanBeCollateral({
 }: TableCanBeCollateralProps) {
   const CollateralStates = () => {
     if (usageAsCollateralEnabled) {
-      return <img className="TableCanBeCollateral__image" src={yesIcon} alt="" />;
+      return (
+        <div className="TableCanBeCollateral__imageInner">
+          <img className="TableCanBeCollateral__image" src={yesIcon} alt="" />
+        </div>
+      );
     } else {
       return <NoData color="dark" />;
     }
@@ -27,9 +31,9 @@ export default function TableCanBeCollateral({
   return (
     <div className="TableCanBeCollateralWrapper">
       {!isIsolated ? (
-        <p className="TableCanBeCollateral">
+        <div className="TableCanBeCollateral">
           <CollateralStates />
-        </p>
+        </div>
       ) : (
         <DashboardIsolatedBadge>
           <CollateralStates />
