@@ -119,8 +119,8 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
   },
   [ChainId.arbitrum_rinkeby]: {
     name: 'Arbitrum Rinkeby',
-    publicJsonRPCUrl: ['https://arb-rinkeby.g.alchemy.com/v2/tHmDGitRIKNgs4YRWZmLO7L--mIHPJXw'],
-    publicJsonRPCWSUrl: 'wss://arb-rinkeby.g.alchemy.com/v2/tHmDGitRIKNgs4YRWZmLO7L--mIHPJXw',
+    publicJsonRPCUrl: ['https://rinkeby.arbitrum.io/rpc'],
+    publicJsonRPCWSUrl: 'wss://rinkeby.arbitrum.io/rpc',
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v3-arbitrum-rinkeby',
     baseUniswapAdapter: '0x0',
     baseAsset: 'ARETH',
