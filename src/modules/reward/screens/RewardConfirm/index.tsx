@@ -199,6 +199,7 @@ export default function RewardConfirm() {
               color="primary"
               maximumValueDecimals={2}
               minimumValueDecimals={2}
+              updateCondition={isTxExecuted}
             />
           </Row>
         </>
