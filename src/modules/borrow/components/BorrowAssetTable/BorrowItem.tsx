@@ -31,7 +31,7 @@ export default function BorrowItem({
   const intl = useIntl();
 
   return (
-    <TableItem tokenSymbol={symbol} isIsolated={false}>
+    <TableItem tokenSymbol={symbol}>
       <TableValueCol
         userId={userId}
         symbol={symbol}

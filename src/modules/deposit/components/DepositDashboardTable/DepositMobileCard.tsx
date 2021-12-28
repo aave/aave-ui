@@ -1,11 +1,10 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
-import CustomSwitch from '../../../../components/basic/CustomSwitch';
+import TableUsedAsCollateral from '../../../dashboard/components/DashboardTable/TableUsedAsCollateral';
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
 import Row from '../../../../components/basic/Row';
 import Value from '../../../../components/basic/Value';
@@ -16,7 +15,6 @@ import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import CollateralHelpModal from '../../../../components/HelpModal/CollateralHelpModal';
 import AMPLWarning from '../../../../components/AMPLWarning';
-import IsolationModeBadge from '../../../../components/isolationMode/IsolationModeBadge';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -34,29 +32,16 @@ export default function DepositMobileCard({
   borrowingEnabled,
   aIncentives,
   canBeEnabledAsCollateral,
-  isUserInIsolationMode,
   isIsolated,
 }: DepositTableItem) {
   const intl = useIntl();
-  const { currentTheme } = useThemeContext();
   const { currentMarketData } = useProtocolDataContext();
-
-  const swiperWidth = 50;
-  const swiperHeight = 24;
 
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
 
   return (
     <>
-      <MobileCardWrapper
-        symbol={symbol}
-        isIsolated={
-          isUserInIsolationMode &&
-          usageAsCollateralEnabledOnUser &&
-          canBeEnabledAsCollateral &&
-          isIsolated
-        }
-      >
+      <MobileCardWrapper symbol={symbol} isIsolated={isIsolated}>
         <Row title={intl.formatMessage(messages.balance)} withMargin={true}>
           <Value
             value={Number(underlyingBalanceUSD)}
@@ -92,22 +77,11 @@ export default function DepositMobileCard({
           withMargin={true}
           className="Row__center"
         >
-          <CustomSwitch
-            value={usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral}
-            offLabel={
-              isUserInIsolationMode && !canBeEnabledAsCollateral ? (
-                <IsolationModeBadge isIsolated={false} disabled={true} />
-              ) : (
-                intl.formatMessage(messages.offLabel)
-              )
-            }
-            onLabel={intl.formatMessage(messages.onLabel)}
-            onColor={currentTheme.green.hex}
-            offColor={!canBeEnabledAsCollateral ? currentTheme.lightBlue.hex : currentTheme.red.hex}
-            onSwitch={onToggleSwitch}
-            disabled={!canBeEnabledAsCollateral}
-            swiperHeight={swiperHeight}
-            swiperWidth={swiperWidth}
+          <TableUsedAsCollateral
+            isIsolated={isIsolated}
+            usageAsCollateralEnabledOnUser={usageAsCollateralEnabledOnUser}
+            canBeEnabledAsCollateral={canBeEnabledAsCollateral}
+            onToggleSwitch={onToggleSwitch}
           />
         </Row>
 

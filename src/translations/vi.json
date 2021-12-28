@@ -490,8 +490,6 @@
   "modules.deposit.components.DepositDashboardTable.apyRowTitle": "Lãi suất phần trăm hàng năm (APY)",
   "modules.deposit.components.DepositDashboardTable.balance": "",
   "modules.deposit.components.DepositDashboardTable.collateral": "Tài sản thế chấp",
-  "modules.deposit.components.DepositDashboardTable.offLabel": "Không",
-  "modules.deposit.components.DepositDashboardTable.onLabel": "Có",
   "modules.deposit.components.DepositDashboardTable.useAsCollateralRowTitle": "Sử dụng làm tài sản thế chấp",
   "modules.deposit.components.DepositDashboardTable.yourDeposits": "",
   "modules.deposit.components.IsolationModeScreen.FAQGuide": "",

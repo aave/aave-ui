@@ -490,8 +490,6 @@
   "modules.deposit.components.DepositDashboardTable.apyRowTitle": "年收益率",
   "modules.deposit.components.DepositDashboardTable.balance": "",
   "modules.deposit.components.DepositDashboardTable.collateral": "抵押品",
-  "modules.deposit.components.DepositDashboardTable.offLabel": "否",
-  "modules.deposit.components.DepositDashboardTable.onLabel": "是",
   "modules.deposit.components.DepositDashboardTable.useAsCollateralRowTitle": "用作抵押品",
   "modules.deposit.components.DepositDashboardTable.yourDeposits": "",
   "modules.deposit.components.IsolationModeScreen.FAQGuide": "",

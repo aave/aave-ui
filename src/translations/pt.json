@@ -490,8 +490,6 @@
   "modules.deposit.components.DepositDashboardTable.apyRowTitle": "Taxa de Rendimento Anual",
   "modules.deposit.components.DepositDashboardTable.balance": "",
   "modules.deposit.components.DepositDashboardTable.collateral": "Garantia",
-  "modules.deposit.components.DepositDashboardTable.offLabel": "Não",
-  "modules.deposit.components.DepositDashboardTable.onLabel": "Sim",
   "modules.deposit.components.DepositDashboardTable.useAsCollateralRowTitle": "Usar como garantia",
   "modules.deposit.components.DepositDashboardTable.yourDeposits": "",
   "modules.deposit.components.IsolationModeScreen.FAQGuide": "",

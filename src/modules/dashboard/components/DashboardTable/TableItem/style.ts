@@ -26,40 +26,6 @@ const staticStyles = css.global`
       margin-bottom: 35px;
     }
 
-    &__isolated {
-      position: relative;
-      padding-top: 33px;
-      border-top-left-radius: unset;
-      border-top-right-radius: unset;
-      @include respond-to(xl) {
-        padding-top: 29px;
-      }
-      &:after {
-        display: none;
-      }
-    }
-
-    &__isolated--inner {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      height: 24px;
-      padding: 2px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      @include respond-to(xl) {
-        height: 20px;
-      }
-
-      .IsolatedBadge {
-        border: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-      }
-    }
-
     .TableItem__inner {
       align-items: flex-start;
       justify-content: flex-start;

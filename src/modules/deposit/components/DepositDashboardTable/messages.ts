@@ -7,7 +7,4 @@ export default defineMessages({
 
   apyRowTitle: 'APY',
   useAsCollateralRowTitle: 'Use as collateral',
-
-  offLabel: 'No',
-  onLabel: 'Yes',
 });

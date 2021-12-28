@@ -490,8 +490,6 @@
   "modules.deposit.components.DepositDashboardTable.apyRowTitle": "연간 유효 이자율 (APY)",
   "modules.deposit.components.DepositDashboardTable.balance": "",
   "modules.deposit.components.DepositDashboardTable.collateral": "담보",
-  "modules.deposit.components.DepositDashboardTable.offLabel": "아니요",
-  "modules.deposit.components.DepositDashboardTable.onLabel": "예",
   "modules.deposit.components.DepositDashboardTable.useAsCollateralRowTitle": "담보로 사용",
   "modules.deposit.components.DepositDashboardTable.yourDeposits": "",
   "modules.deposit.components.IsolationModeScreen.FAQGuide": "",

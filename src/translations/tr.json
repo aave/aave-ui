@@ -490,8 +490,6 @@
   "modules.deposit.components.DepositDashboardTable.apyRowTitle": "APY",
   "modules.deposit.components.DepositDashboardTable.balance": "",
   "modules.deposit.components.DepositDashboardTable.collateral": "Teminat",
-  "modules.deposit.components.DepositDashboardTable.offLabel": "Hayır",
-  "modules.deposit.components.DepositDashboardTable.onLabel": "Evet",
   "modules.deposit.components.DepositDashboardTable.useAsCollateralRowTitle": "Teminat olarak kullanım",
   "modules.deposit.components.DepositDashboardTable.yourDeposits": "",
   "modules.deposit.components.IsolationModeScreen.FAQGuide": "",

@@ -34,7 +34,7 @@ export default function SupplyItem({
   const intl = useIntl();
 
   return (
-    <TableItem tokenSymbol={symbol} isIsolated={false}>
+    <TableItem tokenSymbol={symbol}>
       <TableValueCol
         userId={userId}
         symbol={symbol}

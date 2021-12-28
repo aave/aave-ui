@@ -69,6 +69,10 @@ const staticStyles = css.global`
         display: none;
       }
     }
+
+    .Switcher__swiperDisabled {
+      opacity: 0.2 !important;
+    }
   }
 
   @media (max-height: 750px) and (max-width: 1200px) {

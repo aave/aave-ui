@@ -490,8 +490,6 @@
   "modules.deposit.components.DepositDashboardTable.apyRowTitle": "APY",
   "modules.deposit.components.DepositDashboardTable.balance": "",
   "modules.deposit.components.DepositDashboardTable.collateral": "担保",
-  "modules.deposit.components.DepositDashboardTable.offLabel": "いいえ",
-  "modules.deposit.components.DepositDashboardTable.onLabel": "はい",
   "modules.deposit.components.DepositDashboardTable.useAsCollateralRowTitle": "担保として使用",
   "modules.deposit.components.DepositDashboardTable.yourDeposits": "",
   "modules.deposit.components.IsolationModeScreen.FAQGuide": "",

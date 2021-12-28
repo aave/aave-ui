@@ -490,8 +490,6 @@
   "modules.deposit.components.DepositDashboardTable.apyRowTitle": "",
   "modules.deposit.components.DepositDashboardTable.balance": "",
   "modules.deposit.components.DepositDashboardTable.collateral": "",
-  "modules.deposit.components.DepositDashboardTable.offLabel": "",
-  "modules.deposit.components.DepositDashboardTable.onLabel": "",
   "modules.deposit.components.DepositDashboardTable.useAsCollateralRowTitle": "",
   "modules.deposit.components.DepositDashboardTable.yourDeposits": "",
   "modules.deposit.components.IsolationModeScreen.FAQGuide": "",

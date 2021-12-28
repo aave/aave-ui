@@ -490,8 +490,6 @@
   "modules.deposit.components.DepositDashboardTable.apyRowTitle": "APY",
   "modules.deposit.components.DepositDashboardTable.balance": "",
   "modules.deposit.components.DepositDashboardTable.collateral": "Garantía",
-  "modules.deposit.components.DepositDashboardTable.offLabel": "No",
-  "modules.deposit.components.DepositDashboardTable.onLabel": "Sí",
   "modules.deposit.components.DepositDashboardTable.useAsCollateralRowTitle": "Usar como garantía",
   "modules.deposit.components.DepositDashboardTable.yourDeposits": "",
   "modules.deposit.components.IsolationModeScreen.FAQGuide": "",
