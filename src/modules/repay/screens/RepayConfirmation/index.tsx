@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
-import { InterestRate, Pool, PoolInterface } from '@aave/contract-helpers';
+import { InterestRate, Pool, PoolInterface, synthetixProxyByChainId } from '@aave/contract-helpers';
 
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
@@ -40,7 +40,7 @@ function RepayConfirmation({
   const intl = useIntl();
   const { marketReferencePriceInUsd, userId, marketReferenceCurrencyDecimals } =
     useAppDataContext();
-  const { currentMarketData, networkConfig } = useProtocolDataContext();
+  const { currentMarketData, chainId } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
 
   const [isTxExecuted, setIsTxExecuted] = useState(false);
@@ -81,21 +81,15 @@ function RepayConfirmation({
   if (amountToRepay === '-1') {
     amountToRepayUI = BigNumber.min(
       repayWithATokens ? underlyingBalance : walletBalance,
-      safeAmountToRepayAll
+      maxAmountToRepay
     );
+
     if (
-      userReserve.reserve.symbol.toUpperCase() === networkConfig.baseAsset ||
-      (repayWithATokens
-        ? valueToBigNumber(underlyingBalance).eq(amountToRepayUI)
-        : walletBalance.eq(amountToRepayUI)) ||
-      repayWithPermitEnabled
+      (synthetixProxyByChainId[chainId] &&
+        reserve.underlyingAsset.toLowerCase() === synthetixProxyByChainId[chainId].toLowerCase()) ||
+      !repayWithATokens
     ) {
-      amountToRepay = BigNumber.min(
-        repayWithATokens
-          ? valueToBigNumber(underlyingBalance).multipliedBy(0.999999) // TODO: should just be -1 one the contract is adjusted
-          : walletBalance,
-        safeAmountToRepayAll
-      ).toString();
+      amountToRepay = BigNumber.min(walletBalance, safeAmountToRepayAll).toString();
     }
   }
 
@@ -176,13 +170,14 @@ function RepayConfirmation({
     });
   };
 
-  const handleGetATokenTransactions = async () =>
-    await (lendingPool as PoolInterface).repayWithATokens({
+  const handleGetATokenTransactions = async () => {
+    return (lendingPool as PoolInterface).repayWithATokens({
       user: userId,
       reserve: poolReserve.underlyingAsset,
       amount: amountToRepay.toString(),
       rateMode: debtType as InterestRate,
     });
+  };
 
   const handleMainTxExecuted = () => setIsTxExecuted(true);
 
@@ -210,8 +205,6 @@ function RepayConfirmation({
     (repayWithATokens
       ? valueToBigNumber(underlyingBalance).lt(maxAmountToRepay)
       : walletBalance.lt(maxAmountToRepay));
-
-  console.log(assetDetails);
 
   return (
     <RepayContentWrapper>
