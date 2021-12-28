@@ -151,14 +151,28 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
         {!sm ? (
           <>
             <Header />
-            {filteredBorrowReserves.map((item) => (
-              <BorrowItem {...item} key={item.id} userId={userId} />
-            ))}
+            {user?.totalCollateralMarketReferenceCurrency === '0'
+              ? filteredBorrowReserves.map((item) => (
+                  <BorrowItem {...item} key={item.id} userId={userId} />
+                ))
+              : filteredBorrowReserves
+                  .filter(
+                    ({ availableBorrowsInUSD, totalLiquidityUSD }) =>
+                      availableBorrowsInUSD !== '0.00' && totalLiquidityUSD !== '0'
+                  )
+                  .map((item) => <BorrowItem {...item} key={item.id} userId={userId} />)}
           </>
-        ) : (
+        ) : user?.totalCollateralMarketReferenceCurrency === '0' ? (
           filteredBorrowReserves.map((item) => (
             <BorrowMobileCard userId={userId} {...item} key={item.id} />
           ))
+        ) : (
+          filteredBorrowReserves
+            .filter(
+              ({ availableBorrowsInUSD, totalLiquidityUSD }) =>
+                availableBorrowsInUSD !== '0.00' && totalLiquidityUSD !== '0'
+            )
+            .map((item) => <BorrowMobileCard userId={userId} {...item} key={item.id} />)
         )}
       </DashboardItemsWrapper>
     </>

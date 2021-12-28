@@ -193,11 +193,7 @@ export default function Dashboard() {
         loanToValue={loanToValue}
       />
 
-      {bridge && (
-        <div className="Dashboard__bridgeWrapper">
-          <BridgeBanner networkName={name} {...bridge} />
-        </div>
-      )}
+      {bridge && <BridgeBanner networkName={name} {...bridge} />}
 
       {userId && isTableShow && (
         <div className="Dashboard__switcher-inner">

@@ -13,7 +13,7 @@ const staticStyles = css.global`
     color: white;
     justify-content: space-between;
     position: relative;
-
+    margin-bottom: 20px;
     @include respond-to(md) {
       flex-direction: column;
       align-items: center;
@@ -21,6 +21,10 @@ const staticStyles = css.global`
       div {
         padding: 4px;
       }
+    }
+    @include respond-to(sm) {
+      margin: 20px 10px;
+      width: calc(100% - 20px);
     }
 
     &__logo {

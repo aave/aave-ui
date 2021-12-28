@@ -8,15 +8,21 @@ const staticStyles = css.global`
   .TableNoData {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
     border-radius: $borderRadius;
-    min-height: 162px;
+    min-height: 164px;
     @include respond-to(xl) {
-      min-height: 155px;
+      min-height: 160px;
+    }
+    @include respond-to(lg) {
+      min-height: 150px;
+    }
+    @include respond-to(md) {
+      min-height: 160px;
     }
     @include respond-to(sm) {
-      margin: 0 10px;
+      margin: 0 10px 20px;
       width: calc(100% - 20px);
     }
 

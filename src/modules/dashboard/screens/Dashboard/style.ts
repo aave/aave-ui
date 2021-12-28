@@ -18,7 +18,7 @@ const staticStyles = css.global`
     }
 
     &__switcher-inner {
-      margin: 30px 0;
+      margin: 20px 0;
       display: none;
       @include respond-to(lg) {
         display: flex;
@@ -59,14 +59,6 @@ const staticStyles = css.global`
       min-height: 32px;
       font-size: $small;
       margin-left: 10px;
-    }
-
-    &__bridgeWrapper {
-      margin-bottom: 20px;
-      @include respond-to(sm) {
-        margin: 20px 10px;
-        width: calc(100% - 20px);
-      }
     }
   }
 

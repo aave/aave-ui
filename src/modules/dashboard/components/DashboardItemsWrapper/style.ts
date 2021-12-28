@@ -6,12 +6,12 @@ const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
 
   .DashboardItemsWrapper {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
     border-radius: $borderRadius;
 
     @include respond-to(sm) {
-      margin: 0 10px 10px;
+      margin: 0 10px 20px;
       width: calc(100% - 20px);
       box-shadow: unset;
       border-radius: unset;
@@ -41,7 +41,7 @@ const staticStyles = css.global`
       }
 
       &.DashboardItemsWrapper__withTopMargin {
-        margin-top: 10px;
+        margin-top: 20px;
       }
     }
 
