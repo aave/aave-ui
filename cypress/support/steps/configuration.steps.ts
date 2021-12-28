@@ -42,7 +42,8 @@ const configEnvWithTenderly = ({
         win.ethereum = new CustomizedBridge(signer, provider);
         win.localStorage.setItem('forkEnabled', 'true');
         // forks are always expected to run on chainId 3030
-        win.localStorage.setItem('forkNetworkId', '3030');
+        // win.localStorage.setItem('forkNetworkId', '3030');
+        // win.localStorage.setItem('forkChainId', network.forkChainID);
         win.localStorage.setItem('forkBaseChainId', network.chainID);
         win.localStorage.setItem('forkRPCUrl', rpc);
         win.localStorage.setItem('currentProvider', 'browser');
@@ -52,7 +53,7 @@ const configEnvWithTenderly = ({
     });
   });
   after(async () => {
-    await tenderly.deleteFork();
+    // await tenderly.deleteFork();
   });
 };
 
@@ -62,6 +63,34 @@ export const configEnvWithTenderlyMainnetFork = ({
   tokens,
   account = DEFAULT_TEST_ACCOUNT,
 }: {
+  market?: string;
+  network?: { networkID: number; forkChainID: number; chainID: number };
+  tokens?: any[];
+  account?: { privateKey: string; address: string };
+}) => {
+  configEnvWithTenderly({ network, market, tokens, account });
+};
+
+export const configEnvWithTenderlyPolygonFork = ({
+   market = `fork_proto_matic`,
+   network = forkNetworks.polygon,
+   tokens,
+   account = DEFAULT_TEST_ACCOUNT,
+ }: {
+  market?: string;
+  network?: { networkID: number; forkChainID: number; chainID: number };
+  tokens?: any[];
+  account?: { privateKey: string; address: string };
+}) => {
+  configEnvWithTenderly({ network, market, tokens, account });
+};
+
+export const configEnvWithTenderlyAvalancheFork = ({
+   market = `fork_proto_avalanche`,
+   network = forkNetworks.avalanche,
+   tokens,
+   account = DEFAULT_TEST_ACCOUNT,
+ }: {
   market?: string;
   network?: { networkID: number; forkChainID: number; chainID: number };
   tokens?: any[];

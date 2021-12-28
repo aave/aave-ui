@@ -324,3 +324,66 @@ export const claimReward = (skip: SkipType, updateSkipStatus = false) => {
     });
   });
 };
+
+export const changeBorrowTypeNegative = (
+  {
+    asset,
+    apyType,
+  }: {
+    asset: { shortName: string; fullName: string };
+    apyType: string;
+  },
+  skip: SkipType,
+  updateSkipStatus = false
+) => {
+  let _shortName = asset.shortName;
+
+  return describe(`Verify that Switch borrow is unavailable`, () => {
+    skipSetup({ skip, updateSkipStatus });
+    it('Open dashboard page', () => {
+      cy.get('.Menu strong').contains('dashboard').click();
+    });
+    it('Try to change apy type', () => {
+      getDashBoardBorrowRow({ assetName: _shortName, apyType }).find('.Switcher__swiper').click();
+    });
+    it('Check rejected message', () => {
+      cy.get('.TxConfirmationView')
+        .find('span')
+        .contains(
+          "You can't change Interest Type to stable as your borrowings are higher than your collateral"
+        );
+    });
+  });
+};
+
+export const changeCollateralNegative = (
+  {
+    asset,
+    collateralType,
+  }: {
+    asset: { shortName: string; fullName: string };
+    collateralType: string;
+  },
+  skip: SkipType,
+  updateSkipStatus = false
+) => {
+  let _shortName = asset.shortName;
+  return describe(`Switch collateral type negative`, () => {
+    skipSetup({ skip, updateSkipStatus });
+    it('Open dashboard', () => {
+      cy.get('.Menu strong').contains('dashboard').click();
+    });
+    it('Switch type', () => {
+      getDashBoardDepositRow({ assetName: _shortName, collateralType })
+        .find('.Switcher__swiper')
+        .click();
+    });
+    it('Confirm switching', () => {
+      cy.get('.TxConfirmationView')
+        .find('span')
+        .contains(
+          "You can't switch usage as collateral mode for this currency, because it will cause collateral call"
+        );
+    });
+  });
+};

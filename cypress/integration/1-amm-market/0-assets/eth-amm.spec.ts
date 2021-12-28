@@ -10,11 +10,12 @@ import {
 } from '../../../support/steps/main.steps';
 import {
   dashboardAssetValuesVerification,
-  borrowsUnavailable,
+  borrowsUnavailable, switchApyBlocked,
 } from '../../../support/steps/verification.steps';
 import { skipState } from '../../../support/steps/common';
 import assets from '../../../fixtures/assets.json';
 import constants from '../../../fixtures/constans.json';
+import forkNetworks from '../../../fixtures/fork-networks.json';
 
 const testData = {
   deposit: {
@@ -53,13 +54,7 @@ const testData = {
       asset: assets.aaveMarket.ETH,
       amount: 0.01,
       hasApproval: true,
-      repayOption: constants.repayType.wallet,
-    },
-    {
-      asset: assets.aaveMarket.ETH,
-      amount: 0.01,
-      hasApproval: false,
-      repayOption: constants.repayType.collateral,
+      repayOption: constants.repayType.default,
     },
   ],
   withdraw: {
@@ -72,22 +67,24 @@ const testData = {
       {
         type: constants.dashboardTypes.deposit,
         asset: assets.aaveMarket.ETH.shortName,
-        amount: 0.07,
+        amount: 0.08,
         collateralType: constants.collateralType.isCollateral,
       },
       {
         type: constants.dashboardTypes.borrow,
         asset: assets.aaveMarket.ETH.shortName,
-        amount: 0.02,
+        amount: 0.03,
         apyType: constants.borrowAPYType.variable,
       },
     ],
   },
 };
 
-describe('ETH INTEGRATION SPEC', () => {
+describe('ETH INTEGRATION SPEC, AMM MARKET', () => {
   const skipTestState = skipState(false);
-  configEnvWithTenderlyMainnetFork({});
+  configEnvWithTenderlyMainnetFork({
+    market: 'fork_amm_mainnet',
+  });
 
   deposit(testData.deposit, skipTestState, true);
   describe('Check Collateral switching', () => {
@@ -96,7 +93,6 @@ describe('ETH INTEGRATION SPEC', () => {
     changeCollateral(testData.collateral.switchOn, skipTestState, false);
   });
   borrow(testData.borrow, skipTestState, true);
-  changeBorrowTypeNegative(testData.switchBorrowType, skipTestState, false);
   changeCollateralNegative(testData.collateral.switchNegative, skipTestState, false);
   testData.repay.forEach((repayCase) => {
     repay(repayCase, skipTestState, false);

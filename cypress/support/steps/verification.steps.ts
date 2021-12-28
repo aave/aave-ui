@@ -98,9 +98,58 @@ export const borrowsUnavailable = (skip: SkipType) => {
 
 export const rewardIsNotAvailable = (skip: SkipType) => {
   return describe('Check that reward not available', () => {
+    skipSetup(skip);
     it('Check that reward not exist on dashboard page', () => {
       cy.get('.Menu strong').contains('dashboard').click();
       cy.get('body').find(`.IncentiveWrapper`).should('not.exist');
+    });
+  });
+};
+
+export const switchCollateralBlocked = (
+  {
+    asset,
+  }: {
+    asset: { shortName: string; fullName: string };
+  },
+  skip: SkipType
+) => {
+  let _shortName = asset.shortName;
+  return describe('Check that collateral switcher disabled', () => {
+    skipSetup(skip);
+    it(`Open dashboard page`, () => {
+      cy.get('.Menu strong').contains('dashboard').click().wait(1000); // awaitng sync
+    });
+    it(`Check that collateral switcher for ${_shortName} disabled`, () => {
+      getDashBoardDepositRow({
+        assetName: _shortName,
+      })
+        .find('.Switcher__swiper input')
+        .should('be.disabled');
+    });
+  });
+};
+
+export const switchApyBlocked = (
+  {
+    asset,
+  }: {
+    asset: { shortName: string; fullName: string };
+  },
+  skip: SkipType
+) => {
+  let _shortName = asset.shortName;
+  return describe('Check that apy switcher disabled', () => {
+    skipSetup(skip);
+    it(`Open dashboard page`, () => {
+      cy.get('.Menu strong').contains('dashboard').click().wait(1000); // awaitng sync
+    });
+    it(`Check that APY switcher for ${_shortName} disabled`, () => {
+      getDashBoardBorrowRow({
+        assetName: _shortName,
+      })
+        .find('.Switcher__swiper input')
+        .should('be.disabled');
     });
   });
 };
