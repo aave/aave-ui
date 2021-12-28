@@ -43,7 +43,7 @@ export default function MobileCardWrapper({
     >
       <div className="MobileCardWrapper__symbol--inner">
         <div className="MobileCardWrapper__symbol">
-          <TokenIcon tokenSymbol={symbol} height={24} width={24} tokenFullName={asset.name} />
+          <TokenIcon tokenSymbol={symbol} height={29} width={29} tokenFullName={asset.name} />
           {isIsolated && <IsolatedBadge />}
         </div>
 

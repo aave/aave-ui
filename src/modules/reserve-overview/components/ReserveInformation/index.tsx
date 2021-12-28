@@ -174,7 +174,7 @@ export default function ReserveInformation({
                 title={intl.formatMessage(messages.utilisationRate)}
               />
             </div>
-            {reserveOverviewData.debtCeilingUSD !== '0' && (
+            {reserveOverviewData.usageAsCollateralEnabled && reserveOverviewData.isIsolated && (
               <div className="ReserveInformation__line">
                 <DebtCeilingInfo debtCeilingUSD={reserveOverviewData.debtCeilingUSD} />
               </div>

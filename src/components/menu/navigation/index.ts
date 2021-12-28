@@ -22,20 +22,12 @@ export interface Navigation {
 
 const navigation: Navigation[] = [
   {
-    link: '/markets',
-    title: messages.markets,
-  },
-  {
     link: '/dashboard',
     title: messages.dashboard,
   },
   {
-    link: '/deposit',
-    title: messages.deposit,
-  },
-  {
-    link: '/borrow',
-    title: messages.borrow,
+    link: '/markets',
+    title: messages.markets,
   },
   {
     link: '/asset-swap',

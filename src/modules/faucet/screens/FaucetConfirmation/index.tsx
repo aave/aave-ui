@@ -60,7 +60,7 @@ function FaucetConfirmation({
           boxDescription={intl.formatMessage(messages.boxDescription)}
           getTransactionsData={handleGetTransactions}
           mainTxType="FAUCET_MINT"
-          goToAfterSuccess="/deposit"
+          goToAfterSuccess="/dashboard"
           successButtonTitle={intl.formatMessage(messages.successButtonTitle)}
         >
           <Row title={intl.formatMessage(messages.rowTitle)}>

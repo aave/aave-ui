@@ -15,7 +15,9 @@ export default function TableCol({ children, className, maxWidth, minWidth }: Ta
     <div className={classNames('TableCol', className)} style={{ maxWidth, minWidth }}>
       {children}
 
-      <style jsx={true}>{staticStyles}</style>
+      <style jsx={true} global={true}>
+        {staticStyles}
+      </style>
     </div>
   );
 }

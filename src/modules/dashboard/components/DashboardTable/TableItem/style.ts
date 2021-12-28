@@ -9,17 +9,16 @@ const staticStyles = css.global`
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 6px 10px;
+    padding: 11px 10px 10px;
     position: relative;
-    box-shadow: $boxShadow;
-    border-radius: $borderRadius;
-    margin-bottom: 6px;
-    min-height: 70px;
-    @include respond-to(xl) {
-      min-height: 60px;
-    }
-    @include respond-to(lg) {
-      min-height: 55px;
+    min-height: 72px;
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
     }
 
     &__withInfo {
@@ -27,51 +26,9 @@ const staticStyles = css.global`
       margin-bottom: 35px;
     }
 
-    &__isolated {
-      position: relative;
-      margin-top: 24px;
-      border-top-left-radius: unset;
-      border-top-right-radius: unset;
-      @include respond-to(xl) {
-        margin-top: 20px;
-      }
-    }
-
-    &__isolated--inner {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: -24px;
-      height: 24px;
-      border-top-left-radius: 2px;
-      border-top-right-radius: 2px;
-      padding: 2px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      @include respond-to(xl) {
-        height: 20px;
-        top: -20px;
-      }
-
-      .IsolatedBadge {
-        border: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-      }
-    }
-
     .TableItem__inner {
       align-items: flex-start;
       justify-content: flex-start;
-    }
-
-    &__assetColor {
-      display: inline-block;
-      position: absolute;
-      left: 0;
-      width: 2px;
-      height: 25px;
     }
 
     .TableItem__token {
@@ -86,12 +43,6 @@ const staticStyles = css.global`
         .TokenIcon__image {
           margin-right: 0;
         }
-      }
-    }
-
-    .TableCol {
-      &:nth-of-type(3) {
-        max-width: 130px;
       }
     }
 

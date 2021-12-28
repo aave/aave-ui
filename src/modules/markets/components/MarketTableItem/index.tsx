@@ -37,6 +37,7 @@ export interface MarketTableItemProps {
   supplyCapUSD: string;
   supplyCap: string;
   isIsolated: boolean;
+  usageAsCollateralEnabled: boolean;
 }
 
 export default function MarketTableItem({
@@ -62,6 +63,7 @@ export default function MarketTableItem({
   supplyCapUSD,
   supplyCap,
   isIsolated,
+  usageAsCollateralEnabled,
 }: MarketTableItemProps) {
   const history = useHistory();
   const asset = getAssetInfo(currencySymbol);
@@ -80,7 +82,7 @@ export default function MarketTableItem({
           tokenFullName={asset.name}
           className="MarketTableItem__token"
         />
-        {isIsolated && <IsolatedBadge />}
+        {usageAsCollateralEnabled && isIsolated && <IsolatedBadge />}
       </TableColumn>
 
       <TableColumn className="MarketTableItem__column">

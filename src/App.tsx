@@ -49,7 +49,7 @@ const staticStyles = css.global`
 `;
 
 function ModulesWithMenu() {
-  const { isUserHasDeposits, userId } = useAppDataContext();
+  const { userId } = useAppDataContext();
   const { currentMarketData } = useProtocolDataContext();
 
   return (
@@ -97,7 +97,7 @@ function ModulesWithMenu() {
           <Route path="/faucet" component={Faucet} key="Faucet" />,
         ]}
 
-        <Redirect to={isUserHasDeposits ? '/dashboard' : '/markets'} />
+        <Redirect to="/dashboard" />
       </Switch>
     </ScreensWrapper>
   );

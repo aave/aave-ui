@@ -1,6 +1,6 @@
-import { getAssetInfo } from '@aave/aave-ui-kit';
 import { TokenMetadataType, tEthereumAddress } from '@aave/contract-helpers';
 import { assetsList } from '../ui-config/assets';
+import { getAssetInfo } from './config/assets-config';
 
 interface ATokenInfoParams {
   address: tEthereumAddress;

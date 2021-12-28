@@ -1,10 +1,19 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  asset: 'Asset',
-  stableAPY: 'Stable APY',
-  variableAPY: 'Variable APY',
-  dividerTitle: 'To borrow, deposit any of these assets into your wallet.',
+  assetsToBorrow: 'Assets to borrow',
 
-  connectWallet: 'To borrow, please connect a wallet',
+  maxAmount: 'Max amount',
+  APYVariable: 'APY variable',
+  APYStable: 'APY stable',
+
+  yourBorrows: 'Your borrows',
+  nothingBorrowed: 'Nothing borrowed yet',
+
+  noDataCaption: 'No borrow assets available yet', // TODO: need text
+  noDataDescription:
+    'There will be a list of all available assets you can borrow. For now, it’s empty since you have not collateral.', // TODO: need text
+
+  noCollateralText: 'To borrow you need to deposit any asset to be used as collateral.', // TODO: maybe need fix
+  isolationText: 'Borrow power and assets are limited due to Isolation mode.',
 });

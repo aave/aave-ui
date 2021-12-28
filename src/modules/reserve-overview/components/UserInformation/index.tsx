@@ -24,7 +24,7 @@ import HealthFactor from '../../../../components/HealthFactor';
 import CollateralHelpModal from '../../../../components/HelpModal/CollateralHelpModal';
 import BorrowTable from '../BorrowTable';
 import BorrowTableItem from '../BorrowTable/BorrowTableItem';
-import IsolationInfoBanner from '../../../../components/isolationMode/IsolationInfoBanner';
+import InfoBanner from '../../../../components/InfoBanner';
 import UserEModeInfo from '../UserEModeInfo';
 import EModeIconWithTooltip from '../../../../components/eMode/EModeIconWithTooltip';
 import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
@@ -269,7 +269,7 @@ export default function UserInformation({
               )}
 
               {!user?.isInIsolationMode && poolReserve.isIsolated && (
-                <IsolationInfoBanner
+                <InfoBanner
                   text={intl.formatMessage(messages.depositIsolationWarning, { symbol })}
                   size="small"
                   withIcon={true}
@@ -402,7 +402,7 @@ export default function UserInformation({
               )}
 
               {user?.isInIsolationMode && !isBorrowEnable && (
-                <IsolationInfoBanner
+                <InfoBanner
                   text={intl.formatMessage(
                     // should be executed when the user is in isolation mode, the asset can be borrowed, but due to the fact that the `Debt ceiling` is filled, borrowing is blocked
                     poolReserve.borrowableInIsolation && !formattedAvailableBorrows // TODO: perhaps this condition is not correct, need to check

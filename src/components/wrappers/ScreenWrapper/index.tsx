@@ -5,11 +5,13 @@ import { useLocation } from 'react-router-dom';
 
 import { useLanguageContext } from '../../../libs/language-provider';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
+import goToTop from '../../../helpers/goToTop';
 import BridgeBanner from '../../BridgeBanner';
 import DesktopPageTitle from '../../DesktopPageTitle';
 import { useHeaderTitle, useWithDesktopTitle } from '../ScreensWrapper';
 
 import staticStyles from './style';
+import Snowfall from 'react-snowfall';
 
 // Pages where the banners should be displayed
 export const DISPLAY_BRIDGE_BANNER_PAGES = ['/deposit', '/repay'];
@@ -36,7 +38,7 @@ export default function ScreenWrapper({
   children,
 }: ScreenWrapperProps) {
   const { currentLangSlug } = useLanguageContext();
-  const { currentTheme, isCurrentThemeDark } = useThemeContext();
+  const { currentTheme, isCurrentThemeDark, sm } = useThemeContext();
   const {
     networkConfig: { bridge, name },
   } = useProtocolDataContext();
@@ -59,12 +61,26 @@ export default function ScreenWrapper({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLangSlug, location.pathname]);
 
+  useEffect(() => {
+    goToTop();
+  }, []);
+
   return (
     <section
       className={classNames('ScreenWrapper', className, {
         ScreenWrapper__withDesktopTitle: isTitleOnDesktop,
       })}
     >
+      {sm && (
+        <Snowfall
+          color="#fff"
+          radius={[0.5, 4]}
+          snowflakeCount={50}
+          speed={[0.5, 1]}
+          wind={[-1, 1]}
+        />
+      )}
+
       {isTitleOnDesktop && (pageTitle || titleComponent) && (
         <DesktopPageTitle
           title={!!titleComponent ? titleComponent : pageTitle}

@@ -20,7 +20,7 @@ export default function DepositCurrency() {
           component={DepositConfirmation}
         />
 
-        <Redirect to="/deposit" />
+        <Redirect to="/dashboard" />
       </Switch>
     </PermissionWarning>
   );

@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import ReactTooltip from 'react-tooltip';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
+import { isAtoken } from '../../../helpers/get-atoken-info';
+import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import { CompactNumber } from '../CompactNumber';
 import SubValue from './SubValue';
 import ValueWithSmallDecimals from './ValueWithSmallDecimals';
@@ -32,8 +34,14 @@ interface ValueProps {
   isSmallValueCenterEllipsis?: boolean;
   onWhiteBackground?: boolean;
   nextToValue?: ReactNode;
+  tooltipValue?: string | number;
+  tooltipSubValue?: string | number;
+  tooltipSymbol?: string;
+  tooltipSubSymbol?: string;
   maximumTooltipDecimals?: number;
   minimumTooltipDecimals?: number;
+  maximumTooltipSubDecimals?: number;
+  minimumTooltipSubDecimals?: number;
 }
 
 export default function Value({
@@ -57,11 +65,18 @@ export default function Value({
   isSmallValueCenterEllipsis,
   onWhiteBackground,
   nextToValue,
+  tooltipValue,
+  tooltipSubValue,
+  tooltipSymbol,
+  tooltipSubSymbol,
   maximumTooltipDecimals,
   minimumTooltipDecimals,
+  maximumTooltipSubDecimals,
+  minimumTooltipSubDecimals,
 }: ValueProps) {
-  const { currentTheme, xl } = useThemeContext();
   const intl = useIntl();
+  const { currentTheme, xl } = useThemeContext();
+  const { currentMarketData } = useProtocolDataContext();
 
   const asset = symbol && getAssetInfo(symbol);
   const [newValue, setNewValue]: any = useState(value);
@@ -95,9 +110,10 @@ export default function Value({
         {tokenIcon && symbol && (
           <TokenIcon
             className="Value__token-icon"
-            tokenSymbol={symbol}
+            tokenSymbol={isAtoken(currentMarketData.aTokenPrefix, symbol).symbol.toUpperCase()}
             width={xl ? 16 : 18}
             height={xl ? 16 : 18}
+            isAtokenIcon={isAtoken(currentMarketData.aTokenPrefix, symbol).isAtoken}
           />
         )}
 
@@ -163,15 +179,29 @@ export default function Value({
 
       {!!tooltipId && (
         <ReactTooltip className="Value__tooltip" id={tooltipId} effect="solid">
-          <span>
-            {intl.formatNumber(Number(newValue), {
-              minimumFractionDigits: minimumTooltipDecimals,
-              maximumFractionDigits: maximumTooltipDecimals || 7,
-            })}{' '}
-            {symbol && !withoutSymbol && !!asset && asset.formattedName && (
-              <>{asset.formattedName}</>
+          <div className="Value__tooltip--content">
+            <span>
+              {tooltipSymbol && tooltipSymbol === 'USD' && <>$ </>}
+              {intl.formatNumber(Number(tooltipValue || newValue), {
+                minimumFractionDigits: minimumTooltipDecimals,
+                maximumFractionDigits: maximumTooltipDecimals || 7,
+              })}{' '}
+              {symbol && !withoutSymbol && !!asset && asset.formattedName && (
+                <>{asset.formattedName}</>
+              )}
+              {tooltipSymbol && tooltipSymbol !== 'USD' && <>{tooltipSymbol}</>}
+            </span>
+            {tooltipSubValue && (
+              <span>
+                {tooltipSubSymbol && tooltipSubSymbol === 'USD' && <>$ </>}
+                {intl.formatNumber(Number(tooltipSubValue), {
+                  minimumFractionDigits: minimumTooltipSubDecimals,
+                  maximumFractionDigits: maximumTooltipSubDecimals || 7,
+                })}{' '}
+                {tooltipSubSymbol && tooltipSubSymbol !== 'USD' && <>{tooltipSubSymbol}</>}
+              </span>
             )}
-          </span>
+          </div>
         </ReactTooltip>
       )}
 

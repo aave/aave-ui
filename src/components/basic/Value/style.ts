@@ -75,6 +75,15 @@ const staticStyles = css.global`
         font-size: $small;
       }
       white-space: nowrap;
+
+      &--content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        span:last-of-type {
+          margin-top: 5px;
+        }
+      }
     }
   }
 `;

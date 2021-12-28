@@ -3,7 +3,7 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   caption: 'Liquidation risk parametres',
   description:
-    'Your health factor and loan to value determine the assurance of your collateral. To avoid liquidations you can supply more collateral or repay borrow positions. {link}',
+    'Your health factor and loan to value determine the assurance of your collateral. To avoid liquidations you can deposit more collateral or repay borrow positions. {link}',
   learnMore: 'Learn more',
 
   hfTopInfo:

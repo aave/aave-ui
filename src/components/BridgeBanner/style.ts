@@ -13,6 +13,19 @@ const staticStyles = css.global`
     color: white;
     justify-content: space-between;
     position: relative;
+    margin-bottom: 20px;
+    @include respond-to(md) {
+      flex-direction: column;
+      align-items: center;
+      border-radius: 0;
+      div {
+        padding: 4px;
+      }
+    }
+    @include respond-to(sm) {
+      margin: 20px 10px;
+      width: calc(100% - 20px);
+    }
 
     &__logo {
       display: flex;
@@ -32,22 +45,40 @@ const staticStyles = css.global`
       }
     }
 
-    &__link {
+    &__close {
       display: flex;
       align-items: center;
+      position: relative;
+      z-index: 2;
+      &:hover {
+        opacity: 0.7;
+      }
+      &:active {
+        transform: scale(0.8);
+      }
+
       @include respond-to(md) {
         right: 8px;
-        top: 8px;
+        top: 14px;
         position: absolute;
       }
-    }
 
-    @include respond-to(md) {
-      flex-direction: column;
-      align-items: center;
-      border-radius: 0;
-      div {
-        padding: 4px;
+      span {
+        width: 14px;
+        height: 2px;
+        position: relative;
+        border-radius: $borderRadius;
+        transform: rotate(45deg);
+        &:after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          border-radius: $borderRadius;
+          height: 14px;
+          width: 2px;
+        }
       }
     }
   }

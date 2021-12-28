@@ -1,20 +1,20 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
-import CustomSwitch from '../../../../components/basic/CustomSwitch';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
+import TableUsedAsCollateral from '../../../dashboard/components/DashboardTable/TableUsedAsCollateral';
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
 import Row from '../../../../components/basic/Row';
 import Value from '../../../../components/basic/Value';
 import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import NoData from '../../../../components/basic/NoData';
+import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import CollateralHelpModal from '../../../../components/HelpModal/CollateralHelpModal';
 import AMPLWarning from '../../../../components/AMPLWarning';
-import IsolationModeBadge from '../../../../components/isolationMode/IsolationModeBadge';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -32,34 +32,26 @@ export default function DepositMobileCard({
   borrowingEnabled,
   aIncentives,
   canBeEnabledAsCollateral,
-  isUserInIsolationMode,
   isIsolated,
 }: DepositTableItem) {
   const intl = useIntl();
-  const { currentTheme } = useThemeContext();
   const { currentMarketData } = useProtocolDataContext();
-
-  const swiperWidth = 50;
-  const swiperHeight = 24;
 
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
 
   return (
     <>
-      <MobileCardWrapper
-        symbol={symbol}
-        isIsolated={
-          isUserInIsolationMode &&
-          usageAsCollateralEnabledOnUser &&
-          canBeEnabledAsCollateral &&
-          isIsolated
-        }
-      >
-        <Row title={intl.formatMessage(messages.secondTableColumnTitle)} withMargin={true}>
+      <MobileCardWrapper symbol={symbol} isIsolated={isIsolated}>
+        <Row title={intl.formatMessage(messages.balance)} withMargin={true}>
           <Value
-            value={Number(underlyingBalance)}
-            subValue={Number(underlyingBalanceUSD)}
-            subSymbol="USD"
+            value={Number(underlyingBalanceUSD)}
+            maximumValueDecimals={2}
+            symbol="USD"
+            tokenIcon={true}
+            withoutSymbol={true}
+            subValue={Number(underlyingBalance)}
+            maximumSubValueDecimals={isAssetStable(symbol) ? 2 : 7}
+            subSymbol={symbol}
           />
         </Row>
 
@@ -85,31 +77,28 @@ export default function DepositMobileCard({
           withMargin={true}
           className="Row__center"
         >
-          <CustomSwitch
-            value={usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral}
-            offLabel={
-              isUserInIsolationMode && !canBeEnabledAsCollateral ? (
-                <IsolationModeBadge isIsolated={isIsolated} disabled={true} />
-              ) : (
-                intl.formatMessage(messages.offLabel)
-              )
-            }
-            onLabel={intl.formatMessage(messages.onLabel)}
-            onColor={currentTheme.green.hex}
-            offColor={!canBeEnabledAsCollateral ? currentTheme.lightBlue.hex : currentTheme.red.hex}
-            onSwitch={onToggleSwitch}
-            disabled={!canBeEnabledAsCollateral}
-            swiperHeight={swiperHeight}
-            swiperWidth={swiperWidth}
+          <TableUsedAsCollateral
+            isIsolated={isIsolated}
+            usageAsCollateralEnabledOnUser={usageAsCollateralEnabledOnUser}
+            canBeEnabledAsCollateral={canBeEnabledAsCollateral}
+            onToggleSwitch={onToggleSwitch}
           />
         </Row>
 
-        {!isSwapButton && (
-          <Row
-            title={intl.formatMessage(messages.depositMore)}
-            withMargin={true}
-            className="Row__center"
+        <TableButtonsWrapper>
+          <Link
+            to={`/withdraw/${underlyingAsset}-${id}`}
+            className="ButtonLink"
+            disabled={!isActive}
           >
+            <DefaultButton
+              title={intl.formatMessage(defaultMessages.withdraw)}
+              color="dark"
+              disabled={!isActive}
+            />
+          </Link>
+
+          {!isSwapButton ? (
             <Link
               to={`/deposit/${underlyingAsset}-${id}`}
               className="ButtonLink"
@@ -119,32 +108,10 @@ export default function DepositMobileCard({
                 title={intl.formatMessage(defaultMessages.deposit)}
                 color="dark"
                 disabled={!isActive || isFrozen}
+                transparent={!isSwapButton}
               />
             </Link>
-          </Row>
-        )}
-
-        <Row
-          title={intl.formatMessage(messages.withdrawYourDeposit)}
-          withMargin={isSwapButton}
-          className="Row__center"
-        >
-          <Link
-            to={`/withdraw/${underlyingAsset}-${id}`}
-            className="ButtonLink"
-            disabled={!isActive}
-          >
-            <DefaultButton
-              title={intl.formatMessage(defaultMessages.withdraw)}
-              color="dark"
-              transparent={!isSwapButton}
-              disabled={!isActive}
-            />
-          </Link>
-        </Row>
-
-        {isSwapButton && (
-          <Row title={intl.formatMessage(messages.swapYourDeposit)} className="Row__center">
+          ) : (
             <Link
               to={`/asset-swap?asset=${underlyingAsset}`}
               className="ButtonLink"
@@ -177,8 +144,8 @@ export default function DepositMobileCard({
                 }
               />
             </Link>
-          </Row>
-        )}
+          )}
+        </TableButtonsWrapper>
       </MobileCardWrapper>
 
       {symbol === 'AMPL' && <AMPLWarning />}

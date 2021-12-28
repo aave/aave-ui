@@ -47,9 +47,11 @@ export default function DashboardNoData() {
       </div>
 
       <div className="DashboardNoData__bottom--inner">
-        <p className="DashboardNoData__bottom--text">{intl.formatMessage(messages.orDepositNow)}</p>
-        <Link to="/deposit" className="ButtonLink">
-          <DefaultButton title={intl.formatMessage(messages.depositNow)} mobileBig={true} />
+        <p className="DashboardNoData__bottom--text">
+          {intl.formatMessage(messages.exploreAvailableAssets)}
+        </p>
+        <Link to="/markets" className="ButtonLink">
+          <DefaultButton title={intl.formatMessage(messages.markets)} mobileBig={true} />
         </Link>
       </div>
 
