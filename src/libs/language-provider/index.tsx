@@ -16,6 +16,7 @@ import 'dayjs/locale/pt';
 
 import { getCurrentLocale } from './get-language';
 import { SupportedLanguage } from './constants';
+import en from '../../translations/en.json';
 
 dayjs.extend(localizedFormat);
 
@@ -45,7 +46,7 @@ interface LanguageProviderProps {
 
 export function LanguageProvider({ children }: LanguageProviderProps) {
   const [currentLang, setCurrentLangSlug] = useState<SupportedLanguage>(getCurrentLocale());
-  const [messages, setMessages] = useState();
+  const [messages, setMessages] = useState<{ [key: string]: {} }>({ en });
 
   const changeLang = (langCode: SupportedLanguage) => {
     localStorage.setItem('locale', langCode);
@@ -55,14 +56,17 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   dayjs.locale(currentLang === 'zh' ? 'zh-cn' : currentLang);
 
   useEffect(() => {
-    messageLoader[currentLang]?.().then(setMessages as any);
+    if (!messages[currentLang])
+      messageLoader[currentLang]?.().then((messages) =>
+        setMessages((cache: any) => ({ ...cache, [currentLang]: messages }))
+      );
   }, [currentLang]);
 
   return (
     <LanguageContext.Provider value={{ currentLangSlug: currentLang, changeLang }}>
       <IntlProvider
         locale={currentLang === 'zh' ? 'zh-cn' : currentLang}
-        messages={messages}
+        messages={messages[currentLang]}
         defaultLocale="en"
       >
         {children}
