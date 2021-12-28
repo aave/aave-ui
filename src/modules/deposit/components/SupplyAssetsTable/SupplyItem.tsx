@@ -40,13 +40,13 @@ export default function SupplyItem({
         symbol={symbol}
         value={Number(walletBalanceUSD)}
         subValue={Number(walletBalance)}
-        tooltipId={`availableToDeposit__${id}`}
+        tooltipId={`availableToDeposit__${underlyingAsset}`}
         nextToValue={
           <CapsHint
             capType={CapType.supplyCap}
             capAmount={supplyCap}
             totalAmount={totalLiquidity}
-            tooltipId={`supplyCap__${id}`}
+            tooltipId={`supplyCap__${underlyingAsset}`}
             withoutText={true}
           />
         }
