@@ -4,7 +4,6 @@ import { Wallet } from '@ethersproject/wallet';
 import { CustomizedBridge } from '../tools/bridge';
 import forkNetworks from '../../fixtures/fork-networks.json';
 import { AsyncTool } from '../tools/async.tool';
-import { browserWallets } from '../../../src/components/ConnectWalletModal/images';
 
 const URL = Cypress.env('URL');
 
@@ -42,8 +41,7 @@ const configEnvWithTenderly = ({
         win.ethereum = new CustomizedBridge(signer, provider);
         win.localStorage.setItem('forkEnabled', 'true');
         // forks are always expected to run on chainId 3030
-        // win.localStorage.setItem('forkNetworkId', '3030');
-        // win.localStorage.setItem('forkChainId', network.forkChainID);
+        win.localStorage.setItem('forkNetworkId', '3030');
         win.localStorage.setItem('forkBaseChainId', network.chainID);
         win.localStorage.setItem('forkRPCUrl', rpc);
         win.localStorage.setItem('currentProvider', 'browser');
@@ -72,11 +70,11 @@ export const configEnvWithTenderlyMainnetFork = ({
 };
 
 export const configEnvWithTenderlyPolygonFork = ({
-   market = `fork_proto_matic`,
-   network = forkNetworks.polygon,
-   tokens,
-   account = DEFAULT_TEST_ACCOUNT,
- }: {
+  market = `fork_proto_matic`,
+  network = forkNetworks.polygon,
+  tokens,
+  account = DEFAULT_TEST_ACCOUNT,
+}: {
   market?: string;
   network?: { networkID: number; forkChainID: number; chainID: number };
   tokens?: any[];
@@ -86,11 +84,11 @@ export const configEnvWithTenderlyPolygonFork = ({
 };
 
 export const configEnvWithTenderlyAvalancheFork = ({
-   market = `fork_proto_avalanche`,
-   network = forkNetworks.avalanche,
-   tokens,
-   account = DEFAULT_TEST_ACCOUNT,
- }: {
+  market = `fork_proto_avalanche`,
+  network = forkNetworks.avalanche,
+  tokens,
+  account = DEFAULT_TEST_ACCOUNT,
+}: {
   market?: string;
   network?: { networkID: number; forkChainID: number; chainID: number };
   tokens?: any[];

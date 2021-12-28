@@ -16,7 +16,7 @@ import constants from '../../../fixtures/constans.json';
 
 const testData = {
   depositBaseAmount: {
-    asset: assets.polygonMarket.MATIC,
+    asset: assets.avalancheMarket.AVAX,
     amount: 800,
     hasApproval: true,
   },

@@ -1,6 +1,4 @@
-import {
-  configEnvWithTenderlyPolygonFork,
-} from '../../../support/steps/configuration.steps';
+import { configEnvWithTenderlyPolygonFork } from '../../../support/steps/configuration.steps';
 import {
   deposit,
   borrow,
