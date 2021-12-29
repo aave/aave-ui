@@ -1,10 +1,8 @@
 import { ApolloProvider } from '@apollo/client';
 import React, { PropsWithChildren } from 'react';
-import { getApolloClient2 } from './client-config';
-
-const apolloCLient = getApolloClient2();
+import { apolloClient } from './client-config';
 
 export default function WrappedApolloProvider({ children }: PropsWithChildren<{}>) {
-  if (!apolloCLient) return <>{children}</>;
-  return <ApolloProvider client={apolloCLient}>{children}</ApolloProvider>;
+  if (!apolloClient) return <>{children}</>;
+  return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>;
 }
