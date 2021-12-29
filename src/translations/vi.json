@@ -152,7 +152,6 @@
   "components.TxConfirmationView.goBack": "Quay lại",
   "components.TxConfirmationView.goToDashboard": "Đi tới dashboard",
   "components.TxConfirmationView.nextSteps": "Các bước tiếp theo",
-  "components.TxConfirmationView.permit": "",
   "components.TxConfirmationView.submit": "Gửi",
   "components.TxConfirmationView.successfullyExecuted": "Hoạt động đã được thực hiện thành công",
   "components.TxConfirmationView.transactionDetails": "Đây là chi tiết giao dịch của bạn. Vui lòng kiểm tra kỹ trước khi gửi đi.",

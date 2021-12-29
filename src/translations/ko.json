@@ -152,7 +152,6 @@
   "components.TxConfirmationView.goBack": "돌아가기",
   "components.TxConfirmationView.goToDashboard": "대시보드로 이동",
   "components.TxConfirmationView.nextSteps": "다음 단계",
-  "components.TxConfirmationView.permit": "",
   "components.TxConfirmationView.submit": "제출",
   "components.TxConfirmationView.successfullyExecuted": "작업이 성공적으로 실행되었습니다",
   "components.TxConfirmationView.transactionDetails": "다음은 거래 세부 정보입니다. 제출하시기 전에 이것이 정확한지 확인해주세요.",

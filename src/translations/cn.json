@@ -152,7 +152,6 @@
   "components.TxConfirmationView.goBack": "返回",
   "components.TxConfirmationView.goToDashboard": "前往控制面板",
   "components.TxConfirmationView.nextSteps": "下一步",
-  "components.TxConfirmationView.permit": "",
   "components.TxConfirmationView.submit": "提交",
   "components.TxConfirmationView.successfullyExecuted": "操作已成功执行",
   "components.TxConfirmationView.transactionDetails": "这些是你的交易详细信息。请在提交之前务必检查是否正确。",

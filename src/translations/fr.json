@@ -152,7 +152,6 @@
   "components.TxConfirmationView.goBack": "Revenir en arrière",
   "components.TxConfirmationView.goToDashboard": "Aller au tableau de bord",
   "components.TxConfirmationView.nextSteps": "Prochaines étapes",
-  "components.TxConfirmationView.permit": "",
   "components.TxConfirmationView.submit": "Valider",
   "components.TxConfirmationView.successfullyExecuted": "Votre action a été exécutée avec succès",
   "components.TxConfirmationView.transactionDetails": "Voici les détails de votre transaction. Veuillez vérifier que tout est correct avant de valider.",

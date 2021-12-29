@@ -338,13 +338,13 @@ export default function TxConfirmationView({
                     title={`${selectedStep}/${numberOfSteps + 1} ${
                       backendNotAvailable
                         ? intl.formatMessage(messages.errorTitle)
-                        : intl.formatMessage(messages.permit)
+                        : intl.formatMessage(messages.approve)
                     }`}
                     description={approveDescription}
                     onSubmitTransaction={async () => handleSubmitPermitSignature()}
                     loading={permitStatus === TxStatusType.submitted}
                     failed={permitError}
-                    buttonTitle={intl.formatMessage(messages.permit)}
+                    buttonTitle={intl.formatMessage(messages.approve)}
                   />
                 ) : (
                   approveTxData &&

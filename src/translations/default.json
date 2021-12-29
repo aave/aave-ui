@@ -152,7 +152,6 @@
   "components.TxConfirmationView.goBack": "Go back",
   "components.TxConfirmationView.goToDashboard": "Go to dashboard",
   "components.TxConfirmationView.nextSteps": "Next steps",
-  "components.TxConfirmationView.permit": "Permit",
   "components.TxConfirmationView.submit": "Submit",
   "components.TxConfirmationView.successfullyExecuted": "Your action has been successfully executed",
   "components.TxConfirmationView.transactionDetails": "These are your transaction details. Make sure to check if this is correct before submitting.",

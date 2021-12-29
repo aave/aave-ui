@@ -152,7 +152,6 @@
   "components.TxConfirmationView.goBack": "Geri dön",
   "components.TxConfirmationView.goToDashboard": "Kontrol paneline git",
   "components.TxConfirmationView.nextSteps": "Sonraki adımlar",
-  "components.TxConfirmationView.permit": "",
   "components.TxConfirmationView.submit": "Gönderin",
   "components.TxConfirmationView.successfullyExecuted": "Eyleminiz başarıyla gerçekleştirildi",
   "components.TxConfirmationView.transactionDetails": "Bunlar işlem ayrıntılarınızdır. Göndermeden önce bunun doğru olup olmadığını kontrol ettiğinizden emin olun.",

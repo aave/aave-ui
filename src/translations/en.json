@@ -152,7 +152,6 @@
   "components.TxConfirmationView.goBack": "",
   "components.TxConfirmationView.goToDashboard": "",
   "components.TxConfirmationView.nextSteps": "",
-  "components.TxConfirmationView.permit": "",
   "components.TxConfirmationView.submit": "",
   "components.TxConfirmationView.successfullyExecuted": "",
   "components.TxConfirmationView.transactionDetails": "",

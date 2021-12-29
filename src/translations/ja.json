@@ -152,7 +152,6 @@
   "components.TxConfirmationView.goBack": "戻る",
   "components.TxConfirmationView.goToDashboard": "ダッシュボードに移動する",
   "components.TxConfirmationView.nextSteps": "次のステップ",
-  "components.TxConfirmationView.permit": "",
   "components.TxConfirmationView.submit": "送信する",
   "components.TxConfirmationView.successfullyExecuted": "お客様の操作が正常に実行されました",
   "components.TxConfirmationView.transactionDetails": "これらはお客様の取引詳細です。送信前、これが正しいかどうかを確認してください。",
