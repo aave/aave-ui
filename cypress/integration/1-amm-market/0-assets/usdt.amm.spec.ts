@@ -1,11 +1,5 @@
 import { configEnvWithTenderlyMainnetFork } from '../../../support/steps/configuration.steps';
-import {
-  deposit,
-  borrow,
-  repay,
-  withdraw,
-  changeBorrowType,
-} from '../../../support/steps/main.steps';
+import { deposit, borrow, repay, withdraw } from '../../../support/steps/main.steps';
 import {
   dashboardAssetValuesVerification,
   switchCollateralBlocked,

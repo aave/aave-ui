@@ -16,7 +16,6 @@ import {
 import { skipState } from '../../../support/steps/common';
 import assets from '../../../fixtures/assets.json';
 import constants from '../../../fixtures/constans.json';
-import forkNetworks from '../../../fixtures/fork-networks.json';
 
 const testData = {
   deposit: {
