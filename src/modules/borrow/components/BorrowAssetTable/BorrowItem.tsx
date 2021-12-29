@@ -35,7 +35,8 @@ export default function BorrowItem({
       <TableValueCol
         userId={userId}
         symbol={symbol}
-        value={Number(availableBorrowsInUSD)}
+        value={Number(availableBorrows)}
+        tooltipValue={Number(availableBorrowsInUSD)}
         subValue={Number(availableBorrows)}
         tooltipId={`availableBorrows__${id}`}
         nextToValue={

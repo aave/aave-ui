@@ -46,14 +46,12 @@ export default function SupplyItemMobileCard({
           <NoData color="dark" />
         ) : (
           <Value
-            value={walletBalanceUSD}
-            symbol="USD"
-            withoutSymbol={true}
-            tokenIcon={true}
-            subValue={walletBalance}
-            subSymbol={symbol}
-            maximumValueDecimals={2}
-            maximumSubValueDecimals={isAssetStable(symbol) ? 2 : 7}
+            value={walletBalance}
+            symbol={symbol}
+            subValue={walletBalanceUSD}
+            subSymbol="USD"
+            maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}
+            maximumSubValueDecimals={2}
             nextToValue={
               <CapsHint
                 capType={CapType.supplyCap}

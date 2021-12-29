@@ -48,14 +48,12 @@ export default function BorrowMobileCard({
       <MobileCardWrapper symbol={symbol}>
         <Row title={intl.formatMessage(messages.balance)} withMargin={true}>
           <Value
-            value={Number(currentBorrowsUSD)}
-            symbol="USD"
-            withoutSymbol={true}
-            tokenIcon={true}
-            maximumValueDecimals={2}
-            subValue={Number(currentBorrows)}
-            maximumSubValueDecimals={isAssetStable(symbol) ? 2 : 7}
-            subSymbol={symbol}
+            value={Number(currentBorrows)}
+            symbol={symbol}
+            maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}
+            subValue={Number(currentBorrowsUSD)}
+            maximumSubValueDecimals={2}
+            subSymbol="USD"
           />
         </Row>
 

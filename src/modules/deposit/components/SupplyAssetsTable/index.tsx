@@ -9,7 +9,6 @@ import SupplyItem from './SupplyItem';
 import DashboardItemsWrapper from '../../../dashboard/components/DashboardItemsWrapper';
 import TableHeader from '../../../dashboard/components/DashboardTable/TableHeader';
 import SupplyItemMobileCard from './SupplyItemMobileCard';
-import { SupplyTableItem } from './types';
 import { ComputedReserveData, useAppDataContext } from '../../../../libs/pool-data-provider';
 import Preloader from '../../../../components/basic/Preloader';
 import InfoBanner from '../../../../components/InfoBanner';

@@ -43,14 +43,12 @@ export default function BorrowMobileCard({
           <NoData color="dark" />
         ) : (
           <Value
-            value={Number(availableBorrowsInUSD)}
-            symbol="USD"
-            withoutSymbol={true}
-            tokenIcon={true}
-            subValue={availableBorrows}
-            subSymbol={symbol}
-            maximumValueDecimals={2}
-            maximumSubValueDecimals={isAssetStable(symbol) ? 2 : 7}
+            value={Number(availableBorrows)}
+            symbol={symbol}
+            subValue={availableBorrowsInUSD}
+            subSymbol="USD"
+            maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}
+            maximumSubValueDecimals={2}
             nextToValue={
               <CapsHint
                 capType={CapType.borrowCap}

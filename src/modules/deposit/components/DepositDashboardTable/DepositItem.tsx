@@ -38,9 +38,9 @@ export default function DepositItem({
       <TableValueCol
         userId={userId}
         symbol={symbol}
-        value={Number(underlyingBalanceUSD)}
-        subValue={Number(underlyingBalance)}
-        tooltipId={`deposit-${symbol}__${id}`}
+        value={Number(underlyingBalance)}
+        withSubValue={true}
+        subValue={Number(underlyingBalanceUSD)}
       />
 
       <TableAprCol value={Number(liquidityRate)} incentives={aIncentives} symbol={symbol} />

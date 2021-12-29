@@ -44,14 +44,12 @@ export default function DepositMobileCard({
       <MobileCardWrapper symbol={symbol} isIsolated={isIsolated}>
         <Row title={intl.formatMessage(messages.balance)} withMargin={true}>
           <Value
-            value={Number(underlyingBalanceUSD)}
-            maximumValueDecimals={2}
-            symbol="USD"
-            tokenIcon={true}
-            withoutSymbol={true}
-            subValue={Number(underlyingBalance)}
-            maximumSubValueDecimals={isAssetStable(symbol) ? 2 : 7}
-            subSymbol={symbol}
+            value={Number(underlyingBalance)}
+            maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}
+            symbol={symbol}
+            subValue={Number(underlyingBalanceUSD)}
+            maximumSubValueDecimals={2}
+            subSymbol="USD"
           />
         </Row>
 

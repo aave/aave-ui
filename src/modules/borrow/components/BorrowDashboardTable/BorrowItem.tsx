@@ -30,7 +30,6 @@ export default function BorrowItem({
   stableBorrowRateEnabled,
   repayLink,
   borrowLink,
-  index,
   vIncentives,
   sIncentives,
 }: BorrowTableItem) {
@@ -45,10 +44,11 @@ export default function BorrowItem({
       <TableValueCol
         userId={userId}
         symbol={symbol}
-        value={Number(currentBorrowsUSD)}
-        subValue={Number(currentBorrows)}
-        tooltipId={`borrow-${symbol}__${index}`}
+        value={Number(currentBorrows)}
+        withSubValue={true}
+        subValue={Number(currentBorrowsUSD)}
       />
+
       <TableAprCol
         value={Number(borrowRate)}
         incentives={borrowRateMode === BorrowRateMode.Variable ? vIncentives : sIncentives}

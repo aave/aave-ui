@@ -38,7 +38,8 @@ export default function SupplyItem({
       <TableValueCol
         userId={userId}
         symbol={symbol}
-        value={Number(walletBalanceUSD)}
+        value={Number(walletBalance)}
+        tooltipValue={Number(walletBalanceUSD)}
         subValue={Number(walletBalance)}
         tooltipId={`availableToDeposit__${underlyingAsset}`}
         nextToValue={
