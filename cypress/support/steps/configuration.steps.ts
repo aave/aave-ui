@@ -4,9 +4,9 @@ import { Wallet } from '@ethersproject/wallet';
 import { CustomizedBridge } from '../tools/bridge';
 import forkNetworks from '../../fixtures/fork-networks.json';
 import { AsyncTool } from '../tools/async.tool';
-import { browserWallets } from '../../../src/components/ConnectWalletModal/images';
 
 const URL = Cypress.env('URL');
+const PERSIST_FORK_AFTER_RUN = Cypress.env('PERSIST_FORK_AFTER_RUN');
 
 const configEnvWithTenderly = ({
   network,
@@ -52,13 +52,41 @@ const configEnvWithTenderly = ({
     });
   });
   after(async () => {
-    await tenderly.deleteFork();
+    // if (!PERSIST_FORK_AFTER_RUN) await tenderly.deleteFork();
   });
 };
 
 export const configEnvWithTenderlyMainnetFork = ({
   market = `fork_proto_mainnet`,
   network = forkNetworks.ethereum,
+  tokens,
+  account = DEFAULT_TEST_ACCOUNT,
+}: {
+  market?: string;
+  network?: { networkID: number; forkChainID: number; chainID: number };
+  tokens?: any[];
+  account?: { privateKey: string; address: string };
+}) => {
+  configEnvWithTenderly({ network, market, tokens, account });
+};
+
+export const configEnvWithTenderlyPolygonFork = ({
+  market = `fork_proto_matic`,
+  network = forkNetworks.polygon,
+  tokens,
+  account = DEFAULT_TEST_ACCOUNT,
+}: {
+  market?: string;
+  network?: { networkID: number; forkChainID: number; chainID: number };
+  tokens?: any[];
+  account?: { privateKey: string; address: string };
+}) => {
+  configEnvWithTenderly({ network, market, tokens, account });
+};
+
+export const configEnvWithTenderlyAvalancheFork = ({
+  market = `fork_proto_avalanche`,
+  network = forkNetworks.avalanche,
   tokens,
   account = DEFAULT_TEST_ACCOUNT,
 }: {

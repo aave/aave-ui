@@ -14,38 +14,38 @@ import constants from '../../../fixtures/constans.json';
 const testData = {
   depositETH: {
     asset: assets.aaveMarket.ETH,
-    amount: 0.9,
+    amount: 0.1,
     hasApproval: true,
   },
   testCases: {
+    deposit: {
+      asset: assets.aaveMarket.TUSD,
+      amount: 50,
+      hasApproval: false,
+    },
     borrow: [
       {
-        asset: assets.aaveMarket.DAI,
+        asset: assets.aaveMarket.TUSD,
         amount: 50,
         apyType: constants.borrowAPYType.variable,
         hasApproval: true,
       },
       {
-        asset: assets.aaveMarket.DAI,
+        asset: assets.aaveMarket.TUSD,
         amount: 50,
         apyType: constants.borrowAPYType.stable,
         hasApproval: true,
       },
     ],
-    deposit: {
-      asset: assets.aaveMarket.DAI,
-      amount: 50,
-      hasApproval: false,
-    },
     changeBorrowType: [
       {
-        asset: assets.aaveMarket.DAI,
+        asset: assets.aaveMarket.TUSD,
         apyType: constants.borrowAPYType.stable,
         newAPY: constants.borrowAPYType.variable,
         hasApproval: true,
       },
       {
-        asset: assets.aaveMarket.DAI,
+        asset: assets.aaveMarket.TUSD,
         apyType: constants.borrowAPYType.variable,
         newAPY: constants.borrowAPYType.stable,
         hasApproval: true,
@@ -53,21 +53,21 @@ const testData = {
     ],
     repay: [
       {
-        asset: assets.aaveMarket.DAI,
+        asset: assets.aaveMarket.TUSD,
         amount: 10,
         hasApproval: true,
         repayOption: constants.repayType.wallet,
       },
       {
-        asset: assets.aaveMarket.DAI,
+        asset: assets.aaveMarket.TUSD,
         amount: 10,
         hasApproval: false,
         repayOption: constants.repayType.collateral,
-        assetForRepay: assets.aaveMarket.DAI,
+        assetForRepay: assets.aaveMarket.TUSD,
       },
     ],
     withdraw: {
-      asset: assets.aaveMarket.DAI,
+      asset: assets.aaveMarket.TUSD,
       amount: 10,
       hasApproval: true,
     },
@@ -76,13 +76,13 @@ const testData = {
     finalDashboard: [
       {
         type: constants.dashboardTypes.deposit,
-        asset: assets.aaveMarket.DAI.shortName,
+        asset: assets.aaveMarket.TUSD.shortName,
         amount: 30,
         collateralType: constants.collateralType.isCollateral,
       },
       {
         type: constants.dashboardTypes.borrow,
-        asset: assets.aaveMarket.DAI.shortName,
+        asset: assets.aaveMarket.TUSD.shortName,
         amount: 80,
         apyType: constants.borrowAPYType.stable,
       },
@@ -90,9 +90,10 @@ const testData = {
   },
 };
 
-describe('DAI INTEGRATION SPEC', () => {
+describe('TUSD INTEGRATION SPEC', () => {
   const skipTestState = skipState(false);
   configEnvWithTenderlyMainnetFork({});
+
   deposit(testData.depositETH, skipTestState, true);
   testData.testCases.borrow.forEach((borrowCase) => {
     borrow(borrowCase, skipTestState, true);
