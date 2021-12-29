@@ -27,9 +27,46 @@ jobs:
       - uses: ./.github/actions/build
         if: steps.restore.outcome != 'success'
 
-  cypress_test_main:
+  get-runner-for-tests:
     runs-on: ubuntu-latest
-    needs: build
+    outputs:
+      runner-tags: "${{steps.get-tags.outputs.runner-tags}}"
+    steps:
+      - id: runners-json
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{secrets.LIST_RUNNERS_TOKEN}}
+          script: |
+            return github.rest.actions.listSelfHostedRunnersForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+      - id: get-tags
+        name: Get resulting runner tags
+        shell: python
+        env:
+          RUNNERS_JSON: "${{steps.runners-json.outputs.result}}"
+        run: |
+          import json
+          from os import getenv
+          r = json.loads(getenv('RUNNERS_JSON'))['data']
+          has_avail = False
+          for i in range(0,r['total_count']):
+             has_avail = has_avail or not r['runners'][i]['busy']
+          output = "::set-output name=runner-tags::"
+          if has_avail:
+            print(output+"self-hosted")
+          else:
+            print(output+"ubuntu-latest")
+      - name: Test output
+        run: |
+          echo "Tags are: ${{steps.get-tags.outputs.runner-tags}}"
+
+  cypress_test_main:
+    runs-on: "${{needs.get-runner-for-tests.outputs.runner-tags}}"
+    needs: 
+      - build
+      - get-runner-for-tests
     steps:
       - uses: actions/checkout@v2
 
