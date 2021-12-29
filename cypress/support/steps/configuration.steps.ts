@@ -52,7 +52,7 @@ const configEnvWithTenderly = ({
     });
   });
   after(async () => {
-    if (!PERSIST_FORK_AFTER_RUN) await tenderly.deleteFork();
+    // if (!PERSIST_FORK_AFTER_RUN) await tenderly.deleteFork();
   });
 };
 
