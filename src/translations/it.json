@@ -72,7 +72,6 @@
   "components.HelpModal.LiquidationBonusHelpModal.description": "Quando avviene una liquidazione, i liquidatori ripagano parte del debito per conto del borrower. Come premio, acquisteranno il collaterale con uno sconto equivalente alla penalità di liquidazione.",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "Limite di liquidazione",
   "components.HelpModal.LiquidationThresholdHelpModal.description": "Rappresenta il limite oltre il quale il prestito verrà considerato come non sufficientemente collateralizato e quindi soggetto a liquidazione. Ad esempio, se un collaterale ha un limite di liquidazione dell'80%, vuol dire che il debito verrà liquidato quando il debito equivale all'80% del collaterale.",
-  "components.HelpModal.MarketCapsHelpModal.availableToSupply": "",
   "components.HelpModal.MaxLTVHelpModal.caption": "Loan to Value (LTV) Ratio",
   "components.HelpModal.MaxLTVHelpModal.description": "Il massimo borrowing power di una specifica garanzia. Se una garanzia ha un Loan to Value al 75%, per ogni garanzia del valore di 1 ETH l'utente potrà prendere in prestito 0,75 ETH della valuta principale. Il Loan to Value è specificato per garanzia ed è espresso in punti percentuali.",
   "components.HelpModal.MinimumReceivedHelpModal.caption": "",

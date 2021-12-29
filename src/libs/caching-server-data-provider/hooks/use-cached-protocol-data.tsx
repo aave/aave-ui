@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { APOLLO_QUERY_TARGET } from '../../apollo-config/client-config';
 
 import {
   C_ProtocolDataUpdateDocument,
@@ -13,6 +14,7 @@ import {
 
 export function useCachedProtocolData(
   lendingPoolAddressProvider: string,
+  chainId: number,
   currentAccount?: string,
   skip = false
 ) {
@@ -21,7 +23,11 @@ export function useCachedProtocolData(
     loading: poolDataLoading,
     data: poolData,
     subscribeToMore: subscribeToProtocolData,
-  } = useC_ProtocolDataQuery({ variables: { lendingPoolAddressProvider }, skip });
+  } = useC_ProtocolDataQuery({
+    variables: { lendingPoolAddressProvider },
+    skip,
+    context: { target: APOLLO_QUERY_TARGET.CHAIN(chainId) },
+  });
   useEffect(() => {
     if (!skip) {
       return subscribeToProtocolData<
@@ -41,6 +47,7 @@ export function useCachedProtocolData(
             protocolData: protocolDataUpdate,
           };
         },
+        context: { target: APOLLO_QUERY_TARGET.CHAIN(chainId) },
       });
     }
   }, [subscribeToProtocolData, lendingPoolAddressProvider, skip]);
@@ -52,6 +59,7 @@ export function useCachedProtocolData(
   } = useC_UserDataQuery({
     variables: { lendingPoolAddressProvider, userAddress: userId || '' },
     skip: !userId || skip,
+    context: { target: APOLLO_QUERY_TARGET.CHAIN(chainId) },
   });
   useEffect(() => {
     if (userId && !skip)
@@ -71,6 +79,7 @@ export function useCachedProtocolData(
             userData,
           };
         },
+        context: { target: APOLLO_QUERY_TARGET.CHAIN(chainId) },
       });
   }, [subscribeToUserData, lendingPoolAddressProvider, userId, skip]);
 

@@ -13,7 +13,6 @@ import {
 } from '../../caching-server-data-provider/hooks/use-cached-incentives-data';
 import { useUserWalletDataContext } from '../../web3-data-provider';
 import { useConnectionStatusContext } from '../../connection-status-provider';
-import { useApolloConfigContext } from '../../apollo-config';
 import { usePolling } from '../../hooks/use-polling';
 import BigNumber from 'bignumber.js';
 
@@ -146,11 +145,11 @@ export function useRPCIncentivesData(
 
 export const useIncentiveData = (skip: boolean) => {
   const { currentAccount } = useUserWalletDataContext();
-  const { chainId: apolloClientChainId } = useApolloConfigContext();
-  const { chainId, currentMarketData } = useProtocolDataContext();
+  const { chainId, currentMarketData, networkConfig } = useProtocolDataContext();
   const { isRPCActive } = useConnectionStatusContext();
 
-  const rpcMode = isRPCActive || chainId !== apolloClientChainId;
+  const rpcMode =
+    isRPCActive || !networkConfig.cachingServerUrl || !networkConfig.cachingWSServerUrl;
 
   const {
     loading: cachedDataLoading,
@@ -158,6 +157,7 @@ export const useIncentiveData = (skip: boolean) => {
     error: cachedDataError,
   }: PoolIncentivesWithCache = useCachedIncentivesData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+    chainId,
     currentAccount,
     rpcMode || !currentMarketData.addresses.UI_INCENTIVE_DATA_PROVIDER
   );

@@ -19,7 +19,6 @@ import {
   useConnectionStatusContext,
   WS_ATTEMPTS_LIMIT,
 } from '../../connection-status-provider';
-import { useApolloConfigContext } from '../../apollo-config';
 import { StakeConfig } from '../../../ui-config';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { useUserWalletDataContext } from '../../web3-data-provider';
@@ -91,11 +90,14 @@ export function StakeDataProvider({
   const [cooldownStep, setCooldownStep] = useState(0);
   const { preferredConnectionMode } = useConnectionStatusContext();
   const { chainId, networkConfig } = useProtocolDataContext();
-  const { chainId: apolloClientChainId } = useApolloConfigContext();
   const isStakeFork =
     networkConfig.isFork && networkConfig.underlyingChainId === stakeConfig.chainId;
   const RPC_ONLY_MODE =
-    networkConfig.rpcOnly || preferredConnectionMode === ConnectionMode.rpc || isStakeFork;
+    networkConfig.rpcOnly ||
+    preferredConnectionMode === ConnectionMode.rpc ||
+    isStakeFork ||
+    !stakeConfig.queryStakeDataUrl ||
+    !stakeConfig.wsStakeDataUrl;
 
   const rpcProvider = isStakeFork ? getProvider(chainId) : getProvider(stakeConfig.chainId);
 
@@ -111,7 +113,7 @@ export function StakeDataProvider({
     loading: cachedDataLoading,
     data: cachedData,
     usdPriceEth: usdPriceEthCached,
-  } = useCachedStakeData(currentAccount, chainId !== apolloClientChainId || RPC_ONLY_MODE);
+  } = useCachedStakeData(currentAccount, RPC_ONLY_MODE);
 
   const wsNetworkError = useNetworkCachedServerWsGraphCheck();
   const wsMainnetError = useMainnetCachedServerWsGraphCheck();
@@ -137,6 +139,7 @@ export function StakeDataProvider({
     currentAccount,
     !isRPCActive
   );
+  console.log(cachedData);
 
   if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
     return <Preloader withText={true} />;

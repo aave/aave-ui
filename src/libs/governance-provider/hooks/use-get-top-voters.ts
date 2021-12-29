@@ -1,3 +1,4 @@
+import { APOLLO_QUERY_TARGET } from '../../apollo-config/client-config';
 import { useGetTopVotersSubscription } from '../graphql';
 import { Vote } from '../types';
 const TOP_VOTERS_SIZE = 10;
@@ -17,6 +18,7 @@ const useGetTopVoters = ({ proposalId, skip }: { proposalId: string; skip: boole
       support: true,
     },
     skip,
+    context: { target: APOLLO_QUERY_TARGET.GOVERNANCE },
   });
 
   const {
@@ -30,6 +32,7 @@ const useGetTopVoters = ({ proposalId, skip }: { proposalId: string; skip: boole
       support: false,
     },
     skip,
+    context: { target: APOLLO_QUERY_TARGET.GOVERNANCE },
   });
 
   if (listForVotes && listForVotes.votes.length > 0) {
