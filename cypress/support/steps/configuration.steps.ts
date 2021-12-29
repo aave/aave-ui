@@ -6,6 +6,7 @@ import forkNetworks from '../../fixtures/fork-networks.json';
 import { AsyncTool } from '../tools/async.tool';
 
 const URL = Cypress.env('URL');
+const PERSIST_FORK_AFTER_RUN = Cypress.env('PERSIST_FORK_AFTER_RUN');
 
 const configEnvWithTenderly = ({
   network,
@@ -51,7 +52,7 @@ const configEnvWithTenderly = ({
     });
   });
   after(async () => {
-    // await tenderly.deleteFork();
+    if (!PERSIST_FORK_AFTER_RUN) await tenderly.deleteFork();
   });
 };
 

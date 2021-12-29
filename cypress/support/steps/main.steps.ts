@@ -260,14 +260,15 @@ export const swap = (
           }
         });
       cy.get(':nth-child(1) > .AmountFieldWithSelect__field-inner  [data-cy=amountInput]').type(
-        amount.toString()
+        amount.toString(),
+        { delay: 0 }
       );
       cy.get('.AssetSelect__reverse .AssetSelect__button').click();
       cy.get('.AssetSelect__reverse .TokenIcon__name').contains(_shortNameTo).click();
     });
     if (failCase) {
       it(`Should not be clickable`, () => {
-        cy.get('.Button').contains('Continue').parents('.Button').wait(1000).should('be.disabled');
+        cy.get('.Button').contains('Continue').parents('.Button').should('be.disabled');
       });
     } else {
       it('Click continue', () => {

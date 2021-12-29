@@ -1,7 +1,6 @@
 /// <reference types="cypress" />
 import { getDashBoardBorrowRow, getDashBoardDepositRow } from './actions.steps';
 import constants from '../../fixtures/constans.json';
-import { getRoundDegree } from '../tools/math.util';
 
 type SkipType = {
   set: (val: boolean) => void;
@@ -16,11 +15,8 @@ const skipSetup = (skip: any) => {
   });
 };
 
-const amountVerification = ($row: any, estimatedAmount: number) => {
-  let _degree = getRoundDegree(estimatedAmount);
-  let _balanceValue =
-    Math.floor(parseFloat($row.find('.Value__value').text().replace(/,/g, '')) * _degree) / _degree;
-  expect(estimatedAmount).to.be.equal(_balanceValue, 'Amount');
+const amountVerification = (estimatedAmount: number) => {
+  cy.get('.Value__value').contains(estimatedAmount);
 };
 
 export const dashboardAssetValuesVerification = (
@@ -36,7 +32,7 @@ export const dashboardAssetValuesVerification = (
   return describe(`Verification dashboard values`, () => {
     skipSetup(skip);
     it(`Open dashboard page`, () => {
-      cy.get('.Menu strong').contains('dashboard').click().wait(4000); // awaitng sync
+      cy.get('.Menu strong').contains('dashboard').click();
     });
     estimatedCases.forEach((estimatedCase) => {
       describe(`Verification ${estimatedCase.asset} ${estimatedCase.type}, have right values`, () => {
@@ -52,7 +48,7 @@ export const dashboardAssetValuesVerification = (
                 expect($row.find('.TokenIcon__name')).to.contain(estimatedCase.asset);
                 expect($row.find('.Switcher__label')).to.contain(estimatedCase.apyType);
                 if (estimatedCase.amount) {
-                  amountVerification($row, estimatedCase.amount);
+                  amountVerification(estimatedCase.amount);
                 }
               });
             });
@@ -68,7 +64,7 @@ export const dashboardAssetValuesVerification = (
                 expect($row.find('.TokenIcon__name')).to.contain(estimatedCase.asset);
                 expect($row.find('.Switcher__label')).to.contain(estimatedCase.collateralType);
                 if (estimatedCase.amount) {
-                  amountVerification($row, estimatedCase.amount);
+                  amountVerification(estimatedCase.amount);
                 }
               });
             });
@@ -118,7 +114,7 @@ export const switchCollateralBlocked = (
   return describe('Check that collateral switcher disabled', () => {
     skipSetup(skip);
     it(`Open dashboard page`, () => {
-      cy.get('.Menu strong').contains('dashboard').click().wait(1000); // awaitng sync
+      cy.get('.Menu strong').contains('dashboard').click();
     });
     it(`Check that collateral switcher for ${_shortName} disabled`, () => {
       getDashBoardDepositRow({
@@ -142,7 +138,7 @@ export const switchApyBlocked = (
   return describe('Check that apy switcher disabled', () => {
     skipSetup(skip);
     it(`Open dashboard page`, () => {
-      cy.get('.Menu strong').contains('dashboard').click().wait(1000); // awaitng sync
+      cy.get('.Menu strong').contains('dashboard').click();
     });
     it(`Check that APY switcher for ${_shortName} disabled`, () => {
       getDashBoardBorrowRow({

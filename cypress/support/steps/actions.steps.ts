@@ -7,7 +7,7 @@ export const setAmount = ({ amount, max }: SetAmount) => {
   if (max) {
     cy.get(`[data-cy=amountInput-maxBtn]`);
   } else {
-    cy.get(`[data-cy=amountInput]`).type(amount.toString());
+    cy.get(`[data-cy=amountInput]`).type(amount.toString(), { delay: 0 });
   }
   cy.get('.BasicForm').find('.Button').click();
 };
@@ -53,7 +53,8 @@ type SwapForRepayAction = {
 export const doSwapForRepay = ({ amount, assetName }: SwapForRepayAction) => {
   cy.log('assetName,' + assetName);
   cy.get(':nth-child(1) > .AmountFieldWithSelect__field-inner  [data-cy=amountInput]').type(
-    amount.toString()
+    amount.toString(),
+    { delay: 0 }
   );
   if (assetName) {
     doChooseSwapToOption(assetName);
