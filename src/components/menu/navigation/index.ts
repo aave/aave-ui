@@ -7,7 +7,6 @@ import {
   governanceConfig,
 } from '../../../ui-config';
 import { MarketDataType } from '../../../helpers/config/types';
-import { isFeatureEnabled } from '../../../helpers/config/markets-and-network-config';
 
 import messages from './messages';
 
@@ -28,11 +27,6 @@ const navigation: Navigation[] = [
   {
     link: '/markets',
     title: messages.markets,
-  },
-  {
-    link: '/asset-swap',
-    title: messages.swap,
-    isVisible: isFeatureEnabled.liquiditySwap,
   },
   {
     link: '/staking',
