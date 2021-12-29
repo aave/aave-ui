@@ -64,6 +64,7 @@ function DepositAmount({
   );
 
   const showIsolationScreen =
+    !user?.isInIsolationMode &&
     poolReserve.isIsolated &&
     !hasDifferentCollateral &&
     (userReserve?.underlyingBalance !== '0' ? userReserve?.usageAsCollateralEnabledOnUser : true);
