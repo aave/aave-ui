@@ -6,10 +6,6 @@ import DashboardIsolatedBadge from '../../DashboardIsolatedBadge';
 
 import staticStyles from './style';
 
-import isolatedOn from './images/isolatedOn.svg';
-import isolatedOff from './images/isolatedOff.svg';
-import isolatedDisabled from './images/isolatedDisabled.svg';
-
 interface TableUsedAsCollateralProps {
   isIsolated: boolean;
   usageAsCollateralEnabledOnUser: boolean;
@@ -45,13 +41,6 @@ export default function TableUsedAsCollateral({
       ) : (
         <DashboardIsolatedBadge>
           <div className="TableUsedAsCollateral__isolatedInner">
-            {!isEnabled && (
-              <img
-                className="TableUsedAsCollateral__isolatedIcon TableUsedAsCollateral__isolatedIconLeft"
-                src={!canBeEnabledAsCollateral ? isolatedDisabled : isolatedOff}
-                alt=""
-              />
-            )}
             <CustomSwitch
               value={isEnabled}
               onColor={currentTheme.green.hex}
@@ -63,13 +52,6 @@ export default function TableUsedAsCollateral({
               swiperHeight={swiperHeight}
               swiperWidth={swiperWidth}
             />
-            {isEnabled && (
-              <img
-                className="TableUsedAsCollateral__isolatedIcon TableUsedAsCollateral__isolatedIconRight"
-                src={isolatedOn}
-                alt=""
-              />
-            )}
           </div>
         </DashboardIsolatedBadge>
       )}

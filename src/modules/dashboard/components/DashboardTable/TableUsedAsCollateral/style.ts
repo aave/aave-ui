@@ -12,29 +12,6 @@ const staticStyles = css.global`
       justify-content: center;
       position: relative;
     }
-
-    &__isolatedIcon {
-      width: 14px;
-      height: 14px;
-      position: absolute;
-      @include respond-to(xl) {
-        width: 12px;
-        height: 12px;
-      }
-      @include respond-to(sm) {
-        width: 14px;
-        height: 14px;
-        position: static;
-      }
-    }
-    &__isolatedIconLeft {
-      margin-right: 4px;
-      right: 100%;
-    }
-    &__isolatedIconRight {
-      margin-left: 4px;
-      left: 100%;
-    }
   }
 `;
 
