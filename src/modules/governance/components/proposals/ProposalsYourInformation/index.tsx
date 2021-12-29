@@ -3,7 +3,6 @@ import { useIntl } from 'react-intl';
 import { useWeb3React } from '@web3-react/core';
 import { useThemeContext, textCenterEllipsis } from '@aave/aave-ui-kit';
 
-import { useAppDataContext } from '../../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../../libs/protocol-data-provider';
 import { useCurrentVotingPowerRPC } from '../../../../../libs/governance-provider/hooks/use-current-voting-power-rpc';
 import ContentWrapperWithTopLine from '../../../../../components/wrappers/ContentWrapperWithTopLine';
@@ -21,12 +20,13 @@ import messages from './messages';
 import staticStyles from './style';
 
 import linkIcon from '../../../../../images/blueLinkIcon.svg';
+import { useUserWalletDataContext } from '../../../../../libs/web3-data-provider';
 
 export default function ProposalsYourInformation() {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { networkConfig } = useProtocolDataContext();
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { library: provider } = useWeb3React();
   const { governanceService, governanceConfig } = useGovernanceDataContext();
 
@@ -38,7 +38,7 @@ export default function ProposalsYourInformation() {
     aavePropositionDelegatee,
     stkAaveVotingDelegatee,
     stkAavePropositionDelegatee,
-  } = useCurrentVotingPowerRPC(userId || '', governanceService, governanceConfig);
+  } = useCurrentVotingPowerRPC(currentAccount || '', governanceService, governanceConfig);
 
   return (
     <ContentWrapperWithTopLine

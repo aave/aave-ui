@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useVotingPowerLoader } from '../../../../../libs/governance-provider/hooks/use-voting-power-rpc';
-import { useAppDataContext } from '../../../../../libs/pool-data-provider';
 import { getLink } from '../../../../../libs/governance-provider/helper';
 import ScreenWrapper from '../../../../../components/wrappers/ScreenWrapper';
 import Link from '../../../../../components/basic/Link';
@@ -27,6 +26,7 @@ import mobileDownloadIcon from './images/mobileDownloadIcon.svg';
 import twitterIcon from './images/twitter.svg';
 import arrowIconWhite from '../../../../../images/arrowIconWhite.svg';
 import { useGovernanceDataContext } from '../../../../../libs/governance-provider';
+import { useUserWalletDataContext } from '../../../../../libs/web3-data-provider';
 
 interface ProposalWrapperProps {
   children: ReactNode;
@@ -39,7 +39,7 @@ export default function ProposalWrapper({
 }: ProposalWrapperProps) {
   const intl = useIntl();
   const { currentTheme, sm, isCurrentThemeDark } = useThemeContext();
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { governanceService } = useGovernanceDataContext();
   const location = useLocation();
 
@@ -52,7 +52,7 @@ export default function ProposalWrapper({
     proposal?.startBlock,
     proposal?.strategy,
     governanceService,
-    userId
+    currentAccount
   );
 
   useEffect(() => {
@@ -131,7 +131,7 @@ export default function ProposalWrapper({
 
           {isSidePanelVisibleOnMobile && sm && !isDetailsVisible && (
             <VotingInformation
-              userId={userId}
+              userId={currentAccount}
               proposal={proposal}
               votingPower={power}
               voteData={voteData}
@@ -204,7 +204,7 @@ export default function ProposalWrapper({
                 >
                   {!sm && (
                     <VotingInformation
-                      userId={userId}
+                      userId={currentAccount}
                       proposal={proposal}
                       votingPower={power}
                       voteData={voteData}

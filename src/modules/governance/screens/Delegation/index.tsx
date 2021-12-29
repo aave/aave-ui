@@ -5,7 +5,6 @@ import { useLocation, useHistory } from 'react-router-dom';
 import queryString from 'query-string';
 import { useThemeContext, canBeEnsAddress } from '@aave/aave-ui-kit';
 
-import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import GovernanceWrapper from '../../components/GovernanceWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
@@ -22,6 +21,7 @@ import messages from './messages';
 import staticStyles from './style';
 
 import { Asset, DELEGATED_ASSETS, delegationTypes } from './types';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 export default function Delegation() {
   const intl = useIntl();
@@ -45,7 +45,7 @@ export default function Delegation() {
 
   // Get the users balance for AAVE and stkAave
   const { aaveTokens } = useAaveTokensProviderContext();
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const {
     governanceConfig: { aaveTokenAddress, stkAaveTokenAddress },
   } = useGovernanceDataContext();
@@ -75,7 +75,7 @@ export default function Delegation() {
       return;
     }
 
-    if (!!userId && !!asset && !!delegationType && !!toAddress) {
+    if (!!currentAccount && !!asset && !!delegationType && !!toAddress) {
       const query = queryString.stringify({
         asset: asset.symbol,
         assetAddress: asset.address,
@@ -173,7 +173,7 @@ export default function Delegation() {
                 title={intl.formatMessage(messages.buttonTitle)}
                 mobileBig={true}
                 disabled={
-                  !userId ||
+                  !currentAccount ||
                   !asset ||
                   !delegationType ||
                   !toAddress ||

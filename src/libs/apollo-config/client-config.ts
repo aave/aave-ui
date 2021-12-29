@@ -22,8 +22,7 @@ import {
   GET_QUERY_ERROR,
   WsErrorCountKey,
 } from '../pool-data-provider/hooks/use-graph-check';
-import { governanceConfig } from '../../ui-config';
-import { ChainId } from '@aave/contract-helpers';
+import { governanceConfig, stakeConfig } from '../../ui-config';
 import { createClient, ClientOptions, Client } from 'graphql-ws';
 import { print } from 'graphql';
 
@@ -124,16 +123,16 @@ function getCachedServerLink(
 
   const networkCachingWSLink = createWsLink(cachingWSServerUrl);
 
-  const mainnetConfig = getNetworkConfig(ChainId.mainnet);
-  if (mainnetConfig.cachingWSServerUrl !== cachingWSServerUrl && mainnetConfig.cachingWSServerUrl) {
-    const mainnetCachingWSLink = createWsLink(mainnetConfig.cachingWSServerUrl);
+  const stake = stakeConfig?.chainId && getNetworkConfig(stakeConfig?.chainId);
+  if (stake && stake.cachingWSServerUrl) {
+    const mainnetCachingWSLink = createWsLink(stake.cachingWSServerUrl);
 
     const link = split(
       ({ query }) => {
         const definition = getMainDefinition(query);
         return supportsOnlyMainnetCacheLayer(definition.name!);
       },
-      getMainnetCachingLink(mainnetCachingWSLink),
+      getMainnetCachingLink(stake.cachingServerUrl!, mainnetCachingWSLink),
       getNetworkCachingLink(cachingServerUrl, networkCachingWSLink)
     );
 
@@ -150,8 +149,8 @@ function getCachedServerLink(
   }
 }
 
-function getMainnetCachingLink(mainnetCachingWSLink: WebSocketLink) {
-  return getCachingWsLink(governanceConfig!.wsGovernanceDataUrl, mainnetCachingWSLink);
+function getMainnetCachingLink(cachingServerUrl: string, mainnetCachingWSLink: WebSocketLink) {
+  return getCachingWsLink(cachingServerUrl, mainnetCachingWSLink);
 }
 
 function getNetworkCachingLink(cachingServerUrl: string, networkCachingWSLink: WebSocketLink) {

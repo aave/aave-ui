@@ -15,7 +15,7 @@ import HealthFactorSection from './components/HealthFactorSection';
 import messages from './messages';
 import staticStyles from './style';
 import { FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
-import { useAppDataContext } from '../../../../libs/pool-data-provider';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 interface DashboardTopPanelProps {
   user?: FormatUserSummaryAndIncentivesResponse & { earnedAPY: number; debtAPY: number };
@@ -30,7 +30,7 @@ export default function DashboardTopPanel({
 }: DashboardTopPanelProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
 
   const localStorageName = 'dashboardTopPanel';
   const [isCollapse, setIsCollapse] = useState(localStorage.getItem(localStorageName) === 'true');
@@ -85,7 +85,7 @@ export default function DashboardTopPanel({
             <BorrowBalanceSection
               isCollapse={collapsed}
               balance={user && user.totalBorrowsUSD !== '0' ? user.totalBorrowsUSD : 0}
-              userId={userId}
+              userId={currentAccount}
             />
             <HealthFactorSection
               isCollapse={collapsed}

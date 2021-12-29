@@ -1,14 +1,14 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { useThemeContext } from '@aave/aave-ui-kit';
 
-import NoDataPanel from '../../../../components/NoDataPanel';
-import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
+import TableNoData from '../DashboardTable/TableNoData';
 import BorrowDashboardTable from '../../../borrow/components/BorrowDashboardTable';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
 import DepositDashboardTable from '../../../deposit/components/DepositDashboardTable';
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
+import SupplyAssetTable from '../../../deposit/components/SupplyAssetsTable';
+import BorrowAssetTable from '../../../borrow/components/BorrowAssetTable';
 
 import messages from './messages';
 import staticStyles from './style';
@@ -25,7 +25,6 @@ export default function MainDashboardTable({
   isBorrow,
 }: MainDashboardTableProps) {
   const intl = useIntl();
-  const { currentTheme } = useThemeContext();
 
   return (
     <div
@@ -35,37 +34,27 @@ export default function MainDashboardTable({
       })}
     >
       <div className="MainDashboardTable__left-inner">
-        {!!depositedPositions.length && <DepositDashboardTable listData={depositedPositions} />}
+        {!!depositedPositions.length ? (
+          <DepositDashboardTable listData={depositedPositions} />
+        ) : (
+          <TableNoData
+            caption={intl.formatMessage(messages.depositedAssets)}
+            title={intl.formatMessage(messages.nothingDeposited)}
+          />
+        )}
+
+        <SupplyAssetTable />
       </div>
 
       <div className="MainDashboardTable__right-inner">
-        {!!borrowedPositions.length ? (
-          <BorrowDashboardTable listData={borrowedPositions} />
-        ) : (
-          <div className="MainDashboardTable__rightNoData--wrapper">
-            <strong className="MainDashboardTable__noData--title">
-              {intl.formatMessage(messages.borrowedAssets)}
-            </strong>
-            <ContentWrapper withFullHeight={true}>
-              <NoDataPanel
-                title={intl.formatMessage(messages.nothingBorrowed)}
-                description={intl.formatMessage(messages.nothingBorrowedDescription)}
-                buttonTitle={intl.formatMessage(messages.borrowNow)}
-                linkTo="/borrow"
-              />
-            </ContentWrapper>
-          </div>
-        )}
+        {!!borrowedPositions.length && <BorrowDashboardTable listData={borrowedPositions} />}
+
+        <BorrowAssetTable borrowedReserves={borrowedPositions} />
       </div>
 
       <style jsx={true} global={true}>
         {staticStyles}
       </style>
-      <style jsx={true}>{`
-        .MainDashboardTable__noData--title {
-          color: ${currentTheme.textDarkBlue.hex};
-        }
-      `}</style>
     </div>
   );
 }

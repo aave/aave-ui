@@ -7,63 +7,48 @@ const staticStyles = css.global`
 
   .MainDashboardTable {
     display: flex;
-    align-items: flex-start;
     justify-content: space-between;
     margin-bottom: 10px;
-    flex: 1;
-    @include respond-to(lg) {
-      flex-direction: column;
-      justify-content: flex-start;
-      display: block;
-    }
 
     &__left-inner,
     &__right-inner {
       width: calc(50% - 10px);
-      display: flex;
-      align-self: stretch;
-      flex-direction: column;
       @include respond-to(lg) {
         width: 100%;
-        flex: none;
-        min-height: auto;
-        display: block;
-      }
-      @include respond-to(sm) {
-        flex: 1;
-      }
-    }
-
-    &__left-inner {
-      @include respond-to(lg) {
-        margin-bottom: 20px;
-      }
-      @include respond-to(md) {
-        margin-bottom: 30px;
       }
     }
 
     &__right-inner {
-      @include respond-to(sm) {
+      @include respond-to(lg) {
         display: none;
       }
     }
 
     &__onlyOne {
-      @include respond-to(sm) {
+      @include respond-to(lg) {
         .MainDashboardTable__left-inner {
           display: none;
         }
         .MainDashboardTable__right-inner {
-          display: flex;
+          display: block;
         }
       }
     }
 
-    &__rightNoData--wrapper {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
+    &__noData--wrapper {
+      display: block;
+      margin: 0 auto;
+      .ContentWrapper {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        @include respond-to(sm) {
+          padding-top: 20px;
+          padding-bottom: 20px;
+        }
+      }
+      .Caption {
+        margin-bottom: 0;
+      }
     }
 
     &__noData--title {
@@ -83,6 +68,10 @@ const staticStyles = css.global`
       @include respond-to(sm) {
         display: none;
       }
+    }
+
+    .Switcher__swiperDisabled {
+      opacity: 0.2 !important;
     }
   }
 

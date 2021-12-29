@@ -15,9 +15,9 @@ import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
-import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/math-utils';
 import BigNumber from 'bignumber.js';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 function WithdrawConfirmation({
   currencySymbol,
@@ -28,7 +28,7 @@ function WithdrawConfirmation({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { lendingPool } = useTxBuilderContext();
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const aTokenData = getAtokenInfo({
     address: poolReserve.underlyingAsset,
     symbol: currencySymbol,
@@ -142,7 +142,7 @@ function WithdrawConfirmation({
 
   const handleGetTransactions = async () => {
     return await lendingPool.withdraw({
-      user: userId,
+      user: currentAccount,
       reserve: poolReserve.underlyingAsset,
       amount: amountToWithdraw.toString(),
       aTokenAddress: poolReserve.aTokenAddress,

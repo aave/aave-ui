@@ -12,6 +12,7 @@ import CapsHint from '../../../../components/caps/CapsHint';
 import { CapType } from '../../../../components/caps/helper';
 import NoData from '../../../../components/basic/NoData';
 
+import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import staticStyles from './style';
 
@@ -42,20 +43,20 @@ export default function MarketMobileCard({
 
   const cards = [
     {
-      title: messages.deposit,
+      title: defaultMessages.deposit,
       value: depositAPY,
       incentives: aIncentives,
       enabled: true,
     },
     {
-      title: messages.borrow,
+      title: defaultMessages.borrow,
       subTitle: messages.variable,
       value: variableBorrowRate,
       incentives: vIncentives,
       enabled: borrowingEnabled,
     },
     {
-      title: messages.borrow,
+      title: defaultMessages.borrow,
       subTitle: messages.stable,
       value: stableBorrowRate,
       incentives: sIncentives,

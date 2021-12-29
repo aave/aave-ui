@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Switch, Route, useLocation, useParams } from 'react-router-dom';
-import { useAppDataContext } from '../../../../libs/pool-data-provider';
 
 import useGetMetadataDescription from '../../../../libs/governance-provider/hooks/use-get-metadata-description';
 import useVoteOnProposalRPC from '../../../../libs/governance-provider/hooks/use-vote-on-proposal-rpc';
@@ -11,6 +10,7 @@ import VoteConfirmation from '../VoteConfirmation';
 
 import { IpfsPropsal } from '../../../../libs/governance-provider/types';
 import { ProposalItem, ProposalParams, Vote } from '../../../../libs/governance-provider/types';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 export interface ProtocolContextDataType {
   proposal: ProposalItem | undefined;
@@ -32,7 +32,7 @@ export default function Proposal() {
 
   const { proposalId: _proposalId, proposalHash } = useParams<ProposalParams>();
   const proposalId = Number(_proposalId);
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { proposals, governanceService } = useGovernanceDataContext();
   const proposal = proposals.find((prop) => prop.id === proposalId);
   const { body, loading } = useGetMetadataDescription(
@@ -46,7 +46,7 @@ export default function Proposal() {
     forceUpdate,
   } = useVoteOnProposalRPC({
     skip: false,
-    user: userId,
+    user: currentAccount,
     proposalId,
     governanceService,
   });

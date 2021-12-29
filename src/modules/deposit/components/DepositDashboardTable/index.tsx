@@ -3,15 +3,16 @@ import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useLanguageContext } from '../../../../libs/language-provider';
-import DashboardTable from '../../../dashboard/components/DashboardTable';
+import DashboardItemsWrapper from '../../../dashboard/components/DashboardItemsWrapper';
 import TableHeader from '../../../dashboard/components/DashboardTable/TableHeader';
 import DepositItem from './DepositItem';
-import DashboardMobileCardsWrapper from '../../../dashboard/components/DashboardMobileCardsWrapper';
 import DepositMobileCard from './DepositMobileCard';
+import CollateralHelpModal from '../../../../components/HelpModal/CollateralHelpModal';
 
 import messages from './messages';
 
 import { DepositTableItem } from './types';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 interface DepositDashboardTableProps {
   listData: DepositTableItem[];
@@ -19,49 +20,51 @@ interface DepositDashboardTableProps {
 
 export default function DepositDashboardTable({ listData }: DepositDashboardTableProps) {
   const intl = useIntl();
+  const { currentAccount } = useUserWalletDataContext();
   const { currentLangSlug } = useLanguageContext();
-  const { lg, sm } = useThemeContext();
+  const { sm } = useThemeContext();
 
   const head = [
-    intl.formatMessage(messages.depositedAssets),
-    intl.formatMessage(messages.secondTableColumnTitle),
+    intl.formatMessage(messages.balance),
     intl.formatMessage(messages.apyRowTitle),
-    intl.formatMessage(messages.collateral),
+    <CollateralHelpModal text={intl.formatMessage(messages.collateral)} iconSize={12} />,
   ];
-  const colWidth = [lg ? 250 : 160, '100%', '100%', 180];
 
   const Header = useCallback(() => {
-    return <TableHeader head={head} colWidth={colWidth} isDeposit={true} />;
+    return <TableHeader head={head} />;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLangSlug]);
 
   const sortedListData = listData.some((item) => item.isUserInIsolationMode && item.isIsolated)
-    ? listData.sort((a, b) => (a.isIsolated === b.isIsolated ? 0 : a.isIsolated ? -1 : 1))
+    ? listData.sort((a, b) =>
+        a.isIsolated === b.isIsolated && b.usageAsCollateralEnabledOnUser
+          ? 0
+          : a.isIsolated && a.usageAsCollateralEnabledOnUser
+          ? -1
+          : 1
+      )
     : listData;
 
   return (
-    <>
+    <DashboardItemsWrapper
+      title={intl.formatMessage(messages.yourDeposits)}
+      localStorageName="suppliedAssetsDashboardTableCollapse"
+    >
       {!sm ? (
         <>
           <Header />
-
-          <DashboardTable>
-            {sortedListData.map((item) => (
-              <DepositItem
-                {...item}
-                key={item.reserve.id}
-                data-cy={`dashboardDespositListItem${item.reserve.symbol.toUpperCase()}`}
-              />
-            ))}
-          </DashboardTable>
+          {sortedListData.map((item) => (
+            <DepositItem
+              {...item}
+              userId={currentAccount}
+              key={item.reserve.id}
+              data-cy={`dashboardDespositListItem${item.reserve.symbol.toUpperCase()}`}
+            />
+          ))}
         </>
       ) : (
-        <DashboardMobileCardsWrapper>
-          {sortedListData.map((item) => (
-            <DepositMobileCard {...item} key={item.reserve.id} />
-          ))}
-        </DashboardMobileCardsWrapper>
+        sortedListData.map((item) => <DepositMobileCard {...item} key={item.reserve.id} />)
       )}
-    </>
+    </DashboardItemsWrapper>
   );
 }

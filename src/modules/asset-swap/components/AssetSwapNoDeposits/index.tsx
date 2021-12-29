@@ -58,7 +58,7 @@ export default function AssetSwapNoDeposits({ numberOfDepositedAssets }: AssetSw
       <DefaultButton
         title={intl.formatMessage(messages.depositNow)}
         mobileBig={true}
-        onClick={() => history.push('/deposit')}
+        onClick={() => history.push('/dashboard')}
       />
 
       <style jsx={true} global={true}>

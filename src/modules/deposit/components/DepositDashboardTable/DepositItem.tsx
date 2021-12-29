@@ -1,26 +1,23 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
-import CustomSwitch from '../../../../components/basic/CustomSwitch';
+import TableUsedAsCollateral from '../../../dashboard/components/DashboardTable/TableUsedAsCollateral';
 import TableItem from '../../../dashboard/components/DashboardTable/TableItem';
 import TableValueCol from '../../../dashboard/components/DashboardTable/TableValueCol';
 import TableAprCol from '../../../dashboard/components/DashboardTable/TableAprCol';
 import TableCol from '../../../dashboard/components/DashboardTable/TableCol';
 import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import TableButtonCol from '../../../dashboard/components/DashboardTable/TableButtonCol';
-import IsolationModeBadge from '../../../../components/isolationMode/IsolationModeBadge';
 
 import defaultMessages from '../../../../defaultMessages';
-import messages from './messages';
 
 import { DepositTableItem } from './types';
 
 export default function DepositItem({
+  userId,
   reserve: { symbol, liquidityRate, id, underlyingAsset },
-  uiColor,
   usageAsCollateralEnabledOnUser,
   underlyingBalance,
   underlyingBalanceUSD,
@@ -29,73 +26,49 @@ export default function DepositItem({
   isFrozen,
   aIncentives,
   canBeEnabledAsCollateral,
-  isUserInIsolationMode,
   isIsolated,
-  ...rest
 }: DepositTableItem) {
   const intl = useIntl();
-  const { currentTheme, xl, lg, md } = useThemeContext();
   const { currentMarketData } = useProtocolDataContext();
-
-  const swiperWidth = xl && !lg ? 30 : md ? 30 : 40;
-  const swiperHeight = xl && !lg ? 16 : md ? 16 : 20;
 
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
 
   return (
-    <TableItem
-      tokenSymbol={symbol}
-      color={uiColor}
-      isIsolated={
-        isUserInIsolationMode &&
-        usageAsCollateralEnabledOnUser &&
-        canBeEnabledAsCollateral &&
-        isIsolated
-      }
-      {...rest}
-    >
+    <TableItem tokenSymbol={symbol}>
       <TableValueCol
+        userId={userId}
+        symbol={symbol}
         value={Number(underlyingBalance)}
+        withSubValue={true}
         subValue={Number(underlyingBalanceUSD)}
-        tooltipId={`deposit-${symbol}__${id}`}
       />
+
       <TableAprCol value={Number(liquidityRate)} incentives={aIncentives} symbol={symbol} />
 
-      <TableCol maxWidth={125}>
-        <CustomSwitch
-          value={usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral}
-          offLabel={
-            isUserInIsolationMode && !canBeEnabledAsCollateral ? (
-              <IsolationModeBadge isIsolated={isIsolated} disabled={true} />
-            ) : (
-              intl.formatMessage(messages.offLabel)
-            )
-          }
-          onLabel={intl.formatMessage(messages.onLabel)}
-          onColor={currentTheme.green.hex}
-          offColor={!canBeEnabledAsCollateral ? currentTheme.lightBlue.hex : currentTheme.red.hex}
-          onSwitch={onToggleSwitch}
-          disabled={!canBeEnabledAsCollateral}
-          swiperHeight={swiperHeight}
-          swiperWidth={swiperWidth}
+      <TableCol>
+        <TableUsedAsCollateral
+          isIsolated={isIsolated}
+          canBeEnabledAsCollateral={canBeEnabledAsCollateral}
+          usageAsCollateralEnabledOnUser={usageAsCollateralEnabledOnUser}
+          onToggleSwitch={onToggleSwitch}
         />
       </TableCol>
 
       <TableButtonsWrapper>
+        <TableButtonCol
+          disabled={!isActive}
+          title={intl.formatMessage(defaultMessages.withdraw)}
+          linkTo={`/withdraw/${underlyingAsset}-${id}`}
+        />
+
         {!isSwapButton && (
           <TableButtonCol
             disabled={!isActive || isFrozen}
             title={intl.formatMessage(defaultMessages.deposit)}
             linkTo={`/deposit/${underlyingAsset}-${id}`}
+            withoutBorder={!isSwapButton}
           />
         )}
-
-        <TableButtonCol
-          disabled={!isActive}
-          title={intl.formatMessage(defaultMessages.withdraw)}
-          linkTo={`/withdraw/${underlyingAsset}-${id}`}
-          withoutBorder={!isSwapButton}
-        />
 
         {isSwapButton && (
           <TableButtonCol

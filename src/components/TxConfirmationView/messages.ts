@@ -7,7 +7,6 @@ export default defineMessages({
   successfullyExecuted: 'Your action has been successfully executed',
   nextSteps: 'Next steps',
   approve: 'Approve',
-  permit: 'Permit',
   goBack: 'Go back',
   tryApproval: 'Try Approval Flow',
 

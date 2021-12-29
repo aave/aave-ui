@@ -4,7 +4,6 @@ import { useIntl } from 'react-intl';
 import BigNumber from 'bignumber.js';
 import queryString from 'query-string';
 
-import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useStakeDataContext } from '../../../../libs/pool-data-provider/hooks/use-stake-data-context';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import Row from '../../../../components/basic/Row';
@@ -12,11 +11,12 @@ import StakeTxConfirmationView from '../../components/StakeTxConfirmationView';
 import Value from '../../../../components/basic/Value';
 
 import messages from './messages';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 export default function StakingClaimConfirmation() {
   const intl = useIntl();
   const location = useLocation();
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { selectedStakeData, stakingService, selectedStake, STAKING_REWARD_TOKEN } =
     useStakeDataContext();
 
@@ -30,10 +30,11 @@ export default function StakingClaimConfirmation() {
   const query = queryString.parse(location.search);
   const amount = new BigNumber(typeof query.amount === 'string' ? query.amount : 0);
 
-  if ((amount.lt(0) && !amount.eq(-1)) || !userId) {
+  if ((amount.lt(0) && !amount.eq(-1)) || !currentAccount) {
     return null;
   }
-  const handleGetTransactions = async () => stakingService.claimRewards(userId, amount.toString());
+  const handleGetTransactions = async () =>
+    stakingService.claimRewards(currentAccount, amount.toString());
 
   let blockingError = '';
   if (selectedStakeData.userIncentivesToClaim === '0') {

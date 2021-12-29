@@ -27,7 +27,7 @@ const staticStyles = css.global`
     .TokenIcon__name {
       max-width: 250px;
       b {
-        font-size: $medium;
+        font-size: 15px;
       }
     }
 

@@ -3,7 +3,6 @@ import queryString from 'query-string';
 import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { useAppDataContext } from '../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../libs/tx-provider';
 import SwapConfirmationWrapper from '../../../components/wrappers/SwapConfirmationWrapper';
 import PoolTxConfirmationView from '../../../components/PoolTxConfirmationView';
@@ -19,6 +18,7 @@ import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 import messages from './messages';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/math-utils';
+import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 
 function SwapUsageAsCollateralModeConfirmation({
   currencySymbol,
@@ -28,7 +28,7 @@ function SwapUsageAsCollateralModeConfirmation({
   location,
 }: ValidationWrapperComponentProps) {
   const { lendingPool } = useTxBuilderContext();
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { networkConfig } = useProtocolDataContext();
   const [isTxExecuted, setIsTxExecuted] = useState(false);
   const { lg, md } = useThemeContext();
@@ -53,7 +53,7 @@ function SwapUsageAsCollateralModeConfirmation({
 
   const handleGetTransactions = async () =>
     await lendingPool.setUsageAsCollateral({
-      user: userId,
+      user: currentAccount,
       reserve:
         poolReserve.symbol === networkConfig.baseAsset
           ? networkConfig.baseAssetWrappedAddress

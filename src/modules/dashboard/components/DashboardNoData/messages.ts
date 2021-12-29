@@ -1,9 +1,9 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  title: 'No deposits found for your address',
+  title: 'No assets found available for deposit at your address', // TODO: need take a look
   description:
-    'We could not detect a deposit from your address. Make sure you’re in the correct market or make a first time deposit',
-  orDepositNow: 'Or deposit your assets now',
-  depositNow: 'Deposit now',
+    'Make sure you’re in the correct market or you have a balance of assets available for deposit', // TODO: need take a look
+  exploreAvailableAssets: 'Or explore market assets now', // TODO: need take a look
+  markets: 'Markets',
 });

@@ -5,7 +5,7 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@0x/subproviders": "^6.5.4",
-    "@aave/aave-ui-kit": "0.1.15-a0bb0034ca0307982d6cb5bd9b52fb4ed7cb70c1.0",
+    "@aave/aave-ui-kit": "^0.1.18",
     "@aave/contract-helpers": "0.27.2-781adfdf9ec43909052771848acddc76de7cc8c5.0+781adfd",
     "@aave/math-utils": "0.27.4-e954cded4634c82f6d522f4714ee0f18ca991a3b.0+e954cde",
     "@apollo/client": "^3.4.16",
@@ -61,6 +61,7 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "^4.0.3",
     "react-share": "^4.4.0",
+    "react-snowfall": "^1.1.1",
     "react-swipeable": "^6.2.0",
     "react-tooltip": "^4.2.21",
     "reflect-metadata": "^0.1.13",

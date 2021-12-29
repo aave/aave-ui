@@ -3,12 +3,14 @@ import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { BorrowRateMode } from '../../../../libs/pool-data-provider/graphql';
+import { isAssetStable } from '../../../../helpers/config/assets-config';
 import CustomSwitch from '../../../../components/basic/CustomSwitch';
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
 import Row from '../../../../components/basic/Row';
 import Value from '../../../../components/basic/Value';
 import IncentivesCard from '../../../../components/incentives/IncentivesCard';
 import NoData from '../../../../components/basic/NoData';
+import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
 import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import BorrowInterestHelpModal from '../../../../components/HelpModal/BorrowInterestHelpModal';
@@ -44,10 +46,13 @@ export default function BorrowMobileCard({
   return (
     <>
       <MobileCardWrapper symbol={symbol}>
-        <Row title={intl.formatMessage(messages.secondTableColumnTitle)} withMargin={true}>
+        <Row title={intl.formatMessage(messages.balance)} withMargin={true}>
           <Value
             value={Number(currentBorrows)}
+            symbol={symbol}
+            maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}
             subValue={Number(currentBorrowsUSD)}
+            maximumSubValueDecimals={2}
             subSymbol="USD"
           />
         </Row>
@@ -66,10 +71,7 @@ export default function BorrowMobileCard({
 
         <Row
           title={
-            <BorrowInterestHelpModal
-              text={intl.formatMessage(messages.fourthTableColumnTitle)}
-              iconSize={12}
-            />
+            <BorrowInterestHelpModal text={intl.formatMessage(messages.APYType)} iconSize={12} />
           }
           withMargin={true}
           className="Row__center"
@@ -87,11 +89,14 @@ export default function BorrowMobileCard({
           />
         </Row>
 
-        <Row
-          title={intl.formatMessage(messages.borrowMore)}
-          className="Row__center"
-          withMargin={true}
-        >
+        <TableButtonsWrapper>
+          <Link to={repayLink} className="ButtonLink" disabled={!isActive}>
+            <DefaultButton
+              title={intl.formatMessage(defaultMessages.repay)}
+              color="dark"
+              disabled={!isActive}
+            />
+          </Link>
           <Link
             to={borrowLink}
             className="ButtonLink"
@@ -100,21 +105,11 @@ export default function BorrowMobileCard({
             <DefaultButton
               title={intl.formatMessage(defaultMessages.borrow)}
               color="dark"
+              transparent={true}
               disabled={!isActive || !borrowingEnabled || isFrozen}
             />
           </Link>
-        </Row>
-
-        <Row title={intl.formatMessage(messages.repayYourBorrow)} className="Row__center">
-          <Link to={repayLink} className="ButtonLink" disabled={!isActive}>
-            <DefaultButton
-              title={intl.formatMessage(defaultMessages.repay)}
-              color="dark"
-              transparent={true}
-              disabled={!isActive}
-            />
-          </Link>
-        </Row>
+        </TableButtonsWrapper>
       </MobileCardWrapper>
 
       {symbol === 'AMPL' && <AMPLWarning />}

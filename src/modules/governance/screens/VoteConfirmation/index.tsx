@@ -3,7 +3,6 @@ import { useIntl } from 'react-intl';
 import { useParams } from 'react-router-dom';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useVotingPowerLoader } from '../../../../libs/governance-provider/hooks/use-voting-power-rpc';
 import Row from '../../../../components/basic/Row';
 import VoteConfirmationWrapper from '../../components/proposal/VoteConfirmationWrapper';
@@ -11,6 +10,7 @@ import { useProposalDataContext } from '../Proposal';
 
 import messages from './messages';
 import { useGovernanceDataContext } from '../../../../libs/governance-provider';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 export interface ProposalParams {
   proposalId: string;
@@ -20,7 +20,7 @@ export interface ProposalParams {
 
 export default function VoteConfirmation() {
   const intl = useIntl();
-  const { userId } = useAppDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { currentTheme } = useThemeContext();
   const { vote } = useParams<ProposalParams>();
   const { proposal, proposalId } = useProposalDataContext();
@@ -29,7 +29,7 @@ export default function VoteConfirmation() {
     proposal?.startBlock,
     proposal?.strategy,
     governanceService,
-    userId
+    currentAccount
   );
 
   const processedVote = vote.toLowerCase() === 'yes';

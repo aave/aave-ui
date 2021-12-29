@@ -19,7 +19,6 @@ import {
 } from '../../helpers/config/markets-and-network-config';
 import { useUserWalletDataContext } from '../../libs/web3-data-provider';
 import { useProtocolDataContext } from '../../libs/protocol-data-provider';
-import { useAppDataContext } from '../../libs/pool-data-provider';
 import {
   EthTransactionData,
   sendEthTransaction,
@@ -119,11 +118,10 @@ export default function TxConfirmationView({
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { library: provider, chainId } = useWeb3React<providers.Web3Provider>();
-  const { disconnectWallet, currentProviderName } = useUserWalletDataContext();
+  const { disconnectWallet, currentProviderName, currentAccount } = useUserWalletDataContext();
   const [loadingTxData, setLoadingTxData] = useState(true);
   const [backendNotAvailable, setBackendNotAvailable] = useState(false);
   const { chainId: currentMarketChainId, networkConfig } = useProtocolDataContext();
-  const { userId } = useAppDataContext();
 
   // todo: do types more sophisticated
   const [uncheckedApproveTxData, setApproveTxData] = useState({} as EthTransactionData);
@@ -182,10 +180,13 @@ export default function TxConfirmationView({
   // Create permit signature payload and trigger wallet sign
   // If successful, use signature to generate supplyWithPermit transaction
   const handleSubmitPermitSignature = async () => {
-    if (provider && userId && unsignedPermitData && getPermitEnabledTransactionData) {
+    if (provider && currentAccount && unsignedPermitData && getPermitEnabledTransactionData) {
       try {
         setPermitStatus(TxStatusType.submitted);
-        const signature = await provider.send('eth_signTypedData_v4', [userId, unsignedPermitData]);
+        const signature = await provider.send('eth_signTypedData_v4', [
+          currentAccount,
+          unsignedPermitData,
+        ]);
         const supplyWithPermitTx = await getPermitEnabledTransactionData(signature);
         setActionTxData({
           txType: supplyWithPermitTx[0].txType,
@@ -337,13 +338,13 @@ export default function TxConfirmationView({
                     title={`${selectedStep}/${numberOfSteps + 1} ${
                       backendNotAvailable
                         ? intl.formatMessage(messages.errorTitle)
-                        : intl.formatMessage(messages.permit)
+                        : intl.formatMessage(messages.approve)
                     }`}
                     description={approveDescription}
                     onSubmitTransaction={async () => handleSubmitPermitSignature()}
                     loading={permitStatus === TxStatusType.submitted}
                     failed={permitError}
-                    buttonTitle={intl.formatMessage(messages.permit)}
+                    buttonTitle={intl.formatMessage(messages.approve)}
                   />
                 ) : (
                   approveTxData &&
