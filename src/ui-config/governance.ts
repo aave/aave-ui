@@ -11,6 +11,7 @@ export interface GovernanceConfig {
   aAaveTokenAddress: string;
   stkAaveTokenAddress: string;
   governanceForumLink: string;
+  governanceSnapshotLink: string;
   governanceFAQLink: string;
   addresses: {
     AAVE_GOVERNANCE_V2: string;
@@ -32,6 +33,7 @@ export const governanceConfig: GovernanceConfig | undefined = {
   governanceForumLink: 'https://governance.aave.com',
   governanceFAQLink: 'https://docs.aave.com/faq/governance',
   walletBalanceProvider: '0x8E8dAd5409E0263a51C0aB5055dA66Be28cFF922',
+  governanceSnapshotLink: 'https://snapshot.org/#/aave.eth',
   addresses: {
     AAVE_GOVERNANCE_V2: '0xEC568fffba86c094cf06b22134B23074DFE2252c',
     AAVE_GOVERNANCE_V2_EXECUTOR_SHORT: '0x61910EcD7e8e942136CE7Fe7943f956cea1CC2f7',

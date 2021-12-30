@@ -51,6 +51,11 @@ export default function Proposals() {
         })}
       >
         {linkWithIcon(
+          governanceConfig.governanceSnapshotLink,
+          'dark',
+          intl.formatMessage(messages.visitSnapshots)
+        )}
+        {linkWithIcon(
           governanceConfig.governanceForumLink,
           'dark',
           intl.formatMessage(messages.visitForum)
@@ -76,6 +81,11 @@ export default function Proposals() {
             title={intl.formatMessage(messages.proposals)}
             topRightInfo={
               <div className="Proposals__content-links">
+                {linkWithIcon(
+                  governanceConfig.governanceSnapshotLink,
+                  'white',
+                  intl.formatMessage(messages.visitSnapshots)
+                )}
                 {linkWithIcon(
                   governanceConfig.governanceForumLink,
                   'white',

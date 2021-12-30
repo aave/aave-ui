@@ -5,5 +5,6 @@ declare namespace Cypress {
      * @example cy.dataCy('greeting')
      */
     getBySel(value: string): Chainable<Element>;
+    // initFork(market: string, tokens?: { address: string }[]): Promise<void>;
   }
 }

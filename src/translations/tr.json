@@ -675,6 +675,7 @@
   "modules.governance.screens.Proposals.topProposers": "",
   "modules.governance.screens.Proposals.topVoters": "",
   "modules.governance.screens.Proposals.visitForum": "",
+  "modules.governance.screens.Proposals.visitSnapshots": "",
   "modules.governance.screens.VoteConfirmation.boxDescription": "Lütfen oy vermek için gönderin",
   "modules.governance.screens.VoteConfirmation.boxTitle": "Oy",
   "modules.governance.screens.VoteConfirmation.caption": "{balance} ile {proposalId} Önerisine {processedVote} oyu veriliyor ",

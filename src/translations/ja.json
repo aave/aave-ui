@@ -675,6 +675,7 @@
   "modules.governance.screens.Proposals.topProposers": "",
   "modules.governance.screens.Proposals.topVoters": "",
   "modules.governance.screens.Proposals.visitForum": "",
+  "modules.governance.screens.Proposals.visitSnapshots": "",
   "modules.governance.screens.VoteConfirmation.boxDescription": "投票提出",
   "modules.governance.screens.VoteConfirmation.boxTitle": "投票",
   "modules.governance.screens.VoteConfirmation.caption": "提案{proposalId}に{balance}で{processedVote}を投票する",

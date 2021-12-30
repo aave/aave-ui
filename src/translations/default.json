@@ -675,6 +675,7 @@
   "modules.governance.screens.Proposals.topProposers": "Top proposers",
   "modules.governance.screens.Proposals.topVoters": "Top voters",
   "modules.governance.screens.Proposals.visitForum": "Visit forum",
+  "modules.governance.screens.Proposals.visitSnapshots": "Visit Snapshots",
   "modules.governance.screens.VoteConfirmation.boxDescription": "Please submit to vote",
   "modules.governance.screens.VoteConfirmation.boxTitle": "Vote",
   "modules.governance.screens.VoteConfirmation.caption": "Voting {processedVote} for Proposal {proposalId} with {balance}",

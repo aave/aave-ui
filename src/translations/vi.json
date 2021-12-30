@@ -675,6 +675,7 @@
   "modules.governance.screens.Proposals.topProposers": "",
   "modules.governance.screens.Proposals.topVoters": "",
   "modules.governance.screens.Proposals.visitForum": "",
+  "modules.governance.screens.Proposals.visitSnapshots": "",
   "modules.governance.screens.VoteConfirmation.boxDescription": "Vui lòng gửi để bỏ phiếu",
   "modules.governance.screens.VoteConfirmation.boxTitle": "Bó phiếu",
   "modules.governance.screens.VoteConfirmation.caption": "Bỏ phiếu {processingVote} cho Đề xuất {suggestId} với {balance}",

@@ -675,6 +675,7 @@
   "modules.governance.screens.Proposals.topProposers": "",
   "modules.governance.screens.Proposals.topVoters": "",
   "modules.governance.screens.Proposals.visitForum": "",
+  "modules.governance.screens.Proposals.visitSnapshots": "",
   "modules.governance.screens.VoteConfirmation.boxDescription": "请提交投票",
   "modules.governance.screens.VoteConfirmation.boxTitle": "投票",
   "modules.governance.screens.VoteConfirmation.caption": "用{balance}对提案{proposalId}投票{processedVote}",

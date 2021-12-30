@@ -675,6 +675,7 @@
   "modules.governance.screens.Proposals.topProposers": "",
   "modules.governance.screens.Proposals.topVoters": "",
   "modules.governance.screens.Proposals.visitForum": "",
+  "modules.governance.screens.Proposals.visitSnapshots": "",
   "modules.governance.screens.VoteConfirmation.boxDescription": "Por favor confirma para votar",
   "modules.governance.screens.VoteConfirmation.boxTitle": "Votar",
   "modules.governance.screens.VoteConfirmation.caption": "Voto {processedVote} para la propuesta {proposalId} con {balance}",

@@ -675,6 +675,7 @@
   "modules.governance.screens.Proposals.topProposers": "",
   "modules.governance.screens.Proposals.topVoters": "",
   "modules.governance.screens.Proposals.visitForum": "",
+  "modules.governance.screens.Proposals.visitSnapshots": "",
   "modules.governance.screens.VoteConfirmation.boxDescription": "투표를 위해 재출해주세요",
   "modules.governance.screens.VoteConfirmation.boxTitle": "투표",
   "modules.governance.screens.VoteConfirmation.caption": "{balance}로 제안서 {proposalId}에 {processedVote}을 투표합니다 ",
