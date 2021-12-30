@@ -9,7 +9,6 @@ import {
 import { usePolling } from '../../hooks/use-polling';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { useUserWalletDataContext } from '../../web3-data-provider';
-import { useApolloConfigContext } from '../../apollo-config';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { useConnectionStatusContext } from '../../connection-status-provider';
 import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/use-cached-protocol-data';
@@ -119,14 +118,15 @@ export function useRPCPoolData(
 
 export const usePoolData = () => {
   const { currentAccount } = useUserWalletDataContext();
-  const { chainId: apolloClientChainId } = useApolloConfigContext();
-  const { currentMarketData, chainId } = useProtocolDataContext();
+  const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
   const { isRPCActive } = useConnectionStatusContext();
 
-  const rpcMode = isRPCActive || chainId !== apolloClientChainId;
+  const rpcMode =
+    isRPCActive || !networkConfig.cachingWSServerUrl || !networkConfig.cachingServerUrl;
 
   const { loading: cachedDataLoading, data: cachedData } = useCachedProtocolData(
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+    chainId,
     currentAccount,
     rpcMode
   );

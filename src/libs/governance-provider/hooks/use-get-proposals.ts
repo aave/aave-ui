@@ -16,6 +16,7 @@ import { getCorrectState, getProposalExpiry } from '../helper';
 import { useStateLoading, LOADING_STATE } from '../../hooks/use-state-loading';
 
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
+import { APOLLO_QUERY_TARGET } from '../../apollo-config/client-config';
 
 const NULL_ADDRESS: tEthereumAddress = ethers.constants.AddressZero;
 
@@ -151,6 +152,7 @@ const useGetProposals = ({
     error,
   } = useGovernanceProposalsSubscription({
     skip,
+    context: { target: APOLLO_QUERY_TARGET.GOVERNANCE },
   });
   if (error) console.error('Error [useGetProposals]:', error);
   // we update when the people vote

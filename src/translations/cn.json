@@ -72,7 +72,6 @@
   "components.HelpModal.LiquidationBonusHelpModal.description": "清算发生时，清算人代表借款人偿还部分或全部未偿还的借款金额。作为回报，他们可以以折扣价购买抵押品，并保留差额作为奖金！",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "清算阈值",
   "components.HelpModal.LiquidationThresholdHelpModal.description": "这表示借款头寸将被视为多边借贷头寸的门槛，并须对每种抵押品进行清算。例如，如果抵押品的清算阈值为 80%，则意味着当债务价值为抵押品价值的 80% 时，贷款将被清算。",
-  "components.HelpModal.MarketCapsHelpModal.availableToSupply": "",
   "components.HelpModal.MaxLTVHelpModal.caption": "贷款与价值 （LTV） 比率",
   "components.HelpModal.MaxLTVHelpModal.description": "特定抵押品的最大借款能力。如果抵押品的贷款利率为 75%，则每 1 ETH 抵押品，用户将能够借入价值 0.75 ETH 的本金货币。\"价值贷款\"按抵押品指定，以百分比表示。",
   "components.HelpModal.MinimumReceivedHelpModal.caption": "",

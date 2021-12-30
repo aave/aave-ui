@@ -9,7 +9,6 @@
     "@aave/contract-helpers": "0.27.2-781adfdf9ec43909052771848acddc76de7cc8c5.0+781adfd",
     "@aave/math-utils": "0.27.4-e954cded4634c82f6d522f4714ee0f18ca991a3b.0+e954cde",
     "@apollo/client": "^3.4.16",
-    "@apollo/react-common": "^3.1.4",
     "@gnosis.pm/safe-apps-web3-react": "^0.6.2",
     "@ledgerhq/hw-app-eth": "^6.5.0",
     "@ledgerhq/hw-transport": "^6.3.0",

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { APOLLO_QUERY_TARGET } from '../../apollo-config/client-config';
 import {
   C_PoolIncentivesDataUpdateDocument,
   C_PoolIncentivesDataUpdateSubscription,
@@ -25,6 +26,7 @@ export interface PoolIncentivesWithCache {
 
 export function useCachedIncentivesData(
   lendingPoolAddressProvider: string,
+  chainId: number,
   currentAccount?: string,
   skip = false
 ): PoolIncentivesWithCache {
@@ -38,6 +40,7 @@ export function useCachedIncentivesData(
       lendingPoolAddressProvider,
     },
     skip,
+    context: { target: APOLLO_QUERY_TARGET.CHAIN(chainId) },
   });
 
   // Reserve incentives
@@ -62,6 +65,7 @@ export function useCachedIncentivesData(
             poolIncentivesData: poolIncentivesDataUpdate,
           };
         },
+        context: { target: APOLLO_QUERY_TARGET.CHAIN(chainId) },
       });
     }
   }, [subscribeToIncentivesData, lendingPoolAddressProvider, skip]);
@@ -77,6 +81,7 @@ export function useCachedIncentivesData(
       userAddress: userId || '',
     },
     skip: !userId || skip,
+    context: { target: APOLLO_QUERY_TARGET.CHAIN(chainId) },
   });
 
   useEffect(() => {
@@ -100,6 +105,7 @@ export function useCachedIncentivesData(
             userIncentives: userData,
           };
         },
+        context: { target: APOLLO_QUERY_TARGET.CHAIN(chainId) },
       });
   }, [subscribeToUserIncentivesData, lendingPoolAddressProvider, userId, skip]);
 

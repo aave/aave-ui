@@ -8,19 +8,14 @@ import { getNetworkConfig, getProvider } from '../../helpers/config/markets-and-
 
 import { ProposalItem } from './types';
 import Preloader from '../../components/basic/Preloader';
+import { ConnectionMode, useConnectionStatusContext } from '../connection-status-provider';
 import {
-  ConnectionMode,
-  useConnectionStatusContext,
-  WS_ATTEMPTS_LIMIT,
-} from '../connection-status-provider';
-import { useMainnetCachedServerWsGraphCheck } from '../pool-data-provider/hooks/use-graph-check';
-import {
-  ChainId,
   AaveGovernanceService,
   GovernancePowerDelegationTokenService,
 } from '@aave/contract-helpers';
 import { useProtocolDataContext } from '../protocol-data-provider';
 import { IPFS_ENDPOINT } from './helper';
+import { APOLLO_QUERY_TARGET, useGraphValid } from '../apollo-config/client-config';
 
 export interface ProtocolContextDataType {
   governanceConfig: GovernanceConfig;
@@ -39,11 +34,8 @@ export function GovernanceDataProvider({
   const { chainId, networkConfig } = useProtocolDataContext();
   const governanceNetworkConfig = getNetworkConfig(governanceConfig.chainId);
   const { preferredConnectionMode } = useConnectionStatusContext();
-  const wsMainnetError = useMainnetCachedServerWsGraphCheck();
-  const isRPCMandatory =
-    governanceNetworkConfig.rpcOnly ||
-    (wsMainnetError.wsErrorCount >= WS_ATTEMPTS_LIMIT &&
-      governanceConfig.chainId === ChainId.mainnet);
+  const graphValid = useGraphValid(APOLLO_QUERY_TARGET.GOVERNANCE);
+  const isRPCMandatory = governanceNetworkConfig.rpcOnly || !graphValid;
   const isGovernanceFork =
     networkConfig.isFork && networkConfig.underlyingChainId === governanceConfig.chainId;
   const isRPCActive =

@@ -9,6 +9,7 @@ import {
   useC_StakeUserUiDataQuery,
 } from '../graphql';
 import { StakesData, StakeUserData } from '../../pool-data-provider/types/stake';
+import { APOLLO_QUERY_TARGET } from '../../apollo-config/client-config';
 
 const zeroStakeUserData: StakeUserData = {
   stakeTokenUserBalance: '0',
@@ -30,7 +31,7 @@ export function useCachedStakeData(currentAccount?: string, skip = false): Stake
     loading: stakeGeneralUIDataLoading,
     data: stakeGeneralResult,
     subscribeToMore: subscribeToStakeGeneralUiData,
-  } = useC_StakeGeneralUiDataQuery({ skip });
+  } = useC_StakeGeneralUiDataQuery({ skip, context: { target: APOLLO_QUERY_TARGET.STAKE } });
 
   useEffect(() => {
     if (!skip) {
@@ -47,6 +48,7 @@ export function useCachedStakeData(currentAccount?: string, skip = false): Stake
             stakeGeneralUIData: stakeGeneralUIDataUpdate,
           };
         },
+        context: { target: APOLLO_QUERY_TARGET.STAKE },
       });
     }
   }, [subscribeToStakeGeneralUiData]);
@@ -58,6 +60,7 @@ export function useCachedStakeData(currentAccount?: string, skip = false): Stake
   } = useC_StakeUserUiDataQuery({
     variables: { userAddress: userId },
     skip: !userId || skip,
+    context: { target: APOLLO_QUERY_TARGET.STAKE },
   });
 
   useEffect(() => {
@@ -78,6 +81,7 @@ export function useCachedStakeData(currentAccount?: string, skip = false): Stake
             stakeUserUIData: stakeUserUIDataUpdate,
           };
         },
+        context: { target: APOLLO_QUERY_TARGET.STAKE },
       });
     }
   }, [subscribeToStakeUserUiData, userId]);
