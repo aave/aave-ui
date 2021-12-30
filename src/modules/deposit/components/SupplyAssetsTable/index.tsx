@@ -17,7 +17,13 @@ import { useProtocolDataContext } from '../../../../libs/protocol-data-provider'
 
 import messages from './messages';
 
-export default function SupplyAssetTable() {
+import { DepositTableItem } from '../DepositDashboardTable/types';
+
+interface SupplyAssetTableProps {
+  depositedPositions: DepositTableItem[];
+}
+
+export default function SupplyAssetTable({ depositedPositions }: SupplyAssetTableProps) {
   const intl = useIntl();
   const { networkConfig } = useProtocolDataContext();
   const { user, userId, walletBalances, reserves, marketReferencePriceInUsd } = useAppDataContext();
@@ -125,7 +131,10 @@ export default function SupplyAssetTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLangSlug]);
 
-  if (!filteredSupplyReserves.length) return null;
+  const showZeroAssets = !filteredSupplyReserves.length && depositedPositions.length;
+
+  if (!filteredSupplyReserves.length && !depositedPositions.length) return null;
+
   return (
     <DashboardItemsWrapper
       title={intl.formatMessage(messages.assetsToDeposit)}
@@ -133,20 +142,25 @@ export default function SupplyAssetTable() {
       withBottomText={true}
       withTopMargin={true}
       subTitleComponent={
-        user?.isInIsolationMode && (
-          <InfoBanner text={intl.formatMessage(messages.isolationText)} size="normal" />
+        (user?.isInIsolationMode || showZeroAssets) && (
+          <InfoBanner
+            text={intl.formatMessage(
+              showZeroAssets ? messages.zeroAssetsText : messages.isolationText
+            )}
+            size="normal"
+          />
         )
       }
     >
       {!sm ? (
         <>
           <Header />
-          {filteredSupplyReserves.map((item) => (
+          {(showZeroAssets ? tokensToSupply : filteredSupplyReserves).map((item) => (
             <SupplyItem {...item} key={item.id} userId={userId} />
           ))}
         </>
       ) : (
-        filteredSupplyReserves.map((item) => (
+        (showZeroAssets ? tokensToSupply : filteredSupplyReserves).map((item) => (
           <SupplyItemMobileCard userId={userId} {...item} key={item.id} />
         ))
       )}

@@ -507,6 +507,7 @@
   "modules.deposit.components.SupplyAssetsTable.collateral": "Can be collateral",
   "modules.deposit.components.SupplyAssetsTable.isolationText": "Collateral usage is limited because of isolation mode.",
   "modules.deposit.components.SupplyAssetsTable.walletBalance": "Wallet balance",
+  "modules.deposit.components.SupplyAssetsTable.zeroAssetsText": "There are no assets available for deposit, please fund your wallet with one of these assets.",
   "modules.deposit.screens.DepositAmount.aaveDescription": "Do not deposit your AAVE tokens if you want to {stake} them in the Safety Module. To stake AAVE,  please continue to the {link}",
   "modules.deposit.screens.DepositAmount.aaveWarning": "Depositing your AAVE tokens is not the same as staking them. If you wish to stake your AAVE tokens, please go to the {link}",
   "modules.deposit.screens.DepositAmount.connectWallet": "Please connect a wallet",

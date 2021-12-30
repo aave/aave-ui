@@ -507,6 +507,7 @@
   "modules.deposit.components.SupplyAssetsTable.collateral": "",
   "modules.deposit.components.SupplyAssetsTable.isolationText": "",
   "modules.deposit.components.SupplyAssetsTable.walletBalance": "",
+  "modules.deposit.components.SupplyAssetsTable.zeroAssetsText": "",
   "modules.deposit.screens.DepositAmount.aaveDescription": "",
   "modules.deposit.screens.DepositAmount.aaveWarning": "",
   "modules.deposit.screens.DepositAmount.connectWallet": "ウォレットを接続してください",

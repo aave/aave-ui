@@ -178,8 +178,7 @@ export default function Dashboard() {
     }
   });
 
-  const isTableShow =
-    !!depositedPositions.length && depositedPositions.some((pos) => pos.availableToDeposit !== '0');
+  const isTableShow = !!depositedPositions.length;
 
   return (
     <div className={classNames('Dashboard', { Dashboard__fullHeight: !user || !isTableShow })}>

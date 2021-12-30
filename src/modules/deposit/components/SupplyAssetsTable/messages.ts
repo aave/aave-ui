@@ -8,4 +8,6 @@ export default defineMessages({
   collateral: 'Can be collateral',
 
   isolationText: 'Collateral usage is limited because of isolation mode.',
+  zeroAssetsText:
+    'There are no assets available for deposit, please fund your wallet with one of these assets.', // TODO: need text
 });

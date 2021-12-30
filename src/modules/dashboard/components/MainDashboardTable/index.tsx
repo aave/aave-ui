@@ -43,7 +43,7 @@ export default function MainDashboardTable({
           />
         )}
 
-        <SupplyAssetTable />
+        <SupplyAssetTable depositedPositions={depositedPositions} />
       </div>
 
       <div className="MainDashboardTable__right-inner">
