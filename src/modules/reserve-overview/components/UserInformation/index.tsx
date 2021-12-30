@@ -122,7 +122,7 @@ export default function UserInformation({
     isReserveInEmode && isAssetStable(symbol) && formattedAvailableBorrows && !poolReserve.isFrozen;
 
   let isBorrowEnable =
-    !formattedAvailableBorrows || poolReserve.borrowingEnabled || !poolReserve.isFrozen;
+    !!formattedAvailableBorrows && poolReserve.borrowingEnabled && !poolReserve.isFrozen;
   if (isReserveInEmode && user?.isInIsolationMode) {
     isBorrowEnable = !!isBorrowEnableBasedOnEmode && !!borrowableAssetInIsolationMode;
   } else if (isUserOnEmode) {
@@ -131,7 +131,7 @@ export default function UserInformation({
     isBorrowEnable = !!borrowableAssetInIsolationMode;
   } else {
     isBorrowEnable =
-      !!formattedAvailableBorrows || poolReserve.borrowingEnabled || !poolReserve.isFrozen;
+      !!formattedAvailableBorrows && poolReserve.borrowingEnabled && !poolReserve.isFrozen;
   }
 
   return (

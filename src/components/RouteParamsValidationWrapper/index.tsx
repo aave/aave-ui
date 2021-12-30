@@ -79,7 +79,7 @@ export default function routeParamValidationHOC({
       }
 
       const walletBalance = valueToBigNumber(
-        walletBalances[poolReserve.underlyingAsset]?.amount || '0'
+        (user && walletBalances[poolReserve.underlyingAsset]?.amount) || '0'
       );
       let isWalletBalanceEnough = true;
 

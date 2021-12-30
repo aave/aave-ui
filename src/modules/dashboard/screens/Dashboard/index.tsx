@@ -33,7 +33,7 @@ export default function Dashboard() {
   const intl = useIntl();
   const history = useHistory();
 
-  const { user, userId, reserves, loading, walletBalances } = useAppDataContext();
+  const { user, reserves, loading, walletBalances } = useAppDataContext();
   const {
     networkConfig: { bridge, name },
   } = useProtocolDataContext();
@@ -182,7 +182,7 @@ export default function Dashboard() {
     !!depositedPositions.length && depositedPositions.some((pos) => pos.availableToDeposit !== '0');
 
   return (
-    <div className={classNames('Dashboard', { Dashboard__fullHeight: !userId || !isTableShow })}>
+    <div className={classNames('Dashboard', { Dashboard__fullHeight: !user || !isTableShow })}>
       <div className="Dashboard__top--line">
         <IncentivesClaimPanel />
       </div>
@@ -195,7 +195,7 @@ export default function Dashboard() {
 
       {bridge && <BridgeBanner networkName={name} {...bridge} />}
 
-      {userId && isTableShow && (
+      {user && isTableShow && (
         <div className="Dashboard__switcher-inner">
           <LabeledSwitcher
             rightOption={intl.formatMessage(messages.switchRightOption)}
@@ -209,7 +209,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {userId ? (
+      {user ? (
         <>
           {isTableShow ? (
             <MainDashboardTable

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
@@ -13,7 +14,6 @@ import NoDataPanel from '../../../../components/NoDataPanel';
 import { getAssetInfo } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
-import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 function FaucetConfirmation({
   currencySymbol,
@@ -28,11 +28,20 @@ function FaucetConfirmation({
 
   if (!user) {
     return (
-      <NoDataPanel
-        title={intl.formatMessage(messages.connectWallet)}
-        description={intl.formatMessage(messages.connectWalletDescription)}
-        withConnectButton={true}
-      />
+      <ScreenWrapper
+        pageTitle={intl.formatMessage(messages.pageTitle, {
+          currencySymbol: asset.formattedName,
+        })}
+        isTitleOnDesktop={true}
+      >
+        <ContentWrapper withFullHeight={true} withBackButton={true}>
+          <NoDataPanel
+            title={intl.formatMessage(messages.connectWallet)}
+            description={intl.formatMessage(messages.connectWalletDescription)}
+            withConnectButton={true}
+          />
+        </ContentWrapper>
+      </ScreenWrapper>
     );
   }
 

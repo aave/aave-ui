@@ -1,5 +1,6 @@
 import 'react-app-polyfill/stable';
 import '@aave/aave-ui-kit/dist/aave-ui-kit.cjs.development.css';
+import globalStyle from './globalStyle';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -24,14 +25,13 @@ import { TxBuilderProvider } from './libs/tx-provider';
 import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
 
-import globalStyle from './globalStyle';
 import { IPFS_MODE } from './helpers/config/misc-config';
 import { getSupportedChainIds } from './helpers/config/markets-and-network-config';
 import { UnlockWalletPreloader } from './components/UnlockWalletPreloader';
 import ConnectWalletModal from './components/ConnectWalletModal';
 import { PermissionProvider } from './libs/use-permissions/usePermissions';
 import { ConnectionStatusProvider } from './libs/connection-status-provider';
-import { AppDataProvider } from './libs/pool-data-provider/providers/app-data-provider';
+import { AppDataProvider } from './libs/pool-data-provider';
 
 initSentry();
 Modal.setAppElement('#root');

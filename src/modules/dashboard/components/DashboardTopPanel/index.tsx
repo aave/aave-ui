@@ -37,14 +37,14 @@ export default function DashboardTopPanel({
 
   const netWorthUSD = Number(user?.netWorthUSD || 0);
 
-  const collapsed = !user || isCollapse;
+  const collapsed = !user || !netWorthUSD || isCollapse;
 
   return (
     <TopPanelWrapper
       className="DashboardTopPanel"
       isCollapse={collapsed}
       setIsCollapse={() => toggleLocalStorageClick(isCollapse, setIsCollapse, localStorageName)}
-      withoutCollapseButton={!user}
+      withoutCollapseButton={!user || !netWorthUSD}
       minimizeMessage={messages.hideDetails}
       expandMessage={messages.showDetails}
     >
@@ -52,7 +52,7 @@ export default function DashboardTopPanel({
         <div className="DashboardTopPanel__top--line">
           <div className="DashboardTopPanel__topContent">
             <p className="DashboardTopPanel__title">{intl.formatMessage(messages.overview)}</p>
-            {!collapsed && !sm && <NetWorth value={netWorthUSD} />}
+            {!collapsed && !sm && !!netWorthUSD && <NetWorth value={netWorthUSD} />}
             <div className="DashboardTopPanel__topHiddenDiv">
               <p>{intl.formatMessage(collapsed ? messages.showDetails : messages.hideDetails)}</p>
             </div>
@@ -66,12 +66,14 @@ export default function DashboardTopPanel({
             DashboardTopPanel__contentCollapse: collapsed,
           })}
         >
-          <NetAPYSection
-            earnedAPY={user?.earnedAPY || 0}
-            debtAPY={user?.debtAPY || 0}
-            netWorth={netWorthUSD}
-            isCollapse={collapsed}
-          />
+          {user && !!netWorthUSD && (
+            <NetAPYSection
+              earnedAPY={user?.earnedAPY || 0}
+              debtAPY={user?.debtAPY || 0}
+              netWorth={netWorthUSD}
+              isCollapse={collapsed}
+            />
+          )}
 
           <div className="DashboardTopPanel__sections">
             <DepositBalanceSection
@@ -81,20 +83,25 @@ export default function DashboardTopPanel({
                 user && user?.totalCollateralUSD !== '0' ? user?.totalCollateralUSD : 0
               }
               isUserInIsolationMode={user?.isInIsolationMode}
+              zeroState={!netWorthUSD}
             />
             <BorrowBalanceSection
               isCollapse={collapsed}
               balance={user && user.totalBorrowsUSD !== '0' ? user.totalBorrowsUSD : 0}
               userId={currentAccount}
+              zeroState={!netWorthUSD}
             />
-            <HealthFactorSection
-              isCollapse={collapsed}
-              healthFactor={user?.healthFactor || '-1'}
-              collateralUsagePercent={collateralUsagePercent}
-              loanToValue={loanToValue}
-              currentLoanToValue={user?.currentLoanToValue || '0'}
-              currentLiquidationThreshold={user?.currentLiquidationThreshold || '0'}
-            />
+
+            {user && !!netWorthUSD && (
+              <HealthFactorSection
+                isCollapse={collapsed}
+                healthFactor={user?.healthFactor || '-1'}
+                collateralUsagePercent={collateralUsagePercent}
+                loanToValue={loanToValue}
+                currentLoanToValue={user?.currentLoanToValue || '0'}
+                currentLiquidationThreshold={user?.currentLiquidationThreshold || '0'}
+              />
+            )}
           </div>
         </div>
       </div>

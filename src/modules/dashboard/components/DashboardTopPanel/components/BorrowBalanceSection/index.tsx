@@ -15,12 +15,14 @@ interface BorrowBalanceSectionProps {
   isCollapse: boolean;
   balance: number | string;
   userId?: string;
+  zeroState?: boolean;
 }
 
 export default function BorrowBalanceSection({
   userId,
   isCollapse,
   balance,
+  zeroState,
 }: BorrowBalanceSectionProps) {
   const intl = useIntl();
   const { lg, md, sm } = useThemeContext();
@@ -32,6 +34,7 @@ export default function BorrowBalanceSection({
       title={intl.formatMessage(messages.borrowBalance)}
       value={balance}
       type="borrow"
+      zeroState={zeroState}
       children={
         userId && currentMarketData.v3 ? (
           !isCollapse || (md && !sm && !isCollapse) ? (

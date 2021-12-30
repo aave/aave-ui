@@ -8,6 +8,13 @@ const staticStyles = css.global`
   .BalanceSectionWrapper {
     flex-direction: column;
 
+    &__zeroState.SectionWrapper.SectionWrapper.SectionWrapper {
+      width: 50%;
+      @include respond-to(sm) {
+        width: 100%;
+      }
+    }
+
     &__content {
       @include respond-to(md) {
         margin-top: 10px;
