@@ -27,148 +27,158 @@ jobs:
       - uses: ./.github/actions/build
         if: steps.restore.outcome != 'success'
 
-  get-runner-for-tests:
-    runs-on: ubuntu-latest
-    outputs:
-      runner-tags: "${{steps.get-tags.outputs.runner-tags}}"
-    steps:
-      - id: runners-json
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{secrets.LIST_RUNNERS_TOKEN}}
-          script: |
-            return github.rest.actions.listSelfHostedRunnersForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            })
-      - id: get-tags
-        name: Get resulting runner tags
-        shell: python
-        env:
-          RUNNERS_JSON: "${{steps.runners-json.outputs.result}}"
-        run: |
-          import json
-          from os import getenv
-          r = json.loads(getenv('RUNNERS_JSON'))['data']
-          has_avail = False
-          for i in range(0,r['total_count']):
-             has_avail = has_avail or not r['runners'][i]['busy']
-          output = "::set-output name=runner-tags::"
-          if has_avail:
-            print(output+"self-hosted")
-          else:
-            print(output+"ubuntu-latest")
-      - name: Test output
-        run: |
-          echo "Tags are: ${{steps.get-tags.outputs.runner-tags}}"
+  # get-runner-for-tests:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     runner-tags: "${{steps.get-tags.outputs.runner-tags}}-${{matrix.chain}}"
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       chain:
+  #         - "main"
+  #         - "amm"
+  #         - "polygon"
+  #   steps:
+  #     - id: runners-json
+  #       uses: actions/github-script@v5
+  #       with:
+  #         github-token: ${{secrets.LIST_RUNNERS_TOKEN}}
+  #         script: |
+  #           return github.rest.actions.listSelfHostedRunnersForRepo({
+  #             owner: context.repo.owner,
+  #             repo: context.repo.repo,
+  #           })
+  #     - id: get-tags
+  #       name: Get resulting runner tags
+  #       shell: python
+  #       env:
+  #         RUNNERS_JSON: "${{steps.runners-json.outputs.result}}"
+  #       run: |
+  #         import json
+  #         from os import getenv
+  #         r = json.loads(getenv('RUNNERS_JSON'))['data']
+  #         has_avail = False
+  #         for i in range(0,r['total_count']):
+  #            has_avail = has_avail or not r['runners'][i]['busy']
+  #         output = "::set-output name=runner-tags::"
+  #         if has_avail:
+  #           print(output+"self-hosted")
+  #         else:
+  #           print(output+"ubuntu-latest")
 
-  cypress_test_main:
-    runs-on: "${{needs.get-runner-for-tests.outputs.runner-tags}}"
-    needs: 
-      - build
-      - get-runner-for-tests
-    steps:
-      - uses: actions/checkout@v2
+  # cypress_test_main:
+  #   runs-on: self-hosted
+  #   needs: 
+  #     - build
+  #     # - get-runner-for-tests
+  #   container:
+  #     image: cypress/browsers:node16.5.0-chrome94-ff93
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version-file: '.nvmrc'
+  #         cache: 'npm'
 
-      - name: install
-        run: npm ci --prefer-offline --no-audit
-        shell: bash
+  #     - name: install
+  #       run: npm ci --prefer-offline --no-audit
+  #       shell: bash
 
-      - name: download build
-        uses: actions/download-artifact@v2
-        with:
-          name: build_${{github.sha}}
-          path: build
+  #     - name: download build
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: build_${{github.sha}}
+  #         path: build
 
-      - name: test
-        uses: cypress-io/github-action@v2
-        with:
-          headless: true
-          install: false
-          record: false
-          start: npm run start:prod
-          # quote the url to be safe against YML parsing surprises
-          wait-on: 'http://localhost:3000'
-          command: npm run test:main
-        env:
-          CYPRESS_URL: 'http://localhost:3000'
-          CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
-          CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
-          CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
+  #     - name: test
+  #       uses: cypress-io/github-action@v2
+  #       with:
+  #         headless: true
+  #         install: false
+  #         record: false
+  #         start: npm run start:prod
+  #         # quote the url to be safe against YML parsing surprises
+  #         wait-on: 'http://localhost:3000'
+  #         command: npm run test:main
+  #       env:
+  #         CYPRESS_URL: 'http://localhost:3000'
+  #         CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
+  #         CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
+  #         CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
 
-      # - name: upload videos
-      #   uses: actions/upload-artifact@v2
-      #   if: failure()
-      #   with:
-      #     name: cypress-fail-videos
-      #     path: cypress/videos
+  #     # - name: upload videos
+  #     #   uses: actions/upload-artifact@v2
+  #     #   if: failure()
+  #     #   with:
+  #     #     name: cypress-fail-videos
+  #     #     path: cypress/videos
 
-      - name: upload screenshots
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: cypress-fail-screenshots
-          path: cypress/screenshots
+  #     - name: upload screenshots
+  #       uses: actions/upload-artifact@v2
+  #       if: failure()
+  #       with:
+  #         name: cypress-fail-screenshots
+  #         path: cypress/screenshots
 
-  cypress_test_amm:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
+  # cypress_test_amm:
+  #   runs-on: self-hosted
+  #   needs: build
+  #   container:
+  #     image: cypress/browsers:node16.5.0-chrome94-ff93
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version-file: '.nvmrc'
+  #         cache: 'npm'
 
-      - name: install
-        run: npm ci --prefer-offline --no-audit
-        shell: bash
+  #     - name: install
+  #       run: npm ci --prefer-offline --no-audit
+  #       shell: bash
 
-      - name: download build
-        uses: actions/download-artifact@v2
-        with:
-          name: build_${{github.sha}}
-          path: build
+  #     - name: download build
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: build_${{github.sha}}
+  #         path: build
 
-      - name: test
-        uses: cypress-io/github-action@v2
-        with:
-          headless: true
-          install: false
-          record: false
-          start: npm run start:prod
-          # quote the url to be safe against YML parsing surprises
-          wait-on: 'http://localhost:3000'
-          command: npm run test:amm
-        env:
-          CYPRESS_URL: 'http://localhost:3000'
-          CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
-          CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
-          CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
+  #     - name: test
+  #       uses: cypress-io/github-action@v2
+  #       with:
+  #         headless: true
+  #         install: false
+  #         record: false
+  #         start: npm run start:prod
+  #         # quote the url to be safe against YML parsing surprises
+  #         wait-on: 'http://localhost:3000'
+  #         command: npm run test:amm
+  #       env:
+  #         CYPRESS_URL: 'http://localhost:3000'
+  #         CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
+  #         CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
+  #         CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
 
-      # - name: upload videos
-      #   uses: actions/upload-artifact@v2
-      #   if: failure()
-      #   with:
-      #     name: cypress-fail-videos
-      #     path: cypress/videos
+  #     # - name: upload videos
+  #     #   uses: actions/upload-artifact@v2
+  #     #   if: failure()
+  #     #   with:
+  #     #     name: cypress-fail-videos
+  #     #     path: cypress/videos
 
-      - name: upload screenshots
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: cypress-fail-screenshots
-          path: cypress/screenshots
+  #     - name: upload screenshots
+  #       uses: actions/upload-artifact@v2
+  #       if: failure()
+  #       with:
+  #         name: cypress-fail-screenshots
+  #         path: cypress/screenshots
 
   cypress_test_polygon:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
+    container:
+      image: cypress/browsers:node16.5.0-chrome94-ff93
     steps:
       - uses: actions/checkout@v2
 
