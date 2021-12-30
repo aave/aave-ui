@@ -279,7 +279,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
         marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
         incentivesTxBuilderV2,
         incentivesTxBuilder,
-        userEmodeCategoryId: userEmodeCategoryId,
+        userEmodeCategoryId,
         ensName,
         ensAvatar,
       }}
