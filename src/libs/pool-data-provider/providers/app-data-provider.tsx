@@ -15,7 +15,7 @@ import {
   normalize,
   UserReserveData,
 } from '@aave/math-utils';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import BigNumber from 'bignumber.js';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { usePolling } from '../../hooks/use-polling';
@@ -35,7 +35,7 @@ export const unPrefixSymbol = (symbol: string, prefix: string) => {
   return symbol.toUpperCase().replace(RegExp(`^(${prefix[0]}?${prefix.slice(1)})`), '');
 };
 
-const useWalletBalances = (skip: boolean) => {
+const useWalletBalances = (skip?: boolean) => {
   const { currentAccount } = useUserWalletDataContext();
   const { currentMarketData, chainId } = useProtocolDataContext();
   const [walletBalances, setWalletBalances] = useState<{
@@ -64,6 +64,11 @@ const useWalletBalances = (skip: boolean) => {
     currentAccount,
     currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
   ]);
+
+  // reset balances on disconnect
+  useEffect(() => {
+    if (!currentAccount) setWalletBalances({});
+  }, [currentAccount]);
 
   return { walletBalances, refetch: fetchWalletData };
 };
@@ -124,14 +129,13 @@ export const AppDataProvider: React.FC = ({ children }) => {
           networkBaseTokenPriceInUsd: '0',
           networkBaseTokenPriceDecimals: 0,
         };
-  const skipIncentiveLoading = !!reserves.length;
   const {
     data,
     //error,
     loading: _loading,
     refresh: refreshIncentives,
-  } = useIncentiveData(skipIncentiveLoading);
-  const { walletBalances, refetch: refetchWalletData } = useWalletBalances(skipIncentiveLoading);
+  } = useIncentiveData();
+  const { walletBalances, refetch: refetchWalletData } = useWalletBalances();
   const loading =
     (loadingReserves && !reserves.length) || (_loading && !data?.reserveIncentiveData);
 

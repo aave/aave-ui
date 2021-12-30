@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   UiPoolDataProvider,
@@ -99,6 +99,10 @@ export function useRPCPoolData(
     chainId,
     currentAccount,
   ]);
+
+  useEffect(() => {
+    if (!currentAccount) setUserReserves(undefined);
+  }, [currentAccount]);
 
   const loading = loadingReserves || loadingUserReserves;
   const error = errorReserves || errorUserReserves;

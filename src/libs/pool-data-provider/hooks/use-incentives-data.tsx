@@ -143,7 +143,7 @@ export function useRPCIncentivesData(
   };
 }
 
-export const useIncentiveData = (skip: boolean) => {
+export const useIncentiveData = (skip?: boolean) => {
   const { currentAccount } = useUserWalletDataContext();
   const { chainId, currentMarketData, networkConfig } = useProtocolDataContext();
   const { isRPCActive } = useConnectionStatusContext();
