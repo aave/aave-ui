@@ -8,10 +8,20 @@ runs:
       with:
         node-version-file: '.nvmrc'
         cache: 'npm'
-
+  
     - name: install
       run: npm ci --prefer-offline --no-audit
       shell: bash
+
+    - name: Build cache
+      uses: actions/cache@v2
+      with:
+        path: build/
+        key: aave-ui-build-cache-${{github.head_ref}}
+        restore-keys: |
+          aave-ui-build-cache-${{github.head_ref}}
+          aave-ui-build-cache-master
+          aave-ui-build-cache-
 
     - name: build
       run: npm run build

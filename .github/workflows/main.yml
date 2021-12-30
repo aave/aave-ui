@@ -13,23 +13,78 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: restore build
-        continue-on-error: true
-        id: restore
-        uses: actions/download-artifact@v2
-        with:
-          name: build_${{github.sha}}
-
       - name: prepare env
-        if: steps.restore.outcome != 'success'
         run: cp ${ENV:-'.github/.env.preview'} .env
 
       - uses: ./.github/actions/build
-        if: steps.restore.outcome != 'success'
 
-  cypress_test_main:
+  get-runner-for-tests:
     runs-on: ubuntu-latest
-    needs: build
+    outputs:
+      test-matrix: ${{toJSON(steps.get-test-matrix.outputs.matrix)}}
+    steps:
+      - id: runners-json
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{secrets.LIST_RUNNERS_TOKEN}}
+          script: |
+            return github.rest.actions.listSelfHostedRunnersForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+      - id: get-test-matrix
+        name: Get resulting runner tags
+        shell: python
+        env:
+          RUNNERS_JSON: '${{steps.runners-json.outputs.result}}'
+        run: |
+          import json
+          from os import getenv
+          r = json.loads(getenv("RUNNERS_JSON"))['data']['runners']
+          test_matrix=[dict(name=name,runner='ubuntu-latest') for name in ['cypress-main','cypress-amm','cypress-polygon']]
+          for i in r:
+            if i['status'] == 'online' and not i['busy']:
+              labels = [l['name'] for l in i['labels']]
+              for t in test_matrix:
+                if t['name'] in labels:
+                  t['runner']='self-hosted'
+                  break
+          test_matrix={"include":test_matrix}
+          print(f"::set-output name=matrix::'{json.dumps(test_matrix)}'")
+      - name: print output
+        run: echo ${{steps.get-test-matrix.outputs.matrix}} | jq .
+
+  check_matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      # matrix: ${{fromJSON(needs.get-runner-for-tests.outputs.test-matrix)}}
+      matrix:
+        include:
+          - name: cypress-main
+            runner: self-hosted
+          - name: cypress-amm
+            runner: self-hosted
+          - name: cypress-polygon
+            runner: self-hosted
+    needs:
+      - get-runner-for-tests
+    steps:
+      - name: print
+        run: |
+          echo ${{needs.get-runner-for-tests.outputs.test-matrix}}
+          echp "${{matrix.name}}:${{matrix.runner}}"
+
+  cypress_test:
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.get-runner-for-tests.outputs.test-matrix)}}
+    runs-on: ${{matrix.runner}}
+    needs:
+      - build
+      - get-runner-for-tests
+    container:
+      image: cypress/browsers:node16.5.0-chrome94-ff93
     steps:
       - uses: actions/checkout@v2
 
@@ -40,7 +95,6 @@ jobs:
 
       - name: install
         run: npm ci --prefer-offline --no-audit
-        shell: bash
 
       - name: download build
         uses: actions/download-artifact@v2
@@ -57,7 +111,7 @@ jobs:
           start: npm run start:prod
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:3000'
-          command: npm run test:main
+          command: npm run test:${{matrix.name}}
         env:
           CYPRESS_URL: 'http://localhost:3000'
           CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
@@ -78,107 +132,6 @@ jobs:
           name: cypress-fail-screenshots
           path: cypress/screenshots
 
-  cypress_test_amm:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-
-      - name: install
-        run: npm ci --prefer-offline --no-audit
-        shell: bash
-
-      - name: download build
-        uses: actions/download-artifact@v2
-        with:
-          name: build_${{github.sha}}
-          path: build
-
-      - name: test
-        uses: cypress-io/github-action@v2
-        with:
-          headless: true
-          install: false
-          record: false
-          start: npm run start:prod
-          # quote the url to be safe against YML parsing surprises
-          wait-on: 'http://localhost:3000'
-          command: npm run test:amm
-        env:
-          CYPRESS_URL: 'http://localhost:3000'
-          CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
-          CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
-          CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
-
-      # - name: upload videos
-      #   uses: actions/upload-artifact@v2
-      #   if: failure()
-      #   with:
-      #     name: cypress-fail-videos
-      #     path: cypress/videos
-
-      - name: upload screenshots
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: cypress-fail-screenshots
-          path: cypress/screenshots
-
-  cypress_test_polygon:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-
-      - name: install
-        run: npm ci --prefer-offline --no-audit
-        shell: bash
-
-      - name: download build
-        uses: actions/download-artifact@v2
-        with:
-          name: build_${{github.sha}}
-          path: build
-
-      - name: test
-        uses: cypress-io/github-action@v2
-        with:
-          headless: true
-          install: false
-          record: false
-          start: npm run start:prod
-          # quote the url to be safe against YML parsing surprises
-          wait-on: 'http://localhost:3000'
-          command: npm run test:polygon
-        env:
-          CYPRESS_URL: 'http://localhost:3000'
-          CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
-          CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
-          CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
-
-      # - name: upload videos
-      #   uses: actions/upload-artifact@v2
-      #   if: failure()
-      #   with:
-      #     name: cypress-fail-videos
-      #     path: cypress/videos
-
-      - name: upload screenshots
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: cypress-fail-screenshots
-          path: cypress/screenshots
 
   upload:
     runs-on: ubuntu-latest
