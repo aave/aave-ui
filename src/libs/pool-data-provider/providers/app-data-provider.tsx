@@ -257,19 +257,17 @@ export const AppDataProvider: React.FC = ({ children }) => {
       value={{
         walletBalances: aggregatedBalance,
         reserves: formattedPoolReserves,
-        user: currentAccount
-          ? {
-              ...user,
-              earnedAPY: proportions.positiveProportion
-                .dividedBy(user.netWorthUSD)
-                .multipliedBy(100)
-                .toNumber(),
-              debtAPY: proportions.negativeProportion
-                .dividedBy(user.netWorthUSD)
-                .multipliedBy(100)
-                .toNumber(),
-            }
-          : undefined,
+        user: {
+          ...user,
+          earnedAPY: proportions.positiveProportion
+            .dividedBy(user.netWorthUSD)
+            .multipliedBy(100)
+            .toNumber(),
+          debtAPY: proportions.negativeProportion
+            .dividedBy(user.netWorthUSD)
+            .multipliedBy(100)
+            .toNumber(),
+        },
         userReserves,
         userId: currentAccount,
         isUserHasDeposits,
@@ -281,7 +279,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
         marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
         incentivesTxBuilderV2,
         incentivesTxBuilder,
-        userEmodeCategoryId: currentAccount ? userEmodeCategoryId : 0,
+        userEmodeCategoryId: userEmodeCategoryId,
         ensName,
         ensAvatar,
       }}
