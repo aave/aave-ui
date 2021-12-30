@@ -62,7 +62,7 @@ const testData = {
   },
 };
 
-describe.skip('DAI INTEGRATION SPEC, POLYGON MARKET', () => {
+describe('DAI INTEGRATION SPEC, AVALANCHE MARKET', () => {
   const skipTestState = skipState(false);
   configEnvWithTenderlyAvalancheFork({});
 

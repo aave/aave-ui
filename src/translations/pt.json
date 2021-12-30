@@ -83,7 +83,6 @@
   "components.HelpModal.LiquidationBonusHelpModal.description": "Quando ocorre uma liquidação, os liquidatários reembolsam parte ou a totalidade do montante emprestado em dívida em nome do mutuário. Em troca, podem comprar a garantia com desconto e manter a diferença como bónus!",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "Limiar de liquidação",
   "components.HelpModal.LiquidationThresholdHelpModal.description": "Isto representa o limiar em que uma posição emprestada será considerada sem garantia e sujeita a liquidação para cada garantia. Por exemplo, se uma garantia tiver um limiar de liquidação de 80%, significa que o empréstimo será liquidado quando o valor da dívida tiver um valor de 80% do valor da garantia.",
-  "components.HelpModal.MarketCapsHelpModal.availableToSupply": "",
   "components.HelpModal.MaxLTVHelpModal.caption": "Rácio Loan to Value (LTV)",
   "components.HelpModal.MaxLTVHelpModal.description": "O rácio Loan-to-Value representa o poder de empréstimo máximo de uma garantia específica. Por exemplo, se uma garantia tiver um LTV de 75%, o utilizador pode pedir emprestado até 0,75 de ETH na moeda principal para cada 1 ETH de garantia.",
   "components.HelpModal.NotHaveEnoughFundsToRepayHelpModal.caption": "",
