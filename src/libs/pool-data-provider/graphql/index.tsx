@@ -164,15 +164,6 @@ export enum AToken_OrderBy {
   UnderlyingAssetDecimals = 'underlyingAssetDecimals',
 }
 
-export enum AuthStatus {
-  /** init */
-  Init = 'init',
-  /** loggedIn */
-  LoggedIn = 'loggedIn',
-  /** loggedOut */
-  LoggedOut = 'loggedOut',
-}
-
 export type Block_Height = {
   hash?: Maybe<Scalars['Bytes']>;
   number?: Maybe<Scalars['Int']>;
@@ -2052,7 +2043,6 @@ export type Query = {
   atokenBalanceHistoryItem?: Maybe<ATokenBalanceHistoryItem>;
   atokenBalanceHistoryItems: Array<ATokenBalanceHistoryItem>;
   atokens: Array<AToken>;
-  authStatus?: Maybe<AuthStatus>;
   borrow?: Maybe<Borrow>;
   borrows: Array<Borrow>;
   chainlinkAggregator?: Maybe<ChainlinkAggregator>;
@@ -2071,8 +2061,6 @@ export type Query = {
   incentivesControllers: Array<IncentivesController>;
   incentivizedAction?: Maybe<IncentivizedAction>;
   incentivizedActions: Array<IncentivizedAction>;
-  isDisconnected?: Maybe<Scalars['Boolean']>;
-  isWsError?: Maybe<Scalars['Boolean']>;
   liquidationCall?: Maybe<LiquidationCall>;
   liquidationCalls: Array<LiquidationCall>;
   mapAssetPool?: Maybe<MapAssetPool>;
@@ -2137,7 +2125,6 @@ export type Query = {
   vtokens: Array<VToken>;
   wethreserve?: Maybe<WethReserve>;
   wethreserves: Array<WethReserve>;
-  wsErrorCount?: Maybe<Scalars['Int']>;
 };
 
 export type Query_MetaArgs = {
@@ -7099,13 +7086,6 @@ export type UserHistoryQuery = {
   >;
 };
 
-export type ConnectionStatusQueryVariables = Exact<{ [key: string]: never }>;
-
-export type ConnectionStatusQuery = {
-  __typename?: 'Query';
-  isDisconnected?: boolean | null | undefined;
-};
-
 export const UserHistoryDocument = gql`
   query UserHistory($id: String!, $pool: String, $first: Int, $skip: Int) {
     userTransactions(
@@ -7224,55 +7204,4 @@ export type UserHistoryLazyQueryHookResult = ReturnType<typeof useUserHistoryLaz
 export type UserHistoryQueryResult = ApolloReactCommon.QueryResult<
   UserHistoryQuery,
   UserHistoryQueryVariables
->;
-export const ConnectionStatusDocument = gql`
-  query ConnectionStatus {
-    isDisconnected @client
-  }
-`;
-
-/**
- * __useConnectionStatusQuery__
- *
- * To run a query within a React component, call `useConnectionStatusQuery` and pass it any options that fit your needs.
- * When your component renders, `useConnectionStatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useConnectionStatusQuery({
- *   variables: {
- *   },
- * });
- */
-export function useConnectionStatusQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
-    ConnectionStatusQuery,
-    ConnectionStatusQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return ApolloReactHooks.useQuery<ConnectionStatusQuery, ConnectionStatusQueryVariables>(
-    ConnectionStatusDocument,
-    options
-  );
-}
-export function useConnectionStatusLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
-    ConnectionStatusQuery,
-    ConnectionStatusQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return ApolloReactHooks.useLazyQuery<ConnectionStatusQuery, ConnectionStatusQueryVariables>(
-    ConnectionStatusDocument,
-    options
-  );
-}
-export type ConnectionStatusQueryHookResult = ReturnType<typeof useConnectionStatusQuery>;
-export type ConnectionStatusLazyQueryHookResult = ReturnType<typeof useConnectionStatusLazyQuery>;
-export type ConnectionStatusQueryResult = ApolloReactCommon.QueryResult<
-  ConnectionStatusQuery,
-  ConnectionStatusQueryVariables
 >;

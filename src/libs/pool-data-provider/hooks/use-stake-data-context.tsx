@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext, useState } from 'react';
-import { ChainId, Stake, StakingService } from '@aave/contract-helpers';
+import { Stake, StakingService } from '@aave/contract-helpers';
 import { normalize, valueToBigNumber } from '@aave/math-utils';
 import { useLocation } from 'react-router-dom';
 
@@ -8,20 +8,12 @@ import ErrorPage from '../../../components/ErrorPage';
 import { useCachedStakeData } from '../../caching-server-data-provider/hooks/use-cached-stake-data';
 import { useProtocolDataContext } from '../../protocol-data-provider';
 import { ComputedStakeData, ComputedStakesData, StakeData } from '../types/stake';
-import {
-  useMainnetCachedServerWsGraphCheck,
-  useNetworkCachedServerWsGraphCheck,
-  useQueryGraphCheck,
-} from './use-graph-check';
 import { useStakeDataWithRpc } from './use-stake-data-with-rpc';
-import {
-  ConnectionMode,
-  useConnectionStatusContext,
-  WS_ATTEMPTS_LIMIT,
-} from '../../connection-status-provider';
+import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
 import { StakeConfig } from '../../../ui-config';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import { useUserWalletDataContext } from '../../web3-data-provider';
+import { APOLLO_QUERY_TARGET, useGraphValid } from '../../apollo-config/client-config';
 
 export function computeStakeData(data: StakeData): ComputedStakeData {
   return {
@@ -115,17 +107,10 @@ export function StakeDataProvider({
     usdPriceEth: usdPriceEthCached,
   } = useCachedStakeData(currentAccount, RPC_ONLY_MODE);
 
-  const wsNetworkError = useNetworkCachedServerWsGraphCheck();
-  const wsMainnetError = useMainnetCachedServerWsGraphCheck();
-  const queryError = useQueryGraphCheck();
+  const graphValid = useGraphValid(APOLLO_QUERY_TARGET.STAKE);
 
   const isRPCMandatory =
-    RPC_ONLY_MODE ||
-    (wsNetworkError.wsErrorCount >= WS_ATTEMPTS_LIMIT && chainId === ChainId.mainnet) ||
-    (wsMainnetError.wsErrorCount >= WS_ATTEMPTS_LIMIT && chainId !== ChainId.mainnet) ||
-    networkConfig.isFork ||
-    (!cachedData && !cachedDataLoading) ||
-    queryError.queryErrorCount >= 1;
+    RPC_ONLY_MODE || !graphValid || networkConfig.isFork || (!cachedData && !cachedDataLoading);
   const isRPCActive = preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory;
 
   const {
