@@ -67,7 +67,7 @@ export default function VoteConfirmationWrapper({
       getTransactionsData={handleGetTransactions}
       mainTxType="GOVERNANCE_ACTION"
       onMainTxConfirmed={handleMainTxConfirmed}
-      goToAfterSuccess={`/governance/${proposalId}-${proposalHash}`}
+      goToAfterSuccess={`/governance/${proposalId}/${proposalHash}`}
       successButtonTitle={intl.formatMessage(messages.successButtonTitle)}
       updateTransactionsData={processedVote}
     >

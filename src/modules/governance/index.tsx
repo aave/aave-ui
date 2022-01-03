@@ -20,7 +20,7 @@ export default function Governance() {
       <AaveTokensBalanceProvider>
         <Routes>
           <Route path="/" element={<Proposals />} />
-          <Route path=":proposalId-:proposalHash" element={<Proposal />} />
+          <Route path=":proposalId/:proposalHash/*" element={<Proposal />} />
           <Route path="delegation" element={<Delegation />} />
           <Route path="delegation/confirmation" element={<DelegationConfirmation />} />
         </Routes>

@@ -20,9 +20,9 @@ export default function Reward() {
     >
       <ContentWrapper withBackButton={true} withFullHeight={true}>
         <Routes>
-          <Route path="/rewards" key="Reward main" element={<RewardMain />} />
+          <Route path="/" key="Reward main" element={<RewardMain />} />
           <Route
-            path="/rewards/confirm/:incentivesControllerAddress"
+            path="confirm/:incentivesControllerAddress"
             key="Reward confirm"
             element={<RewardConfirm />}
           />

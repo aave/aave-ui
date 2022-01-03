@@ -67,11 +67,8 @@ export default function Proposal() {
     >
       <ProposalWrapper isSidePanelVisibleOnMobile={location.pathname.split('/').length <= 3}>
         <Routes>
-          <Route path="/governance/:proposalId-:proposalHash" element={<TextContent />} />
-          <Route
-            path="/governance/:proposalId-:proposalHash/:vote"
-            element={<VoteConfirmation />}
-          />
+          <Route path="/" element={<TextContent />} />
+          <Route path=":vote" element={<VoteConfirmation />} />
         </Routes>
       </ProposalWrapper>
     </ProposalProviderContext.Provider>
