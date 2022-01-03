@@ -9,8 +9,6 @@ import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../components/RouteParamsValidationWrapper';
 
-import { CURRENCY_ROUTE_PARAMS } from '../../helpers/router-types';
-
 import RepayMain from './screens/RepayMain';
 import RepayAmount from './screens/RepayAmount';
 import RepayConfirmation from './screens/RepayConfirmation';
@@ -53,23 +51,20 @@ function Repay({
         loanToValue={user?.currentLoanToValue || '0'}
       >
         <Routes>
-          <Route path={`/repay/${CURRENCY_ROUTE_PARAMS}/`} element={<RepayMain />} />
+          <Route path="/" element={<RepayMain />} />
 
-          <Route path={`/repay/${CURRENCY_ROUTE_PARAMS}/balance`} element={<RepayAmount />} />
-          <Route
-            path={`/repay/${CURRENCY_ROUTE_PARAMS}/balance/confirmation`}
-            element={<RepayConfirmation />}
-          />
+          <Route path="balance" element={<RepayAmount />} />
+          <Route path={`balance/confirmation`} element={<RepayConfirmation />} />
 
           {isFeatureEnabled.collateralRepay(currentMarketData) && (
             <React.Fragment key="RepayCollateral">
               <Route
-                path={`/repay/${CURRENCY_ROUTE_PARAMS}/collateral`}
+                path={`collateral`}
                 key="RepayCollateralAmount"
                 element={<RepayAmountWithSelect />}
               />
               <Route
-                path={`/repay/${CURRENCY_ROUTE_PARAMS}/collateral/confirmation`}
+                path={`collateral/confirmation`}
                 key="RepayCollateralConfirmation"
                 element={<RepayWithCollateralConfirmation />}
               />

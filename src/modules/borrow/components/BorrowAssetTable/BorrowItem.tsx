@@ -22,7 +22,6 @@ export default function BorrowItem({
   variableBorrowRate,
   userId,
   vIncentives,
-  underlyingAsset,
   isFreezed,
   sIncentives,
   borrowCap,

@@ -11,7 +11,6 @@ import NoDataPanel from '../../components/NoDataPanel';
 
 import WithdrawAmount from './screens/WithdrawAmount';
 import WithdrawConfirmation from './screens/WithdrawConfirmation';
-import { CURRENCY_ROUTE_PARAMS } from '../../helpers/router-types';
 import { getAssetInfo } from '../../helpers/config/assets-config';
 
 import messages from './messages';
@@ -51,11 +50,8 @@ function Withdraw({ currencySymbol, userReserve, user }: ValidationWrapperCompon
         loanToValue={user.currentLoanToValue}
       >
         <Routes>
-          <Route path={`${CURRENCY_ROUTE_PARAMS}`} element={<WithdrawAmount />} />
-          <Route
-            path={`${CURRENCY_ROUTE_PARAMS}/confirmation`}
-            element={<WithdrawConfirmation />}
-          />
+          <Route path={`/`} element={<WithdrawAmount />} />
+          <Route path={`confirmation`} element={<WithdrawConfirmation />} />
         </Routes>
       </WithdrawScreenWrapper>
     </ScreenWrapper>

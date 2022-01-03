@@ -39,81 +39,77 @@ export default function routeParamValidationHOC({
   withAmount,
   allowLimitAmount,
 }: RouteParamValidationWrapperProps) {
-  return (ChildComponent: React.ComponentType<ValidationWrapperComponentProps>) =>
-    ({ match, location, history }: any) => {
-      const intl = useIntl();
-      const params = useParams();
-      const [search] = useSearchParams();
-      const reserveId = params.id;
+  return (ChildComponent: React.ComponentType<ValidationWrapperComponentProps>) => () => {
+    const intl = useIntl();
+    const params = useParams();
+    const [search] = useSearchParams();
+    const reserveId = params.id;
 
-      const { walletBalances, userEmodeCategoryId, reserves, user, loading } = useAppDataContext();
+    const { walletBalances, userEmodeCategoryId, reserves, user, loading } = useAppDataContext();
 
-      const poolReserve = reserves.find((res) => res.id === reserveId);
-      const userReserve = user
-        ? user.userReservesData.find((userReserve) => userReserve.reserve.id === reserveId)
-        : undefined;
+    const poolReserve = reserves.find((res) => res.id === reserveId);
+    const userReserve = user
+      ? user.userReservesData.find((userReserve) => userReserve.reserve.id === reserveId)
+      : undefined;
 
-      const currencySymbol = poolReserve?.symbol || '';
+    const currencySymbol = poolReserve?.symbol || '';
 
-      if (loading) {
-        return <Preloader withText={true} />;
+    if (loading) {
+      return <Preloader withText={true} />;
+    }
+
+    if (!poolReserve) {
+      // TODO: 404
+      return <Navigate to="/" />;
+    }
+    if (!userReserve && withUserReserve) {
+      return <Navigate to="/" />;
+      // TODO: 404 || redirect || ?
+    }
+
+    const walletBalance = valueToBigNumber(
+      walletBalances[poolReserve.underlyingAsset]?.amount || '0'
+    );
+    let isWalletBalanceEnough = true;
+
+    let amount = undefined;
+    if (withAmount) {
+      const _amount = search.get('amount');
+      if (_amount) {
+        amount = valueToBigNumber(_amount);
       }
-
-      if (!poolReserve) {
-        // TODO: 404
-        return <Navigate to="/" />;
+      if (
+        !amount ||
+        amount.isNaN() ||
+        !((allowLimitAmount && amount.eq('-1')) || amount.isPositive())
+      ) {
+        // TODO: amount invalid
+        return <ErrorPage description={intl.formatMessage(messages.error)} buttonType="back" />;
       }
-      if (!userReserve && withUserReserve) {
-        return <Navigate to="/" />;
-        // TODO: 404 || redirect || ?
+      if (
+        withWalletBalance &&
+        (walletBalance.eq(0) || (!amount.eq('-1') && amount.gt(walletBalance)))
+      ) {
+        // TODO: wallet balance is too low
+        isWalletBalanceEnough = false;
       }
+    }
 
-      const walletBalance = valueToBigNumber(
-        walletBalances[poolReserve.underlyingAsset]?.amount || '0'
-      );
-      let isWalletBalanceEnough = true;
+    const walletBalanceUSD = valueToBigNumber(
+      walletBalances[poolReserve.underlyingAsset]?.amountUSD || '0'
+    );
 
-      let amount = undefined;
-      if (withAmount) {
-        const _amount = search.get('amount');
-        if (_amount) {
-          amount = valueToBigNumber(_amount);
-        }
-        if (
-          !amount ||
-          amount.isNaN() ||
-          !((allowLimitAmount && amount.eq('-1')) || amount.isPositive())
-        ) {
-          // TODO: amount invalid
-          return <ErrorPage description={intl.formatMessage(messages.error)} buttonType="back" />;
-        }
-        if (
-          withWalletBalance &&
-          (walletBalance.eq(0) || (!amount.eq('-1') && amount.gt(walletBalance)))
-        ) {
-          // TODO: wallet balance is too low
-          isWalletBalanceEnough = false;
-        }
-      }
-
-      const walletBalanceUSD = valueToBigNumber(
-        walletBalances[poolReserve.underlyingAsset]?.amountUSD || '0'
-      );
-
-      const props = {
-        poolReserve,
-        userReserve,
-        amount,
-        user,
-        walletBalance,
-        walletBalanceUSD,
-        isWalletBalanceEnough,
-        currencySymbol,
-        underlyingAsset: poolReserve.underlyingAsset,
-        history,
-        location,
-        userEmodeCategoryId,
-      };
-      return <ChildComponent {...props} />;
+    const props = {
+      poolReserve,
+      userReserve,
+      amount,
+      user,
+      walletBalance,
+      walletBalanceUSD,
+      isWalletBalanceEnough,
+      currencySymbol,
+      userEmodeCategoryId,
     };
+    return <ChildComponent {...props} />;
+  };
 }

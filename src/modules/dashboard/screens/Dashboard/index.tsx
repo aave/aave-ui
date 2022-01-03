@@ -124,25 +124,9 @@ export default function Dashboard() {
         borrowRate: poolReserve.variableBorrowAPY,
         vIncentives: poolReserve.vIncentivesData ? poolReserve.vIncentivesData : [],
         sIncentives: poolReserve.sIncentivesData ? poolReserve.sIncentivesData : [],
-        repayLink: loanActionLinkComposer(
-          'repay',
-          poolReserve.id,
-          InterestRate.Variable,
-          poolReserve.underlyingAsset
-        ),
-        borrowLink: loanActionLinkComposer(
-          'borrow',
-          poolReserve.id,
-          InterestRate.Variable,
-          poolReserve.underlyingAsset
-        ),
-        onSwitchToggle: () =>
-          toggleBorrowRateMode(
-            navigate,
-            poolReserve.id,
-            InterestRate.Variable,
-            poolReserve.underlyingAsset
-          ),
+        repayLink: loanActionLinkComposer('repay', poolReserve.id, InterestRate.Variable),
+        borrowLink: loanActionLinkComposer('borrow', poolReserve.id, InterestRate.Variable),
+        onSwitchToggle: () => toggleBorrowRateMode(navigate, poolReserve.id, InterestRate.Variable),
       });
     }
     if (userReserve.stableBorrows !== '0') {
@@ -155,25 +139,9 @@ export default function Dashboard() {
         borrowRate: userReserve.stableBorrowAPY,
         vIncentives: poolReserve.vIncentivesData ? poolReserve.vIncentivesData : [],
         sIncentives: poolReserve.sIncentivesData ? poolReserve.sIncentivesData : [],
-        repayLink: loanActionLinkComposer(
-          'repay',
-          poolReserve.id,
-          InterestRate.Stable,
-          poolReserve.underlyingAsset
-        ),
-        borrowLink: loanActionLinkComposer(
-          'borrow',
-          poolReserve.id,
-          InterestRate.Stable,
-          poolReserve.underlyingAsset
-        ),
-        onSwitchToggle: () =>
-          toggleBorrowRateMode(
-            navigate,
-            poolReserve.id,
-            InterestRate.Stable,
-            poolReserve.underlyingAsset
-          ),
+        repayLink: loanActionLinkComposer('repay', poolReserve.id, InterestRate.Stable),
+        borrowLink: loanActionLinkComposer('borrow', poolReserve.id, InterestRate.Stable),
+        onSwitchToggle: () => toggleBorrowRateMode(navigate, poolReserve.id, InterestRate.Stable),
       });
     }
   });
