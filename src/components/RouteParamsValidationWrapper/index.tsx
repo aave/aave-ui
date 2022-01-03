@@ -1,6 +1,5 @@
 import React from 'react';
-import { Navigate, useParams } from 'react-router-dom';
-import queryString from 'query-string';
+import { Navigate, useParams, useSearchParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import {
   ComputedUserReserve,
@@ -44,7 +43,7 @@ export default function routeParamValidationHOC({
     ({ match, location, history }: any) => {
       const intl = useIntl();
       const params = useParams();
-      console.log(params);
+      const [search] = useSearchParams();
       const reserveId = params.id;
 
       const { walletBalances, userEmodeCategoryId, reserves, user, loading } = useAppDataContext();
@@ -76,9 +75,9 @@ export default function routeParamValidationHOC({
 
       let amount = undefined;
       if (withAmount) {
-        const query = queryString.parse(location.search);
-        if (typeof query.amount === 'string') {
-          amount = valueToBigNumber(query.amount);
+        const _amount = search.get('amount');
+        if (_amount) {
+          amount = valueToBigNumber(_amount);
         }
         if (
           !amount ||
