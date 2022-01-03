@@ -108,7 +108,6 @@ export default function Dashboard() {
       onToggleSwitch: () =>
         toggleUseAsCollateral(
           navigate,
-          poolReserve.id,
           !userReserve.usageAsCollateralEnabledOnUser,
           poolReserve.underlyingAsset
         ),

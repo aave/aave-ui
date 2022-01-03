@@ -47,20 +47,24 @@ export default function routeParamValidationHOC({
     const [search] = useSearchParams();
     const { networkConfig } = useProtocolDataContext();
     const underlyingAsset = params.underlyingAsset as string;
-    let _underlyingAsset = underlyingAsset;
-    if (underlyingAsset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase())
-      _underlyingAsset = networkConfig.baseAssetWrappedAddress as string;
+    const isBaseAsset = underlyingAsset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase();
 
     const { walletBalances, userEmodeCategoryId, reserves, user, loading } = useAppDataContext();
 
-    const poolReserve = reserves.find((res) => res.underlyingAsset === _underlyingAsset);
+    const poolReserve = reserves.find((res) =>
+      isBaseAsset
+        ? res.underlyingAsset === networkConfig.baseAssetWrappedAddress
+        : res.underlyingAsset === underlyingAsset
+    );
     const userReserve = user
-      ? user.userReservesData.find(
-          (userReserve) => userReserve.reserve.underlyingAsset === _underlyingAsset
+      ? user.userReservesData.find((userReserve) =>
+          isBaseAsset
+            ? userReserve.reserve.underlyingAsset === networkConfig.baseAssetWrappedAddress
+            : userReserve.reserve.underlyingAsset === underlyingAsset
         )
       : undefined;
 
-    const currencySymbol = poolReserve?.symbol || '';
+    const currencySymbol = isBaseAsset ? networkConfig.baseAsset : poolReserve?.symbol || '';
 
     if (loading) {
       return <Preloader withText={true} />;

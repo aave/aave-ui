@@ -256,7 +256,6 @@ export default function UserInformation({
                     onSwitch={() =>
                       toggleUseAsCollateral(
                         navigate,
-                        poolReserve.id,
                         !userReserve?.usageAsCollateralEnabledOnUser,
                         poolReserve.underlyingAsset
                       )
