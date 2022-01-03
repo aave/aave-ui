@@ -1,9 +1,8 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { valueToBigNumber } from '@aave/protocol-js';
-import classNames from 'classnames';
-
 import { useThemeContext } from '@aave/aave-ui-kit';
+
 import AmountField from '../AmountField';
 import AssetSelect from './components/AssetSelect';
 
@@ -18,7 +17,6 @@ interface AmountFieldWithSelectProps {
     decimals: number;
   }[];
   selectTitle: string;
-  selectReverseTitle?: boolean;
   amount: string;
   onChangeAmount: (value: string) => void;
   setMaxSelected?: (value: boolean) => void;
@@ -48,7 +46,6 @@ export default function AmountFieldWithSelect({
   setAsset,
   options,
   selectTitle,
-  selectReverseTitle,
   amount,
   onChangeAmount,
   setMaxSelected,
@@ -91,17 +88,12 @@ export default function AmountFieldWithSelect({
   };
 
   return (
-    <div
-      className={classNames('AmountFieldWithSelect', {
-        AmountFieldWithSelect__reverse: selectReverseTitle,
-      })}
-    >
+    <div className="AmountFieldWithSelect">
       <AssetSelect
         asset={asset}
         setAsset={setAsset}
         options={options}
         title={selectTitle}
-        reverseTitle={selectReverseTitle}
         queryAsset={queryAsset}
       />
 

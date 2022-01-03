@@ -1,7 +1,7 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  title: 'Swap overview',
+  title: 'Transaction overview',
   description:
     'These are your transaction details. Make sure to check if this is correct before submitting.',
 
@@ -10,10 +10,11 @@ export default defineMessages({
 
   fromTitle: 'From asset',
   toTitle: 'To asset',
+  minReceivedTitle: 'Minimum received',
   currentHealthFactor: 'Current health factor',
   newHealthFactor: 'New health factor',
   maximumSlippage: 'Maximum slippage',
-  fees: 'Fees',
+  fees: 'Flashloan fee',
 
   balanceNotEnough: 'Your balance in the pool is not enough',
   healthDropBellow: 'Health factor can drop bellow one after swap',

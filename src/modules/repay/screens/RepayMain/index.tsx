@@ -8,6 +8,7 @@ import { gradient, useThemeContext } from '@aave/aave-ui-kit';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import Caption from '../../../../components/basic/Caption';
 import Link from '../../../../components/basic/Link';
+import RepayContentWrapper from '../../components/RepayContentWrapper';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -62,39 +63,41 @@ export default function RepayMain() {
 
   return (
     <PermissionWarning requiredPermission={PERMISSION.BORROWER}>
-      <div className="RepayMain">
-        <Caption
-          title={intl.formatMessage(defaultMessages.repay)}
-          description={intl.formatMessage(messages.description)}
-        />
+      <RepayContentWrapper>
+        <div className="RepayMain">
+          <Caption
+            title={intl.formatMessage(defaultMessages.repay)}
+            description={intl.formatMessage(messages.description)}
+          />
 
-        <div className="RepayMain__buttons-inner">
-          {buttons.map((button, index) => (
-            <Link to={button.link} key={index} className="RepayMain__link ButtonLink">
-              <p>{intl.formatMessage(button.title)}</p>
-            </Link>
-          ))}
-        </div>
+          <div className="RepayMain__buttons-inner">
+            {buttons.map((button, index) => (
+              <Link to={button.link} key={index} className="RepayMain__link ButtonLink">
+                <p>{intl.formatMessage(button.title)}</p>
+              </Link>
+            ))}
+          </div>
 
-        <style jsx={true} global={true}>
-          {staticStyles}
-        </style>
-        <style jsx={true} global={true}>{`
-          .RepayMain {
-            &__buttons-inner {
-              .RepayMain__link {
-                color: ${currentTheme.darkBlue.hex};
-                &:after {
-                  background: ${gradientBackground};
-                }
-                p {
-                  background: ${currentTheme.white.hex};
+          <style jsx={true} global={true}>
+            {staticStyles}
+          </style>
+          <style jsx={true} global={true}>{`
+            .RepayMain {
+              &__buttons-inner {
+                .RepayMain__link {
+                  color: ${currentTheme.darkBlue.hex};
+                  &:after {
+                    background: ${gradientBackground};
+                  }
+                  p {
+                    background: ${currentTheme.white.hex};
+                  }
                 }
               }
             }
-          }
-        `}</style>
-      </div>
+          `}</style>
+        </div>
+      </RepayContentWrapper>
     </PermissionWarning>
   );
 }

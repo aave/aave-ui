@@ -6,6 +6,8 @@ export default defineMessages({
   deposited: 'contains the assets you deposited',
   faq: 'FAQ',
 
+  rightPanelTitle: 'Swap details',
+
   fromTitle: 'From',
   available: 'Available',
   toTitle: 'To',

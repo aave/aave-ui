@@ -37,6 +37,7 @@ function Repay({
       pageTitle={intl.formatMessage(messages.pageTitle, {
         currencySymbol: asset.formattedName,
       })}
+      withMobileGrayBg={true}
     >
       <RepayScreenWrapper
         title={intl.formatMessage(messages.pageTitle, {

@@ -2,7 +2,6 @@ import React, { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 
 import Row from '../../../../components/basic/Row';
-import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import Value from '../../../../components/basic/Value';
 import HealthFactor from '../../../../components/HealthFactor';
 import MaxLTVHelpModal from '../../../../components/HelpModal/MaxLTVHelpModal';
@@ -118,13 +117,7 @@ export default function RepayScreenWrapper({
         </div>
       </RepayWithdrawWrapper>
 
-      <ContentWrapper
-        withFullHeight={true}
-        withBackButton={true}
-        className="RepayScreenWrapper__content"
-      >
-        {children}
-      </ContentWrapper>
+      {children}
 
       <style jsx={true} global={true}>
         {staticStyles}

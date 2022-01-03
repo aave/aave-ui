@@ -9,9 +9,13 @@ import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import NoDataPanel from '../../../../components/NoDataPanel';
 import MarketNotSupported from '../../../../components/MarketNotSupported';
-import SwapForm, { DEFAULT_MAX_SLIPPAGE } from '../../../../components/forms/SwapForm';
+import SwapForm from '../../../../components/forms/SwapForm';
 import AmountFieldWithSelect from '../../../../components/fields/AmountFieldWithSelect';
 import Link from '../../../../components/basic/Link';
+import SwapDetailsWrapper, {
+  DEFAULT_MAX_SLIPPAGE,
+} from '../../../../components/wrappers/SwapDetailsWrapper';
+import AssetSwapContentWrapper from '../../components/AssetSwapContentWrapper';
 import AssetSwapNoDeposits from '../../components/AssetSwapNoDeposits';
 import { calculateHFAfterSwap } from '../../helpers';
 import { useSwap } from '../../../../libs/use-asset-swap/useSwap';
@@ -28,7 +32,7 @@ export default function AssetSwapMain() {
   const intl = useIntl();
   const history = useHistory();
   const location = useLocation();
-  const { currentTheme, md } = useThemeContext();
+  const { currentTheme } = useThemeContext();
   const { user, reserves } = useDynamicPoolDataContext();
   const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
   const [fromAmount, setAmountFrom] = useState<string>('');
@@ -89,6 +93,7 @@ export default function AssetSwapMain() {
       res.underlyingBalance !== '0' &&
       res.reserve.underlyingAsset.toLowerCase() !== toAsset.toLowerCase()
   );
+
   const availableDepositsSymbols = availableDeposits.map((res) => {
     const reserve = reserves.find(
       (reserve) =>
@@ -128,7 +133,8 @@ export default function AssetSwapMain() {
     (res) => res.reserve.underlyingAsset === toAsset
   );
 
-  const maxAmountToSwap = fromAssetUserData?.underlyingBalance || '0';
+  const availableFromAmount = fromAssetUserData?.underlyingBalance || '0';
+  const availableToAmount = toAssetUserData?.underlyingBalance || '0';
 
   const usdValueSlippage = +fromAmountInUSD
     ? valueToBigNumber(fromAmountInUSD)
@@ -186,10 +192,12 @@ export default function AssetSwapMain() {
         fromAsset,
         toAsset,
         fromAmount,
-        toAmount: toAmountWithSlippage.toString(10),
+        toAmount: toAmount,
+        toAmountInUSD: toAmountInUSD,
         maxSlippage,
         fromAmountInUSD,
-        toAmountInUSD: toAmountInUSDWithSlippage.toString(10),
+        toAmountAfterSlippage: toAmountWithSlippage.toString(10),
+        toAmountInUSDAfterSlippage: toAmountInUSDWithSlippage.toString(10),
         swapAll: isMaxSelected,
         totalFees,
       });
@@ -201,19 +209,38 @@ export default function AssetSwapMain() {
   const queryFromAsset = queryString.parse(location.search).asset?.toString() || undefined;
 
   return (
-    <>
+    <AssetSwapContentWrapper
+      rightPanel={
+        availableDeposits.length >= 1 && (
+          <SwapDetailsWrapper
+            title={intl.formatMessage(messages.rightPanelTitle)}
+            priceImpact={(+usdValueSlippage).toString()}
+            withMinimumReceived={true}
+            minimumReceivedValue={toAmountWithSlippage.toString(10)}
+            minimumReceivedValueInUSD={toAmountInUSDWithSlippage.toString(10)}
+            minimumReceivedSymbol={toAssetData?.symbol}
+            withAPY={true}
+            fromAPY={fromAPY}
+            toAPY={toAPY}
+            healthFactor={user.healthFactor}
+            hfAfterSwap={hfAfterSwap.toString()}
+            maxSlippage={maxSlippage}
+            setMaxSlippage={setMaxSlippage}
+            flashloanFees={flashloanFees}
+          />
+        )
+      }
+    >
       {availableDeposits.length >= 1 ? (
         <SwapForm
           onSubmit={handleSubmit}
           isSubmitButtonDisabled={isSubmitButtonDisabled}
-          maxSlippage={maxSlippage}
-          setMaxSlippage={setMaxSlippage}
           caption={intl.formatMessage(defaultMessages.swap)}
           description={intl.formatMessage(messages.description, {
             deposited: (
-              <strong style={{ color: `${currentTheme.primary.hex}` }}>
+              <span style={{ color: `${currentTheme.primary.hex}` }}>
                 {intl.formatMessage(messages.deposited)}
-              </strong>
+              </span>
             ),
             faq: (
               <Link
@@ -222,20 +249,12 @@ export default function AssetSwapMain() {
                 inNewWindow={true}
                 title={intl.formatMessage(messages.faq)}
                 color="secondary"
-                bold={true}
               />
             ),
           })}
           error={error || fromAmountNotEnoughError}
-          healthFactor={user.healthFactor}
-          hfAfterSwap={hfAfterSwap.toString()}
           buttonTitle={intl.formatMessage(messages.continue)}
-          withAPY={true}
-          fromAPY={fromAPY}
-          toAPY={toAPY}
-          withFees={true}
-          flashloanFees={flashloanFees}
-          leftField={
+          fromField={
             <AmountFieldWithSelect
               asset={fromAsset}
               setAsset={setAssetFrom}
@@ -244,7 +263,7 @@ export default function AssetSwapMain() {
               amount={fromAmount}
               onChangeAmount={setAmountFrom}
               setMaxSelected={setIsMaxSelected}
-              maxAmount={maxAmountToSwap}
+              maxAmount={availableFromAmount}
               amountInUsd={fromAmountInUSD}
               amountTitle={intl.formatMessage(messages.available)}
               disabled={!fromAsset}
@@ -254,17 +273,18 @@ export default function AssetSwapMain() {
               queryAsset={queryFromAsset}
             />
           }
-          rightField={
+          toField={
             <AmountFieldWithSelect
               asset={toAsset}
               setAsset={setAssetTo}
               options={availableDestinationsSymbols}
               selectTitle={intl.formatMessage(messages.toTitle)}
-              amount={toAmountWithSlippage.toString(10)}
+              amount={toAmount}
               onChangeAmount={() => {}}
-              amountInUsd={toAmountInUSDWithSlippage.toString(10)}
-              percentDifference={(+usdValueSlippage - +maxSlippage).toString()}
-              selectReverseTitle={!md}
+              amountInUsd={toAmountInUSD}
+              maxAmount={availableToAmount}
+              amountTitle={intl.formatMessage(messages.available)}
+              percentDifference={(+usdValueSlippage).toString()}
               disabled={true}
               loading={loading}
               maxDecimals={toAssetData?.decimals}
@@ -274,6 +294,6 @@ export default function AssetSwapMain() {
       ) : (
         <AssetSwapNoDeposits numberOfDepositedAssets={availableDeposits.length} />
       )}
-    </>
+    </AssetSwapContentWrapper>
   );
 }
