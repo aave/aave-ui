@@ -16,8 +16,17 @@ web-report/
 .vscode
 yarn-error.log
 dist/
-build/
+/build
 .idea
 web-build
 yalc.lock
 __pycache__/
+
+
+# cypress
+cypress/screenshots
+cypress/videos
+
+
+# custom github actions
+!.github/actions/pinata/dist

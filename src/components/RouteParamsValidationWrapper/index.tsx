@@ -70,7 +70,7 @@ export default function routeParamValidationHOC({
       const { walletData } = useWalletBalanceProviderContext({
         skip: !withWalletBalance || !poolReserve || (withUserReserve && !userReserve),
       });
-      if (!walletData) {
+      if (!walletData || !reserves.length) {
         return <Preloader withText={true} />;
       }
 

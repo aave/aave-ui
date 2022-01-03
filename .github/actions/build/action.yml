@@ -1,0 +1,24 @@
+name: build
+description: installs dependencies & generates a build
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v2
+      with:
+        node-version-file: '.nvmrc'
+        cache: 'npm'
+
+    - name: install
+      run: npm ci --prefer-offline --no-audit
+      shell: bash
+
+    - name: build
+      run: npm run build
+      shell: bash
+
+    - name: store artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: build_${{github.sha}}
+        path: build/

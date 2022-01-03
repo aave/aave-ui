@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 
 import { ProposalItem } from './types';
 
-const IPFS_ENDPOINT = 'https://cloudflare-ipfs.com/ipfs';
+export const IPFS_ENDPOINT = 'https://aave-governance.mypinata.cloud/ipfs';
 
 /**
  * Thegraph data is only up to date to the last emitted events.
@@ -35,6 +35,10 @@ export const getCorrectState = (proposal: ProposalItem) => {
         .gt(proposal.formattedMinDiff);
     }
     return quorumValid && differentialValid ? ProposalState.Succeeded : ProposalState.Failed;
+  }
+
+  if (hasEnded && proposal.state === ProposalState.Queued) {
+    return ProposalState.Expired;
   }
 
   // When there has never been a single vote, no event has been triggered which could have transitioned the state.
