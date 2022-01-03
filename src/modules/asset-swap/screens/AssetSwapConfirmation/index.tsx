@@ -19,19 +19,6 @@ import messages from './messages';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
-interface QueryParams {
-  fromAsset?: string;
-  toAsset?: string;
-  fromAmount?: string;
-  toAmount?: string;
-  fromAmountInUSD?: string;
-  toAmountInUSD?: string;
-  maxSlippage?: string;
-  isReverse?: string;
-  swapAll?: string;
-  useEthPath?: string;
-  totalFees?: string;
-}
 // TODO:
 // TODO: -1 - max
 // TODO: error on slippage
