@@ -3,6 +3,7 @@ import { ReserveIncentiveResponse } from '../../../../libs/pool-data-provider/ho
 export type BorrowTableItem = {
   id: string;
   symbol: string;
+  underlyingAsset: string;
   currentBorrows: number | string;
   currentBorrowsInUSD: number | string;
   stableBorrowRate: number | string;

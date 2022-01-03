@@ -84,7 +84,7 @@ export default function DepositMobileCard({
         </Row>
 
         <TableButtonsWrapper>
-          <Link to={`/withdraw/${id}`} className="ButtonLink" disabled={!isActive}>
+          <Link to={`/withdraw/${underlyingAsset}`} className="ButtonLink" disabled={!isActive}>
             <DefaultButton
               title={intl.formatMessage(defaultMessages.withdraw)}
               color="dark"
@@ -93,7 +93,11 @@ export default function DepositMobileCard({
           </Link>
 
           {!isSwapButton ? (
-            <Link to={`/deposit/${id}`} className="ButtonLink" disabled={!isActive || isFrozen}>
+            <Link
+              to={`/deposit/${underlyingAsset}`}
+              className="ButtonLink"
+              disabled={!isActive || isFrozen}
+            >
               <DefaultButton
                 title={intl.formatMessage(defaultMessages.deposit)}
                 color="dark"

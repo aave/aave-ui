@@ -13,7 +13,7 @@ export default function FaucetItem({
   walletBalance,
   underlyingAsset,
 }: FaucetTableItem) {
-  const url = `/faucet/${id}`;
+  const url = `/faucet/${underlyingAsset}`;
 
   return (
     <TableItem className="FaucetItem" symbol={symbol} url={url} isIsolated={false}>

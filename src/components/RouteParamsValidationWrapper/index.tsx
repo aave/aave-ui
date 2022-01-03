@@ -13,6 +13,8 @@ import Preloader from '../basic/Preloader';
 import ErrorPage from '../ErrorPage';
 
 import messages from './messages';
+import { API_ETH_MOCK_ADDRESS } from '@aave/contract-helpers';
+import { useProtocolDataContext } from '../../libs/protocol-data-provider';
 
 export interface ValidationWrapperComponentProps {
   currencySymbol: string;
@@ -43,13 +45,19 @@ export default function routeParamValidationHOC({
     const intl = useIntl();
     const params = useParams();
     const [search] = useSearchParams();
-    const reserveId = params.id;
+    const { networkConfig } = useProtocolDataContext();
+    const underlyingAsset = params.underlyingAsset as string;
+    let _underlyingAsset = underlyingAsset;
+    if (underlyingAsset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase())
+      _underlyingAsset = networkConfig.baseAssetWrappedAddress as string;
 
     const { walletBalances, userEmodeCategoryId, reserves, user, loading } = useAppDataContext();
 
-    const poolReserve = reserves.find((res) => res.id === reserveId);
+    const poolReserve = reserves.find((res) => res.underlyingAsset === _underlyingAsset);
     const userReserve = user
-      ? user.userReservesData.find((userReserve) => userReserve.reserve.id === reserveId)
+      ? user.userReservesData.find(
+          (userReserve) => userReserve.reserve.underlyingAsset === _underlyingAsset
+        )
       : undefined;
 
     const currencySymbol = poolReserve?.symbol || '';
@@ -67,9 +75,7 @@ export default function routeParamValidationHOC({
       // TODO: 404 || redirect || ?
     }
 
-    const walletBalance = valueToBigNumber(
-      walletBalances[poolReserve.underlyingAsset]?.amount || '0'
-    );
+    const walletBalance = valueToBigNumber(walletBalances[underlyingAsset]?.amount || '0');
     let isWalletBalanceEnough = true;
 
     let amount = undefined;
@@ -95,9 +101,7 @@ export default function routeParamValidationHOC({
       }
     }
 
-    const walletBalanceUSD = valueToBigNumber(
-      walletBalances[poolReserve.underlyingAsset]?.amountUSD || '0'
-    );
+    const walletBalanceUSD = valueToBigNumber(walletBalances[underlyingAsset]?.amountUSD || '0');
 
     const props = {
       poolReserve,

@@ -101,7 +101,7 @@ export default function SupplyAssetTable() {
       .toString();
     tokensToSupply.push({
       ...wrappedAsset,
-      underlyingAsset: API_ETH_MOCK_ADDRESS,
+      underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
       symbol: networkConfig.baseAsset,
       walletBalance: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amount,
       walletBalanceUSD: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amountUSD,

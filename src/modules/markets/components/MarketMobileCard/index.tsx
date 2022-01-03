@@ -65,7 +65,7 @@ export default function MarketMobileCard({
   ];
 
   const handleClick = () => {
-    navigate(`/reserve-overview/${id}`);
+    navigate(`/reserve-overview/${underlyingAsset}`);
   };
 
   return (
