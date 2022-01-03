@@ -125,7 +125,8 @@ export default function Dashboard() {
         sIncentives: poolReserve.sIncentivesData ? poolReserve.sIncentivesData : [],
         repayLink: loanActionLinkComposer('repay', poolReserve.id, InterestRate.Variable),
         borrowLink: loanActionLinkComposer('borrow', poolReserve.id, InterestRate.Variable),
-        onSwitchToggle: () => toggleBorrowRateMode(navigate, poolReserve.id, InterestRate.Variable),
+        onSwitchToggle: () =>
+          toggleBorrowRateMode(navigate, InterestRate.Variable, poolReserve.underlyingAsset),
       });
     }
     if (userReserve.stableBorrows !== '0') {
@@ -140,7 +141,8 @@ export default function Dashboard() {
         sIncentives: poolReserve.sIncentivesData ? poolReserve.sIncentivesData : [],
         repayLink: loanActionLinkComposer('repay', poolReserve.id, InterestRate.Stable),
         borrowLink: loanActionLinkComposer('borrow', poolReserve.id, InterestRate.Stable),
-        onSwitchToggle: () => toggleBorrowRateMode(navigate, poolReserve.id, InterestRate.Stable),
+        onSwitchToggle: () =>
+          toggleBorrowRateMode(navigate, InterestRate.Stable, poolReserve.underlyingAsset),
       });
     }
   });

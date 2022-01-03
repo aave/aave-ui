@@ -85,8 +85,8 @@ export default function BorrowTableItem({
           onSwitch={() =>
             toggleBorrowRateMode(
               navigate,
-              poolReserve.id,
-              type === 'stable' ? InterestRate.Stable : InterestRate.Variable
+              type === 'stable' ? InterestRate.Stable : InterestRate.Variable,
+              poolReserve.underlyingAsset
             )
           }
           // @ts-ignore

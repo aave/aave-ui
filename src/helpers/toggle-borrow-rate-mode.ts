@@ -3,8 +3,8 @@ import { NavigateFunction } from 'react-router';
 
 export const toggleBorrowRateMode = (
   navigate: NavigateFunction,
-  reserveID: string,
-  borrowRateMode: InterestRate
+  borrowRateMode: InterestRate,
+  underlyingAsset: string
 ) => {
-  navigate(`/interest-swap/${reserveID}/confirmation?borrowRateMode=${borrowRateMode}`);
+  navigate(`/interest-swap/${underlyingAsset}/confirmation?borrowRateMode=${borrowRateMode}`);
 };
