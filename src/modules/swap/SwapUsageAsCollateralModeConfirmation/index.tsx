@@ -19,13 +19,13 @@ import messages from './messages';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/math-utils';
 import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
+import { useLocation } from 'react-router';
 
 function SwapUsageAsCollateralModeConfirmation({
   currencySymbol,
   poolReserve,
   user,
   userReserve,
-  location,
 }: ValidationWrapperComponentProps) {
   const { lendingPool } = useTxBuilderContext();
   const { currentAccount } = useUserWalletDataContext();
@@ -33,6 +33,7 @@ function SwapUsageAsCollateralModeConfirmation({
   const [isTxExecuted, setIsTxExecuted] = useState(false);
   const { lg, md } = useThemeContext();
   const intl = useIntl();
+  const location = useLocation();
   const query = queryString.parse(location.search);
 
   const asset = getAssetInfo(currencySymbol);

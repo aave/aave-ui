@@ -21,6 +21,7 @@ import messages from './messages';
 import { valueToBigNumber } from '@aave/math-utils';
 import BigNumber from 'bignumber.js';
 import { InterestRate } from '@aave/contract-helpers';
+import { useLocation, useNavigate } from 'react-router';
 
 enum BorrowStep {
   AmountForm,
@@ -30,20 +31,16 @@ enum BorrowStep {
 interface BorrowAmountProps
   extends Pick<
     ValidationWrapperComponentProps,
-    'userReserve' | 'poolReserve' | 'user' | 'currencySymbol' | 'history'
+    'userReserve' | 'poolReserve' | 'user' | 'currencySymbol'
   > {}
 
-function BorrowAmount({
-  userReserve,
-  poolReserve,
-  user,
-  currencySymbol,
-  history,
-}: BorrowAmountProps) {
+function BorrowAmount({ userReserve, poolReserve, user, currencySymbol }: BorrowAmountProps) {
   const [amountToBorrow, setAmountToBorrow] = useState('0');
   const [borrowStep, setBorrowStep] = useState<BorrowStep>(BorrowStep.AmountForm);
   const intl = useIntl();
   const { lendingPool } = useTxBuilderContext();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const asset = getAssetInfo(currencySymbol);
 
@@ -75,7 +72,7 @@ function BorrowAmount({
 
   const handleInterestModeSubmit = (rateMode: string) => {
     const query = queryString.stringify({ rateMode, amount: amountToBorrow });
-    history.push(`${history.location.pathname}/confirmation?${query}`);
+    navigate(`${location.pathname}/confirmation?${query}`);
   };
 
   const goBack = () => setBorrowStep(BorrowStep.AmountForm);

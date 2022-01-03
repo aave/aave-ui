@@ -9,7 +9,7 @@ import Caption from '../../../components/basic/Caption';
 
 import messages from './messages';
 import staticStyles from './style';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import { isFeatureEnabled } from '../../../helpers/config/markets-and-network-config';
 import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
@@ -24,9 +24,9 @@ interface PermissionWarningProps {
  * @param requiredPermission holds the permission currently needed
  * @returns
  */
-const PermissionWarning: React.FC<
-  RouteComponentProps<{ id?: string; underlyingAsset?: string }> & PermissionWarningProps
-> = ({ children, requiredPermission, match }) => {
+const PermissionWarning: React.FC<PermissionWarningProps> = ({ children, requiredPermission }) => {
+  const params = useParams();
+  console.log(params);
   const intl = useIntl();
   const { currentMarketData } = useProtocolDataContext();
   const { currentAccount } = useUserWalletDataContext();
@@ -56,4 +56,4 @@ const PermissionWarning: React.FC<
   );
 };
 
-export default withRouter(PermissionWarning);
+export default PermissionWarning;

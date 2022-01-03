@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import queryString from 'query-string';
 import { useIntl } from 'react-intl';
 import {
@@ -10,14 +10,12 @@ import {
 import BigNumber from 'bignumber.js';
 
 import { ComputedReserveData, useAppDataContext } from '../../libs/pool-data-provider';
-import { CurrencyRouteParamsInterface } from '../../helpers/router-types';
 import Preloader from '../basic/Preloader';
 import ErrorPage from '../ErrorPage';
 
 import messages from './messages';
 
-export interface ValidationWrapperComponentProps
-  extends Pick<RouteComponentProps, 'history' | 'location'> {
+export interface ValidationWrapperComponentProps {
   currencySymbol: string;
   amount?: BigNumber;
   walletBalance: BigNumber;
@@ -43,8 +41,10 @@ export default function routeParamValidationHOC({
   allowLimitAmount,
 }: RouteParamValidationWrapperProps) {
   return (ChildComponent: React.ComponentType<ValidationWrapperComponentProps>) =>
-    ({ match, location, history }: RouteComponentProps<CurrencyRouteParamsInterface>) => {
+    ({ match, location, history }: any) => {
       const intl = useIntl();
+      const params = useParams();
+      console.log(params);
       const underlyingAsset = match.params.underlyingAsset.toUpperCase();
       const reserveId = match.params.id;
 
@@ -71,10 +71,10 @@ export default function routeParamValidationHOC({
 
       if (!poolReserve) {
         // TODO: 404
-        return <Redirect to="/" />;
+        return <Navigate to="/" />;
       }
       if (!userReserve && withUserReserve) {
-        return <Redirect to="/" />;
+        return <Navigate to="/" />;
         // TODO: 404 || redirect || ?
       }
 

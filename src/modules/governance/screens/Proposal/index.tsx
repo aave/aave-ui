@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Switch, Route, useLocation, useParams } from 'react-router-dom';
+import { Routes, Route, useLocation, useParams } from 'react-router-dom';
 
 import useGetMetadataDescription from '../../../../libs/governance-provider/hooks/use-get-metadata-description';
 import useVoteOnProposalRPC from '../../../../libs/governance-provider/hooks/use-vote-on-proposal-rpc';
@@ -30,7 +30,8 @@ export const useProposalDataContext = () => useContext(ProposalProviderContext);
 export default function Proposal() {
   const location = useLocation();
 
-  const { proposalId: _proposalId, proposalHash } = useParams<ProposalParams>();
+  // TODO: account for unset params
+  const { proposalId: _proposalId, proposalHash } = useParams() as unknown as ProposalParams;
   const proposalId = Number(_proposalId);
   const { currentAccount } = useUserWalletDataContext();
   const { proposals, governanceService } = useGovernanceDataContext();
@@ -65,19 +66,13 @@ export default function Proposal() {
       }}
     >
       <ProposalWrapper isSidePanelVisibleOnMobile={location.pathname.split('/').length <= 3}>
-        <Switch>
+        <Routes>
+          <Route path="/governance/:proposalId-:proposalHash" element={<TextContent />} />
           <Route
-            exact={true}
-            path="/governance/:proposalId-:proposalHash"
-            component={TextContent}
-          />
-
-          <Route
-            exact={true}
             path="/governance/:proposalId-:proposalHash/:vote"
-            component={VoteConfirmation}
+            element={<VoteConfirmation />}
           />
-        </Switch>
+        </Routes>
       </ProposalWrapper>
     </ProposalProviderContext.Provider>
   );

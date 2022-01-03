@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import {
@@ -53,7 +53,7 @@ export default function UserInformation({
 }: UserInformationProps) {
   const intl = useIntl();
   const { currentTheme, xl, sm } = useThemeContext();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [contentVisible, setContentVisibility] = useState(false);
 
@@ -255,7 +255,7 @@ export default function UserInformation({
                     }
                     onSwitch={() =>
                       toggleUseAsCollateral(
-                        history,
+                        navigate,
                         poolReserve.id,
                         !userReserve?.usageAsCollateralEnabledOnUser,
                         poolReserve.underlyingAsset

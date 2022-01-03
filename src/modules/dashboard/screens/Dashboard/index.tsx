@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
@@ -31,7 +31,7 @@ import staticStyles from './style';
 
 export default function Dashboard() {
   const intl = useIntl();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { user, userId, reserves, loading, walletBalances } = useAppDataContext();
   const {
@@ -107,7 +107,7 @@ export default function Dashboard() {
       availableToDeposit: availableToDeposit.toNumber() <= 0 ? '0' : availableToDeposit.toString(),
       onToggleSwitch: () =>
         toggleUseAsCollateral(
-          history,
+          navigate,
           poolReserve.id,
           !userReserve.usageAsCollateralEnabledOnUser,
           poolReserve.underlyingAsset
@@ -138,7 +138,7 @@ export default function Dashboard() {
         ),
         onSwitchToggle: () =>
           toggleBorrowRateMode(
-            history,
+            navigate,
             poolReserve.id,
             InterestRate.Variable,
             poolReserve.underlyingAsset
@@ -169,7 +169,7 @@ export default function Dashboard() {
         ),
         onSwitchToggle: () =>
           toggleBorrowRateMode(
-            history,
+            navigate,
             poolReserve.id,
             InterestRate.Stable,
             poolReserve.underlyingAsset

@@ -31,6 +31,7 @@ import routeParamValidationHOC, {
 import messages from './messages';
 
 import linkIcon from '../../../../images/whiteLinkIcon.svg';
+import { useLocation, useNavigate } from 'react-router';
 
 enum DepositStep {
   IsolationScreen,
@@ -40,7 +41,7 @@ enum DepositStep {
 interface DepositAmountProps
   extends Pick<
     ValidationWrapperComponentProps,
-    'currencySymbol' | 'poolReserve' | 'history' | 'walletBalance' | 'user' | 'userReserve'
+    'currencySymbol' | 'poolReserve' | 'walletBalance' | 'user' | 'userReserve'
   > {}
 
 function DepositAmount({
@@ -48,7 +49,6 @@ function DepositAmount({
   poolReserve,
   user,
   userReserve,
-  history,
   walletBalance,
 }: DepositAmountProps) {
   const intl = useIntl();
@@ -56,6 +56,8 @@ function DepositAmount({
   const { lendingPool } = useTxBuilderContext();
   const { payments, isPaymentNashNotOnMainMarket } = usePayments();
   const { sm } = useThemeContext();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const asset = getAssetInfo(currencySymbol);
 
@@ -92,7 +94,7 @@ function DepositAmount({
 
   const handleSubmit = (amount: string) => {
     const query = queryString.stringify({ amount });
-    history.push(`${history.location.pathname}/confirmation?${query}`);
+    navigate(`${location.pathname}/confirmation?${query}`);
   };
 
   const handleTransactionData = (userId: string) => async () => {

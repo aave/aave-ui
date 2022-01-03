@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { useThemeContext, BasicModal, SpinLoader } from '@aave/aave-ui-kit';
@@ -43,7 +43,7 @@ export default function TxTopInfo({
   numberOfSteps,
 }: TxTopInfoProps) {
   const intl = useIntl();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { currentTheme } = useThemeContext();
 
   const isErrorNeedToFormat = failed ? failed.search('{"') !== -1 : false;
@@ -92,7 +92,7 @@ export default function TxTopInfo({
                 <DefaultButton
                   className="TxTopInfo__button"
                   title={intl.formatMessage(messages.goBack)}
-                  onClick={history.goBack}
+                  onClick={() => navigate(-1)}
                 />
               )}
             </div>

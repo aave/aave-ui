@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { normalize } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
@@ -18,13 +18,15 @@ export default function RewardMain() {
   const { user } = useAppDataContext();
 
   if (!user) {
-    return <Redirect to="/dashboard" />;
+    return <Navigate replace to="/dashboard" />;
   }
   if (Object.keys(user.calculatedUserIncentives).length === 0) {
-    return <Redirect to="/dashboard" />;
+    return <Navigate replace to="/dashboard" />;
   }
   if (Object.keys(user.calculatedUserIncentives).length === 1) {
-    return <Redirect to={`/rewards/confirm/${Object.keys(user.calculatedUserIncentives)[0]}`} />;
+    return (
+      <Navigate replace to={`/rewards/confirm/${Object.keys(user.calculatedUserIncentives)[0]}`} />
+    );
   }
 
   let totalClaimableUSD = 0;

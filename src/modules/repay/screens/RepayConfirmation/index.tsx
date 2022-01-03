@@ -27,6 +27,7 @@ import {
   valueToBigNumber,
 } from '@aave/math-utils';
 import BigNumber from 'bignumber.js';
+import { useLocation } from 'react-router';
 
 function RepayConfirmation({
   currencySymbol,
@@ -35,7 +36,6 @@ function RepayConfirmation({
   poolReserve,
   userReserve,
   walletBalance,
-  location,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { marketReferencePriceInUsd, userId, marketReferenceCurrencyDecimals } =
@@ -48,7 +48,7 @@ function RepayConfirmation({
   const [signedAmount, setSignedAmount] = useState('0');
 
   const assetDetails = getAssetInfo(poolReserve.symbol);
-
+  const location = useLocation();
   const query = queryString.parse(location.search);
   const debtType = query.debtType ? (query.debtType as InterestRate) : InterestRate.Variable;
   const assetAddress = query.assetAddress ? (query.assetAddress as string) : '';

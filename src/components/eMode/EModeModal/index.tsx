@@ -1,5 +1,5 @@
 import { useIntl } from 'react-intl';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import { formatUserSummary } from '@aave/math-utils';
 import { useThemeContext, BasicModal, rgba } from '@aave/aave-ui-kit';
 
@@ -32,7 +32,7 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
     userReserves,
   } = useAppDataContext();
   const currentTimestamp = useCurrentTimestamp(1);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const eModeEnabled = userEmodeCategoryId !== 0;
 
@@ -98,7 +98,7 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
   const handleButtonPress = () => {
     const newMode = eModeEnabled ? '0' : selectedEmodeCategoryId.toString();
     const url = '/emode/confirm/' + newMode;
-    history.push(url);
+    navigate(url);
   };
 
   return (

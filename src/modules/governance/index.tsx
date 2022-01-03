@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import { GovernanceDataProvider } from '../../libs/governance-provider';
 
@@ -18,16 +18,12 @@ export default function Governance() {
   return (
     <GovernanceDataProvider governanceConfig={governanceConfig}>
       <AaveTokensBalanceProvider>
-        <Switch>
-          <Route exact={true} path="/governance" component={Proposals} />
-          <Route path="/governance/:proposalId-:proposalHash" component={Proposal} />
-          <Route exact={true} path="/governance/delegation" component={Delegation} />
-          <Route
-            exact={true}
-            path="/governance/delegation/confirmation"
-            component={DelegationConfirmation}
-          />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Proposals />} />
+          <Route path=":proposalId-:proposalHash" element={<Proposal />} />
+          <Route path="delegation" element={<Delegation />} />
+          <Route path="delegation/confirmation" element={<DelegationConfirmation />} />
+        </Routes>
       </AaveTokensBalanceProvider>
     </GovernanceDataProvider>
   );

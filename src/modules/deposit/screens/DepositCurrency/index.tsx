@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Switch, Route } from 'react-router-dom';
+import { Navigate, Routes, Route } from 'react-router-dom';
 import { PERMISSION } from '@aave/contract-helpers';
 
 import DepositAmount from '../DepositAmount';
@@ -11,17 +11,14 @@ import PermissionWarning from '../../../../ui-config/branding/PermissionWarning'
 export default function DepositCurrency() {
   return (
     <PermissionWarning requiredPermission={PERMISSION.DEPOSITOR}>
-      <Switch>
-        <Route exact={true} component={DepositAmount} path={`/deposit/${CURRENCY_ROUTE_PARAMS}`} />
-
+      <Routes>
+        <Route path={`/deposit/${CURRENCY_ROUTE_PARAMS}`} element={<DepositAmount />} />
         <Route
-          exact={true}
           path={`/deposit/${CURRENCY_ROUTE_PARAMS}/confirmation`}
-          component={DepositConfirmation}
+          element={<DepositConfirmation />}
         />
-
-        <Redirect to="/dashboard" />
-      </Switch>
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
     </PermissionWarning>
   );
 }

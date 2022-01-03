@@ -28,6 +28,7 @@ import {
   valueToBigNumber,
 } from '@aave/math-utils';
 import { InterestRate } from '@aave/contract-helpers';
+import { useLocation } from 'react-router';
 
 function BorrowConfirmation({
   currencySymbol,
@@ -35,12 +36,12 @@ function BorrowConfirmation({
   amount,
   poolReserve,
   userReserve,
-  location,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { marketReferencePriceInUsd, userId } = useAppDataContext();
   const { lendingPool } = useTxBuilderContext();
   const { currentTheme } = useThemeContext();
+  const location = useLocation(); // TODO: check if we could use useSearchPAarams
   let blockingError = '';
 
   const aTokenData = getAtokenInfo({

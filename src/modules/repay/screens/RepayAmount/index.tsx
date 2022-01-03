@@ -21,6 +21,7 @@ import RepayInfoPanel from '../../components/RepayInfoPanel';
 
 import messages from './messages';
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
+import { useLocation, useNavigate } from 'react-router';
 
 function RepayAmount({
   user,
@@ -28,14 +29,15 @@ function RepayAmount({
   userReserve,
   poolReserve,
   walletBalance,
-  history,
-  location,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { networkConfig, currentMarketData } = useProtocolDataContext();
   const { marketReferenceCurrencyDecimals } = useAppDataContext();
   const { lendingPool } = useTxBuilderContext();
+  // TODO: check if useSearchParams would be feasible
+  const location = useLocation();
   const query = queryString.parse(location.search);
+  const navigate = useNavigate();
   const debtType = query.debtType || InterestRate.Variable;
 
   const [assetAddress, setAssetAddress] = useState(poolReserve.underlyingAsset);
@@ -70,7 +72,7 @@ function RepayAmount({
 
   const handleSubmit = (amount: string, max?: boolean) => {
     const query = queryString.stringify({ debtType, amount: max ? '-1' : amount, assetAddress });
-    history.push(`${history.location.pathname}confirmation?${query}`);
+    navigate(`${location.pathname}confirmation?${query}`);
   };
 
   const handleGetTransactions = (userId: string) => async () =>

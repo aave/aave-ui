@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
 import css from 'styled-jsx/css';
 import { useThemeContext } from '@aave/aave-ui-kit';
@@ -54,53 +54,44 @@ function ModulesWithMenu() {
 
   return (
     <ScreensWrapper>
-      <Switch>
-        <Route path="/markets" component={Markets} />
-        <Route path="/dashboard" component={Dashboard} />
+      <Routes>
+        <Route path="/markets" element={<Markets />} />
+        <Route path="/dashboard" element={<Dashboard />} />
 
-        <Route path="/deposit" component={Deposit} />
-        <Route path={`/withdraw/${CURRENCY_ROUTE_PARAMS}`} component={Withdraw} />
+        <Route path="/deposit/*" element={<Deposit />} />
+        <Route path={`/withdraw/${CURRENCY_ROUTE_PARAMS}/*`} element={<Withdraw />} />
 
-        <Route path="/borrow" component={Borrow} />
-        <Route path={`/repay/${CURRENCY_ROUTE_PARAMS}`} component={Repay} />
+        <Route path="/borrow/*" element={<Borrow />} />
+        <Route path={`/repay/${CURRENCY_ROUTE_PARAMS}/*`} element={<Repay />} />
 
         <Route
-          exact={true}
           path={`/interest-swap/${CURRENCY_ROUTE_PARAMS}/confirmation`}
-          component={SwapBorrowRateModeConfirmation}
+          element={<SwapBorrowRateModeConfirmation />}
         />
 
         <Route
-          exact={true}
-          path={`/usage-as-collateral/${CURRENCY_ROUTE_PARAMS}/confirmation`}
-          component={SwapUsageAsCollateralModeConfirmation}
+          path={`/usage-as-collateral/${CURRENCY_ROUTE_PARAMS}/confirmation/*`}
+          element={<SwapUsageAsCollateralModeConfirmation />}
         />
 
-        <Route
-          exact={true}
-          path={`/reserve-overview/${CURRENCY_ROUTE_PARAMS}`}
-          component={ReserveOverview}
-        />
+        <Route path={`/reserve-overview/${CURRENCY_ROUTE_PARAMS}`} element={<ReserveOverview />} />
 
-        {!!governanceConfig && [
-          <Route path="/governance" component={Governance} key="Governance" />,
-        ]}
-        {!!stakeConfig && [<Route path="/staking" component={Staking} key="Staking" />]}
+        {!!governanceConfig && (
+          <Route path="/governance/*" key="Governance" element={<Governance />} />
+        )}
+        {!!stakeConfig && <Route path="/staking/*" key="Staking" element={<Staking />} />}
 
-        <Route path="/asset-swap" component={AssetSwap} key="AssetSwap" />
-        <Route path="/rewards" component={Reward} key="Rewards" />
-        <Route path="/emode/confirm/:newmode" component={EModeConfirm} key="E-Mode Confirm" />
+        <Route path="/asset-swap" key="AssetSwap" element={<AssetSwap />} />
+        <Route path="/rewards" key="Rewards" element={<Reward />} />
+        <Route path="/emode/confirm/:newmode" key="E-Mode Confirm" element={<EModeConfirm />} />
 
-        {currentAccount && [
-          <Route exact={true} path="/history" component={History} key="History" />,
-        ]}
+        {currentAccount && <Route path="/history" key="History" element={<History />} />}
 
-        {isFeatureEnabled.faucet(currentMarketData) && [
-          <Route path="/faucet" component={Faucet} key="Faucet" />,
-        ]}
-
-        <Redirect to="/dashboard" />
-      </Switch>
+        {isFeatureEnabled.faucet(currentMarketData) && (
+          <Route path="/faucet" key="Faucet" element={<Faucet />} />
+        )}
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
     </ScreensWrapper>
   );
 }
@@ -116,9 +107,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <div {...handlers} className="App__content">
-        <Switch>
-          <Route component={ModulesWithMenu} />
-        </Switch>
+        <ModulesWithMenu />
       </div>
 
       <style jsx={true} global={true}>

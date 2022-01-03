@@ -31,7 +31,8 @@ export default function VoteConfirmationWrapper({
 }: TxConfirmationWrapperProps) {
   const intl = useIntl();
   const { currentAccount } = useUserWalletDataContext();
-  const { vote } = useParams<ProposalVoteParams>();
+  // TODO: account for non set params
+  const { vote } = useParams() as unknown as ProposalVoteParams;
   const { governanceService } = useGovernanceDataContext();
   const { forceUpdateVoteData, proposalId, proposalHash } = useProposalDataContext();
   const processedVote = vote.toLowerCase() === 'yes';

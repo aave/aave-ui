@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
 import { useProtocolDataContext } from '../../libs/protocol-data-provider';
@@ -52,36 +52,30 @@ function Repay({
         healthFactor={user?.healthFactor || '0'}
         loanToValue={user?.currentLoanToValue || '0'}
       >
-        <Switch>
-          <Route exact={true} path={`/repay/${CURRENCY_ROUTE_PARAMS}/`} component={RepayMain} />
+        <Routes>
+          <Route path={`/repay/${CURRENCY_ROUTE_PARAMS}/`} element={<RepayMain />} />
 
-          <Route
-            exact={true}
-            path={`/repay/${CURRENCY_ROUTE_PARAMS}/balance`}
-            component={RepayAmount}
-          />
+          <Route path={`/repay/${CURRENCY_ROUTE_PARAMS}/balance`} element={<RepayAmount />} />
           <Route
             path={`/repay/${CURRENCY_ROUTE_PARAMS}/balance/confirmation`}
-            component={RepayConfirmation}
+            element={<RepayConfirmation />}
           />
 
-          {isFeatureEnabled.collateralRepay(currentMarketData) && [
+          {isFeatureEnabled.collateralRepay(currentMarketData) && (
             <React.Fragment key="RepayCollateral">
               <Route
-                exact={true}
                 path={`/repay/${CURRENCY_ROUTE_PARAMS}/collateral`}
-                component={RepayAmountWithSelect}
                 key="RepayCollateralAmount"
+                element={<RepayAmountWithSelect />}
               />
               <Route
-                exact={true}
                 path={`/repay/${CURRENCY_ROUTE_PARAMS}/collateral/confirmation`}
-                component={RepayWithCollateralConfirmation}
                 key="RepayCollateralConfirmation"
+                element={<RepayWithCollateralConfirmation />}
               />
-            </React.Fragment>,
-          ]}
-        </Switch>
+            </React.Fragment>
+          )}
+        </Routes>
       </RepayScreenWrapper>
     </ScreenWrapper>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import BigNumber from 'bignumber.js';
 import queryString from 'query-string';
@@ -31,7 +31,7 @@ export default function UnstakeConfirmation() {
       timeNowInSeconds ||
     cooldownStep < 2
   ) {
-    return <Redirect to="/staking" />;
+    return <Navigate replace to="/staking" />;
   }
 
   let blockingError = '';

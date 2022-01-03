@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { valueToBigNumber } from '@aave/math-utils';
 
@@ -26,7 +26,7 @@ const applySlippage = (amount: string, slippagePercent: number | string) => {
 
 export default function AssetSwapMain() {
   const intl = useIntl();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const { currentTheme, md } = useThemeContext();
   const { user, reserves, userId } = useAppDataContext();
@@ -194,7 +194,7 @@ export default function AssetSwapMain() {
         totalFees,
       });
 
-      history.push(`${history.location.pathname}/confirmation?${query}`);
+      navigate(`${location.pathname}/confirmation?${query}`);
     }
   };
 

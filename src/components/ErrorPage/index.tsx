@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
@@ -29,7 +29,7 @@ export default function ErrorPage({
   children,
 }: ErrorPageProps) {
   const intl = useIntl();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { currentTheme, sm, isCurrentThemeDark } = useThemeContext();
 
   return (
@@ -58,7 +58,7 @@ export default function ErrorPage({
           {buttonType === 'back' && (
             <DefaultButton
               title={intl.formatMessage(messages.buttonBack)}
-              onClick={history.goBack}
+              onClick={() => navigate(-1)}
               size="big"
             />
           )}
