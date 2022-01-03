@@ -74,21 +74,24 @@ function ModulesWithMenu() {
           element={<SwapUsageAsCollateralModeConfirmation />}
         />
 
-        <Route path={`/reserve-overview/${CURRENCY_ROUTE_PARAMS}`} element={<ReserveOverview />} />
+        <Route
+          path={`/reserve-overview/${CURRENCY_ROUTE_PARAMS}/*`}
+          element={<ReserveOverview />}
+        />
 
         {!!governanceConfig && (
           <Route path="/governance/*" key="Governance" element={<Governance />} />
         )}
         {!!stakeConfig && <Route path="/staking/*" key="Staking" element={<Staking />} />}
 
-        <Route path="/asset-swap" key="AssetSwap" element={<AssetSwap />} />
-        <Route path="/rewards" key="Rewards" element={<Reward />} />
+        <Route path="/asset-swap/*" key="AssetSwap" element={<AssetSwap />} />
+        <Route path="/rewards/*" key="Rewards" element={<Reward />} />
         <Route path="/emode/confirm/:newmode" key="E-Mode Confirm" element={<EModeConfirm />} />
 
         {currentAccount && <Route path="/history" key="History" element={<History />} />}
 
         {isFeatureEnabled.faucet(currentMarketData) && (
-          <Route path="/faucet" key="Faucet" element={<Faucet />} />
+          <Route path="/faucet/*" key="Faucet" element={<Faucet />} />
         )}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

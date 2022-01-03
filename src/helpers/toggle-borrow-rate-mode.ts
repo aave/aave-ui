@@ -7,7 +7,5 @@ export const toggleBorrowRateMode = (
   borrowRateMode: InterestRate,
   underlyingAsset: string
 ) => {
-  navigate(
-    `/interest-swap/${underlyingAsset}-${reserveID}/confirmation?borrowRateMode=${borrowRateMode}`
-  );
+  navigate(`/interest-swap/${reserveID}/confirmation?borrowRateMode=${borrowRateMode}`);
 };

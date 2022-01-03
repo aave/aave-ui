@@ -172,9 +172,7 @@ function BorrowAmount({ userReserve, poolReserve, user, currencySymbol }: Borrow
                       : intl.formatMessage(messages.healthFactorTooLowDescription)
                   }
                   buttonTitle={!user ? undefined : intl.formatMessage(messages.noDataButtonTitle)}
-                  linkTo={
-                    !user ? undefined : `/deposit/${poolReserve.underlyingAsset}-${poolReserve.id}`
-                  }
+                  linkTo={!user ? undefined : `/deposit/${poolReserve.id}`}
                   withConnectButton={!user}
                 />
               )}

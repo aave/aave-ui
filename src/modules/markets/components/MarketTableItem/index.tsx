@@ -69,7 +69,7 @@ export default function MarketTableItem({
   const asset = getAssetInfo(currencySymbol);
 
   const handleClick = () => {
-    navigate(`/reserve-overview/${underlyingAsset}-${id}`);
+    navigate(`/reserve-overview/${id}`);
   };
 
   return (

@@ -6,5 +6,5 @@ export function loanActionLinkComposer(
   debtType: InterestRate,
   underlyingAsset: string
 ): string {
-  return `/${action}/${underlyingAsset}-${reserveId}?debtType=${debtType}`;
+  return `/${action}/${reserveId}?debtType=${debtType}`;
 }

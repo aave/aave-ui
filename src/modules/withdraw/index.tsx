@@ -51,9 +51,9 @@ function Withdraw({ currencySymbol, userReserve, user }: ValidationWrapperCompon
         loanToValue={user.currentLoanToValue}
       >
         <Routes>
-          <Route path={`/withdraw/${CURRENCY_ROUTE_PARAMS}`} element={<WithdrawAmount />} />
+          <Route path={`${CURRENCY_ROUTE_PARAMS}`} element={<WithdrawAmount />} />
           <Route
-            path={`/withdraw/${CURRENCY_ROUTE_PARAMS}/confirmation`}
+            path={`${CURRENCY_ROUTE_PARAMS}/confirmation`}
             element={<WithdrawConfirmation />}
           />
         </Routes>

@@ -66,11 +66,11 @@ export default function SupplyItem({
         <TableButtonCol
           disabled={!isActive || isFreezed}
           title={intl.formatMessage(defaultMessages.deposit)}
-          linkTo={`/deposit/${underlyingAsset}-${id}`}
+          linkTo={`/deposit/${id}`}
         />
         <TableButtonCol
           title={intl.formatMessage(defaultMessages.details)}
-          linkTo={`/reserve-overview/${underlyingAsset}-${id}`}
+          linkTo={`/reserve-overview/${id}`}
           withoutBorder={true}
         />
       </TableButtonsWrapper>

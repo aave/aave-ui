@@ -9,8 +9,8 @@ export default function CollateralSwap() {
   return (
     <AssetSwapWrapper>
       <Routes>
-        <Route path="/asset-swap" element={<AssetSwapMain />} />
-        <Route path="/asset-swap/confirmation" element={<AssetSwapConfirmation />} />
+        <Route path="/" element={<AssetSwapMain />} />
+        <Route path="confirmation" element={<AssetSwapConfirmation />} />
       </Routes>
     </AssetSwapWrapper>
   );

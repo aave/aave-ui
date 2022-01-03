@@ -8,9 +8,9 @@ import { CURRENCY_ROUTE_PARAMS } from '../../helpers/router-types';
 export default function Faucet() {
   return (
     <Routes>
-      <Route path="/faucet" key="FaucetMain" element={<FaucetMain />} />
+      <Route path="/" key="FaucetMain" element={<FaucetMain />} />
       <Route
-        path={`/faucet/${CURRENCY_ROUTE_PARAMS}`}
+        path={`${CURRENCY_ROUTE_PARAMS}`}
         key="FaucetConfirmation"
         element={<FaucetConfirmation />}
       />

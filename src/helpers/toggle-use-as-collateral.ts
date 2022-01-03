@@ -8,5 +8,5 @@ export const toggleUseAsCollateral = (
   underlyingAsset: string | undefined
 ) => {
   const query = queryString.stringify({ asCollateral });
-  navigate(`/usage-as-collateral/${underlyingAsset}-${reserveId}/confirmation?${query}`);
+  navigate(`/usage-as-collateral/${reserveId}/confirmation?${query}`);
 };

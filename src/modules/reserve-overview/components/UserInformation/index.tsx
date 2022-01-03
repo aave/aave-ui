@@ -154,7 +154,7 @@ export default function UserInformation({
               <span>{intl.formatMessage(messages.deposits)}</span>{' '}
               <div className="UserInformation__caption-buttons">
                 <Link
-                  to={`/deposit/${poolReserve.underlyingAsset}-${poolReserve.id}`}
+                  to={`/deposit/${poolReserve.id}`}
                   className="ButtonLink"
                   disabled={!formattedAvailableDeposits || poolReserve.isFrozen}
                 >
@@ -169,7 +169,7 @@ export default function UserInformation({
                   className={classNames({
                     UserInformation__buttonNoBorderDisabled: !underlyingBalance,
                   })}
-                  to={`/withdraw/${poolReserve.underlyingAsset}-${poolReserve.id}`}
+                  to={`/withdraw/${poolReserve.id}`}
                   disabled={!underlyingBalance}
                 >
                   <span className="UserInformation__button UserInformation__button-noBorder">
@@ -290,7 +290,7 @@ export default function UserInformation({
               {!totalBorrows && (
                 <div className="UserInformation__caption-buttons">
                   <Link
-                    to={`/borrow/${poolReserve.underlyingAsset}-${poolReserve.id}`}
+                    to={`/borrow/${poolReserve.id}`}
                     className="ButtonLink"
                     disabled={!isBorrowEnable}
                   >

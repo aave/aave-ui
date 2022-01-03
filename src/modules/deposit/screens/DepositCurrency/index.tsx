@@ -13,7 +13,6 @@ export default function DepositCurrency() {
       <Routes>
         <Route path={`/`} element={<DepositAmount />} />
         <Route path={`confirmation`} element={<DepositConfirmation />} />
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </PermissionWarning>
   );

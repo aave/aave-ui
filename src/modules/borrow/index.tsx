@@ -7,7 +7,7 @@ import { CURRENCY_ROUTE_PARAMS } from '../../helpers/router-types';
 export default function Borrow() {
   return (
     <Routes>
-      <Route path={`/borrow/${CURRENCY_ROUTE_PARAMS}`} element={<BorrowCurrency />} />
+      <Route path={`${CURRENCY_ROUTE_PARAMS}`} element={<BorrowCurrency />} />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );

@@ -45,22 +45,13 @@ export default function routeParamValidationHOC({
       const intl = useIntl();
       const params = useParams();
       console.log(params);
-      const underlyingAsset = match.params.underlyingAsset.toUpperCase();
-      const reserveId = match.params.id;
+      const reserveId = params.id;
 
       const { walletBalances, userEmodeCategoryId, reserves, user, loading } = useAppDataContext();
 
-      const poolReserve = reserves.find((res) =>
-        reserveId
-          ? res.id === reserveId
-          : res.underlyingAsset.toLowerCase() === underlyingAsset.toLowerCase()
-      );
+      const poolReserve = reserves.find((res) => res.id === reserveId);
       const userReserve = user
-        ? user.userReservesData.find((userReserve) =>
-            reserveId
-              ? userReserve.reserve.id === reserveId
-              : userReserve.reserve.underlyingAsset.toLowerCase() === underlyingAsset.toLowerCase()
-          )
+        ? user.userReservesData.find((userReserve) => userReserve.reserve.id === reserveId)
         : undefined;
 
       const currencySymbol = poolReserve?.symbol || '';
@@ -119,7 +110,7 @@ export default function routeParamValidationHOC({
         walletBalanceUSD,
         isWalletBalanceEnough,
         currencySymbol,
-        underlyingAsset,
+        underlyingAsset: poolReserve.underlyingAsset,
         history,
         location,
         userEmodeCategoryId,
