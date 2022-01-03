@@ -154,7 +154,7 @@ export default function UserInformation({
               <span>{intl.formatMessage(messages.deposits)}</span>{' '}
               <div className="UserInformation__caption-buttons">
                 <Link
-                  to={`/deposit/${poolReserve.id}`}
+                  to={`/deposit/${poolReserve.underlyingAsset}`}
                   className="ButtonLink"
                   disabled={!formattedAvailableDeposits || poolReserve.isFrozen}
                 >
@@ -169,7 +169,7 @@ export default function UserInformation({
                   className={classNames({
                     UserInformation__buttonNoBorderDisabled: !underlyingBalance,
                   })}
-                  to={`/withdraw/${poolReserve.id}`}
+                  to={`/withdraw/${poolReserve.underlyingAsset}`}
                   disabled={!underlyingBalance}
                 >
                   <span className="UserInformation__button UserInformation__button-noBorder">
@@ -289,7 +289,7 @@ export default function UserInformation({
               {!totalBorrows && (
                 <div className="UserInformation__caption-buttons">
                   <Link
-                    to={`/borrow/${poolReserve.id}`}
+                    to={`/borrow/${poolReserve.underlyingAsset}`}
                     className="ButtonLink"
                     disabled={!isBorrowEnable}
                   >
@@ -339,7 +339,7 @@ export default function UserInformation({
                 <div className="UserInformation__rowContent">
                   {isReserveInEmode && (
                     <EModeIconWithTooltip
-                      tooltipId={`${poolReserve.id}__loanToValue`}
+                      tooltipId={`${poolReserve.underlyingAsset}__loanToValue`}
                       eModeCategoryId={userEmodeCategoryId}
                     />
                   )}
@@ -366,7 +366,7 @@ export default function UserInformation({
                             <div className="UserInformation__rowContent">
                               {isReserveInEmode && (
                                 <EModeIconWithTooltip
-                                  tooltipId={`${poolReserve.id}__availableBorrow`}
+                                  tooltipId={`${poolReserve.underlyingAsset}__availableBorrow`}
                                   eModeCategoryId={userEmodeCategoryId}
                                 />
                               )}

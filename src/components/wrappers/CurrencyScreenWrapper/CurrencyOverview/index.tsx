@@ -401,7 +401,7 @@ export default function CurrencyOverview({
       <div className="CurrencyOverview__caption">
         {title && <p className="CurrencyOverview__caption-title">{title}</p>}
         <Link
-          to={`/reserve-overview/${poolReserve.id}`}
+          to={`/reserve-overview/${poolReserve.underlyingAsset}`}
           className="CurrencyOverview__captionLink"
           color="white"
         >

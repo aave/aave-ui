@@ -142,12 +142,12 @@ export default function SupplyAssetTable() {
         <>
           <Header />
           {filteredSupplyReserves.map((item) => (
-            <SupplyItem {...item} key={item.id} userId={userId} />
+            <SupplyItem {...item} key={item.underlyingAsset} userId={userId} />
           ))}
         </>
       ) : (
         filteredSupplyReserves.map((item) => (
-          <SupplyItemMobileCard userId={userId} {...item} key={item.id} />
+          <SupplyItemMobileCard userId={userId} {...item} key={item.underlyingAsset} />
         ))
       )}
     </DashboardItemsWrapper>
