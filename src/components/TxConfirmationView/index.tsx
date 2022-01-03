@@ -186,10 +186,12 @@ export default function TxConfirmationView({
         });
       }
       setLoadingTxData(false);
+      return true;
     } catch (e) {
       console.log('Error on txs loading', e);
       setBackendNotAvailable(true);
       setLoadingTxData(false);
+      return false;
     }
   };
 
@@ -305,18 +307,24 @@ export default function TxConfirmationView({
                       blockingError ||
                       boxDescription
                     }
-                    onSubmitTransaction={() =>
-                      sendEthTransaction(
-                        actionTxData.unsignedData,
-                        provider,
-                        setActionTxData,
-                        customGasPrice,
-                        {
-                          onExecution: onMainTxExecuted,
-                          onConfirmation: onMainTxConfirmed,
-                        }
-                      )
-                    }
+                    onSubmitTransaction={async () => {
+                      // retry if tx is still valid before confirmation
+                      if (await handleGetTxData()) {
+                        return sendEthTransaction(
+                          actionTxData.unsignedData,
+                          provider,
+                          setActionTxData,
+                          customGasPrice,
+                          {
+                            onExecution: onMainTxExecuted,
+                            onConfirmation: onMainTxConfirmed,
+                          }
+                        );
+                      } else {
+                        // TODO: set a proper error message, currently this is a little nasty as this component executes the tx but errors are set above
+                        setBackendNotAvailable(true);
+                      }
+                    }}
                     successButtonTitle={successButtonTitle}
                     goToAfterSuccess={goToAfterSuccess}
                     buttonTitle={buttonTitle || boxTitle}
