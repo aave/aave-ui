@@ -47,7 +47,7 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
                 {...item}
                 index={index}
                 key={index}
-                data-cy={`dashboardDespositListItem${item.reserve.symbol.toUpperCase()}`}
+                data-cy={`dashboardDespositListItem${item.reserve.symbol}`}
               />
             ))}
           </DashboardTable>
