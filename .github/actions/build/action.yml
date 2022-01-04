@@ -22,3 +22,12 @@ runs:
       with:
         name: build_${{github.sha}}
         path: build/
+
+    - name: track size
+      run: npm run analyze -- --json stats.json
+
+    - name: store artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: stats_${{github.sha}}
+        path: stats.json
