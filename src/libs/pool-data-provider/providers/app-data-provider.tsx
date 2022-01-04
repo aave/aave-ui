@@ -80,6 +80,7 @@ export interface AppDataContextType {
   reserves: ComputedReserveData[];
   refreshPoolData?: () => Promise<void>;
   walletBalances: { [address: string]: { amount: string; amountUSD: string } };
+  hasEmptyWallet: boolean;
   refetchWalletData: () => Promise<void>;
   isUserHasDeposits: boolean;
   user?: FormatUserSummaryAndIncentivesResponse & { earnedAPY: number; debtAPY: number };
@@ -135,6 +136,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
     loading: _loading,
     refresh: refreshIncentives,
   } = useIncentiveData();
+  let hasEmptyWallet = true;
   const { walletBalances, refetch: refetchWalletData } = useWalletBalances();
   const loading =
     (loadingReserves && !reserves.length) || (_loading && !data?.reserveIncentiveData);
@@ -149,6 +151,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
       }
       return poolReserve.underlyingAsset.toLowerCase() === reserve.toLowerCase();
     });
+    if (walletBalances[reserve] !== '0') hasEmptyWallet = false;
     if (poolReserve) {
       acc[reserve.toLowerCase()] = {
         amount: normalize(walletBalances[reserve], poolReserve.decimals),
@@ -260,6 +263,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
     <AppDataContext.Provider
       value={{
         walletBalances: aggregatedBalance,
+        hasEmptyWallet,
         reserves: formattedPoolReserves,
         user: {
           ...user,

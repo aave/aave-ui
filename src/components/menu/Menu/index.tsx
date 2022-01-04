@@ -67,6 +67,7 @@ export default function Menu({ title }: MenuProps) {
                     (!currentAccount && link.hiddenWithoutWallet) ||
                     (link.isVisible && !link.isVisible(currentMarketData)),
                 })}
+                data-cy={link.dataCy}
                 key={index}
               >
                 <MenuLink

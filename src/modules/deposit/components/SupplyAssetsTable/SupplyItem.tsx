@@ -16,7 +16,6 @@ import { SupplyTableItem } from './types';
 import defaultMessages from '../../../../defaultMessages';
 
 export default function SupplyItem({
-  id,
   symbol,
   underlyingAsset,
   walletBalance,
@@ -34,7 +33,7 @@ export default function SupplyItem({
   const intl = useIntl();
 
   return (
-    <TableItem tokenSymbol={symbol}>
+    <TableItem tokenSymbol={symbol} data-cy={`supply${symbol}TableItem`}>
       <TableValueCol
         userId={userId}
         symbol={symbol}

@@ -33,7 +33,7 @@ export default function Dashboard() {
   const intl = useIntl();
   const navigate = useNavigate();
 
-  const { user, userId, reserves, loading, walletBalances } = useAppDataContext();
+  const { user, userId, reserves, loading, walletBalances, hasEmptyWallet } = useAppDataContext();
   const {
     networkConfig: { bridge, name },
   } = useProtocolDataContext();
@@ -163,8 +163,7 @@ export default function Dashboard() {
     }
   });
 
-  const isTableShow =
-    !!depositedPositions.length && depositedPositions.some((pos) => pos.availableToDeposit !== '0');
+  const isTableShow = depositedPositions.length || !hasEmptyWallet;
 
   return (
     <div className={classNames('Dashboard', { Dashboard__fullHeight: !userId || !isTableShow })}>

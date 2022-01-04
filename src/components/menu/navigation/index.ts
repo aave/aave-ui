@@ -17,12 +17,14 @@ export interface Navigation {
   absolute?: boolean;
   onClick?: () => void;
   isVisible?: (data: MarketDataType) => boolean | undefined;
+  dataCy?: string;
 }
 
 const navigation: Navigation[] = [
   {
     link: '/dashboard',
     title: messages.dashboard,
+    dataCy: 'menuDashboard',
   },
   {
     link: '/markets',
