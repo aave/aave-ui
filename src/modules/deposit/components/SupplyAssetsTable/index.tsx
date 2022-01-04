@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import BigNumber from 'bignumber.js';
-import { API_ETH_MOCK_ADDRESS } from '@aave/contract-helpers';
 import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
@@ -13,13 +12,11 @@ import { ComputedReserveData, useAppDataContext } from '../../../../libs/pool-da
 import Preloader from '../../../../components/basic/Preloader';
 import InfoBanner from '../../../../components/InfoBanner';
 import { useLanguageContext } from '../../../../libs/language-provider';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
 import messages from './messages';
 
 export default function SupplyAssetTable() {
   const intl = useIntl();
-  const { networkConfig } = useProtocolDataContext();
   const { user, userId, walletBalances, reserves, marketReferencePriceInUsd } = useAppDataContext();
   const { currentLangSlug } = useLanguageContext();
   const { sm } = useThemeContext();
@@ -79,36 +76,36 @@ export default function SupplyAssetTable() {
     };
   });
 
-  const wrappedAsset = tokensToSupply.find(
-    (token) => token.underlyingAsset === networkConfig.baseAssetWrappedAddress
-  );
-  if (wrappedAsset) {
-    let availableToDeposit = valueToBigNumber(
-      walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amount
-    );
-    if (wrappedAsset.supplyCap !== '0') {
-      availableToDeposit = BigNumber.min(
-        availableToDeposit,
-        new BigNumber(wrappedAsset.supplyCap)
-          .minus(wrappedAsset.totalLiquidity)
-          .multipliedBy('0.995')
-      );
-    }
-    const availableToDepositUSD = valueToBigNumber(availableToDeposit)
-      .multipliedBy(wrappedAsset.priceInMarketReferenceCurrency)
-      .multipliedBy(marketReferencePriceInUsd)
-      .shiftedBy(-USD_DECIMALS)
-      .toString();
-    tokensToSupply.push({
-      ...wrappedAsset,
-      underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
-      symbol: networkConfig.baseAsset,
-      walletBalance: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amount,
-      walletBalanceUSD: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amountUSD,
-      availableToDeposit: availableToDeposit.toString(),
-      availableToDepositUSD,
-    });
-  }
+  // const wrappedAsset = tokensToSupply.find(
+  //   (token) => token.underlyingAsset === networkConfig.baseAssetWrappedAddress
+  // );
+  // if (wrappedAsset) {
+  //   let availableToDeposit = valueToBigNumber(
+  //     walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amount
+  //   );
+  //   if (wrappedAsset.supplyCap !== '0') {
+  //     availableToDeposit = BigNumber.min(
+  //       availableToDeposit,
+  //       new BigNumber(wrappedAsset.supplyCap)
+  //         .minus(wrappedAsset.totalLiquidity)
+  //         .multipliedBy('0.995')
+  //     );
+  //   }
+  //   const availableToDepositUSD = valueToBigNumber(availableToDeposit)
+  //     .multipliedBy(wrappedAsset.priceInMarketReferenceCurrency)
+  //     .multipliedBy(marketReferencePriceInUsd)
+  //     .shiftedBy(-USD_DECIMALS)
+  //     .toString();
+  //   tokensToSupply.push({
+  //     ...wrappedAsset,
+  //     underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
+  //     symbol: networkConfig.baseAsset,
+  //     walletBalance: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amount,
+  //     walletBalanceUSD: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amountUSD,
+  //     availableToDeposit: availableToDeposit.toString(),
+  //     availableToDepositUSD,
+  //   });
+  // }
 
   const filteredSupplyReserves = tokensToSupply
     .filter((reserve) => reserve.availableToDepositUSD !== '0')

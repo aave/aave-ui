@@ -17,12 +17,14 @@ interface MainDashboardTableProps {
   depositedPositions: DepositTableItem[];
   borrowedPositions: BorrowTableItem[];
   isBorrow: boolean;
+  isUserInIsolationMode?: boolean;
 }
 
 export default function MainDashboardTable({
   depositedPositions,
   borrowedPositions,
   isBorrow,
+  isUserInIsolationMode,
 }: MainDashboardTableProps) {
   const intl = useIntl();
 
@@ -35,7 +37,10 @@ export default function MainDashboardTable({
     >
       <div className="MainDashboardTable__left-inner">
         {!!depositedPositions.length ? (
-          <DepositDashboardTable listData={depositedPositions} />
+          <DepositDashboardTable
+            listData={depositedPositions}
+            isUserInIsolationMode={isUserInIsolationMode}
+          />
         ) : (
           <TableNoData
             caption={intl.formatMessage(messages.depositedAssets)}

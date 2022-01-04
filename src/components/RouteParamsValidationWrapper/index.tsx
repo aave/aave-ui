@@ -13,8 +13,6 @@ import Preloader from '../basic/Preloader';
 import ErrorPage from '../ErrorPage';
 
 import messages from './messages';
-import { API_ETH_MOCK_ADDRESS } from '@aave/contract-helpers';
-import { useProtocolDataContext } from '../../libs/protocol-data-provider';
 
 export interface ValidationWrapperComponentProps {
   currencySymbol: string;
@@ -45,32 +43,19 @@ export default function routeParamValidationHOC({
     const intl = useIntl();
     const params = useParams();
     const [search] = useSearchParams();
-    const { networkConfig } = useProtocolDataContext();
     const underlyingAsset = params.underlyingAsset as string;
-    const isBaseAsset = underlyingAsset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase();
 
     const { walletBalances, userEmodeCategoryId, reserves, user, loading } = useAppDataContext();
 
-    let poolReserve = reserves.find((res) =>
-      isBaseAsset
-        ? res.underlyingAsset === networkConfig.baseAssetWrappedAddress
-        : res.underlyingAsset === underlyingAsset
-    );
-    if (poolReserve && isBaseAsset) {
-      // this is a pretty ugly hack to allow base asset deposits which don't have a approriate reserve
-      poolReserve = { ...poolReserve, underlyingAsset };
-    }
+    const poolReserve = reserves.find((res) => res.underlyingAsset === underlyingAsset);
     const userReserve = user
-      ? user.userReservesData.find((userReserve) =>
-          isBaseAsset
-            ? userReserve.reserve.underlyingAsset === networkConfig.baseAssetWrappedAddress
-            : userReserve.reserve.underlyingAsset === underlyingAsset
+      ? user.userReservesData.find(
+          (userReserve) => userReserve.reserve.underlyingAsset === underlyingAsset
         )
       : undefined;
 
-    const currencySymbol = isBaseAsset ? networkConfig.baseAsset : poolReserve?.symbol || '';
+    const currencySymbol = poolReserve?.symbol || '';
 
-    console.log(params, isBaseAsset, poolReserve, userReserve);
     if (loading) {
       return <Preloader withText={true} />;
     }

@@ -264,9 +264,33 @@ export const AppDataProvider: React.FC = ({ children }) => {
       value={{
         walletBalances: aggregatedBalance,
         hasEmptyWallet,
-        reserves: formattedPoolReserves,
+        reserves: formattedPoolReserves.map((r) => ({
+          ...r,
+          underlyingAsset:
+            r.underlyingAsset === networkConfig.baseAssetWrappedAddress
+              ? API_ETH_MOCK_ADDRESS.toLowerCase()
+              : r.underlyingAsset,
+          symbol:
+            r.underlyingAsset === networkConfig.baseAssetWrappedAddress
+              ? networkConfig.baseAsset
+              : r.symbol,
+        })),
         user: {
           ...user,
+          userReservesData: user.userReservesData.map((r) => ({
+            ...r,
+            reserve: {
+              ...r.reserve,
+              underlyingAsset:
+                r.reserve.underlyingAsset === networkConfig.baseAssetWrappedAddress
+                  ? API_ETH_MOCK_ADDRESS.toLowerCase()
+                  : r.reserve.underlyingAsset,
+              symbol:
+                r.reserve.underlyingAsset === networkConfig.baseAssetWrappedAddress
+                  ? networkConfig.baseAsset
+                  : r.reserve.symbol,
+            },
+          })),
           earnedAPY: proportions.positiveProportion
             .dividedBy(user.netWorthUSD)
             .multipliedBy(100)

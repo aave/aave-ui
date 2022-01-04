@@ -16,9 +16,13 @@ import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 interface DepositDashboardTableProps {
   listData: DepositTableItem[];
+  isUserInIsolationMode?: boolean;
 }
 
-export default function DepositDashboardTable({ listData }: DepositDashboardTableProps) {
+export default function DepositDashboardTable({
+  listData,
+  isUserInIsolationMode,
+}: DepositDashboardTableProps) {
   const intl = useIntl();
   const { currentAccount } = useUserWalletDataContext();
   const { currentLangSlug } = useLanguageContext();
@@ -35,7 +39,7 @@ export default function DepositDashboardTable({ listData }: DepositDashboardTabl
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLangSlug]);
 
-  const sortedListData = listData.some((item) => item.isUserInIsolationMode && item.isIsolated)
+  const sortedListData = isUserInIsolationMode
     ? listData.sort((a, b) =>
         a.isIsolated === b.isIsolated && b.usageAsCollateralEnabledOnUser
           ? 0

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { valueToBigNumber } from '@aave/math-utils';
@@ -24,7 +23,6 @@ import BridgeBanner from '../../../../components/BridgeBanner';
 
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
-import { getAssetColor } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';
@@ -33,7 +31,8 @@ export default function Dashboard() {
   const intl = useIntl();
   const navigate = useNavigate();
 
-  const { user, userId, reserves, loading, walletBalances, hasEmptyWallet } = useAppDataContext();
+  const { user, userId, reserves, loading, walletBalances, isUserHasDeposits } =
+    useAppDataContext();
   const {
     networkConfig: { bridge, name },
   } = useProtocolDataContext();
@@ -62,6 +61,7 @@ export default function Dashboard() {
 
   const depositedPositions: DepositTableItem[] = [];
   const borrowedPositions: BorrowTableItem[] = [];
+  let canSupply = false;
 
   user?.userReservesData.forEach((userReserve) => {
     const poolReserve = reserves.find((res) => res.symbol === userReserve.reserve.symbol);
@@ -70,7 +70,6 @@ export default function Dashboard() {
     }
 
     const baseListData = {
-      uiColor: getAssetColor(userReserve.reserve.symbol),
       isActive: poolReserve.isActive,
       isFrozen: poolReserve.isFrozen,
       stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
@@ -81,14 +80,7 @@ export default function Dashboard() {
     };
 
     const walletBalance = walletBalances[poolReserve.underlyingAsset]?.amount || '0';
-
-    let availableToDeposit = valueToBigNumber(walletBalance);
-    if (poolReserve.supplyCap !== '0') {
-      availableToDeposit = BigNumber.min(
-        availableToDeposit,
-        new BigNumber(poolReserve.supplyCap).minus(poolReserve.totalLiquidity).multipliedBy('0.995')
-      );
-    }
+    if (walletBalance !== '0') canSupply = true;
 
     depositedPositions.push({
       ...baseListData,
@@ -101,10 +93,8 @@ export default function Dashboard() {
           (poolReserve.isIsolated && user.totalCollateralMarketReferenceCurrency === '0')),
       underlyingBalance: userReserve.underlyingBalance,
       underlyingBalanceUSD: userReserve.underlyingBalanceUSD,
-      isUserInIsolationMode: user?.isInIsolationMode,
       isIsolated: poolReserve.isIsolated,
       aIncentives: poolReserve.aIncentivesData ? poolReserve.aIncentivesData : [],
-      availableToDeposit: availableToDeposit.toNumber() <= 0 ? '0' : availableToDeposit.toString(),
       onToggleSwitch: () =>
         toggleUseAsCollateral(
           navigate,
@@ -163,7 +153,7 @@ export default function Dashboard() {
     }
   });
 
-  const isTableShow = depositedPositions.length || !hasEmptyWallet;
+  const isTableShow = isUserHasDeposits || canSupply;
 
   return (
     <div className={classNames('Dashboard', { Dashboard__fullHeight: !userId || !isTableShow })}>
@@ -197,6 +187,7 @@ export default function Dashboard() {
         <>
           {isTableShow ? (
             <MainDashboardTable
+              isUserInIsolationMode={user?.isInIsolationMode}
               borrowedPositions={borrowedPositions}
               depositedPositions={depositedPositions.filter((pos) => pos.underlyingBalance !== '0')}
               isBorrow={isBorrow}
