@@ -62,7 +62,7 @@ export const dashboardAssetValuesVerification = (
                 collateralType: estimatedCase.collateralType,
               }).within(($row) => {
                 expect($row.find('.TokenIcon__name')).to.contain(estimatedCase.asset);
-                expect($row.find('.Switcher__label')).to.contain(estimatedCase.collateralType);
+                cy.get('input').invoke('val').should('be.true');
                 if (estimatedCase.amount) {
                   amountVerification(estimatedCase.amount);
                 }

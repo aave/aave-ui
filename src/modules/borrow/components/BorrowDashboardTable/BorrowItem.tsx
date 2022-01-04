@@ -32,6 +32,7 @@ export default function BorrowItem({
   borrowLink,
   vIncentives,
   sIncentives,
+  ...rest
 }: BorrowTableItem) {
   const intl = useIntl();
   const { currentTheme, xl, lg, md, isCurrentThemeDark } = useThemeContext();
@@ -40,7 +41,7 @@ export default function BorrowItem({
   const swiperHeight = xl && !lg ? 16 : md ? 16 : 20;
 
   return (
-    <TableItem tokenSymbol={symbol}>
+    <TableItem tokenSymbol={symbol} {...rest}>
       <TableValueCol
         userId={userId}
         symbol={symbol}

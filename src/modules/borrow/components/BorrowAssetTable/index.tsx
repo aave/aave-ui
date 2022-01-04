@@ -80,36 +80,25 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
   const isEModeActive = userEmodeCategoryId !== 0;
 
   const filteredBorrowReserves = tokensToBorrow
-    .filter(
-      ({
-        symbol,
-        borrowingEnabled,
-        isActive,
-        borrowableInIsolation,
-        underlyingAsset,
-        availableBorrowsInUSD,
-        totalLiquidityUSD,
-        eModeCategoryId,
-      }) => {
-        if (!isEModeActive) {
-          return (
-            (borrowingEnabled && isActive && !user?.isInIsolationMode) ||
-            (user?.isInIsolationMode && borrowableInIsolation && isAssetStable(symbol))
-          );
-        } else {
-          return (
-            (eModeCategoryId === userEmodeCategoryId &&
-              borrowingEnabled &&
-              isActive &&
-              !user?.isInIsolationMode) ||
-            (eModeCategoryId === userEmodeCategoryId &&
-              user?.isInIsolationMode &&
-              borrowableInIsolation &&
-              isAssetStable(symbol))
-          );
-        }
+    .filter(({ symbol, borrowingEnabled, isActive, borrowableInIsolation, eModeCategoryId }) => {
+      if (!isEModeActive) {
+        return (
+          (borrowingEnabled && isActive && !user?.isInIsolationMode) ||
+          (user?.isInIsolationMode && borrowableInIsolation && isAssetStable(symbol))
+        );
+      } else {
+        return (
+          (eModeCategoryId === userEmodeCategoryId &&
+            borrowingEnabled &&
+            isActive &&
+            !user?.isInIsolationMode) ||
+          (eModeCategoryId === userEmodeCategoryId &&
+            user?.isInIsolationMode &&
+            borrowableInIsolation &&
+            isAssetStable(symbol))
+        );
       }
-    )
+    })
     .sort((a, b) => (+a.availableBorrowsInUSD > +b.availableBorrowsInUSD ? -1 : 0));
 
   const head = [

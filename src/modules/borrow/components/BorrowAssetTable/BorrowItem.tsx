@@ -31,7 +31,7 @@ export default function BorrowItem({
   const intl = useIntl();
 
   return (
-    <TableItem tokenSymbol={symbol}>
+    <TableItem tokenSymbol={symbol} data-cy={`borrow${symbol}TableItem`}>
       <TableValueCol
         userId={userId}
         symbol={symbol}
@@ -57,7 +57,7 @@ export default function BorrowItem({
         <TableButtonCol
           disabled={isFreezed || Number(availableBorrows) <= 0}
           title={intl.formatMessage(defaultMessages.borrow)}
-          linkTo={`/borrow/${underlyingAsset}}`}
+          linkTo={`/borrow/${underlyingAsset}`}
         />
         <TableButtonCol
           title={intl.formatMessage(defaultMessages.details)}

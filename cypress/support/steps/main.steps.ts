@@ -75,8 +75,9 @@ export const borrow = (
   return describe(`Borrow process for ${_shortName}`, () => {
     skipSetup({ skip, updateSkipStatus });
     it(`Open ${_shortName} borrow view`, () => {
-      cy.get('.Menu strong').contains('Borrow').click();
-      cy.get('.TokenIcon__name').contains(_fullName).click();
+      cy.get(`[data-cy=menuDashboard]`).click();
+      cy.get('button').contains('Borrowings').click();
+      cy.get(`[data-cy=borrow${_fullName.toUpperCase()}TableItem]`).contains('Borrow').click();
     });
     it(`Set ${amount} borrow amount for ${_shortName}`, () => {
       setAmount({ amount });
@@ -126,7 +127,8 @@ export const repay = (
   return describe(`Repay by ${repayOption} process for ${_shortName}`, () => {
     skipSetup({ skip, updateSkipStatus });
     it(`Open ${_shortName} repay view`, () => {
-      cy.get('.Menu strong').contains('dashboard').click();
+      cy.get(`[data-cy=menuDashboard]`).click();
+      cy.get('button').contains('Borrowings').click();
       getDashBoardBorrowRow({ assetName: _shortName }).contains('Repay').click();
     });
     it(`Choose ${repayOption} repay option`, () => {
@@ -180,7 +182,7 @@ export const withdraw = (
   return describe(`Withdraw process for ${_shortName}`, () => {
     skipSetup({ skip, updateSkipStatus });
     it(`Open ${_shortName} repay view`, () => {
-      cy.get('.Menu strong').contains('dashboard').click();
+      cy.get(`[data-cy=menuDashboard]`).click();
       getDashBoardDepositRow({ assetName: _shortName }).contains('Withdraw').click();
     });
     it(`Set ${amount} withdraw amount for ${_shortName}`, () => {
@@ -212,7 +214,7 @@ export const changeBorrowType = (
   describe('Change APY of borrowing', () => {
     skipSetup({ skip, updateSkipStatus });
     it(`Change the ${_shortName} borrowing apr type from ${apyType} to ${newAPY}`, () => {
-      cy.get('.Menu strong').contains('dashboard').click();
+      cy.get(`[data-cy=menuDashboard]`).click();
       getDashBoardBorrowRow({ assetName: _shortName, apyType }).find('.Switcher__swiper').click();
     });
     it(`Make approve for ${_shortName}, on confirmation page`, () => {
