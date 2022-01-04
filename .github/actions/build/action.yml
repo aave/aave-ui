@@ -25,6 +25,7 @@ runs:
 
     - name: track size
       run: npm run analyze -- --json stats.json
+      shell: bash
 
     - name: store artifact
       uses: actions/upload-artifact@v2
