@@ -51,11 +51,15 @@ export default function routeParamValidationHOC({
 
     const { walletBalances, userEmodeCategoryId, reserves, user, loading } = useAppDataContext();
 
-    const poolReserve = reserves.find((res) =>
+    let poolReserve = reserves.find((res) =>
       isBaseAsset
         ? res.underlyingAsset === networkConfig.baseAssetWrappedAddress
         : res.underlyingAsset === underlyingAsset
     );
+    if (poolReserve && isBaseAsset) {
+      // this is a pretty ugly hack to allow base asset deposits which don't have a approriate reserve
+      poolReserve = { ...poolReserve, underlyingAsset };
+    }
     const userReserve = user
       ? user.userReservesData.find((userReserve) =>
           isBaseAsset
@@ -66,6 +70,7 @@ export default function routeParamValidationHOC({
 
     const currencySymbol = isBaseAsset ? networkConfig.baseAsset : poolReserve?.symbol || '';
 
+    console.log(params, isBaseAsset, poolReserve, userReserve);
     if (loading) {
       return <Preloader withText={true} />;
     }
