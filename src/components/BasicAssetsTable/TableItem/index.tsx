@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
 import TableItemWrapper from '../../BasicTable/TableItemWrapper';
@@ -31,7 +31,7 @@ export default function TableItem({
   isIsolated,
   className,
 }: TableItemProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const asset = getAssetInfo(symbol);
 
   return (
@@ -44,7 +44,7 @@ export default function TableItem({
         },
         className
       )}
-      onClick={() => history.push(url)}
+      onClick={() => navigate(url)}
       disabled={isFreezed}
       withGoToTop={true}
       darkOnDarkMode={darkOnDarkMode}

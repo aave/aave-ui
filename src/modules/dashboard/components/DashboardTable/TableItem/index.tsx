@@ -13,7 +13,7 @@ interface TableItemProps {
   children: ReactNode;
 }
 
-export default function TableItem({ tokenSymbol, children }: TableItemProps) {
+export default function TableItem({ tokenSymbol, children, ...rest }: TableItemProps) {
   const { currentTheme, lg } = useThemeContext();
   const asset = getAssetInfo(tokenSymbol);
 
@@ -22,6 +22,7 @@ export default function TableItem({ tokenSymbol, children }: TableItemProps) {
       className={classNames('TableItem', {
         TableItem__withInfo: tokenSymbol === 'AMPL',
       })}
+      {...rest}
     >
       <TableCol className="TableItem__inner" maxWidth={lg ? 250 : 160}>
         <TokenIcon

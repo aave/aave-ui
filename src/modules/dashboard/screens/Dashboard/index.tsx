@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
@@ -31,9 +31,9 @@ import staticStyles from './style';
 
 export default function Dashboard() {
   const intl = useIntl();
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const { user, userId, reserves, loading, walletBalances } = useAppDataContext();
+  const { user, userId, reserves, loading, walletBalances, hasEmptyWallet } = useAppDataContext();
   const {
     networkConfig: { bridge, name },
   } = useProtocolDataContext();
@@ -107,8 +107,7 @@ export default function Dashboard() {
       availableToDeposit: availableToDeposit.toNumber() <= 0 ? '0' : availableToDeposit.toString(),
       onToggleSwitch: () =>
         toggleUseAsCollateral(
-          history,
-          poolReserve.id,
+          navigate,
           !userReserve.usageAsCollateralEnabledOnUser,
           poolReserve.underlyingAsset
         ),
@@ -126,23 +125,16 @@ export default function Dashboard() {
         sIncentives: poolReserve.sIncentivesData ? poolReserve.sIncentivesData : [],
         repayLink: loanActionLinkComposer(
           'repay',
-          poolReserve.id,
-          InterestRate.Variable,
-          poolReserve.underlyingAsset
+          poolReserve.underlyingAsset,
+          InterestRate.Variable
         ),
         borrowLink: loanActionLinkComposer(
           'borrow',
-          poolReserve.id,
-          InterestRate.Variable,
-          poolReserve.underlyingAsset
+          poolReserve.underlyingAsset,
+          InterestRate.Variable
         ),
         onSwitchToggle: () =>
-          toggleBorrowRateMode(
-            history,
-            poolReserve.id,
-            InterestRate.Variable,
-            poolReserve.underlyingAsset
-          ),
+          toggleBorrowRateMode(navigate, InterestRate.Variable, poolReserve.underlyingAsset),
       });
     }
     if (userReserve.stableBorrows !== '0') {
@@ -157,29 +149,21 @@ export default function Dashboard() {
         sIncentives: poolReserve.sIncentivesData ? poolReserve.sIncentivesData : [],
         repayLink: loanActionLinkComposer(
           'repay',
-          poolReserve.id,
-          InterestRate.Stable,
-          poolReserve.underlyingAsset
+          poolReserve.underlyingAsset,
+          InterestRate.Stable
         ),
         borrowLink: loanActionLinkComposer(
           'borrow',
-          poolReserve.id,
-          InterestRate.Stable,
-          poolReserve.underlyingAsset
+          poolReserve.underlyingAsset,
+          InterestRate.Stable
         ),
         onSwitchToggle: () =>
-          toggleBorrowRateMode(
-            history,
-            poolReserve.id,
-            InterestRate.Stable,
-            poolReserve.underlyingAsset
-          ),
+          toggleBorrowRateMode(navigate, InterestRate.Stable, poolReserve.underlyingAsset),
       });
     }
   });
 
-  const isTableShow =
-    !!depositedPositions.length && depositedPositions.some((pos) => pos.availableToDeposit !== '0');
+  const isTableShow = depositedPositions.length || !hasEmptyWallet;
 
   return (
     <div className={classNames('Dashboard', { Dashboard__fullHeight: !userId || !isTableShow })}>

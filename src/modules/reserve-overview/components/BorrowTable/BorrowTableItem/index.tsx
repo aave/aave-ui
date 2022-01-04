@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { InterestRate } from '@aave/contract-helpers';
@@ -35,7 +35,7 @@ export default function BorrowTableItem({
   isBorrowEnable,
 }: BorrowTableItemProps) {
   const intl = useIntl();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { currentTheme, xl, isCurrentThemeDark } = useThemeContext();
 
   const borrows =
@@ -50,14 +50,12 @@ export default function BorrowTableItem({
   const repayLink = loanActionLinkComposer(
     'repay',
     poolReserve.id,
-    type === 'stable' ? InterestRate.Stable : InterestRate.Variable,
-    poolReserve.underlyingAsset
+    type === 'stable' ? InterestRate.Stable : InterestRate.Variable
   );
   const borrowLink = loanActionLinkComposer(
     'borrow',
     poolReserve.id,
-    type === 'stable' ? InterestRate.Stable : InterestRate.Variable,
-    poolReserve.underlyingAsset
+    type === 'stable' ? InterestRate.Stable : InterestRate.Variable
   );
 
   const borrowRateMode = type === 'stable' ? InterestRate.Stable : InterestRate.Variable;
@@ -86,8 +84,7 @@ export default function BorrowTableItem({
         <CustomSwitch
           onSwitch={() =>
             toggleBorrowRateMode(
-              history,
-              poolReserve.id,
+              navigate,
               type === 'stable' ? InterestRate.Stable : InterestRate.Variable,
               poolReserve.underlyingAsset
             )

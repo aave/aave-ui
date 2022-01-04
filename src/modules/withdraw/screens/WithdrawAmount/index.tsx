@@ -15,14 +15,16 @@ import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
+import { useLocation, useNavigate } from 'react-router';
 
 function WithdrawAmount({
   currencySymbol,
   poolReserve,
   userReserve,
   user,
-  history,
 }: ValidationWrapperComponentProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const intl = useIntl();
   const { lendingPool } = useTxBuilderContext();
   if (!user) {
@@ -71,7 +73,7 @@ function WithdrawAmount({
     const query = queryString.stringify({
       amount: max ? '-1' : amount,
     });
-    history.push(`${history.location.pathname}/confirmation?${query}`);
+    navigate(`${location.pathname}/confirmation?${query}`);
   };
 
   const handleTransactionData = (userId: string) => async () => {

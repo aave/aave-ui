@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import TableItemWrapper from '../../../../components/BasicTable/TableItemWrapper';
 import TableColumn from '../../../../components/BasicTable/TableColumn';
 import Value from '../../../../components/basic/Value';
@@ -65,11 +65,11 @@ export default function MarketTableItem({
   isIsolated,
   usageAsCollateralEnabled,
 }: MarketTableItemProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const asset = getAssetInfo(currencySymbol);
 
   const handleClick = () => {
-    history.push(`/reserve-overview/${underlyingAsset}-${id}`);
+    navigate(`/reserve-overview/${underlyingAsset}`);
   };
 
   return (

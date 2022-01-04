@@ -1,7 +1,6 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import queryString from 'query-string';
 import { ChainId } from '@aave/contract-helpers';
 import { valueToBigNumber } from '@aave/math-utils';
 
@@ -20,42 +19,28 @@ import messages from './messages';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
-interface QueryParams {
-  fromAsset?: string;
-  toAsset?: string;
-  fromAmount?: string;
-  toAmount?: string;
-  fromAmountInUSD?: string;
-  toAmountInUSD?: string;
-  maxSlippage?: string;
-  isReverse?: string;
-  swapAll?: string;
-  useEthPath?: string;
-  totalFees?: string;
-}
 // TODO:
 // TODO: -1 - max
 // TODO: error on slippage
 export default function AssetSwapConfirmation() {
   const intl = useIntl();
-  const location = useLocation();
   const { networkConfig, chainId } = useProtocolDataContext();
   const { user, reserves, userId } = useAppDataContext();
   const { lendingPool } = useTxBuilderContext();
-  const query = queryString.parse(location.search) as QueryParams;
+  const [search] = useSearchParams();
 
-  const fromAsset = query.fromAsset;
-  const toAsset = query.toAsset;
+  const fromAsset = search.get('fromAsset');
+  const toAsset = search.get('toAsset');
 
-  const fromAmountQuery = valueToBigNumber(query.fromAmount || 0);
-  const toAmountQuery = valueToBigNumber(query.toAmount || 0);
+  const fromAmountQuery = valueToBigNumber(search.get('fromAmount') || 0);
+  const toAmountQuery = valueToBigNumber(search.get('toAmount') || 0);
 
-  const fromAmountUsdQuery = valueToBigNumber(query.fromAmountInUSD || 0);
-  const toAmountUsdQuery = valueToBigNumber(query.toAmountInUSD || 0);
+  const fromAmountUsdQuery = valueToBigNumber(search.get('fromAmountInUSD') || 0);
+  const toAmountUsdQuery = valueToBigNumber(search.get('toAmountInUSD') || 0);
 
-  const maxSlippage = valueToBigNumber(query.maxSlippage || 0);
-  const totalFees = valueToBigNumber(query.totalFees || 0);
-  const swapAll = query.swapAll === 'true';
+  const maxSlippage = valueToBigNumber(search.get('maxSlippage') || 0);
+  const totalFees = valueToBigNumber(search.get('totalFees') || 0);
+  const swapAll = search.get('swapAll') === 'true';
 
   // paraswap has no api specifically for the fork you're running on, so we need to select the correct chainId
   const underlyingChainId = (

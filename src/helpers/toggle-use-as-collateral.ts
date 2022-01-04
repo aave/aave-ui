@@ -1,12 +1,13 @@
-import queryString from 'querystring';
-import { History } from 'history';
+import { NavigateFunction } from 'react-router';
+import { createSearchParams } from 'react-router-dom';
 
 export const toggleUseAsCollateral = (
-  history: History,
-  reserveId: string | undefined,
+  navigate: NavigateFunction,
   asCollateral: boolean | undefined,
   underlyingAsset: string | undefined
 ) => {
-  const query = queryString.stringify({ asCollateral });
-  history.push(`/usage-as-collateral/${underlyingAsset}-${reserveId}/confirmation?${query}`);
+  navigate({
+    pathname: `/usage-as-collateral/${underlyingAsset}/confirmation`,
+    search: createSearchParams({ asCollateral: asCollateral ? 'true' : 'false' }).toString(),
+  });
 };

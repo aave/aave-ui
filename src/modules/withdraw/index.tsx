@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
 import routeParamValidationHOC, {
@@ -11,7 +11,6 @@ import NoDataPanel from '../../components/NoDataPanel';
 
 import WithdrawAmount from './screens/WithdrawAmount';
 import WithdrawConfirmation from './screens/WithdrawConfirmation';
-import { CURRENCY_ROUTE_PARAMS } from '../../helpers/router-types';
 import { getAssetInfo } from '../../helpers/config/assets-config';
 
 import messages from './messages';
@@ -50,17 +49,10 @@ function Withdraw({ currencySymbol, userReserve, user }: ValidationWrapperCompon
         healthFactor={user.healthFactor}
         loanToValue={user.currentLoanToValue}
       >
-        <Switch>
-          <Route
-            exact={true}
-            path={`/withdraw/${CURRENCY_ROUTE_PARAMS}`}
-            component={WithdrawAmount}
-          />
-          <Route
-            path={`/withdraw/${CURRENCY_ROUTE_PARAMS}/confirmation`}
-            component={WithdrawConfirmation}
-          />
-        </Switch>
+        <Routes>
+          <Route path={`/`} element={<WithdrawAmount />} />
+          <Route path={`confirmation`} element={<WithdrawConfirmation />} />
+        </Routes>
       </WithdrawScreenWrapper>
     </ScreenWrapper>
   );

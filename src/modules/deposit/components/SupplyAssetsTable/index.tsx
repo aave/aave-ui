@@ -101,7 +101,7 @@ export default function SupplyAssetTable() {
       .toString();
     tokensToSupply.push({
       ...wrappedAsset,
-      underlyingAsset: API_ETH_MOCK_ADDRESS,
+      underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
       symbol: networkConfig.baseAsset,
       walletBalance: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amount,
       walletBalanceUSD: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amountUSD,
@@ -142,12 +142,12 @@ export default function SupplyAssetTable() {
         <>
           <Header />
           {filteredSupplyReserves.map((item) => (
-            <SupplyItem {...item} key={item.id} userId={userId} />
+            <SupplyItem {...item} key={item.underlyingAsset} userId={userId} />
           ))}
         </>
       ) : (
         filteredSupplyReserves.map((item) => (
-          <SupplyItemMobileCard userId={userId} {...item} key={item.id} />
+          <SupplyItemMobileCard userId={userId} {...item} key={item.underlyingAsset} />
         ))
       )}
     </DashboardItemsWrapper>

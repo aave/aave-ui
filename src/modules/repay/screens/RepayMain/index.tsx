@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, useHistory, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { gradient, useThemeContext } from '@aave/aave-ui-kit';
@@ -18,7 +18,6 @@ import staticStyles from './style';
 
 export default function RepayMain() {
   const intl = useIntl();
-  const history = useHistory();
   const location = useLocation();
   const { currentTheme } = useThemeContext();
   const { currentMarketData } = useProtocolDataContext();
@@ -28,27 +27,27 @@ export default function RepayMain() {
   const linkQuery = queryString.stringify({ debtType });
 
   if (!isFeatureEnabled.collateralRepay(currentMarketData)) {
-    return <Redirect to={`${history.location.pathname}/balance/?${linkQuery}`} />;
+    return <Navigate replace to={`${location.pathname}/balance/?${linkQuery}`} />;
   }
 
   const buttons = [
-    ...(!/XSUSHI/.test(history.location.pathname) &&
-    !/GUSD/.test(history.location.pathname) &&
-    !/BUSD/.test(history.location.pathname) &&
-    !/SUSD/.test(history.location.pathname) &&
-    !/BAL/.test(history.location.pathname) &&
-    !/KNC/.test(history.location.pathname) &&
-    !/ZRX/.test(history.location.pathname)
+    ...(!/XSUSHI/.test(location.pathname) &&
+    !/GUSD/.test(location.pathname) &&
+    !/BUSD/.test(location.pathname) &&
+    !/SUSD/.test(location.pathname) &&
+    !/BAL/.test(location.pathname) &&
+    !/KNC/.test(location.pathname) &&
+    !/ZRX/.test(location.pathname)
       ? [
           {
             title: messages.withYourCurrentCollateral,
-            link: `${history.location.pathname}/collateral/?${linkQuery}`,
+            link: `${location.pathname}/collateral/?${linkQuery}`,
           },
         ]
       : []),
     {
       title: messages.fromYourWalletBalance,
-      link: `${history.location.pathname}/balance/?${linkQuery}`,
+      link: `${location.pathname}/balance/?${linkQuery}`,
     },
   ];
 

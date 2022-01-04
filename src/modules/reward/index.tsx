@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import ScreenWrapper from '../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../components/wrappers/ContentWrapper';
@@ -19,14 +19,14 @@ export default function Reward() {
       withMobileGrayBg={true}
     >
       <ContentWrapper withBackButton={true} withFullHeight={true}>
-        <Switch>
-          <Route exact={true} path="/rewards" component={RewardMain} key="Reward main" />
+        <Routes>
+          <Route path="/" key="Reward main" element={<RewardMain />} />
           <Route
-            path="/rewards/confirm/:incentivesControllerAddress"
-            component={RewardConfirm}
+            path="confirm/:incentivesControllerAddress"
             key="Reward confirm"
+            element={<RewardConfirm />}
           />
-        </Switch>
+        </Routes>
       </ContentWrapper>
     </ScreenWrapper>
   );

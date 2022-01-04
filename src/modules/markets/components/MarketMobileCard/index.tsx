@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
@@ -38,7 +38,7 @@ export default function MarketMobileCard({
   borrowCapUSD,
 }: MarketTableItemProps) {
   const intl = useIntl();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { currentTheme } = useThemeContext();
 
   const cards = [
@@ -65,7 +65,7 @@ export default function MarketMobileCard({
   ];
 
   const handleClick = () => {
-    history.push(`/reserve-overview/${underlyingAsset}-${id}`);
+    navigate(`/reserve-overview/${underlyingAsset}`);
   };
 
   return (

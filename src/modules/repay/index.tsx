@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
 import { useProtocolDataContext } from '../../libs/protocol-data-provider';
@@ -8,8 +8,6 @@ import RepayScreenWrapper from './components/RepayScreenWrapper';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../components/RouteParamsValidationWrapper';
-
-import { CURRENCY_ROUTE_PARAMS } from '../../helpers/router-types';
 
 import RepayMain from './screens/RepayMain';
 import RepayAmount from './screens/RepayAmount';
@@ -52,36 +50,27 @@ function Repay({
         healthFactor={user?.healthFactor || '0'}
         loanToValue={user?.currentLoanToValue || '0'}
       >
-        <Switch>
-          <Route exact={true} path={`/repay/${CURRENCY_ROUTE_PARAMS}/`} component={RepayMain} />
+        <Routes>
+          <Route path="/" element={<RepayMain />} />
 
-          <Route
-            exact={true}
-            path={`/repay/${CURRENCY_ROUTE_PARAMS}/balance`}
-            component={RepayAmount}
-          />
-          <Route
-            path={`/repay/${CURRENCY_ROUTE_PARAMS}/balance/confirmation`}
-            component={RepayConfirmation}
-          />
+          <Route path="balance" element={<RepayAmount />} />
+          <Route path={`balance/confirmation`} element={<RepayConfirmation />} />
 
-          {isFeatureEnabled.collateralRepay(currentMarketData) && [
+          {isFeatureEnabled.collateralRepay(currentMarketData) && (
             <React.Fragment key="RepayCollateral">
               <Route
-                exact={true}
-                path={`/repay/${CURRENCY_ROUTE_PARAMS}/collateral`}
-                component={RepayAmountWithSelect}
+                path={`collateral`}
                 key="RepayCollateralAmount"
+                element={<RepayAmountWithSelect />}
               />
               <Route
-                exact={true}
-                path={`/repay/${CURRENCY_ROUTE_PARAMS}/collateral/confirmation`}
-                component={RepayWithCollateralConfirmation}
+                path={`collateral/confirmation`}
                 key="RepayCollateralConfirmation"
+                element={<RepayWithCollateralConfirmation />}
               />
-            </React.Fragment>,
-          ]}
-        </Switch>
+            </React.Fragment>
+          )}
+        </Routes>
       </RepayScreenWrapper>
     </ScreenWrapper>
   );

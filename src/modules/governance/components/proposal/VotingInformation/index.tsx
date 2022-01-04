@@ -75,26 +75,26 @@ export default function VotingInformation({
 
           <div className="VotingInformation__buttons">
             <Link
-              to={`/governance/${proposal.id}-${proposal.ipfsHash}/yes`}
+              to={`/governance/${proposal.id}/${proposal.ipfsHash}/yes`}
               className="ButtonLink"
-              disabled={disabledButton(`/governance/${proposal.id}-${proposal.ipfsHash}/yes`)}
+              disabled={disabledButton(`/governance/${proposal.id}/${proposal.ipfsHash}/yes`)}
             >
               <DefaultButton
                 title={intl.formatMessage(messages.yes)}
                 color="green"
-                disabled={disabledButton(`/governance/${proposal.id}-${proposal.ipfsHash}/yes`)}
+                disabled={disabledButton(`/governance/${proposal.id}/${proposal.ipfsHash}/yes`)}
               />
             </Link>
 
             <Link
-              to={`/governance/${proposal.id}-${proposal.ipfsHash}/no`}
+              to={`/governance/${proposal.id}/${proposal.ipfsHash}/no`}
               className="ButtonLink"
-              disabled={disabledButton(`/governance/${proposal.id}-${proposal.ipfsHash}/no`)}
+              disabled={disabledButton(`/governance/${proposal.id}/${proposal.ipfsHash}/no`)}
             >
               <DefaultButton
                 title={intl.formatMessage(messages.no)}
                 color="red"
-                disabled={disabledButton(`/governance/${proposal.id}-${proposal.ipfsHash}/no`)}
+                disabled={disabledButton(`/governance/${proposal.id}/${proposal.ipfsHash}/no`)}
               />
             </Link>
           </div>

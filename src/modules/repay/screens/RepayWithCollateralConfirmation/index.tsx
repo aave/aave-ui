@@ -23,6 +23,7 @@ import { API_ETH_MOCK_ADDRESS, ChainId, InterestRate } from '@aave/contract-help
 import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import BigNumber from 'bignumber.js';
+import { useLocation } from 'react-router';
 
 interface QueryParams {
   fromAsset?: string;
@@ -43,13 +44,14 @@ function RepayWithCollateralConfirmation({
   poolReserve,
   user,
   userReserve: toAssetUserData,
-  location,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { marketReferencePriceInUsd, reserves, userId } = useAppDataContext();
   const { networkConfig } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
   const [isTxExecuted, setIsTxExecuted] = useState(false);
+
+  const location = useLocation();
 
   const query = queryString.parse(location.search) as QueryParams;
 

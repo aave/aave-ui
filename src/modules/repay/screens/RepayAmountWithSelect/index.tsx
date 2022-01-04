@@ -18,6 +18,7 @@ import { calculateHFAfterSwapRepay } from '../../helpers';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
+import { useLocation, useNavigate } from 'react-router';
 
 const applySlippage = (amount: string, slippagePercent: number | string) => {
   return valueToBigNumber(amount || '0').multipliedBy(1 + +slippagePercent / 100);
@@ -25,14 +26,14 @@ const applySlippage = (amount: string, slippagePercent: number | string) => {
 
 export function RepayAmountWithSelect({
   userReserve: toAssetUserData,
-  history,
   user,
-  location,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { md } = useThemeContext();
   const { reserves } = useAppDataContext();
   const { currentTheme } = useThemeContext();
+  const location = useLocation();
+  const navigate = useNavigate();
   const {
     loading,
     fromAsset,
@@ -194,7 +195,7 @@ export function RepayAmountWithSelect({
         totalFees,
       });
 
-      history.push(`${history.location.pathname}confirmation?${query}`);
+      navigate(`${location.pathname}confirmation?${query}`);
     }
   };
 

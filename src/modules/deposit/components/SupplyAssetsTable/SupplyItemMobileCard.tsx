@@ -84,7 +84,7 @@ export default function SupplyItemMobileCard({
 
       <TableButtonsWrapper>
         <Link
-          to={`/deposit/${underlyingAsset}-${id}`}
+          to={`/deposit/${underlyingAsset}`}
           className="ButtonLink"
           disabled={!isActive || isFreezed}
         >
@@ -95,7 +95,7 @@ export default function SupplyItemMobileCard({
           />
         </Link>
 
-        <Link to={`/reserve-overview/${underlyingAsset}-${id}`} className="ButtonLink">
+        <Link to={`/reserve-overview/${underlyingAsset}`} className="ButtonLink">
           <DefaultButton
             title={intl.formatMessage(defaultMessages.details)}
             color="dark"

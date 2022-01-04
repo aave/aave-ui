@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
 import { useStakeDataContext } from '../../../../libs/pool-data-provider/hooks/use-stake-data-context';
@@ -18,7 +18,7 @@ export default function ActivateCooldownConfirmation() {
   }
   const timeNowInSeconds = Math.floor(Date.now() / 1000);
   if (selectedStakeData.userCooldown > timeNowInSeconds) {
-    return <Redirect to="/staking" />;
+    return <Navigate to="/staking" replace />;
   }
 
   const handleGetTransactions = async () => stakingService.cooldown(currentAccount);

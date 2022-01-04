@@ -22,7 +22,7 @@ export default function VoteConfirmation() {
   const intl = useIntl();
   const { currentAccount } = useUserWalletDataContext();
   const { currentTheme } = useThemeContext();
-  const { vote } = useParams<ProposalParams>();
+  const { vote } = useParams() as unknown as ProposalParams;
   const { proposal, proposalId } = useProposalDataContext();
   const { governanceService } = useGovernanceDataContext();
   const { loading, power } = useVotingPowerLoader(

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import { StakeDataProvider } from '../../libs/pool-data-provider/hooks/use-stake-data-context';
 
@@ -27,40 +27,20 @@ export default function Staking() {
   return (
     <StakeDataProvider stakeConfig={stakeConfig}>
       <StakingWrapper>
-        <Switch>
-          <Route exact={true} path="/staking" component={StakingMain} />
-
-          <Route exact={true} path="/staking/:currencySymbol" component={StakeAmount} />
+        <Routes>
+          <Route path="/" element={<StakingMain />} />
+          <Route path=":currencySymbol" element={<StakeAmount />} />
+          <Route path=":currencySymbol/disclaimer" element={<StakeDisclaimer />} />
+          <Route path=":currencySymbol/confirmation" element={<StakeWithApprovalConfirmation />} />
+          <Route path=":currencySymbol/claim/confirmation" element={<StakingClaimConfirmation />} />
           <Route
-            exact={true}
-            path="/staking/:currencySymbol/disclaimer"
-            component={StakeDisclaimer}
-          />
-          <Route
-            exact={true}
-            path="/staking/:currencySymbol/confirmation"
-            component={StakeWithApprovalConfirmation}
+            path=":currencySymbol/activate-cooldown/confirmation"
+            element={<ActivateCooldownConfirmation />}
           />
 
-          <Route
-            exact={true}
-            path="/staking/:currencySymbol/claim/confirmation"
-            component={StakingClaimConfirmation}
-          />
-
-          <Route
-            exact={true}
-            path="/staking/:currencySymbol/activate-cooldown/confirmation"
-            component={ActivateCooldownConfirmation}
-          />
-
-          <Route exact={true} path="/staking/:currencySymbol/unstake" component={UnstakeAmount} />
-          <Route
-            exact={true}
-            path="/staking/:currencySymbol/unstake/confirmation"
-            component={UnstakeConfirmation}
-          />
-        </Switch>
+          <Route path=":currencySymbol/unstake" element={<UnstakeAmount />} />
+          <Route path=":currencySymbol/unstake/confirmation" element={<UnstakeConfirmation />} />
+        </Routes>
       </StakingWrapper>
     </StakeDataProvider>
   );

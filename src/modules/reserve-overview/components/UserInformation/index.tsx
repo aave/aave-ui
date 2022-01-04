@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import {
@@ -53,7 +53,7 @@ export default function UserInformation({
 }: UserInformationProps) {
   const intl = useIntl();
   const { currentTheme, xl, sm } = useThemeContext();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [contentVisible, setContentVisibility] = useState(false);
 
@@ -154,7 +154,7 @@ export default function UserInformation({
               <span>{intl.formatMessage(messages.deposits)}</span>{' '}
               <div className="UserInformation__caption-buttons">
                 <Link
-                  to={`/deposit/${poolReserve.underlyingAsset}-${poolReserve.id}`}
+                  to={`/deposit/${poolReserve.underlyingAsset}`}
                   className="ButtonLink"
                   disabled={!formattedAvailableDeposits || poolReserve.isFrozen}
                 >
@@ -169,7 +169,7 @@ export default function UserInformation({
                   className={classNames({
                     UserInformation__buttonNoBorderDisabled: !underlyingBalance,
                   })}
-                  to={`/withdraw/${poolReserve.underlyingAsset}-${poolReserve.id}`}
+                  to={`/withdraw/${poolReserve.underlyingAsset}`}
                   disabled={!underlyingBalance}
                 >
                   <span className="UserInformation__button UserInformation__button-noBorder">
@@ -255,8 +255,7 @@ export default function UserInformation({
                     }
                     onSwitch={() =>
                       toggleUseAsCollateral(
-                        history,
-                        poolReserve.id,
+                        navigate,
                         !userReserve?.usageAsCollateralEnabledOnUser,
                         poolReserve.underlyingAsset
                       )
@@ -290,7 +289,7 @@ export default function UserInformation({
               {!totalBorrows && (
                 <div className="UserInformation__caption-buttons">
                   <Link
-                    to={`/borrow/${poolReserve.underlyingAsset}-${poolReserve.id}`}
+                    to={`/borrow/${poolReserve.underlyingAsset}`}
                     className="ButtonLink"
                     disabled={!isBorrowEnable}
                   >
@@ -340,7 +339,7 @@ export default function UserInformation({
                 <div className="UserInformation__rowContent">
                   {isReserveInEmode && (
                     <EModeIconWithTooltip
-                      tooltipId={`${poolReserve.id}__loanToValue`}
+                      tooltipId={`${poolReserve.underlyingAsset}__loanToValue`}
                       eModeCategoryId={userEmodeCategoryId}
                     />
                   )}
@@ -367,7 +366,7 @@ export default function UserInformation({
                             <div className="UserInformation__rowContent">
                               {isReserveInEmode && (
                                 <EModeIconWithTooltip
-                                  tooltipId={`${poolReserve.id}__availableBorrow`}
+                                  tooltipId={`${poolReserve.underlyingAsset}__availableBorrow`}
                                   eModeCategoryId={userEmodeCategoryId}
                                 />
                               )}

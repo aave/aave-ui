@@ -2,9 +2,8 @@ import { InterestRate } from '@aave/contract-helpers';
 
 export function loanActionLinkComposer(
   action: 'borrow' | 'repay',
-  reserveId: string,
-  debtType: InterestRate,
-  underlyingAsset: string
+  underlyingAsset: string,
+  debtType: InterestRate
 ): string {
-  return `/${action}/${underlyingAsset}-${reserveId}?debtType=${debtType}`;
+  return `/${action}/${underlyingAsset}?debtType=${debtType}`;
 }

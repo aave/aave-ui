@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from 'react';
 import { MessageDescriptor, useIntl } from 'react-intl';
 import { ethers } from 'ethers';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 import { useThemeContext, canBeEnsAddress } from '@aave/aave-ui-kit';
 
@@ -26,7 +26,7 @@ import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 export default function Delegation() {
   const intl = useIntl();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { lg, md } = useThemeContext();
 
   const [isAssetSelectVisible, setAssetSelectVisible] = useState(false);
@@ -83,7 +83,7 @@ export default function Delegation() {
         delegationType,
         toAddress,
       });
-      history.push(`${location.pathname}/confirmation?${query}`);
+      navigate(`${location.pathname}/confirmation?${query}`);
     }
   };
 

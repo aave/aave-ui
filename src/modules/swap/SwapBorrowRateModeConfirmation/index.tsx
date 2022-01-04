@@ -20,13 +20,13 @@ import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 import messages from './messages';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
+import { useLocation } from 'react-router';
 
 function SwapBorrowRateModeConfirmation({
   currencySymbol,
   userReserve,
   poolReserve,
   user,
-  location,
 }: ValidationWrapperComponentProps) {
   const { lendingPool } = useTxBuilderContext();
   const { currentAccount } = useUserWalletDataContext();
@@ -34,6 +34,7 @@ function SwapBorrowRateModeConfirmation({
   const [isTxExecuted, setIsTxExecuted] = useState(false);
   const { lg, md } = useThemeContext();
   const intl = useIntl();
+  const location = useLocation();
   const query = queryString.parse(location.search);
   const currentRateMode = query.borrowRateMode as InterestRate;
 

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
-import queryString from 'query-string';
+import { Navigate, useParams, useSearchParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import {
   ComputedUserReserve,
@@ -10,14 +9,14 @@ import {
 import BigNumber from 'bignumber.js';
 
 import { ComputedReserveData, useAppDataContext } from '../../libs/pool-data-provider';
-import { CurrencyRouteParamsInterface } from '../../helpers/router-types';
 import Preloader from '../basic/Preloader';
 import ErrorPage from '../ErrorPage';
 
 import messages from './messages';
+import { API_ETH_MOCK_ADDRESS } from '@aave/contract-helpers';
+import { useProtocolDataContext } from '../../libs/protocol-data-provider';
 
-export interface ValidationWrapperComponentProps
-  extends Pick<RouteComponentProps, 'history' | 'location'> {
+export interface ValidationWrapperComponentProps {
   currencySymbol: string;
   amount?: BigNumber;
   walletBalance: BigNumber;
@@ -42,88 +41,83 @@ export default function routeParamValidationHOC({
   withAmount,
   allowLimitAmount,
 }: RouteParamValidationWrapperProps) {
-  return (ChildComponent: React.ComponentType<ValidationWrapperComponentProps>) =>
-    ({ match, location, history }: RouteComponentProps<CurrencyRouteParamsInterface>) => {
-      const intl = useIntl();
-      const underlyingAsset = match.params.underlyingAsset.toUpperCase();
-      const reserveId = match.params.id;
+  return (ChildComponent: React.ComponentType<ValidationWrapperComponentProps>) => () => {
+    const intl = useIntl();
+    const params = useParams();
+    const [search] = useSearchParams();
+    const { networkConfig } = useProtocolDataContext();
+    const underlyingAsset = params.underlyingAsset as string;
+    const isBaseAsset = underlyingAsset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase();
 
-      const { walletBalances, userEmodeCategoryId, reserves, user, loading } = useAppDataContext();
+    const { walletBalances, userEmodeCategoryId, reserves, user, loading } = useAppDataContext();
 
-      const poolReserve = reserves.find((res) =>
-        reserveId
-          ? res.id === reserveId
-          : res.underlyingAsset.toLowerCase() === underlyingAsset.toLowerCase()
-      );
-      const userReserve = user
-        ? user.userReservesData.find((userReserve) =>
-            reserveId
-              ? userReserve.reserve.id === reserveId
-              : userReserve.reserve.underlyingAsset.toLowerCase() === underlyingAsset.toLowerCase()
-          )
-        : undefined;
+    const poolReserve = reserves.find((res) =>
+      isBaseAsset
+        ? res.underlyingAsset === networkConfig.baseAssetWrappedAddress
+        : res.underlyingAsset === underlyingAsset
+    );
+    const userReserve = user
+      ? user.userReservesData.find((userReserve) =>
+          isBaseAsset
+            ? userReserve.reserve.underlyingAsset === networkConfig.baseAssetWrappedAddress
+            : userReserve.reserve.underlyingAsset === underlyingAsset
+        )
+      : undefined;
 
-      const currencySymbol = poolReserve?.symbol || '';
+    const currencySymbol = isBaseAsset ? networkConfig.baseAsset : poolReserve?.symbol || '';
 
-      if (loading) {
-        return <Preloader withText={true} />;
+    if (loading) {
+      return <Preloader withText={true} />;
+    }
+
+    if (!poolReserve) {
+      // TODO: 404
+      return <Navigate to="/" />;
+    }
+    if (!userReserve && withUserReserve) {
+      return <Navigate to="/" />;
+      // TODO: 404 || redirect || ?
+    }
+
+    const walletBalance = valueToBigNumber(walletBalances[underlyingAsset]?.amount || '0');
+    let isWalletBalanceEnough = true;
+
+    let amount = undefined;
+    if (withAmount) {
+      const _amount = search.get('amount');
+      if (_amount) {
+        amount = valueToBigNumber(_amount);
       }
-
-      if (!poolReserve) {
-        // TODO: 404
-        return <Redirect to="/" />;
+      if (
+        !amount ||
+        amount.isNaN() ||
+        !((allowLimitAmount && amount.eq('-1')) || amount.isPositive())
+      ) {
+        // TODO: amount invalid
+        return <ErrorPage description={intl.formatMessage(messages.error)} buttonType="back" />;
       }
-      if (!userReserve && withUserReserve) {
-        return <Redirect to="/" />;
-        // TODO: 404 || redirect || ?
+      if (
+        withWalletBalance &&
+        (walletBalance.eq(0) || (!amount.eq('-1') && amount.gt(walletBalance)))
+      ) {
+        // TODO: wallet balance is too low
+        isWalletBalanceEnough = false;
       }
+    }
 
-      const walletBalance = valueToBigNumber(
-        walletBalances[poolReserve.underlyingAsset]?.amount || '0'
-      );
-      let isWalletBalanceEnough = true;
+    const walletBalanceUSD = valueToBigNumber(walletBalances[underlyingAsset]?.amountUSD || '0');
 
-      let amount = undefined;
-      if (withAmount) {
-        const query = queryString.parse(location.search);
-        if (typeof query.amount === 'string') {
-          amount = valueToBigNumber(query.amount);
-        }
-        if (
-          !amount ||
-          amount.isNaN() ||
-          !((allowLimitAmount && amount.eq('-1')) || amount.isPositive())
-        ) {
-          // TODO: amount invalid
-          return <ErrorPage description={intl.formatMessage(messages.error)} buttonType="back" />;
-        }
-        if (
-          withWalletBalance &&
-          (walletBalance.eq(0) || (!amount.eq('-1') && amount.gt(walletBalance)))
-        ) {
-          // TODO: wallet balance is too low
-          isWalletBalanceEnough = false;
-        }
-      }
-
-      const walletBalanceUSD = valueToBigNumber(
-        walletBalances[poolReserve.underlyingAsset]?.amountUSD || '0'
-      );
-
-      const props = {
-        poolReserve,
-        userReserve,
-        amount,
-        user,
-        walletBalance,
-        walletBalanceUSD,
-        isWalletBalanceEnough,
-        currencySymbol,
-        underlyingAsset,
-        history,
-        location,
-        userEmodeCategoryId,
-      };
-      return <ChildComponent {...props} />;
+    const props = {
+      poolReserve,
+      userReserve,
+      amount,
+      user,
+      walletBalance,
+      walletBalanceUSD,
+      isWalletBalanceEnough,
+      currencySymbol,
+      userEmodeCategoryId,
     };
+    return <ChildComponent {...props} />;
+  };
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
 import staticStyles from './style';
@@ -12,13 +12,13 @@ interface CircleBackButtonProps {
 }
 
 export default function CircleBackButton({ className, icon }: CircleBackButtonProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <button
       className={classNames('CircleBackButton', className)}
       type="button"
-      onClick={history.goBack}
+      onClick={() => navigate(-1)}
     >
       <img src={icon || arrowIcon} alt="" />
 

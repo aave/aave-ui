@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 
@@ -17,14 +17,14 @@ export default function StakeAmount() {
     selectedStakeData: { underlyingTokenUserBalance },
     stakingService,
   } = useStakeDataContext();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const stakeDisclaimerHidden =
     localStorage.getItem(`showStake${selectedStake}Disclaimer`) === 'false';
 
   const handleSubmit = (amount: string) => {
     const query = queryString.stringify({ amount });
-    history.push(
+    navigate(
       `/staking/${selectedStake}/${!stakeDisclaimerHidden ? 'disclaimer' : 'confirmation'}?${query}`
     );
   };

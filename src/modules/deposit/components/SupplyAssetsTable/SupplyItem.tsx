@@ -16,7 +16,6 @@ import { SupplyTableItem } from './types';
 import defaultMessages from '../../../../defaultMessages';
 
 export default function SupplyItem({
-  id,
   symbol,
   underlyingAsset,
   walletBalance,
@@ -34,7 +33,7 @@ export default function SupplyItem({
   const intl = useIntl();
 
   return (
-    <TableItem tokenSymbol={symbol}>
+    <TableItem tokenSymbol={symbol} data-cy={`supply${symbol}TableItem`}>
       <TableValueCol
         userId={userId}
         symbol={symbol}
@@ -66,11 +65,11 @@ export default function SupplyItem({
         <TableButtonCol
           disabled={!isActive || isFreezed}
           title={intl.formatMessage(defaultMessages.deposit)}
-          linkTo={`/deposit/${underlyingAsset}-${id}`}
+          linkTo={`/deposit/${underlyingAsset}`}
         />
         <TableButtonCol
           title={intl.formatMessage(defaultMessages.details)}
-          linkTo={`/reserve-overview/${underlyingAsset}-${id}`}
+          linkTo={`/reserve-overview/${underlyingAsset}`}
           withoutBorder={true}
         />
       </TableButtonsWrapper>

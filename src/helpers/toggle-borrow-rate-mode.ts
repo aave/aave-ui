@@ -1,13 +1,10 @@
 import { InterestRate } from '@aave/contract-helpers';
-import { History } from 'history';
+import { NavigateFunction } from 'react-router';
 
 export const toggleBorrowRateMode = (
-  history: History,
-  reserveID: string,
+  navigate: NavigateFunction,
   borrowRateMode: InterestRate,
   underlyingAsset: string
 ) => {
-  history.push(
-    `/interest-swap/${underlyingAsset}-${reserveID}/confirmation?borrowRateMode=${borrowRateMode}`
-  );
+  navigate(`/interest-swap/${underlyingAsset}/confirmation?borrowRateMode=${borrowRateMode}`);
 };

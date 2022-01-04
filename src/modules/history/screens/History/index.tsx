@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { normalize, USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
@@ -29,7 +29,7 @@ const ITEMS_PER_PAGE = 50;
 export default function History() {
   const intl = useIntl();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { currentMarketData, networkConfig } = useProtocolDataContext();
   const { marketReferencePriceInUsd, userId, reserves } = useAppDataContext();
   const query = queryString.parse(location.search);
@@ -73,7 +73,7 @@ export default function History() {
       nextPage += 1;
     }
     if (nextPage !== page) {
-      history.push(
+      navigate(
         `${location.pathname}?${queryString.stringify({ ...query, page: nextPage.toString() })}`
       );
     }

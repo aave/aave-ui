@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import queryString from 'query-string';
 import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
@@ -28,6 +27,7 @@ import {
   valueToBigNumber,
 } from '@aave/math-utils';
 import { InterestRate } from '@aave/contract-helpers';
+import { useSearchParams } from 'react-router-dom';
 
 function BorrowConfirmation({
   currencySymbol,
@@ -35,13 +35,13 @@ function BorrowConfirmation({
   amount,
   poolReserve,
   userReserve,
-  location,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { marketReferencePriceInUsd, userId } = useAppDataContext();
   const { lendingPool } = useTxBuilderContext();
   const { currentTheme } = useThemeContext();
   let blockingError = '';
+  const [search] = useSearchParams();
 
   const aTokenData = getAtokenInfo({
     address: poolReserve.underlyingAsset,
@@ -53,11 +53,10 @@ function BorrowConfirmation({
   // lock values to not update them after tx was executed
   const [isTxExecuted, setIsTxExecuted] = useState(false);
 
-  const query = queryString.parse(location.search);
-  const interestRateMode =
-    typeof query.rateMode === 'string'
-      ? InterestRate[query.rateMode as InterestRate]
-      : InterestRate.Variable;
+  const rateMode = search.get('rateMode');
+  const interestRateMode = rateMode
+    ? InterestRate[rateMode as InterestRate]
+    : InterestRate.Variable;
 
   if (!user) {
     return (

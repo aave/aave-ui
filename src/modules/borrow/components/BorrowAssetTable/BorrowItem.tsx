@@ -22,11 +22,11 @@ export default function BorrowItem({
   variableBorrowRate,
   userId,
   vIncentives,
-  underlyingAsset,
   isFreezed,
   sIncentives,
   borrowCap,
   totalBorrows,
+  underlyingAsset,
 }: BorrowTableItem) {
   const intl = useIntl();
 
@@ -57,11 +57,11 @@ export default function BorrowItem({
         <TableButtonCol
           disabled={isFreezed || Number(availableBorrows) <= 0}
           title={intl.formatMessage(defaultMessages.borrow)}
-          linkTo={`/borrow/${underlyingAsset}-${id}`}
+          linkTo={`/borrow/${underlyingAsset}}`}
         />
         <TableButtonCol
           title={intl.formatMessage(defaultMessages.details)}
-          linkTo={`/reserve-overview/${underlyingAsset}-${id}`}
+          linkTo={`/reserve-overview/${underlyingAsset}`}
           withoutBorder={true}
         />
       </TableButtonsWrapper>
