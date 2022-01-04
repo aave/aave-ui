@@ -24,7 +24,7 @@ describe('SWAP SPEC FOR POLYGON MARKET', () => {
     deposit(testData.depositBaseAmount, skipTestState, true);
     swap(
       {
-        fromAsset: assets.polygonMarket.MATIC,
+        fromAsset: assets.polygonMarket.WMATIC,
         toAsset: assets.polygonMarket.DAI,
         amount: 100,
         hasApproval: false,
@@ -36,7 +36,7 @@ describe('SWAP SPEC FOR POLYGON MARKET', () => {
       [
         {
           type: constants.dashboardTypes.deposit,
-          asset: assets.polygonMarket.MATIC.shortName,
+          asset: assets.polygonMarket.WMATIC.shortName,
           amount: 800,
           collateralType: constants.collateralType.isCollateral,
         },
@@ -56,7 +56,7 @@ describe('SWAP SPEC FOR POLYGON MARKET', () => {
     deposit(testData.depositBaseAmount, skipTestState, true);
     swap(
       {
-        fromAsset: assets.polygonMarket.MATIC,
+        fromAsset: assets.polygonMarket.WMATIC,
         toAsset: assets.polygonMarket.USDT,
         amount: 100,
         hasApproval: false,
@@ -68,7 +68,7 @@ describe('SWAP SPEC FOR POLYGON MARKET', () => {
       [
         {
           type: constants.dashboardTypes.deposit,
-          asset: assets.polygonMarket.MATIC.shortName,
+          asset: assets.polygonMarket.WMATIC.shortName,
           amount: 800,
           collateralType: constants.collateralType.isCollateral,
         },
@@ -88,17 +88,17 @@ describe('SWAP SPEC FOR POLYGON MARKET', () => {
     deposit(testData.depositBaseAmount, skipTestState, true);
     borrow(
       {
-        asset: assets.polygonMarket.MATIC,
+        asset: assets.polygonMarket.WMATIC,
         amount: 900,
         apyType: constants.borrowAPYType.variable,
-        hasApproval: false,
+        hasApproval: true,
       },
       skipTestState,
       true
     );
     swap(
       {
-        fromAsset: assets.polygonMarket.MATIC,
+        fromAsset: assets.polygonMarket.WMATIC,
         toAsset: assets.polygonMarket.USDT,
         amount: 2000,
         failCase: true,

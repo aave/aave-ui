@@ -37,6 +37,11 @@
       "shortName": "MATIC",
       "collateral": true
     },
+    "WMATIC": {
+      "fullName": "Wrapped Matic",
+      "shortName": "WMATIC",
+      "collateral": true
+    },
     "DAI": {
       "fullName": "DAI",
       "shortName": "DAI",

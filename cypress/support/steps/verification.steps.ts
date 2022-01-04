@@ -38,6 +38,9 @@ export const dashboardAssetValuesVerification = (
       describe(`Verification ${estimatedCase.asset} ${estimatedCase.type}, have right values`, () => {
         switch (estimatedCase.type) {
           case constants.dashboardTypes.borrow:
+            it(`Switch to borrow view`, () => {
+              cy.get('button').contains('Borrowings').click();
+            });
             it(`Check that asset name is ${estimatedCase.asset},
             with apy type ${estimatedCase.apyType}
              ${estimatedCase.amount ? ' and amount ' + estimatedCase.amount : ''}`, () => {
@@ -54,6 +57,9 @@ export const dashboardAssetValuesVerification = (
             });
             break;
           case constants.dashboardTypes.deposit:
+            it(`Switch to deposit view`, () => {
+              cy.get('button').contains('Deposits').click();
+            });
             it(`Check that asset name is ${estimatedCase.asset},
             with collateral type ${estimatedCase.collateralType}
             ${estimatedCase.amount ? ' and amount ' + estimatedCase.amount : ''}`, () => {
@@ -62,7 +68,10 @@ export const dashboardAssetValuesVerification = (
                 collateralType: estimatedCase.collateralType,
               }).within(($row) => {
                 expect($row.find('.TokenIcon__name')).to.contain(estimatedCase.asset);
-                cy.get('input').invoke('val').should('be.true');
+                expect($row.find('.Switcher__swiper input')).to.have.attr(
+                  'aria-checked',
+                  estimatedCase.collateralType
+                );
                 if (estimatedCase.amount) {
                   amountVerification(estimatedCase.amount);
                 }
@@ -81,13 +90,11 @@ export const borrowsUnavailable = (skip: SkipType) => {
   return describe('Check that borrows unavailable', () => {
     skipSetup(skip);
     it('Open borrow page', () => {
-      cy.get('.Menu strong').contains('Borrow').click();
-      cy.get('.TableItem').first().click();
+      cy.get('.Menu strong').contains('dashboard').click();
+      cy.get('button').contains('Borrowings').click();
     });
-    it('Check blocked message', () => {
-      cy.get('.Caption__description').contains(
-        'Deposit more collateral or repay part of your borrowings to increase your health factor and be able to borrow.'
-      );
+    it('Check that Borrow button disabled', () => {
+      cy.get('.DashboardItemsWrapper .TableItem').find('button').should('be.disabled');
     });
   });
 };

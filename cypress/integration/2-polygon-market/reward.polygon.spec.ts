@@ -11,9 +11,9 @@ const testData = {
     hasApproval: true,
   },
   withdraw: {
-    asset: assets.polygonMarket.MATIC,
+    asset: assets.polygonMarket.WMATIC,
     amount: 1,
-    hasApproval: false,
+    hasApproval: true,
   },
 };
 
