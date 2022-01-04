@@ -186,10 +186,12 @@ export default function TxConfirmationView({
         });
       }
       setLoadingTxData(false);
+      return true;
     } catch (e) {
       console.log('Error on txs loading', e);
       setBackendNotAvailable(true);
       setLoadingTxData(false);
+      return false;
     }
   };
 
@@ -305,18 +307,28 @@ export default function TxConfirmationView({
                       blockingError ||
                       boxDescription
                     }
-                    onSubmitTransaction={() =>
-                      sendEthTransaction(
-                        actionTxData.unsignedData,
-                        provider,
-                        setActionTxData,
-                        customGasPrice,
-                        {
-                          onExecution: onMainTxExecuted,
-                          onConfirmation: onMainTxConfirmed,
-                        }
-                      )
-                    }
+                    onSubmitTransaction={async () => {
+                      const success = await handleGetTxData();
+                      if (success) {
+                        return sendEthTransaction(
+                          actionTxData.unsignedData,
+                          provider,
+                          setActionTxData,
+                          customGasPrice,
+                          {
+                            onExecution: onMainTxExecuted,
+                            onConfirmation: onMainTxConfirmed,
+                          }
+                        );
+                      } else {
+                        setActionTxData((state) => ({
+                          ...state,
+                          txStatus: TxStatusType.error,
+                          loading: false,
+                          error: 'transaction no longer valid',
+                        }));
+                      }
+                    }}
                     successButtonTitle={successButtonTitle}
                     goToAfterSuccess={goToAfterSuccess}
                     buttonTitle={buttonTitle || boxTitle}
