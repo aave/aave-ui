@@ -212,7 +212,7 @@ export default function AssetSwapMain() {
           description={intl.formatMessage(messages.description, {
             deposited: (
               <strong style={{ color: `${currentTheme.primary.hex}` }}>
-                {intl.formatMessage(messages.deposited)}
+                {intl.formatMessage(messages.supplied)}
               </strong>
             ),
             faq: (

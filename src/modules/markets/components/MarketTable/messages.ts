@@ -2,9 +2,9 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   assets: `Assets`,
-  totalDeposited: `Total deposited`,
+  totalDeposited: `Total supplied`,
   totalBorrowed: `Total borrowed`,
-  depositAPY: `Deposit APY`,
+  depositAPY: `Supply APY`,
   borrowAPY: `Borrow APY`,
   stable: 'Stable',
   variable: 'Variable',

@@ -6,13 +6,13 @@ export default defineMessages({
     'Please enter an amount you would like to borrow. The maximum amount you can borrow is shown below.',
 
   noDataTitle: 'No deposits yet',
-  noDataDescription: 'You need to deposit some collateral first to unlock your borrowing power.',
+  noDataDescription: 'You need to supply some collateral first to unlock your borrowing power.',
   noLiquidityAvailableTitle: 'No liquidity',
   noLiquidityAvailableDescription: 'There is no {symbol} available liquidity to borrow.',
   healthFactorTooLowTitle: 'Health factor too low',
   healthFactorTooLowDescription:
-    'Deposit more collateral or repay part of your borrowings to increase your health factor and be able to borrow.',
-  noDataButtonTitle: 'Deposit now',
+    'Supply more collateral or repay part of your borrowings to increase your health factor and be able to borrow.',
+  noDataButtonTitle: 'Supply now',
 
   connectWallet: 'Please connect a wallet',
   connectWalletDescription: 'We couldn’t detect a wallet. Connect a wallet to borrow.',

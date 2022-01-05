@@ -160,7 +160,7 @@ export default function UserInformation({
                 >
                   <DefaultButton
                     className="UserInformation__button"
-                    title={intl.formatMessage(defaultMessages.deposit)}
+                    title={intl.formatMessage(defaultMessages.supply)}
                     color={elementsColor}
                     disabled={!formattedAvailableDeposits || poolReserve.isFrozen}
                   />

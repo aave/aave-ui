@@ -51,7 +51,7 @@ export default function DepositDashboardTable({
 
   return (
     <DashboardItemsWrapper
-      title={intl.formatMessage(messages.yourDeposits)}
+      title={intl.formatMessage(messages.suppliedMarkets)}
       localStorageName="suppliedAssetsDashboardTableCollapse"
     >
       {!sm ? (

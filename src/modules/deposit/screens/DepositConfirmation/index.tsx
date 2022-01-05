@@ -156,9 +156,9 @@ function DepositConfirmation({
       userReserve={userReserve}
     >
       <PoolTxConfirmationView
-        mainTxName={intl.formatMessage(defaultMessages.deposit)}
+        mainTxName={intl.formatMessage(defaultMessages.supply)}
         caption={intl.formatMessage(messages.caption)}
-        boxTitle={intl.formatMessage(defaultMessages.deposit)}
+        boxTitle={intl.formatMessage(defaultMessages.supply)}
         boxDescription={intl.formatMessage(messages.boxDescription)}
         approveDescription={
           depositWithPermitEnabled

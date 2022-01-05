@@ -14,7 +14,7 @@ export default defineMessages({
     'Isolated assets can only be borrowed up to a specific debt ceiling. Once that is reached it will not be possible to borrow more.',
   whoCanUseIt: 'Who can use it',
   whoCanUseItDescription:
-    'To deposit an asset in isolation mode you should have any other deposited positions being used as collateral and no borrow positions in your account.',
+    'To supply an asset in isolation mode you should have any other supplied positions being used as collateral and no borrow positions in your account.',
   learnMore: 'Learn more in our {link}.',
   FAQGuide: 'FAQ guide',
   buttonTitle: 'Ok, I got it',

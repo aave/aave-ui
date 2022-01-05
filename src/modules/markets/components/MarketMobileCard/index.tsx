@@ -43,7 +43,7 @@ export default function MarketMobileCard({
 
   const cards = [
     {
-      title: defaultMessages.deposit,
+      title: defaultMessages.supply,
       value: depositAPY,
       incentives: aIncentives,
       enabled: true,
