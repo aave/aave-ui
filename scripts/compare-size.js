@@ -2,7 +2,7 @@ const stats = require('../stats.json');
 const masterStats = require('../stats_master.json');
 
 module.exports = async ({ github, context }) => {
-  if (github.context.eventName === 'pull_request') {
+  if (context.eventName === 'pull_request') {
     const masterMainChunk = masterStats.results.find((chunk) => /js\/main/.test(chunk.bundleName));
     const masterMB = masterMainChunk.totalBytes / 1024 / 1024;
 
