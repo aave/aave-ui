@@ -28,49 +28,49 @@ const testData = {
     },
     collateral: {
       switchOff: {
-        asset: assets.polygonMarket.WMATIC,
+        asset: assets.polygonMarket.MATIC,
         collateralType: constants.collateralType.isCollateral,
         hasApproval: true,
       },
       switchOn: {
-        asset: assets.polygonMarket.WMATIC,
+        asset: assets.polygonMarket.MATIC,
         collateralType: constants.collateralType.isNotCollateral,
         hasApproval: true,
       },
       switchNegative: {
-        asset: assets.polygonMarket.WMATIC,
+        asset: assets.polygonMarket.MATIC,
         collateralType: constants.collateralType.isCollateral,
       },
     },
     borrow: {
-      asset: assets.polygonMarket.WMATIC,
+      asset: assets.polygonMarket.MATIC,
       amount: 0.04,
       apyType: constants.borrowAPYType.variable,
-      hasApproval: true,
+      hasApproval: false,
     },
     repay: {
-      asset: assets.polygonMarket.WMATIC,
+      asset: assets.polygonMarket.MATIC,
       amount: 0.01,
-      hasApproval: false,
+      hasApproval: true,
       repayOption: constants.repayType.default,
     },
     withdraw: {
-      asset: assets.polygonMarket.WMATIC,
+      asset: assets.polygonMarket.MATIC,
       amount: 0.01,
-      hasApproval: true,
+      hasApproval: false,
     },
   },
   verifications: {
     finalDashboard: [
       {
         type: constants.dashboardTypes.deposit,
-        asset: assets.polygonMarket.WMATIC.shortName,
+        asset: assets.polygonMarket.MATIC.shortName,
         amount: 0.08,
         collateralType: constants.collateralType.isCollateral,
       },
       {
         type: constants.dashboardTypes.borrow,
-        asset: assets.polygonMarket.WMATIC.shortName,
+        asset: assets.polygonMarket.MATIC.shortName,
         amount: 0.03,
         apyType: constants.borrowAPYType.variable,
       },
