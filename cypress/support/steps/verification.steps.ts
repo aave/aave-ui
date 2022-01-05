@@ -32,7 +32,7 @@ export const dashboardAssetValuesVerification = (
   return describe(`Verification dashboard values`, () => {
     skipSetup(skip);
     it(`Open dashboard page`, () => {
-      cy.get('.Menu strong').contains('dashboard').click();
+      cy.get(`[data-cy=menuDashboard]`).click();
     });
     estimatedCases.forEach((estimatedCase) => {
       describe(`Verification ${estimatedCase.asset} ${estimatedCase.type}, have right values`, () => {
@@ -90,7 +90,7 @@ export const borrowsUnavailable = (skip: SkipType) => {
   return describe('Check that borrows unavailable', () => {
     skipSetup(skip);
     it('Open borrow page', () => {
-      cy.get('.Menu strong').contains('dashboard').click();
+      cy.get(`[data-cy=menuDashboard]`).click();
       cy.get('button').contains('Borrowings').click();
     });
     it('Check that Borrow button disabled', () => {
@@ -121,7 +121,7 @@ export const switchCollateralBlocked = (
   return describe('Check that collateral switcher disabled', () => {
     skipSetup(skip);
     it(`Open dashboard page`, () => {
-      cy.get('.Menu strong').contains('dashboard').click();
+      cy.get(`[data-cy=menuDashboard]`).click();
     });
     it(`Check that collateral switcher for ${_shortName} disabled`, () => {
       getDashBoardDepositRow({
@@ -145,7 +145,7 @@ export const switchApyBlocked = (
   return describe('Check that apy switcher disabled', () => {
     skipSetup(skip);
     it(`Open dashboard page`, () => {
-      cy.get('.Menu strong').contains('dashboard').click();
+      cy.get(`[data-cy=menuDashboard]`).click();
     });
     it(`Check that APY switcher for ${_shortName} disabled`, () => {
       getDashBoardBorrowRow({
