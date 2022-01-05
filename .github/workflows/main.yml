@@ -64,12 +64,12 @@ jobs:
           CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
           CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
 
-      # - name: upload videos
-      #   uses: actions/upload-artifact@v2
-      #   if: failure()
-      #   with:
-      #     name: cypress-fail-videos
-      #     path: cypress/videos
+      - name: upload videos
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-fail-videos-main
+          path: cypress/videos
 
       - name: upload screenshots
         uses: actions/upload-artifact@v2
@@ -115,12 +115,12 @@ jobs:
           CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
           CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
 
-      # - name: upload videos
-      #   uses: actions/upload-artifact@v2
-      #   if: failure()
-      #   with:
-      #     name: cypress-fail-videos
-      #     path: cypress/videos
+      - name: upload videos
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-fail-videos-amm
+          path: cypress/videos
 
       - name: upload screenshots
         uses: actions/upload-artifact@v2
@@ -166,12 +166,12 @@ jobs:
           CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
           CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
 
-      # - name: upload videos
-      #   uses: actions/upload-artifact@v2
-      #   if: failure()
-      #   with:
-      #     name: cypress-fail-videos
-      #     path: cypress/videos
+      - name: upload videos
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-fail-videos-polygon
+          path: cypress/videos
 
       - name: upload screenshots
         uses: actions/upload-artifact@v2
@@ -217,12 +217,12 @@ jobs:
           CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
           CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
 
-      # - name: upload videos
-      #   uses: actions/upload-artifact@v2
-      #   if: failure()
-      #   with:
-      #     name: cypress-fail-videos
-      #     path: cypress/videos
+      - name: upload videos
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-fail-videos-avalanche
+          path: cypress/videos
 
       - name: upload screenshots
         uses: actions/upload-artifact@v2
