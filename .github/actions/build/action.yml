@@ -22,31 +22,3 @@ runs:
       with:
         name: build_${{github.sha}}
         path: build/
-
-    - name: track size
-      run: npm run analyze -- --json stats.json
-      shell: bash
-
-    - name: store artifact
-      uses: actions/upload-artifact@v2
-      if: |
-        github.ref == 'refs/heads/master'
-      with:
-        name: stats_master
-        path: stats.json
-
-    - name: download build
-      if: |
-        github.ref != 'refs/heads/master'
-      uses: actions/download-artifact@v2
-      with:
-        name: stats_master
-        path: stats_master.json
-
-    - uses: actions/github-script@v5
-      if: |
-        github.ref != 'refs/heads/master'
-      with:
-        script: |
-          const script = require('./scripts/compare-size')
-          script({github, context})

@@ -13,6 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # build
       - name: restore build
         continue-on-error: true
         id: restore
@@ -26,6 +27,20 @@ jobs:
 
       - uses: ./.github/actions/build
         if: steps.restore.outcome != 'success'
+
+      # compare size
+      - name: download stats
+        continue-on-error: true
+        uses: actions/download-artifact@v2
+        with:
+          name: stats_master
+          path: stats_master.json
+
+      - uses: actions/github-script@v5
+        with:
+          script: |
+            const script = require('./scripts/compare-size')
+            script({github, context})
 
   cypress_test_main:
     runs-on: ubuntu-latest
