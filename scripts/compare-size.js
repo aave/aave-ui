@@ -10,11 +10,13 @@ module.exports = async ({ github, context }) => {
     const currentMB = currentMainChunk.totalBytes / 1024 / 1024;
 
     const diff = currentMB - masterMB;
-    await github.rest.issues.createComment({
-      issue_number: context.issue.number,
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      body: `Bundle size change: ${diff}MB`,
-    });
+    if (Math.abs(diff) > 0.0001) {
+      await github.rest.issues.createComment({
+        issue_number: context.issue.number,
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        body: `Bundle size change: ${diff} MB`,
+      });
+    }
   }
 };
