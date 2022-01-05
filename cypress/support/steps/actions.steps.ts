@@ -72,7 +72,9 @@ export const getDashBoardBorrowRow = ({ assetName, apyType }: GetDashBoardBorrow
     return cy.get(`[data-cy="dashboardBorrowListItem_${assetName}"]`).first();
   } else {
     return cy
-      .get(`[data-cy="dashboardBorrowListItem_${assetName}"] .Switcher__label:contains('${apyType}')`)
+      .get(
+        `[data-cy="dashboardBorrowListItem_${assetName}"] .Switcher__label:contains('${apyType}')`
+      )
       .parents(`[data-cy="dashboardBorrowListItem_${assetName}"]`);
   }
 };
@@ -88,7 +90,7 @@ export const getDashBoardDepositRow = ({ assetName, collateralType }: GetDashBoa
   } else {
     return cy
       .get(
-        `[data-cy="dashboardDespositListItem${assetName}"] .Switcher__label:contains('${collateralType}')`
+        `[data-cy=dashboardDespositListItem${assetName}] .Switcher__swiper input[aria-checked="${collateralType}"]`
       )
       .parents(`[data-cy="dashboardDespositListItem${assetName}"]`);
   }
