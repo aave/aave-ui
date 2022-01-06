@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import HelpItem from '../../HelpItem';
 import TextWithModal, { TextWithModalProps } from '../../TextWithModal';
 
-export interface HelpModalWrapperProps extends Pick<TextWithModalProps, 'additionalIcon'> {
+export interface HelpModalWrapperProps extends Pick<TextWithModalProps, 'secondaryIcon'> {
   text: string;
   iconSize?: number;
   className?: string;
@@ -31,7 +31,7 @@ export default function HelpModalWrapper({
   clickOnText,
   withGrayIcon,
   captionColor,
-  additionalIcon,
+  secondaryIcon,
 }: HelpModalWrapperProps) {
   return (
     <TextWithModal
@@ -44,7 +44,7 @@ export default function HelpModalWrapper({
       modalClassName={modalClassName}
       clickOnText={clickOnText}
       withGrayIcon={withGrayIcon}
-      additionalIcon={additionalIcon}
+      secondaryIcon={secondaryIcon}
     >
       <HelpItem
         caption={caption}

@@ -64,7 +64,7 @@ export default function HealthFactorHelpModal({
       color={color}
       lightWeight={lightWeight}
       onWhiteBackground={onWhiteBackground}
-      additionalIcon={(props) => <HALNotificationIcon {...props} />}
+      secondaryIcon={(props) => <HALNotificationIcon {...props} />}
     />
   );
 }

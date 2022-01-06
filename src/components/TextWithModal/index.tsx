@@ -33,8 +33,12 @@ export type TextWithModalProps = {
   onWhiteBackground?: boolean;
   clickOnText?: boolean;
   withGrayIcon?: boolean;
-  additionalIcon?: (props: AdditionalItemProps) => JSX.Element;
+  secondaryIcon?: (props: AdditionalItemProps) => JSX.Element;
 };
+
+const PRIMARY_ICON_POSTION = 1;
+const SECONDARY_ICON_POSITION = 2;
+const ICON_PADDING = 4;
 
 export default function TextWithModal({
   text,
@@ -49,7 +53,7 @@ export default function TextWithModal({
   onWhiteBackground,
   clickOnText,
   withGrayIcon,
-  additionalIcon,
+  secondaryIcon,
 }: TextWithModalProps) {
   const intl = useIntl();
   const { currentTheme, xl, lg, md, isCurrentThemeDark } = useThemeContext();
@@ -60,6 +64,16 @@ export default function TextWithModal({
 
   const iconHeight: number = iconSize || baseIconSize;
   const iconWidth: number = iconSize || baseIconSize;
+
+  const getIconContainerStyle = (position: number): React.CSSProperties => {
+    const iconWidthOffset = iconWidth * position;
+    const iconOffset = -(iconWidthOffset + ICON_PADDING);
+    return {
+      height: iconHeight,
+      width: iconWidth,
+      right: iconOffset,
+    };
+  };
 
   return (
     <div
@@ -86,11 +100,7 @@ export default function TextWithModal({
             e.stopPropagation();
             setVisible(true);
           }}
-          style={{
-            height: iconHeight,
-            width: iconWidth,
-            right: -(iconWidth + 4),
-          }}
+          style={getIconContainerStyle(PRIMARY_ICON_POSTION)}
         >
           <img
             src={withGrayIcon ? (isCurrentThemeDark ? infoGrayDark : infoGray) : info}
@@ -100,16 +110,12 @@ export default function TextWithModal({
           />
         </button>
 
-        {additionalIcon &&
-          additionalIcon({
+        {secondaryIcon &&
+          secondaryIcon({
             height: iconHeight,
             width: iconWidth,
             parentClassName: 'TextWithModal__button',
-            parentStyle: {
-              height: iconHeight,
-              width: iconWidth,
-              right: -(iconWidth * 2 + 4),
-            },
+            parentStyle: getIconContainerStyle(SECONDARY_ICON_POSITION),
             iconTheme: withGrayIcon ? (isCurrentThemeDark ? 'dark' : 'gray') : 'default',
           })}
       </div>
