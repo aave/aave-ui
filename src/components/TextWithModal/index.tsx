@@ -12,6 +12,14 @@ import info from './images/info.svg';
 import infoGray from './images/infoGray.svg';
 import infoGrayDark from './images/infoGrayDark.svg';
 
+type AdditionalItemProps = {
+  height: number;
+  width: number;
+  parentClassName: string;
+  parentStyle: React.CSSProperties;
+  iconTheme: 'dark' | 'gray' | 'default';
+};
+
 export type TextWithModalProps = {
   text: string;
   children: ReactNode;
@@ -25,6 +33,7 @@ export type TextWithModalProps = {
   onWhiteBackground?: boolean;
   clickOnText?: boolean;
   withGrayIcon?: boolean;
+  additionalIcon?: (props: AdditionalItemProps) => JSX.Element;
 };
 
 export default function TextWithModal({
@@ -40,6 +49,7 @@ export default function TextWithModal({
   onWhiteBackground,
   clickOnText,
   withGrayIcon,
+  additionalIcon,
 }: TextWithModalProps) {
   const intl = useIntl();
   const { currentTheme, xl, lg, md, isCurrentThemeDark } = useThemeContext();
@@ -47,6 +57,9 @@ export default function TextWithModal({
   const [visible, setVisible] = useState(false);
 
   const baseIconSize = !xl ? 14 : lg && !md ? 10 : md ? 12 : 12;
+
+  const iconHeight: number = iconSize || baseIconSize;
+  const iconWidth: number = iconSize || baseIconSize;
 
   return (
     <div
@@ -65,26 +78,41 @@ export default function TextWithModal({
       >
         {text}
       </div>
-      <button
-        className="TextWithModal__button"
-        type="button"
-        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-          e.stopPropagation();
-          setVisible(true);
-        }}
-        style={{
-          height: iconSize || baseIconSize,
-          width: iconSize || baseIconSize,
-          right: -((iconSize || baseIconSize) + 4),
-        }}
-      >
-        <img
-          src={withGrayIcon ? (isCurrentThemeDark ? infoGrayDark : infoGray) : info}
-          alt={text}
-          height={iconSize || baseIconSize}
-          width={iconSize || baseIconSize}
-        />
-      </button>
+      <div>
+        <button
+          className="TextWithModal__button"
+          type="button"
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+            e.stopPropagation();
+            setVisible(true);
+          }}
+          style={{
+            height: iconHeight,
+            width: iconWidth,
+            right: -(iconWidth + 4),
+          }}
+        >
+          <img
+            src={withGrayIcon ? (isCurrentThemeDark ? infoGrayDark : infoGray) : info}
+            alt={text}
+            height={iconHeight}
+            width={iconWidth}
+          />
+        </button>
+
+        {additionalIcon &&
+          additionalIcon({
+            height: iconHeight,
+            width: iconWidth,
+            parentClassName: 'TextWithModal__button',
+            parentStyle: {
+              height: iconHeight,
+              width: iconWidth,
+              right: -(iconWidth * 2 + 4),
+            },
+            iconTheme: withGrayIcon ? (isCurrentThemeDark ? 'dark' : 'gray') : 'default',
+          })}
+      </div>
 
       <BasicModal
         isVisible={visible}
