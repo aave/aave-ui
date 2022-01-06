@@ -11,7 +11,7 @@ import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
 // import { PortisConnector } from '@web3-react/portis-connector';
 import { PortisConnector } from './connectors/portis-connector';
 
-import { MewConnectConnector } from '@myetherwallet/mewconnect-connector';
+// import { MewConnectConnector } from '@myetherwallet/mewconnect-connector';
 
 import {
   AUTHEREUM_API_KEY,
@@ -98,15 +98,15 @@ export function getWeb3Connector(
         chainId,
         apiKey: getFortmaticKeyByChainId(chainId),
       });
-    case 'mew-wallet':
-      return new MewConnectConnector({
-        url:
-          networkConfig.privateJsonRPCWSUrl ||
-          networkConfig.privateJsonRPCUrl ||
-          networkConfig.publicJsonRPCWSUrl ||
-          networkConfig.publicJsonRPCUrl[0],
-        windowClosedError: true,
-      });
+    // case 'mew-wallet':
+    //   return new MewConnectConnector({
+    //     url:
+    //       networkConfig.privateJsonRPCWSUrl ||
+    //       networkConfig.privateJsonRPCUrl ||
+    //       networkConfig.publicJsonRPCWSUrl ||
+    //       networkConfig.publicJsonRPCUrl[0],
+    //     windowClosedError: true,
+    //   });
     case 'authereum': {
       if (chainId !== ChainId.mainnet) {
         raiseUnsupportedNetworkError(chainId, connectorName);
