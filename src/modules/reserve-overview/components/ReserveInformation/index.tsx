@@ -44,32 +44,16 @@ export default function ReserveInformation({
 }: ReserveInformationProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const totalLiquidityInUsd = poolReserve.totalLiquidityUSD;
-  const totalBorrowsInUsd = poolReserve.totalDebtUSD;
-  const availableLiquidityInUsd = poolReserve.availableLiquidityUSD;
 
   const userIsInEMode = userEmodeCategoryId !== 0;
 
   const reserveOverviewData = {
-    totalLiquidityInUsd,
-    totalBorrowsInUsd,
-    availableLiquidityInUsd,
-    totalLiquidity: poolReserve.totalLiquidity,
-    totalBorrows: poolReserve.totalDebt,
-    availableLiquidity: poolReserve.availableLiquidity,
-    supplyAPY: Number(poolReserve.supplyAPY),
-    supplyAPR: Number(poolReserve.supplyAPR),
-    stableAPY: Number(poolReserve.stableBorrowAPY),
-    stableAPR: Number(poolReserve.stableBorrowAPR),
-    variableAPY: Number(poolReserve.variableBorrowAPY),
-    variableAPR: Number(poolReserve.variableBorrowAPR),
     stableOverTotal: valueToBigNumber(poolReserve.totalStableDebt)
       .dividedBy(poolReserve.totalDebt)
       .toNumber(),
     variableOverTotal: valueToBigNumber(poolReserve.totalVariableDebt)
       .dividedBy(poolReserve.totalDebt)
       .toNumber(),
-    utilizationRate: Number(poolReserve.utilizationRate),
     baseLTVasCollateral:
       userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
         ? Number(poolReserve.eModeLtv)
@@ -82,16 +66,6 @@ export default function ReserveInformation({
       userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
         ? Number(poolReserve.eModeLiquidationBonus)
         : Number(poolReserve.reserveLiquidationBonus),
-    usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
-    stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
-    borrowingEnabled: poolReserve.borrowingEnabled,
-    debtCeilingUSD: poolReserve.debtCeiling,
-    totalDebtUSD: poolReserve.totalDebtUSD,
-    isIsolated: poolReserve.isIsolated,
-    supplyCap: poolReserve.supplyCap,
-    supplyCapUSD: poolReserve.supplyCapUSD,
-    borrowCap: poolReserve.borrowCap,
-    borrowCapUSD: poolReserve.borrowCapUSD,
   };
 
   const poolLink = getLPTokenPoolLink({
@@ -130,25 +104,25 @@ export default function ReserveInformation({
               symbol={symbol}
               color="red"
               title={intl.formatMessage(messages.totalBorrowed)}
-              value={reserveOverviewData.totalBorrows}
-              subValue={reserveOverviewData.totalBorrowsInUsd}
-              borrowingEnabled={reserveOverviewData.borrowingEnabled}
-              capValue={reserveOverviewData.borrowCap}
-              capValueUSD={reserveOverviewData.borrowCapUSD}
+              value={poolReserve.totalDebt}
+              subValue={poolReserve.totalDebtUSD}
+              borrowingEnabled={poolReserve.borrowingEnabled}
+              capValue={poolReserve.borrowCap}
+              capValueUSD={poolReserve.borrowCapUSD}
             />
             <ReserveStatusGraph
               symbol={symbol}
-              totalBorrows={reserveOverviewData.totalBorrows}
-              availableLiquidity={reserveOverviewData.availableLiquidity}
+              totalBorrows={poolReserve.totalDebt}
+              availableLiquidity={poolReserve.availableLiquidity}
             />
             <TotalValue
               symbol={symbol}
               title={intl.formatMessage(messages.availableLiquidity)}
-              value={reserveOverviewData.availableLiquidity}
-              subValue={reserveOverviewData.availableLiquidityInUsd}
-              borrowingEnabled={reserveOverviewData.borrowingEnabled}
-              capValue={reserveOverviewData.supplyCap}
-              capValueUSD={reserveOverviewData.supplyCapUSD}
+              value={poolReserve.availableLiquidity}
+              subValue={poolReserve.availableLiquidityUSD}
+              borrowingEnabled={poolReserve.borrowingEnabled}
+              capValue={poolReserve.supplyCap}
+              capValueUSD={poolReserve.supplyCapUSD}
             />
           </div>
 
@@ -157,7 +131,7 @@ export default function ReserveInformation({
               <p>{intl.formatMessage(messages.reserveSize)}</p>
               <strong>
                 <Value
-                  value={Number(reserveOverviewData.totalLiquidityInUsd)}
+                  value={poolReserve.totalLiquidityUSD}
                   maximumValueDecimals={2}
                   minimumValueDecimals={2}
                   symbol="USD"
@@ -168,15 +142,16 @@ export default function ReserveInformation({
             </div>
             <div className="ReserveInformation__line">
               <PercentBlock
-                value={
-                  reserveOverviewData.borrowingEnabled ? reserveOverviewData.utilizationRate : 0
-                }
+                value={poolReserve.borrowingEnabled ? Number(poolReserve.utilizationRate) : 0}
                 title={intl.formatMessage(messages.utilisationRate)}
               />
             </div>
-            {reserveOverviewData.usageAsCollateralEnabled && reserveOverviewData.isIsolated && (
+            {poolReserve.usageAsCollateralEnabled && poolReserve.isIsolated && (
               <div className="ReserveInformation__line">
-                <DebtCeilingInfo debtCeilingUSD={reserveOverviewData.debtCeilingUSD} />
+                <DebtCeilingInfo
+                  debtCeilingUSD={poolReserve.debtCeiling}
+                  isolationModeTotalDebt={poolReserve.isolationModeTotalDebt}
+                />
               </div>
             )}
           </div>
@@ -185,58 +160,49 @@ export default function ReserveInformation({
             <APYCard title={intl.formatMessage(defaultMessages.deposit)}>
               <APYLine
                 title={intl.formatMessage(messages.depositAPY)}
-                value={reserveOverviewData.supplyAPY}
-                condition={reserveOverviewData.borrowingEnabled}
+                value={Number(poolReserve.supplyAPY)}
+                condition={poolReserve.borrowingEnabled}
               />
               <APYLine
                 title={intl.formatMessage(messages.depositAPR)}
-                value={reserveOverviewData.supplyAPR}
-                condition={reserveOverviewData.borrowingEnabled}
+                value={Number(poolReserve.supplyAPR)}
+                condition={poolReserve.borrowingEnabled}
               />
             </APYCard>
 
             <APYCard title={intl.formatMessage(messages.stableBorrowing)} color="primary">
               <APYLine
                 title={intl.formatMessage(messages.borrowAPY)}
-                value={reserveOverviewData.stableAPY}
-                condition={
-                  reserveOverviewData.borrowingEnabled &&
-                  reserveOverviewData.stableBorrowRateEnabled
-                }
+                value={Number(poolReserve.stableBorrowAPY)}
+                condition={poolReserve.borrowingEnabled && poolReserve.stableBorrowRateEnabled}
               />
               <APYLine
                 title={intl.formatMessage(messages.borrowAPR)}
-                value={reserveOverviewData.stableAPR}
-                condition={
-                  reserveOverviewData.borrowingEnabled &&
-                  reserveOverviewData.stableBorrowRateEnabled
-                }
+                value={Number(poolReserve.stableBorrowAPR)}
+                condition={poolReserve.borrowingEnabled && poolReserve.stableBorrowRateEnabled}
               />
               <APYLine
                 title={intl.formatMessage(messages.overTotal)}
                 value={reserveOverviewData.stableOverTotal}
-                condition={
-                  reserveOverviewData.borrowingEnabled &&
-                  reserveOverviewData.stableBorrowRateEnabled
-                }
+                condition={poolReserve.borrowingEnabled && poolReserve.stableBorrowRateEnabled}
               />
             </APYCard>
 
             <APYCard title={intl.formatMessage(messages.variableBorrowing)} color="secondary">
               <APYLine
                 title={intl.formatMessage(messages.borrowAPY)}
-                value={reserveOverviewData.variableAPY}
-                condition={reserveOverviewData.borrowingEnabled}
+                value={Number(poolReserve.variableBorrowAPY)}
+                condition={poolReserve.borrowingEnabled}
               />
               <APYLine
                 title={intl.formatMessage(messages.borrowAPR)}
-                value={reserveOverviewData.variableAPR}
-                condition={reserveOverviewData.borrowingEnabled}
+                value={Number(poolReserve.variableBorrowAPR)}
+                condition={poolReserve.borrowingEnabled}
               />
               <APYLine
                 title={intl.formatMessage(messages.overTotal)}
                 value={reserveOverviewData.variableOverTotal}
-                condition={reserveOverviewData.borrowingEnabled}
+                condition={poolReserve.borrowingEnabled}
               />
             </APYCard>
           </div>
@@ -270,25 +236,25 @@ export default function ReserveInformation({
             />
             {!userIsInIsolationMode ? (
               <>
-                {!reserveOverviewData.isIsolated ? (
+                {!poolReserve.isIsolated ? (
                   <TextBlock
-                    condition={reserveOverviewData.usageAsCollateralEnabled}
+                    condition={poolReserve.usageAsCollateralEnabled}
                     title={intl.formatMessage(messages.usedAsCollateral)}
                   />
                 ) : (
                   <BlockWrapper title={intl.formatMessage(messages.usedAsCollateral)}>
-                    <IsolationModeBadge isIsolated={reserveOverviewData.isIsolated} />
+                    <IsolationModeBadge isIsolated={poolReserve.isIsolated} />
                   </BlockWrapper>
                 )}
               </>
             ) : (
               <BlockWrapper title={intl.formatMessage(messages.usedAsCollateral)}>
-                <IsolationModeBadge isIsolated={reserveOverviewData.isIsolated} />
+                <IsolationModeBadge isIsolated={poolReserve.isIsolated} />
               </BlockWrapper>
             )}
 
             <TextBlock
-              condition={reserveOverviewData.stableBorrowRateEnabled}
+              condition={poolReserve.stableBorrowRateEnabled}
               title={intl.formatMessage(messages.stableBorrowing)}
             />
 

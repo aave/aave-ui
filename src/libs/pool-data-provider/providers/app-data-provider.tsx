@@ -160,7 +160,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
           currencyDecimals: poolReserve.decimals,
           priceInMarketReferenceCurrency: poolReserve.priceInMarketReferenceCurrency,
           marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
-          marketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,
+          normalizedMarketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,
         }),
       };
     }
