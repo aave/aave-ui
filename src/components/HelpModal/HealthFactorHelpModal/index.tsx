@@ -8,6 +8,42 @@ import messages from './messages';
 import bell from './images/bell.svg';
 import bellGray from './images/bellGray.svg';
 import bellGrayDark from './images/bellGrayDark.svg';
+import { AdditionalItemProps } from '../../TextWithModal';
+import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
+
+const HALNotificationIcon: React.FC<AdditionalItemProps> = ({
+  height,
+  width,
+  parentClassName,
+  parentStyle,
+  iconTheme,
+}) => {
+  const { currentAccount } = useUserWalletDataContext();
+
+  const urlString = React.useMemo(() => {
+    const url = new URL('https://9000.hal.xyz/recipes/aave-track-your-health-factor');
+    url.searchParams.set('user', currentAccount);
+
+    return url.toString();
+  }, [currentAccount]);
+
+  return (
+    <a
+      href={urlString}
+      target="_blank"
+      rel="noreferrer"
+      className={parentClassName}
+      style={parentStyle}
+    >
+      <img
+        src={iconTheme === 'dark' ? bellGrayDark : iconTheme === 'gray' ? bellGray : bell}
+        alt="Notify Me"
+        height={height}
+        width={width}
+      />
+    </a>
+  );
+};
 
 export default function HealthFactorHelpModal({
   text,
@@ -28,22 +64,7 @@ export default function HealthFactorHelpModal({
       color={color}
       lightWeight={lightWeight}
       onWhiteBackground={onWhiteBackground}
-      additionalIcon={({ height, width, parentClassName, parentStyle, iconTheme }) => (
-        <a
-          href="https://9000.hal.xyz/recipes/aave-track-your-health-factor"
-          target="_blank"
-          rel="noreferrer"
-          className={parentClassName}
-          style={parentStyle}
-        >
-          <img
-            src={iconTheme === 'dark' ? bellGrayDark : iconTheme === 'gray' ? bellGray : bell}
-            alt="Notify Me"
-            height={height}
-            width={width}
-          />
-        </a>
-      )}
+      additionalIcon={(props) => <HALNotificationIcon {...props} />}
     />
   );
 }

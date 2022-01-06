@@ -12,7 +12,7 @@ import info from './images/info.svg';
 import infoGray from './images/infoGray.svg';
 import infoGrayDark from './images/infoGrayDark.svg';
 
-type AdditionalItemProps = {
+export type AdditionalItemProps = {
   height: number;
   width: number;
   parentClassName: string;
