@@ -15,11 +15,26 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # build
       - name: prepare env
         run: cp ${ENV:-'.github/.env.staging'} .env
 
       - uses: ./.github/actions/build
 
+      # track size
+      - name: track size
+        run: npm run analyze -- --json stats.json
+        shell: bash
+
+      - name: store artifact
+        uses: actions/upload-artifact@v2
+        if: |
+          github.ref == 'refs/heads/master'
+        with:
+          name: stats_master
+          path: stats.json
+
+      # upload to ipfs
       - name: pinata
         id: pinata
         uses: aave/pinata-action@v1.1
