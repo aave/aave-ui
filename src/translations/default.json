@@ -496,7 +496,7 @@
   "modules.deposit.components.IsolationModeScreen.FAQGuide": "FAQ guide",
   "modules.deposit.components.IsolationModeScreen.buttonTitle": "Continue",
   "modules.deposit.components.IsolationModeScreen.caption": "You are entering isolation mode",
-  "modules.deposit.components.IsolationModeScreen.description": "In isolation mode you cannot supply other assets as collateral for borrowing. Assets used as collateral in isolation mode can only be borrowed to a specific debt ceiling.",
+  "modules.deposit.components.IsolationModeScreen.description": "In isolation mode you cannot supply other assets as collateral for borrowing. Assets used as collateral in isolation mode can only be borrowed to a specific debt ceiling. You can only borrow certain assets in isolation mode.",
   "modules.deposit.components.IsolationModeScreen.learnMore": "Learn more in our {link}.",
   "modules.deposit.components.PaymentsPanel.countryOfResidence": "country of residence",
   "modules.deposit.components.PaymentsPanel.description": "Directly purchase this asset via these services. Please make sure you are eligible to use these services based on your {countryOfResidence} or other factors.",
