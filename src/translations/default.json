@@ -277,7 +277,7 @@
   "components.isolationMode.IsolatedAssetModal.howItWorksDescriptionSecond": "To exit isolation mode, you will need to repay all your borrowed positions and turn off the isolated asset being used as collateral from your dashboard.",
   "components.isolationMode.IsolatedAssetModal.learnMore": "Learn more in our {link}.",
   "components.isolationMode.IsolatedAssetModal.whoCanUseIt": "Who can use it",
-  "components.isolationMode.IsolatedAssetModal.whoCanUseItDescription": "To supply an asset in isolation mode you should have any other supplied positions being used as collateral and no borrow positions in your account.",
+  "components.isolationMode.IsolatedAssetModal.whoCanUseItDescription": "To supply an asset in isolation mode you must not have any collateral enabled positions and no open borrow positions in your account.",
   "components.isolationMode.IsolatedBadge.isolated": "Isolated",
   "components.isolationMode.IsolationModeBadge.cannotUsedAsCollateral": "Asset cannot be used as collateral because another asset is used in isolation mode. You can exit isolation mode by repaying any borrowed positions and disabling collateral on that asset from the dashboard.",
   "components.isolationMode.IsolationModeBadge.faqGuide": "FAQ guide",
