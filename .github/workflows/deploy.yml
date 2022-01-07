@@ -30,7 +30,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: stats_master.json
-          key: stats_master
+          key: stats_master-${{github.sha}}
 
       # upload to ipfs
       - name: pinata

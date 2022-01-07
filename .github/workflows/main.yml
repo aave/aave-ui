@@ -37,7 +37,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: stats_master.json
-          key: stats_master
+          key: stats_master-${{ github.event.pull_request.base.sha }}
 
       - uses: actions/github-script@v5
         with:
