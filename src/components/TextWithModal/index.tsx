@@ -15,8 +15,8 @@ import infoGrayDark from './images/infoGrayDark.svg';
 export type AdditionalItemProps = {
   height: number;
   width: number;
-  parentClassName: string;
-  parentStyle: React.CSSProperties;
+  containerClassName: string;
+  containerStyle: React.CSSProperties;
   iconTheme: 'dark' | 'gray' | 'default';
 };
 
@@ -114,8 +114,8 @@ export default function TextWithModal({
           secondaryIcon({
             height: iconHeight,
             width: iconWidth,
-            parentClassName: 'TextWithModal__button',
-            parentStyle: getIconContainerStyle(SECONDARY_ICON_POSITION),
+            containerClassName: 'TextWithModal__button',
+            containerStyle: getIconContainerStyle(SECONDARY_ICON_POSITION),
             iconTheme: withGrayIcon ? (isCurrentThemeDark ? 'dark' : 'gray') : 'default',
           })}
       </div>

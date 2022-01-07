@@ -38,8 +38,8 @@ const marketToHALAaveVersionUrlParam = (market: CustomMarket): string | undefine
 const HALNotificationIcon: React.FC<AdditionalItemProps> = ({
   height,
   width,
-  parentClassName,
-  parentStyle,
+  containerClassName,
+  containerStyle,
   iconTheme,
 }) => {
   const { currentAccount } = useUserWalletDataContext();
@@ -62,8 +62,8 @@ const HALNotificationIcon: React.FC<AdditionalItemProps> = ({
       href={urlString}
       target="_blank"
       rel="noreferrer"
-      className={parentClassName}
-      style={parentStyle}
+      className={containerClassName}
+      style={containerStyle}
     >
       <img
         src={iconTheme === 'dark' ? bellGrayDark : iconTheme === 'gray' ? bellGray : bell}
