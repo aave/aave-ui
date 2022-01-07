@@ -14,7 +14,7 @@ module.exports = async ({ github, context }) => {
       issue_number: context.issue.number,
       owner: context.repo.owner,
       repo: context.repo.repo,
-      body: `Bundle size change: ${diff}MB`,
+      body: `Bundle size change: ${diff} MB`,
     });
   }
 };
