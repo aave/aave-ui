@@ -33,7 +33,6 @@ jobs:
         run: npm run analyze -- --json stats.json
 
       - name: download cached bundle size
-        continue-on-error: true
         uses: actions/cache@v2
         with:
           path: stats_head.json
@@ -43,7 +42,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: stats.json
-          key: stats-${{ github.event.pull_request.base.sha }}
+          key: stats-${{ github.sha }}
 
       - uses: actions/github-script@v5
         with:
