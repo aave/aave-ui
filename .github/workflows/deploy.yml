@@ -23,13 +23,13 @@ jobs:
 
       # track size
       - name: track size
-        run: npm run analyze -- --json stats_master.json
+        run: npm run analyze -- --json stats.json
         shell: bash
 
       - name: cache bundle size
         uses: actions/cache@v2
         with:
-          path: stats_head.json
+          path: stats.json
           key: stats-${{github.sha}}
 
       # upload to ipfs
