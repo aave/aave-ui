@@ -7,7 +7,6 @@ import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
 import { getLPTokenPoolLink } from '../../../../helpers/lp-tokens';
-import { RATES_HISTORY_ENDPOINT } from '../../../../helpers/config/misc-config';
 import { getAssetInfo } from '../../../../helpers/config/assets-config';
 import {
   FormattedReserveHistoryItem,
@@ -64,7 +63,11 @@ function ReserveOverview({
   user,
   userEmodeCategoryId,
 }: ValidationWrapperComponentProps) {
-  const { data: chartsData, loading: chartsLoading } = useReserveRatesHistory(poolReserve.id);
+  const {
+    data: chartsData,
+    loading: chartsLoading,
+    error,
+  } = useReserveRatesHistory(poolReserve.id);
 
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
@@ -75,7 +78,7 @@ function ReserveOverview({
     underlyingAsset: poolReserve.underlyingAsset,
   });
 
-  const isReserveHistoryGraphsVisible = !!RATES_HISTORY_ENDPOINT;
+  const isReserveHistoryGraphsVisible = !error;
 
   return (
     <ScreenWrapper

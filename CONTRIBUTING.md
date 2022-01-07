@@ -21,8 +21,6 @@ You may overwrite them for the production build, by creating an additional `.env
 
 ### General network
 
-REACT_APP_RATES_HISTORY_ENDPOINT - enable rates history endpoint support, optional
-
 REACT_APP_ENABLE_TESTNET - enables markets that are on a network flagged as testnet
 
 ### Fiat onboard

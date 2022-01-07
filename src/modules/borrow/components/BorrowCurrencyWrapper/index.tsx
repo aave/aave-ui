@@ -10,7 +10,6 @@ import messages from './messages';
 
 import { ValidationWrapperComponentProps } from '../../../../components/RouteParamsValidationWrapper';
 import { GraphPoint, InterestRateSeries } from '../../../../components/graphs/types';
-import { RATES_HISTORY_ENDPOINT } from '../../../../helpers/config/misc-config';
 import { getAssetInfo } from '../../../../helpers/config/assets-config';
 
 interface BorrowCurrencyWrapperProps
@@ -33,7 +32,7 @@ export default function BorrowCurrencyWrapper({
   const intl = useIntl();
   const { currentLangSlug } = useLanguageContext();
   const { currentTheme } = useThemeContext();
-  const { data: borrowRatesHistory } = useReserveRatesHistory(poolReserve.id);
+  const { data: borrowRatesHistory, error } = useReserveRatesHistory(poolReserve.id);
   const [series, setSeries] = useState<InterestRateSeries[]>([]);
 
   const asset = getAssetInfo(currencySymbol);
@@ -78,7 +77,7 @@ export default function BorrowCurrencyWrapper({
       userReserve={userReserve}
       user={user}
       type="borrow"
-      showGraphCondition={borrowRatesHistory.length > 1 && !!RATES_HISTORY_ENDPOINT}
+      showGraphCondition={borrowRatesHistory.length > 1 && !error}
       dots={
         poolReserve.stableBorrowRateEnabled
           ? [
