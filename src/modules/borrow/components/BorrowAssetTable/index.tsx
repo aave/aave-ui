@@ -35,7 +35,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
   );
   /**
    * When a user is in isolation mode it's no longer only relevant how much is available to be borrowed.
-   * When others debt accrues to available goes down. Therefore we add a 0.1% margin so the ceiling isn't surpassed.
+   * When others debt accrues to available goes down. Therefore we add a 1% margin so the ceiling isn't surpassed.
    */
   if (
     availableBorrowsMarketReferenceCurrency.gt(0) &&
@@ -43,7 +43,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
     user.isolatedReserve?.isolationModeTotalDebt !== '0'
   ) {
     availableBorrowsMarketReferenceCurrency =
-      availableBorrowsMarketReferenceCurrency.multipliedBy(0.999);
+      availableBorrowsMarketReferenceCurrency.multipliedBy(0.99);
   }
 
   const tokensToBorrow: InternalBorrowTableItem[] = reserves.map<InternalBorrowTableItem>(
@@ -54,7 +54,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
             availableBorrowsMarketReferenceCurrency
               .div(reserve.priceInMarketReferenceCurrency)
               .multipliedBy(
-                user && user.totalBorrowsMarketReferenceCurrency !== '0' ? '0.999' : '1'
+                user && user.totalBorrowsMarketReferenceCurrency !== '0' ? '0.99' : '1'
               ),
             reserve.availableLiquidity
           ).toNumber()

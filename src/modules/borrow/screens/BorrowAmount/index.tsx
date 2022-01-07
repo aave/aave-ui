@@ -51,7 +51,7 @@ function BorrowAmount({ userReserve, poolReserve, user, currencySymbol }: Borrow
   let maxAmountToBorrow = BigNumber.max(
     BigNumber.min(
       poolReserve.borrowCap
-        ? new BigNumber(poolReserve.availableLiquidity).multipliedBy('0.999')
+        ? new BigNumber(poolReserve.availableLiquidity).multipliedBy('0.99')
         : poolReserve.availableLiquidity,
       maxUserAmountToBorrow
     ),
@@ -65,11 +65,11 @@ function BorrowAmount({ userReserve, poolReserve, user, currencySymbol }: Borrow
       )) ||
       /**
        * When a user is in isolation mode it's no longer only relevant how much is available to be borrowed.
-       * When others debt accrues to available goes down. Therefore we add a 0.1% margin so the ceiling isn't surpassed.
+       * When others debt accrues to available goes down. Therefore we add a 1% margin so the ceiling isn't surpassed.
        */
       (user?.isInIsolationMode && user.isolatedReserve?.isolationModeTotalDebt !== '0'))
   ) {
-    maxAmountToBorrow = maxAmountToBorrow.multipliedBy('0.999');
+    maxAmountToBorrow = maxAmountToBorrow.multipliedBy('0.99');
   }
 
   const formattedMaxAmountToBorrow = maxAmountToBorrow.toString(10);
