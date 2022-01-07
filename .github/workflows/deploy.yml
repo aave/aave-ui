@@ -29,8 +29,8 @@ jobs:
       - name: cache bundle size
         uses: actions/cache@v2
         with:
-          path: stats_master.json
-          key: stats_master-${{github.sha}}
+          path: stats_head.json
+          key: stats-${{github.sha}}
 
       # upload to ipfs
       - name: pinata
