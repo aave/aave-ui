@@ -23,7 +23,7 @@ jobs:
 
       # track size
       - name: track size
-        run: npm run analyze -- --json stats.json
+        run: npm run analyze -- --json stats-${{ github.sha }}.json
         shell: bash
 
       - name: cache bundle size

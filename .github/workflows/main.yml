@@ -30,7 +30,7 @@ jobs:
 
       # compare size
       - name: track size
-        run: npm run analyze -- --json stats.json
+        run: npm run analyze -- --json stats-${{ github.sha }}.json
 
       - name: download cached bundle size
         uses: actions/cache@v2
