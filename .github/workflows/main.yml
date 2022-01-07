@@ -30,21 +30,24 @@ jobs:
 
       # compare size
       - name: track size
-        run: npm run analyze -- --json stats.json
+        run: npm run analyze -- --json stats-${{ github.sha }}.json
 
       - name: download cached bundle size
         uses: actions/cache@v2
         with:
-          path: stats_head.json
+          path: stats-${{ github.event.pull_request.base.sha }}.json
           key: stats-${{ github.event.pull_request.base.sha }}
 
       - name: store hash bundle size
         uses: actions/cache@v2
         with:
-          path: stats.json
+          path: stats-${{ github.sha }}.json
           key: stats-${{ github.sha }}
 
       - uses: actions/github-script@v5
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.sha }}
         with:
           script: |
             const script = require('./scripts/compare-size')
