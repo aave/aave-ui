@@ -32,12 +32,12 @@ jobs:
       - name: track size
         run: npm run analyze -- --json stats.json
 
-      - name: download stats
+      - name: download cached bundle size
         continue-on-error: true
-        uses: actions/download-artifact@v2
+        uses: actions/cache@v2
         with:
-          name: stats_master
           path: stats_master.json
+          key: stats_master-${{ github.event.pull_request.base.sha }}
 
       - uses: actions/github-script@v5
         with:
