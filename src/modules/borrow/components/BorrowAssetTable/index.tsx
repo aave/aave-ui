@@ -30,9 +30,21 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
   const { currentLangSlug } = useLanguageContext();
   const { sm } = useThemeContext();
 
-  const availableBorrowsMarketReferenceCurrency = valueToBigNumber(
+  let availableBorrowsMarketReferenceCurrency = valueToBigNumber(
     user?.availableBorrowsMarketReferenceCurrency || 0
   );
+  /**
+   * When a user is in isolation mode it's no longer only relevant how much is available to be borrowed.
+   * When others debt accrues to available goes down. Therefore we add a 0.1% margin so the ceiling isn't surpassed.
+   */
+  if (
+    availableBorrowsMarketReferenceCurrency.gt(0) &&
+    user?.isInIsolationMode &&
+    user.isolatedReserve?.isolationModeTotalDebt !== '0'
+  ) {
+    availableBorrowsMarketReferenceCurrency =
+      availableBorrowsMarketReferenceCurrency.multipliedBy(0.999);
+  }
 
   const tokensToBorrow: InternalBorrowTableItem[] = reserves.map<InternalBorrowTableItem>(
     (reserve) => {

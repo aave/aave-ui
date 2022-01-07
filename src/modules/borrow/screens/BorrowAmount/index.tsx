@@ -47,10 +47,11 @@ function BorrowAmount({ userReserve, poolReserve, user, currencySymbol }: Borrow
   const maxUserAmountToBorrow = valueToBigNumber(
     user?.availableBorrowsMarketReferenceCurrency || 0
   ).div(poolReserve.priceInMarketReferenceCurrency);
+
   let maxAmountToBorrow = BigNumber.max(
     BigNumber.min(
       poolReserve.borrowCap
-        ? new BigNumber(poolReserve.availableLiquidity).multipliedBy('0.995')
+        ? new BigNumber(poolReserve.availableLiquidity).multipliedBy('0.999')
         : poolReserve.availableLiquidity,
       maxUserAmountToBorrow
     ),
@@ -58,12 +59,19 @@ function BorrowAmount({ userReserve, poolReserve, user, currencySymbol }: Borrow
   );
   if (
     maxAmountToBorrow.gt(0) &&
-    (user?.totalBorrowsMarketReferenceCurrency !== '0' ||
-      (poolReserve.isIsolated && poolReserve.isolationModeTotalDebt !== '0')) &&
-    maxUserAmountToBorrow.lt(valueToBigNumber(poolReserve.availableLiquidity).multipliedBy('1.01'))
+    ((user?.totalBorrowsMarketReferenceCurrency !== '0' &&
+      maxUserAmountToBorrow.lt(
+        valueToBigNumber(poolReserve.availableLiquidity).multipliedBy('1.01')
+      )) ||
+      /**
+       * When a user is in isolation mode it's no longer only relevant how much is available to be borrowed.
+       * When others debt accrues to available goes down. Therefore we add a 0.1% margin so the ceiling isn't surpassed.
+       */
+      (user?.isInIsolationMode && user.isolatedReserve?.isolationModeTotalDebt !== '0'))
   ) {
-    maxAmountToBorrow = maxAmountToBorrow.multipliedBy('0.995');
+    maxAmountToBorrow = maxAmountToBorrow.multipliedBy('0.999');
   }
+
   const formattedMaxAmountToBorrow = maxAmountToBorrow.toString(10);
 
   const handleSetAmountSubmit = (amount: string) => {
