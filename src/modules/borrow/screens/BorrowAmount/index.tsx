@@ -58,10 +58,11 @@ function BorrowAmount({ userReserve, poolReserve, user, currencySymbol }: Borrow
   );
   if (
     maxAmountToBorrow.gt(0) &&
-    user?.totalBorrowsMarketReferenceCurrency !== '0' &&
+    (user?.totalBorrowsMarketReferenceCurrency !== '0' ||
+      (poolReserve.isIsolated && poolReserve.isolationModeTotalDebt !== '0')) &&
     maxUserAmountToBorrow.lt(valueToBigNumber(poolReserve.availableLiquidity).multipliedBy('1.01'))
   ) {
-    maxAmountToBorrow = maxAmountToBorrow.multipliedBy('0.99');
+    maxAmountToBorrow = maxAmountToBorrow.multipliedBy('0.995');
   }
   const formattedMaxAmountToBorrow = maxAmountToBorrow.toString(10);
 
