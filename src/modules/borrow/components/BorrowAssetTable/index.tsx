@@ -54,7 +54,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
             availableBorrowsMarketReferenceCurrency
               .div(reserve.priceInMarketReferenceCurrency)
               .multipliedBy(
-                user && user.totalBorrowsMarketReferenceCurrency !== '0' ? '0.99' : '1'
+                user && user.totalBorrowsMarketReferenceCurrency !== '0' ? '0.999' : '1'
               ),
             reserve.availableLiquidity
           ).toNumber()
