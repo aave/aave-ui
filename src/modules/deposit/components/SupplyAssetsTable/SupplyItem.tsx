@@ -64,7 +64,7 @@ export default function SupplyItem({
       <TableButtonsWrapper>
         <TableButtonCol
           disabled={!isActive || isFreezed}
-          title={intl.formatMessage(defaultMessages.deposit)}
+          title={intl.formatMessage(defaultMessages.supply)}
           linkTo={`/deposit/${underlyingAsset}`}
         />
         <TableButtonCol

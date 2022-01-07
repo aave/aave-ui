@@ -157,7 +157,7 @@ export default function ReserveInformation({
           </div>
 
           <div className="ReserveInformation__APY-info">
-            <APYCard title={intl.formatMessage(defaultMessages.deposit)}>
+            <APYCard title={intl.formatMessage(defaultMessages.supply)}>
               <APYLine
                 title={intl.formatMessage(messages.depositAPY)}
                 value={Number(poolReserve.supplyAPY)}

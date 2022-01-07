@@ -5,8 +5,8 @@ export default defineMessages({
 
   utilizationRate: 'Utilization rate',
   availableLiquidity: 'Available liquidity',
-  depositAPY: 'Deposit APY',
-  depositAPR: 'Deposit APR',
+  depositAPY: 'Supply APY',
+  depositAPR: 'Supply APR',
   canBeUsedAsCollateral: 'Can be used as collateral',
   no: 'No',
   yes: 'Yes',

@@ -1,32 +1,32 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  title: 'How much would you like to deposit?',
+  title: 'How much would you like to supply?',
   description:
-    'Please enter an amount you would like to deposit. The maximum amount you can deposit is shown below.',
+    'Please enter an amount you would like to supply. The maximum amount you can supply is shown below.',
   aaveDescription:
-    'Do not deposit your AAVE tokens if you want to {stake} them in the Safety Module. To stake AAVE,  please continue to the {link}',
+    'Do not supply your AAVE tokens if you want to {stake} them in the Safety Module. To stake AAVE,  please continue to the {link}',
   stake: 'stake',
 
   noDataTitle: 'Your balance is zero',
-  noDataDescription: `Your balance of {currencySymbol} is 0. Transfer {currencySymbol} to your wallet to be able to deposit`,
-  noDataLPTokenDescription: `You don't have any {currencySymbol} in your wallet. Transfer {currencySymbol} to your wallet in order to deposit. To get {currencySymbol}, you need to provide liquidity to the correct pool.`,
+  noDataDescription: `Your balance of {currencySymbol} is 0. Transfer {currencySymbol} to your wallet to be able to supply`,
+  noDataLPTokenDescription: `You don't have any {currencySymbol} in your wallet. Transfer {currencySymbol} to your wallet in order to supply. To get {currencySymbol}, you need to provide liquidity to the correct pool.`,
   noDataButtonTitle: `Faucet`,
 
   viewPool: 'View Pool',
 
   connectWallet: 'Please connect a wallet',
   connectWalletDescription:
-    'We couldn’t detect a wallet. Connect a wallet to deposit and see your balance grow.',
+    'We couldn’t detect a wallet. Connect a wallet to supply and see your balance grow.',
 
   warningText:
-    'Before depositing {symbol} please check that the amount you want to deposit is not currently being used for staking. If it is being used for staking, your transaction might fail.',
+    'Before depositing {symbol} please check that the amount you want to supply is not currently being used for staking. If it is being used for staking, your transaction might fail.',
 
   aaveWarning:
     'Depositing your AAVE tokens is not the same as staking them. If you wish to stake your AAVE tokens, please go to the {link}',
   stakingView: 'staking view',
 
-  supplyCapReached: 'Deposit cap is reached',
+  supplyCapReached: 'Supply cap is reached',
   supplyCapReachedDescription:
     'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.', // TODO: need text
 });

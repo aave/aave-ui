@@ -2,8 +2,8 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   errorWalletBalanceNotEnough: `Your {poolReserveSymbol} wallet balance is not enough`,
-  caption: 'Deposit overview',
-  boxDescription: 'Please submit to deposit',
+  caption: 'Supply overview',
+  boxDescription: 'Please submit to supply',
   approveDescription: 'Please approve before depositing',
   permitDescription: 'Please sign before depositing',
   valueRowTitle: 'Amount',
@@ -11,7 +11,7 @@ export default defineMessages({
 
   connectWallet: 'Please connect a wallet',
   connectWalletDescription:
-    'We couldn’t detect a wallet. Connect a wallet to deposit and see your balance grow.',
+    'We couldn’t detect a wallet. Connect a wallet to supply and see your balance grow.',
   collateral: 'Collateral Usage',
   yes: 'Yes',
   no: 'No',

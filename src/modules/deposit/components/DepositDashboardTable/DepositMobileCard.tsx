@@ -99,7 +99,7 @@ export default function DepositMobileCard({
               disabled={!isActive || isFrozen}
             >
               <DefaultButton
-                title={intl.formatMessage(defaultMessages.deposit)}
+                title={intl.formatMessage(defaultMessages.supply)}
                 color="dark"
                 disabled={!isActive || isFrozen}
                 transparent={!isSwapButton}

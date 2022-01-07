@@ -7,8 +7,8 @@ export default defineMessages({
   reserveSize: 'Reserve size',
   utilisationRate: 'Utilisation rate',
 
-  depositAPY: 'Deposit APY',
-  depositAPR: 'Deposit APR',
+  depositAPY: 'Supply APY',
+  depositAPR: 'Supply APR',
   variableBorrowing: 'Variable borrowing',
   borrowAPY: 'Borrow APY',
   borrowAPR: 'Borrow APR',

@@ -2,5 +2,5 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   depositedAssets: 'Deposited assets',
-  nothingDeposited: 'Nothing deposited yet',
+  nothingDeposited: 'Nothing supplied yet',
 });

@@ -89,7 +89,7 @@ export default function SupplyItemMobileCard({
           disabled={!isActive || isFreezed}
         >
           <DefaultButton
-            title={intl.formatMessage(defaultMessages.deposit)}
+            title={intl.formatMessage(defaultMessages.supply)}
             color="dark"
             disabled={!isActive || isFreezed}
           />

@@ -28,7 +28,7 @@ export default function AssetSwapNoDeposits({ numberOfDepositedAssets }: AssetSw
         title={intl.formatMessage(defaultMessages.swap)}
         description={intl.formatMessage(messages.description, {
           assetsDeposited: <strong>1 {intl.formatMessage(messages.assetsDeposited)}</strong>,
-          deposited: <strong>{intl.formatMessage(messages.deposited)}</strong>,
+          deposited: <strong>{intl.formatMessage(messages.supplied)}</strong>,
         })}
       />
 
