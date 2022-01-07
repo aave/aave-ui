@@ -1,6 +1,3 @@
-const stats = require('../stats.json');
-const headStats = require('../stats_head.json');
-
 /**
  * Whenever a pr is merged to master the ci will take a snapshot of the sourcemaps generated.
  * When a pr is created or a commit is pushed the ci will:
@@ -14,22 +11,22 @@ const headStats = require('../stats_head.json');
  * When the diff is >1kb, the ci will comment the bundle size difference.
  */
 module.exports = async ({ github, context }) => {
-  if (context.eventName === 'pull_request') {
-    const masterMainChunk = headStats.results.find((chunk) => /js\/main/.test(chunk.bundleName));
-    const masterMB = masterMainChunk.totalBytes / 1024 / 1024;
+  const stats = require(`../stats-${process.env.HEAD}.json`);
+  const headStats = require(`../stats-${process.env.BASE}.json`);
+  const masterMainChunk = headStats.results.find((chunk) => /js\/main/.test(chunk.bundleName));
+  const masterMB = masterMainChunk.totalBytes / 1024 / 1024;
 
-    const currentMainChunk = stats.results.find((chunk) => /js\/main/.test(chunk.bundleName));
-    const currentMB = currentMainChunk.totalBytes / 1024 / 1024;
+  const currentMainChunk = stats.results.find((chunk) => /js\/main/.test(chunk.bundleName));
+  const currentMB = currentMainChunk.totalBytes / 1024 / 1024;
 
-    const diff = currentMB - masterMB;
+  const diff = currentMB - masterMB;
 
-    if (Math.abs(diff) > 0.001) {
-      await github.rest.issues.createComment({
-        issue_number: context.issue.number,
-        owner: context.repo.owner,
-        repo: context.repo.repo,
-        body: `Bundle size change: ${diff} MB`,
-      });
-    }
+  if (Math.abs(diff) > 0.001) {
+    await github.rest.issues.createComment({
+      issue_number: context.issue.number,
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      body: `Bundle size change: ${diff} MB`,
+    });
   }
 };

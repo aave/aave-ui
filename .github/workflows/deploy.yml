@@ -29,7 +29,7 @@ jobs:
       - name: cache bundle size
         uses: actions/cache@v2
         with:
-          path: stats.json
+          path: stats-${{ github.sha }}.json
           key: stats-${{ github.sha }}
 
       # upload to ipfs
