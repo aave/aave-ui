@@ -45,6 +45,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     baseAssetWrappedAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
     explorerLink: 'https://etherscan.com',
     rpcOnly: false,
+    ratesHistoryApiUrl: 'https://aave-api-v2.aave.com/data/rates-history',
   },
   [ChainId.polygon]: {
     name: 'Polygon POS',
@@ -63,6 +64,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
       url: 'https://wallet.matic.network/bridge/',
       logo: polygonBridgeLogo,
     },
+    ratesHistoryApiUrl: 'https://aave-api-v2.aave.com/data/rates-history',
   },
   [ChainId.mumbai]: {
     name: 'Mumbai',
@@ -116,6 +118,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
       url: 'https://bridge.avax.network/',
       logo: avalancheBridgeLogo,
     },
+    ratesHistoryApiUrl: 'https://aave-api-v2.aave.com/data/rates-history',
   },
   [ChainId.arbitrum_rinkeby]: {
     name: 'Arbitrum Rinkeby',

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { RATES_HISTORY_ENDPOINT } from '../../../helpers/config/misc-config';
+import { useProtocolDataContext } from '../../protocol-data-provider';
 
 type APIResponse = {
   liquidityRate_avg: number;
@@ -37,12 +37,13 @@ const BROKEN_ASSETS = [
 ];
 
 export function useReserveRatesHistory(reserveAddress: string) {
+  const { networkConfig } = useProtocolDataContext();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<FormattedReserveHistoryItem[]>([]);
 
   useEffect(() => {
-    if (RATES_HISTORY_ENDPOINT && !BROKEN_ASSETS.includes(reserveAddress)) {
-      fetchStats(reserveAddress, RATES_HISTORY_ENDPOINT).then((data: APIResponse[]) => {
+    if (networkConfig.ratesHistoryApiUrl && !BROKEN_ASSETS.includes(reserveAddress)) {
+      fetchStats(reserveAddress, networkConfig.ratesHistoryApiUrl).then((data: APIResponse[]) => {
         setData(
           data.map((d) => ({
             timestamp: Math.floor(
@@ -59,9 +60,10 @@ export function useReserveRatesHistory(reserveAddress: string) {
     } else {
       setLoading(false);
     }
-  }, [reserveAddress]);
+  }, [reserveAddress, networkConfig.ratesHistoryApiUrl]);
 
   return {
+    error: !networkConfig.ratesHistoryApiUrl || BROKEN_ASSETS.includes(reserveAddress),
     loading,
     data,
   };

@@ -130,6 +130,12 @@ export default function ConnectWalletModal({
       notSupported:
         isImToken || preferredChainId === ChainId.polygon || preferredChainId === ChainId.avalanche,
     },
+    {
+      title: 'frame',
+      providerName: 'frame',
+      icon: icons.browserWallets,
+      notSupported: preferredChainId !== ChainId.mainnet,
+    },
   ];
 
   return (
