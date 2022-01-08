@@ -11,11 +11,11 @@
  * When the diff is >1kb, the ci will comment the bundle size difference.
  */
 module.exports = async ({ github, context }) => {
-  const stats = require(`../stats-${process.env.HEAD}.json`);
-  const headStats = require(`../stats-${process.env.BASE}.json`);
-  const masterMainChunk = headStats.results.find((chunk) => /js\/main/.test(chunk.bundleName));
+  const masterStats = require(`../stats-master.json`);
+  const masterMainChunk = masterStats.results.find((chunk) => /js\/main/.test(chunk.bundleName));
   const masterMB = masterMainChunk.totalBytes / 1024 / 1024;
 
+  const stats = require(`../stats-${process.env.HEAD}.json`);
   const currentMainChunk = stats.results.find((chunk) => /js\/main/.test(chunk.bundleName));
   const currentMB = currentMainChunk.totalBytes / 1024 / 1024;
 

@@ -23,14 +23,14 @@ jobs:
 
       # track size
       - name: track size
-        run: npm run analyze -- --json stats-${{ github.sha }}.json
+        run: npm run analyze -- --json stats-master.json
         shell: bash
 
       - name: cache bundle size
         uses: actions/cache@v2
         with:
-          path: stats-${{ github.sha }}.json
-          key: stats-${{ github.sha }}
+          path: stats-master.json
+          key: stats-master
 
       # upload to ipfs
       - name: pinata
