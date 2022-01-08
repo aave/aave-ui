@@ -35,8 +35,8 @@ jobs:
       - name: download cached bundle size
         uses: actions/cache@v2
         with:
-          path: stats-${{ github.event.pull_request.base.sha }}.json
-          key: stats-${{ github.event.pull_request.base.sha }}
+          path: stats-master.json
+          key: stats-master
 
       - name: store hash bundle size
         uses: actions/cache@v2
@@ -46,7 +46,6 @@ jobs:
 
       - uses: actions/github-script@v5
         env:
-          BASE: ${{ github.event.pull_request.base.sha }}
           HEAD: ${{ github.sha }}
         with:
           script: |
