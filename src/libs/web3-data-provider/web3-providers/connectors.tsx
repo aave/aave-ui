@@ -4,35 +4,23 @@ import { LedgerConnector } from './connectors/ledger-connector';
 // import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { WalletConnectConnector } from './connectors/wallet-connect-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
-import { FortmaticConnector } from '@web3-react/fortmatic-connector';
-import { AuthereumConnector } from '@web3-react/authereum-connector';
 import { TorusConnector } from '@web3-react/torus-connector';
 import { FrameConnector } from '@web3-react/frame-connector';
 import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
-// import { PortisConnector } from '@web3-react/portis-connector';
-import { PortisConnector } from './connectors/portis-connector';
 
 import { MewConnectConnector } from '@myetherwallet/mewconnect-connector';
 
-import {
-  AUTHEREUM_API_KEY,
-  getFortmaticKeyByChainId,
-  PORTIS_DAPP_ID,
-} from '../../../helpers/config/wallet-config';
 import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
 import { ChainId } from '@aave/contract-helpers';
 
 export type AvailableWeb3Connectors =
   | 'browser'
   | 'ledger'
-  | 'fortmatic'
   | 'wallet-connect'
   | 'wallet-link'
   | 'mew-wallet'
-  | 'authereum'
   | 'torus'
   | 'gnosis-safe'
-  | 'portis'
   | 'frame';
 
 export enum LedgerDerivationPath {
@@ -92,11 +80,6 @@ export function getWeb3Connector(
         pollingInterval: POLLING_INTERVAL,
         preferredNetworkId: chainId,
       });
-    case 'fortmatic':
-      return new FortmaticConnector({
-        chainId,
-        apiKey: getFortmaticKeyByChainId(chainId),
-      });
     case 'mew-wallet':
       return new MewConnectConnector({
         url:
@@ -106,19 +89,6 @@ export function getWeb3Connector(
           networkConfig.publicJsonRPCUrl[0],
         windowClosedError: true,
       });
-    case 'authereum': {
-      if (chainId !== ChainId.mainnet) {
-        raiseUnsupportedNetworkError(chainId, connectorName);
-      }
-      return new AuthereumConnector({
-        chainId,
-        config: {
-          networkName: chainId,
-          rpcUri: networkConfig.privateJsonRPCUrl || networkConfig.publicJsonRPCUrl[0],
-          apiKey: AUTHEREUM_API_KEY,
-        },
-      });
-    }
     case 'torus':
       return new TorusConnector({
         chainId,
@@ -131,13 +101,6 @@ export function getWeb3Connector(
           enabledVerifiers: false,
         },
       });
-    case 'portis': {
-      if (!PORTIS_DAPP_ID) throw new Error('Portis DAPP id not specified');
-      return new PortisConnector({
-        dAppId: PORTIS_DAPP_ID,
-        networks: [chainId],
-      });
-    }
     case 'gnosis-safe': {
       return new SafeAppConnector();
     }

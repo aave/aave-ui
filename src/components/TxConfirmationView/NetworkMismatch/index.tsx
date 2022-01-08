@@ -35,10 +35,9 @@ export default function NetworkMismatch({
 
   // const isExternalNetworkUpdateNeeded =
   //   !isMetaMaskForMatic && ['browser', 'wallet-connect'].includes(currentProviderName);
-  const isManualNetworkUpdateNeeded = ['torus', 'portis'].includes(currentProviderName);
+  const isManualNetworkUpdateNeeded = ['torus'].includes(currentProviderName);
   const isNeededNetworkNotSupported =
-    neededChainId === ChainId.polygon &&
-    ['authereum', 'fortmatic', 'mew-wallet', 'ledger'].includes(currentProviderName);
+    neededChainId === ChainId.polygon && ['mew-wallet', 'ledger'].includes(currentProviderName);
 
   const neededNetworkConfig = getNetworkConfig(neededChainId);
   const currentNetworkConfig = getNetworkConfig(currentChainId);
