@@ -78,7 +78,7 @@ export default function ReserveInformation({
       <div className="ReserveInformation__inner">
         <h3 className="ReserveInformation__title">{intl.formatMessage(messages.caption)}</h3>
 
-        <ContentWrapper className="ReserveInformation__content">
+        <ContentWrapper className="ReserveInformation__content" withBackButton={true}>
           {poolLink && (
             <div className="ReserveInformation__poolLink-inner">
               <p>
