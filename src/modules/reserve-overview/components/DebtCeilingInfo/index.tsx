@@ -12,12 +12,12 @@ import staticStyles from './style';
 
 interface DebtCeilingInfoProps {
   debtCeilingUSD: string;
-  isolationModeTotalDebt: string;
+  isolationModeTotalDebtUSD: string;
 }
 
 export default function DebtCeilingInfo({
   debtCeilingUSD,
-  isolationModeTotalDebt,
+  isolationModeTotalDebtUSD,
 }: DebtCeilingInfoProps) {
   const intl = useIntl();
   const { currentTheme, xl, sm } = useThemeContext();
@@ -54,7 +54,7 @@ export default function DebtCeilingInfo({
       </TextWithModal>
 
       <div className="DebtCeilingInfo__values">
-        {isolationModeTotalDebt} /
+        {isolationModeTotalDebtUSD} /
         <Value
           value={debtCeilingUSD}
           symbol="USD"

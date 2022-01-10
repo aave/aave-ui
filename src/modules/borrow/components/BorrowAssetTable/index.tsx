@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
-import BigNumber from 'bignumber.js';
 import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
@@ -18,6 +17,7 @@ import { BorrowTableItem as InternalBorrowTableItem } from './types';
 import { BorrowTableItem } from '../BorrowDashboardTable/types';
 
 import messages from './messages';
+import { getMaxAmountAvailalbeToBorrow } from '../../utils';
 
 interface BorrowAssetTableProps {
   borrowedReserves: BorrowTableItem[];
@@ -30,35 +30,10 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
   const { currentLangSlug } = useLanguageContext();
   const { sm } = useThemeContext();
 
-  let availableBorrowsMarketReferenceCurrency = valueToBigNumber(
-    user?.availableBorrowsMarketReferenceCurrency || 0
-  );
-  /**
-   * When a user is in isolation mode it's no longer only relevant how much is available to be borrowed.
-   * When others debt accrues to available goes down. Therefore we add a 1% margin so the ceiling isn't surpassed.
-   */
-  if (
-    availableBorrowsMarketReferenceCurrency.gt(0) &&
-    user?.isInIsolationMode &&
-    user.isolatedReserve?.isolationModeTotalDebt !== '0'
-  ) {
-    availableBorrowsMarketReferenceCurrency =
-      availableBorrowsMarketReferenceCurrency.multipliedBy(0.99);
-  }
-
   const tokensToBorrow: InternalBorrowTableItem[] = reserves.map<InternalBorrowTableItem>(
     (reserve) => {
-      const availableBorrows = availableBorrowsMarketReferenceCurrency.gt(0)
-        ? BigNumber.min(
-            // one percent margin to don't fail tx
-            availableBorrowsMarketReferenceCurrency
-              .div(reserve.priceInMarketReferenceCurrency)
-              .multipliedBy(
-                user && user.totalBorrowsMarketReferenceCurrency !== '0' ? '0.99' : '1'
-              ),
-            reserve.availableLiquidity
-          ).toNumber()
-        : 0;
+      const availableBorrows = user ? getMaxAmountAvailalbeToBorrow(reserve, user).toNumber() : 0;
+
       const availableBorrowsInUSD = valueToBigNumber(availableBorrows)
         .multipliedBy(reserve.priceInMarketReferenceCurrency)
         .multipliedBy(marketReferencePriceInUsd)

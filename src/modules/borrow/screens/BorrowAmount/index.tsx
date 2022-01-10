@@ -22,6 +22,7 @@ import { valueToBigNumber } from '@aave/math-utils';
 import BigNumber from 'bignumber.js';
 import { InterestRate } from '@aave/contract-helpers';
 import { useLocation, useNavigate } from 'react-router';
+import { getMaxAmountAvailalbeToBorrow } from '../../utils';
 
 enum BorrowStep {
   AmountForm,
@@ -48,29 +49,9 @@ function BorrowAmount({ userReserve, poolReserve, user, currencySymbol }: Borrow
     user?.availableBorrowsMarketReferenceCurrency || 0
   ).div(poolReserve.priceInMarketReferenceCurrency);
 
-  let maxAmountToBorrow = BigNumber.max(
-    BigNumber.min(
-      poolReserve.borrowCap
-        ? new BigNumber(poolReserve.availableLiquidity).multipliedBy('0.99')
-        : poolReserve.availableLiquidity,
-      maxUserAmountToBorrow
-    ),
-    0
-  );
-  if (
-    maxAmountToBorrow.gt(0) &&
-    ((user?.totalBorrowsMarketReferenceCurrency !== '0' &&
-      maxUserAmountToBorrow.lt(
-        valueToBigNumber(poolReserve.availableLiquidity).multipliedBy('1.01')
-      )) ||
-      /**
-       * When a user is in isolation mode it's no longer only relevant how much is available to be borrowed.
-       * When others debt accrues to available goes down. Therefore we add a 1% margin so the ceiling isn't surpassed.
-       */
-      (user?.isInIsolationMode && user.isolatedReserve?.isolationModeTotalDebt !== '0'))
-  ) {
-    maxAmountToBorrow = maxAmountToBorrow.multipliedBy('0.99');
-  }
+  const maxAmountToBorrow = user
+    ? getMaxAmountAvailalbeToBorrow(poolReserve, user)
+    : new BigNumber(0);
 
   const formattedMaxAmountToBorrow = maxAmountToBorrow.toString(10);
 

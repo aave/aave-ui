@@ -149,8 +149,8 @@ export default function ReserveInformation({
             {poolReserve.usageAsCollateralEnabled && poolReserve.isIsolated && (
               <div className="ReserveInformation__line">
                 <DebtCeilingInfo
-                  debtCeilingUSD={poolReserve.debtCeiling}
-                  isolationModeTotalDebt={poolReserve.isolationModeTotalDebt}
+                  debtCeilingUSD={poolReserve.debtCeilingUSD}
+                  isolationModeTotalDebtUSD={poolReserve.isolationModeTotalDebtUSD}
                 />
               </div>
             )}
