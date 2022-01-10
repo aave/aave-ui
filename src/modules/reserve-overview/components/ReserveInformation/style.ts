@@ -49,6 +49,10 @@ const staticStyles = css.global`
     &__content {
       padding: 20px;
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       @include respond-to(xl) {
         padding: 10px;
       }
@@ -57,6 +61,7 @@ const staticStyles = css.global`
       }
       @include respond-to(md) {
         padding: 20px 30px;
+        display: block;
       }
       @include respond-to(sm) {
         padding: 20px 15px;

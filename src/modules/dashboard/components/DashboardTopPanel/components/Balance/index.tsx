@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
+import NoData from '../../../../../../components/basic/NoData';
 import Value from '../../../../../../components/basic/Value';
 import Row from '../../../../../../components/basic/Row';
 
@@ -12,9 +13,10 @@ interface BalanceProps {
   value: number | string;
   isCollapse: boolean;
   type?: 'deposit' | 'borrow';
+  userId?: string;
 }
 
-export default function Balance({ title, value, isCollapse, type }: BalanceProps) {
+export default function Balance({ title, value, isCollapse, type, userId }: BalanceProps) {
   const { currentTheme, md, sm } = useThemeContext();
 
   const isValueCompact = (isCollapse && md && !sm) || +value > 999999999;
@@ -39,22 +41,26 @@ export default function Balance({ title, value, isCollapse, type }: BalanceProps
       })}
       isColumn={!md ? true : md && !sm && isCollapse}
     >
-      <Value
-        value={value}
-        withSmallDecimals={
-          !value ? false : +value > 999999 && +value < 1000000000 ? false : !isValueCompact
-        }
-        symbol="USD"
-        tokenIcon={true}
-        withoutSymbol={true}
-        maximumValueDecimals={!value ? undefined : isValueCompact ? 2 : maxDecimals}
-        minimumValueDecimals={!value ? undefined : isValueCompact ? undefined : 0}
-        color="white"
-        compact={isValueCompact}
-        tooltipId={+value > 0 ? `${title}_${type}` : undefined}
-        maximumTooltipDecimals={7}
-        minimumTooltipDecimals={7}
-      />
+      {!userId ? (
+        <NoData color="white" />
+      ) : (
+        <Value
+          value={value}
+          withSmallDecimals={
+            !value ? false : +value > 999999 && +value < 1000000000 ? false : !isValueCompact
+          }
+          symbol="USD"
+          tokenIcon={true}
+          withoutSymbol={true}
+          maximumValueDecimals={!value ? undefined : isValueCompact ? 2 : maxDecimals}
+          minimumValueDecimals={!value ? undefined : isValueCompact ? undefined : 0}
+          color="white"
+          compact={isValueCompact}
+          tooltipId={+value > 0 ? `${title}_${type}` : undefined}
+          maximumTooltipDecimals={7}
+          minimumTooltipDecimals={7}
+        />
+      )}
 
       <style jsx={true} global={true}>
         {staticStyles}

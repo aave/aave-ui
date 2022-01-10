@@ -14,7 +14,7 @@ import staticStyles from './style';
 import Snowfall from 'react-snowfall';
 
 // Pages where the banners should be displayed
-export const DISPLAY_BRIDGE_BANNER_PAGES = ['/deposit', '/repay'];
+export const DISPLAY_BRIDGE_BANNER_PAGES = ['/repay'];
 
 interface ScreenWrapperProps {
   pageTitle?: string;

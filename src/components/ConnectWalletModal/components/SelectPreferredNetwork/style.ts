@@ -26,12 +26,16 @@ const staticStyles = css.global`
       }
     }
 
+    .DropdownWrapper__content {
+      width: 100%;
+    }
+
     &__select {
       font-weight: 300;
       font-size: $medium;
-      padding: 6px;
+      padding: 6px 30px;
       border-radius: $borderRadius;
-      min-width: 200px;
+      min-width: 220px;
       border: 1px solid transparent;
       transition: $transition;
       box-shadow: $boxShadow;
@@ -57,18 +61,16 @@ const staticStyles = css.global`
     }
 
     &__option {
-      min-width: 200px;
+      width: 100%;
       font-size: $medium;
       font-weight: 300;
       text-transform: capitalize;
       position: relative;
       padding: 12px 5px;
       @include respond-to(xl) {
-        min-width: 180px;
         font-size: $small;
       }
       @include respond-to(sm) {
-        min-width: 260px;
         font-size: $medium;
       }
       &:after {

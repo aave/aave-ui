@@ -5,5 +5,6 @@ export default defineMessages({
   switchLeftOption: 'Supplied',
 
   connectWallet: 'Please connect your wallet',
-  connectWalletDescription: 'To see your dashboard, you need to connect your wallet.', // TODO: maybe need fix
+  connectWalletDescription:
+    'To see your supplied / borrowed assets, you need to connect your wallet.',
 });

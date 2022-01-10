@@ -20,10 +20,10 @@ export default defineMessages({
     'We couldn’t detect a wallet. Connect a wallet to supply and see your balance grow.',
 
   warningText:
-    'Before depositing {symbol} please check that the amount you want to supply is not currently being used for staking. If it is being used for staking, your transaction might fail.',
+    'Before supplying {symbol} please check that the amount you want to supply is not currently being used for staking. If it is being used for staking, your transaction might fail.',
 
   aaveWarning:
-    'Depositing your AAVE tokens is not the same as staking them. If you wish to stake your AAVE tokens, please go to the {link}',
+    'Supplying your AAVE tokens is not the same as staking them. If you wish to stake your AAVE tokens, please go to the {link}',
   stakingView: 'staking view',
 
   supplyCapReached: 'Supply cap is reached',

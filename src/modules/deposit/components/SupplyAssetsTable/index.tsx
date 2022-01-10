@@ -1,9 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useIntl } from 'react-intl';
 import BigNumber from 'bignumber.js';
 import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
+import { useLanguageContext } from '../../../../libs/language-provider';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import SupplyItem from './SupplyItem';
 import DashboardItemsWrapper from '../../../dashboard/components/DashboardItemsWrapper';
 import TableHeader from '../../../dashboard/components/DashboardTable/TableHeader';
@@ -11,15 +13,25 @@ import SupplyItemMobileCard from './SupplyItemMobileCard';
 import { ComputedReserveData, useAppDataContext } from '../../../../libs/pool-data-provider';
 import Preloader from '../../../../components/basic/Preloader';
 import InfoBanner from '../../../../components/InfoBanner';
-import { useLanguageContext } from '../../../../libs/language-provider';
+import Link from '../../../../components/basic/Link';
+import DashboardItemsTopPanel from '../../../dashboard/components/DashboardItemsTopPanel';
 
 import messages from './messages';
 
 export default function SupplyAssetTable() {
   const intl = useIntl();
+
   const { user, userId, walletBalances, reserves, marketReferencePriceInUsd } = useAppDataContext();
+  const {
+    networkConfig: { bridge, name: networkName, isTestnet },
+  } = useProtocolDataContext();
   const { currentLangSlug } = useLanguageContext();
   const { sm } = useThemeContext();
+
+  const localStorageName = 'showSupplyZeroAssets';
+  const [isShowZeroAssets, setIsShowZeroAssets] = useState(
+    localStorage.getItem(localStorageName) === 'true'
+  );
 
   if (!walletBalances) {
     return <Preloader withText={true} />;
@@ -107,9 +119,12 @@ export default function SupplyAssetTable() {
   //   });
   // }
 
-  const filteredSupplyReserves = tokensToSupply
-    .filter((reserve) => reserve.availableToDepositUSD !== '0')
-    .sort((a, b) => (+a.walletBalanceUSD > +b.walletBalanceUSD ? -1 : 1));
+  const sortedSupplyReserves = tokensToSupply.sort((a, b) =>
+    +a.walletBalanceUSD > +b.walletBalanceUSD ? -1 : 1
+  );
+  const filteredSupplyReserves = sortedSupplyReserves.filter(
+    (reserve) => reserve.availableToDepositUSD !== '0'
+  );
 
   const head = [
     intl.formatMessage(messages.walletBalance),
@@ -122,28 +137,68 @@ export default function SupplyAssetTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLangSlug]);
 
-  if (!filteredSupplyReserves.length) return null;
+  if (!sortedSupplyReserves.length) return null;
+
+  const supplyReserves = isShowZeroAssets
+    ? sortedSupplyReserves
+    : filteredSupplyReserves.length >= 1
+    ? filteredSupplyReserves
+    : sortedSupplyReserves;
+
   return (
     <DashboardItemsWrapper
       title={intl.formatMessage(messages.assetsToDeposit)}
       localStorageName="supplyAssetsDashboardTableCollapse"
-      withBottomText={true}
+      withBottomText={isTestnet}
       withTopMargin={true}
       subTitleComponent={
-        user?.isInIsolationMode && (
-          <InfoBanner text={intl.formatMessage(messages.isolationText)} size="normal" />
-        )
+        <>
+          {user?.isInIsolationMode && (
+            <InfoBanner text={intl.formatMessage(messages.isolationText)} size="normal" />
+          )}
+          {filteredSupplyReserves.length === 0 && (
+            <InfoBanner
+              text={
+                <span>
+                  {intl.formatMessage(messages.zeroStateText, { networkName })}{' '}
+                  {bridge &&
+                    intl.formatMessage(messages.zeroStateBridgeText, {
+                      link: (
+                        <Link
+                          to={bridge.url}
+                          color="secondary"
+                          absolute={true}
+                          inNewWindow={true}
+                          title={bridge.name}
+                        />
+                      ),
+                    })}
+                </span>
+              }
+              size="normal"
+              withoutLink={true}
+            />
+          )}
+          {filteredSupplyReserves.length >= 1 && (
+            <DashboardItemsTopPanel
+              value={isShowZeroAssets}
+              onClick={setIsShowZeroAssets}
+              localStorageName={localStorageName}
+              bridge={bridge}
+            />
+          )}
+        </>
       }
     >
       {!sm ? (
         <>
           <Header />
-          {filteredSupplyReserves.map((item) => (
+          {supplyReserves.map((item) => (
             <SupplyItem {...item} key={item.underlyingAsset} userId={userId} />
           ))}
         </>
       ) : (
-        filteredSupplyReserves.map((item) => (
+        supplyReserves.map((item) => (
           <SupplyItemMobileCard userId={userId} {...item} key={item.underlyingAsset} />
         ))
       )}

@@ -4,8 +4,8 @@ export default defineMessages({
   errorWalletBalanceNotEnough: `Your {poolReserveSymbol} wallet balance is not enough`,
   caption: 'Supply overview',
   boxDescription: 'Please submit to supply',
-  approveDescription: 'Please approve before depositing',
-  permitDescription: 'Please sign before depositing',
+  approveDescription: 'Please approve before supplying',
+  permitDescription: 'Please sign before supplying',
   valueRowTitle: 'Amount',
   newHealthFactor: 'New health factor',
 

@@ -43,8 +43,8 @@ export default function MainDashboardTable({
           />
         ) : (
           <TableNoData
-            caption={intl.formatMessage(messages.depositedAssets)}
-            title={intl.formatMessage(messages.nothingDeposited)}
+            caption={intl.formatMessage(messages.yourSupplies)}
+            title={intl.formatMessage(messages.nothingSupplied)}
           />
         )}
 

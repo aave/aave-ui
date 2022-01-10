@@ -63,7 +63,7 @@ export default function SupplyItem({
 
       <TableButtonsWrapper>
         <TableButtonCol
-          disabled={!isActive || isFreezed}
+          disabled={!isActive || isFreezed || Number(walletBalance) <= 0}
           title={intl.formatMessage(defaultMessages.supply)}
           linkTo={`/deposit/${underlyingAsset}`}
         />

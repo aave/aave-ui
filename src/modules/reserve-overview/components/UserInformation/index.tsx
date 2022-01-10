@@ -86,7 +86,7 @@ export default function UserInformation({
   ) {
     availableBorrows = availableBorrows.multipliedBy('0.99');
   }
-  const formattedAvailableBorrows = availableBorrows.toString(10);
+  const formattedAvailableBorrows = availableBorrows.toNumber();
 
   let availableToDeposit = valueToBigNumber(walletBalance);
   if (poolReserve.supplyCap !== '0') {
@@ -96,7 +96,7 @@ export default function UserInformation({
     );
   }
   const formattedAvailableDeposits =
-    availableToDeposit.toNumber() <= 0 ? 0 : availableToDeposit.toString(10);
+    availableToDeposit.toNumber() <= 0 ? 0 : availableToDeposit.toNumber();
 
   const switcherHeight = xl && !sm ? 16 : sm ? 26 : 20;
   const switcherWidth = xl && !sm ? 30 : sm ? 50 : 40;
@@ -122,7 +122,7 @@ export default function UserInformation({
     isReserveInEmode && isAssetStable(symbol) && formattedAvailableBorrows && !poolReserve.isFrozen;
 
   let isBorrowEnable =
-    !formattedAvailableBorrows || poolReserve.borrowingEnabled || !poolReserve.isFrozen;
+    !!formattedAvailableBorrows && poolReserve.borrowingEnabled && !poolReserve.isFrozen;
   if (isReserveInEmode && user?.isInIsolationMode) {
     isBorrowEnable = !!isBorrowEnableBasedOnEmode && !!borrowableAssetInIsolationMode;
   } else if (isUserOnEmode) {
@@ -131,7 +131,7 @@ export default function UserInformation({
     isBorrowEnable = !!borrowableAssetInIsolationMode;
   } else {
     isBorrowEnable =
-      !!formattedAvailableBorrows || poolReserve.borrowingEnabled || !poolReserve.isFrozen;
+      !!formattedAvailableBorrows && poolReserve.borrowingEnabled && !poolReserve.isFrozen;
   }
 
   return (

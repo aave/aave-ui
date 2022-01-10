@@ -1,6 +1,7 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  explore: 'Explore {link}',
-  marketStats: 'Market stats',
+  description:
+    'Since this is a test network, you can get any of the assets if you have ETH on your wallet {link}', // TODO: need text
+  faucet: 'Faucet',
 });

@@ -89,7 +89,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
     .sort((a, b) => (+a.availableBorrowsInUSD > +b.availableBorrowsInUSD ? -1 : 0));
 
   const head = [
-    intl.formatMessage(messages.maxAmount),
+    intl.formatMessage(messages.available),
     intl.formatMessage(messages.APYVariable),
     intl.formatMessage(messages.APYStable),
   ];
@@ -98,6 +98,23 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
     return <TableHeader head={head} />;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLangSlug]);
+
+  const maxBorrowAmount = valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0').plus(
+    user?.availableBorrowsMarketReferenceCurrency || '0'
+  );
+  const collateralUsagePercent = maxBorrowAmount.eq(0)
+    ? '0'
+    : valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0')
+        .div(maxBorrowAmount)
+        .toFixed();
+
+  const borrowReserves =
+    user?.totalCollateralMarketReferenceCurrency === '0' || +collateralUsagePercent >= 0.98
+      ? filteredBorrowReserves
+      : filteredBorrowReserves.filter(
+          ({ availableBorrowsInUSD, totalLiquidityUSD }) =>
+            availableBorrowsInUSD !== '0.00' && totalLiquidityUSD !== '0'
+        );
 
   return filteredBorrowReserves.length ? (
     <>
@@ -112,43 +129,35 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
         title={intl.formatMessage(messages.assetsToBorrow)}
         localStorageName="borrowAssetsDashboardTableCollapse"
         subTitleComponent={
-          (user?.isInIsolationMode || user?.totalCollateralMarketReferenceCurrency === '0') && (
-            <InfoBanner
-              text={intl.formatMessage(
-                user?.isInIsolationMode ? messages.isolationText : messages.noCollateralText
-              )}
-              size="normal"
-            />
-          )
+          <>
+            {(user?.isInIsolationMode || user?.totalCollateralMarketReferenceCurrency === '0') && (
+              <InfoBanner
+                text={intl.formatMessage(
+                  user?.isInIsolationMode ? messages.isolationText : messages.noCollateralText
+                )}
+                size="normal"
+              />
+            )}
+            {+collateralUsagePercent >= 0.98 && (
+              <InfoBanner
+                text={intl.formatMessage(messages.liquidationText)}
+                size="normal"
+                withoutLink={true}
+              />
+            )}
+          </>
         }
-        withBottomText={true}
         withTopMargin={true}
       >
         {!sm ? (
           <>
             <Header />
-            {user?.totalCollateralMarketReferenceCurrency === '0'
-              ? filteredBorrowReserves.map((item) => (
-                  <BorrowItem {...item} key={item.id} userId={userId} />
-                ))
-              : filteredBorrowReserves
-                  .filter(
-                    ({ availableBorrowsInUSD, totalLiquidityUSD }) =>
-                      availableBorrowsInUSD !== '0.00' && totalLiquidityUSD !== '0'
-                  )
-                  .map((item) => <BorrowItem {...item} key={item.id} userId={userId} />)}
+            {borrowReserves.map((item) => (
+              <BorrowItem {...item} key={item.id} userId={userId} />
+            ))}
           </>
-        ) : user?.totalCollateralMarketReferenceCurrency === '0' ? (
-          filteredBorrowReserves.map((item) => (
-            <BorrowMobileCard userId={userId} {...item} key={item.id} />
-          ))
         ) : (
-          filteredBorrowReserves
-            .filter(
-              ({ availableBorrowsInUSD, totalLiquidityUSD }) =>
-                availableBorrowsInUSD !== '0.00' && totalLiquidityUSD !== '0'
-            )
-            .map((item) => <BorrowMobileCard userId={userId} {...item} key={item.id} />)
+          borrowReserves.map((item) => <BorrowMobileCard userId={userId} {...item} key={item.id} />)
         )}
       </DashboardItemsWrapper>
     </>

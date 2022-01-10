@@ -15,6 +15,7 @@ interface DepositBalanceSectionProps {
   balance: number | string;
   collateralUSD: number | string;
   isUserInIsolationMode?: boolean;
+  userId?: string;
 }
 
 export default function DepositBalanceSection({
@@ -22,6 +23,7 @@ export default function DepositBalanceSection({
   balance,
   collateralUSD,
   isUserInIsolationMode,
+  userId,
 }: DepositBalanceSectionProps) {
   const intl = useIntl();
   const { md, sm, lg } = useThemeContext();
@@ -34,6 +36,7 @@ export default function DepositBalanceSection({
         title={intl.formatMessage(messages.depositBalance)}
         value={balance}
         type="deposit"
+        userId={userId}
         children={
           !isCollapse || (md && !sm && !isCollapse) ? (
             <>

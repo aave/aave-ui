@@ -10,7 +10,6 @@ import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { loanActionLinkComposer } from '../../../../helpers/loan-action-link-composer';
 import { toggleUseAsCollateral } from '../../../../helpers/toggle-use-as-collateral';
 import { toggleBorrowRateMode } from '../../../../helpers/toggle-borrow-rate-mode';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import Preloader from '../../../../components/basic/Preloader';
 import DashboardTopPanel from '../../components/DashboardTopPanel';
 import LabeledSwitcher from '../../../../components/basic/LabeledSwitcher';
@@ -18,8 +17,6 @@ import NoDataPanel from '../../../../components/NoDataPanel';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import MainDashboardTable from '../../components/MainDashboardTable';
 import IncentivesClaimPanel from '../../../../components/incentives/IncentivesClaimPanel';
-import DashboardNoData from '../../components/DashboardNoData';
-import BridgeBanner from '../../../../components/BridgeBanner';
 
 import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
@@ -31,11 +28,7 @@ export default function Dashboard() {
   const intl = useIntl();
   const navigate = useNavigate();
 
-  const { user, userId, reserves, loading, walletBalances, isUserHasDeposits } =
-    useAppDataContext();
-  const {
-    networkConfig: { bridge, name },
-  } = useProtocolDataContext();
+  const { user, userId, reserves, loading } = useAppDataContext();
 
   const { currentTheme } = useThemeContext();
 
@@ -61,7 +54,6 @@ export default function Dashboard() {
 
   const depositedPositions: DepositTableItem[] = [];
   const borrowedPositions: BorrowTableItem[] = [];
-  let canSupply = false;
 
   user?.userReservesData.forEach((userReserve) => {
     const poolReserve = reserves.find((res) => res.symbol === userReserve.reserve.symbol);
@@ -78,9 +70,6 @@ export default function Dashboard() {
         liquidityRate: poolReserve.supplyAPY,
       },
     };
-
-    const walletBalance = walletBalances[poolReserve.underlyingAsset]?.amount || '0';
-    if (walletBalance !== '0') canSupply = true;
 
     depositedPositions.push({
       ...baseListData,
@@ -153,23 +142,20 @@ export default function Dashboard() {
     }
   });
 
-  const isTableShow = isUserHasDeposits || canSupply;
-
   return (
-    <div className={classNames('Dashboard', { Dashboard__fullHeight: !userId || !isTableShow })}>
+    <div className={classNames('Dashboard', { Dashboard__fullHeight: !userId })}>
       <div className="Dashboard__top--line">
         <IncentivesClaimPanel />
       </div>
 
       <DashboardTopPanel
         user={user}
+        userId={userId}
         collateralUsagePercent={collateralUsagePercent}
         loanToValue={loanToValue}
       />
 
-      {bridge && <BridgeBanner networkName={name} {...bridge} />}
-
-      {userId && isTableShow && (
+      {userId && (
         <div className="Dashboard__switcher-inner">
           <LabeledSwitcher
             rightOption={intl.formatMessage(messages.switchRightOption)}
@@ -179,23 +165,20 @@ export default function Dashboard() {
               setIsBorrow(!isBorrow);
             }}
             className="Dashboard__switcher"
+            width={240}
+            height={36}
+            fontSize={14}
           />
         </div>
       )}
 
       {userId ? (
-        <>
-          {isTableShow ? (
-            <MainDashboardTable
-              isUserInIsolationMode={user?.isInIsolationMode}
-              borrowedPositions={borrowedPositions}
-              depositedPositions={depositedPositions.filter((pos) => pos.underlyingBalance !== '0')}
-              isBorrow={isBorrow}
-            />
-          ) : (
-            <DashboardNoData />
-          )}
-        </>
+        <MainDashboardTable
+          isUserInIsolationMode={user?.isInIsolationMode}
+          borrowedPositions={borrowedPositions}
+          depositedPositions={depositedPositions.filter((pos) => pos.underlyingBalance !== '0')}
+          isBorrow={isBorrow}
+        />
       ) : (
         <ContentWrapper withBackButton={true} withFullHeight={true}>
           <NoDataPanel

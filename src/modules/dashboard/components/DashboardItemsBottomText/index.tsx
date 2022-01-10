@@ -14,14 +14,8 @@ export default function DashboardItemsBottomText() {
   return (
     <div className="DashboardItemsBottomText">
       <p>
-        {intl.formatMessage(messages.explore, {
-          link: (
-            <Link
-              to="/markets"
-              title={intl.formatMessage(messages.marketStats)}
-              color="secondary"
-            />
-          ),
+        {intl.formatMessage(messages.description, {
+          link: <Link to="/faucet" title={intl.formatMessage(messages.faucet)} color="secondary" />,
         })}
       </p>
 
