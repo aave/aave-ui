@@ -6,7 +6,7 @@ export default defineMessages({
   pageTitleFirst: `Use {currencySymbol} as collateral`,
   pageTitleSecond: `Disable {currencySymbol} as collateral`,
 
-  errorDoNotHaveDepositsInThisCurrency: "You don't have deposits in this currency",
+  errorDoNotHaveDepositsInThisCurrency: "You don't have supplies in this currency",
   errorCanNotUseThisCurrencyAsCollateral: "You can't use this currency as collateral",
   errorCanNotSwitchUsageAsCollateralMode:
     "You can't switch usage as collateral mode for this currency, because it will cause collateral call",

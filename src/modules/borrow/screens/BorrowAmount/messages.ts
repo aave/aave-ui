@@ -5,7 +5,7 @@ export default defineMessages({
   description:
     'Please enter an amount you would like to borrow. The maximum amount you can borrow is shown below.',
 
-  noDataTitle: 'No deposits yet',
+  noDataTitle: 'No supplies yet',
   noDataDescription: 'You need to supply some collateral first to unlock your borrowing power.',
   noLiquidityAvailableTitle: 'No liquidity',
   noLiquidityAvailableDescription: 'There is no {symbol} available liquidity to borrow.',
