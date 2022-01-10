@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
@@ -14,11 +14,12 @@ import warning from '../../images/warningTransparentDarkBlue.svg';
 import warningDark from '../../images/warningTransparentWhite.svg';
 
 interface InfoBannerProps {
-  text: string;
+  text: string | ReactNode;
   size?: 'small' | 'normal';
   link?: string;
   withIcon?: boolean;
   withoutMargin?: boolean;
+  withoutLink?: boolean;
 }
 
 export default function InfoBanner({
@@ -27,6 +28,7 @@ export default function InfoBanner({
   link,
   withIcon,
   withoutMargin,
+  withoutLink,
 }: InfoBannerProps) {
   const intl = useIntl();
   const { currentTheme, isCurrentThemeDark, sm } = useThemeContext();
@@ -41,13 +43,15 @@ export default function InfoBanner({
       {size === 'normal' && <img src={isCurrentThemeDark ? warningDark : warning} alt="" />}
       <p>
         {text}{' '}
-        <Link
-          to={link || 'https://docs.aave.com/faq/'} // TODO: maybe need change link
-          title={intl.formatMessage(messages.learnMore)}
-          color="secondary"
-          absolute={true}
-          inNewWindow={true}
-        />
+        {!withoutLink && (
+          <Link
+            to={link || 'https://docs.aave.com/faq/'} // TODO: maybe need change link
+            title={intl.formatMessage(messages.learnMore)}
+            color="secondary"
+            absolute={true}
+            inNewWindow={true}
+          />
+        )}
       </p>
 
       <style jsx={true} global={true}>

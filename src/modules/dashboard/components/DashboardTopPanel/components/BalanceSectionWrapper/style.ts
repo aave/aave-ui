@@ -14,6 +14,13 @@ const staticStyles = css.global`
         width: 100%;
       }
     }
+
+    &.BalanceSectionWrapper__zeroState.SectionWrapper.SectionWrapper.SectionWrapper {
+      width: 50%;
+      @include respond-to(md) {
+        width: 100%;
+      }
+    }
   }
 `;
 

@@ -17,7 +17,7 @@ import { DepositTableItem } from './types';
 
 export default function DepositItem({
   userId,
-  reserve: { symbol, liquidityRate, id, underlyingAsset },
+  reserve: { symbol, liquidityRate, underlyingAsset },
   usageAsCollateralEnabledOnUser,
   underlyingBalance,
   underlyingBalanceUSD,
@@ -27,7 +27,6 @@ export default function DepositItem({
   aIncentives,
   canBeEnabledAsCollateral,
   isIsolated,
-  ...rest
 }: DepositTableItem) {
   const intl = useIntl();
   const { currentMarketData } = useProtocolDataContext();
@@ -35,7 +34,7 @@ export default function DepositItem({
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
 
   return (
-    <TableItem tokenSymbol={symbol} {...rest}>
+    <TableItem tokenSymbol={symbol}>
       <TableValueCol
         userId={userId}
         symbol={symbol}

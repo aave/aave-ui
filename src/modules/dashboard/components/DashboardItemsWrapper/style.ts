@@ -63,7 +63,7 @@ const staticStyles = css.global`
         padding: 20px;
       }
       @include respond-to(sm) {
-        padding: 0 5px;
+        padding: 0;
       }
     }
     &__titleWithClick {

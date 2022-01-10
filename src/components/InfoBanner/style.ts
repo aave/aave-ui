@@ -16,6 +16,8 @@ const staticStyles = css.global`
       font-size: $regular;
       min-height: 36px;
       display: flex;
+      justify-content: center;
+      text-align: left;
       @include respond-to(xl) {
         font-size: $medium;
         min-height: 32px;
@@ -27,9 +29,8 @@ const staticStyles = css.global`
       @include respond-to(md) {
         font-size: $medium;
         margin: 10px 0 15px;
-        text-align: center;
-        justify-content: center;
         min-height: 34px;
+        text-align: center;
       }
       @include respond-to(sm) {
         margin: 10px 0 20px;

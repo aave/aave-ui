@@ -45,14 +45,16 @@ export default function routeParamValidationHOC({
     const [search] = useSearchParams();
     const underlyingAsset = params.underlyingAsset as string;
 
-    const { walletBalances, userEmodeCategoryId, reserves, user, loading } = useAppDataContext();
+    const { walletBalances, userEmodeCategoryId, reserves, user, userId, loading } =
+      useAppDataContext();
 
     const poolReserve = reserves.find((res) => res.underlyingAsset === underlyingAsset);
-    const userReserve = user
-      ? user.userReservesData.find(
-          (userReserve) => userReserve.reserve.underlyingAsset === underlyingAsset
-        )
-      : undefined;
+    const userReserve =
+      userId && user
+        ? user.userReservesData.find(
+            (userReserve) => userReserve.reserve.underlyingAsset === underlyingAsset
+          )
+        : undefined;
 
     const currencySymbol = poolReserve?.symbol || '';
 
@@ -101,7 +103,7 @@ export default function routeParamValidationHOC({
       poolReserve,
       userReserve,
       amount,
-      user,
+      user: userId ? user : undefined,
       walletBalance,
       walletBalanceUSD,
       isWalletBalanceEnough,

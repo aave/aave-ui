@@ -42,7 +42,7 @@ export default function SupplyItemMobileCard({
   return (
     <MobileCardWrapper symbol={symbol} disabled={isFreezed} isIsolated={isIsolated}>
       <Row title={intl.formatMessage(messages.walletBalance)} withMargin={true}>
-        {!userId || Number(walletBalance) <= 0 ? (
+        {!userId ? (
           <NoData color="dark" />
         ) : (
           <Value
@@ -86,12 +86,12 @@ export default function SupplyItemMobileCard({
         <Link
           to={`/deposit/${underlyingAsset}`}
           className="ButtonLink"
-          disabled={!isActive || isFreezed}
+          disabled={!isActive || isFreezed || Number(walletBalance) <= 0}
         >
           <DefaultButton
             title={intl.formatMessage(defaultMessages.supply)}
             color="dark"
-            disabled={!isActive || isFreezed}
+            disabled={!isActive || isFreezed || Number(walletBalance) <= 0}
           />
         </Link>
 

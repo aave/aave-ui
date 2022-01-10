@@ -38,8 +38,8 @@ export default function BorrowMobileCard({
 
   return (
     <MobileCardWrapper symbol={symbol} disabled={isFreezed} isIsolated={false}>
-      <Row title={intl.formatMessage(messages.maxAmount)} withMargin={true}>
-        {!userId || Number(availableBorrows) <= 0 ? (
+      <Row title={intl.formatMessage(messages.available)} withMargin={true}>
+        {!userId ? (
           <NoData color="dark" />
         ) : (
           <Value

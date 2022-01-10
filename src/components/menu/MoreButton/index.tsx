@@ -39,6 +39,9 @@ export default function MoreButton() {
         >
           <span>{intl.formatMessage(messages.more)}</span>
           <strong>{intl.formatMessage(messages.more)}</strong>
+          <i />
+          <i />
+          <i />
         </button>
       }
     >

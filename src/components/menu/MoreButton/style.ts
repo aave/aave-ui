@@ -14,6 +14,8 @@ const staticStyles = css.global`
       position: relative;
       text-transform: uppercase;
       padding: 15px 0;
+      display: flex;
+      align-items: center;
       @include respond-to(xl) {
         font-size: $medium;
       }
@@ -38,6 +40,19 @@ const staticStyles = css.global`
         position: absolute;
         left: 0;
         opacity: 0;
+      }
+      i {
+        display: block;
+        position: relative;
+        width: 4px;
+        height: 4px;
+        background: white;
+        border-radius: 50%;
+        margin-left: 8px;
+        &:nth-last-of-type(1),
+        &:nth-last-of-type(2) {
+          margin-left: 5px;
+        }
       }
     }
 

@@ -17,7 +17,7 @@ export default function IncentivesClaimPanel() {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
 
-  const { user } = useAppDataContext();
+  const { user, userId } = useAppDataContext();
 
   // Only display assets for which user has claimable rewards
   const userIncentivesFiltered = user
@@ -28,7 +28,7 @@ export default function IncentivesClaimPanel() {
       )
     : {};
 
-  if (!user || Object.keys(userIncentivesFiltered).length === 0) return null;
+  if (!userId || !user || Object.keys(userIncentivesFiltered).length === 0) return null;
 
   const linkTo =
     Object.keys(userIncentivesFiltered).length === 1

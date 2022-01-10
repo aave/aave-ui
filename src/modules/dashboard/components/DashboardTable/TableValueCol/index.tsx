@@ -30,7 +30,7 @@ export default function TableValueCol({
 }: TableValueColProps) {
   return (
     <TableCol>
-      {!userId || Number(value) <= 0 ? (
+      {!userId ? (
         <NoData color="dark" />
       ) : (
         <Value

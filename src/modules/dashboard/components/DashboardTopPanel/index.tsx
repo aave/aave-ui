@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
 
 import toggleLocalStorageClick from '../../../../helpers/toggle-local-storage-click';
 import TopPanelWrapper from '../../../../components/wrappers/TopPanelWrapper';
@@ -14,37 +15,36 @@ import HealthFactorSection from './components/HealthFactorSection';
 
 import messages from './messages';
 import staticStyles from './style';
-import { FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
-import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 interface DashboardTopPanelProps {
   user?: FormatUserSummaryAndIncentivesResponse & { earnedAPY: number; debtAPY: number };
+  userId?: string;
   collateralUsagePercent: string;
   loanToValue: string;
 }
 
 export default function DashboardTopPanel({
   user,
+  userId,
   collateralUsagePercent,
   loanToValue,
 }: DashboardTopPanelProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
-  const { currentAccount } = useUserWalletDataContext();
 
   const localStorageName = 'dashboardTopPanel';
   const [isCollapse, setIsCollapse] = useState(localStorage.getItem(localStorageName) === 'true');
 
   const netWorthUSD = Number(user?.netWorthUSD || 0);
 
-  const collapsed = !user || isCollapse;
+  const collapsed = !userId || !user || !isCollapse || !netWorthUSD;
 
   return (
     <TopPanelWrapper
       className="DashboardTopPanel"
       isCollapse={collapsed}
       setIsCollapse={() => toggleLocalStorageClick(isCollapse, setIsCollapse, localStorageName)}
-      withoutCollapseButton={!user}
+      withoutCollapseButton={!userId || !user || !netWorthUSD}
       minimizeMessage={messages.hideDetails}
       expandMessage={messages.showDetails}
     >
@@ -66,12 +66,14 @@ export default function DashboardTopPanel({
             DashboardTopPanel__contentCollapse: collapsed,
           })}
         >
-          <NetAPYSection
-            earnedAPY={user?.earnedAPY || 0}
-            debtAPY={user?.debtAPY || 0}
-            netWorth={netWorthUSD}
-            isCollapse={collapsed}
-          />
+          {userId && user && !!netWorthUSD && (
+            <NetAPYSection
+              earnedAPY={user?.earnedAPY || 0}
+              debtAPY={user?.debtAPY || 0}
+              netWorth={netWorthUSD}
+              isCollapse={collapsed}
+            />
+          )}
 
           <div className="DashboardTopPanel__sections">
             <DepositBalanceSection
@@ -81,20 +83,24 @@ export default function DashboardTopPanel({
                 user && user?.totalCollateralUSD !== '0' ? user?.totalCollateralUSD : 0
               }
               isUserInIsolationMode={user?.isInIsolationMode}
+              userId={userId}
             />
             <BorrowBalanceSection
               isCollapse={collapsed}
               balance={user && user.totalBorrowsUSD !== '0' ? user.totalBorrowsUSD : 0}
-              userId={currentAccount}
+              userId={userId}
             />
-            <HealthFactorSection
-              isCollapse={collapsed}
-              healthFactor={user?.healthFactor || '-1'}
-              collateralUsagePercent={collateralUsagePercent}
-              loanToValue={loanToValue}
-              currentLoanToValue={user?.currentLoanToValue || '0'}
-              currentLiquidationThreshold={user?.currentLiquidationThreshold || '0'}
-            />
+
+            {userId && user && !!netWorthUSD && (
+              <HealthFactorSection
+                isCollapse={collapsed}
+                healthFactor={user?.healthFactor || '-1'}
+                collateralUsagePercent={collateralUsagePercent}
+                loanToValue={loanToValue}
+                currentLoanToValue={user?.currentLoanToValue || '0'}
+                currentLiquidationThreshold={user?.currentLiquidationThreshold || '0'}
+              />
+            )}
           </div>
         </div>
       </div>

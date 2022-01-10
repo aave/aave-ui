@@ -13,6 +13,7 @@ interface BalanceSectionWrapperProps {
   children?: ReactNode;
   className?: string;
   type?: 'deposit' | 'borrow';
+  userId?: string;
 }
 
 export default function BalanceSectionWrapper({
@@ -22,13 +23,18 @@ export default function BalanceSectionWrapper({
   children,
   className,
   type,
+  userId,
 }: BalanceSectionWrapperProps) {
   return (
     <SectionWrapper
-      className={classNames('BalanceSectionWrapper', className)}
+      className={classNames(
+        'BalanceSectionWrapper',
+        { BalanceSectionWrapper__zeroState: !userId || +value === 0 },
+        className
+      )}
       isCollapse={isCollapse}
     >
-      <Balance title={title} value={value} isCollapse={isCollapse} type={type} />
+      <Balance title={title} value={value} isCollapse={isCollapse} type={type} userId={userId} />
 
       {!!children && <div className="BalanceSectionWrapper__content">{children}</div>}
 
