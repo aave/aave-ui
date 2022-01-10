@@ -7,8 +7,6 @@ import { BrowserRouter, HashRouter } from 'react-router-dom';
 import Modal from 'react-modal';
 import { Web3ReactProvider } from '@web3-react/core';
 import { ethers } from 'ethers';
-import TagManager from 'react-gtm-module';
-
 import * as serviceWorker from './serviceWorker';
 
 import initSentry from './libs/sentry';
@@ -38,6 +36,7 @@ Modal.setAppElement('#root');
 
 const GTM_ID = process.env.REACT_APP_GTM_ID;
 if (GTM_ID) {
+  const TagManager = require('react-gtm-module');
   TagManager.initialize({ gtmId: GTM_ID });
 }
 
