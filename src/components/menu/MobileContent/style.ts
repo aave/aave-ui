@@ -222,6 +222,12 @@ const staticStyles = css.global`
       justify-content: center;
       a {
         margin: 0 10px;
+        &:last-of-type {
+          img {
+            width: 44px !important;
+            height: 44px !important;
+          }
+        }
       }
     }
   }

@@ -17,12 +17,21 @@ const staticStyles = css.global`
       border-radius: unset;
     }
 
-    &__collapsed {
+    &__collapsed,
+    &__noData {
       @include respond-to(sm) {
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
         border-radius: $borderRadius;
       }
 
+      .DashboardItemsWrapper__title--inner {
+        @include respond-to(sm) {
+          padding: 20px;
+        }
+      }
+    }
+
+    &__collapsed {
       .DashboardItemsWrapper__collapseButton {
         span {
           &:after {
@@ -33,11 +42,6 @@ const staticStyles = css.global`
       .DashboardItemsWrapper__subTitle--inner,
       .DashboardItemsWrapper__content {
         display: none;
-      }
-      .DashboardItemsWrapper__title--inner {
-        @include respond-to(sm) {
-          padding: 20px;
-        }
       }
 
       &.DashboardItemsWrapper__withTopMargin {
@@ -70,8 +74,7 @@ const staticStyles = css.global`
       cursor: pointer;
     }
 
-    &__title,
-    .AvailableCapsHelpModal .TextWithModal__text {
+    &__title {
       font-weight: 600;
       font-size: $large;
       @include respond-to(xl) {
@@ -113,6 +116,23 @@ const staticStyles = css.global`
           height: 14px;
           width: 2px;
           transition: all 0.3s ease;
+        }
+      }
+    }
+
+    .NoDataPanel {
+      min-height: 93px;
+      padding: 10px 0 30px;
+      @include respond-to(xl) {
+        min-height: 91px;
+      }
+      @include respond-to(sm) {
+        padding: 20px 15px;
+      }
+      .Caption {
+        margin-bottom: 0;
+        h2 {
+          margin-bottom: 0;
         }
       }
     }

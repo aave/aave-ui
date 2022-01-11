@@ -107,13 +107,19 @@ const staticStyles = css.global`
     }
 
     &__switcher-inner {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       min-height: auto;
       border-bottom: none !important;
     }
 
     &__socialIcon {
       margin: 0 4px;
+      &:last-of-type {
+        img {
+          width: 24px !important;
+          height: 24px !important;
+        }
+      }
     }
   }
 `;

@@ -16,6 +16,7 @@ interface DashboardItemsWrapperProps {
   children: ReactNode;
   withBottomText?: boolean;
   withTopMargin?: boolean;
+  noData?: boolean;
 }
 
 export default function DashboardItemsWrapper({
@@ -25,6 +26,7 @@ export default function DashboardItemsWrapper({
   children,
   withBottomText,
   withTopMargin,
+  noData,
 }: DashboardItemsWrapperProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -37,6 +39,7 @@ export default function DashboardItemsWrapper({
     <div
       className={classNames('DashboardItemsWrapper', {
         DashboardItemsWrapper__collapsed: !!localStorageName && isCollapse,
+        DashboardItemsWrapper__noData: noData,
         DashboardItemsWrapper__withTopMargin: withTopMargin,
       })}
     >
@@ -77,7 +80,8 @@ export default function DashboardItemsWrapper({
             background: unset;
           }
 
-          &__collapsed {
+          &__collapsed,
+          &__noData {
             @include respond-to(sm) {
               background: ${currentTheme.whiteElement.hex};
             }

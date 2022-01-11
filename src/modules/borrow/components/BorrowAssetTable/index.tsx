@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
+import { getMaxAmountAvailalbeToBorrow } from '../../utils';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 import DashboardItemsWrapper from '../../../dashboard/components/DashboardItemsWrapper';
 import TableHeader from '../../../dashboard/components/DashboardTable/TableHeader';
@@ -11,13 +12,14 @@ import { useLanguageContext } from '../../../../libs/language-provider';
 import BorrowItem from './BorrowItem';
 import BorrowMobileCard from './BorrowMobileCard';
 import InfoBanner from '../../../../components/InfoBanner';
-import TableNoData from '../../../dashboard/components/DashboardTable/TableNoData';
+import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
+import { CapType } from '../../../../components/caps/helper';
+import NoDataPanel from '../../../../components/NoDataPanel';
 
 import { BorrowTableItem as InternalBorrowTableItem } from './types';
 import { BorrowTableItem } from '../BorrowDashboardTable/types';
 
 import messages from './messages';
-import { getMaxAmountAvailalbeToBorrow } from '../../utils';
 
 interface BorrowAssetTableProps {
   borrowedReserves: BorrowTableItem[];
@@ -89,7 +91,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
     .sort((a, b) => (+a.availableBorrowsInUSD > +b.availableBorrowsInUSD ? -1 : 0));
 
   const head = [
-    intl.formatMessage(messages.available),
+    <AvailableCapsHelpModal capType={CapType.borrowCap} shortTitle={true} iconSize={12} />,
     intl.formatMessage(messages.APYVariable),
     intl.formatMessage(messages.APYStable),
   ];
@@ -116,13 +118,16 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
             availableBorrowsInUSD !== '0.00' && totalLiquidityUSD !== '0'
         );
 
-  return filteredBorrowReserves.length ? (
+  return (
     <>
       {!borrowedReserves.length && (
-        <TableNoData
-          caption={intl.formatMessage(messages.yourBorrows)}
-          title={intl.formatMessage(messages.nothingBorrowed)}
-        />
+        <DashboardItemsWrapper
+          title={intl.formatMessage(messages.yourBorrows)}
+          localStorageName="borrowAssetsDashboardTableCollapse"
+          noData={true}
+        >
+          <NoDataPanel title={intl.formatMessage(messages.nothingBorrowed)} />
+        </DashboardItemsWrapper>
       )}
 
       <DashboardItemsWrapper
@@ -161,11 +166,5 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
         )}
       </DashboardItemsWrapper>
     </>
-  ) : (
-    <TableNoData
-      caption={intl.formatMessage(messages.assetsToBorrow)}
-      title={intl.formatMessage(messages.noDataCaption)}
-      description={intl.formatMessage(messages.noDataDescription)}
-    />
   );
 }

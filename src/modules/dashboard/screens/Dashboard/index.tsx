@@ -180,7 +180,7 @@ export default function Dashboard() {
           isBorrow={isBorrow}
         />
       ) : (
-        <ContentWrapper withBackButton={true} withFullHeight={true}>
+        <ContentWrapper withFullHeight={true}>
           <NoDataPanel
             title={intl.formatMessage(messages.connectWallet)}
             description={intl.formatMessage(messages.connectWalletDescription)}

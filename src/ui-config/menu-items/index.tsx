@@ -13,6 +13,11 @@ export const moreMenuItems: Navigation[] = [
     title: messages.faq,
     absolute: true,
   },
+  {
+    link: 'https://docs.aave.com/portal/',
+    title: messages.developers,
+    absolute: true,
+  },
 ];
 
 export const moreMenuExtraItems: Navigation[] = [];

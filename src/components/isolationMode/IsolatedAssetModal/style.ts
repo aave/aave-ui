@@ -45,7 +45,7 @@ const staticStyles = css.global`
     }
   }
 
-  @media only screen and (max-height: 740px) {
+  @media only screen and (max-height: 530px) {
     .ReactModal__Content.IsolatedAssetModal.ReactModal__Content--after-open {
       position: absolute !important;
       top: 2% !important;

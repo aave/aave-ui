@@ -2,7 +2,7 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   switchRightOption: 'Borrowings',
-  switchLeftOption: 'Supplied',
+  switchLeftOption: 'Supplies',
 
   connectWallet: 'Please connect your wallet',
   connectWalletDescription:

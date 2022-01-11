@@ -311,7 +311,7 @@ export default function UserInformation({
                 weight={rowWeight}
                 color={elementsColor}
               >
-                {isBorrowEnable ? (
+                {poolReserve.borrowingEnabled ? (
                   <Value
                     value={totalBorrows || 0}
                     symbol={symbol}
@@ -343,7 +343,11 @@ export default function UserInformation({
                       eModeCategoryId={userEmodeCategoryId}
                     />
                   )}
-                  <ValuePercent value={user?.currentLoanToValue || 0} color={elementsColor} />
+                  {user?.currentLoanToValue !== '0' ? (
+                    <ValuePercent value={user?.currentLoanToValue || 0} color={elementsColor} />
+                  ) : (
+                    <span className="UserInformation__noData">—</span>
+                  )}
                 </div>
               </Row>
 

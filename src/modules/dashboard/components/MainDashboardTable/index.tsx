@@ -1,8 +1,6 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 
-import TableNoData from '../DashboardTable/TableNoData';
 import BorrowDashboardTable from '../../../borrow/components/BorrowDashboardTable';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
 import DepositDashboardTable from '../../../deposit/components/DepositDashboardTable';
@@ -10,7 +8,6 @@ import { DepositTableItem } from '../../../deposit/components/DepositDashboardTa
 import SupplyAssetTable from '../../../deposit/components/SupplyAssetsTable';
 import BorrowAssetTable from '../../../borrow/components/BorrowAssetTable';
 
-import messages from './messages';
 import staticStyles from './style';
 
 interface MainDashboardTableProps {
@@ -26,8 +23,6 @@ export default function MainDashboardTable({
   isBorrow,
   isUserInIsolationMode,
 }: MainDashboardTableProps) {
-  const intl = useIntl();
-
   return (
     <div
       className={classNames('MainDashboardTable', {
@@ -36,17 +31,10 @@ export default function MainDashboardTable({
       })}
     >
       <div className="MainDashboardTable__left-inner">
-        {!!depositedPositions.length ? (
-          <DepositDashboardTable
-            listData={depositedPositions}
-            isUserInIsolationMode={isUserInIsolationMode}
-          />
-        ) : (
-          <TableNoData
-            caption={intl.formatMessage(messages.yourSupplies)}
-            title={intl.formatMessage(messages.nothingSupplied)}
-          />
-        )}
+        <DepositDashboardTable
+          listData={depositedPositions}
+          isUserInIsolationMode={isUserInIsolationMode}
+        />
 
         <SupplyAssetTable />
       </div>

@@ -25,7 +25,7 @@ const staticStyles = css.global`
     }
 
     .Row__title-inner {
-      align-items: center;
+      align-items: center !important;
     }
     .TextWithModal__button {
       position: static;
@@ -71,7 +71,7 @@ const staticStyles = css.global`
       }
 
       .Row__title-inner {
-        align-items: flex-start;
+        align-items: flex-start !important;
       }
 
       .TextWithModal__text {

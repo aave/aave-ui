@@ -3,16 +3,17 @@ import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useLanguageContext } from '../../../../libs/language-provider';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 import DashboardItemsWrapper from '../../../dashboard/components/DashboardItemsWrapper';
 import TableHeader from '../../../dashboard/components/DashboardTable/TableHeader';
 import DepositItem from './DepositItem';
 import DepositMobileCard from './DepositMobileCard';
 import CollateralHelpModal from '../../../../components/HelpModal/CollateralHelpModal';
+import NoDataPanel from '../../../../components/NoDataPanel';
 
 import messages from './messages';
 
 import { DepositTableItem } from './types';
-import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 interface DepositDashboardTableProps {
   listData: DepositTableItem[];
@@ -53,21 +54,28 @@ export default function DepositDashboardTable({
     <DashboardItemsWrapper
       title={intl.formatMessage(messages.yourSupplies)}
       localStorageName="suppliedAssetsDashboardTableCollapse"
+      noData={!listData.length}
     >
-      {!sm ? (
+      {!!listData.length ? (
         <>
-          <Header />
-          {sortedListData.map((item) => (
-            <DepositItem
-              {...item}
-              userId={currentAccount}
-              key={item.reserve.id}
-              data-cy={`dashboardDespositListItem${item.reserve.symbol.toUpperCase()}`}
-            />
-          ))}
+          {!sm ? (
+            <>
+              <Header />
+              {sortedListData.map((item) => (
+                <DepositItem
+                  {...item}
+                  userId={currentAccount}
+                  key={item.reserve.id}
+                  data-cy={`dashboardDespositListItem${item.reserve.symbol.toUpperCase()}`}
+                />
+              ))}
+            </>
+          ) : (
+            sortedListData.map((item) => <DepositMobileCard {...item} key={item.reserve.id} />)
+          )}
         </>
       ) : (
-        sortedListData.map((item) => <DepositMobileCard {...item} key={item.reserve.id} />)
+        <NoDataPanel title={intl.formatMessage(messages.nothingSupplied)} />
       )}
     </DashboardItemsWrapper>
   );

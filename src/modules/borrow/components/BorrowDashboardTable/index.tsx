@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 import { useLanguageContext } from '../../../../libs/language-provider';
 import DashboardItemsWrapper from '../../../dashboard/components/DashboardItemsWrapper';
 import TableHeader from '../../../dashboard/components/DashboardTable/TableHeader';
@@ -12,7 +13,6 @@ import BorrowInterestHelpModal from '../../../../components/HelpModal/BorrowInte
 import messages from './messages';
 
 import { BorrowTableItem } from './types';
-import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 interface BorrowDashboardTableProps {
   listData: BorrowTableItem[];

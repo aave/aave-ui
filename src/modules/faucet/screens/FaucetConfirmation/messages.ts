@@ -5,7 +5,7 @@ export default defineMessages({
   caption: `Faucet {currencySymbol}`,
   boxTitle: 'Faucet',
   boxDescription: 'Please submit to faucet',
-  successButtonTitle: 'Go to supply assets',
+  successButtonTitle: 'Go to dashboard',
   rowTitle: 'Currency to faucet',
   pageTitle: `Faucet {currencySymbol}`,
   connectWallet: 'Please connect a wallet',

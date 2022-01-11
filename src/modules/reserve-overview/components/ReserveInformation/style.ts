@@ -51,7 +51,7 @@ const staticStyles = css.global`
       flex: 1;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-around;
       align-items: center;
       @include respond-to(xl) {
         padding: 10px;
@@ -193,7 +193,7 @@ const staticStyles = css.global`
       flex-wrap: wrap;
       align-items: flex-start;
       justify-content: space-around;
-      max-width: 100%;
+      width: 100%;
       margin: 0 auto;
       @include respond-to(xl) {
         max-width: 850px;

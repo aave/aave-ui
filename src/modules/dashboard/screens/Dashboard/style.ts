@@ -37,10 +37,7 @@ const staticStyles = css.global`
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      margin: 40px 0 15px;
-      @include respond-to(xl) {
-        margin: 35px 0 10px;
-      }
+      margin: 40px 0 10px;
       @include respond-to(sm) {
         display: block;
         margin: 0;

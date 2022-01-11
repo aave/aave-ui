@@ -12,6 +12,7 @@ import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/Ta
 import Link from '../../../../components/basic/Link';
 import DefaultButton from '../../../../components/basic/DefaultButton';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
+import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
@@ -38,7 +39,7 @@ export default function BorrowMobileCard({
 
   return (
     <MobileCardWrapper symbol={symbol} disabled={isFreezed} isIsolated={false}>
-      <Row title={intl.formatMessage(messages.available)} withMargin={true}>
+      <Row title={<AvailableCapsHelpModal capType={CapType.borrowCap} />} withMargin={true}>
         {!userId ? (
           <NoData color="dark" />
         ) : (
