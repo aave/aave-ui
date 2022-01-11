@@ -13,6 +13,8 @@ import Preloader from '../basic/Preloader';
 import ErrorPage from '../ErrorPage';
 
 import messages from './messages';
+import { useProtocolDataContext } from '../../libs/protocol-data-provider';
+import { API_ETH_MOCK_ADDRESS } from '@aave/contract-helpers';
 
 export interface ValidationWrapperComponentProps {
   currencySymbol: string;
@@ -43,16 +45,24 @@ export default function routeParamValidationHOC({
     const intl = useIntl();
     const params = useParams();
     const [search] = useSearchParams();
+    const { networkConfig } = useProtocolDataContext();
     const underlyingAsset = params.underlyingAsset as string;
 
     const { walletBalances, userEmodeCategoryId, reserves, user, userId, loading } =
       useAppDataContext();
 
-    const poolReserve = reserves.find((res) => res.underlyingAsset === underlyingAsset);
+    const poolReserve = reserves.find((res) =>
+      underlyingAsset.toLowerCase() !== API_ETH_MOCK_ADDRESS.toLowerCase()
+        ? res.underlyingAsset === underlyingAsset
+        : res.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+    );
     const userReserve =
       userId && user
-        ? user.userReservesData.find(
-            (userReserve) => userReserve.reserve.underlyingAsset === underlyingAsset
+        ? user.userReservesData.find((userReserve) =>
+            underlyingAsset.toLowerCase() !== API_ETH_MOCK_ADDRESS.toLowerCase()
+              ? userReserve.reserve.underlyingAsset === underlyingAsset
+              : userReserve.reserve.symbol.toLowerCase() ===
+                networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
           )
         : undefined;
 

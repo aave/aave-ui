@@ -23,11 +23,12 @@ import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable
 
 import messages from './messages';
 import staticStyles from './style';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
 export default function Dashboard() {
   const intl = useIntl();
   const navigate = useNavigate();
-
+  const { networkConfig } = useProtocolDataContext();
   const { user, userId, reserves, loading } = useAppDataContext();
 
   const { currentTheme } = useThemeContext();
@@ -67,6 +68,10 @@ export default function Dashboard() {
       reserve: {
         ...userReserve.reserve,
         liquidityRate: poolReserve.supplyAPY,
+        symbol:
+          poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+            ? networkConfig.baseAsset
+            : poolReserve.symbol,
       },
     };
 

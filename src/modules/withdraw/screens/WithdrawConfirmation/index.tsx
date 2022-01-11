@@ -18,9 +18,10 @@ import messages from './messages';
 import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/math-utils';
 import BigNumber from 'bignumber.js';
 import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
+import { API_ETH_MOCK_ADDRESS } from '@aave/contract-helpers';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
 function WithdrawConfirmation({
-  currencySymbol,
   userReserve,
   poolReserve,
   amount,
@@ -29,8 +30,16 @@ function WithdrawConfirmation({
   const intl = useIntl();
   const { lendingPool } = useTxBuilderContext();
   const { currentAccount } = useUserWalletDataContext();
+  /**
+   * Currently users don't have a choice & we will always unwrap assets on withdrawal.
+   */
+  const { networkConfig } = useProtocolDataContext();
+  const isWrappedWithdrawal =
+    poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase();
+  const currencySymbol = isWrappedWithdrawal ? networkConfig.baseAsset! : poolReserve.symbol;
+
   const aTokenData = getAtokenInfo({
-    address: poolReserve.underlyingAsset,
+    address: isWrappedWithdrawal ? API_ETH_MOCK_ADDRESS : poolReserve.underlyingAsset,
     symbol: currencySymbol,
     decimals: poolReserve.decimals,
     withFormattedSymbol: true,
@@ -143,7 +152,7 @@ function WithdrawConfirmation({
   const handleGetTransactions = async () => {
     return await lendingPool.withdraw({
       user: currentAccount,
-      reserve: poolReserve.underlyingAsset,
+      reserve: isWrappedWithdrawal ? API_ETH_MOCK_ADDRESS : poolReserve.underlyingAsset,
       amount: amountToWithdraw.toString(),
       aTokenAddress: poolReserve.aTokenAddress,
     });

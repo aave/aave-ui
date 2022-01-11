@@ -16,7 +16,6 @@ import routeParamValidationHOC, {
 import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
-import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/math-utils';
 import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 import { useLocation } from 'react-router';
@@ -29,7 +28,6 @@ function SwapUsageAsCollateralModeConfirmation({
 }: ValidationWrapperComponentProps) {
   const { lendingPool } = useTxBuilderContext();
   const { currentAccount } = useUserWalletDataContext();
-  const { networkConfig } = useProtocolDataContext();
   const [isTxExecuted, setIsTxExecuted] = useState(false);
   const { lg, md } = useThemeContext();
   const intl = useIntl();
@@ -55,12 +53,7 @@ function SwapUsageAsCollateralModeConfirmation({
   const handleGetTransactions = async () =>
     await lendingPool.setUsageAsCollateral({
       user: currentAccount,
-      reserve:
-        poolReserve.symbol === networkConfig.baseAsset
-          ? networkConfig.baseAssetWrappedAddress
-            ? networkConfig.baseAssetWrappedAddress
-            : ''
-          : poolReserve.underlyingAsset,
+      reserve: poolReserve.underlyingAsset,
       usageAsCollateral: query.asCollateral === 'true',
     });
   const usageAsCollateralModeAfterSwitch = !userReserve.usageAsCollateralEnabledOnUser;

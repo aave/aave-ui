@@ -128,12 +128,9 @@ export default function AssetSwapConfirmation() {
       route: priceRoute,
       chainId: underlyingChainId,
     });
-    const wrappedBaseAsset = networkConfig.baseAssetWrappedAddress
-      ? networkConfig.baseAssetWrappedAddress
-      : '';
     return lendingPool.swapCollateral({
-      fromAsset: fromPoolReserve.symbol === networkConfig.baseAsset ? wrappedBaseAsset : fromAsset,
-      toAsset: toPoolReserve.symbol === networkConfig.baseAsset ? wrappedBaseAsset : toAsset,
+      fromAsset,
+      toAsset,
       swapAll,
       fromAToken: fromPoolReserve.aTokenAddress,
       fromAmount: inputAmount.toString(),

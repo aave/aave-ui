@@ -1,7 +1,7 @@
 import React from 'react';
 import queryString from 'query-string';
 import { useIntl } from 'react-intl';
-import { PERMISSION } from '@aave/contract-helpers';
+import { API_ETH_MOCK_ADDRESS, PERMISSION } from '@aave/contract-helpers';
 import BigNumber from 'bignumber.js';
 import { valueToBigNumber } from '@aave/math-utils';
 
@@ -16,17 +16,20 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 import { useLocation, useNavigate } from 'react-router';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
-function WithdrawAmount({
-  currencySymbol,
-  poolReserve,
-  userReserve,
-  user,
-}: ValidationWrapperComponentProps) {
+function WithdrawAmount({ poolReserve, userReserve, user }: ValidationWrapperComponentProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const intl = useIntl();
   const { lendingPool } = useTxBuilderContext();
+  /**
+   * Currently users don't have a choice & we will always unwrap assets on withdrawal.
+   */
+  const { networkConfig } = useProtocolDataContext();
+  const isWrappedWithdrawal =
+    poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase();
+  const currencySymbol = isWrappedWithdrawal ? networkConfig.baseAsset! : poolReserve.symbol;
   if (!user) {
     return (
       <NoDataPanel
@@ -79,7 +82,7 @@ function WithdrawAmount({
   const handleTransactionData = (userId: string) => async () => {
     return await lendingPool.withdraw({
       user: userId,
-      reserve: poolReserve.underlyingAsset,
+      reserve: isWrappedWithdrawal ? API_ETH_MOCK_ADDRESS : poolReserve.underlyingAsset,
       amount: '-1',
       aTokenAddress: poolReserve.aTokenAddress,
     });

@@ -20,6 +20,7 @@ import { BorrowTableItem as InternalBorrowTableItem } from './types';
 import { BorrowTableItem } from '../BorrowDashboardTable/types';
 
 import messages from './messages';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
 interface BorrowAssetTableProps {
   borrowedReserves: BorrowTableItem[];
@@ -29,6 +30,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
   const intl = useIntl();
   const { user, userId, reserves, marketReferencePriceInUsd, userEmodeCategoryId } =
     useAppDataContext();
+  const { networkConfig } = useProtocolDataContext();
   const { currentLangSlug } = useLanguageContext();
   const { sm } = useThemeContext();
 
@@ -62,6 +64,10 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
         aIncentives: reserve.aIncentivesData ? reserve.aIncentivesData : [],
         vIncentives: reserve.vIncentivesData ? reserve.vIncentivesData : [],
         sIncentives: reserve.sIncentivesData ? reserve.sIncentivesData : [],
+        symbol:
+          reserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+            ? networkConfig.baseAsset
+            : reserve.symbol,
       };
     }
   );

@@ -18,7 +18,6 @@ import routeParamValidationHOC, {
 import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
-import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 import { useLocation } from 'react-router';
 
@@ -30,7 +29,6 @@ function SwapBorrowRateModeConfirmation({
 }: ValidationWrapperComponentProps) {
   const { lendingPool } = useTxBuilderContext();
   const { currentAccount } = useUserWalletDataContext();
-  const { networkConfig } = useProtocolDataContext();
   const [isTxExecuted, setIsTxExecuted] = useState(false);
   const { lg, md } = useThemeContext();
   const intl = useIntl();
@@ -74,12 +72,7 @@ function SwapBorrowRateModeConfirmation({
   const handleGetTransactions = async () =>
     await lendingPool.swapBorrowRateMode({
       user: currentAccount,
-      reserve:
-        poolReserve.symbol === networkConfig.baseAsset
-          ? networkConfig.baseAssetWrappedAddress
-            ? networkConfig.baseAssetWrappedAddress
-            : ''
-          : poolReserve.underlyingAsset,
+      reserve: poolReserve.underlyingAsset,
       interestRateMode: currentRateMode,
     });
 

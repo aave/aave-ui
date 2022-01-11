@@ -16,11 +16,13 @@ import MarketMobileCard from '../../components/MarketMobileCard';
 import messages from './messages';
 import staticStyles from './style';
 import Preloader from '../../../../components/basic/Preloader';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
 export default function Markets() {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { reserves, loading } = useAppDataContext();
+  const { networkConfig } = useProtocolDataContext();
   const [isPriceInUSD, setIsPriceInUSD] = useState(
     localStorage.getItem('marketsIsPriceInUSD') === 'true'
   );
@@ -46,7 +48,10 @@ export default function Markets() {
         totalBorrowsInUSD: reserve.borrowingEnabled ? totalBorrowsInUSD : -1,
         id: reserve.id,
         underlyingAsset: reserve.underlyingAsset,
-        currencySymbol: reserve.symbol,
+        currencySymbol:
+          reserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+            ? networkConfig.baseAsset
+            : reserve.symbol,
         depositAPY: reserve.borrowingEnabled ? Number(reserve.supplyAPY) : -1,
         stableBorrowRate:
           reserve.stableBorrowRateEnabled && reserve.borrowingEnabled
