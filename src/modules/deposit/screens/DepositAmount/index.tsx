@@ -32,6 +32,7 @@ import messages from './messages';
 
 import linkIcon from '../../../../images/whiteLinkIcon.svg';
 import { useLocation, useNavigate } from 'react-router';
+import { API_ETH_MOCK_ADDRESS } from '@aave/contract-helpers';
 
 enum DepositStep {
   IsolationScreen,
@@ -44,13 +45,7 @@ interface DepositAmountProps
     'currencySymbol' | 'poolReserve' | 'walletBalance' | 'user' | 'userReserve'
   > {}
 
-function DepositAmount({
-  currencySymbol,
-  poolReserve,
-  user,
-  userReserve,
-  walletBalance,
-}: DepositAmountProps) {
+function DepositAmount({ poolReserve, user, userReserve, walletBalance }: DepositAmountProps) {
   const intl = useIntl();
   const { networkConfig, currentMarketData } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
@@ -58,6 +53,12 @@ function DepositAmount({
   const { sm } = useThemeContext();
   const navigate = useNavigate();
   const location = useLocation();
+  /**
+   * Currently users don't have a choice & we will always unwrap assets on withdrawal.
+   */
+  const isWrappedDeposit =
+    poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase();
+  const currencySymbol = isWrappedDeposit ? networkConfig.baseAsset! : poolReserve.symbol;
 
   const asset = getAssetInfo(currencySymbol);
 
@@ -100,7 +101,7 @@ function DepositAmount({
   const handleTransactionData = (userId: string) => async () => {
     return await lendingPool.deposit({
       user: userId,
-      reserve: poolReserve.underlyingAsset,
+      reserve: isWrappedDeposit ? API_ETH_MOCK_ADDRESS : poolReserve.underlyingAsset,
       amount: maxAmountToDeposit.toString(10),
       referralCode: undefined,
     });
