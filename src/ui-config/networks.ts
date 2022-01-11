@@ -23,7 +23,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     rewardTokenAddress: '0xb597cd8d3217ea6477232f9217fa70837ff667af',
     rewardTokenDecimals: 18,
     incentivePrecision: 18,
-    explorerLink: 'https://kovan.etherscan.com',
+    explorerLink: 'https://kovan.etherscan.io',
     rpcOnly: true,
     isTestnet: true,
   },
@@ -48,7 +48,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     rewardTokenAddress: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
     rewardTokenDecimals: 18,
     incentivePrecision: 18,
-    explorerLink: 'https://etherscan.com',
+    explorerLink: 'https://etherscan.io',
     rpcOnly: false,
   },
   [ChainId.polygon]: {
