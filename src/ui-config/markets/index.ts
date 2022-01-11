@@ -17,7 +17,7 @@ export enum CustomMarket {
   proto_eth_rinkeby_v3 = 'proto_eth_rinkeby_v3',
   // proto_fantom_testnet = 'proto_fantom_testnet',
   proto_harmony_testnet = 'proto_harmony_testnet',
-  // proto_fuji_v3 = 'proto_fuji_v3',
+  proto_fuji_v3 = 'proto_fuji_v3',
   // proto_optimism_kovan = 'proto_optimism_kovan',
 }
 
@@ -239,26 +239,26 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
       UI_INCENTIVE_DATA_PROVIDER: '0xf9060b8cf8dEcE81248246b6a2a3BEcA63f4fa51',
     },
   },
-  // [CustomMarket.proto_fuji_v3]: {
-  //   chainId: ChainId.fuji,
-  //   logo: logos.aaveLogo,
-  //   activeLogo: logos.aaveActiveLogo,
-  //   subLogo: logos.avalanche,
-  //   aTokenPrefix: 'AAVA',
-  //   enabledFeatures: {
-  //     faucet: true,
-  //     incentives: true,
-  //   },
-  //   addresses: {
-  //     LENDING_POOL_ADDRESS_PROVIDER: ''.toLowerCase(),
-  //     LENDING_POOL: '',
-  //     WETH_GATEWAY: '',
-  //     FAUCET: '',
-  //     WALLET_BALANCE_PROVIDER: '',
-  //     UI_POOL_DATA_PROVIDER: '',
-  //     UI_INCENTIVE_DATA_PROVIDER: '',
-  //   },
-  // },
+  [CustomMarket.proto_fuji_v3]: {
+    chainId: ChainId.fuji,
+    logo: logos.aaveLogo,
+    activeLogo: logos.aaveActiveLogo,
+    subLogo: logos.avalanche,
+    aTokenPrefix: 'AAVA',
+    enabledFeatures: {
+      faucet: true,
+      incentives: true,
+    },
+    addresses: {
+      LENDING_POOL_ADDRESS_PROVIDER: '0x243088d62d920f514f224071Cd7b117930ac1bCC'.toLowerCase(),
+      LENDING_POOL: '0xFe00AB49515dB6AB9d5E16035770FfEf01453a14',
+      WETH_GATEWAY: '0x71ADFFcd624C8f99640A24f2dcBdcb4CadE1673c',
+      FAUCET: '0x9d2A9455676Dbd2Dbc225C03C472e07bF0D5384C',
+      WALLET_BALANCE_PROVIDER: '0x1e3B26c6F23FeE326fCE529e73D8280669e1C467',
+      UI_POOL_DATA_PROVIDER: '0x43B95d9AF619392e07fcB31924032351C97f7e67',
+      UI_INCENTIVE_DATA_PROVIDER: '0x23a8880368b4b4349512B974b4F274b827B8BD5E',
+    },
+  },
   [CustomMarket.proto_harmony_testnet]: {
     chainId: ChainId.harmony_testnet,
     logo: logos.aaveLogo,
