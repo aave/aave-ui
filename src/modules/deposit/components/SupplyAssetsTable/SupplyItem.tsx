@@ -33,7 +33,7 @@ export default function SupplyItem({
   const intl = useIntl();
 
   return (
-    <TableItem tokenSymbol={symbol} data-cy={`supply${symbol}TableItem`}>
+    <TableItem tokenSymbol={symbol} data-cy={`supply${symbol.toUpperCase()}TableItem`}>
       <TableValueCol
         userId={userId}
         symbol={symbol}

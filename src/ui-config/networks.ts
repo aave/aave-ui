@@ -108,7 +108,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     baseUniswapAdapter: '0x0',
     baseAsset: 'AVAX',
     baseAssetDecimals: 18,
-    baseAssetWrappedAddress: '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
+    baseAssetWrappedAddress: '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7',
     explorerLink: 'https://cchain.explorer.avax.network',
     rpcOnly: false,
     usdMarket: true,
