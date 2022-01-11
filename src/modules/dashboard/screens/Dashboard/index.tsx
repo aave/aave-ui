@@ -64,7 +64,6 @@ export default function Dashboard() {
     const baseListData = {
       isActive: poolReserve.isActive,
       isFrozen: poolReserve.isFrozen,
-      stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
       reserve: {
         ...userReserve.reserve,
         liquidityRate: poolReserve.supplyAPY,
@@ -73,7 +72,6 @@ export default function Dashboard() {
 
     depositedPositions.push({
       ...baseListData,
-      borrowingEnabled: poolReserve.borrowingEnabled,
       usageAsCollateralEnabledOnUser: userReserve.usageAsCollateralEnabledOnUser,
       canBeEnabledAsCollateral:
         poolReserve.usageAsCollateralEnabled &&
@@ -95,6 +93,7 @@ export default function Dashboard() {
     if (userReserve.variableBorrows !== '0') {
       borrowedPositions.push({
         ...baseListData,
+        stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
         borrowingEnabled: poolReserve.borrowingEnabled,
         currentBorrows: userReserve.variableBorrows,
         currentBorrowsUSD: userReserve.variableBorrowsUSD,
@@ -119,6 +118,7 @@ export default function Dashboard() {
     if (userReserve.stableBorrows !== '0') {
       borrowedPositions.push({
         ...baseListData,
+        stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
         borrowingEnabled: poolReserve.borrowingEnabled && poolReserve.stableBorrowRateEnabled,
         currentBorrows: userReserve.stableBorrows,
         currentBorrowsUSD: userReserve.stableBorrowsUSD,
