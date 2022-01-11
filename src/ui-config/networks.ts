@@ -38,7 +38,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
       uiIncentiveDataProvider: '0xd9F1e5F70B14b8Fd577Df84be7D75afB8a3A0186',
       chainlinkFeedRegistry: '0x0244D116380508F1bAbC7821DC965e50500b2D95',
     },
-    protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2',
+    protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/aave-centrifuge',
     baseUniswapAdapter: '0xc3efa200a60883a96ffe3d5b492b121d6e9a1f3f',
     baseAsset: 'ETH',
     baseAssetWrappedAddress: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
