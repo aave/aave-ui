@@ -248,7 +248,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     baseUniswapAdapter: '0x0',
     baseAsset: 'FTM',
     baseAssetDecimals: 18,
-    baseAssetWrappedAddress: '', // TODO: fill when deployed
+    baseAssetWrappedAddress: '0xcA13EA6120CF2Be37ca9b1F91Bc982d910adA88a',
     explorerLink: 'https://testnet.ftmscan.com/',
     rpcOnly: true,
     usdMarket: true,
