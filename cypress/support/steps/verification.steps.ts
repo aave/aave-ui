@@ -57,8 +57,8 @@ export const dashboardAssetValuesVerification = (
             });
             break;
           case constants.dashboardTypes.deposit:
-            it(`Switch to deposit view`, () => {
-              cy.get('button').contains('Deposits').click();
+            it(`Switch to supplies view`, () => {
+              cy.get('button').contains('Supplies').click();
             });
             it(`Check that asset name is ${estimatedCase.asset},
             with collateral type ${estimatedCase.collateralType}
