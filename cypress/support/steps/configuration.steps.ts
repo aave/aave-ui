@@ -11,25 +11,27 @@ export const configEnvWithTenderly = ({
   chainId,
   market,
   tokens,
+  account = DEFAULT_TEST_ACCOUNT,
 }: {
   chainId: number;
   market: string;
   tokens?: { address: string }[];
+  account?: { address: string; privateKey: string };
 }) => {
   const tenderly = new TenderlyFork({ forkNetworkID: chainId });
   before(async () => {
     await tenderly.init();
-    await tenderly.add_balance(DEFAULT_TEST_ACCOUNT.address, 10000);
+    await tenderly.add_balance(account.address, 10000);
     if (tokens) {
       await Promise.all(
-        tokens.map((token) => tenderly.getERC20Token(DEFAULT_TEST_ACCOUNT.address, token.address))
+        tokens.map((token) => tenderly.getERC20Token(account.address, token.address))
       );
     }
   });
   before('Open main page', () => {
     const rpc = tenderly.get_rpc_url();
     const provider = new JsonRpcProvider(rpc, 3030);
-    const signer = new Wallet(DEFAULT_TEST_ACCOUNT.privateKey, provider);
+    const signer = new Wallet(account.privateKey, provider);
     cy.visit(URL, {
       onBeforeLoad(win: any) {
         win.ethereum = new CustomizedBridge(signer, provider);
@@ -39,7 +41,7 @@ export const configEnvWithTenderly = ({
         win.localStorage.setItem('forkBaseChainId', chainId);
         win.localStorage.setItem('forkRPCUrl', rpc);
         win.localStorage.setItem('currentProvider', 'browser');
-        win.localStorage.setItem('selectedAccount', DEFAULT_TEST_ACCOUNT.address.toLowerCase());
+        win.localStorage.setItem('selectedAccount', account.address.toLowerCase());
         win.localStorage.setItem('selectedMarket', market);
       },
     });
@@ -77,4 +79,16 @@ export const configEnvWithTenderlyAvalancheFork = ({
   tokens?: any[];
 }) => {
   configEnvWithTenderly({ chainId: ChainId.avalanche, market, tokens });
+};
+
+export const configEnvWithTenderlyArbitrumRinkebyFork = ({
+  market = `fork_proto_arbitrum_rinkeby`,
+  tokens,
+  account,
+}: {
+  market?: string;
+  tokens?: any[];
+  account?: { address: string; privateKey: string };
+}) => {
+  configEnvWithTenderly({ chainId: ChainId.arbitrum_rinkeby, market, tokens, account });
 };
