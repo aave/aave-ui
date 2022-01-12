@@ -84,7 +84,7 @@ export default function SupplyItemMobileCard({
 
       <TableButtonsWrapper>
         <Link
-          to={`/deposit/${underlyingAsset}`}
+          to={`/supply/${underlyingAsset}`}
           className="ButtonLink"
           disabled={!isActive || isFreezed || Number(walletBalance) <= 0}
         >

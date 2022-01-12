@@ -57,7 +57,7 @@ function ModulesWithMenu() {
       <Routes>
         <Route path="/markets" element={<Markets />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/deposit/*" element={<Deposit />} />
+        <Route path="/supply/*" element={<Deposit />} />
         <Route path={`/withdraw/${CURRENCY_ROUTE_PARAMS}/*`} element={<Withdraw />} />
         <Route path="/borrow/*" element={<Borrow />} />
         <Route path={`/repay/${CURRENCY_ROUTE_PARAMS}/*`} element={<Repay />} />
