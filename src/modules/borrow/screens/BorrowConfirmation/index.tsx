@@ -30,11 +30,11 @@ import { InterestRate } from '@aave/contract-helpers';
 import { useSearchParams } from 'react-router-dom';
 
 function BorrowConfirmation({
-  currencySymbol,
   user,
   amount,
   poolReserve,
   userReserve,
+  currencySymbol,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { marketReferencePriceInUsd, userId } = useAppDataContext();

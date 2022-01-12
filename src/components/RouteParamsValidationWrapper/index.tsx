@@ -47,26 +47,27 @@ export default function routeParamValidationHOC({
     const [search] = useSearchParams();
     const { networkConfig } = useProtocolDataContext();
     const underlyingAsset = params.underlyingAsset as string;
+    const isWrapped = underlyingAsset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase();
 
     const { walletBalances, userEmodeCategoryId, reserves, user, userId, loading } =
       useAppDataContext();
 
     const poolReserve = reserves.find((res) =>
-      underlyingAsset.toLowerCase() !== API_ETH_MOCK_ADDRESS.toLowerCase()
+      !isWrapped
         ? res.underlyingAsset === underlyingAsset
         : res.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
     );
     const userReserve =
       userId && user
         ? user.userReservesData.find((userReserve) =>
-            underlyingAsset.toLowerCase() !== API_ETH_MOCK_ADDRESS.toLowerCase()
+            !isWrapped
               ? userReserve.reserve.underlyingAsset === underlyingAsset
               : userReserve.reserve.symbol.toLowerCase() ===
                 networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
           )
         : undefined;
 
-    const currencySymbol = poolReserve?.symbol || '';
+    const currencySymbol = isWrapped ? networkConfig.baseAsset : poolReserve?.symbol || '';
 
     if (loading) {
       return <Preloader withText={true} />;
@@ -81,7 +82,9 @@ export default function routeParamValidationHOC({
       // TODO: 404 || redirect || ?
     }
 
-    const walletBalance = valueToBigNumber(walletBalances[underlyingAsset]?.amount || '0');
+    const txnAsset = isWrapped ? API_ETH_MOCK_ADDRESS.toLowerCase() : underlyingAsset;
+
+    const walletBalance = valueToBigNumber(walletBalances[txnAsset]?.amount || '0');
     let isWalletBalanceEnough = true;
 
     let amount = undefined;
@@ -107,10 +110,10 @@ export default function routeParamValidationHOC({
       }
     }
 
-    const walletBalanceUSD = valueToBigNumber(walletBalances[underlyingAsset]?.amountUSD || '0');
+    const walletBalanceUSD = valueToBigNumber(walletBalances[txnAsset]?.amountUSD || '0');
 
     const props = {
-      poolReserve,
+      poolReserve: { ...poolReserve, underlyingAsset: txnAsset },
       userReserve,
       amount,
       user: userId ? user : undefined,

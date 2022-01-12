@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
-import { API_ETH_MOCK_ADDRESS, Pool } from '@aave/contract-helpers';
+import { Pool } from '@aave/contract-helpers';
 import {
   calculateHealthFactorFromBalancesBigUnits,
   USD_DECIMALS,
@@ -33,20 +33,15 @@ function DepositConfirmation({
   user,
   userReserve,
   walletBalance,
+  currencySymbol,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { marketReferencePriceInUsd, userId } = useAppDataContext();
-  const { currentMarketData, networkConfig } = useProtocolDataContext();
+  const { currentMarketData } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
 
   const [depositWithPermitEnabled, setDepositWithPermitEnable] = useState(currentMarketData.v3);
-  /**
-   * Currently users don't have a choice & we will always unwrap assets on withdrawal.
-   */
-  const isWrappedDeposit =
-    poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase();
-  const currencySymbol = isWrappedDeposit ? networkConfig.baseAsset! : poolReserve.symbol;
 
   const aTokenData = getAtokenInfo({
     address: poolReserve.aTokenAddress,
@@ -101,13 +96,13 @@ function DepositConfirmation({
       const newPool: Pool = lendingPool as Pool;
       return await newPool.supply({
         user: userId,
-        reserve: isWrappedDeposit ? API_ETH_MOCK_ADDRESS : poolReserve.underlyingAsset,
+        reserve: poolReserve.underlyingAsset,
         amount: amount.toString(),
       });
     } else {
       return await lendingPool.deposit({
         user: userId,
-        reserve: isWrappedDeposit ? API_ETH_MOCK_ADDRESS : poolReserve.underlyingAsset,
+        reserve: poolReserve.underlyingAsset,
         amount: amount.toString(),
       });
     }
@@ -119,7 +114,7 @@ function DepositConfirmation({
     const newPool: Pool = lendingPool as Pool;
     return await newPool.signERC20Approval({
       user: userId,
-      reserve: isWrappedDeposit ? API_ETH_MOCK_ADDRESS : poolReserve.underlyingAsset,
+      reserve: poolReserve.underlyingAsset,
       amount: amount.toString(),
     });
   };
@@ -130,7 +125,7 @@ function DepositConfirmation({
     const newPool: Pool = lendingPool as Pool;
     return await newPool.supplyWithPermit({
       user: userId,
-      reserve: isWrappedDeposit ? API_ETH_MOCK_ADDRESS : poolReserve.underlyingAsset,
+      reserve: poolReserve.underlyingAsset,
       amount: amount.toString(),
       signature,
     });

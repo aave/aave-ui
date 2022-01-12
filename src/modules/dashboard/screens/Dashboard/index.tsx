@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import { valueToBigNumber } from '@aave/math-utils';
-import { InterestRate } from '@aave/contract-helpers';
+import { API_ETH_MOCK_ADDRESS, InterestRate } from '@aave/contract-helpers';
 
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { loanActionLinkComposer } from '../../../../helpers/loan-action-link-composer';
@@ -68,10 +68,15 @@ export default function Dashboard() {
       reserve: {
         ...userReserve.reserve,
         liquidityRate: poolReserve.supplyAPY,
+        // this is a hack to repay with mainAsset instead of the wrappedpooltoken
         symbol:
           poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
             ? networkConfig.baseAsset
             : poolReserve.symbol,
+        underlyingAsset:
+          poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+            ? API_ETH_MOCK_ADDRESS
+            : userReserve.reserve.underlyingAsset,
       },
     };
 
@@ -108,12 +113,18 @@ export default function Dashboard() {
         sIncentives: poolReserve.sIncentivesData ? poolReserve.sIncentivesData : [],
         repayLink: loanActionLinkComposer(
           'repay',
-          poolReserve.underlyingAsset,
+          // this is a hack to repay with mainAsset instead of the wrappedpooltoken
+          poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+            ? API_ETH_MOCK_ADDRESS.toLowerCase()
+            : poolReserve.underlyingAsset,
           InterestRate.Variable
         ),
         borrowLink: loanActionLinkComposer(
           'borrow',
-          poolReserve.underlyingAsset,
+          // this is a hack to repay with mainAsset instead of the wrappedpooltoken
+          poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+            ? API_ETH_MOCK_ADDRESS.toLowerCase()
+            : poolReserve.underlyingAsset,
           InterestRate.Variable
         ),
         onSwitchToggle: () =>
@@ -133,12 +144,18 @@ export default function Dashboard() {
         sIncentives: poolReserve.sIncentivesData ? poolReserve.sIncentivesData : [],
         repayLink: loanActionLinkComposer(
           'repay',
-          poolReserve.underlyingAsset,
+          // this is a hack to repay with mainAsset instead of the wrappedpooltoken
+          poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+            ? API_ETH_MOCK_ADDRESS.toLowerCase()
+            : poolReserve.underlyingAsset,
           InterestRate.Stable
         ),
         borrowLink: loanActionLinkComposer(
           'borrow',
-          poolReserve.underlyingAsset,
+          // this is a hack to repay with mainAsset instead of the wrappedpooltoken
+          poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+            ? API_ETH_MOCK_ADDRESS.toLowerCase()
+            : poolReserve.underlyingAsset,
           InterestRate.Stable
         ),
         onSwitchToggle: () =>

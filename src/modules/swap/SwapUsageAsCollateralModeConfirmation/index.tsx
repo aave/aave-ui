@@ -19,20 +19,26 @@ import messages from './messages';
 import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/math-utils';
 import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 import { useLocation } from 'react-router';
+import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 
 function SwapUsageAsCollateralModeConfirmation({
-  currencySymbol,
+  currencySymbol: _currencySymbol,
   poolReserve,
   user,
   userReserve,
 }: ValidationWrapperComponentProps) {
   const { lendingPool } = useTxBuilderContext();
+  const { networkConfig } = useProtocolDataContext();
   const { currentAccount } = useUserWalletDataContext();
   const [isTxExecuted, setIsTxExecuted] = useState(false);
   const { lg, md } = useThemeContext();
   const intl = useIntl();
   const location = useLocation();
   const query = queryString.parse(location.search);
+  const currencySymbol =
+    _currencySymbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+      ? networkConfig.baseAsset
+      : _currencySymbol;
 
   const asset = getAssetInfo(currencySymbol);
 

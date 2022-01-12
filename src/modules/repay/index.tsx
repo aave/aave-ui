@@ -23,11 +23,12 @@ function Repay({
   user,
   walletBalance,
   walletBalanceUSD,
-  currencySymbol,
   userReserve,
+  currencySymbol,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { currentMarketData } = useProtocolDataContext();
+
   const asset = getAssetInfo(currencySymbol);
 
   return (

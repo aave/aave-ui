@@ -21,6 +21,7 @@ import { BorrowTableItem } from '../BorrowDashboardTable/types';
 
 import messages from './messages';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import { API_ETH_MOCK_ADDRESS } from '@aave/contract-helpers';
 
 interface BorrowAssetTableProps {
   borrowedReserves: BorrowTableItem[];
@@ -68,6 +69,10 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
           reserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
             ? networkConfig.baseAsset
             : reserve.symbol,
+        underlyingAsset:
+          reserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+            ? API_ETH_MOCK_ADDRESS.toLowerCase()
+            : reserve.underlyingAsset,
       };
     }
   );
