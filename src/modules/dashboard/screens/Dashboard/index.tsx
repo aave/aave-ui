@@ -71,7 +71,7 @@ export default function Dashboard() {
         // this is a hack to repay with mainAsset instead of the wrappedpooltoken
         symbol:
           poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
-            ? networkConfig.baseAsset
+            ? networkConfig.baseAssetSymbol
             : poolReserve.symbol,
         underlyingAsset:
           poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()

@@ -98,7 +98,7 @@ export default function AssetSwapMain() {
     return {
       label:
         res.reserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
-          ? networkConfig.baseAsset
+          ? networkConfig.baseAssetSymbol
           : res.reserve.symbol,
       value: res.reserve.underlyingAsset,
       decimals: res.reserve.decimals,
@@ -113,7 +113,7 @@ export default function AssetSwapMain() {
   const availableDestinationsSymbols = availableDestinations.map((res) => ({
     label:
       res.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
-        ? networkConfig.baseAsset
+        ? networkConfig.baseAssetSymbol
         : res.symbol,
     value: res.underlyingAsset,
     decimals: res.decimals,

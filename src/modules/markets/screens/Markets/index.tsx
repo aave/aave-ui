@@ -50,7 +50,7 @@ export default function Markets() {
         underlyingAsset: reserve.underlyingAsset,
         currencySymbol:
           reserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
-            ? networkConfig.baseAsset
+            ? networkConfig.baseAssetSymbol
             : reserve.symbol,
         depositAPY: reserve.borrowingEnabled ? Number(reserve.supplyAPY) : -1,
         stableBorrowRate:

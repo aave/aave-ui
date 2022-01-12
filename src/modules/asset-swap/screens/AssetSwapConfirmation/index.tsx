@@ -171,11 +171,11 @@ export default function AssetSwapConfirmation() {
 
   const fromSymbol =
     fromPoolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
-      ? networkConfig.baseAsset
+      ? networkConfig.baseAssetSymbol
       : fromPoolReserve.symbol;
   const toSymbol =
     toPoolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
-      ? networkConfig.baseAsset
+      ? networkConfig.baseAssetSymbol
       : toPoolReserve.symbol;
 
   return (

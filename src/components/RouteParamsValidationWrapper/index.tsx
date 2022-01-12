@@ -67,7 +67,7 @@ export default function routeParamValidationHOC({
           )
         : undefined;
 
-    const currencySymbol = isWrapped ? networkConfig.baseAsset : poolReserve?.symbol || '';
+    const currencySymbol = isWrapped ? networkConfig.baseAssetSymbol : poolReserve?.symbol || '';
 
     if (loading) {
       return <Preloader withText={true} />;

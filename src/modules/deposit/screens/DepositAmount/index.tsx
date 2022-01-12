@@ -76,7 +76,10 @@ function DepositAmount({
   );
 
   let maxAmountToDeposit = valueToBigNumber(walletBalance);
-  if (maxAmountToDeposit.gt(0) && poolReserve.symbol.toUpperCase() === networkConfig.baseAsset) {
+  if (
+    maxAmountToDeposit.gt(0) &&
+    poolReserve.symbol.toUpperCase() === networkConfig.baseAssetSymbol
+  ) {
     // keep it for tx gas cost
     maxAmountToDeposit = maxAmountToDeposit.minus('0.001');
   }

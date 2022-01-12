@@ -24,7 +24,13 @@ export default function SupplyAssetTable() {
 
   const { user, userId, walletBalances, reserves, marketReferencePriceInUsd } = useAppDataContext();
   const {
-    networkConfig: { bridge, name: networkName, isTestnet, wrappedBaseAssetSymbol, baseAsset },
+    networkConfig: {
+      bridge,
+      name: networkName,
+      isTestnet,
+      wrappedBaseAssetSymbol,
+      baseAssetSymbol,
+    },
   } = useProtocolDataContext();
   const { currentLangSlug } = useLanguageContext();
   const { sm } = useThemeContext();
@@ -112,7 +118,7 @@ export default function SupplyAssetTable() {
     tokensToSupply.push({
       ...wrappedAsset,
       underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
-      symbol: baseAsset,
+      symbol: baseAssetSymbol,
       walletBalance: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amount,
       walletBalanceUSD: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amountUSD,
       availableToDeposit: availableToDeposit.toString(),

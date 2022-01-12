@@ -93,11 +93,11 @@ export default function NetworkMismatch({
                             chainId: `0x${neededChainId.toString(16)}`,
                             chainName: neededNetworkConfig.name,
                             nativeCurrency: {
-                              symbol: neededNetworkConfig.baseAsset.toUpperCase(),
+                              symbol: neededNetworkConfig.baseAssetSymbol.toUpperCase(),
                               decimals: neededNetworkConfig.baseAssetDecimals,
                               name:
-                                neededNetworkConfig.baseAsset.charAt(0).toUpperCase() +
-                                neededNetworkConfig.baseAsset.slice(1).toLowerCase(),
+                                neededNetworkConfig.baseAssetSymbol.charAt(0).toUpperCase() +
+                                neededNetworkConfig.baseAssetSymbol.slice(1).toLowerCase(),
                             },
                             rpcUrls: [
                               ...neededNetworkConfig.publicJsonRPCUrl,

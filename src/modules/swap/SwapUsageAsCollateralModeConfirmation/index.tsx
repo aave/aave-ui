@@ -37,7 +37,7 @@ function SwapUsageAsCollateralModeConfirmation({
   const query = queryString.parse(location.search);
   const currencySymbol =
     _currencySymbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
-      ? networkConfig.baseAsset
+      ? networkConfig.baseAssetSymbol
       : _currencySymbol;
 
   const asset = getAssetInfo(currencySymbol);

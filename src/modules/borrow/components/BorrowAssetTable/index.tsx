@@ -67,7 +67,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
         sIncentives: reserve.sIncentivesData ? reserve.sIncentivesData : [],
         symbol:
           reserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
-            ? networkConfig.baseAsset
+            ? networkConfig.baseAssetSymbol
             : reserve.symbol,
         underlyingAsset:
           reserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()

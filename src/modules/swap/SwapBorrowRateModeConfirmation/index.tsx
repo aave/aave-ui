@@ -39,7 +39,7 @@ function SwapBorrowRateModeConfirmation({
   const currentRateMode = query.borrowRateMode as InterestRate;
   const currencySymbol =
     _currencySymbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
-      ? networkConfig.baseAsset
+      ? networkConfig.baseAssetSymbol
       : _currencySymbol;
 
   const asset = getAssetInfo(currencySymbol);
