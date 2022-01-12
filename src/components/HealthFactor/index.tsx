@@ -24,6 +24,7 @@ interface HealthFactorProps {
   titleLightWeight?: boolean;
   isColumn?: boolean;
   onWhiteBackground?: boolean;
+  withHALLink?: boolean;
 }
 
 export default function HealthFactor({
@@ -39,6 +40,7 @@ export default function HealthFactor({
   titleLightWeight,
   isColumn,
   onWhiteBackground,
+  withHALLink,
 }: HealthFactorProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -76,6 +78,7 @@ export default function HealthFactor({
           color={titleColor}
           lightWeight={titleLightWeight}
           onWhiteBackground={onWhiteBackground}
+          withSecondaryIcon={withHALLink}
         />
       )}
 

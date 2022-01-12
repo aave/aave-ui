@@ -292,6 +292,7 @@ export default function Dashboard() {
                   value={user?.healthFactor || '-1'}
                   titleColor="white"
                   titleLightWeight={true}
+                  withHALLink={true}
                 />
               )}
             </>
@@ -323,6 +324,7 @@ export default function Dashboard() {
             value={user?.healthFactor || '-1'}
             titleColor="white"
             titleLightWeight={true}
+            withHALLink={true}
           />
 
           <Row

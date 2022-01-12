@@ -68,10 +68,13 @@ export default function TextWithModal({
   const getIconContainerStyle = (position: number): React.CSSProperties => {
     const iconWidthOffset = iconWidth * position;
     const iconOffset = -(iconWidthOffset + ICON_PADDING);
+
+    const isSecondPosition = position === SECONDARY_ICON_POSITION;
+
     return {
-      height: iconHeight,
-      width: iconWidth,
-      right: iconOffset,
+      height: isSecondPosition ? iconHeight + 2 : iconHeight,
+      width: isSecondPosition ? iconWidth + 2 : iconWidth,
+      right: isSecondPosition ? iconOffset - 4 : iconOffset,
     };
   };
 
@@ -79,6 +82,7 @@ export default function TextWithModal({
     <div
       className={classNames('TextWithModal', className, `TextWithModal__${color}`, {
         TextWithModal__lightWeight: lightWeight,
+        TextWithModal__withDoubleIcons: !!secondaryIcon,
       })}
     >
       <div
@@ -92,7 +96,8 @@ export default function TextWithModal({
       >
         {text}
       </div>
-      <div>
+
+      <div className="TextWithModal__icons">
         <button
           className="TextWithModal__button"
           type="button"

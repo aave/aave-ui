@@ -79,6 +79,7 @@
   "components.HelpModal.DelegationHelpModal.descriptionSecond": "",
   "components.HelpModal.HealthFactorHelpModal.caption": "Factor de salud",
   "components.HelpModal.HealthFactorHelpModal.description": "El factor de salud representa la seguridad de su préstamo, derivado de la proporción de su garantía con respecto a lo tomado prestado. Manténlo por encima de 1 para evitar la liquidación.",
+  "components.HelpModal.HealthFactorHelpModal.notificationIconTooltipText": "",
   "components.HelpModal.LiquidationBonusHelpModal.caption": "Penalización por liquidación",
   "components.HelpModal.LiquidationBonusHelpModal.description": "Cuando se produce una liquidación, los liquidadores pagan parte del préstamo a cuenta del prestatario. A cambio, toman parte de la garantía con una bonificación y ganan la diferencia como bonus.",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "Umbral de liquidación",
