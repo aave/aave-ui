@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/aave/aave-ui/compare/v0.2.0...v0.2.1) (2022-01-12)
+
+### Features
+
+- switch wdio to cypress test suite so forks can run tests more easily on their infra ([#254](https://github.com/aave/aave-ui/issues/254)) ([66b3fb5](https://github.com/aave/aave-ui/commit/66b3fb51726b260869025f0c33b1a590e8b68859))
+- add link to snapshot governance from governance dashboard ([#304](https://github.com/aave/aave-ui/issues/304)) ([89096a5](https://github.com/aave/aave-ui/commit/89096a57a51d71593273a60a52e80963a57d682b))
+- added `react-snowfall` because it's winter :tada: ([#284](https://github.com/aave/aave-ui/issues/284)) ([f63d0cb](https://github.com/aave/aave-ui/commit/f63d0cba9b22c8261cc371f07a9b71ff43c2c2e9))
+- load languages on demand instead of all ([#294](https://github.com/aave/aave-ui/issues/294)) ([32e581e](https://github.com/aave/aave-ui/commit/32e581ee8c39c63b87f5e619e312f6dde1129353))
+
+### Bug Fixes
+
+- change etherscan TLD to .io ([#338](https://github.com/aave/aave-ui/issues/338)) ([c5a3da6](https://github.com/aave/aave-ui/commit/c5a3da613faa52399ced5c4c62fcdc58d0a15dbf))
+- check txn validity before execution ([#314](https://github.com/aave/aave-ui/issues/314)) ([d4311ce](https://github.com/aave/aave-ui/commit/d4311ce47d3945db1e98031bcfab06e1252b4848))
+- change `TokenIcon` import `'@aave/aave-ui-kit` to `helpers/config/assets-config` to allow easier adjustments ([#259](https://github.com/aave/aave-ui/issues/259)) ([61a5a5c](https://github.com/aave/aave-ui/commit/61a5a5c3e1438e52c94b0a4b7fb8beb750b18b99))
+- remove rewards modal as it was only working for stkAave rewards ([#153](https://github.com/aave/aave-ui/issues/153)) ([74dd795](https://github.com/aave/aave-ui/commit/74dd795c131cfb7869e18c2eed3c0acd431e0028)), closes [#76](https://github.com/aave/aave-ui/issues/76)
+- use correct stable rate in userSummary calculation ([#249](https://github.com/aave/aave-ui/issues/249)) ([dd7ad7f](https://github.com/aave/aave-ui/commit/dd7ad7f3786bbfa0fe224c434ede2c4eac146478))
+- resolve an issue in current ltv calculation ([#267](https://github.com/aave/aave-ui/issues/267)) ([9ec5bfe](https://github.com/aave/aave-ui/commit/9ec5bfe9cb0e1c462d75c105a4b0c60f64081718))
+
 ## 0.2.0 (2021-12-14)
 
 ### ⚠ BREAKING CHANGES

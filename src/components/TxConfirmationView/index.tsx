@@ -243,12 +243,14 @@ export default function TxConfirmationView({
         setUnsignedPermitData(permitTxResponse);
       }
       setLoadingTxData(false);
+      return true;
     } catch (e) {
       console.log('Error on txs loading', e);
       // TODO: show correct error if any???
 
       setBackendNotAvailable(true);
       setLoadingTxData(false);
+      return false;
     }
   };
 
@@ -386,18 +388,28 @@ export default function TxConfirmationView({
                       blockingError ||
                       boxDescription
                     }
-                    onSubmitTransaction={() =>
-                      sendEthTransaction(
-                        actionTxData.unsignedData,
-                        provider,
-                        setActionTxData,
-                        customGasPrice,
-                        {
-                          onExecution: onMainTxExecuted,
-                          onConfirmation: onMainTxConfirmed,
-                        }
-                      )
-                    }
+                    onSubmitTransaction={async () => {
+                      const success = await handleGetTxData();
+                      if (success) {
+                        return sendEthTransaction(
+                          actionTxData.unsignedData,
+                          provider,
+                          setActionTxData,
+                          customGasPrice,
+                          {
+                            onExecution: onMainTxExecuted,
+                            onConfirmation: onMainTxConfirmed,
+                          }
+                        );
+                      } else {
+                        setActionTxData((state) => ({
+                          ...state,
+                          txStatus: TxStatusType.error,
+                          loading: false,
+                          error: 'transaction no longer valid',
+                        }));
+                      }
+                    }}
                     successButtonTitle={successButtonTitle}
                     goToAfterSuccess={goToAfterSuccess}
                     buttonTitle={buttonTitle || boxTitle}
