@@ -39,17 +39,17 @@ export const deposit = (
   let _shortName = asset.shortName;
   let _fullName = asset.fullName;
 
-  return describe(`Deposit process for ${_shortName}`, () => {
+  return describe(`Supply process for ${_shortName}`, () => {
     skipSetup({ skip, updateSkipStatus });
     it(`Open ${_shortName} borrow view`, () => {
       cy.get(`[data-cy=menuDashboard]`).click();
-      cy.get(`[data-cy=supply${_shortName.toUpperCase()}TableItem]`).contains('Deposit').click();
+      cy.get(`[data-cy="supply${_shortName.toUpperCase()}TableItem"]`).contains('Supply').click();
     });
-    it(`Set ${amount} deposit amount for ${_shortName}`, () => {
+    it(`Set ${amount} supply amount for ${_shortName}`, () => {
       setAmount({ amount });
     });
     it(`Make approve for ${_shortName}, on confirmation page`, () => {
-      doConfirm({ hasApproval, actionName: 'Deposit' });
+      doConfirm({ hasApproval, actionName: 'Supply' });
     });
   });
 };
@@ -77,7 +77,7 @@ export const borrow = (
     it(`Open ${_shortName} borrow view`, () => {
       cy.get(`[data-cy=menuDashboard]`).click();
       cy.get('button').contains('Borrowings').click();
-      cy.get(`[data-cy=borrow${_shortName.toUpperCase()}TableItem]`).contains('Borrow').click();
+      cy.get(`[data-cy="borrow${_shortName.toUpperCase()}TableItem"]`).contains('Borrow').click();
     });
     it(`Set ${amount} borrow amount for ${_shortName}`, () => {
       setAmount({ amount });
@@ -300,9 +300,9 @@ export const changeCollateral = (
   let _shortName = asset.shortName;
   return describe(`Switch collateral type from ${collateralType}`, () => {
     skipSetup({ skip, updateSkipStatus });
-    it('Open dashboard, with deposit view', () => {
+    it('Open dashboard, with supplies view', () => {
       cy.get(`[data-cy=menuDashboard]`).click();
-      cy.get('button').contains('Deposits').click();
+      cy.get('button').contains('Supplies').click();
     });
     it('Switch type', () => {
       getDashBoardDepositRow({ assetName: _shortName, collateralType })

@@ -128,12 +128,9 @@ export default function AssetSwapConfirmation() {
       route: priceRoute,
       chainId: underlyingChainId,
     });
-    const wrappedBaseAsset = networkConfig.baseAssetWrappedAddress
-      ? networkConfig.baseAssetWrappedAddress
-      : '';
     return lendingPool.swapCollateral({
-      fromAsset: fromPoolReserve.symbol === networkConfig.baseAsset ? wrappedBaseAsset : fromAsset,
-      toAsset: toPoolReserve.symbol === networkConfig.baseAsset ? wrappedBaseAsset : toAsset,
+      fromAsset,
+      toAsset,
       swapAll,
       fromAToken: fromPoolReserve.aTokenAddress,
       fromAmount: inputAmount.toString(),
@@ -172,6 +169,15 @@ export default function AssetSwapConfirmation() {
     withFormattedSymbol: false,
   });
 
+  const fromSymbol =
+    fromPoolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+      ? networkConfig.baseAssetSymbol
+      : fromPoolReserve.symbol;
+  const toSymbol =
+    toPoolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+      ? networkConfig.baseAssetSymbol
+      : toPoolReserve.symbol;
+
   return (
     <PoolTxConfirmationView
       caption={intl.formatMessage(messages.title)}
@@ -190,20 +196,20 @@ export default function AssetSwapConfirmation() {
         <Value
           value={fromAmountQuery.toNumber()}
           subValue={fromAmountUsdQuery.toString()}
-          symbol={fromPoolReserve.symbol}
+          symbol={fromSymbol}
           subSymbol="USD"
           tokenIcon={true}
-          tooltipId={fromPoolReserve.symbol}
+          tooltipId={fromSymbol}
         />
       </Row>
       <Row title={intl.formatMessage(messages.toTitle)} withMargin={true}>
         <Value
           value={toAmountQuery.toNumber()}
           subValue={toAmountUsdQuery.toString()}
-          symbol={toPoolReserve.symbol}
+          symbol={toSymbol}
           subSymbol="USD"
           tokenIcon={true}
-          tooltipId={toPoolReserve.symbol}
+          tooltipId={toSymbol}
         />
       </Row>
 

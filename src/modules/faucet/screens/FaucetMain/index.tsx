@@ -23,7 +23,8 @@ export default function FaucetMain() {
 
   const listData = reserves
     .filter(
-      (reserve) => reserve.symbol.toUpperCase() !== networkConfig.baseAsset && !reserve.isFrozen
+      (reserve) =>
+        reserve.symbol.toUpperCase() !== networkConfig.baseAssetSymbol && !reserve.isFrozen
     )
     .map<FaucetTableItem>((reserve) => {
       const walletBalance = valueToBigNumber(

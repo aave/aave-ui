@@ -19,9 +19,8 @@ import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
-import { API_ETH_MOCK_ADDRESS, ChainId, InterestRate } from '@aave/contract-helpers';
+import { ChainId, InterestRate } from '@aave/contract-helpers';
 import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
-import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import BigNumber from 'bignumber.js';
 import { useLocation } from 'react-router';
 
@@ -47,7 +46,6 @@ function RepayWithCollateralConfirmation({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { marketReferencePriceInUsd, reserves, userId } = useAppDataContext();
-  const { networkConfig } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
   const [isTxExecuted, setIsTxExecuted] = useState(false);
 
@@ -136,12 +134,7 @@ function RepayWithCollateralConfirmation({
     user
   );
 
-  const fixedAsset = (asset: string) =>
-    asset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()
-      ? networkConfig.baseAssetWrappedAddress
-        ? networkConfig.baseAssetWrappedAddress
-        : ''
-      : asset.toLowerCase();
+  const fixedAsset = (asset: string) => asset.toLowerCase();
 
   const handleGetTransactions = async () =>
     await lendingPool.repayWithCollateral({

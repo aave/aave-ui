@@ -3,8 +3,7 @@ import { ContractMethod, SwapSide } from 'paraswap/build/constants';
 import { OptimalRate } from 'paraswap-core';
 import { useCallback, useEffect, useState } from 'react';
 import { ComputedReserveData, useAppDataContext } from '../pool-data-provider';
-import { useProtocolDataContext } from '../protocol-data-provider';
-import { API_ETH_MOCK_ADDRESS, ChainId } from '@aave/contract-helpers';
+import { ChainId } from '@aave/contract-helpers';
 import { BigNumberZeroDecimal, normalize, valueToBigNumber } from '@aave/math-utils';
 
 const mainnetParaswap = new ParaSwap(ChainId.mainnet);
@@ -27,12 +26,12 @@ type UseSwapProps = {
   chainId: ChainId;
 };
 
-const getReserve = (address: string, reserves: ComputedReserveData[], WETHAddress: string) => {
+const getReserve = (address: string, reserves: ComputedReserveData[]) => {
   const reserve = reserves.find(
     (reserve) => reserve.underlyingAsset.toLowerCase() === address.toLowerCase()
   ) as ComputedReserveData;
   return {
-    address: address.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase() ? WETHAddress : address,
+    address: address,
     decimals: Number.parseInt(reserve?.decimals as any),
     priceInEth: reserve?.priceInMarketReferenceCurrency,
     liquidityRate: reserve?.supplyAPY,
@@ -49,13 +48,9 @@ export const useSwap = ({ swapIn, swapOut, variant, userId, max, chainId }: UseS
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [priceRoute, setPriceRoute] = useState<OptimalRate | null>(null);
-  const { networkConfig } = useProtocolDataContext();
   const { reserves } = useAppDataContext();
-  const wrappedBaseAsset = networkConfig.baseAssetWrappedAddress
-    ? networkConfig.baseAssetWrappedAddress
-    : '';
-  const reserveIn = getReserve(swapIn.address, reserves, wrappedBaseAsset);
-  const reserveOut = getReserve(swapOut.address, reserves, wrappedBaseAsset);
+  const reserveIn = getReserve(swapIn.address, reserves);
+  const reserveOut = getReserve(swapOut.address, reserves);
 
   const fetchRoute = useCallback(async () => {
     if (!swapIn.address || !swapOut.address || !userId) return;

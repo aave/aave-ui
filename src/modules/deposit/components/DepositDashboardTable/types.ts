@@ -12,12 +12,14 @@ export type DepositTableItem = {
     'id' | 'symbol' | 'name' | 'liquidityRate' | 'underlyingAsset'
   >;
   aIncentives: ReserveIncentiveResponse[];
-  borrowingEnabled: boolean;
   /**
    * false when isolation mode makes it impossible to use asset as collateral
    */
   canBeEnabledAsCollateral: boolean;
   isIsolated: boolean;
+  swapLink: string;
+  depositLink: string;
+  withdrawLink: string;
 } & Pick<
   ComputedUserReserve,
   'usageAsCollateralEnabledOnUser' | 'underlyingBalance' | 'underlyingBalanceUSD'

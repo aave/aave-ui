@@ -28,12 +28,12 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 function DepositConfirmation({
-  currencySymbol,
   poolReserve,
   amount,
   user,
   userReserve,
   walletBalance,
+  currencySymbol,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();

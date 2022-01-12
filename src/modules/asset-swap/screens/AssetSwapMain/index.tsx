@@ -96,7 +96,10 @@ export default function AssetSwapMain() {
     );
     const apy = reserve ? reserve.supplyAPY : '0';
     return {
-      label: res.reserve.symbol,
+      label:
+        res.reserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+          ? networkConfig.baseAssetSymbol
+          : res.reserve.symbol,
       value: res.reserve.underlyingAsset,
       decimals: res.reserve.decimals,
       apy,
@@ -108,7 +111,10 @@ export default function AssetSwapMain() {
       res.isActive && !res.isFrozen && res.underlyingAsset.toLowerCase() !== fromAsset.toLowerCase()
   );
   const availableDestinationsSymbols = availableDestinations.map((res) => ({
-    label: res.symbol,
+    label:
+      res.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+        ? networkConfig.baseAssetSymbol
+        : res.symbol,
     value: res.underlyingAsset,
     decimals: res.decimals,
     apy: res.supplyAPY,

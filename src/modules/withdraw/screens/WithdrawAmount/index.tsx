@@ -18,10 +18,10 @@ import PermissionWarning from '../../../../ui-config/branding/PermissionWarning'
 import { useLocation, useNavigate } from 'react-router';
 
 function WithdrawAmount({
-  currencySymbol,
   poolReserve,
   userReserve,
   user,
+  currencySymbol,
 }: ValidationWrapperComponentProps) {
   const navigate = useNavigate();
   const location = useLocation();

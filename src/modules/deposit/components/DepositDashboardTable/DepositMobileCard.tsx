@@ -29,7 +29,6 @@ export default function DepositMobileCard({
   onToggleSwitch,
   isActive,
   isFrozen,
-  borrowingEnabled,
   aIncentives,
   canBeEnabledAsCollateral,
   isIsolated,
@@ -54,10 +53,10 @@ export default function DepositMobileCard({
         </Row>
 
         <Row title={intl.formatMessage(messages.apyRowTitle)} withMargin={true}>
-          {borrowingEnabled || aIncentives.length > 0 ? (
+          {aIncentives.length > 0 ? (
             <IncentivesCard
               symbol={symbol}
-              value={borrowingEnabled ? Number(liquidityRate) : 0}
+              value={Number(liquidityRate || 0)}
               incentives={aIncentives}
             />
           ) : (

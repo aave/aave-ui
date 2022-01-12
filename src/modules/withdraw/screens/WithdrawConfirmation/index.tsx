@@ -20,15 +20,16 @@ import BigNumber from 'bignumber.js';
 import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 function WithdrawConfirmation({
-  currencySymbol,
   userReserve,
   poolReserve,
   amount,
   user,
+  currencySymbol,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { lendingPool } = useTxBuilderContext();
   const { currentAccount } = useUserWalletDataContext();
+
   const aTokenData = getAtokenInfo({
     address: poolReserve.underlyingAsset,
     symbol: currencySymbol,

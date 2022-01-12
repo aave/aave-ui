@@ -27,6 +27,10 @@ export default function DepositItem({
   aIncentives,
   canBeEnabledAsCollateral,
   isIsolated,
+  swapLink,
+  depositLink,
+  withdrawLink,
+  ...rest
 }: DepositTableItem) {
   const intl = useIntl();
   const { currentMarketData } = useProtocolDataContext();
@@ -34,7 +38,7 @@ export default function DepositItem({
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
 
   return (
-    <TableItem tokenSymbol={symbol}>
+    <TableItem tokenSymbol={symbol} {...rest}>
       <TableValueCol
         userId={userId}
         symbol={symbol}
@@ -58,14 +62,14 @@ export default function DepositItem({
         <TableButtonCol
           disabled={!isActive}
           title={intl.formatMessage(defaultMessages.withdraw)}
-          linkTo={`/withdraw/${underlyingAsset}`}
+          linkTo={withdrawLink}
         />
 
         {!isSwapButton && (
           <TableButtonCol
             disabled={!isActive || isFrozen}
             title={intl.formatMessage(defaultMessages.supply)}
-            linkTo={`/deposit/${underlyingAsset}`}
+            linkTo={depositLink}
             withoutBorder={!isSwapButton}
           />
         )}
@@ -74,7 +78,7 @@ export default function DepositItem({
           <TableButtonCol
             disabled={!isActive || isFrozen}
             title={intl.formatMessage(defaultMessages.swap)}
-            linkTo={`/asset-swap?asset=${underlyingAsset}`}
+            linkTo={swapLink}
             withoutBorder={true}
           />
         )}

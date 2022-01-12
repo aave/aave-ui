@@ -31,7 +31,7 @@ export default function BorrowItem({
   const intl = useIntl();
 
   return (
-    <TableItem tokenSymbol={symbol} data-cy={`borrow${symbol}TableItem`}>
+    <TableItem tokenSymbol={symbol} data-cy={`borrow${symbol.toUpperCase()}TableItem`}>
       <TableValueCol
         userId={userId}
         symbol={symbol}
