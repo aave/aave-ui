@@ -43,7 +43,7 @@ export const deposit = (
     skipSetup({ skip, updateSkipStatus });
     it(`Open ${_shortName} borrow view`, () => {
       cy.get(`[data-cy=menuDashboard]`).click();
-      cy.get(`[data-cy=supply${_shortName.toUpperCase()}TableItem]`).contains('Supply').click();
+      cy.get(`[data-cy="supply${_shortName.toUpperCase()}TableItem"]`).contains('Supply').click();
     });
     it(`Set ${amount} supply amount for ${_shortName}`, () => {
       setAmount({ amount });
@@ -77,7 +77,7 @@ export const borrow = (
     it(`Open ${_shortName} borrow view`, () => {
       cy.get(`[data-cy=menuDashboard]`).click();
       cy.get('button').contains('Borrowings').click();
-      cy.get(`[data-cy=borrow${_shortName.toUpperCase()}TableItem]`).contains('Borrow').click();
+      cy.get(`[data-cy="borrow${_shortName.toUpperCase()}TableItem"]`).contains('Borrow').click();
     });
     it(`Set ${amount} borrow amount for ${_shortName}`, () => {
       setAmount({ amount });
