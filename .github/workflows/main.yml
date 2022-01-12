@@ -63,10 +63,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version-file: '.nvmrc'
-          cache: 'npm'
+          cache: 'yarn'
 
       - name: install
-        run: npm ci --prefer-offline --no-audit
+        run: yarn install --frozen-lockfile
 
       - name: download build
         uses: actions/download-artifact@v2
