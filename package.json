@@ -120,7 +120,7 @@
     "start:prod": "serve -s build",
     "build": "react-app-rewired build",
     "build:ipfs": "REACT_APP_IPFS_MODE=true npm run build",
-    "test": "DOTENV_CONFIG_PATH='.env.local' cypress run --config watchForFileChanges=false numTestsKeptInMemory=0",
+    "test": "DOTENV_CONFIG_PATH='.env.local' cypress run --config watchForFileChanges=false numTestsKeptInMemory=0 --browser chrome",
     "test:main": "npm run test -- --spec \"cypress/integration/0-main-market/**/*.spec.ts\"",
     "test:amm": "npm run test -- --spec \"cypress/integration/1-amm-market/**/*.spec.ts\"",
     "test:polygon": "npm run test -- --spec \"cypress/integration/2-polygon-market/**/*.spec.ts\"",
