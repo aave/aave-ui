@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
-import { InterestRate, Pool, PoolInterface, synthetixProxyByChainId } from '@aave/contract-helpers';
+import {
+  ChainId,
+  InterestRate,
+  Pool,
+  PoolInterface,
+  synthetixProxyByChainId,
+} from '@aave/contract-helpers';
 
 import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
@@ -44,7 +50,9 @@ function RepayConfirmation({
   const { lendingPool } = useTxBuilderContext();
 
   const [isTxExecuted, setIsTxExecuted] = useState(false);
-  const [repayWithPermitEnabled, setRepayWithPermitEnable] = useState(currentMarketData.v3);
+  const [repayWithPermitEnabled, setRepayWithPermitEnable] = useState(
+    currentMarketData.v3 && chainId !== ChainId.harmony && chainId !== ChainId.harmony_testnet
+  );
   const [signedAmount, setSignedAmount] = useState('0');
 
   const assetDetails = getAssetInfo(poolReserve.symbol);
