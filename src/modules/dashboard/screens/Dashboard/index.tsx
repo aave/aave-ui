@@ -76,7 +76,7 @@ export default function Dashboard() {
         underlyingAsset:
           poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
             ? API_ETH_MOCK_ADDRESS
-            : userReserve.reserve.underlyingAsset,
+            : poolReserve.underlyingAsset,
       },
     };
 
@@ -98,6 +98,20 @@ export default function Dashboard() {
           !userReserve.usageAsCollateralEnabledOnUser,
           poolReserve.underlyingAsset
         ),
+      swapLink: `/asset-swap?asset=${poolReserve.underlyingAsset}`,
+      /**
+       * for deposit and withdrawal we pass API_ETH_MOCK_ADDRESS instead of the underlying to automatically unwrap
+       */
+      depositLink: `/withdraw/${
+        poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+          ? API_ETH_MOCK_ADDRESS
+          : poolReserve.underlyingAsset
+      }`,
+      withdrawLink: `/deposit/${
+        poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+          ? API_ETH_MOCK_ADDRESS
+          : poolReserve.underlyingAsset
+      }`,
     });
 
     if (userReserve.variableBorrows !== '0') {

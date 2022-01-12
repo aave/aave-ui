@@ -20,14 +20,16 @@ import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 import messages from './messages';
 import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 import { useLocation } from 'react-router';
+import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 
 function SwapBorrowRateModeConfirmation({
-  currencySymbol,
+  currencySymbol: _currencySymbol,
   userReserve,
   poolReserve,
   user,
 }: ValidationWrapperComponentProps) {
   const { lendingPool } = useTxBuilderContext();
+  const { networkConfig } = useProtocolDataContext();
   const { currentAccount } = useUserWalletDataContext();
   const [isTxExecuted, setIsTxExecuted] = useState(false);
   const { lg, md } = useThemeContext();
@@ -35,6 +37,10 @@ function SwapBorrowRateModeConfirmation({
   const location = useLocation();
   const query = queryString.parse(location.search);
   const currentRateMode = query.borrowRateMode as InterestRate;
+  const currencySymbol =
+    _currencySymbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+      ? networkConfig.baseAsset
+      : _currencySymbol;
 
   const asset = getAssetInfo(currencySymbol);
 
