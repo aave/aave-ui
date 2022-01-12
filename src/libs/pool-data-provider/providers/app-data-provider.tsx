@@ -166,7 +166,6 @@ export const AppDataProvider: React.FC = ({ children }) => {
     return acc;
   }, {} as { [address: string]: { amount: string; amountUSD: string } });
 
-  console.log(aggregatedBalance);
 
   const formattedPoolReserves = formatReservesAndIncentives({
     reserves,
