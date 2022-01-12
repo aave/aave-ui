@@ -14,7 +14,7 @@ runs:
       shell: bash
 
     - name: build
-      run: npm run build
+      run: yarn build
       shell: bash
 
     - name: store artifact
