@@ -102,12 +102,12 @@ export default function Dashboard() {
       /**
        * for deposit and withdrawal we pass API_ETH_MOCK_ADDRESS instead of the underlying to automatically unwrap
        */
-      depositLink: `/withdraw/${
+      depositLink: `/supply/${
         poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
           ? API_ETH_MOCK_ADDRESS
           : poolReserve.underlyingAsset
       }`,
-      withdrawLink: `/deposit/${
+      withdrawLink: `/withdraw/${
         poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
           ? API_ETH_MOCK_ADDRESS
           : poolReserve.underlyingAsset

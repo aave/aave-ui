@@ -154,7 +154,7 @@ export default function UserInformation({
               <span>{intl.formatMessage(messages.deposits)}</span>{' '}
               <div className="UserInformation__caption-buttons">
                 <Link
-                  to={`/deposit/${poolReserve.underlyingAsset}`}
+                  to={`/supply/${poolReserve.underlyingAsset}`}
                   className="ButtonLink"
                   disabled={!formattedAvailableDeposits || poolReserve.isFrozen}
                 >
