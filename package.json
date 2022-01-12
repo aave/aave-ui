@@ -19,7 +19,7 @@
     "@ledgerhq/hw-transport-u2f": "^5.36.0-deprecated",
     "@ledgerhq/hw-transport-webusb": "^6.3.0",
     "@myetherwallet/mewconnect-connector": "^0.1.8",
-    "@myetherwallet/mewconnect-web-client": "^2.1.22",
+    "@myetherwallet/mewconnect-web-client": "^2.2.0-beta.15",
     "@nash-io/ramp-widget-sdk": "^0.2.2",
     "@ramp-network/ramp-instant-sdk": "^2.4.8",
     "@sentry/browser": "^6.13.3",
