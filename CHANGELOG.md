@@ -4,34 +4,21 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.2.1](https://github.com/aave/aave-ui/compare/v0.2.0...v0.2.1) (2022-01-12)
 
-
 ### Features
 
-* add cypress test suite ([#254](https://github.com/aave/aave-ui/issues/254)) ([66b3fb5](https://github.com/aave/aave-ui/commit/66b3fb51726b260869025f0c33b1a590e8b68859))
-* add link to governance snapshot ([#304](https://github.com/aave/aave-ui/issues/304)) ([89096a5](https://github.com/aave/aave-ui/commit/89096a57a51d71593273a60a52e80963a57d682b))
-* added `react-snowfall` ([#284](https://github.com/aave/aave-ui/issues/284)) ([f63d0cb](https://github.com/aave/aave-ui/commit/f63d0cba9b22c8261cc371f07a9b71ff43c2c2e9))
-* load languages on demand instead of all ([#294](https://github.com/aave/aave-ui/issues/294)) ([32e581e](https://github.com/aave/aave-ui/commit/32e581ee8c39c63b87f5e619e312f6dde1129353))
-* track & comment bundle size change ([#321](https://github.com/aave/aave-ui/issues/321)) ([afcccea](https://github.com/aave/aave-ui/commit/afcccea15455b0c9c5a683903be1fcde13a014c6))
-
+- switch wdio to cypress test suite so forks can run tests more easily on their infra ([#254](https://github.com/aave/aave-ui/issues/254)) ([66b3fb5](https://github.com/aave/aave-ui/commit/66b3fb51726b260869025f0c33b1a590e8b68859))
+- add link to snapshot governance from governance dashboard ([#304](https://github.com/aave/aave-ui/issues/304)) ([89096a5](https://github.com/aave/aave-ui/commit/89096a57a51d71593273a60a52e80963a57d682b))
+- added `react-snowfall` because it's winter :tada: ([#284](https://github.com/aave/aave-ui/issues/284)) ([f63d0cb](https://github.com/aave/aave-ui/commit/f63d0cba9b22c8261cc371f07a9b71ff43c2c2e9))
+- load languages on demand instead of all ([#294](https://github.com/aave/aave-ui/issues/294)) ([32e581e](https://github.com/aave/aave-ui/commit/32e581ee8c39c63b87f5e619e312f6dde1129353))
 
 ### Bug Fixes
 
-* add proper name ([c292626](https://github.com/aave/aave-ui/commit/c2926261f4c30c24c9da84b44606ccaeb854b86b))
-* change etherscan TLD to .io ([#338](https://github.com/aave/aave-ui/issues/338)) ([c5a3da6](https://github.com/aave/aave-ui/commit/c5a3da613faa52399ced5c4c62fcdc58d0a15dbf))
-* check txn validity ([#314](https://github.com/aave/aave-ui/issues/314)) ([d4311ce](https://github.com/aave/aave-ui/commit/d4311ce47d3945db1e98031bcfab06e1252b4848))
-* imports `TokenIcon` component from `'@aave/aave-ui-kit` to `helpers/config/assets-config` ([#259](https://github.com/aave/aave-ui/issues/259)) ([61a5a5c](https://github.com/aave/aave-ui/commit/61a5a5c3e1438e52c94b0a4b7fb8beb750b18b99))
-* one last try ([4b2909b](https://github.com/aave/aave-ui/commit/4b2909b782b1cff1ffd1bae8174224b23beb56f7))
-* remove rewards modal ([#153](https://github.com/aave/aave-ui/issues/153)) ([74dd795](https://github.com/aave/aave-ui/commit/74dd795c131cfb7869e18c2eed3c0acd431e0028)), closes [#76](https://github.com/aave/aave-ui/issues/76)
-* remove unncessary cache step ([8b1888c](https://github.com/aave/aave-ui/commit/8b1888c7bbd7ea9e6969d893107f6012bfede9f6))
-* remove unnecessary config ([#308](https://github.com/aave/aave-ui/issues/308)) ([d93061e](https://github.com/aave/aave-ui/commit/d93061ec6f10299b6472f26e7eb04f600bd6f646))
-* store hash for every build ([#327](https://github.com/aave/aave-ui/issues/327)) ([5d486d0](https://github.com/aave/aave-ui/commit/5d486d052de4523f9870e95de5aa12a020daa16a))
-* test ci fix ([30e7762](https://github.com/aave/aave-ui/commit/30e776240772ba5a028bcf721ad88e3a2a5cae8f))
-* test if that works :/ ([a58a31a](https://github.com/aave/aave-ui/commit/a58a31a4268ab832dd59a7949b32adca8aa44a58))
-* typo video instead of videos in cypress upload ([#261](https://github.com/aave/aave-ui/issues/261)) ([cb8e2b5](https://github.com/aave/aave-ui/commit/cb8e2b51a4861b753271c85ba1c83a7218501252))
-* update crust to support cid v1 ([#274](https://github.com/aave/aave-ui/issues/274)) ([a9b1253](https://github.com/aave/aave-ui/commit/a9b125382893b353651371b89f927806a3541437))
-* use cache instead of artifacts ([#326](https://github.com/aave/aave-ui/issues/326)) ([8684f60](https://github.com/aave/aave-ui/commit/8684f60bc8d47da78ae811fdd87c74799c877d7b))
-* use correct stable rate in userSummary ([#249](https://github.com/aave/aave-ui/issues/249)) ([dd7ad7f](https://github.com/aave/aave-ui/commit/dd7ad7f3786bbfa0fe224c434ede2c4eac146478))
-* use properly calculated ltv ([#267](https://github.com/aave/aave-ui/issues/267)) ([9ec5bfe](https://github.com/aave/aave-ui/commit/9ec5bfe9cb0e1c462d75c105a4b0c60f64081718))
+- change etherscan TLD to .io ([#338](https://github.com/aave/aave-ui/issues/338)) ([c5a3da6](https://github.com/aave/aave-ui/commit/c5a3da613faa52399ced5c4c62fcdc58d0a15dbf))
+- check txn validity before execution ([#314](https://github.com/aave/aave-ui/issues/314)) ([d4311ce](https://github.com/aave/aave-ui/commit/d4311ce47d3945db1e98031bcfab06e1252b4848))
+- change `TokenIcon` import `'@aave/aave-ui-kit` to `helpers/config/assets-config` to allow easier adjustments ([#259](https://github.com/aave/aave-ui/issues/259)) ([61a5a5c](https://github.com/aave/aave-ui/commit/61a5a5c3e1438e52c94b0a4b7fb8beb750b18b99))
+- remove rewards modal as it was only working for stkAave rewards ([#153](https://github.com/aave/aave-ui/issues/153)) ([74dd795](https://github.com/aave/aave-ui/commit/74dd795c131cfb7869e18c2eed3c0acd431e0028)), closes [#76](https://github.com/aave/aave-ui/issues/76)
+- use correct stable rate in userSummary calculation ([#249](https://github.com/aave/aave-ui/issues/249)) ([dd7ad7f](https://github.com/aave/aave-ui/commit/dd7ad7f3786bbfa0fe224c434ede2c4eac146478))
+- resolve an issue in current ltv calculation ([#267](https://github.com/aave/aave-ui/issues/267)) ([9ec5bfe](https://github.com/aave/aave-ui/commit/9ec5bfe9cb0e1c462d75c105a4b0c60f64081718))
 
 ## 0.2.0 (2021-12-14)
 
