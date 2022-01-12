@@ -62,7 +62,7 @@ function RepayAmount({
       setMaxAmountToRepay(maxAmountToRepay);
     } else {
       const normalizedWalletBalance = walletBalance.minus(
-        userReserve.reserve.symbol.toUpperCase() === networkConfig.baseAsset ? '0.004' : '0'
+        userReserve.reserve.symbol.toUpperCase() === networkConfig.baseAssetSymbol ? '0.004' : '0'
       );
 
       const maxAmountToRepay = BigNumber.min(normalizedWalletBalance, interestRate);

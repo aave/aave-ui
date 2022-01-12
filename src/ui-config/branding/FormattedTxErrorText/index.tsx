@@ -15,7 +15,7 @@ export default function FormattedTxErrorText() {
     <div className="FormattedTxErrorText">
       <span>
         {intl.formatMessage(messages.errorDescriptionFirst, {
-          asset: networkConfig.baseAsset,
+          asset: networkConfig.baseAssetSymbol,
         })}
       </span>
       <span>

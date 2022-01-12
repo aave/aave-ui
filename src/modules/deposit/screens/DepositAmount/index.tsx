@@ -45,11 +45,11 @@ interface DepositAmountProps
   > {}
 
 function DepositAmount({
-  currencySymbol,
   poolReserve,
   user,
   userReserve,
   walletBalance,
+  currencySymbol,
 }: DepositAmountProps) {
   const intl = useIntl();
   const { networkConfig, currentMarketData } = useProtocolDataContext();
@@ -76,7 +76,10 @@ function DepositAmount({
   );
 
   let maxAmountToDeposit = valueToBigNumber(walletBalance);
-  if (maxAmountToDeposit.gt(0) && poolReserve.symbol.toUpperCase() === networkConfig.baseAsset) {
+  if (
+    maxAmountToDeposit.gt(0) &&
+    poolReserve.symbol.toUpperCase() === networkConfig.baseAssetSymbol
+  ) {
     // keep it for tx gas cost
     maxAmountToDeposit = maxAmountToDeposit.minus('0.001');
   }

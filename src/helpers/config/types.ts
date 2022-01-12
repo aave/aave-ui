@@ -23,10 +23,13 @@ export type NetworkConfig = {
   cachingServerUrl?: string;
   cachingWSServerUrl?: string;
   baseUniswapAdapter?: string;
-  baseAsset: string;
+  /**
+   * When this is set withdrawals will automatically be unwrapped
+   */
+  wrappedBaseAssetSymbol?: string;
+  baseAssetSymbol: string;
   // needed for configuring the chain on metemask when it doesn't exist yet
   baseAssetDecimals: number;
-  baseAssetWrappedAddress?: string;
   usdMarket?: boolean;
   // function returning a link to etherscan et al
   explorerLink: string;

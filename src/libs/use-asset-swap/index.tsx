@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { IBaseUniswapAdapterFactory } from './IBaseUniswapAdapterFactory';
 import { useProtocolDataContext } from '../protocol-data-provider';
-import { API_ETH_MOCK_ADDRESS } from '@aave/contract-helpers';
 import { normalize, normalizeBN } from '@aave/math-utils';
 
 const USD_DECIMALS = 8;
@@ -23,9 +22,6 @@ interface AssetSwapParams {
 export function useAssetSwap(params?: AssetSwapParams) {
   const poolingInterval = params?.poolingInterval || 10 * 1000;
   const { jsonRpcProvider, networkConfig, chainId } = useProtocolDataContext();
-  const wrappedBaseAssetAddress = networkConfig.baseAssetWrappedAddress
-    ? networkConfig.baseAssetWrappedAddress
-    : '';
 
   const [loading, setLoading] = useState(false);
 
@@ -64,17 +60,8 @@ export function useAssetSwap(params?: AssetSwapParams) {
       }
 
       setLoading(true);
-
-      // we have some mess with ETH/WETH addresses, and this is the smallest modification to make it work
-      // but maybe at some point better to change the general flow
-      const fixedFromAsset =
-        _fromAsset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()
-          ? wrappedBaseAssetAddress
-          : _fromAsset;
-      const fixedToAsset =
-        _toAsset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()
-          ? wrappedBaseAssetAddress
-          : _toAsset;
+      const fixedFromAsset = _fromAsset;
+      const fixedToAsset = _toAsset;
 
       try {
         const swapAdapter = IBaseUniswapAdapterFactory.connect(

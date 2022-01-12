@@ -145,8 +145,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
     const poolReserve = reserves.find((poolReserve) => {
       if (reserve.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()) {
         return (
-          poolReserve.underlyingAsset.toLowerCase() ===
-          networkConfig.baseAssetWrappedAddress?.toLowerCase()
+          poolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
         );
       }
       return poolReserve.underlyingAsset.toLowerCase() === reserve.toLowerCase();
@@ -166,6 +165,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
     }
     return acc;
   }, {} as { [address: string]: { amount: string; amountUSD: string } });
+
 
   const formattedPoolReserves = formatReservesAndIncentives({
     reserves,
@@ -264,33 +264,9 @@ export const AppDataProvider: React.FC = ({ children }) => {
       value={{
         walletBalances: aggregatedBalance,
         hasEmptyWallet,
-        reserves: formattedPoolReserves.map((r) => ({
-          ...r,
-          underlyingAsset:
-            r.underlyingAsset === networkConfig.baseAssetWrappedAddress
-              ? API_ETH_MOCK_ADDRESS.toLowerCase()
-              : r.underlyingAsset,
-          symbol:
-            r.underlyingAsset === networkConfig.baseAssetWrappedAddress
-              ? networkConfig.baseAsset
-              : r.symbol,
-        })),
+        reserves: formattedPoolReserves,
         user: {
           ...user,
-          userReservesData: user.userReservesData.map((r) => ({
-            ...r,
-            reserve: {
-              ...r.reserve,
-              underlyingAsset:
-                r.reserve.underlyingAsset === networkConfig.baseAssetWrappedAddress
-                  ? API_ETH_MOCK_ADDRESS.toLowerCase()
-                  : r.reserve.underlyingAsset,
-              symbol:
-                r.reserve.underlyingAsset === networkConfig.baseAssetWrappedAddress
-                  ? networkConfig.baseAsset
-                  : r.reserve.symbol,
-            },
-          })),
           earnedAPY: proportions.positiveProportion
             .dividedBy(user.netWorthUSD)
             .multipliedBy(100)
