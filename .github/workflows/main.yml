@@ -30,7 +30,7 @@ jobs:
 
       # compare size
       - name: track size
-        run: npm run analyze -- --json stats-${{ github.sha }}.json
+        run: yarn analyze -- --json stats-${{ github.sha }}.json
 
       - name: download cached bundle size
         uses: actions/cache@v2
@@ -63,10 +63,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version-file: '.nvmrc'
-          cache: 'npm'
+          cache: 'yarn'
 
       - name: install
-        run: npm ci --prefer-offline --no-audit
+        run: yarn install --frozen-lockfile
 
       - name: download build
         uses: actions/download-artifact@v2
@@ -80,9 +80,9 @@ jobs:
           headless: true
           install: false
           record: false
-          start: npm run start:prod
+          start: yarn start:prod
           wait-on: 'http://localhost:3000'
-          command: npm run test:${{matrix.market}}
+          command: yarn test:${{matrix.market}}
         env:
           CYPRESS_URL: 'http://localhost:3000'
           CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
