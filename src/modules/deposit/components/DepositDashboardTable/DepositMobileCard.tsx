@@ -93,7 +93,7 @@ export default function DepositMobileCard({
 
           {!isSwapButton ? (
             <Link
-              to={`/deposit/${underlyingAsset}`}
+              to={`/supply/${underlyingAsset}`}
               className="ButtonLink"
               disabled={!isActive || isFrozen}
             >
