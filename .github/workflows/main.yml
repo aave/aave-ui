@@ -30,6 +30,18 @@ jobs:
 
       # compare size
       - name: track size
+<<<<<<< HEAD
+        run: npm run analyze -- --json stats.json
+
+      - name: download stats
+        continue-on-error: true
+        uses: actions/download-artifact@v2
+        with:
+          name: stats_master
+          path: stats_master.json
+
+      - uses: actions/github-script@v5
+=======
         run: npm run analyze -- --json stats-${{ github.sha }}.json
 
       - name: download cached bundle size
@@ -41,6 +53,7 @@ jobs:
       - uses: actions/github-script@v5
         env:
           HEAD: ${{ github.sha }}
+>>>>>>> origin/master
         with:
           script: |
             const script = require('./scripts/compare-size')

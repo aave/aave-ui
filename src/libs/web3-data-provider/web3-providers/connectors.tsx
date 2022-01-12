@@ -10,7 +10,6 @@ import { TorusConnector } from '@web3-react/torus-connector';
 import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
 // import { PortisConnector } from '@web3-react/portis-connector';
 import { PortisConnector } from './connectors/portis-connector';
-
 import { MewConnectConnector } from '@myetherwallet/mewconnect-connector';
 
 import {

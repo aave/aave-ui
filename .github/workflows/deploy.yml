@@ -23,6 +23,18 @@ jobs:
 
       # track size
       - name: track size
+<<<<<<< HEAD
+        run: npm run analyze -- --json stats.json
+        shell: bash
+
+      - name: store artifact
+        uses: actions/upload-artifact@v2
+        if: |
+          github.ref == 'refs/heads/master'
+        with:
+          name: stats_master
+          path: stats.json
+=======
         run: npm run analyze -- --json stats-master.json
         shell: bash
 
@@ -31,6 +43,7 @@ jobs:
         with:
           path: stats-master.json
           key: stats-master
+>>>>>>> origin/master
 
       # upload to ipfs
       - name: pinata
