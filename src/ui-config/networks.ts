@@ -126,7 +126,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCWSUrl: 'wss://rinkeby.arbitrum.io/rpc',
     protocolDataUrl: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v3-arbitrum-rinkeby',
     baseUniswapAdapter: '0x0',
-    baseAssetSymbol: 'ARETH',
+    baseAssetSymbol: 'ETH',
     wrappedBaseAssetSymbol: 'WETH',
     baseAssetDecimals: 18,
     explorerLink: 'https://testnet.arbiscan.io/',
@@ -186,7 +186,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCWSUrl: 'wss://ws-mainnet.optimism.io',
     protocolDataUrl: '',
     baseUniswapAdapter: '0x0',
-    baseAssetSymbol: 'OETH',
+    baseAssetSymbol: 'ETH', // OETH
     wrappedBaseAssetSymbol: 'WETH',
     baseAssetDecimals: 18,
     explorerLink: 'https://optimistic.etherscan.io/',
@@ -206,7 +206,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCWSUrl: 'wss://ws-kovan.optimism.io',
     protocolDataUrl: '',
     baseUniswapAdapter: '0x0',
-    baseAssetSymbol: 'KOR',
+    baseAssetSymbol: 'OR', // KOR
     wrappedBaseAssetSymbol: 'WETH',
     baseAssetDecimals: 18,
     explorerLink: 'https://kovan-optimistic.etherscan.io/',
