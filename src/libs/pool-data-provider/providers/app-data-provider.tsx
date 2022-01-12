@@ -120,6 +120,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
     // error: loadingReservesError,
     refresh: refreshPoolData,
   } = usePoolData();
+
   const reserves: ReserveDataHumanized[] = rawReservesData ? rawReservesData.reservesData : [];
   const baseCurrencyData =
     rawReservesData && rawReservesData.baseCurrencyData
