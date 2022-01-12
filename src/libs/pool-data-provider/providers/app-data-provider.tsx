@@ -166,7 +166,6 @@ export const AppDataProvider: React.FC = ({ children }) => {
     return acc;
   }, {} as { [address: string]: { amount: string; amountUSD: string } });
 
-
   const formattedPoolReserves = formatReservesAndIncentives({
     reserves,
     currentTimestamp,
