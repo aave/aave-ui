@@ -52,7 +52,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        chain:
+        market:
           - main
           - amm
           - polygon
@@ -82,7 +82,7 @@ jobs:
           record: false
           start: npm run start:prod
           wait-on: 'http://localhost:3000'
-          command: npm run test:${{matrix.chain}}
+          command: npm run test:${{matrix.market}}
         env:
           CYPRESS_URL: 'http://localhost:3000'
           CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
@@ -93,7 +93,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: cypress-fail-screenshots
+          name: cypress-fail-screenshots-${{matrix.market}}
           path: cypress/screenshots
 
   upload:
