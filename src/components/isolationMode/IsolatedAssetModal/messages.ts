@@ -3,7 +3,7 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   caption: 'Isolated asset',
   description:
-    'As a security measure some newly listed assets have limited exposure until the Aave governance decides otherwise.',
+    'Some newly listed assets have limited exposure until the Aave governance decides otherwise.',
   howItWorks: 'How it works',
   howItWorksDescriptionFirst:
     'In Isolation mode you cannot supply other assets as collateral for borrowing. Assets used as collateral in Isolation mode can only be borrowed to a specific debt ceiling.',
