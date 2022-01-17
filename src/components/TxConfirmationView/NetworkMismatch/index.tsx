@@ -76,8 +76,10 @@ export default function NetworkMismatch({
   const { handleNetworkChange } = useUserWalletDataContext();
 
   const config = ADD_CONFIG[neededChainId];
-  const isAddableByMetamask =
-    (global.window as any)?.ethereum?.isMetaMask && currentProviderName === 'browser' && config;
+  const isAddable =
+    (global.window as any)?.ethereum?.isMetaMask &&
+    ['browser'].includes(currentProviderName) &&
+    config;
   const { publicJsonRPCWSUrl, publicJsonRPCUrl } = getNetworkConfig(neededChainId);
 
   // const isExternalNetworkUpdateNeeded =
@@ -94,7 +96,7 @@ export default function NetworkMismatch({
     <div className="NetworkMismatch">
       <div
         className={classNames('NetworkMismatch__top-inner', {
-          NetworkMismatch__onlyText: isAddableByMetamask,
+          NetworkMismatch__onlyText: isAddable,
         })}
       >
         <h4>
@@ -116,28 +118,39 @@ export default function NetworkMismatch({
                 })
               : intl.formatMessage(messages.description, {
                   networkName: currentNetworkConfig.name,
-                  additional: !isAddableByMetamask
-                    ? intl.formatMessage(messages.additionalDescription)
-                    : '',
+                  additional: !isAddable ? intl.formatMessage(messages.additionalDescription) : '',
                 })}
           </p>
 
-          {isAddableByMetamask && config && (
+          {isAddable && config && (
             <DefaultButton
               title={intl.formatMessage(messages.changeNetwork)}
-              onClick={() => {
-                (window as any).ethereum?.request({
-                  method: 'wallet_addEthereumChain',
-                  params: [
-                    {
-                      chainId: `0x${neededChainId.toString(16)}`,
-                      chainName: config.name,
-                      nativeCurrency: config.nativeCurrency,
-                      rpcUrls: [...publicJsonRPCUrl, publicJsonRPCWSUrl],
-                      blockExplorerUrls: config.explorerUrls,
-                    },
-                  ],
-                });
+              onClick={async () => {
+                try {
+                  await (window as any).ethereum?.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: `0x${neededChainId.toString(16)}` }],
+                  });
+                } catch (switchError) {
+                  if (switchError.code === 4902) {
+                    try {
+                      await (window as any).ethereum?.request({
+                        method: 'wallet_addEthereumChain',
+                        params: [
+                          {
+                            chainId: `0x${neededChainId.toString(16)}`,
+                            chainName: config.name,
+                            nativeCurrency: config.nativeCurrency,
+                            rpcUrls: [...publicJsonRPCUrl, publicJsonRPCWSUrl],
+                            blockExplorerUrls: config.explorerUrls,
+                          },
+                        ],
+                      });
+                    } catch (addError) {
+                      // TODO: handle error somehow
+                    }
+                  }
+                }
               }}
             />
           )}
@@ -151,10 +164,10 @@ export default function NetworkMismatch({
         </div>
       </div>
 
-      {!isAddableByMetamask && (
+      {!isAddable && (
         <div className="NetworkMismatch__bottom-inner">
           <div className="NetworkMismatch__bottom-text">
-            {isAddableByMetamask && (
+            {isAddable && (
               <div>
                 {intl.formatMessage(messages.howToChange)}{' '}
                 <AccessMaticMarketHelpModal
