@@ -48,19 +48,25 @@ export default function HALNotificationIcon({
   const { currentAccount } = useUserWalletDataContext();
   const { currentMarket } = useProtocolDataContext();
 
+  const supportedAaveVersion = marketToHALAaveVersionUrlParam(currentMarket);
   const urlString = React.useMemo(() => {
     const url = new URL('https://9000.hal.xyz/recipes/aave-track-your-health-factor');
     url.searchParams.set('user', currentAccount);
 
-    const aaveVersionParam = marketToHALAaveVersionUrlParam(currentMarket);
-    if (aaveVersionParam) {
+    const aaveVersionParam = supportedAaveVersion;
+    if (aaveVersionParam !== undefined) {
       url.searchParams.set('aaveversion', aaveVersionParam);
     }
 
     return url.toString();
-  }, [currentAccount, currentMarket]);
+  }, [currentAccount, supportedAaveVersion]);
 
   const tooltipId = `${currentAccount}__healthFactor`;
+
+  // Do not show the HAL Noticiation icon on unsupported markets.
+  if (supportedAaveVersion === undefined) {
+    return null;
+  }
 
   return (
     <a
