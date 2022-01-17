@@ -215,6 +215,7 @@ export const changeBorrowType = (
     skipSetup({ skip, updateSkipStatus });
     it(`Change the ${_shortName} borrowing apr type from ${apyType} to ${newAPY}`, () => {
       cy.get(`[data-cy=menuDashboard]`).click();
+      cy.get('button').contains('Borrowings').click();
       getDashBoardBorrowRow({ assetName: _shortName, apyType }).find('.Switcher__swiper').click();
     });
     it(`Make approve for ${_shortName}, on confirmation page`, () => {
@@ -347,6 +348,7 @@ export const changeBorrowTypeNegative = (
     skipSetup({ skip, updateSkipStatus });
     it('Open dashboard page', () => {
       cy.get(`[data-cy=menuDashboard]`).click();
+      cy.get('button').contains('Borrowings').click();
     });
     it('Try to change apy type', () => {
       getDashBoardBorrowRow({ assetName: _shortName, apyType }).find('.Switcher__swiper').click();
@@ -377,6 +379,7 @@ export const changeCollateralNegative = (
     skipSetup({ skip, updateSkipStatus });
     it('Open dashboard', () => {
       cy.get(`[data-cy=menuDashboard]`).click();
+      cy.get('button').contains('Supplies').click();
     });
     it('Switch type', () => {
       getDashBoardDepositRow({ assetName: _shortName, collateralType })
