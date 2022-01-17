@@ -125,19 +125,32 @@ export default function NetworkMismatch({
           {isAddable && config && (
             <DefaultButton
               title={intl.formatMessage(messages.changeNetwork)}
-              onClick={() => {
-                (window as any).ethereum?.request({
-                  method: 'wallet_addEthereumChain',
-                  params: [
-                    {
-                      chainId: `0x${neededChainId.toString(16)}`,
-                      chainName: config.name,
-                      nativeCurrency: config.nativeCurrency,
-                      rpcUrls: [...publicJsonRPCUrl, publicJsonRPCWSUrl],
-                      blockExplorerUrls: config.explorerUrls,
-                    },
-                  ],
-                });
+              onClick={async () => {
+                try {
+                  await (window as any).ethereum?.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: `0x${neededChainId.toString(16)}` }],
+                  });
+                } catch (switchError) {
+                  if (switchError.code === 4902) {
+                    try {
+                      await (window as any).ethereum?.request({
+                        method: 'wallet_addEthereumChain',
+                        params: [
+                          {
+                            chainId: `0x${neededChainId.toString(16)}`,
+                            chainName: config.name,
+                            nativeCurrency: config.nativeCurrency,
+                            rpcUrls: [...publicJsonRPCUrl, publicJsonRPCWSUrl],
+                            blockExplorerUrls: config.explorerUrls,
+                          },
+                        ],
+                      });
+                    } catch (addError) {
+                      // TODO: handle error somehow
+                    }
+                  }
+                }
               }}
             />
           )}
