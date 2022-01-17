@@ -1,8 +1,14 @@
 import { Eip1193Bridge } from '@ethersproject/experimental/lib/eip1193-bridge';
 import { JsonRpcProvider } from '@ethersproject/providers';
+import { ethers } from 'ethers';
 
 export class CustomizedBridge extends Eip1193Bridge {
-  chainId = 3030;
+  chainId: number;
+
+  constructor(signer: ethers.Signer, provider?: ethers.providers.Provider, chainId?: number) {
+    super(signer, provider);
+    this.chainId = chainId || 3030;
+  }
 
   async sendAsync(...args: any[]) {
     console.debug('sendAsync called', ...args);

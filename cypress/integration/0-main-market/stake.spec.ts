@@ -18,7 +18,7 @@ const stakeTest = (asset: { fullName: string; shortName: string; address: string
   return describe(`Stake AAVE ${_shortName}`, () => {
     const skipTestState = skipState(false);
     configEnvWithTenderlyMainnetFork({
-      account: testData.testWallet,
+      wallet: testData.testWallet,
       tokens: [asset],
     });
     it('Open stake Page', () => {

@@ -12,33 +12,98 @@ export const setAmount = ({ amount, max }: SetAmount) => {
   cy.get('.BasicForm').find('.Button').click();
 };
 
+const clickActionButton = (name?: string) => {
+  if (name) {
+    cy.get('.TxConfirmationView').get('.Button').contains(name).click();
+  } else {
+    cy.get('.TxConfirmationView').get('.Button').click();
+  }
+};
+
+const oneStepConfirm = (actionName?:string) => {
+  clickActionButton(actionName);
+  cy.get('.TextStatus > p:contains("2/2 Success!")').scrollIntoView().should('be.visible');
+};
+
+const twoStepConfirm = (actionName?: string) => {
+  cy.get('.TxTopInfo__title:contains("1/3 Approve")').scrollIntoView().should('be.visible');
+  cy.get('.TxConfirmationView').find('.Button').contains('Approve').click();
+  if (actionName != null)
+    cy.get(`.TxTopInfo__title:contains("2/3 ${actionName}")`)
+      .scrollIntoView()
+      .should('be.visible');
+  clickActionButton(actionName);
+  cy.get('.TextStatus > p:contains("3/3 Success!")').scrollIntoView().should('be.visible');
+};
+
 type ConfirmAction = {
   hasApproval: boolean;
   actionName?: string;
 };
 
 export const doConfirm = ({ hasApproval, actionName }: ConfirmAction) => {
-  let clickActionButton = (name?: string) => {
-    if (name) {
-      cy.get('.TxConfirmationView').get('.Button').contains(name).click();
-    } else {
-      cy.get('.TxConfirmationView').get('.Button').click();
-    }
-  };
-  if (hasApproval) {
-    clickActionButton(actionName);
-    cy.get('.TextStatus > p:contains("2/2 Success!")').scrollIntoView().should('be.visible');
-  } else {
-    cy.get('.TxTopInfo__title:contains("1/3 Approve")').scrollIntoView().should('be.visible');
-    cy.get('.TxConfirmationView').find('.Button').contains('Approve').click();
-    if (actionName != null)
-      cy.get(`.TxTopInfo__title:contains("2/3 ${actionName}")`)
-        .scrollIntoView()
-        .should('be.visible');
-    clickActionButton(actionName);
-    cy.get('.TextStatus > p:contains("3/3 Success!")').scrollIntoView().should('be.visible');
+  if(hasApproval){
+    oneStepConfirm(actionName);
+  }else{
+    twoStepConfirm(actionName);
   }
+  // let clickActionButton = (name?: string) => {
+  //   if (name) {
+  //     cy.get('.TxConfirmationView').get('.Button').contains(name).click();
+  //   } else {
+  //     cy.get('.TxConfirmationView').get('.Button').click();
+  //   }
+  // };
+
+  // let oneStep = () => {
+  //   clickActionButton(actionName);
+  //   cy.get('.TextStatus > p:contains("2/2 Success!")').scrollIntoView().should('be.visible');
+  // }
+  //
+  // let twoStep = () => {
+  //   cy.get('.TxTopInfo__title:contains("1/3 Approve")').scrollIntoView().should('be.visible');
+  //   cy.get('.TxConfirmationView').find('.Button').contains('Approve').click();
+  //   if (actionName != null)
+  //     cy.get(`.TxTopInfo__title:contains("2/3 ${actionName}")`)
+  //       .scrollIntoView()
+  //       .should('be.visible');
+  //   clickActionButton(actionName);
+  //   cy.get('.TextStatus > p:contains("3/3 Success!")').scrollIntoView().should('be.visible');
+  // }
+
+  // if (hasApproval) {
+  //   clickActionButton(actionName);
+  //   cy.get('.TextStatus > p:contains("2/2 Success!")').scrollIntoView().should('be.visible');
+  // } else {
+  //   cy.get('.TxTopInfo__title:contains("1/3 Approve")').scrollIntoView().should('be.visible');
+  //   cy.get('.TxConfirmationView').find('.Button').contains('Approve').click();
+  //   if (actionName != null)
+  //     cy.get(`.TxTopInfo__title:contains("2/3 ${actionName}")`)
+  //       .scrollIntoView()
+  //       .should('be.visible');
+  //   clickActionButton(actionName);
+  //   cy.get('.TextStatus > p:contains("3/3 Success!")').scrollIntoView().should('be.visible');
+  // }
 };
+
+type AdaptiveConfirmAction = {
+  actionName?: string;
+};
+
+export const doAdaptiveConfirm = ({actionName}: AdaptiveConfirmAction) =>{
+  cy.get('.TxTopInfo__title')
+    .invoke('text')
+    .then((txt) => {
+      cy.log(`???? ${txt}`)
+      if (txt.trim() == '1/3 Approve'.trim()) {
+        cy.log(`11111`)
+        twoStepConfirm(actionName);
+      } else {
+        cy.log(`22222`)
+        oneStepConfirm(actionName);
+      }
+    });
+}
 
 function doChooseSwapToOption(assetName: string) {
   cy.get('.AssetSelect__reverse .AssetSelect__button').click();

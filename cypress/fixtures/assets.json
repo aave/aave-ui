@@ -148,5 +148,12 @@
       "shortName": "ABPT",
       "address": "0x41A08648C3766F9F9d85598fF102a08f4ef84F84"
     }
+  },
+  "arbitrumMarket": {
+    "DAI": {
+      "fullName": "DAI",
+      "shortName": "DAI",
+      "collateral": true
+    }
   }
 }

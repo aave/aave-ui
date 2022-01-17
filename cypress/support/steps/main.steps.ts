@@ -4,7 +4,7 @@ import {
   doConfirm,
   doSwapForRepay,
   getDashBoardBorrowRow,
-  getDashBoardDepositRow,
+  getDashBoardDepositRow, doAdaptiveConfirm,
 } from './actions.steps';
 import constants from '../../fixtures/constans.json';
 
@@ -32,7 +32,13 @@ export const deposit = (
     asset,
     amount,
     hasApproval = true,
-  }: { asset: { shortName: string; fullName: string }; amount: number; hasApproval: boolean },
+    adaptiveApproval = false,
+  }: {
+    asset: { shortName: string; fullName: string };
+    amount: number;
+    hasApproval?: boolean;
+    adaptiveApproval?: boolean;
+  },
   skip: SkipType,
   updateSkipStatus = false
 ) => {
@@ -49,7 +55,12 @@ export const deposit = (
       setAmount({ amount });
     });
     it(`Make approve for ${_shortName}, on confirmation page`, () => {
-      doConfirm({ hasApproval, actionName: 'Supply' });
+      cy.log("!!!!!!! " + adaptiveApproval)
+      if(adaptiveApproval){
+        doAdaptiveConfirm({actionName:'Supply'});
+      }else{
+        doConfirm({ hasApproval, actionName: 'Supply' });
+      };
     });
   });
 };
