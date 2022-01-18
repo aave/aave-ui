@@ -38,7 +38,6 @@ export type NetworkConfig = {
   rewardTokenSymbol: string;
   rewardTokenAddress: string;
   rewardTokenDecimals: number;
-  incentivePrecision: number;
   usdMarket?: boolean;
   // function returning a link to etherscan et al
   explorerLink: string;
