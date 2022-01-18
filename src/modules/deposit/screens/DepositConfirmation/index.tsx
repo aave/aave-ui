@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
-import { Pool } from '@aave/contract-helpers';
+import { ChainId, Pool } from '@aave/contract-helpers';
 import {
   calculateHealthFactorFromBalancesBigUnits,
   USD_DECIMALS,
@@ -38,10 +38,12 @@ function DepositConfirmation({
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { marketReferencePriceInUsd, userId } = useAppDataContext();
-  const { currentMarketData } = useProtocolDataContext();
+  const { currentMarketData, chainId } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
 
-  const [depositWithPermitEnabled, setDepositWithPermitEnable] = useState(currentMarketData.v3);
+  const [depositWithPermitEnabled, setDepositWithPermitEnable] = useState(
+    currentMarketData.v3 && chainId !== ChainId.harmony && chainId !== ChainId.harmony_testnet
+  );
 
   const aTokenData = getAtokenInfo({
     address: poolReserve.aTokenAddress,
