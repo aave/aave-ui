@@ -8,4 +8,5 @@ export interface HelpModalProps
   caption?: string;
   description?: string;
   withGrayIcon?: boolean;
+  withSecondaryIcon?: boolean;
 }

@@ -79,6 +79,7 @@
   "components.HelpModal.DelegationHelpModal.descriptionSecond": "Để ủy quyền cho một địa chỉ khác hoặc để lấy lại khả năng, chỉ cần ủy quyền lại cho địa chỉ bạn muốn. (ví dụ: Khôi phục khả năng của bạn bằng cách ủy quyền cho địa chỉ Ethereum của riêng bạn)",
   "components.HelpModal.HealthFactorHelpModal.caption": "Chỉ số an toàn",
   "components.HelpModal.HealthFactorHelpModal.description": "Chỉ số an toàn thể hiện mức độ an toàn cho khoản vay của bạn dựa trên tỷ lệ của tài sản thế chấp so với số tiền đã vay. Giữ nó ở mức lớn hơn 1 để tránh bị thanh lý.",
+  "components.HelpModal.HealthFactorHelpModal.notificationIconTooltipText": "",
   "components.HelpModal.LiquidationBonusHelpModal.caption": "Phạt thanh lý",
   "components.HelpModal.LiquidationBonusHelpModal.description": "Khi việc thanh lý diễn ra, người thanh lý sẽ thay mặt người vay hoàn trả một phần hoặc toàn bộ số tiền còn nợ. Đổi lại, họ có thể mua tài sản thế chấp với giá chiết khấu và giữ khoản chênh lệch làm tiền thưởng!",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "Ngưỡng thanh lý",

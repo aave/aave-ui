@@ -272,6 +272,7 @@ export default function DepositBorrowTopPanel() {
                         isColumn={true}
                         titleColor="white"
                         titleLightWeight={true}
+                        withHALLink={true}
                       />
                     </div>
 

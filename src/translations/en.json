@@ -79,6 +79,7 @@
   "components.HelpModal.DelegationHelpModal.descriptionSecond": "",
   "components.HelpModal.HealthFactorHelpModal.caption": "",
   "components.HelpModal.HealthFactorHelpModal.description": "",
+  "components.HelpModal.HealthFactorHelpModal.notificationIconTooltipText": "",
   "components.HelpModal.LiquidationBonusHelpModal.caption": "",
   "components.HelpModal.LiquidationBonusHelpModal.description": "",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "",

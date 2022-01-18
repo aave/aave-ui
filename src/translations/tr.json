@@ -79,6 +79,7 @@
   "components.HelpModal.DelegationHelpModal.descriptionSecond": "",
   "components.HelpModal.HealthFactorHelpModal.caption": "Sağlık faktörü",
   "components.HelpModal.HealthFactorHelpModal.description": "Sağlık faktörü, teminatın ödünç alınan miktara oranından elde edilen kredinizin güvenliğini temsil eder. Tasfiyeyi önlemek için 1'in üzerinde tutun.",
+  "components.HelpModal.HealthFactorHelpModal.notificationIconTooltipText": "",
   "components.HelpModal.LiquidationBonusHelpModal.caption": "Likidasyon cezası",
   "components.HelpModal.LiquidationBonusHelpModal.description": "Bir tasfiye gerçekleştiğinde, likidasyon memurları borçlu adına ödenmemiş borçlanmış tutarın bir kısmını veya tamamını geri öderler. Karşılığında teminatı indirimli olarak satın alabilir ve farkı bonus olarak koruyabilirler!",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "Likidasyon eşiği",

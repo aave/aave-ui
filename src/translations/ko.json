@@ -79,6 +79,7 @@
   "components.HelpModal.DelegationHelpModal.descriptionSecond": "능력을 다른 주소로 위임하거나 돌려받고 싶으시다면, 간단하게 원하시는 주소로 한번 더 위임하시면 됩니다. (예제: 능력을 돌려받기 위해 개인의 이더리움 주소로 능력 위임)",
   "components.HelpModal.HealthFactorHelpModal.caption": "건전 계수",
   "components.HelpModal.HealthFactorHelpModal.description": "건전 계수는 담보와 차입한 금액의 비율로 도출된 대출의 안전성을 의미합니다. 청산되지 않도록 건전 계수를 1 이상으로 유지하십시오",
+  "components.HelpModal.HealthFactorHelpModal.notificationIconTooltipText": "",
   "components.HelpModal.LiquidationBonusHelpModal.caption": "청산 페널티",
   "components.HelpModal.LiquidationBonusHelpModal.description": "청산이 이루어질때, 청산인들은 대출인을 대신하여 부분 또는 모든 빛을 값습니다. 그 대가로, 그들은 담보물을 할인 된 가격에 구매 할 수 있고 차익을 얻을 수 있습니다.",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "청산 한계점",

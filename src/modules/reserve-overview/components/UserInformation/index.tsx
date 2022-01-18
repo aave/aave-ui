@@ -229,6 +229,7 @@ export default function UserInformation({
                 value={user?.healthFactor || '-1'}
                 titleColor={elementsColor}
                 titleLightWeight={sm}
+                withHALLink={true}
               />
               <Row
                 title={intl.formatMessage(messages.loanToValue)}
