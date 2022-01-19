@@ -31,7 +31,7 @@
     "@visx/scale": "^2.2.2",
     "@visx/shape": "^2.1.2",
     "@visx/tooltip": "^2.2.2",
-    "@walletconnect/web3-provider": "^1.6.1",
+    "@walletconnect/web3-provider": "^1.7.1",
     "@web3-react/abstract-connector": "^6.0.7",
     "@web3-react/authereum-connector": "^6.2.0",
     "@web3-react/core": "^6.1.9",
