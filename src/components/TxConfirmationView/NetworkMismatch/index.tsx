@@ -78,7 +78,7 @@ export default function NetworkMismatch({
   const config = ADD_CONFIG[neededChainId];
   const isAddable =
     (global.window as any)?.ethereum?.isMetaMask &&
-    ['browser'].includes(currentProviderName) &&
+    ['browser', 'wallet-link'].includes(currentProviderName) &&
     config;
   const { publicJsonRPCWSUrl, publicJsonRPCUrl } = getNetworkConfig(neededChainId);
 
