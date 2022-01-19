@@ -10,7 +10,6 @@ import DesktopPageTitle from '../../DesktopPageTitle';
 import { useHeaderTitle, useWithDesktopTitle } from '../ScreensWrapper';
 
 import staticStyles from './style';
-import Snowfall from 'react-snowfall';
 
 // Pages where the banners should be displayed
 export const DISPLAY_BRIDGE_BANNER_PAGES = ['/deposit', '/repay'];
@@ -37,7 +36,7 @@ export default function ScreenWrapper({
   children,
 }: ScreenWrapperProps) {
   const { currentLangSlug } = useLanguageContext();
-  const { currentTheme, isCurrentThemeDark, sm } = useThemeContext();
+  const { currentTheme, isCurrentThemeDark } = useThemeContext();
   const {
     networkConfig: { bridge, name },
   } = useProtocolDataContext();
@@ -66,16 +65,6 @@ export default function ScreenWrapper({
         ScreenWrapper__withDesktopTitle: isTitleOnDesktop,
       })}
     >
-      {sm && (
-        <Snowfall
-          color="#fff"
-          radius={[0.5, 4]}
-          snowflakeCount={50}
-          speed={[0.5, 1]}
-          wind={[-1, 1]}
-        />
-      )}
-
       {isTitleOnDesktop && (pageTitle || titleComponent) && (
         <DesktopPageTitle
           title={!!titleComponent ? titleComponent : pageTitle}
