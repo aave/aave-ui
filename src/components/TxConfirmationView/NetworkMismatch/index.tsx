@@ -14,6 +14,8 @@ import { getNetworkConfig } from '../../../helpers/config/markets-and-network-co
 import messages from './messages';
 import staticStyles from './style';
 import { ChainId } from '@aave/contract-helpers';
+import { useWeb3React } from '@web3-react/core';
+import { providers } from 'ethers';
 
 interface NetworkMismatchProps {
   neededChainId: ChainId;
@@ -73,6 +75,7 @@ export default function NetworkMismatch({
 }: NetworkMismatchProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
+  const { library } = useWeb3React<providers.Web3Provider>();
   const { handleNetworkChange } = useUserWalletDataContext();
 
   const config = ADD_CONFIG[neededChainId];
@@ -126,28 +129,32 @@ export default function NetworkMismatch({
             <DefaultButton
               title={intl.formatMessage(messages.changeNetwork)}
               onClick={async () => {
-                try {
-                  await (window as any).ethereum?.request({
-                    method: 'wallet_switchEthereumChain',
-                    params: [{ chainId: `0x${neededChainId.toString(16)}` }],
-                  });
-                } catch (switchError) {
-                  if (switchError.code === 4902) {
-                    try {
-                      await (window as any).ethereum?.request({
-                        method: 'wallet_addEthereumChain',
-                        params: [
-                          {
-                            chainId: `0x${neededChainId.toString(16)}`,
-                            chainName: config.name,
-                            nativeCurrency: config.nativeCurrency,
-                            rpcUrls: [...publicJsonRPCUrl, publicJsonRPCWSUrl],
-                            blockExplorerUrls: config.explorerUrls,
-                          },
-                        ],
-                      });
-                    } catch (addError) {
-                      // TODO: handle error somehow
+                if (library) {
+                  try {
+                    await library.provider.request!({
+                      method: 'wallet_switchEthereumChain',
+                      params: [{ chainId: `0x${neededChainId.toString(16)}` }],
+                    });
+                  } catch (switchError) {
+                    console.log(switchError);
+                    if (switchError.code === 4902) {
+                      try {
+                        await library.provider.request!({
+                          method: 'wallet_addEthereumChain',
+                          params: [
+                            {
+                              chainId: `0x${neededChainId.toString(16)}`,
+                              chainName: config.name,
+                              nativeCurrency: config.nativeCurrency,
+                              rpcUrls: [...publicJsonRPCUrl, publicJsonRPCWSUrl],
+                              blockExplorerUrls: config.explorerUrls,
+                            },
+                          ],
+                        });
+                      } catch (addError) {
+                        console.log(addError);
+                        // TODO: handle error somehow
+                      }
                     }
                   }
                 }
