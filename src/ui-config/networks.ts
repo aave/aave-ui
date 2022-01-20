@@ -1,8 +1,8 @@
 import { BaseNetworkConfig } from '../helpers/config/types';
-import polygonBridgeLogo from './branding/images/polygonLogo.svg';
-import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
-import arbitrumBridgeLogo from './branding/images/arbitrumLogo.svg';
 import { ChainId } from '@aave/contract-helpers';
+import arbitrumBridgeLogo from './branding/images/arbitrumLogo.svg';
+import avalancheBridgeLogo from './branding/images/avalancheLogo.svg';
+import polygonBridgeLogo from './branding/images/polygonLogo.svg';
 
 export const networkConfigs: Record<string, BaseNetworkConfig> = {
   [ChainId.kovan]: {

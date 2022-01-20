@@ -9,4 +9,5 @@ export interface HelpModalProps
   description?: string;
   withGrayIcon?: boolean;
   symbols?: string[];
+  withSecondaryIcon?: boolean;
 }

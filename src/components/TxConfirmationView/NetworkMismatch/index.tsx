@@ -1,19 +1,20 @@
-import React from 'react';
-import { useIntl } from 'react-intl';
-import classNames from 'classnames';
-import { useThemeContext } from '@aave/aave-ui-kit';
-
-import DefaultButton from '../../basic/DefaultButton';
-import AccessMaticMarketHelpModal from '../../HelpModal/AccessMaticMarketHelpModal';
 import {
   AvailableWeb3Connectors,
   useUserWalletDataContext,
 } from '../../../libs/web3-data-provider';
-import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
 
-import messages from './messages';
-import staticStyles from './style';
+import AccessMaticMarketHelpModal from '../../HelpModal/AccessMaticMarketHelpModal';
 import { ChainId } from '@aave/contract-helpers';
+import DefaultButton from '../../basic/DefaultButton';
+import React from 'react';
+import classNames from 'classnames';
+import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
+import messages from './messages';
+import { providers } from 'ethers';
+import staticStyles from './style';
+import { useIntl } from 'react-intl';
+import { useThemeContext } from '@aave/aave-ui-kit';
+import { useWeb3React } from '@web3-react/core';
 
 interface NetworkMismatchProps {
   neededChainId: ChainId;
@@ -28,10 +29,12 @@ export default function NetworkMismatch({
 }: NetworkMismatchProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
+  const { library } = useWeb3React<providers.Web3Provider>();
   const { handleNetworkChange } = useUserWalletDataContext();
 
-  const isAddableByMetamask =
-    (global.window as any)?.ethereum?.isMetaMask && currentProviderName === 'browser';
+  const isAddable =
+    (global.window as any)?.ethereum?.isMetaMask &&
+    ['browser', 'wallet-link'].includes(currentProviderName);
 
   // const isExternalNetworkUpdateNeeded =
   //   !isMetaMaskForMatic && ['browser', 'wallet-connect'].includes(currentProviderName);
@@ -46,7 +49,7 @@ export default function NetworkMismatch({
     <div className="NetworkMismatch">
       <div
         className={classNames('NetworkMismatch__top-inner', {
-          NetworkMismatch__onlyText: isAddableByMetamask,
+          NetworkMismatch__onlyText: isAddable,
         })}
       >
         <h4>
@@ -68,25 +71,23 @@ export default function NetworkMismatch({
                 })
               : intl.formatMessage(messages.description, {
                   networkName: currentNetworkConfig.name,
-                  additional: !isAddableByMetamask
-                    ? intl.formatMessage(messages.additionalDescription)
-                    : '',
+                  additional: !isAddable ? intl.formatMessage(messages.additionalDescription) : '',
                 })}
           </p>
 
-          {isAddableByMetamask && (
+          {isAddable && library && (
             <DefaultButton
               title={intl.formatMessage(messages.changeNetwork)}
               onClick={async () => {
                 try {
-                  await (window as any).ethereum?.request({
+                  await library.provider.request!({
                     method: 'wallet_switchEthereumChain',
                     params: [{ chainId: `0x${neededChainId.toString(16)}` }],
                   });
                 } catch (switchError) {
                   if (neededNetworkConfig && switchError.code === 4902) {
                     try {
-                      await (window as any).ethereum?.request({
+                      await library.provider.request!({
                         method: 'wallet_addEthereumChain',
                         params: [
                           {
@@ -125,10 +126,10 @@ export default function NetworkMismatch({
         </div>
       </div>
 
-      {!isAddableByMetamask && (
+      {!isAddable && (
         <div className="NetworkMismatch__bottom-inner">
           <div className="NetworkMismatch__bottom-text">
-            {isAddableByMetamask && (
+            {isAddable && (
               <div>
                 {intl.formatMessage(messages.howToChange)}{' '}
                 <AccessMaticMarketHelpModal

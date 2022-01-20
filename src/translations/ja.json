@@ -68,6 +68,7 @@
   "components.HelpModal.DelegationHelpModal.descriptionSecond": "別のアドレスに委任したり、権限を取り戻したりするには、目的のアドレスに再度委任するだけです。 （例：自分のETHアドレスに委任して権利を回復します）",
   "components.HelpModal.HealthFactorHelpModal.caption": "健康指数",
   "components.HelpModal.HealthFactorHelpModal.description": "健康要因は、ローンの安全性を表しており、担保の割合と借りた金額に依存します。清算されないように1以上にしてください。",
+  "components.HelpModal.HealthFactorHelpModal.notificationIconTooltipText": "",
   "components.HelpModal.LiquidationBonusHelpModal.caption": "清算ペナルティ",
   "components.HelpModal.LiquidationBonusHelpModal.description": "清算が発生した場合、清算人は借り手に代わって借入残高の一部または全部を返済します。その代わりに、彼らは割引で担保を購入し、ボーナスとして差額を獲得することができます！",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "清算閾値",

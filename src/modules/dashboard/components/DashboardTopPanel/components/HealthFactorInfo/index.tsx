@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import classNames from 'classnames';
-import { useThemeContext } from '@aave/aave-ui-kit';
 
 import HealthFactor from '../../../../../../components/HealthFactor';
 import LiquidationRiskParametresInfoModal from '../../../../../../components/LiquidationRiskParametresInfoModal';
-
+import classNames from 'classnames';
 import staticStyles from './style';
+import { useThemeContext } from '@aave/aave-ui-kit';
 
 interface HealthFactorInfoProps {
   healthFactor: string;
@@ -37,6 +36,7 @@ export default function HealthFactorInfo({
         withIcon={true}
         withDetailsModal={true}
         onDetailsClick={() => setIsVisible(true)}
+        withHALLink={true}
       />
 
       <LiquidationRiskParametresInfoModal

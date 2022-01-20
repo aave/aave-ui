@@ -68,6 +68,7 @@
   "components.HelpModal.DelegationHelpModal.descriptionSecond": "To delegate to another address or to get your power back, simply delegate again to the address you want. (eg. Recover your power by delegating to your own Ethereum address)",
   "components.HelpModal.HealthFactorHelpModal.caption": "Health factor",
   "components.HelpModal.HealthFactorHelpModal.description": "The health factor represents the safety of your loan derived from the proportion of collateral versus amount borrowed. Keep it above 1 to avoid liquidation.",
+  "components.HelpModal.HealthFactorHelpModal.notificationIconTooltipText": "Set up notification when your Health Factor is getting low.",
   "components.HelpModal.LiquidationBonusHelpModal.caption": "Liquidation penalty",
   "components.HelpModal.LiquidationBonusHelpModal.description": "When a liquidation occurs, liquidators repay part or all of the outstanding borrowed amount on behalf of the borrower. In return, they can buy the collateral at a discount and keep the difference as a bonus!",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "Liquidation threshold",

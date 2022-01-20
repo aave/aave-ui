@@ -12,6 +12,14 @@ import info from '../../images/info.svg';
 import infoGray from '../../images/infoGray.svg';
 import infoGrayDark from '../../images/infoGrayDark.svg';
 
+export type AdditionalItemProps = {
+  height: number;
+  width: number;
+  containerClassName: string;
+  containerStyle: React.CSSProperties;
+  iconTheme: 'dark' | 'gray' | 'default';
+};
+
 export type TextWithModalProps = {
   text: string;
   children: ReactNode;
@@ -25,7 +33,12 @@ export type TextWithModalProps = {
   onWhiteBackground?: boolean;
   clickOnText?: boolean;
   withGrayIcon?: boolean;
+  secondaryIcon?: (props: AdditionalItemProps) => JSX.Element;
 };
+
+const PRIMARY_ICON_POSTION = 1;
+const SECONDARY_ICON_POSITION = 2;
+const ICON_PADDING = 4;
 
 export default function TextWithModal({
   text,
@@ -40,6 +53,7 @@ export default function TextWithModal({
   onWhiteBackground,
   clickOnText,
   withGrayIcon,
+  secondaryIcon,
 }: TextWithModalProps) {
   const intl = useIntl();
   const { currentTheme, xl, lg, md, isCurrentThemeDark } = useThemeContext();
@@ -48,10 +62,27 @@ export default function TextWithModal({
 
   const baseIconSize = !xl ? 14 : lg && !md ? 10 : md ? 12 : 12;
 
+  const iconHeight: number = iconSize || baseIconSize;
+  const iconWidth: number = iconSize || baseIconSize;
+
+  const getIconContainerStyle = (position: number): React.CSSProperties => {
+    const iconWidthOffset = iconWidth * position;
+    const iconOffset = -(iconWidthOffset + ICON_PADDING);
+
+    const isSecondPosition = position === SECONDARY_ICON_POSITION;
+
+    return {
+      height: isSecondPosition ? iconHeight + 2 : iconHeight,
+      width: isSecondPosition ? iconWidth + 2 : iconWidth,
+      right: isSecondPosition ? iconOffset - 4 : iconOffset,
+    };
+  };
+
   return (
     <div
       className={classNames('TextWithModal', className, `TextWithModal__${color}`, {
         TextWithModal__lightWeight: lightWeight,
+        TextWithModal__withDoubleIcons: !!secondaryIcon,
       })}
     >
       <div
@@ -65,26 +96,34 @@ export default function TextWithModal({
       >
         {text}
       </div>
-      <button
-        className="TextWithModal__button"
-        type="button"
-        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-          e.stopPropagation();
-          setVisible(true);
-        }}
-        style={{
-          height: iconSize || baseIconSize,
-          width: iconSize || baseIconSize,
-          right: -((iconSize || baseIconSize) + 4),
-        }}
-      >
-        <img
-          src={withGrayIcon ? (isCurrentThemeDark ? infoGrayDark : infoGray) : info}
-          alt={text}
-          height={iconSize || baseIconSize}
-          width={iconSize || baseIconSize}
-        />
-      </button>
+
+      <div className="TextWithModal__icons">
+        <button
+          className="TextWithModal__button"
+          type="button"
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+            e.stopPropagation();
+            setVisible(true);
+          }}
+          style={getIconContainerStyle(PRIMARY_ICON_POSTION)}
+        >
+          <img
+            src={withGrayIcon ? (isCurrentThemeDark ? infoGrayDark : infoGray) : info}
+            alt={text}
+            height={iconHeight}
+            width={iconWidth}
+          />
+        </button>
+
+        {secondaryIcon &&
+          secondaryIcon({
+            height: iconHeight,
+            width: iconWidth,
+            containerClassName: 'TextWithModal__button',
+            containerStyle: getIconContainerStyle(SECONDARY_ICON_POSITION),
+            iconTheme: withGrayIcon ? (isCurrentThemeDark ? 'dark' : 'gray') : 'default',
+          })}
+      </div>
 
       <div onClick={(e) => e.stopPropagation()}>
         <BasicModal

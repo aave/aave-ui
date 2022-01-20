@@ -68,6 +68,7 @@
   "components.HelpModal.DelegationHelpModal.descriptionSecond": "Per delegare a un altro indirizzo o per riavere il tuo potere, è sufficiente delegare nuovamente all'indirizzo che desideri. (es. Recupera il tuo potere delegando al tuo indirizzo Ethereum)",
   "components.HelpModal.HealthFactorHelpModal.caption": "Health factor",
   "components.HelpModal.HealthFactorHelpModal.description": "Health factor rappresenta la sicurezza del tuo prestito derivata dalla proporzione della garanzia rispetto all'importo preso in prestito. Ricorda di mantenerlo sopra 1 per evitare la liquidazione.",
+  "components.HelpModal.HealthFactorHelpModal.notificationIconTooltipText": "",
   "components.HelpModal.LiquidationBonusHelpModal.caption": "Penalità di liquidazione",
   "components.HelpModal.LiquidationBonusHelpModal.description": "Quando avviene una liquidazione, i liquidatori ripagano parte del debito per conto del borrower. Come premio, acquisteranno il collaterale con uno sconto equivalente alla penalità di liquidazione.",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "Limite di liquidazione",

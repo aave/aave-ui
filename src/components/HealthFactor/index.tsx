@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useIntl } from 'react-intl';
-import classNames from 'classnames';
-import { useThemeContext } from '@aave/aave-ui-kit';
-import { valueToBigNumber } from '@aave/math-utils';
-import BigNumber from 'bignumber.js';
 
-import ValuePercent from '../basic/ValuePercent';
+import BigNumber from 'bignumber.js';
 import HealthFactorHelpModal from '../HelpModal/HealthFactorHelpModal';
 import NoData from '../basic/NoData';
-
+import ValuePercent from '../basic/ValuePercent';
+import classNames from 'classnames';
 import messages from './messages';
 import staticStyles from './style';
-
+import { useIntl } from 'react-intl';
+import { useThemeContext } from '@aave/aave-ui-kit';
+import { valueToBigNumber } from '@aave/math-utils';
 import warningIconOrange from '../../images/warningTransparentOrange.svg';
 import warningIconRed from '../../images/warningTransparentRed.svg';
 
@@ -31,6 +29,7 @@ interface HealthFactorProps {
   withIcon?: boolean;
   withDetailsModal?: boolean;
   onDetailsClick?: () => void;
+  withHALLink?: boolean;
 }
 
 export default function HealthFactor({
@@ -49,6 +48,7 @@ export default function HealthFactor({
   withIcon,
   withDetailsModal,
   onDetailsClick,
+  withHALLink,
 }: HealthFactorProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -103,6 +103,7 @@ export default function HealthFactor({
           color={titleColor}
           lightWeight={titleLightWeight}
           onWhiteBackground={onWhiteBackground}
+          withSecondaryIcon={withHALLink}
         />
       )}
 

@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/aave/aave-ui/compare/v0.2.1...v0.2.2) (2022-01-19)
+
+
+### Features
+
+* add HAL Notification Icon on supported market ([#324](https://github.com/aave/aave-ui/issues/324)) ([5e83157](https://github.com/aave/aave-ui/commit/5e8315786f0ec23e86aacfb102d326933341c80a))
+* allow wallet-link on avalanche ([#349](https://github.com/aave/aave-ui/issues/349)) ([0a2deec](https://github.com/aave/aave-ui/commit/0a2deecd609e85b35b6406e8eb6329d72bc0c0a1))
+
+
+### Bug Fixes
+
+* remove unused config ([#353](https://github.com/aave/aave-ui/issues/353)) ([6c382ff](https://github.com/aave/aave-ui/commit/6c382ff819dffd6c53ff7e3deb40575e9fa4fe5f))
+
 ### [0.2.1](https://github.com/aave/aave-ui/compare/v0.2.0...v0.2.1) (2022-01-12)
 
 ### Features

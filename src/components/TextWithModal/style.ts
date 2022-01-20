@@ -12,7 +12,21 @@ const staticStyles = css.global`
     align-items: flex-start;
     position: relative;
 
+    &__withDoubleIcons {
+      .TextWithModal__button {
+        position: relative;
+        top: 2px;
+        transform: unset;
+        margin-left: 4px;
+        right: unset !important;
+        &:active {
+          transform: scale(0.8);
+        }
+      }
+    }
+
     &__text {
+      display: inline-block;
       font-size: $large;
       @include respond-to(xl) {
         font-size: $medium;
@@ -30,6 +44,11 @@ const staticStyles = css.global`
 
     &__textClickable {
       cursor: pointer;
+    }
+
+    &__icons {
+      display: inline-flex;
+      align-items: center;
     }
 
     &__button {

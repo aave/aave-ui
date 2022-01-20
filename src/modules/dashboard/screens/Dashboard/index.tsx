@@ -1,29 +1,27 @@
-import React, { useState } from 'react';
-import { useIntl } from 'react-intl';
-import { useNavigate } from 'react-router-dom';
-import classNames from 'classnames';
-import { useThemeContext } from '@aave/aave-ui-kit';
-import { valueToBigNumber } from '@aave/math-utils';
 import { API_ETH_MOCK_ADDRESS, InterestRate } from '@aave/contract-helpers';
+import React, { useState } from 'react';
 
-import { useAppDataContext } from '../../../../libs/pool-data-provider';
-import { loanActionLinkComposer } from '../../../../helpers/loan-action-link-composer';
-import { toggleUseAsCollateral } from '../../../../helpers/toggle-use-as-collateral';
-import { toggleBorrowRateMode } from '../../../../helpers/toggle-borrow-rate-mode';
-import Preloader from '../../../../components/basic/Preloader';
-import DashboardTopPanel from '../../components/DashboardTopPanel';
-import LabeledSwitcher from '../../../../components/basic/LabeledSwitcher';
-import NoDataPanel from '../../../../components/NoDataPanel';
-import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
-import MainDashboardTable from '../../components/MainDashboardTable';
-import IncentivesClaimPanel from '../../../../components/incentives/IncentivesClaimPanel';
-
-import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
 import { BorrowTableItem } from '../../../borrow/components/BorrowDashboardTable/types';
-
+import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
+import DashboardTopPanel from '../../components/DashboardTopPanel';
+import { DepositTableItem } from '../../../deposit/components/DepositDashboardTable/types';
+import IncentivesClaimPanel from '../../../../components/incentives/IncentivesClaimPanel';
+import LabeledSwitcher from '../../../../components/basic/LabeledSwitcher';
+import MainDashboardTable from '../../components/MainDashboardTable';
+import NoDataPanel from '../../../../components/NoDataPanel';
+import Preloader from '../../../../components/basic/Preloader';
+import classNames from 'classnames';
+import { loanActionLinkComposer } from '../../../../helpers/loan-action-link-composer';
 import messages from './messages';
 import staticStyles from './style';
+import { toggleBorrowRateMode } from '../../../../helpers/toggle-borrow-rate-mode';
+import { toggleUseAsCollateral } from '../../../../helpers/toggle-use-as-collateral';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
+import { useIntl } from 'react-intl';
+import { useNavigate } from 'react-router-dom';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import { useThemeContext } from '@aave/aave-ui-kit';
+import { valueToBigNumber } from '@aave/math-utils';
 
 export default function Dashboard() {
   const intl = useIntl();
