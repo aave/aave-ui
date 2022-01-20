@@ -88,6 +88,7 @@
     "@types/react-gtm-module": "^2.0.1",
     "@types/react-router-dom": "^5.3.1",
     "@types/web3-provider-engine": "^14.0.1",
+    "axios": "^0.25.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-react-intl-auto": "^3.3.0",
     "customize-cra": "^1.0.0",
