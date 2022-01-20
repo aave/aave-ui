@@ -104,6 +104,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: actions/setup-node@v2
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: install
+        run: npm ci --prefer-offline --no-audit
+
       - name: download build
         uses: actions/download-artifact@v2
         with:
