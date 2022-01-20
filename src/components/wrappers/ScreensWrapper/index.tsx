@@ -3,7 +3,6 @@ import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 import Snowfall from 'react-snowfall';
-import { SecurityWidget } from '@reputation.link/vyps-kit';
 
 import Footer from '../../Footer';
 import Menu from '../../menu/Menu';
@@ -63,15 +62,6 @@ export default function ScreensWrapper({ children }: ScreensWrapperProps) {
           wind={[-1, 1]}
         />
       )}
-
-      <SecurityWidget
-        inset={[5, 5]}
-        style={{ zIndex: 1000 }}
-        left
-        variant="md"
-        as="div"
-        url="https://reputation.link/protocols/aave?network=Eth_Mainnet"
-      />
 
       <BottomDisclaimer />
 

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
+import { SecurityWidget } from '@reputation.link/vyps-kit';
 
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
@@ -56,13 +57,28 @@ function ReserveOverview({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { marketRefPriceInUsd, chainId } = useStaticPoolDataContext();
   const asset = getAssetInfo(currencySymbol);
 
   const poolLink = getLPTokenPoolLink({
     symbol: currencySymbol,
     underlyingAsset: poolReserve.underlyingAsset,
   });
+
+  const pveProps = useMemo(() => {
+    return {
+      // Aave ReserveOverview updates break memoization (for some reason)
+      // So we've memoized the props here
+      inset: [5, 5],
+      style: { zIndex: 50 },
+      left: true,
+      variant: 'sm',
+      as: 'div',
+      startOpen: true,
+      protocol: 'aave',
+      meta: { token: currencySymbol },
+    };
+  }, [currencySymbol]);
 
   const isReserveHistoryGraphsVisible = !!RATES_HISTORY_ENDPOINT;
 
@@ -78,6 +94,11 @@ function ReserveOverview({
       className="ReserveOverview"
       withMobileGrayBg={true}
     >
+      {chainId === 1 && (
+        <SecurityWidget // Oracle Reputation's PVE Implementation doesn't support Polygon or Avalanche yet
+          {...pveProps}
+        />
+      )}
       <div className="ReserveOverview__content">
         <div className="ReserveOverview__mobileUserInformation-wrapper">
           {user ? (
