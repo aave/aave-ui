@@ -86,6 +86,7 @@ export default function EModeModal({ visible, setVisible }: EModeModalProps) {
     const newSummary = formatUserSummary({
       currentTimestamp,
       userReserves: userReserves,
+      formattedReserves: reserves,
       userEmodeCategoryId,
       marketReferenceCurrencyDecimals,
       marketReferencePriceInUsd,
