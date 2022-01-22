@@ -13,6 +13,7 @@ import {
   FormatUserSummaryAndIncentivesResponse,
   nativeToUSD,
   normalize,
+  USD_DECIMALS,
   UserReserveData,
 } from '@aave/math-utils';
 import React, { useContext, useEffect, useState } from 'react';
@@ -160,7 +161,10 @@ export const AppDataProvider: React.FC = ({ children }) => {
           currencyDecimals: poolReserve.decimals,
           priceInMarketReferenceCurrency: poolReserve.priceInMarketReferenceCurrency,
           marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
-          normalizedMarketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,
+          normalizedMarketReferencePriceInUsd: normalize(
+            baseCurrencyData.marketReferenceCurrencyPriceInUsd,
+            USD_DECIMALS
+          ),
         }),
       };
     }
