@@ -8,6 +8,7 @@ import Modal from 'react-modal';
 import { Web3ReactProvider } from '@web3-react/core';
 import { ethers } from 'ethers';
 import TagManager from 'react-gtm-module';
+import './ui-config/assets/fonts/fonts.scss';
 
 import * as serviceWorker from './serviceWorker';
 
