@@ -8,7 +8,7 @@ import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import goToTop from '../../../helpers/goToTop';
 import Link from '../../basic/Link';
-import MarketSwitcher from '../../market/MarketSwitcher';
+//import MarketSwitcher from '../../market/MarketSwitcher';
 import MenuLink from '../MenuLink';
 import MoreButton from '../MoreButton';
 import AddressInfo from '../AddressInfo';

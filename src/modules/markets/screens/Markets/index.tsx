@@ -108,7 +108,7 @@ export default function Markets() {
       <TopPanelWrapper isCollapse={true} withoutCollapseButton={true}>
         <div className="Markets__top-content">
           <TotalMarketsSize value={totalLockedInUsd.toNumber()} />
-          {/* <SelectMarketPanel /> */}
+          <SelectMarketPanel />
         </div>
       </TopPanelWrapper>
 

@@ -21,6 +21,8 @@ interface MarketSelectButtonProps {
   hoverColored?: boolean;
   chainId: ChainId;
   isDark?: boolean;
+  testnet?: boolean;
+  localnet?: boolean;
 }
 
 export default function MarketSelectButton({
@@ -34,17 +36,27 @@ export default function MarketSelectButton({
   hoverColored,
   chainId,
   isDark,
+  testnet,
+  localnet,
 }: MarketSelectButtonProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const config = getNetworkConfig(chainId);
+  //const config = getNetworkConfig(chainId);
+  //console.log(testnet, localnet);
 
   const hoverColor = rgba(`${currentTheme.primary.rgb}, 0.7`);
-  const testnetMark = config.isFork
+  /* const testnetMark = config.isFork
     ? 'F'
     : config.isTestnet
     ? config.name.charAt(0).toUpperCase()
-    : undefined;
+    : undefined; */
+  let testnetMark = '';
+  if (testnet) {
+    testnetMark = 'T';
+  }
+  if (localnet) {
+    testnetMark = 'L';
+  }
   const gradientBorder = gradient(
     252,
     `${currentTheme.primary.rgb}, 1`,
@@ -52,6 +64,8 @@ export default function MarketSelectButton({
     `${currentTheme.secondary.rgb}, 1`,
     100
   );
+
+  const isMainnet = !testnet && !localnet;
 
   return (
     <button
@@ -84,7 +98,7 @@ export default function MarketSelectButton({
         {subLogo && <img className="MarketSelectButton__subLogo" src={subLogo} alt="" />}
       </div>
 
-      {testnetMark && <span className="MarketSelectButton__kovan">{testnetMark}</span>}
+      {!isMainnet && <span className="MarketSelectButton__kovan">{testnetMark}</span>}
 
       <style jsx={true} global={true}>
         {staticStyles}
