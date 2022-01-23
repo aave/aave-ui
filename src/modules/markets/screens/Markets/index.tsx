@@ -108,7 +108,7 @@ export default function Markets() {
       <TopPanelWrapper isCollapse={true} withoutCollapseButton={true}>
         <div className="Markets__top-content">
           <TotalMarketsSize value={totalLockedInUsd.toNumber()} />
-          <SelectMarketPanel />
+          {/* <SelectMarketPanel /> */}
         </div>
       </TopPanelWrapper>
 
@@ -157,6 +157,7 @@ export default function Markets() {
       <style jsx={true} global={true}>{`
         .Markets {
           &__top-content {
+            background: rgb(72, 72, 74) !important;
             color: ${currentTheme.white.hex};
           }
           &__marketSwitcher--title {

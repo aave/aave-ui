@@ -6,6 +6,7 @@ const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
 
   .Menu {
+    background-color: rgb(44, 44, 46);
     display: flex;
     align-items: center;
     justify-content: space-between;
