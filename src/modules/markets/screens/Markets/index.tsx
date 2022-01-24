@@ -157,8 +157,16 @@ export default function Markets() {
       <style jsx={true} global={true}>{`
         .Markets {
           &__top-content {
-            background: rgb(72, 72, 74) !important;
-            color: ${currentTheme.white.hex};
+            border-radius: 5px;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: solid 1px rgba(255, 255, 255, 0.68);
+            background-image: linear-gradient(
+              to bottom,
+              rgba(255, 255, 255, 0) -6%,
+              rgba(255, 255, 255, 0.79) 59%
+            );
+            color: #131313;
           }
           &__marketSwitcher--title {
             color: ${currentTheme.textDarkBlue.hex};
