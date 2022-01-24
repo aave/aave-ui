@@ -56,16 +56,16 @@ export default function ReserveInformation({
       .toNumber(),
     baseLTVasCollateral:
       userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
-        ? Number(poolReserve.eModeLtv)
-        : Number(poolReserve.baseLTVasCollateral),
+        ? Number(poolReserve.formattedEModeLtv)
+        : Number(poolReserve.formattedBaseLTVasCollateral),
     liquidationThreshold:
       userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
-        ? Number(poolReserve.eModeLiquidationThreshold)
-        : Number(poolReserve.reserveLiquidationThreshold),
+        ? Number(poolReserve.formattedEModeLiquidationThreshold)
+        : Number(poolReserve.formattedReserveLiquidationThreshold),
     liquidationBonus:
       userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
-        ? Number(poolReserve.eModeLiquidationBonus)
-        : Number(poolReserve.reserveLiquidationBonus),
+        ? Number(poolReserve.formattedEModeLiquidationBonus)
+        : Number(poolReserve.formattedReserveLiquidationBonus),
   };
 
   const poolLink = getLPTokenPoolLink({
@@ -113,12 +113,12 @@ export default function ReserveInformation({
             <ReserveStatusGraph
               symbol={symbol}
               totalBorrows={poolReserve.totalDebt}
-              availableLiquidity={poolReserve.availableLiquidity}
+              availableLiquidity={poolReserve.formattedAvailableLiquidity}
             />
             <TotalValue
               symbol={symbol}
               title={intl.formatMessage(messages.availableLiquidity)}
-              value={poolReserve.availableLiquidity}
+              value={poolReserve.formattedAvailableLiquidity}
               subValue={poolReserve.availableLiquidityUSD}
               borrowingEnabled={poolReserve.borrowingEnabled}
               capValue={poolReserve.supplyCap}

@@ -69,12 +69,12 @@ export default function UserInformation({
 
   const maxUserAmountToBorrow = valueToBigNumber(
     user?.availableBorrowsMarketReferenceCurrency || 0
-  ).div(poolReserve.priceInMarketReferenceCurrency);
+  ).div(poolReserve.formattedPriceInMarketReferenceCurrency);
   let availableBorrows = BigNumber.max(
     BigNumber.min(
       poolReserve.borrowCap
-        ? new BigNumber(poolReserve.availableLiquidity).multipliedBy('0.995')
-        : poolReserve.availableLiquidity,
+        ? new BigNumber(poolReserve.formattedAvailableLiquidity).multipliedBy('0.995')
+        : poolReserve.formattedAvailableLiquidity,
       maxUserAmountToBorrow
     ),
     0
@@ -82,7 +82,9 @@ export default function UserInformation({
   if (
     availableBorrows.gt(0) &&
     user?.totalBorrowsMarketReferenceCurrency !== '0' &&
-    maxUserAmountToBorrow.lt(valueToBigNumber(poolReserve.availableLiquidity).multipliedBy('1.01'))
+    maxUserAmountToBorrow.lt(
+      valueToBigNumber(poolReserve.formattedAvailableLiquidity).multipliedBy('1.01')
+    )
   ) {
     availableBorrows = availableBorrows.multipliedBy('0.99');
   }

@@ -59,7 +59,7 @@ export default function SupplyAssetTable() {
       );
     }
     const availableToDepositUSD = valueToBigNumber(availableToDeposit)
-      .multipliedBy(reserve.priceInMarketReferenceCurrency)
+      .multipliedBy(reserve.formattedPriceInMarketReferenceCurrency)
       .multipliedBy(marketReferencePriceInUsd)
       .shiftedBy(-USD_DECIMALS)
       .toString();
@@ -91,7 +91,7 @@ export default function SupplyAssetTable() {
       vIncentives: reserve.vIncentivesData ? reserve.vIncentivesData : [],
       sIncentives: reserve.sIncentivesData ? reserve.sIncentivesData : [],
       usageAsCollateralEnabledOnUser,
-      priceInMarketReferenceCurrency: reserve.priceInMarketReferenceCurrency,
+      priceInMarketReferenceCurrency: reserve.formattedPriceInMarketReferenceCurrency,
     };
   });
 

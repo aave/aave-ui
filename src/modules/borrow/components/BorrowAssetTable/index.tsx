@@ -40,7 +40,7 @@ export default function BorrowAssetTable({ borrowedReserves }: BorrowAssetTableP
       const availableBorrows = user ? getMaxAmountAvailalbeToBorrow(reserve, user).toNumber() : 0;
 
       const availableBorrowsInUSD = valueToBigNumber(availableBorrows)
-        .multipliedBy(reserve.priceInMarketReferenceCurrency)
+        .multipliedBy(reserve.formattedPriceInMarketReferenceCurrency)
         .multipliedBy(marketReferencePriceInUsd)
         .shiftedBy(-USD_DECIMALS)
         .toFixed(2);

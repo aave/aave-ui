@@ -77,9 +77,9 @@ export function useRPCIncentivesData(
 
     try {
       const rawReserveIncentiveData =
-        await incentiveDataProviderContract.getReservesIncentivesDataHumanized(
-          lendingPoolAddressProvider
-        );
+        await incentiveDataProviderContract.getReservesIncentivesDataHumanized({
+          lendingPoolAddressProvider,
+        });
       setReserveIncentiveData(rawReserveIncentiveData);
       setErrorReserveIncentives(false);
     } catch (e) {

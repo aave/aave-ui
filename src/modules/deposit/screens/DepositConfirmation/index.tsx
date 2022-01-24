@@ -72,7 +72,7 @@ function DepositConfirmation({
     });
   }
 
-  const amountIntEth = amount.multipliedBy(poolReserve.priceInMarketReferenceCurrency);
+  const amountIntEth = amount.multipliedBy(poolReserve.formattedPriceInMarketReferenceCurrency);
   const amountInUsd = amountIntEth.multipliedBy(marketReferencePriceInUsd).shiftedBy(-USD_DECIMALS);
   const totalCollateralMarketReferenceCurrencyAfter = valueToBigNumber(
     user.totalCollateralMarketReferenceCurrency
@@ -80,7 +80,7 @@ function DepositConfirmation({
 
   const liquidationThresholdAfter = valueToBigNumber(user.totalCollateralMarketReferenceCurrency)
     .multipliedBy(user.currentLiquidationThreshold)
-    .plus(amountIntEth.multipliedBy(poolReserve.reserveLiquidationThreshold))
+    .plus(amountIntEth.multipliedBy(poolReserve.formattedReserveLiquidationThreshold))
     .dividedBy(totalCollateralMarketReferenceCurrencyAfter);
 
   const healthFactorAfterDeposit = calculateHealthFactorFromBalancesBigUnits({

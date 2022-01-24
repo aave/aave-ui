@@ -59,12 +59,12 @@ function WithdrawAmount({
       totalCollateralToWithdrawInETH = excessHF
         .multipliedBy(user.totalBorrowsMarketReferenceCurrency)
         // because of the rounding issue on the contracts side this value still can be incorrect
-        .div(Number(poolReserve.reserveLiquidationThreshold) + 0.01)
+        .div(Number(poolReserve.formattedReserveLiquidationThreshold) + 0.01)
         .multipliedBy('0.99');
     }
     maxUserAmountToWithdraw = BigNumber.min(
       maxUserAmountToWithdraw,
-      totalCollateralToWithdrawInETH.dividedBy(poolReserve.priceInMarketReferenceCurrency)
+      totalCollateralToWithdrawInETH.dividedBy(poolReserve.formattedPriceInMarketReferenceCurrency)
     ).toString();
   }
   maxUserAmountToWithdraw = BigNumber.max(maxUserAmountToWithdraw, 0).toString();

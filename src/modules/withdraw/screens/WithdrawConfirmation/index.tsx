@@ -70,12 +70,12 @@ function WithdrawConfirmation({
       maxCollateralToWithdrawInETH = excessHF
         .multipliedBy(user.totalBorrowsMarketReferenceCurrency)
         // because of the rounding issue on the contracts side this value still can be incorrect
-        .div(Number(poolReserve.reserveLiquidationThreshold) + 0.01)
+        .div(Number(poolReserve.formattedReserveLiquidationThreshold) + 0.01)
         .multipliedBy('0.99');
     }
     maxAmountToWithdraw = BigNumber.min(
       maxAmountToWithdraw,
-      maxCollateralToWithdrawInETH.dividedBy(poolReserve.priceInMarketReferenceCurrency)
+      maxCollateralToWithdrawInETH.dividedBy(poolReserve.formattedPriceInMarketReferenceCurrency)
     );
   }
 
@@ -100,7 +100,7 @@ function WithdrawConfirmation({
 
   if (userReserve.usageAsCollateralEnabledOnUser && poolReserve.usageAsCollateralEnabled) {
     const amountToWithdrawInEth = displayAmountToWithdraw.multipliedBy(
-      poolReserve.priceInMarketReferenceCurrency
+      poolReserve.formattedPriceInMarketReferenceCurrency
     );
     totalCollateralInETHAfterWithdraw =
       totalCollateralInETHAfterWithdraw.minus(amountToWithdrawInEth);
@@ -111,7 +111,7 @@ function WithdrawConfirmation({
       .multipliedBy(user.currentLiquidationThreshold)
       .minus(
         valueToBigNumber(amountToWithdrawInEth).multipliedBy(
-          poolReserve.reserveLiquidationThreshold
+          poolReserve.formattedReserveLiquidationThreshold
         )
       )
       .div(totalCollateralInETHAfterWithdraw)

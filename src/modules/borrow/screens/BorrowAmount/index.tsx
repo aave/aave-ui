@@ -47,7 +47,7 @@ function BorrowAmount({ userReserve, poolReserve, user, currencySymbol }: Borrow
 
   const maxUserAmountToBorrow = valueToBigNumber(
     user?.availableBorrowsMarketReferenceCurrency || 0
-  ).div(poolReserve.priceInMarketReferenceCurrency);
+  ).div(poolReserve.formattedPriceInMarketReferenceCurrency);
 
   const maxAmountToBorrow = user
     ? getMaxAmountAvailalbeToBorrow(poolReserve, user)
@@ -144,7 +144,7 @@ function BorrowAmount({ userReserve, poolReserve, user, currencySymbol }: Borrow
                   title={
                     !user
                       ? intl.formatMessage(messages.connectWallet)
-                      : poolReserve.availableLiquidity === '0'
+                      : poolReserve.formattedAvailableLiquidity === '0'
                       ? intl.formatMessage(messages.noLiquidityAvailableTitle)
                       : !user || user.totalLiquidityMarketReferenceCurrency === '0'
                       ? intl.formatMessage(messages.noDataTitle)
@@ -153,7 +153,7 @@ function BorrowAmount({ userReserve, poolReserve, user, currencySymbol }: Borrow
                   description={
                     !user
                       ? intl.formatMessage(messages.connectWalletDescription)
-                      : poolReserve.availableLiquidity === '0'
+                      : poolReserve.formattedAvailableLiquidity === '0'
                       ? intl.formatMessage(messages.noLiquidityAvailableDescription, {
                           symbol: asset.formattedName,
                         })

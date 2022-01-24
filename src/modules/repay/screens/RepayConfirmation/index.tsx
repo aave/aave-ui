@@ -103,14 +103,14 @@ function RepayConfirmation({
 
   const displayAmountToRepay = BigNumber.min(amountToRepayUI, maxAmountToRepay);
   const displayAmountToRepayInUsd = displayAmountToRepay
-    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
+    .multipliedBy(poolReserve.formattedPriceInMarketReferenceCurrency)
     .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
 
   const amountAfterRepay = maxAmountToRepay.minus(amountToRepayUI).toString();
   const displayAmountAfterRepay = BigNumber.min(amountAfterRepay, maxAmountToRepay);
   const displayAmountAfterRepayInUsd = displayAmountAfterRepay
-    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
+    .multipliedBy(poolReserve.formattedPriceInMarketReferenceCurrency)
     .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
 
@@ -118,7 +118,7 @@ function RepayConfirmation({
     collateralBalanceMarketReferenceCurrency:
       repayWithATokens && usageAsCollateralEnabledOnUser
         ? new BigNumber(user.totalCollateralMarketReferenceCurrency).minus(
-            new BigNumber(reserve.priceInMarketReferenceCurrency)
+            new BigNumber(reserve.formattedPriceInMarketReferenceCurrency)
               .shiftedBy(-marketReferenceCurrencyDecimals)
               .multipliedBy(amountToRepayUI)
           )
@@ -126,7 +126,7 @@ function RepayConfirmation({
     borrowBalanceMarketReferenceCurrency: new BigNumber(
       user.totalBorrowsMarketReferenceCurrency
     ).minus(
-      new BigNumber(reserve.priceInMarketReferenceCurrency)
+      new BigNumber(reserve.formattedPriceInMarketReferenceCurrency)
         .shiftedBy(-marketReferenceCurrencyDecimals)
         .multipliedBy(amountToRepayUI)
     ),

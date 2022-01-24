@@ -125,7 +125,7 @@ function RepayAmount({
         collateralBalanceMarketReferenceCurrency:
           repayWithATokens && usageAsCollateralEnabledOnUser
             ? new BigNumber(user?.totalCollateralMarketReferenceCurrency || '0').minus(
-                new BigNumber(reserve.priceInMarketReferenceCurrency)
+                new BigNumber(reserve.formattedPriceInMarketReferenceCurrency)
                   .shiftedBy(-marketReferenceCurrencyDecimals)
                   .multipliedBy(amount)
               )
@@ -133,7 +133,7 @@ function RepayAmount({
         borrowBalanceMarketReferenceCurrency: new BigNumber(
           user?.totalBorrowsMarketReferenceCurrency || '0'
         ).minus(
-          new BigNumber(reserve.priceInMarketReferenceCurrency)
+          new BigNumber(reserve.formattedPriceInMarketReferenceCurrency)
             .shiftedBy(-marketReferenceCurrencyDecimals)
             .multipliedBy(amount)
         ),
