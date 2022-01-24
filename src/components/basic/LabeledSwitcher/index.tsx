@@ -31,13 +31,7 @@ export default function LabeledSwitcher({
 }: LabeledSwitcherProps) {
   const { currentTheme, xl, lg, md, isCurrentThemeDark } = useThemeContext();
 
-  const gradientText = gradient(
-    90,
-    `${currentTheme.secondary.rgb}, 1`,
-    0,
-    `${currentTheme.primary.rgb}, 1`,
-    100
-  );
+  const gradientText = gradient(90, `${[0, 0, 0]}, 1`, 0, `${[0, 0, 1]}, 1`, 100);
 
   const baseWidth = xl && !md ? 160 : 240;
   const baseHeight = xl && !md ? (lg ? 26 : 32) : 36;
@@ -66,12 +60,8 @@ export default function LabeledSwitcher({
           }
 
           &__inner {
-            background: ${isCurrentThemeDark && darkOnDarkMode
-              ? currentTheme.whiteItem.hex
-              : currentTheme.darkBlue.hex};
-            border-color: ${isCurrentThemeDark && darkOnDarkMode
-              ? currentTheme.whiteItem.hex
-              : currentTheme.darkBlue.hex};
+            background: #ff8225;
+            border-color: #ff8225;
           }
 
           button {
