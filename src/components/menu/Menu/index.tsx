@@ -8,7 +8,7 @@ import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import goToTop from '../../../helpers/goToTop';
 import Link from '../../basic/Link';
-//import MarketSwitcher from '../../market/MarketSwitcher';
+import MarketSwitcher from '../../market/MarketSwitcher';
 import MenuLink from '../MenuLink';
 import MoreButton from '../MoreButton';
 import AddressInfo from '../AddressInfo';
@@ -43,7 +43,8 @@ export default function Menu({ title }: MenuProps) {
     <header className="Menu">
       <div className="Menu__logo-inner">
         <Link className="Menu__logo-link" to="/markets" onClick={() => goToTop()}>
-          <img src={LOGO} alt="Aave" />
+          {/* <img src={LOGO} alt="Aave" /> */}
+          <p className="logo_test">* RADIAL</p>
         </Link>
       </div>
 
@@ -87,7 +88,7 @@ export default function Menu({ title }: MenuProps) {
         </div>
 
         <div className="Menu__buttons-inner">
-          {/* <MarketSwitcher /> */}
+          <MarketSwitcher />
           <AddressInfo />
         </div>
       </div>
@@ -96,6 +97,10 @@ export default function Menu({ title }: MenuProps) {
         {staticStyles}
       </style>
       <style jsx={true} global={true}>{`
+        .logo_test {
+          font-size: 22px;
+          color: white;
+        }
         .Menu {
           &:after {
             background: ${topLineColor};

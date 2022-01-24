@@ -1,17 +1,9 @@
 import css from 'styled-jsx/css';
 
-const PUBLIC_URL = process.env.PUBLIC_URL;
-
 /*language=SCSS*/
 const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
   @import 'src/_mixins/vars';
-  @import 'src/_mixins/font-face';
-
-  @include font-face('roboto-font', '${PUBLIC_URL}/fonts/RobotoRegular/RobotoRegular');
-  @include font-face('roboto-font', '${PUBLIC_URL}/fonts/RobotoLight/RobotoLight', 300);
-  @include font-face('roboto-font', '${PUBLIC_URL}/fonts/RobotoMedium/RobotoMedium', 500);
-  @include font-face('roboto-font', '${PUBLIC_URL}/fonts/RobotoBold/RobotoBold', 600);
 
   * {
     padding: 0;
@@ -29,7 +21,7 @@ const staticStyles = css.global`
   h4,
   h5,
   h6 {
-    font-family: Rajdhani;
+    font-family: Montserrat;
   }
 
   html {
@@ -40,9 +32,10 @@ const staticStyles = css.global`
   }
 
   body {
-    font-family: 'roboto-font', sans-serif;
+    font-family: Roboto, sans-serif;
     font-size: $regular;
     min-width: 365px;
+    background-color: white;
   }
 
   input,
