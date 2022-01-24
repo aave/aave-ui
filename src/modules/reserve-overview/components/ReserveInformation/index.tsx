@@ -88,7 +88,7 @@ export default function ReserveInformation({
   return (
     <div className="ReserveInformation">
       <div className="ReserveInformation__inner">
-        <h3 className="ReserveInformation__title">{intl.formatMessage(messages.caption)}</h3>
+        <h3 className="ReserveInformation__title-custom">{intl.formatMessage(messages.caption)}</h3>
 
         <ContentWrapper className="ReserveInformation__content">
           {poolLink && (
@@ -271,6 +271,17 @@ export default function ReserveInformation({
         {staticStyles}
       </style>
       <style jsx={true}>{`
+        .ReserveInformation__title-custom {
+          font-family: Montserrat;
+          font-size: 18px;
+          font-weight: bold;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          color: #131313;
+          margin-bottom: 10px;
+        }
         .ReserveInformation {
           &__title {
             color: ${currentTheme.textDarkBlue.hex};
