@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
+import { useHistory } from 'react-router-dom';
 
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
@@ -23,6 +24,7 @@ import messages from './messages';
 import staticStyles from './style';
 
 import linkIcon from '../../../../images/blueLinkIcon.svg';
+import arrowLeft from '../../../../images/arrowLeft.svg';
 import { getAssetInfo } from '../../../../helpers/config/assets-config';
 import { useReserveRatesHistory } from '../../../../libs/pool-data-provider/hooks/use-reserve-rates-history';
 
@@ -65,6 +67,7 @@ function ReserveOverview({
   });
 
   const isReserveHistoryGraphsVisible = !!RATES_HISTORY_ENDPOINT;
+  const history = useHistory();
 
   return (
     <ScreenWrapper
@@ -97,6 +100,9 @@ function ReserveOverview({
             />
           )}
         </div>
+        <span className="back" onClick={history.goBack}>
+          Back
+        </span>
 
         {sm && poolLink && (
           <div className="ReserveOverview__poolLink-inner">
@@ -118,9 +124,9 @@ function ReserveOverview({
           </div>
         )}
 
-        {poolReserve.borrowingEnabled && isReserveHistoryGraphsVisible && (
+        {/* {poolReserve.borrowingEnabled && isReserveHistoryGraphsVisible && (
           <Charts poolReserve={poolReserve} />
-        )}
+        )} */}
 
         <div className="ReserveOverview__content-wrapper">
           <ReserveInformation
@@ -164,6 +170,21 @@ function ReserveOverview({
         {staticStyles}
       </style>
       <style jsx={true} global={true}>{`
+        .back {
+          font-family: Roboto;
+          font-size: 14px;
+          font-weight: normal;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.21;
+          letter-spacing: normal;
+          color: #131313;
+          cursor: pointer;
+          &:before {
+            content: url(${arrowLeft});
+            margin-right: 5px;
+          }
+        }
         .ReserveOverview {
           &__information-title,
           &__poolLink-inner {
