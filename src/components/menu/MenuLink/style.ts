@@ -6,9 +6,12 @@ const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
 
   .MenuLink {
-    font-weight: 300;
+    opacity: 0.5;
+    font-family: Montserrat;
+    font-weight: 400;
     text-transform: uppercase;
     &:hover {
+      opacity: 1;
       .MenuLink__title {
         i {
           width: 80%;
