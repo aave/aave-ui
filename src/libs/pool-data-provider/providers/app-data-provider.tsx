@@ -14,7 +14,7 @@ import {
   nativeToUSD,
   normalize,
   USD_DECIMALS,
-  UserReserveData,
+  ComputedUserReserve,
 } from '@aave/math-utils';
 import React, { useContext, useEffect, useState } from 'react';
 import BigNumber from 'bignumber.js';
@@ -95,7 +95,7 @@ export interface AppDataContextType {
   userEmodeCategoryId: number;
   ensName?: string;
   ensAvatar?: string;
-  userReserves: UserReserveData[];
+  userReserves: ComputedUserReserve[];
 }
 
 const AppDataContext = React.createContext<AppDataContextType>({} as AppDataContextType);
@@ -179,26 +179,12 @@ export const AppDataProvider: React.FC = ({ children }) => {
     reserveIncentives: data?.reserveIncentiveData || [],
   });
 
-  const userReserves: UserReserveData[] = [];
-  if (rawUserReserves && reserves.length) {
-    rawUserReserves.forEach((rawUserReserve) => {
-      const reserve = reserves.find(
-        (r) => r.underlyingAsset.toLowerCase() === rawUserReserve.underlyingAsset.toLowerCase()
-      );
-      if (reserve) {
-        userReserves.push({
-          ...rawUserReserve,
-          reserve,
-        });
-      }
-    });
-  }
-
   const user: FormatUserSummaryAndIncentivesResponse = formatUserSummaryAndIncentives({
     currentTimestamp,
     marketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,
     marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
-    userReserves,
+    userReserves: rawUserReserves ? rawUserReserves : [],
+    formattedReserves: formattedPoolReserves,
     userEmodeCategoryId,
     reserveIncentives: data?.reserveIncentiveData || [],
     userIncentives: data?.userIncentiveData || [],
@@ -280,7 +266,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
             .multipliedBy(100)
             .toNumber(),
         },
-        userReserves,
+        userReserves: user.userReservesData,
         userId: currentAccount,
         isUserHasDeposits,
         refetchWalletData,

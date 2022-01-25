@@ -59,8 +59,8 @@ export default function CurrencyOverview({
 
   const overviewData = {
     utilizationRate: Number(poolReserve.utilizationRate),
-    availableLiquidity: poolReserve.availableLiquidity,
-    priceInUsd: valueToBigNumber(poolReserve.priceInMarketReferenceCurrency)
+    availableLiquidity: poolReserve.formattedAvailableLiquidity,
+    priceInUsd: valueToBigNumber(poolReserve.formattedPriceInMarketReferenceCurrency)
       .multipliedBy(marketReferencePriceInUsd)
       .shiftedBy(-USD_DECIMALS)
       .toNumber(),
@@ -71,16 +71,16 @@ export default function CurrencyOverview({
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
     baseLTVasCollateral:
       userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
-        ? Number(poolReserve.eModeLtv)
-        : Number(poolReserve.baseLTVasCollateral),
+        ? Number(poolReserve.formattedEModeLtv)
+        : Number(poolReserve.formattedBaseLTVasCollateral),
     liquidationThreshold:
       userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
-        ? Number(poolReserve.eModeLiquidationThreshold)
-        : Number(poolReserve.reserveLiquidationThreshold),
+        ? Number(poolReserve.formattedEModeLiquidationThreshold)
+        : Number(poolReserve.formattedReserveLiquidationThreshold),
     liquidationBonus:
       userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
-        ? Number(poolReserve.eModeLiquidationBonus)
-        : Number(poolReserve.reserveLiquidationBonus),
+        ? Number(poolReserve.formattedEModeLiquidationBonus)
+        : Number(poolReserve.formattedReserveLiquidationBonus),
     borrowingEnabled: poolReserve.borrowingEnabled,
     isIsolated: poolReserve.isIsolated,
     supplyCap: poolReserve.supplyCap,

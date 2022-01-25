@@ -17,9 +17,9 @@ export function getMaxAmountAvailalbeToBorrow(
 
   const maxUserAmountToBorrow = BigNumber.min(
     valueToBigNumber(user?.availableBorrowsMarketReferenceCurrency || 0).div(
-      poolReserve.priceInMarketReferenceCurrency
+      poolReserve.formattedPriceInMarketReferenceCurrency
     ),
-    poolReserve.availableLiquidity
+    poolReserve.formattedAvailableLiquidity
   );
 
   const shouldAddMargin =

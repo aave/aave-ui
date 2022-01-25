@@ -24,6 +24,7 @@ export function EModeConfirm() {
     userEmodeCategoryId,
     user,
     userReserves,
+    reserves,
   } = useAppDataContext();
   const { lendingPool } = useTxBuilderContext();
   const currentTimestamp = useCurrentTimestamp(1);
@@ -34,6 +35,7 @@ export function EModeConfirm() {
   const newSummary = formatUserSummary({
     currentTimestamp,
     userReserves: user ? userReserves : [],
+    formattedReserves: reserves,
     userEmodeCategoryId: newEMode,
     marketReferenceCurrencyDecimals,
     marketReferencePriceInUsd,

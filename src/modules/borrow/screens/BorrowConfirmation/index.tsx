@@ -86,13 +86,13 @@ function BorrowConfirmation({
 
   let userAvailableAmountToBorrow = valueToBigNumber(
     user.availableBorrowsMarketReferenceCurrency
-  ).div(poolReserve.priceInMarketReferenceCurrency);
+  ).div(poolReserve.formattedPriceInMarketReferenceCurrency);
 
   if (
     userAvailableAmountToBorrow.gt(0) &&
     user?.totalBorrowsMarketReferenceCurrency !== '0' &&
     userAvailableAmountToBorrow.lt(
-      valueToBigNumber(poolReserve.availableLiquidity).multipliedBy('1.01')
+      valueToBigNumber(poolReserve.formattedAvailableLiquidity).multipliedBy('1.01')
     )
   ) {
     userAvailableAmountToBorrow = userAvailableAmountToBorrow.multipliedBy('0.995');
@@ -101,7 +101,7 @@ function BorrowConfirmation({
   if (interestRateMode === InterestRate.Stable && !poolReserve.stableBorrowRateEnabled) {
     blockingError = intl.formatMessage(messages.errorStableRateNotEnabled);
   }
-  if (amount.gt(poolReserve.availableLiquidity)) {
+  if (amount.gt(poolReserve.formattedAvailableLiquidity)) {
     blockingError = intl.formatMessage(messages.errorNotEnoughLiquidity, {
       currencySymbol,
     });
@@ -114,7 +114,7 @@ function BorrowConfirmation({
   }
 
   const amountToBorrowInUsd = amount
-    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
+    .multipliedBy(poolReserve.formattedPriceInMarketReferenceCurrency)
     .multipliedBy(marketReferencePriceInUsd)
     .shiftedBy(-USD_DECIMALS);
 

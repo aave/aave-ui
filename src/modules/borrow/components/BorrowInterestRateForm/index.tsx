@@ -53,7 +53,7 @@ export default function BorrowInterestRateForm({
   }
   if (isStableBorrowRateAllowed) {
     const availableLiquidityToBorrowStable = valueToBigNumber(
-      poolReserve.availableLiquidity
+      poolReserve.formattedAvailableLiquidity
     ).multipliedBy('0.25');
     if (availableLiquidityToBorrowStable.lt(amountToBorrow)) {
       isStableBorrowRateAllowed = false;

@@ -55,9 +55,9 @@ export function useRPCPoolData(
 
     try {
       setLoadingReserves(true);
-      const reservesResponse = await poolDataProviderContract.getReservesHumanized(
-        lendingPoolAddressProvider
-      );
+      const reservesResponse = await poolDataProviderContract.getReservesHumanized({
+        lendingPoolAddressProvider,
+      });
       setReserves(reservesResponse);
       setErrorReserves(false);
     } catch (e) {
@@ -78,10 +78,10 @@ export function useRPCPoolData(
 
     try {
       setLoadingUserReserves(true);
-      const userReservesResponse = await poolDataProviderContract.getUserReservesHumanized(
+      const userReservesResponse = await poolDataProviderContract.getUserReservesHumanized({
         lendingPoolAddressProvider,
-        currentAccount
-      );
+        user: currentAccount,
+      });
 
       setUserReserves(userReservesResponse);
       setErrorUserReserves(false);
