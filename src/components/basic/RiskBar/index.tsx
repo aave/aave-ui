@@ -31,7 +31,7 @@ export default function RiskBar({ value, onChange, maxAmount, currencySymbol }: 
 
   const reserveETHPrice = reserves.find(
     (reserve) => reserve.symbol === currencySymbol
-  )?.priceInMarketReferenceCurrency;
+  )?.formattedPriceInMarketReferenceCurrency;
 
   const amountToBorrowInUsd = valueToBigNumber(value)
     .multipliedBy(reserveETHPrice || '0')
