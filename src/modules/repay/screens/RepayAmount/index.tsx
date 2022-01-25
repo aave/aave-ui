@@ -20,7 +20,6 @@ import InfoPanel from '../../../../components/InfoPanel';
 import RepayInfoPanel from '../../components/RepayInfoPanel';
 
 import messages from './messages';
-import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useLocation, useNavigate } from 'react-router';
 
 function RepayAmount({
@@ -32,7 +31,6 @@ function RepayAmount({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { networkConfig, currentMarketData } = useProtocolDataContext();
-  const { marketReferenceCurrencyDecimals } = useAppDataContext();
   const { lendingPool } = useTxBuilderContext();
   // TODO: check if useSearchParams would be feasible
   const location = useLocation();
