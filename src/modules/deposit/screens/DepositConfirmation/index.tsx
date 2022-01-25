@@ -44,6 +44,7 @@ function DepositConfirmation({
   const [depositWithPermitEnabled, setDepositWithPermitEnable] = useState(
     currentMarketData.v3 && chainId !== ChainId.harmony && chainId !== ChainId.harmony_testnet
   );
+  const [isTxExecuted, setIsTxExecuted] = useState(false);
 
   const aTokenData = getAtokenInfo({
     address: poolReserve.aTokenAddress,
@@ -175,6 +176,7 @@ function DepositConfirmation({
         blockingError={blockingError}
         aTokenData={aTokenData}
         isolationWarning={isIsolated && usageAsCollateralEnabledOnDeposit}
+        onMainTxConfirmed={() => setIsTxExecuted(true)}
       >
         <Row title={intl.formatMessage(messages.valueRowTitle)} withMargin={true}>
           <Value
@@ -184,6 +186,7 @@ function DepositConfirmation({
             subValue={amountInUsd.toString()}
             subSymbol="USD"
             tooltipId={currencySymbol}
+            updateCondition={isTxExecuted}
           />
         </Row>
 
@@ -211,6 +214,7 @@ function DepositConfirmation({
             title={intl.formatMessage(messages.newHealthFactor)}
             withoutModal={true}
             value={healthFactorAfterDeposit.toString()}
+            updateCondition={isTxExecuted}
           />
         )}
       </PoolTxConfirmationView>
