@@ -7,6 +7,9 @@ import ammActiveLogo from './ammActive.svg';
 import polygon from './polygon.svg';
 import arbitrium from './arbitrium.svg';
 import avalanche from './avalanche.svg';
+import optimis from './optimis.svg';
+import harmony from './harmony.svg';
+import fantom from './fantom.svg';
 
 export {
   aaveLogo,
@@ -18,4 +21,7 @@ export {
   aavev2ActiveLogo,
   arbitrium,
   avalanche,
+  optimis,
+  harmony,
+  fantom,
 };

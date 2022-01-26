@@ -288,7 +288,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     chainId: ChainId.harmony_testnet,
     logo: logos.aaveLogo,
     activeLogo: logos.aaveActiveLogo,
-    subLogo: logos.avalanche,
+    subLogo: logos.harmony,
     aTokenPrefix: 'AAVA',
     enabledFeatures: {
       faucet: true,
@@ -309,7 +309,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     chainId: ChainId.fantom_testnet,
     logo: logos.aaveLogo,
     activeLogo: logos.aaveActiveLogo,
-    subLogo: logos.avalanche,
+    subLogo: logos.fantom,
     aTokenPrefix: 'AAVA',
     enabledFeatures: {
       faucet: true,
@@ -330,7 +330,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     chainId: ChainId.optimism_kovan,
     logo: logos.aaveLogo,
     activeLogo: logos.aaveActiveLogo,
-    subLogo: logos.avalanche,
+    subLogo: logos.optimis,
     aTokenPrefix: 'AAVA',
     enabledFeatures: {
       faucet: true,
