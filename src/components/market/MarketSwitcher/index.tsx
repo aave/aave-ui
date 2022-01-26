@@ -85,9 +85,10 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
                 >
                   <img
                     src={
-                      !!currentMarketData.activeLogo
-                        ? currentMarketData.activeLogo
-                        : currentMarketData.logo
+                      // !!currentMarketData.activeLogo
+                      //   ? currentMarketData.activeLogo
+                      //   : currentMarketData.logo
+                      currentMarketData.logo
                     }
                     alt=""
                   />

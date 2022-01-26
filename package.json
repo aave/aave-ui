@@ -5,7 +5,7 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@0x/subproviders": "^6.5.4",
-    "@aave/aave-ui-kit": "^0.1.19",
+    "@aave/aave-ui-kit": "0.1.20-fb7d4ddc243e74ea63ff46fa8ca9a5421b02dbd7.0",
     "@aave/contract-helpers": "0.27.4-0c036e791c4debd89e151156a5de4fbc3aca18a5.0+0c036e7",
     "@aave/math-utils": "0.27.4-0c036e791c4debd89e151156a5de4fbc3aca18a5.0+0c036e7",
     "@apollo/client": "^3.4.16",
