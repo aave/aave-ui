@@ -24,10 +24,10 @@ export function calculateHFAfterSwap(
     fromAssetUserData?.usageAsCollateralEnabledOnUser
       ? calculateHealthFactorFromBalancesBigUnits({
           collateralBalanceMarketReferenceCurrency: valueToBigNumber(fromAmount).multipliedBy(
-            fromAssetData.priceInMarketReferenceCurrency
+            fromAssetData.formattedPriceInMarketReferenceCurrency
           ),
           borrowBalanceMarketReferenceCurrency: user.totalBorrowsMarketReferenceCurrency,
-          currentLiquidationThreshold: fromAssetData.reserveLiquidationThreshold,
+          currentLiquidationThreshold: fromAssetData.formattedReserveLiquidationThreshold,
         }).toString()
       : '0';
   const hfEffectOfToAmount =
@@ -39,10 +39,10 @@ export function calculateHFAfterSwap(
       : true)
       ? calculateHealthFactorFromBalancesBigUnits({
           collateralBalanceMarketReferenceCurrency: valueToBigNumber(toAmount)
-            .multipliedBy(toAssetData.priceInMarketReferenceCurrency)
+            .multipliedBy(toAssetData.formattedPriceInMarketReferenceCurrency)
             .multipliedBy(1 - +maxSlippage / 100),
           borrowBalanceMarketReferenceCurrency: user.totalBorrowsMarketReferenceCurrency,
-          currentLiquidationThreshold: toAssetData.reserveLiquidationThreshold,
+          currentLiquidationThreshold: toAssetData.formattedReserveLiquidationThreshold,
         }).toString()
       : '0';
 

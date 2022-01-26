@@ -103,7 +103,7 @@ export default function History() {
           const ethPrice = (symbol: string) =>
             normalize(
               reserves.find((reserve) => reserve.symbol === symbol)
-                ?.priceInMarketReferenceCurrency || '0',
+                ?.formattedPriceInMarketReferenceCurrency || '0',
               18
             );
 

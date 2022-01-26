@@ -111,7 +111,7 @@ export default function SupplyAssetTable() {
       );
     }
     const availableToDepositUSD = valueToBigNumber(availableToDeposit)
-      .multipliedBy(wrappedAsset.priceInMarketReferenceCurrency)
+      .multipliedBy(wrappedAsset.formattedPriceInMarketReferenceCurrency)
       .multipliedBy(marketReferencePriceInUsd)
       .shiftedBy(-USD_DECIMALS)
       .toString();
