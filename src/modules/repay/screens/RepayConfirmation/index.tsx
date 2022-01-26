@@ -44,8 +44,7 @@ function RepayConfirmation({
   walletBalance,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
-  const { marketReferencePriceInUsd, userId, marketReferenceCurrencyDecimals } =
-    useAppDataContext();
+  const { marketReferencePriceInUsd, userId } = useAppDataContext();
   const { currentMarketData, chainId } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
 
@@ -118,24 +117,21 @@ function RepayConfirmation({
     collateralBalanceMarketReferenceCurrency:
       repayWithATokens && usageAsCollateralEnabledOnUser
         ? new BigNumber(user.totalCollateralMarketReferenceCurrency).minus(
-            new BigNumber(reserve.formattedPriceInMarketReferenceCurrency)
-              .shiftedBy(-marketReferenceCurrencyDecimals)
-              .multipliedBy(amountToRepayUI)
+            new BigNumber(reserve.formattedPriceInMarketReferenceCurrency).multipliedBy(
+              amountToRepayUI
+            )
           )
         : user.totalCollateralMarketReferenceCurrency,
     borrowBalanceMarketReferenceCurrency: new BigNumber(
       user.totalBorrowsMarketReferenceCurrency
     ).minus(
-      new BigNumber(reserve.formattedPriceInMarketReferenceCurrency)
-        .shiftedBy(-marketReferenceCurrencyDecimals)
-        .multipliedBy(amountToRepayUI)
+      new BigNumber(reserve.formattedPriceInMarketReferenceCurrency).multipliedBy(amountToRepayUI)
     ),
     currentLiquidationThreshold: user.currentLiquidationThreshold,
   });
 
   const handleGetTransactions = async () => {
     if (currentMarketData.v3) {
-      // TO-DO: No need for this cast once a single Pool type is used in use-tx-builder-context
       const newPool: Pool = lendingPool as Pool;
       return await newPool.repay({
         user: userId,
@@ -155,7 +151,6 @@ function RepayConfirmation({
 
   // Generate signature request payload
   const handleGetPermitSignatureRequest = async () => {
-    // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
     setSignedAmount(amountToRepay.toString());
     const newPool: Pool = lendingPool as Pool;
     return await newPool.signERC20Approval({
@@ -167,7 +162,6 @@ function RepayConfirmation({
 
   // Generate supply transaction with signed permit
   const handleGetPermitRepay = async (signature: string) => {
-    // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
     const newPool: Pool = lendingPool as Pool;
     return await newPool.repayWithPermit({
       user: userId,

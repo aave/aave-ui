@@ -44,6 +44,7 @@ function DepositConfirmation({
   const [depositWithPermitEnabled, setDepositWithPermitEnable] = useState(
     currentMarketData.v3 && chainId !== ChainId.harmony && chainId !== ChainId.harmony_testnet
   );
+  const [isTxExecuted, setIsTxExecuted] = useState(false);
 
   const aTokenData = getAtokenInfo({
     address: poolReserve.aTokenAddress,
@@ -83,18 +84,25 @@ function DepositConfirmation({
     .plus(amountIntEth.multipliedBy(poolReserve.formattedReserveLiquidationThreshold))
     .dividedBy(totalCollateralMarketReferenceCurrencyAfter);
 
-  const healthFactorAfterDeposit = calculateHealthFactorFromBalancesBigUnits({
-    collateralBalanceMarketReferenceCurrency: totalCollateralMarketReferenceCurrencyAfter,
-    borrowBalanceMarketReferenceCurrency: valueToBigNumber(
-      user.totalBorrowsMarketReferenceCurrency
-    ),
-    currentLiquidationThreshold: liquidationThresholdAfter,
-  });
+  let healthFactorAfterDeposit = valueToBigNumber(user.healthFactor);
+
+  if (
+    (!user.isInIsolationMode && !poolReserve.isIsolated) ||
+    (user.isInIsolationMode &&
+      user.isolatedReserve?.underlyingAsset === poolReserve.underlyingAsset)
+  ) {
+    healthFactorAfterDeposit = calculateHealthFactorFromBalancesBigUnits({
+      collateralBalanceMarketReferenceCurrency: totalCollateralMarketReferenceCurrencyAfter,
+      borrowBalanceMarketReferenceCurrency: valueToBigNumber(
+        user.totalBorrowsMarketReferenceCurrency
+      ),
+      currentLiquidationThreshold: liquidationThresholdAfter,
+    });
+  }
 
   // Get approve and supply transactions without using permit flow
   const handleGetTransactions = async () => {
     if (currentMarketData.v3) {
-      // TO-DO: No need for this cast once a single Pool type is used in use-tx-builder-context
       const newPool: Pool = lendingPool as Pool;
       return await newPool.supply({
         user: userId,
@@ -112,7 +120,6 @@ function DepositConfirmation({
 
   // Generate signature request payload
   const handleGetPermitSignatureRequest = async () => {
-    // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
     const newPool: Pool = lendingPool as Pool;
     return await newPool.signERC20Approval({
       user: userId,
@@ -123,7 +130,6 @@ function DepositConfirmation({
 
   // Generate supply transaction with signed permit
   const handleGetPermitSupply = async (signature: string) => {
-    // TO-DO: No need for this cast once a single Pool type is ued in use-tx-builder-context
     const newPool: Pool = lendingPool as Pool;
     return await newPool.supplyWithPermit({
       user: userId,
@@ -175,6 +181,7 @@ function DepositConfirmation({
         blockingError={blockingError}
         aTokenData={aTokenData}
         isolationWarning={isIsolated && usageAsCollateralEnabledOnDeposit}
+        onMainTxConfirmed={() => setIsTxExecuted(true)}
       >
         <Row title={intl.formatMessage(messages.valueRowTitle)} withMargin={true}>
           <Value
@@ -184,6 +191,7 @@ function DepositConfirmation({
             subValue={amountInUsd.toString()}
             subSymbol="USD"
             tooltipId={currencySymbol}
+            updateCondition={isTxExecuted}
           />
         </Row>
 
@@ -211,6 +219,7 @@ function DepositConfirmation({
             title={intl.formatMessage(messages.newHealthFactor)}
             withoutModal={true}
             value={healthFactorAfterDeposit.toString()}
+            updateCondition={isTxExecuted}
           />
         )}
       </PoolTxConfirmationView>
