@@ -52,6 +52,7 @@ export default function BorrowInterestRateForm({
     stableBorrowRateNotAllowedMessage = intl.formatMessage(messages.warningYouCanNotChooseStable);
   }
   if (isStableBorrowRateAllowed) {
+    // ValidationLogic.validateBorrow only allows borrowing up to 25% of available in stable rate at once
     const availableLiquidityToBorrowStable = valueToBigNumber(
       poolReserve.formattedAvailableLiquidity
     ).multipliedBy('0.25');
