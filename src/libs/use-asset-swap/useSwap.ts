@@ -33,7 +33,7 @@ const getReserve = (address: string, reserves: ComputedReserveData[]) => {
   return {
     address: address,
     decimals: Number.parseInt(reserve?.decimals as any),
-    priceInEth: reserve?.priceInMarketReferenceCurrency,
+    priceInEth: reserve?.formattedPriceInMarketReferenceCurrency,
     liquidityRate: reserve?.supplyAPY,
   };
 };

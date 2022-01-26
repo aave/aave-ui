@@ -30,16 +30,16 @@ export function calculateHFAfterSwapRepay(
     fromAssetUserData?.usageAsCollateralEnabledOnUser
       ? calculateHealthFactorFromBalancesBigUnits({
           collateralBalanceMarketReferenceCurrency: valueToBigNumber(fromAmount).multipliedBy(
-            fromAssetData.priceInMarketReferenceCurrency
+            fromAssetData.formattedPriceInMarketReferenceCurrency
           ),
           borrowBalanceMarketReferenceCurrency: user.totalBorrowsMarketReferenceCurrency,
-          currentLiquidationThreshold: fromAssetData.reserveLiquidationThreshold,
+          currentLiquidationThreshold: fromAssetData.formattedReserveLiquidationThreshold,
         }).toString()
       : '0';
 
   const fromAmountInETH = repayAssetUserData?.totalBorrows
     ? valueToBigNumber(repayAmount)
-        .multipliedBy(repayAssetData.priceInMarketReferenceCurrency)
+        .multipliedBy(repayAssetData.formattedPriceInMarketReferenceCurrency)
         .toString(10)
     : '0';
   const debtLeftETH = valueToBigNumber(user.totalBorrowsMarketReferenceCurrency)
@@ -59,10 +59,10 @@ export function calculateHFAfterSwapRepay(
     fromAssetUserData?.usageAsCollateralEnabledOnUser
       ? calculateHealthFactorFromBalancesBigUnits({
           collateralBalanceMarketReferenceCurrency: valueToBigNumber(fromAmount).multipliedBy(
-            fromAssetData.priceInMarketReferenceCurrency
+            fromAssetData.formattedPriceInMarketReferenceCurrency
           ),
           borrowBalanceMarketReferenceCurrency: debtLeftETH,
-          currentLiquidationThreshold: fromAssetData.reserveLiquidationThreshold,
+          currentLiquidationThreshold: fromAssetData.formattedReserveLiquidationThreshold,
         }).toString()
       : '0';
 
