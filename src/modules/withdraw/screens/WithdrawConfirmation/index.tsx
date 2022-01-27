@@ -18,6 +18,7 @@ import messages from './messages';
 import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/math-utils';
 import BigNumber from 'bignumber.js';
 import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 
 function WithdrawConfirmation({
   userReserve,
@@ -29,6 +30,7 @@ function WithdrawConfirmation({
   const intl = useIntl();
   const { lendingPool } = useTxBuilderContext();
   const { currentAccount } = useUserWalletDataContext();
+  const { userEmodeCategoryId } = useAppDataContext();
 
   const aTokenData = getAtokenInfo({
     address: poolReserve.underlyingAsset,
@@ -57,7 +59,10 @@ function WithdrawConfirmation({
   const unborrowedLiquidity = valueToBigNumber(poolReserve.unborrowedLiquidity);
   let maxAmountToWithdraw = BigNumber.min(underlyingBalance, unborrowedLiquidity);
   let maxCollateralToWithdrawInETH = valueToBigNumber('0');
-
+  const reserveLiquidationThreshold =
+    userEmodeCategoryId === poolReserve.eModeCategoryId
+      ? poolReserve.formattedEModeLiquidationThreshold
+      : poolReserve.formattedReserveLiquidationThreshold;
   if (
     userReserve.usageAsCollateralEnabledOnUser &&
     poolReserve.usageAsCollateralEnabled &&
@@ -70,7 +75,7 @@ function WithdrawConfirmation({
       maxCollateralToWithdrawInETH = excessHF
         .multipliedBy(user.totalBorrowsMarketReferenceCurrency)
         // because of the rounding issue on the contracts side this value still can be incorrect
-        .div(Number(poolReserve.formattedReserveLiquidationThreshold) + 0.01)
+        .div(Number(reserveLiquidationThreshold) + 0.01)
         .multipliedBy('0.99');
     }
     maxAmountToWithdraw = BigNumber.min(
@@ -109,11 +114,7 @@ function WithdrawConfirmation({
       user.totalCollateralMarketReferenceCurrency
     )
       .multipliedBy(user.currentLiquidationThreshold)
-      .minus(
-        valueToBigNumber(amountToWithdrawInEth).multipliedBy(
-          poolReserve.formattedReserveLiquidationThreshold
-        )
-      )
+      .minus(valueToBigNumber(amountToWithdrawInEth).multipliedBy(reserveLiquidationThreshold))
       .div(totalCollateralInETHAfterWithdraw)
       .toFixed(4, BigNumber.ROUND_DOWN);
 
