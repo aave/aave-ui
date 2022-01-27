@@ -16,6 +16,7 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 import { useLocation, useNavigate } from 'react-router';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 
 function WithdrawAmount({
   poolReserve,
@@ -23,6 +24,7 @@ function WithdrawAmount({
   user,
   currencySymbol,
 }: ValidationWrapperComponentProps) {
+  const { userEmodeCategoryId } = useAppDataContext();
   const navigate = useNavigate();
   const location = useLocation();
   const intl = useIntl();
@@ -55,11 +57,15 @@ function WithdrawAmount({
     // with 0.5% gap to avoid reverting of tx
     let totalCollateralToWithdrawInETH = valueToBigNumber('0');
     const excessHF = valueToBigNumber(user.healthFactor).minus('1');
+    const reserveLiquidationThreshold =
+      userEmodeCategoryId === poolReserve.eModeCategoryId
+        ? poolReserve.formattedEModeLiquidationThreshold
+        : poolReserve.formattedReserveLiquidationThreshold;
     if (excessHF.gt('0')) {
       totalCollateralToWithdrawInETH = excessHF
         .multipliedBy(user.totalBorrowsMarketReferenceCurrency)
         // because of the rounding issue on the contracts side this value still can be incorrect
-        .div(Number(poolReserve.formattedReserveLiquidationThreshold) + 0.01)
+        .div(Number(reserveLiquidationThreshold) + 0.01)
         .multipliedBy('0.99');
     }
     maxUserAmountToWithdraw = BigNumber.min(
