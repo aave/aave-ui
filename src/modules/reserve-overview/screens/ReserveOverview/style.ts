@@ -73,7 +73,7 @@ const staticStyles = css.global`
     }
 
     &__user-information {
-      width: 525px;
+      width: 40%;
       display: flex;
       flex-direction: column;
       @include respond-to(xl) {
