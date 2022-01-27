@@ -39,9 +39,10 @@ function RepayConfirmation({
   currencySymbol,
   amount,
   user,
-  poolReserve,
+  poolReserve: _poolReserve,
   userReserve,
   walletBalance,
+  originalUnderlyingAsset,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { marketReferencePriceInUsd, userId } = useAppDataContext();
@@ -53,14 +54,23 @@ function RepayConfirmation({
     currentMarketData.v3 && chainId !== ChainId.harmony && chainId !== ChainId.harmony_testnet
   );
   const [signedAmount, setSignedAmount] = useState('0');
-
-  const assetDetails = getAssetInfo(poolReserve.symbol);
   const location = useLocation();
   const query = queryString.parse(location.search);
-  const debtType = query.debtType ? (query.debtType as InterestRate) : InterestRate.Variable;
   const assetAddress = query.assetAddress ? (query.assetAddress as string) : '';
+  const repayWithATokens = assetAddress === _poolReserve.aTokenAddress && currentMarketData.v3;
 
-  const repayWithATokens = assetAddress === poolReserve.aTokenAddress && currentMarketData.v3;
+  // we usually expect users to want to repay with baseAsset instead of wrapped, but in the case of aTokenRepayment that's wrong
+  // therefore we need to revert the overwrite done on the poolReserve
+  const poolReserve = {
+    ..._poolReserve,
+    ...(repayWithATokens
+      ? { underlyingAsset: originalUnderlyingAsset }
+      : { underlyingAsset: _poolReserve.underlyingAsset }),
+  };
+
+  const assetDetails = getAssetInfo(poolReserve.symbol);
+  const debtType = query.debtType ? (query.debtType as InterestRate) : InterestRate.Variable;
+
   if (!user) {
     return (
       <NoDataPanel

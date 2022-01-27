@@ -26,6 +26,7 @@ export interface ValidationWrapperComponentProps {
   poolReserve: ComputedReserveData;
   userReserve?: ComputedUserReserve;
   userEmodeCategoryId: number;
+  originalUnderlyingAsset: string;
 }
 
 interface RouteParamValidationWrapperProps {
@@ -113,6 +114,7 @@ export default function routeParamValidationHOC({
     const walletBalanceUSD = valueToBigNumber(walletBalances[txnAsset]?.amountUSD || '0');
 
     const props = {
+      originalUnderlyingAsset: poolReserve.underlyingAsset,
       poolReserve: { ...poolReserve, underlyingAsset: txnAsset },
       userReserve,
       amount,
