@@ -71,6 +71,10 @@ const useWalletBalances = (skip?: boolean) => {
     if (!currentAccount) setWalletBalances({});
   }, [currentAccount]);
 
+  useEffect(() => {
+    setWalletBalances({});
+  }, [currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER]);
+
   return { walletBalances, refetch: fetchWalletData };
 };
 

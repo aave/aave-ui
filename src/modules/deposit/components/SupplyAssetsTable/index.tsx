@@ -119,8 +119,8 @@ export default function SupplyAssetTable() {
       ...wrappedAsset,
       underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
       symbol: baseAssetSymbol,
-      walletBalance: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amount,
-      walletBalanceUSD: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amountUSD,
+      walletBalance: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amount || '0',
+      walletBalanceUSD: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amountUSD || '0',
       availableToDeposit: availableToDeposit.toString(),
       availableToDepositUSD,
     });
