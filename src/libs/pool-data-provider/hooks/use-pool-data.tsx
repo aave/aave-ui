@@ -101,6 +101,11 @@ export function useRPCPoolData(
   ]);
 
   useEffect(() => {
+    setReserves(undefined);
+    setUserReserves(undefined);
+  }, [poolDataProviderAddress]);
+
+  useEffect(() => {
     if (!currentAccount) setUserReserves(undefined);
   }, [currentAccount]);
 

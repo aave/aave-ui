@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
 import {
   UiIncentiveDataProvider,
@@ -127,6 +127,11 @@ export function useRPCIncentivesData(
     skip || !currentAccount || !incentiveDataProviderAddress,
     [lendingPoolAddressProvider, incentiveDataProviderAddress, currentAccount]
   );
+
+  useEffect(() => {
+    setReserveIncentiveData(undefined);
+    setUserIncentiveData(undefined);
+  }, [lendingPoolAddressProvider]);
 
   const loading = loadingReserveIncentives || loadingUserIncentives;
   const error = errorReserveIncentives || errorUserIncentives;
