@@ -26,7 +26,9 @@ export default function FaucetMain() {
       (reserve) =>
         reserve.symbol.toUpperCase() !== networkConfig.baseAssetSymbol &&
         !reserve.isFrozen &&
-        reserve.symbol.toUpperCase() !== 'WETH'
+        reserve.symbol.toUpperCase() !== 'WETH' &&
+        reserve.symbol.toUpperCase() !== 'WTM' &&
+        reserve.symbol.toUpperCase() !== 'WONE'
     )
     .map<FaucetTableItem>((reserve) => {
       const walletBalance = valueToBigNumber(
