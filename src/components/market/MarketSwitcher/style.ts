@@ -94,7 +94,10 @@ const staticStyles = css.global`
 
     &__buttonLogo-inner {
       display: flex;
+      flex-direction: column;
       align-items: center;
+      margin-left: 8px;
+      margin-right: 8px;
 
       img {
         width: 67px;
