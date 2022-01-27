@@ -12,7 +12,6 @@ import staticStyles from './style';
 
 import background from '../../../images/background.svg';
 import backgroundDark from '../../../images/backgroundDark.svg';
-import sun from '../../../images/eggLeft.png';
 
 export interface ScreensWrapperProps {
   children: ReactNode;
@@ -69,8 +68,6 @@ export default function ScreensWrapper({ children }: ScreensWrapperProps) {
       </main>
 
       <Footer inside={true} />
-
-      <img className="ScreensWrapper__background" src={sun} alt="" />
 
       <style jsx={true} global={true}>
         {staticStyles}
