@@ -5,14 +5,32 @@ const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
 
+  .flag_wrapper {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #131313;
+  }
+  .lang_name {
+    font-family: Montserrat;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #fff;
+    margin-left: 7px;
+  }
+
   .LangSwitcher {
     &__button {
-      width: 26px;
-      height: 19px;
-      border-radius: $borderRadius;
       box-shadow: $boxShadow;
-      border-style: solid;
-      border-width: 1px;
+      background-color: transparent;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
       @include respond-to(sm) {
         width: 61px;
         height: 46px;
