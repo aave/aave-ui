@@ -1,10 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { DarkModeSwitcher } from '@aave/aave-ui-kit';
 import aurora from '../../images/aurora-footer.png';
-
 import LangSwitcher from '../basic/LangSwitcher';
-
 import staticStyles from './style';
 
 interface FooterProps {
