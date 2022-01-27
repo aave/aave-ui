@@ -83,6 +83,7 @@ const staticStyles = css.global`
     flex-direction: column;
     justify-content: center;
     margin-bottom: 15px;
+    margin-top: 32px;
   }
   .aurora_footer_title {
     opacity: 0.5;
