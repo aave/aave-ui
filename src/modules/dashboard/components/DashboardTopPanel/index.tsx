@@ -34,7 +34,9 @@ export default function DashboardTopPanel({
 
   const localStorageName = 'dashboardTopPanel';
   const [isCollapse, setIsCollapse] = useState<boolean>(
-    localStorage.getItem(localStorageName) === 'true' || true
+    localStorage.getItem(localStorageName)
+      ? localStorage.getItem(localStorageName) === 'true'
+      : true
   );
 
   const netWorthUSD = Number(user?.netWorthUSD || 0);
