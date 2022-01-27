@@ -18,7 +18,7 @@ import { LOGO } from '../../../ui-config';
 import staticStyles from './style';
 
 import navigation from '../navigation';
-
+import logo from '../../../images/logo.svg';
 import backIcon from '../../../images/mobileBackArrow.svg';
 
 interface MenuProps {
@@ -43,8 +43,7 @@ export default function Menu({ title }: MenuProps) {
     <header className="Menu">
       <div className="Menu__logo-inner">
         <Link className="Menu__logo-link" to="/markets" onClick={() => goToTop()}>
-          {/* <img src={LOGO} alt="Aave" /> */}
-          <p className="logo_test">* RADIAL</p>
+          <img src={logo} alt="logo" />
         </Link>
       </div>
 
