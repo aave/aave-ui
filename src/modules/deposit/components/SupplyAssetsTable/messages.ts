@@ -8,6 +8,6 @@ export default defineMessages({
   collateral: 'Can be collateral',
 
   isolationText: 'Collateral usage is limited because of isolation mode.',
-  zeroStateText: 'Your {networkName} wallet is empty. To deposit ...', // TODO: need text
-  zeroStateBridgeText: 'Or use {link} to transfer your ETH assets.',
+  zeroStateText: 'Your {networkName} wallet is empty.',
+  zeroStateBridgeText: 'Use {link} to transfer your ETH assets.',
 });
