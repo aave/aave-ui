@@ -48,7 +48,7 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
     setCurrentMarket(market);
     setVisible(false);
   };
-
+  const data = availableMarkets.slice(6); // TODO: dirty hack!
   const transparentDarkColor = rgba(`${currentTheme.darkBlue.rgb}, 0.05`);
   const selectedMarketTestnetMark = networkConfig.isFork
     ? 'F'
@@ -118,7 +118,7 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
     >
       <div className="MarketSwitcher__content">
         {/* <p className="MarketSwitcher__title">ff{intl.formatMessage(messages.changeMarket)}</p> */}
-        {availableMarkets.map((market) => {
+        {data.map((market) => {
           const marketData = marketsData[market];
           const config = getNetworkConfig(marketData.chainId);
           const testnetMark = config.isFork
@@ -136,26 +136,25 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
               disabled={currentMarket === market}
               key={market}
             >
-              <div className="MarketSwitcher__market-content">
-                <div className="MarketSwitcher__market-inner">
-                  <div className="MarketSwitcher__logo-inner">
-                    <img src={marketData.logo} alt={market} />
+              <div className="MarketSwitcher__button-content">
+                <div className="MarketSwitcher__button-text">
+                  <div className="market_switcher_box market_switcher_box_dropdown">
+                    <img src={avrora} alt="avrora logo" />
+                    <div
+                      className={classNames('MarketSwitcher__buttonLogo-inner', {
+                        MarketSwitcher__buttonLogoInnerWithSubLogo: !!currentMarketData.subLogo,
+                      })}
+                    >
+                      <p className="aurora aurora_dark">Aurora</p>
+                      <p className="market market_dark">{intl.formatMessage(messages.market)}</p>
+                    </div>
+                    {selectedMarketTestnetMark && (
+                      <span className="MarketSwitcher__kovan">{selectedMarketTestnetMark}</span>
+                    )}
+                    <img src={arrowDown} alt="arrow" />
                   </div>
-
-                  <GradientText
-                    className="MarketSwitcher__marketText"
-                    colorStart={currentTheme.secondary.rgb}
-                    colorEnd={currentTheme.primary.rgb}
-                    title={intl.formatMessage(messages.market)}
-                  />
                 </div>
-
-                {!!marketData.subLogo && (
-                  <img className="MarketSwitcher__subLogo" src={marketData.subLogo} alt="" />
-                )}
               </div>
-
-              {testnetMark && <span className="MarketSwitcher__kovan">{testnetMark}</span>}
             </button>
           );
         })}
@@ -165,11 +164,49 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
         {staticStyles}
       </style>
       <style jsx={true} global={true}>{`
+        .DropdownWrapper {
+          position: relative;
+          z-index: 2;
+        }
+
+        .DropdownWrapper__content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background: #fff;
+          position: absolute;
+          height: 0;
+          left: 0;
+          min-width: 167px;
+          overflow: hidden;
+          opacity: 0;
+          -webkit-transform: scaleY(0);
+          transform: scaleY(0);
+          transition-property: opacity, -webkit-transform;
+          transition-property: transform, opacity;
+          transition-property: transform, opacity, -webkit-transform;
+          transition-duration: 0.3s;
+          transition-timing-function: ease;
+          border-radius: 2px;
+          box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
+        }
+        .DropdownWrapper__contentVisible {
+          height: auto;
+          min-width: 167px;
+          opacity: 1;
+          -webkit-transform: scaleY(1);
+          transform: scaleY(1);
+        }
+
         .market_switcher_box {
           display: flex;
           flex-direction: row;
           align-items: center;
           justify-content: center;
+          padding: 0 25px;
+        }
+        .market_switcher_box_dropdown {
+          padding: 0;
         }
         .market {
           opacity: 0.5;
@@ -181,6 +218,9 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
           line-height: normal;
           letter-spacing: normal;
           color: #fff;
+        }
+        .market_dark {
+          color: #131313;
         }
         .aurora {
           font-family: Montserrat;
@@ -194,6 +234,9 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
           letter-spacing: normal;
           color: #fff;
         }
+        .aurora_dark {
+          color: #131313;
+        }
         .MarketSwitcher {
           &__text-button {
             color: ${currentTheme.primary.hex};
@@ -201,9 +244,9 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
 
           &__button-content {
             color: ${currentTheme.white.hex};
+            width: 100%;
             background: transparent;
             &:hover {
-              border: none;
               background-color: #ffffff10;
               border-radius: 2px;
             }
@@ -236,11 +279,8 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
             position: relative;
             border-bottom: 1px solid ${transparentDarkColor};
             &:hover {
-              background: ${transparentDarkColor};
+              background: white;
             }
-          }
-          &__marketActive {
-            background: ${transparentDarkColor};
           }
 
           &__logo-inner {
