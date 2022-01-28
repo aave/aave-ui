@@ -6,8 +6,14 @@ const staticStyles = css`
   @import 'src/_mixins/screen-size';
 
   .TableHeaderButton {
-    font-size: $regular;
-    font-weight: 400;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
     position: relative;
     z-index: 2;
     display: flex;
@@ -42,7 +48,7 @@ const staticStyles = css`
       p {
         display: inline;
         position: relative;
-        &:after {
+        /* &:after {
           content: '';
           position: absolute;
           right: -15px;
@@ -61,7 +67,7 @@ const staticStyles = css`
             border-width: 5px 3px 0 3px;
             right: -8px;
           }
-        }
+        } */
       }
     }
 
@@ -79,6 +85,18 @@ const staticStyles = css`
 
     &__withSubTitle {
       flex-direction: column;
+      span {
+        display: block;
+        width: 100%;
+        font-family: Montserrat;
+        font-size: 10px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: right;
+      }
     }
   }
 `;
