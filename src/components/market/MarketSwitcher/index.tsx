@@ -97,6 +97,9 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
                     <p className="aurora">Aurora</p>
                     <p className="market">{intl.formatMessage(messages.market)}</p>
                   </div>
+                  {selectedMarketTestnetMark && (
+                    <span className="MarketSwitcher__kovan">{selectedMarketTestnetMark}</span>
+                  )}
                   <img src={arrowDown} alt="arrow" />
                 </div>
               </div>
@@ -109,10 +112,6 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
                 />
               )} */}
             </div>
-
-            {selectedMarketTestnetMark && (
-              <span className="MarketSwitcher__kovan">{selectedMarketTestnetMark}</span>
-            )}
           </button>
         )
       }
