@@ -59,7 +59,7 @@ export default function LabeledSwitcher({
             }
           }
           &__pointer {
-            padding: 2px 1px !important;
+            padding: 2px 0.5px !important;
           }
 
           &__inner {
