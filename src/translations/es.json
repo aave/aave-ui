@@ -777,7 +777,7 @@
   "modules.reserve-overview.screens.ReserveOverview.here": "",
   "modules.reserve-overview.screens.ReserveOverview.noConnectWalletCaption": "Por favor conecta una cartera",
   "modules.reserve-overview.screens.ReserveOverview.noConnectWalletDescription": "No podemos detectar ninguna cartera. Conecta una cartera para ver tu información personal aquí.",
-  "modules.reserve-overview.screens.ReserveOverview.pageTitle": "{currencySymbol}Resumen de la reserva",
+  "modules.reserve-overview.screens.ReserveOverview.pageTitle": "{currencySymbol} Resumen de la reserva",
   "modules.reserve-overview.screens.ReserveOverview.provideLiquidity": "",
   "modules.reserve-overview.screens.ReserveOverview.userCaption": "Tu información",
   "modules.reward.screens.RewardConfirm.boxDescription": "",
