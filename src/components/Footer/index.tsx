@@ -8,12 +8,12 @@ interface FooterProps {
   inside?: boolean;
 }
 
-const Aurora = () => (
+/* const Aurora = () => (
   <div className="aurora_footer_container">
     <p className="aurora_footer_title">powered by</p>
     <img src={aurora} alt="" />
   </div>
-);
+); */
 
 const Indicator = () => (
   <div className="indicator_shadow">
@@ -50,7 +50,7 @@ const StatBox = ({
 export default function Footer({ inside }: FooterProps) {
   return (
     <div className="footer_wrapper">
-      <Aurora />
+      {/* <Aurora /> */}
       <footer className={classNames('Footer', { Footer__inside: inside })}>
         <div className="stats">
           <StatBox description="added in platform fees" value="$ 245.13" time={12} />
