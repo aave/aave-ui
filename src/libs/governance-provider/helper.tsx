@@ -12,7 +12,9 @@ export const IPFS_ENDPOINT = 'https://aave-governance.mypinata.cloud/ipfs';
  * @returns
  */
 export const getCorrectState = (proposal: ProposalItem) => {
+  if (proposal.id === 56) console.log(proposal);
   const hasEnded = dayjs().unix() > proposal?.proposalExpirationTimestamp;
+  const hasExpired = dayjs().unix() > Number(proposal?.executionTime);
   // there's no event for Active -> Success/Failed, so it's wrong on thegraph
 
   if (hasEnded && proposal.state === ProposalState.Active) {
@@ -37,7 +39,7 @@ export const getCorrectState = (proposal: ProposalItem) => {
     return quorumValid && differentialValid ? ProposalState.Succeeded : ProposalState.Failed;
   }
 
-  if (hasEnded && proposal.state === ProposalState.Queued) {
+  if (hasExpired && proposal.state === ProposalState.Queued) {
     return ProposalState.Expired;
   }
 
