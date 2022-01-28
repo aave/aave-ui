@@ -265,16 +265,15 @@ const staticStyles = css.global`
     }
 
     &__kovan {
-      background: #8f65ff;
+      background: #7159ff;
       color: #ffffff;
-      position: absolute;
-      top: 2px;
-      right: 2px;
+      position: relative;
+      margin: 0 5px;
       z-index: 10;
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      font-size: 8px;
+      font-size: 7px;
       display: flex;
       align-items: center;
       justify-content: center;

@@ -13,7 +13,6 @@ import MenuLink from '../MenuLink';
 import MoreButton from '../MoreButton';
 import AddressInfo from '../AddressInfo';
 import MobileContent from '../MobileContent';
-import { LOGO } from '../../../ui-config';
 
 import staticStyles from './style';
 
