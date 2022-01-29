@@ -87,6 +87,49 @@ const staticStyles = css.global`
     display: none;
   }
 
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .centered {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .between {
+    justify-content: space-between;
+  }
+
+  .end {
+    justify-content: flex-end;
+  }
+
+  .centered-align {
+    align-items: center;
+  }
+
+  .wrap {
+    flex-wrap: wrap;
+  }
+
+  .w100 {
+    width: 100%;
+  }
+
+  .end-align {
+    align-items: flex-end;
+  }
+
+  .clickable {
+    cursor: pointer;
+  }
+
   a:focus,
   a:active,
   a:hover,
