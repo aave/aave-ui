@@ -87,24 +87,6 @@ const DetailsButton = styled.button`
   max-width: 75px;
   height: 35px;
 `;
-
-const TableRow = styled.div``;
-const TableHeader = styled.div`
-  padding: 15px;
-  font-family: Montserrat;
-  font-size: 12px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: right;
-  color: #131313;
-  p {
-    text-align: right;
-  }
-`;
-
 const DepositInfo = ({ user, data }: { user: any; data: any[] }) => {
   const intl = useIntl();
   const balance = +user.totalLiquidityUSD;
@@ -562,18 +544,6 @@ export default function DepositBorrowTopPanel() {
             )}
           </div>
         </TopPanelWrapper> */}
-
-        <section style={{ marginTop: 46 }} className="flex-row between">
-          <div className="flex-column">
-            <TableHeader className="flex-row">
-              <p style={{ fontWeight: 'bold', width: 120, textAlign: 'left' }}>Your deposits</p>
-              <p style={{ width: 100 }}>Current balance</p>
-              <p style={{ width: 85 }}>APY</p>
-              <p style={{ width: 75 }}>Collateral</p>
-            </TableHeader>
-          </div>
-          <div className="flex-column"></div>
-        </section>
 
         {loanToValue !== '0' && (
           <LTVInfoModal visible={isLTVModalVisible} setVisible={setLTVModalVisible} />
