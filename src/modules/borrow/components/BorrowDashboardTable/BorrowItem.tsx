@@ -15,6 +15,31 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { BorrowTableItem } from './types';
+import styled from 'styled-components';
+
+const ItemValueText = styled.p`
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.21;
+  letter-spacing: normal;
+  text-align: right;
+  color: #131313;
+`;
+const ItemValueSubText = styled.p`
+  opacity: 0.5;
+  font-family: Roboto;
+  font-size: 10px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: right;
+  color: #000;
+`;
 
 export default function BorrowItem({
   reserve: { symbol },
@@ -42,14 +67,24 @@ export default function BorrowItem({
   const swiperWidth = xl && !lg ? 30 : md ? 30 : 40;
   const swiperHeight = xl && !lg ? 16 : md ? 16 : 20;
 
+  const borrow = Number(currentBorrows);
+  const borrowValue = borrow < 0.001 ? '< $ 0.001' : borrow.toFixed(5);
+
   return (
     <TableItem tokenSymbol={symbol} color={uiColor} {...rest}>
-      <TableValueCol
+      <div style={{ width: 120 }} className="flex-column">
+        <ItemValueText>{borrowValue}</ItemValueText>
+        <ItemValueSubText>$ {Number(currentBorrowsUSD).toFixed(5)}</ItemValueSubText>
+      </div>
+      {/* <TableValueCol
         value={Number(currentBorrows)}
         subValue={Number(currentBorrowsUSD)}
         tooltipId={`borrow-${symbol}__${index}`}
-      />
-      <TableAprCol
+      /> */}
+      <div style={{ width: 100 }}>
+        <ItemValueText>{Number(borrowRate).toFixed(2)}%</ItemValueText>
+      </div>
+      {/* <TableAprCol
         value={Number(borrowRate)}
         thirtyDaysAverage={borrowRateMode === BorrowRateMode.Variable ? avg30DaysVariableRate : ''}
         liquidityMiningValue={
@@ -57,24 +92,39 @@ export default function BorrowItem({
         }
         symbol={symbol}
         type={borrowRateMode === BorrowRateMode.Variable ? 'borrow-variable' : 'borrow-stable'}
-      />
+      /> */}
 
-      <TableCol maxWidth={125}>
+      <div style={{ width: 85 }}>
         <CustomSwitch
           value={borrowRateMode === BorrowRateMode.Variable}
-          offLabel={intl.formatMessage(messages.offLabel)}
-          onLabel={intl.formatMessage(messages.onLabel)}
-          onColor={isCurrentThemeDark ? currentTheme.lightBlue.hex : currentTheme.darkBlue.hex}
-          offColor={isCurrentThemeDark ? currentTheme.lightBlue.hex : currentTheme.darkBlue.hex}
+          // offLabel={intl.formatMessage(messages.offLabel)}
+          // onLabel={intl.formatMessage(messages.onLabel)}
+          onColor={'#7159ff'}
+          offColor={'#7e7878'}
           onSwitch={onSwitchToggle}
           disabled={!stableBorrowRateEnabled || isFrozen || !isActive}
           swiperHeight={swiperHeight}
           swiperWidth={swiperWidth}
         />
-      </TableCol>
+      </div>
+
+      {/* <TableCol maxWidth={125}>
+        <CustomSwitch
+          value={borrowRateMode === BorrowRateMode.Variable}
+          // offLabel={intl.formatMessage(messages.offLabel)}
+          // onLabel={intl.formatMessage(messages.onLabel)}
+          onColor={'#7159ff'}
+          offColor={'#7e7878'}
+          onSwitch={onSwitchToggle}
+          disabled={!stableBorrowRateEnabled || isFrozen || !isActive}
+          swiperHeight={swiperHeight}
+          swiperWidth={swiperWidth}
+        />
+      </TableCol> */}
 
       <TableButtonsWrapper>
         <TableButtonCol
+          dashboard
           disabled={!isActive || !borrowingEnabled || isFrozen}
           title={intl.formatMessage(defaultMessages.borrow)}
           linkTo={borrowLink}
