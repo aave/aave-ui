@@ -9,6 +9,12 @@ import messages from './messages';
 import staticStyles from './style';
 import { ChainId } from '@aave/contract-helpers';
 import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
+import {
+  aurora_white,
+  aurora_black,
+  radiant_white,
+  radiant_black,
+} from '../../../ui-config/markets/images';
 
 interface MarketSelectButtonProps {
   onClick: () => void;
@@ -78,12 +84,12 @@ export default function MarketSelectButton({
       type="button"
       disabled={disabled}
     >
-      {(disabled || active) && <span className="MarketSelectButton__border" />}
+      {/* {(disabled || active) && <span className="MarketSelectButton__border" />}
 
       <div className="MarketSelectButton__inner">
         <div className="MarketSelectButton__innerLeft">
           <div className="MarketSelectButton__logo-inner">
-            <img src={logo} alt="" />
+            <img width={61} height={8} src={disabled ? radiant_white : radiant_black} alt="" />
             {!!logoText && !subLogo && <span>{logoText}</span>}
           </div>
 
@@ -113,7 +119,7 @@ export default function MarketSelectButton({
           &.MarketSelectButton__active,
           &:disabled {
             .MarketSelectButton__inner {
-              border: 2px solid ${currentTheme.darkBlue.hex} !important;
+              background: #7159ff;
             }
           }
 
@@ -157,7 +163,7 @@ export default function MarketSelectButton({
             }
           }
         }
-      `}</style>
+      `}</style> */}
     </button>
   );
 }
