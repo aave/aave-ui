@@ -80,16 +80,38 @@ const BalanceTail = styled.p`
   margin-top: 6px;
 `;
 
+const DetailsButton = styled.button`
+  border-radius: 5px;
+  border: 1px solid black;
+  padding: 15px;
+  max-width: 75px;
+  height: 35px;
+`;
+
+const TableRow = styled.div``;
+const TableHeader = styled.div`
+  padding: 15px;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: right;
+  color: #131313;
+  p {
+    text-align: right;
+  }
+`;
+
 const DepositInfo = ({ user, data }: { user: any; data: any[] }) => {
   const intl = useIntl();
   const balance = +user.totalLiquidityUSD;
   const tail = user.totalLiquidityUSD.length > 13 ? user.totalLiquidityUSD.slice(5, 12) : '';
   return (
     <>
-      <div
-        style={{ marginTop: 30, width: 'calc((100% / 2) - 15px)' }}
-        className="flex-row between w100"
-      >
+      <div style={{ width: 'calc((100% / 2) - 15px)' }} className="flex-row between w100">
         <div className="flex-column w100">
           <BlockTitle>Deposit Information</BlockTitle>
           <DataContainer className="flex-row between">
@@ -110,30 +132,69 @@ const DepositInfo = ({ user, data }: { user: any; data: any[] }) => {
   );
 };
 
-const BorrowInfo = ({ user }: { user: any }) => {
+const BorrowInfo = ({
+  user,
+  data,
+  amount,
+  percent,
+}: {
+  user: any;
+  data: any[];
+  amount?: any;
+  percent: string;
+}) => {
+  const intl = useIntl();
+  const collateral = +user.totalCollateralUSD;
+  const maxBorrowAmount = valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0').plus(
+    user?.availableBorrowsMarketReferenceCurrency || '0'
+  );
+  const loanToValue =
+    user?.totalCollateralMarketReferenceCurrency === '0'
+      ? '0'
+      : valueToBigNumber(user?.totalBorrowsMarketReferenceCurrency || '0')
+          .dividedBy(user?.totalCollateralMarketReferenceCurrency || '1')
+          .toFixed();
   return (
     <>
-      <div
-        style={{ marginTop: 30, width: 'calc((100% / 2) - 15px)' }}
-        className="flex-row between w100"
-      >
+      <div style={{ width: 'calc((100% / 2) - 15px)' }} className="flex-row between w100">
         <div className="flex-column w100">
           <BlockTitle>Borrow Information</BlockTitle>
           <DataContainer className="flex-row between">
             <div className="flex-column">
               <div className="flex-column">
                 <BoxItemLabel>You borrowed</BoxItemLabel>
-                <BoxItemValue>$ {'622.910'}</BoxItemValue>
+                <BoxItemValue>$ {Number(user.totalBorrowsUSD).toFixed(3)}</BoxItemValue>
               </div>
               <div style={{ margin: '15px 0' }} className="flex-column">
                 <BoxItemLabel>Your collateral</BoxItemLabel>
-                <BoxItemValue>$ {'622.910'}</BoxItemValue>
+                <BoxItemValue>$ {collateral.toFixed(3)}</BoxItemValue>
               </div>
               <div className="flex-column">
                 <BoxItemLabel>Current LTV</BoxItemLabel>
-                <BoxItemValue>$ {'622.910'}</BoxItemValue>
+                <BoxItemValue>{Number(loanToValue).toFixed(2)}%</BoxItemValue>
               </div>
             </div>
+            <div className="flex-column" style={{ alignSelf: 'flex-start' }}>
+              <div className="flex-column">
+                <BoxItemLabel>Health factor</BoxItemLabel>
+                <BoxItemValue>{Number(user?.healthFactor).toFixed(3) || '-1'}</BoxItemValue>
+              </div>
+              <div style={{ margin: '15px 0' }} className="flex-column">
+                <BoxItemLabel>Borrowing Power Used</BoxItemLabel>
+                <BoxItemValue>{Number(percent).toFixed(2)}%</BoxItemValue>
+              </div>
+              <DetailsButton className="flex-row centered" onClick={() => {}}>
+                Details
+              </DetailsButton>
+            </div>
+            {!!data.length && (
+              <CircleCompositionBar
+                title={intl.formatMessage(messages.borrowComposition)}
+                totalValue={Number(maxBorrowAmount || 0)}
+                data={data}
+              />
+            )}
+            {+percent !== 1 && <CircleCollateralCompositionBar />}
           </DataContainer>
         </div>
       </div>
@@ -230,11 +291,13 @@ export default function DepositBorrowTopPanel() {
   return (
     <>
       <div className="flex-row between">
-        <DepositInfo data={depositCompositionData} user={user} />
-        <BorrowInfo user={user} />
+        {user && <DepositInfo data={depositCompositionData} user={user} />}
+        {user && (
+          <BorrowInfo percent={collateralUsagePercent} data={borrowCompositionData} user={user} />
+        )}
       </div>
       <div className="DepositBorrowTopPanel">
-        <TopPanelWrapper
+        {/*  <TopPanelWrapper
           className={classNames('DepositBorrowTopPanel__topPanel', {
             DepositBorrowTopPanel__topPanelTransparent: user,
           })}
@@ -498,7 +561,19 @@ export default function DepositBorrowTopPanel() {
               </>
             )}
           </div>
-        </TopPanelWrapper>
+        </TopPanelWrapper> */}
+
+        <section style={{ marginTop: 46 }} className="flex-row between">
+          <div className="flex-column">
+            <TableHeader className="flex-row">
+              <p style={{ fontWeight: 'bold', width: 120, textAlign: 'left' }}>Your deposits</p>
+              <p style={{ width: 100 }}>Current balance</p>
+              <p style={{ width: 85 }}>APY</p>
+              <p style={{ width: 75 }}>Collateral</p>
+            </TableHeader>
+          </div>
+          <div className="flex-column"></div>
+        </section>
 
         {loanToValue !== '0' && (
           <LTVInfoModal visible={isLTVModalVisible} setVisible={setLTVModalVisible} />
