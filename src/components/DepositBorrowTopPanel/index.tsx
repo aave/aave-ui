@@ -25,6 +25,121 @@ import ApproximateBalanceHelpModal from '../HelpModal/ApproximateBalanceHelpModa
 import messages from './messages';
 import staticStyles from './style';
 import { getAssetInfo, getAssetColor } from '../../helpers/config/assets-config';
+import styled from 'styled-components';
+import { BlockTitle } from '../BlockTitle';
+
+const DataContainer = styled.div`
+  min-height: 210px;
+  margin-top: 20px;
+  padding: 30px 35px;
+  border-radius: 5px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: solid 1px rgba(255, 255, 255, 0.68);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) -6%,
+    rgba(255, 255, 255, 0.79) 59%
+  );
+  align-items: center;
+`;
+
+const BoxItemLabel = styled.h3`
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000;
+`;
+const BoxItemValue = styled.p`
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000;
+  margin-top: 5px;
+`;
+
+const BalanceTail = styled.p`
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-top: 6px;
+`;
+
+const DepositInfo = ({ user, data }: { user: any; data: any[] }) => {
+  const intl = useIntl();
+  const balance = +user.totalLiquidityUSD;
+  const tail = user.totalLiquidityUSD.length > 13 ? user.totalLiquidityUSD.slice(5, 12) : '';
+  return (
+    <>
+      <div
+        style={{ marginTop: 30, width: 'calc((100% / 2) - 15px)' }}
+        className="flex-row between w100"
+      >
+        <div className="flex-column w100">
+          <BlockTitle>Deposit Information</BlockTitle>
+          <DataContainer className="flex-row between">
+            <div className="flex-column">
+              <BoxItemLabel>Approximate balance</BoxItemLabel>
+              <BoxItemValue>$ {balance.toFixed(3)}</BoxItemValue>
+              <BalanceTail>{tail} USD</BalanceTail>
+            </div>
+            <CircleCompositionBar
+              title={intl.formatMessage(messages.depositComposition)}
+              totalValue={Number(user?.totalLiquidityMarketReferenceCurrency || 0)}
+              data={data}
+            />
+          </DataContainer>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const BorrowInfo = ({ user }: { user: any }) => {
+  return (
+    <>
+      <div
+        style={{ marginTop: 30, width: 'calc((100% / 2) - 15px)' }}
+        className="flex-row between w100"
+      >
+        <div className="flex-column w100">
+          <BlockTitle>Borrow Information</BlockTitle>
+          <DataContainer className="flex-row between">
+            <div className="flex-column">
+              <div className="flex-column">
+                <BoxItemLabel>You borrowed</BoxItemLabel>
+                <BoxItemValue>$ {'622.910'}</BoxItemValue>
+              </div>
+              <div style={{ margin: '15px 0' }} className="flex-column">
+                <BoxItemLabel>Your collateral</BoxItemLabel>
+                <BoxItemValue>$ {'622.910'}</BoxItemValue>
+              </div>
+              <div className="flex-column">
+                <BoxItemLabel>Current LTV</BoxItemLabel>
+                <BoxItemValue>$ {'622.910'}</BoxItemValue>
+              </div>
+            </div>
+          </DataContainer>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default function DepositBorrowTopPanel() {
   const intl = useIntl();
@@ -113,297 +228,303 @@ export default function DepositBorrowTopPanel() {
   });
 
   return (
-    <div className="DepositBorrowTopPanel">
-      <TopPanelWrapper
-        className={classNames('DepositBorrowTopPanel__topPanel', {
-          DepositBorrowTopPanel__topPanelTransparent: user,
-        })}
-        isCollapse={isCollapse}
-        setIsCollapse={() =>
-          toggleLocalStorageClick(isCollapse, setIsCollapse, 'borrowDepositTopPanelIsCollapse')
-        }
-        withoutCollapseButton={!user}
-      >
-        <div className="DepositBorrowTopPanel__topPanel-captionWrapper">
-          <div className="DepositBorrowTopPanel__topPanel-caption">
-            {user ? (
-              <>
-                <p
-                  className={classNames({
-                    DepositBorrowTopPanel__topPanelCaptionFull:
-                      !depositCompositionData.length && !borrowCompositionData.length,
-                  })}
-                >
-                  <i>
-                    {intl.formatMessage(
-                      !depositCompositionData.length
-                        ? messages.noDeposits
-                        : messages.depositInformation
-                    )}
-                  </i>
-                  <GradientLine height={2} />
-                </p>
-                {!!depositCompositionData.length && (
-                  <p>
-                    <i>{intl.formatMessage(messages.borrowInformation)}</i>{' '}
-                    <GradientLine height={2} />
-                  </p>
-                )}
-              </>
-            ) : (
-              <p
-                className={classNames({
-                  DepositBorrowTopPanel__topPanelCaptionFull: !user,
-                })}
-              >
-                <i>{intl.formatMessage(messages.connectWallet)}</i> <GradientLine height={2} />
-              </p>
-            )}
-          </div>
-        </div>
-
-        <div
-          className={classNames('DepositBorrowTopPanel__topPanel-info', {
-            DepositBorrowTopPanel__topPanelInfoCollapse: isCollapse,
-            DepositBorrowTopPanel__topPanelNoUser: !user,
+    <>
+      <div className="flex-row between">
+        <DepositInfo data={depositCompositionData} user={user} />
+        <BorrowInfo user={user} />
+      </div>
+      <div className="DepositBorrowTopPanel">
+        <TopPanelWrapper
+          className={classNames('DepositBorrowTopPanel__topPanel', {
+            DepositBorrowTopPanel__topPanelTransparent: user,
           })}
+          isCollapse={isCollapse}
+          setIsCollapse={() =>
+            toggleLocalStorageClick(isCollapse, setIsCollapse, 'borrowDepositTopPanelIsCollapse')
+          }
+          withoutCollapseButton={!user}
         >
-          {user && (
-            <>
-              <div
-                className={classNames('DepositBorrowTopPanel__topPanel-inner', {
-                  DepositBorrowTopPanel__topPanelInnerFull: !depositCompositionData.length,
-                })}
-              >
-                <div className="DepositBorrowTopPanel__topPanel-values">
-                  <Row
-                    title={
-                      <ApproximateBalanceHelpModal
-                        text={intl.formatMessage(messages.approximateBalance)}
-                        color="white"
-                        lightWeight={true}
-                      />
-                    }
-                    color="white"
-                    weight="light"
-                    isColumn={true}
-                  >
-                    {user && user.totalLiquidityUSD !== '0' ? (
-                      <Value
-                        value={user.totalLiquidityUSD}
-                        symbol="USD"
-                        tokenIcon={true}
-                        withSmallDecimals={true}
-                        color="white"
-                      />
-                    ) : (
-                      <NoData />
-                    )}
-                  </Row>
-                </div>
-
-                {!isCollapse && !!depositCompositionData.length && (
-                  <div className="DepositBorrowTopPanel__topPanel-bars">
-                    <CircleCompositionBar
-                      title={intl.formatMessage(messages.depositComposition)}
-                      totalValue={Number(user?.totalLiquidityMarketReferenceCurrency || 0)}
-                      data={depositCompositionData}
-                    />
-                  </div>
-                )}
-              </div>
-
-              {!!depositCompositionData.length && (
-                <div className="DepositBorrowTopPanel__topPanel-inner">
-                  <div
-                    className={classNames('DepositBorrowTopPanel__topPanel-values', {
-                      DepositBorrowTopPanel__topPanelValuesCollapse: isCollapse,
+          <div className="DepositBorrowTopPanel__topPanel-captionWrapper">
+            <div className="DepositBorrowTopPanel__topPanel-caption">
+              {user ? (
+                <>
+                  <p
+                    className={classNames({
+                      DepositBorrowTopPanel__topPanelCaptionFull:
+                        !depositCompositionData.length && !borrowCompositionData.length,
                     })}
                   >
-                    <div
-                      className={classNames('DepositBorrowTopPanel__topPanel-valuesInner', {
-                        DepositBorrowTopPanel__topPanelValuesInnerCollapse: isCollapse,
-                      })}
-                    >
-                      <Row
-                        title={intl.formatMessage(messages.youBorrowed)}
-                        color="white"
-                        weight="light"
-                        isColumn={true}
-                      >
-                        {user && user.totalBorrowsUSD !== '0' ? (
-                          <Value
-                            value={user.totalBorrowsUSD}
-                            symbol="USD"
-                            tokenIcon={true}
-                            minimumValueDecimals={2}
-                            maximumValueDecimals={2}
-                            color="white"
-                          />
-                        ) : (
-                          <NoData />
-                        )}
-                      </Row>
-
-                      {isCollapse && (
-                        <Row
-                          title={intl.formatMessage(messages.yourCollateral)}
-                          color="white"
-                          weight="light"
-                          isColumn={true}
-                        >
-                          {user && user.totalCollateralUSD !== '0' ? (
-                            <Value
-                              value={user.totalCollateralUSD}
-                              symbol="USD"
-                              tokenIcon={true}
-                              minimumValueDecimals={2}
-                              maximumValueDecimals={2}
-                              color="white"
-                            />
-                          ) : (
-                            <NoData />
-                          )}
-                        </Row>
+                    <i>
+                      {intl.formatMessage(
+                        !depositCompositionData.length
+                          ? messages.noDeposits
+                          : messages.depositInformation
                       )}
+                    </i>
+                    <GradientLine height={2} />
+                  </p>
+                  {!!depositCompositionData.length && (
+                    <p>
+                      <i>{intl.formatMessage(messages.borrowInformation)}</i>{' '}
+                      <GradientLine height={2} />
+                    </p>
+                  )}
+                </>
+              ) : (
+                <p
+                  className={classNames({
+                    DepositBorrowTopPanel__topPanelCaptionFull: !user,
+                  })}
+                >
+                  <i>{intl.formatMessage(messages.connectWallet)}</i> <GradientLine height={2} />
+                </p>
+              )}
+            </div>
+          </div>
 
-                      <HealthFactor
-                        value={user?.healthFactor || '-1'}
-                        isColumn={true}
-                        titleColor="white"
-                        titleLightWeight={true}
-                        withHALLink={true}
-                      />
-                    </div>
-
-                    <div
-                      className={classNames('DepositBorrowTopPanel__topPanel-valuesInner', {
-                        DepositBorrowTopPanel__topPanelValuesInnerCollapse: isCollapse,
-                      })}
-                    >
-                      {!isCollapse && (
-                        <Row
-                          title={intl.formatMessage(messages.yourCollateral)}
+          <div
+            className={classNames('DepositBorrowTopPanel__topPanel-info', {
+              DepositBorrowTopPanel__topPanelInfoCollapse: isCollapse,
+              DepositBorrowTopPanel__topPanelNoUser: !user,
+            })}
+          >
+            {user && (
+              <>
+                <div
+                  className={classNames('DepositBorrowTopPanel__topPanel-inner', {
+                    DepositBorrowTopPanel__topPanelInnerFull: !depositCompositionData.length,
+                  })}
+                >
+                  <div className="DepositBorrowTopPanel__topPanel-values">
+                    <Row
+                      title={
+                        <ApproximateBalanceHelpModal
+                          text={intl.formatMessage(messages.approximateBalance)}
                           color="white"
-                          weight="light"
-                          isColumn={true}
-                        >
-                          {user && user.totalCollateralUSD !== '0' ? (
-                            <Value
-                              value={user.totalCollateralUSD}
-                              symbol="USD"
-                              tokenIcon={true}
-                              minimumValueDecimals={2}
-                              maximumValueDecimals={2}
-                              color="white"
-                            />
-                          ) : (
-                            <NoData />
-                          )}
-                        </Row>
-                      )}
-
-                      {!isCollapse && (
-                        <Row
-                          title={intl.formatMessage(messages.borrowingPowerUsed)}
-                          color="white"
-                          weight="light"
-                          isColumn={true}
-                        >
-                          {user && collateralUsagePercent !== '0' ? (
-                            <ValuePercent value={collateralUsagePercent} color="white" />
-                          ) : (
-                            <NoData />
-                          )}
-                        </Row>
-                      )}
-                    </div>
-
-                    <div
-                      className={classNames('DepositBorrowTopPanel__topPanel-valuesInner', {
-                        DepositBorrowTopPanel__topPanelValuesInnerCollapse: isCollapse,
-                      })}
-                    >
-                      {!isCollapse && (
-                        <Row
-                          title={
-                            <MaxLTVHelpModal
-                              text={intl.formatMessage(messages.currentLTV)}
-                              color="white"
-                              lightWeight={true}
-                            />
-                          }
-                          color="white"
-                          weight="light"
-                          isColumn={true}
-                        >
-                          {user && loanToValue !== '0' ? (
-                            <ValuePercent value={loanToValue} color="white" />
-                          ) : (
-                            <NoData />
-                          )}
-                        </Row>
-                      )}
-
-                      {loanToValue !== '0' && (
-                        <DefaultButton
-                          title={intl.formatMessage(messages.details)}
-                          color="white"
-                          transparent={true}
-                          className={classNames('DepositBorrowTopPanel__button', {
-                            DepositBorrowTopPanel__buttonCollapse: isCollapse,
-                          })}
-                          size="small"
-                          onClick={() => setLTVModalVisible(true)}
+                          lightWeight={true}
                         />
+                      }
+                      color="white"
+                      weight="light"
+                      isColumn={true}
+                    >
+                      {user && user.totalLiquidityUSD !== '0' ? (
+                        <Value
+                          value={user.totalLiquidityUSD}
+                          symbol="USD"
+                          tokenIcon={true}
+                          withSmallDecimals={true}
+                          color="white"
+                        />
+                      ) : (
+                        <NoData />
                       )}
-                    </div>
+                    </Row>
                   </div>
 
-                  {!isCollapse && (
+                  {!isCollapse && !!depositCompositionData.length && (
                     <div className="DepositBorrowTopPanel__topPanel-bars">
-                      {!!borrowCompositionData.length && (
-                        <CircleCompositionBar
-                          title={intl.formatMessage(messages.borrowComposition)}
-                          totalValue={Number(maxBorrowAmount || 0)}
-                          data={borrowCompositionData}
-                        />
-                      )}
-
-                      {+collateralUsagePercent !== 1 && <CircleCollateralCompositionBar />}
+                      <CircleCompositionBar
+                        title={intl.formatMessage(messages.depositComposition)}
+                        totalValue={Number(user?.totalLiquidityMarketReferenceCurrency || 0)}
+                        data={depositCompositionData}
+                      />
                     </div>
                   )}
                 </div>
-              )}
-            </>
-          )}
-        </div>
-      </TopPanelWrapper>
 
-      {loanToValue !== '0' && (
-        <LTVInfoModal visible={isLTVModalVisible} setVisible={setLTVModalVisible} />
-      )}
+                {!!depositCompositionData.length && (
+                  <div className="DepositBorrowTopPanel__topPanel-inner">
+                    <div
+                      className={classNames('DepositBorrowTopPanel__topPanel-values', {
+                        DepositBorrowTopPanel__topPanelValuesCollapse: isCollapse,
+                      })}
+                    >
+                      <div
+                        className={classNames('DepositBorrowTopPanel__topPanel-valuesInner', {
+                          DepositBorrowTopPanel__topPanelValuesInnerCollapse: isCollapse,
+                        })}
+                      >
+                        <Row
+                          title={intl.formatMessage(messages.youBorrowed)}
+                          color="white"
+                          weight="light"
+                          isColumn={true}
+                        >
+                          {user && user.totalBorrowsUSD !== '0' ? (
+                            <Value
+                              value={user.totalBorrowsUSD}
+                              symbol="USD"
+                              tokenIcon={true}
+                              minimumValueDecimals={2}
+                              maximumValueDecimals={2}
+                              color="white"
+                            />
+                          ) : (
+                            <NoData />
+                          )}
+                        </Row>
 
-      <style jsx={true} global={true}>
-        {staticStyles}
-      </style>
-      <style jsx={true} global={true}>{`
-        .DepositBorrowTopPanel {
-          &__topPanel-caption {
-            p {
+                        {isCollapse && (
+                          <Row
+                            title={intl.formatMessage(messages.yourCollateral)}
+                            color="white"
+                            weight="light"
+                            isColumn={true}
+                          >
+                            {user && user.totalCollateralUSD !== '0' ? (
+                              <Value
+                                value={user.totalCollateralUSD}
+                                symbol="USD"
+                                tokenIcon={true}
+                                minimumValueDecimals={2}
+                                maximumValueDecimals={2}
+                                color="white"
+                              />
+                            ) : (
+                              <NoData />
+                            )}
+                          </Row>
+                        )}
+
+                        <HealthFactor
+                          value={user?.healthFactor || '-1'}
+                          isColumn={true}
+                          titleColor="white"
+                          titleLightWeight={true}
+                          withHALLink={true}
+                        />
+                      </div>
+
+                      <div
+                        className={classNames('DepositBorrowTopPanel__topPanel-valuesInner', {
+                          DepositBorrowTopPanel__topPanelValuesInnerCollapse: isCollapse,
+                        })}
+                      >
+                        {!isCollapse && (
+                          <Row
+                            title={intl.formatMessage(messages.yourCollateral)}
+                            color="white"
+                            weight="light"
+                            isColumn={true}
+                          >
+                            {user && user.totalCollateralUSD !== '0' ? (
+                              <Value
+                                value={user.totalCollateralUSD}
+                                symbol="USD"
+                                tokenIcon={true}
+                                minimumValueDecimals={2}
+                                maximumValueDecimals={2}
+                                color="white"
+                              />
+                            ) : (
+                              <NoData />
+                            )}
+                          </Row>
+                        )}
+
+                        {!isCollapse && (
+                          <Row
+                            title={intl.formatMessage(messages.borrowingPowerUsed)}
+                            color="white"
+                            weight="light"
+                            isColumn={true}
+                          >
+                            {user && collateralUsagePercent !== '0' ? (
+                              <ValuePercent value={collateralUsagePercent} color="white" />
+                            ) : (
+                              <NoData />
+                            )}
+                          </Row>
+                        )}
+                      </div>
+
+                      <div
+                        className={classNames('DepositBorrowTopPanel__topPanel-valuesInner', {
+                          DepositBorrowTopPanel__topPanelValuesInnerCollapse: isCollapse,
+                        })}
+                      >
+                        {!isCollapse && (
+                          <Row
+                            title={
+                              <MaxLTVHelpModal
+                                text={intl.formatMessage(messages.currentLTV)}
+                                color="white"
+                                lightWeight={true}
+                              />
+                            }
+                            color="white"
+                            weight="light"
+                            isColumn={true}
+                          >
+                            {user && loanToValue !== '0' ? (
+                              <ValuePercent value={loanToValue} color="white" />
+                            ) : (
+                              <NoData />
+                            )}
+                          </Row>
+                        )}
+
+                        {loanToValue !== '0' && (
+                          <DefaultButton
+                            title={intl.formatMessage(messages.details)}
+                            color="white"
+                            transparent={true}
+                            className={classNames('DepositBorrowTopPanel__button', {
+                              DepositBorrowTopPanel__buttonCollapse: isCollapse,
+                            })}
+                            size="small"
+                            onClick={() => setLTVModalVisible(true)}
+                          />
+                        )}
+                      </div>
+                    </div>
+
+                    {!isCollapse && (
+                      <div className="DepositBorrowTopPanel__topPanel-bars">
+                        {!!borrowCompositionData.length && (
+                          <CircleCompositionBar
+                            title={intl.formatMessage(messages.borrowComposition)}
+                            totalValue={Number(maxBorrowAmount || 0)}
+                            data={borrowCompositionData}
+                          />
+                        )}
+
+                        {+collateralUsagePercent !== 1 && <CircleCollateralCompositionBar />}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </TopPanelWrapper>
+
+        {loanToValue !== '0' && (
+          <LTVInfoModal visible={isLTVModalVisible} setVisible={setLTVModalVisible} />
+        )}
+
+        <style jsx={true} global={true}>
+          {staticStyles}
+        </style>
+        <style jsx={true} global={true}>{`
+          .DepositBorrowTopPanel {
+            &__topPanel-caption {
+              p {
+                background: ${currentTheme.darkBlue.hex};
+              }
+            }
+
+            &__topPanel-inner {
               background: ${currentTheme.darkBlue.hex};
             }
-          }
 
-          &__topPanel-inner {
-            background: ${currentTheme.darkBlue.hex};
+            &__topPanel-captionWrapper {
+              color: ${currentTheme.white.hex};
+            }
           }
-
-          &__topPanel-captionWrapper {
-            color: ${currentTheme.white.hex};
-          }
-        }
-      `}</style>
-    </div>
+        `}</style>
+      </div>
+    </>
   );
 }
