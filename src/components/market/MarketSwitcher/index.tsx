@@ -48,7 +48,7 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
     setCurrentMarket(market);
     setVisible(false);
   };
-  const data = availableMarkets.slice(6); // TODO: dirty hack!
+  const data = availableMarkets.slice(0); // TODO: dirty hack!
   const transparentDarkColor = rgba(`${currentTheme.darkBlue.rgb}, 0.05`);
   const selectedMarketTestnetMark = networkConfig.isFork
     ? 'F'
