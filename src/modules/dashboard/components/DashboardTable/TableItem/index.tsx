@@ -20,12 +20,18 @@ export default function TableItem({ tokenSymbol, color, children, ...rest }: Tab
 
   return (
     <div
+      style={{
+        padding: '15px 15px 12px',
+        borderRadius: 5,
+        boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.06)',
+        backgroundColor: '#fff',
+      }}
       className={classNames('TableItem', {
         TableItem__withInfo: tokenSymbol === 'AMPL',
       })}
       {...rest}
     >
-      <span className="TableItem__assetColor" style={{ backgroundColor: color }} />
+      {/* <span className="TableItem__assetColor" style={{ backgroundColor: color }} /> */}
 
       <TableCol className="TableItem__inner" maxWidth={lg ? 250 : 160}>
         <TokenIcon
