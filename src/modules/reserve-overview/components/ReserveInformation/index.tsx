@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { valueToBigNumber } from '@aave/protocol-js';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
-import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
+//import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import MaxLTVHelpModal from '../../../../components/HelpModal/MaxLTVHelpModal';
 import Value from '../../../../components/basic/Value';
 import LiquidationThresholdHelpModal from '../../../../components/HelpModal/LiquidationThresholdHelpModal';
@@ -23,12 +23,76 @@ import staticStyles from './style';
 import linkIcon from '../../../../images/blueLinkIcon.svg';
 import { getLPTokenPoolLink } from '../../../../helpers/lp-tokens';
 import { ComputedReserveData } from '../../../../libs/pool-data-provider';
+import styled from 'styled-components';
+import { ConvertToLocaleString } from '../../../../helpers/convertvalues';
 
 interface ReserveInformationProps {
   symbol: string;
   poolReserve: ComputedReserveData;
   marketRefPriceInUsd: string;
 }
+const ContentWrapper = styled.div`
+  padding: 30px 35px;
+  border-radius: 5px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: solid 1px rgba(255, 255, 255, 0.68);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) -6%,
+    rgba(255, 255, 255, 0.79) 59%
+  );
+`;
+
+const TotalValueText = styled.p`
+  font-family: Montserrat;
+  font-size: 28px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000;
+  margin-top: 20px;
+`;
+
+const TotalSubValueText = styled.p`
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #7f7f7f;
+  margin-top: 17px;
+`;
+
+const IndicatedTitle = ({ text, indicatorColor }: { text: string; indicatorColor: string }) => {
+  const Indicator = styled.div<{ bg: string }>`
+    width: 12px;
+    height: 12px;
+    margin-right: 10px;
+    border-radius: 2px;
+    background-color: ${(props) => props.bg};
+  `;
+  const Text = styled.p`
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+  `;
+  return (
+    <div className="flex-row centered-align">
+      <Indicator bg={indicatorColor} />
+      <Text>{text}</Text>
+    </div>
+  );
+};
 
 export default function ReserveInformation({
   symbol,
@@ -85,13 +149,15 @@ export default function ReserveInformation({
     underlyingAsset: poolReserve.underlyingAsset,
   });
 
+  const totalValueStr = ConvertToLocaleString(reserveOverviewData.totalBorrows, 2);
+  const totalBorrowStr = ConvertToLocaleString(reserveOverviewData.availableLiquidity, 2);
   return (
     <div className="ReserveInformation">
       <div className="ReserveInformation__inner">
         <h3 className="ReserveInformation__title-custom">{intl.formatMessage(messages.caption)}</h3>
 
-        <ContentWrapper className="ReserveInformation__content">
-          {poolLink && (
+        <ContentWrapper>
+          {/* {poolLink && (
             <div className="ReserveInformation__poolLink-inner">
               <p>
                 {intl.formatMessage(messages.provideLiquidity, {
@@ -109,7 +175,7 @@ export default function ReserveInformation({
               </p>
               <img src={linkIcon} alt="" />
             </div>
-          )}
+          )} */}
 
           <div className="ReserveInformation__top-info">
             <div className="ReserveInformation__line">
@@ -127,24 +193,44 @@ export default function ReserveInformation({
             </div>
           </div>
 
-          <div className="ReserveInformation__graph-inner">
-            <TotalValue
+          <div className="flex-row between">
+            <div className="flex-column columnBox">
+              <IndicatedTitle
+                indicatorColor="#7159ff"
+                text={intl.formatMessage(messages.totalBorrowed)}
+              />
+              <TotalValueText>{totalValueStr}</TotalValueText>
+              <TotalSubValueText>
+                ${Number(reserveOverviewData.totalBorrowsInUsd).toFixed(2)}
+              </TotalSubValueText>
+            </div>
+            {/* <TotalValue
               color="red"
               title={intl.formatMessage(messages.totalBorrowed)}
               value={reserveOverviewData.totalBorrows}
               subValue={reserveOverviewData.totalBorrowsInUsd}
               borrowingEnabled={reserveOverviewData.borrowingEnabled}
-            />
-            <ReserveStatusGraph
-              symbol={symbol}
-              totalBorrows={reserveOverviewData.totalBorrows}
-              availableLiquidity={reserveOverviewData.availableLiquidity}
-            />
-            <TotalValue
+            /> */}
+            <div className="flex-column columnBox">
+              <IndicatedTitle
+                indicatorColor="#7159ff"
+                text={intl.formatMessage(messages.availableLiquidity)}
+              />
+              <TotalValueText>{totalBorrowStr}</TotalValueText>
+              <TotalSubValueText>
+                ${Number(reserveOverviewData.availableLiquidityInUsd).toFixed(2)}
+              </TotalSubValueText>
+            </div>
+            {/* <TotalValue
               title={intl.formatMessage(messages.availableLiquidity)}
               value={reserveOverviewData.availableLiquidity}
               subValue={reserveOverviewData.availableLiquidityInUsd}
               borrowingEnabled={reserveOverviewData.borrowingEnabled}
+            /> */}
+            <ReserveStatusGraph
+              symbol={symbol}
+              totalBorrows={reserveOverviewData.totalBorrows}
+              availableLiquidity={reserveOverviewData.availableLiquidity}
             />
           </div>
 
@@ -271,6 +357,9 @@ export default function ReserveInformation({
         {staticStyles}
       </style>
       <style jsx={true}>{`
+        .columnBox {
+          width: 30%;
+        }
         .ReserveInformation__title-custom {
           font-family: Montserrat;
           font-size: 18px;
