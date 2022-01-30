@@ -121,6 +121,27 @@ const APYItemValue = styled.p`
   text-align: right;
   color: #000;
 `;
+const PercentBoxTitle = styled.h3`
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #131313;
+`;
+const PercentBoxValue = styled.p`
+  font-family: Montserrat;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #131313;
+  margin-top: 20px;
+`;
 
 const IndicatedTitle = ({ text, indicatorColor }: { text: string; indicatorColor: string }) => {
   const Indicator = styled.div<{ bg: string }>`
@@ -450,7 +471,56 @@ export default function ReserveInformation({
             </APYCard>
           </div> */}
 
-          <div className="ReserveInformation__bottom-info">
+          <div
+            style={{
+              borderTop: '2px solid #e2e2e2',
+              marginTop: 20,
+              padding: '20px 0',
+            }}
+            className="flex-row between w100"
+          >
+            <div className="flex-column percentBox">
+              <PercentBoxTitle>{intl.formatMessage(messages.maximumLTV)}</PercentBoxTitle>
+              <PercentBoxValue>
+                {Number(reserveOverviewData.baseLTVasCollateral * 100).toFixed(2)}%
+              </PercentBoxValue>
+            </div>
+            <div className="flex-column percentBox">
+              <PercentBoxTitle>{intl.formatMessage(messages.liquidationThreshold)}</PercentBoxTitle>
+              <PercentBoxValue>
+                {Number(
+                  (reserveOverviewData.liquidationBonus <= 0
+                    ? 0
+                    : reserveOverviewData.liquidationThreshold) * 100
+                ).toFixed(2)}
+                %
+              </PercentBoxValue>
+            </div>
+            <div className="flex-column percentBox">
+              <PercentBoxTitle>{intl.formatMessage(messages.liquidationPenalty)}</PercentBoxTitle>
+              <PercentBoxValue>
+                {Number(reserveOverviewData.liquidationBonus * 100).toFixed(2)}%
+              </PercentBoxValue>
+            </div>
+            <div className="flex-column percentBox">
+              <PercentBoxTitle>{intl.formatMessage(messages.usedAsCollateral)}</PercentBoxTitle>
+              <PercentBoxValue>
+                {intl.formatMessage(
+                  reserveOverviewData.usageAsCollateralEnabled ? messages.yes : messages.no
+                )}
+              </PercentBoxValue>
+            </div>
+            <div className="flex-column percentBox">
+              <PercentBoxTitle>{intl.formatMessage(messages.stableBorrowing)}</PercentBoxTitle>
+              <PercentBoxValue>
+                {intl.formatMessage(
+                  reserveOverviewData.stableBorrowRateEnabled ? messages.yes : messages.no
+                )}
+              </PercentBoxValue>
+            </div>
+          </div>
+
+          {/* <div className="ReserveInformation__bottom-info">
             <PercentBlock
               value={reserveOverviewData.baseLTVasCollateral}
               titleComponent={<MaxLTVHelpModal text={intl.formatMessage(messages.maximumLTV)} />}
@@ -481,7 +551,7 @@ export default function ReserveInformation({
               condition={reserveOverviewData.stableBorrowRateEnabled}
               title={intl.formatMessage(messages.stableBorrowing)}
             />
-          </div>
+          </div> */}
         </ContentWrapper>
       </div>
 
@@ -489,6 +559,10 @@ export default function ReserveInformation({
         {staticStyles}
       </style>
       <style jsx={true}>{`
+        .percentBox {
+          max-width: 100px;
+          justify-content: space-between;
+        }
         .columnBox {
           width: 30%;
           padding-right: 20px;
