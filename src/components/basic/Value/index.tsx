@@ -10,6 +10,7 @@ import ValueWithSmallDecimals from './ValueWithSmallDecimals';
 import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import staticStyles from './style';
+import styled from 'styled-components';
 
 interface ValueProps {
   tokenIcon?: boolean;
@@ -32,6 +33,17 @@ interface ValueProps {
   isSmallValueCenterEllipsis?: boolean;
   onWhiteBackground?: boolean;
 }
+
+const SymbolText = styled.span`
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #7f7f7f;
+`;
 
 export default function Value({
   tokenIcon,
@@ -120,7 +132,7 @@ export default function Value({
           )}
 
           {symbol && !withoutSymbol && !!asset && (
-            <span className="Value__symbol">{asset.formattedName || asset.symbol}</span>
+            <SymbolText className="Value__symbol">{asset.formattedName || asset.symbol}</SymbolText>
           )}
         </p>
       </div>
