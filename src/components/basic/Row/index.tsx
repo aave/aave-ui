@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import staticStyles from './style';
+import styled from 'styled-components';
 
 export interface RowProps {
   children?: ReactNode;
@@ -16,6 +17,17 @@ export interface RowProps {
   weight?: 'normal' | 'light';
   onWhiteBackground?: boolean;
 }
+
+const RowTitle = styled.p`
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #131313;
+`;
 
 export default function Row({
   children,
@@ -39,7 +51,7 @@ export default function Row({
     >
       {title && (
         <div className="Row__title-inner">
-          <div className="Row__title">{title}</div>
+          <RowTitle>{title}</RowTitle>
           {subTitle && <span className="Row__subtitle">{subTitle}</span>}
         </div>
       )}
