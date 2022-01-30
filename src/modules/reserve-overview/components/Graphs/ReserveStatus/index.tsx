@@ -45,12 +45,12 @@ export default function ReserveStatusGraph({
                 {
                   value: +availableLiquidity,
                   label: intl.formatMessage(messages.availableLiquidity),
-                  color: currentTheme.green.hex,
+                  color: '#7159ff',
                 },
                 {
                   value: +totalBorrows,
                   label: intl.formatMessage(messages.totalBorrowed),
-                  color: currentTheme.red.hex,
+                  color: '#aceed9',
                 },
               ]}
             />

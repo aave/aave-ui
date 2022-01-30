@@ -28,7 +28,6 @@ import linkIcon from '../../../../images/blueLinkIcon.svg';
 import arrowLeft from '../../../../images/arrowLeft.svg';
 import { getAssetInfo } from '../../../../helpers/config/assets-config';
 import { useReserveRatesHistory } from '../../../../libs/pool-data-provider/hooks/use-reserve-rates-history';
-import { PageTitle } from '../../../../components/PageTitle';
 
 function Charts({ poolReserve }: { poolReserve: ValidationWrapperComponentProps['poolReserve'] }) {
   const { data, loading } = useReserveRatesHistory(poolReserve.id);
