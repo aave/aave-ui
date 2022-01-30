@@ -89,6 +89,38 @@ const MiddleInfoValue = styled.p`
   color: #000;
   margin-top: 12px;
 `;
+const APYBlockTitle = styled.h3`
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000;
+  margin-bottom: 12px;
+`;
+const APYItemTitle = styled.p`
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000;
+`;
+const APYItemValue = styled.p`
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: right;
+  color: #000;
+`;
 
 const IndicatedTitle = ({ text, indicatorColor }: { text: string; indicatorColor: string }) => {
   const Indicator = styled.div<{ bg: string }>`
@@ -296,7 +328,69 @@ export default function ReserveInformation({
             </div>
           </div> */}
 
-          <div className="ReserveInformation__APY-info">
+          <div style={{ marginTop: 35 }} className="flex-row between w100">
+            <div className="flex-column columnBox border">
+              <APYBlockTitle>{intl.formatMessage(defaultMessages.deposit)}</APYBlockTitle>
+              <div style={{ marginBottom: 10 }} className="flex-row between">
+                <APYItemTitle>{intl.formatMessage(messages.depositAPY)}</APYItemTitle>
+                <APYItemValue>
+                  {Number(reserveOverviewData.supplyAPY * 100).toFixed(2)} %
+                </APYItemValue>
+              </div>
+              <div style={{ marginBottom: 10 }} className="flex-row between">
+                <APYItemTitle>{intl.formatMessage(messages.depositAPR)}</APYItemTitle>
+                <APYItemValue>
+                  {Number(reserveOverviewData.supplyAPR * 100).toFixed(2)} %
+                </APYItemValue>
+              </div>
+            </div>
+
+            <div className="flex-column columnBox border">
+              <APYBlockTitle>{intl.formatMessage(messages.stableBorrowing)}</APYBlockTitle>
+              <div style={{ marginBottom: 10 }} className="flex-row between">
+                <APYItemTitle>{intl.formatMessage(messages.borrowAPY)}</APYItemTitle>
+                <APYItemValue>
+                  {Number(reserveOverviewData.stableAPY * 100).toFixed(2)} %
+                </APYItemValue>
+              </div>
+              <div style={{ marginBottom: 10 }} className="flex-row between">
+                <APYItemTitle>{intl.formatMessage(messages.borrowAPR)}</APYItemTitle>
+                <APYItemValue>
+                  {Number(reserveOverviewData.stableAPR * 100).toFixed(2)} %
+                </APYItemValue>
+              </div>
+              <div style={{ marginBottom: 10 }} className="flex-row between">
+                <APYItemTitle>{intl.formatMessage(messages.overTotal)}</APYItemTitle>
+                <APYItemValue>
+                  {Number(reserveOverviewData.stableOverTotal * 100).toFixed(2)} %
+                </APYItemValue>
+              </div>
+            </div>
+
+            <div className="flex-column columnBox">
+              <APYBlockTitle>{intl.formatMessage(messages.borrowAPR)}</APYBlockTitle>
+              <div style={{ marginBottom: 10 }} className="flex-row between">
+                <APYItemTitle>{intl.formatMessage(messages.borrowAPY)}</APYItemTitle>
+                <APYItemValue>
+                  {Number(reserveOverviewData.variableAPY * 100).toFixed(2)} %
+                </APYItemValue>
+              </div>
+              <div style={{ marginBottom: 10 }} className="flex-row between">
+                <APYItemTitle>{intl.formatMessage(messages.borrowAPR)}</APYItemTitle>
+                <APYItemValue>
+                  {Number(reserveOverviewData.variableAPR * 100).toFixed(2)} %
+                </APYItemValue>
+              </div>
+              <div style={{ marginBottom: 10 }} className="flex-row between">
+                <APYItemTitle>{intl.formatMessage(messages.overTotal)}</APYItemTitle>
+                <APYItemValue>
+                  {Number(reserveOverviewData.variableOverTotal * 100).toFixed(2)} %
+                </APYItemValue>
+              </div>
+            </div>
+          </div>
+
+          {/* <div className="ReserveInformation__APY-info">
             <APYCard title={intl.formatMessage(defaultMessages.deposit)}>
               <APYLine
                 title={intl.formatMessage(messages.depositAPY)}
@@ -354,7 +448,7 @@ export default function ReserveInformation({
                 condition={reserveOverviewData.borrowingEnabled}
               />
             </APYCard>
-          </div>
+          </div> */}
 
           <div className="ReserveInformation__bottom-info">
             <PercentBlock
@@ -397,6 +491,10 @@ export default function ReserveInformation({
       <style jsx={true}>{`
         .columnBox {
           width: 30%;
+          padding-right: 20px;
+        }
+        .border {
+          border-right: 2px solid #e2e2e2;
         }
         .ReserveInformation__title-custom {
           font-family: Montserrat;
