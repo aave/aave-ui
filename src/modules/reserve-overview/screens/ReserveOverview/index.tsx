@@ -19,6 +19,7 @@ import BorrowAPR from '../../components/Graphs/BorrowAPR';
 import DepositAPY from '../../components/Graphs/DepositAPY';
 import UtilisationRate from '../../components/Graphs/UtilisationRate';
 import Link from '../../../../components/basic/Link';
+import { TokenIcon } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
 import staticStyles from './style';
@@ -27,6 +28,7 @@ import linkIcon from '../../../../images/blueLinkIcon.svg';
 import arrowLeft from '../../../../images/arrowLeft.svg';
 import { getAssetInfo } from '../../../../helpers/config/assets-config';
 import { useReserveRatesHistory } from '../../../../libs/pool-data-provider/hooks/use-reserve-rates-history';
+import { PageTitle } from '../../../../components/PageTitle';
 
 function Charts({ poolReserve }: { poolReserve: ValidationWrapperComponentProps['poolReserve'] }) {
   const { data, loading } = useReserveRatesHistory(poolReserve.id);
@@ -103,8 +105,17 @@ function ReserveOverview({
         <p className="back" onClick={history.goBack}>
           Back
         </p>
+        <div style={{ margin: '10px auto 40px 0' }} className="flex-row">
+          <TokenIcon
+            className="TokenIconWithFullNameCustom"
+            tokenFullName={asset.shortSymbol || asset.name}
+            tokenSymbol={currencySymbol}
+            height={29}
+            width={29}
+          />
+        </div>
 
-        {sm && poolLink && (
+        {/* {sm && poolLink && (
           <div className="ReserveOverview__poolLink-inner">
             <p>
               {intl.formatMessage(messages.provideLiquidity, {
@@ -122,7 +133,7 @@ function ReserveOverview({
             </p>
             <img src={linkIcon} alt="" />
           </div>
-        )}
+        )} */}
 
         {/* {poolReserve.borrowingEnabled && isReserveHistoryGraphsVisible && (
           <Charts poolReserve={poolReserve} />
@@ -170,6 +181,18 @@ function ReserveOverview({
         {staticStyles}
       </style>
       <style jsx={true} global={true}>{`
+        .TokenIconWithFullNameCustom {
+          p {
+            font-family: Montserrat;
+            font-size: 24px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #131313;
+          }
+        }
         .ReserveOverview__information-title-custom {
           font-family: Montserrat;
           font-size: 18px;
