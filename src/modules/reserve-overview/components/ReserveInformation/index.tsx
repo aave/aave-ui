@@ -68,6 +68,28 @@ const TotalSubValueText = styled.p`
   margin-top: 17px;
 `;
 
+const MiddleInfoTitle = styled.p`
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000;
+`;
+const MiddleInfoValue = styled.p`
+  font-family: Montserrat;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000;
+  margin-top: 12px;
+`;
+
 const IndicatedTitle = ({ text, indicatorColor }: { text: string; indicatorColor: string }) => {
   const Indicator = styled.div<{ bg: string }>`
     width: 12px;
@@ -151,6 +173,10 @@ export default function ReserveInformation({
 
   const totalValueStr = ConvertToLocaleString(reserveOverviewData.totalBorrows, 2);
   const totalBorrowStr = ConvertToLocaleString(reserveOverviewData.availableLiquidity, 2);
+  const utilValue = reserveOverviewData.borrowingEnabled
+    ? Number(reserveOverviewData.utilizationRate).toFixed(2)
+    : 0;
+
   return (
     <div className="ReserveInformation">
       <div className="ReserveInformation__inner">
@@ -233,8 +259,20 @@ export default function ReserveInformation({
               availableLiquidity={reserveOverviewData.availableLiquidity}
             />
           </div>
+          <div className="flex-row w100">
+            <div className="flex-column columnBox">
+              <MiddleInfoTitle>{intl.formatMessage(messages.reserveSize)}</MiddleInfoTitle>
+              <MiddleInfoValue>
+                ${ConvertToLocaleString(reserveOverviewData.totalLiquidityInUsd, 2)}
+              </MiddleInfoValue>
+            </div>
+            <div className="flex-column columnBox">
+              <MiddleInfoTitle>{intl.formatMessage(messages.utilisationRate)}</MiddleInfoTitle>
+              <MiddleInfoValue>{utilValue}%</MiddleInfoValue>
+            </div>
+          </div>
 
-          <div className="ReserveInformation__middle-info">
+          {/* <div className="ReserveInformation__middle-info">
             <div className="ReserveInformation__line">
               <p>{intl.formatMessage(messages.reserveSize)}</p>
               <strong>
@@ -256,7 +294,7 @@ export default function ReserveInformation({
                 title={intl.formatMessage(messages.utilisationRate)}
               />
             </div>
-          </div>
+          </div> */}
 
           <div className="ReserveInformation__APY-info">
             <APYCard title={intl.formatMessage(defaultMessages.deposit)}>
