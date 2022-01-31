@@ -4,7 +4,7 @@
   "private": false,
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@0x/subproviders": "^6.5.4",
+    "@0x/subproviders": "^6.6.2",
     "@aave/aave-ui-kit": "^0.1.22",
     "@aave/contract-helpers": "0.27.2",
     "@aave/math-utils": "0.27.2",
