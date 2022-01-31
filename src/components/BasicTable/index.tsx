@@ -17,14 +17,12 @@ export default function BasicTable({ children, headerColumns, className }: Basic
 
   return (
     <div className={classNames('BasicTable', className)}>
-      <div className="BasicTable__wrapper">
+      <div>
         {!!headerColumns && <div className="BasicTable__header">{headerColumns}</div>}
 
-        <div className="BasicTable__content">
+        <div>
           {!sm ? (
-            <CustomScroll>
-              <div className="BasicTable__content-inner">{children}</div>
-            </CustomScroll>
+            <div>{children}</div>
           ) : (
             <div className="BasicTable__content-inner">{children}</div>
           )}

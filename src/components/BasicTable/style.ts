@@ -9,12 +9,10 @@ const staticStyles = css.global`
     display: flex;
     flex-direction: column;
     flex: 1;
-    overflow-x: auto;
-    overflow-y: hidden;
+
     width: calc(100% + 30px);
     margin: 0 0 0 -15px;
-    position: relative;
-    z-index: 1;
+
     @include respond-to(sm) {
       flex: none;
       display: block;
@@ -31,8 +29,6 @@ const staticStyles = css.global`
     &__content {
       display: flex;
       flex-direction: column;
-      overflow-x: hidden;
-      overflow-y: auto;
       flex: auto;
       height: 1px;
       min-height: 250px;
