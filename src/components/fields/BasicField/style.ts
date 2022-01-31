@@ -11,7 +11,7 @@ const staticStyles = css.global`
     width: 100%;
     input {
       border: none;
-      background: transparent;
+      background: white;
       font-family: 'roboto-font', sans-serif;
       transition: $transition;
       font-size: $regular;

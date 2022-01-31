@@ -62,7 +62,7 @@ export default function DepositBorrowMainWrapper({
 
         {sm && <div className="DepositBorrowMainWrapper__mobile--content">{children}</div>}
 
-        {withSwitchMarket && !sm && (
+        {/* {withSwitchMarket && !sm && (
           <div className="DepositBorrowMainWrapper__changeMarket-inner">
             {intl.formatMessage(messages.changeMarket, {
               button: (
@@ -74,7 +74,7 @@ export default function DepositBorrowMainWrapper({
               ),
             })}
           </div>
-        )}
+        )} */}
       </div>
 
       {isShowRightPanel && (
@@ -97,7 +97,7 @@ export default function DepositBorrowMainWrapper({
         </div>
       )}
 
-      {withSwitchMarket && sm && (
+      {/* {withSwitchMarket && sm && (
         <div className="DepositBorrowMainWrapper__changeMarket-inner">
           {intl.formatMessage(messages.changeMarket, {
             button: (
@@ -109,7 +109,7 @@ export default function DepositBorrowMainWrapper({
             ),
           })}
         </div>
-      )}
+      )} */}
 
       <style jsx={true} global={true}>
         {staticStyles}

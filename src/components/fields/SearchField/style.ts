@@ -25,18 +25,6 @@ const staticStyles = css.global`
       max-width: 335px;
     }
 
-    &:after {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      border-style: solid;
-      border-width: 1px;
-      border-radius: $borderRadius;
-    }
-
     .SearchField__image {
       margin-right: 15px;
       width: 14px;

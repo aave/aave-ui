@@ -41,6 +41,9 @@ export default function BasicField({
   return (
     <div className={classNames('BasicField', className)}>
       <input
+        style={{
+          border: 'none',
+        }}
         value={value}
         onChange={handleOnChange}
         type={type}
@@ -58,10 +61,18 @@ export default function BasicField({
       </style>
       <style jsx={true} global={true}>{`
         .BasicField {
+          border: none !important;
           input {
             color: ${currentTheme.textDarkBlue.hex};
             &::placeholder {
-              color: ${currentTheme.lightBlue.hex};
+              font-family: Roboto;
+              font-size: 14px;
+              font-weight: normal;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: normal;
+              letter-spacing: normal;
+              color: #757d90;
             }
           }
         }
