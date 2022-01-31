@@ -12,6 +12,7 @@ import staticStyles from './style';
 interface ActionsWrapperProps {
   approveTxData?: EthTransactionData;
   actionTxData?: EthTransactionData;
+  permitStatus?: TxStatusType;
   selectedStep: number;
   setSelectedStep: (value: number) => void;
   numberOfSteps: number;
@@ -23,6 +24,7 @@ interface ActionsWrapperProps {
 export default function ActionsWrapper({
   approveTxData,
   actionTxData,
+  permitStatus,
   selectedStep,
   setSelectedStep,
   numberOfSteps,
@@ -48,9 +50,13 @@ export default function ActionsWrapper({
     100
   );
 
-  const approveSubmitted = approveTxData?.txStatus === TxStatusType.submitted;
-  const approveConfirmed = approveTxData?.txStatus === TxStatusType.confirmed;
-  const approveError = approveTxData?.error && approveTxData.txStatus === TxStatusType.error;
+  const approveSubmitted =
+    approveTxData?.txStatus === TxStatusType.submitted || permitStatus === TxStatusType.submitted;
+  const approveConfirmed =
+    approveTxData?.txStatus === TxStatusType.confirmed || permitStatus === TxStatusType.confirmed;
+  const approveError =
+    (approveTxData?.error && approveTxData.txStatus === TxStatusType.error) ||
+    permitStatus === TxStatusType.error;
   const actionSubmitted = actionTxData?.txStatus === TxStatusType.submitted;
   const actionConfirmed = actionTxData?.txStatus === TxStatusType.confirmed;
   const actionError = actionTxData?.error && actionTxData.txStatus === TxStatusType.error;

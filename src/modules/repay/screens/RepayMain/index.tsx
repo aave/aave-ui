@@ -1,24 +1,23 @@
 import React from 'react';
-import { Redirect, useHistory, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
-import { InterestRate } from '@aave/protocol-js';
 import { gradient, useThemeContext } from '@aave/aave-ui-kit';
+import { PERMISSION, InterestRate } from '@aave/contract-helpers';
 
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
+import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
+import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
+import RepayContentWrapper from '../../components/RepayContentWrapper';
 import Caption from '../../../../components/basic/Caption';
 import Link from '../../../../components/basic/Link';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import staticStyles from './style';
-import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
-import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
-import { PERMISSION } from '@aave/contract-helpers';
 
 export default function RepayMain() {
   const intl = useIntl();
-  const history = useHistory();
   const location = useLocation();
   const { currentTheme } = useThemeContext();
   const { currentMarketData } = useProtocolDataContext();
@@ -28,27 +27,27 @@ export default function RepayMain() {
   const linkQuery = queryString.stringify({ debtType });
 
   if (!isFeatureEnabled.collateralRepay(currentMarketData)) {
-    return <Redirect to={`${history.location.pathname}/balance/?${linkQuery}`} />;
+    return <Navigate replace to={`${location.pathname}/balance/?${linkQuery}`} />;
   }
 
   const buttons = [
-    ...(!/XSUSHI/.test(history.location.pathname) &&
-    !/GUSD/.test(history.location.pathname) &&
-    !/BUSD/.test(history.location.pathname) &&
-    !/SUSD/.test(history.location.pathname) &&
-    !/BAL/.test(history.location.pathname) &&
-    !/KNC/.test(history.location.pathname) &&
-    !/ZRX/.test(history.location.pathname)
+    ...(!/XSUSHI/.test(location.pathname) &&
+    !/GUSD/.test(location.pathname) &&
+    !/BUSD/.test(location.pathname) &&
+    !/SUSD/.test(location.pathname) &&
+    !/BAL/.test(location.pathname) &&
+    !/KNC/.test(location.pathname) &&
+    !/ZRX/.test(location.pathname)
       ? [
           {
             title: messages.withYourCurrentCollateral,
-            link: `${history.location.pathname}/collateral/?${linkQuery}`,
+            link: `${location.pathname}/collateral/?${linkQuery}`,
           },
         ]
       : []),
     {
       title: messages.fromYourWalletBalance,
-      link: `${history.location.pathname}/balance/?${linkQuery}`,
+      link: `${location.pathname}/balance/?${linkQuery}`,
     },
   ];
 
@@ -62,39 +61,41 @@ export default function RepayMain() {
 
   return (
     <PermissionWarning requiredPermission={PERMISSION.BORROWER}>
-      <div className="RepayMain">
-        <Caption
-          title={intl.formatMessage(defaultMessages.repay)}
-          description={intl.formatMessage(messages.description)}
-        />
+      <RepayContentWrapper>
+        <div className="RepayMain">
+          <Caption
+            title={intl.formatMessage(defaultMessages.repay)}
+            description={intl.formatMessage(messages.description)}
+          />
 
-        <div className="RepayMain__buttons-inner">
-          {buttons.map((button, index) => (
-            <Link to={button.link} key={index} className="RepayMain__link ButtonLink">
-              <p>{intl.formatMessage(button.title)}</p>
-            </Link>
-          ))}
-        </div>
+          <div className="RepayMain__buttons-inner">
+            {buttons.map((button, index) => (
+              <Link to={button.link} key={index} className="RepayMain__link ButtonLink">
+                <p>{intl.formatMessage(button.title)}</p>
+              </Link>
+            ))}
+          </div>
 
-        <style jsx={true} global={true}>
-          {staticStyles}
-        </style>
-        <style jsx={true} global={true}>{`
-          .RepayMain {
-            &__buttons-inner {
-              .RepayMain__link {
-                color: ${currentTheme.darkBlue.hex};
-                &:after {
-                  background: ${gradientBackground};
-                }
-                p {
-                  background: ${currentTheme.white.hex};
+          <style jsx={true} global={true}>
+            {staticStyles}
+          </style>
+          <style jsx={true} global={true}>{`
+            .RepayMain {
+              &__buttons-inner {
+                .RepayMain__link {
+                  color: ${currentTheme.darkBlue.hex};
+                  &:after {
+                    background: ${gradientBackground};
+                  }
+                  p {
+                    background: ${currentTheme.white.hex};
+                  }
                 }
               }
             }
-          }
-        `}</style>
-      </div>
+          `}</style>
+        </div>
+      </RepayContentWrapper>
     </PermissionWarning>
   );
 }

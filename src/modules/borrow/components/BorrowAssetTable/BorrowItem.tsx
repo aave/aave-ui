@@ -1,80 +1,70 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 
-import TableItem from '../../../../components/BasicAssetsTable/TableItem';
-import TableColumn from '../../../../components/BasicTable/TableColumn';
-import Value from '../../../../components/basic/Value';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
-import NoData from '../../../../components/basic/NoData';
-import { isAssetStable } from '../../../../helpers/config/assets-config';
+import TableItem from '../../../dashboard/components/DashboardTable/TableItem';
+import TableValueCol from '../../../dashboard/components/DashboardTable/TableValueCol';
+import TableAprCol from '../../../dashboard/components/DashboardTable/TableAprCol';
+import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
+import TableButtonCol from '../../../dashboard/components/DashboardTable/TableButtonCol';
+import CapsHint from '../../../../components/caps/CapsHint';
+import { CapType } from '../../../../components/caps/helper';
 
 import { BorrowTableItem } from './types';
+
+import defaultMessages from '../../../../defaultMessages';
 
 export default function BorrowItem({
   id,
   symbol,
-  underlyingAsset,
   availableBorrows,
   availableBorrowsInUSD,
   stableBorrowRate,
   variableBorrowRate,
-  avg30DaysVariableRate,
-  stableBorrowRateEnabled,
   userId,
+  vIncentives,
   isFreezed,
-  vincentivesAPR,
-  sincentivesAPR,
+  sIncentives,
+  borrowCap,
+  totalBorrows,
+  underlyingAsset,
 }: BorrowTableItem) {
-  const url = `/borrow/${underlyingAsset}-${id}`;
+  const intl = useIntl();
 
   return (
-    <TableItem
-      symbol={symbol}
-      url={url}
-      isFreezed={isFreezed}
-      isBorrow={true}
-      darkOnDarkMode={true}
-    >
-      <TableColumn>
-        {!userId || Number(availableBorrows) <= 0 ? (
-          <NoData color="dark" />
-        ) : (
-          <Value
-            value={Number(availableBorrows)}
-            subValue={availableBorrowsInUSD}
-            subSymbol="USD"
-            maximumSubValueDecimals={2}
-            minimumValueDecimals={isAssetStable(symbol) ? 2 : 5}
-            maximumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+    <TableItem tokenSymbol={symbol} data-cy={`borrow${symbol.toUpperCase()}TableItem`}>
+      <TableValueCol
+        userId={userId}
+        symbol={symbol}
+        value={Number(availableBorrows)}
+        tooltipValue={Number(availableBorrowsInUSD)}
+        subValue={Number(availableBorrows)}
+        tooltipId={`availableBorrows__${id}`}
+        nextToValue={
+          <CapsHint
+            capType={CapType.borrowCap}
+            capAmount={borrowCap}
+            totalAmount={totalBorrows}
+            tooltipId={`borrowCap__${id}`}
+            withoutText={true}
           />
-        )}
-      </TableColumn>
+        }
+      />
 
-      {!isFreezed && (
-        <TableColumn>
-          <LiquidityMiningCard
-            value={variableBorrowRate}
-            thirtyDaysValue={avg30DaysVariableRate}
-            liquidityMiningValue={vincentivesAPR}
-            symbol={symbol}
-            type="borrow-variable"
-          />
-        </TableColumn>
-      )}
+      <TableAprCol value={Number(variableBorrowRate)} incentives={vIncentives} symbol={symbol} />
+      <TableAprCol value={Number(stableBorrowRate)} incentives={sIncentives} symbol={symbol} />
 
-      {!isFreezed && (
-        <TableColumn>
-          {stableBorrowRateEnabled ? (
-            <LiquidityMiningCard
-              value={stableBorrowRate}
-              liquidityMiningValue={sincentivesAPR}
-              symbol={symbol}
-              type="borrow-stable"
-            />
-          ) : (
-            <NoData color="dark" />
-          )}
-        </TableColumn>
-      )}
+      <TableButtonsWrapper>
+        <TableButtonCol
+          disabled={isFreezed || Number(availableBorrows) <= 0}
+          title={intl.formatMessage(defaultMessages.borrow)}
+          linkTo={`/borrow/${underlyingAsset}`}
+        />
+        <TableButtonCol
+          title={intl.formatMessage(defaultMessages.details)}
+          linkTo={`/reserve-overview/${underlyingAsset}`}
+          withoutBorder={true}
+        />
+      </TableButtonsWrapper>
     </TableItem>
   );
 }

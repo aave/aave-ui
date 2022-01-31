@@ -10,11 +10,10 @@ import staticStyles from './style';
 
 interface TableItemProps {
   tokenSymbol: string;
-  color?: string;
   children: ReactNode;
 }
 
-export default function TableItem({ tokenSymbol, color, children, ...rest }: TableItemProps) {
+export default function TableItem({ tokenSymbol, children, ...rest }: TableItemProps) {
   const { currentTheme, lg } = useThemeContext();
   const asset = getAssetInfo(tokenSymbol);
 
@@ -25,14 +24,12 @@ export default function TableItem({ tokenSymbol, color, children, ...rest }: Tab
       })}
       {...rest}
     >
-      <span className="TableItem__assetColor" style={{ backgroundColor: color }} />
-
       <TableCol className="TableItem__inner" maxWidth={lg ? 250 : 160}>
         <TokenIcon
           tokenSymbol={tokenSymbol}
           tokenFullName={asset.shortSymbol || asset.formattedName}
-          height={26}
-          width={26}
+          height={30}
+          width={30}
           className="TableItem__token"
           tooltipId={tokenSymbol}
         />
@@ -47,7 +44,9 @@ export default function TableItem({ tokenSymbol, color, children, ...rest }: Tab
       </style>
       <style jsx={true} global={true}>{`
         .TableItem {
-          background: ${currentTheme.whiteElement.hex};
+          &:after {
+            background: ${currentTheme.mainBg.hex};
+          }
         }
       `}</style>
     </div>

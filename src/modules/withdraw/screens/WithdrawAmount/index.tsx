@@ -1,7 +1,9 @@
 import React from 'react';
 import queryString from 'query-string';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber, BigNumber } from '@aave/protocol-js';
+import { PERMISSION } from '@aave/contract-helpers';
+import BigNumber from 'bignumber.js';
+import { valueToBigNumber } from '@aave/math-utils';
 
 import BasicForm from '../../../../components/forms/BasicForm';
 import NoDataPanel from '../../../../components/NoDataPanel';
@@ -13,15 +15,18 @@ import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
-import { PERMISSION } from '@aave/contract-helpers';
+import { useLocation, useNavigate } from 'react-router';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 
 function WithdrawAmount({
-  currencySymbol,
   poolReserve,
   userReserve,
   user,
-  history,
+  currencySymbol,
 }: ValidationWrapperComponentProps) {
+  const { userEmodeCategoryId } = useAppDataContext();
+  const navigate = useNavigate();
+  const location = useLocation();
   const intl = useIntl();
   const { lendingPool } = useTxBuilderContext();
   if (!user) {
@@ -40,7 +45,7 @@ function WithdrawAmount({
 
   let maxUserAmountToWithdraw = BigNumber.min(
     userReserve.underlyingBalance,
-    poolReserve.availableLiquidity
+    poolReserve.unborrowedLiquidity
   ).toString(10);
 
   if (
@@ -52,16 +57,20 @@ function WithdrawAmount({
     // with 0.5% gap to avoid reverting of tx
     let totalCollateralToWithdrawInETH = valueToBigNumber('0');
     const excessHF = valueToBigNumber(user.healthFactor).minus('1');
+    const reserveLiquidationThreshold =
+      userEmodeCategoryId === poolReserve.eModeCategoryId
+        ? poolReserve.formattedEModeLiquidationThreshold
+        : poolReserve.formattedReserveLiquidationThreshold;
     if (excessHF.gt('0')) {
       totalCollateralToWithdrawInETH = excessHF
         .multipliedBy(user.totalBorrowsMarketReferenceCurrency)
         // because of the rounding issue on the contracts side this value still can be incorrect
-        .div(Number(poolReserve.reserveLiquidationThreshold) + 0.01)
+        .div(Number(reserveLiquidationThreshold) + 0.01)
         .multipliedBy('0.99');
     }
     maxUserAmountToWithdraw = BigNumber.min(
       maxUserAmountToWithdraw,
-      totalCollateralToWithdrawInETH.dividedBy(poolReserve.priceInMarketReferenceCurrency)
+      totalCollateralToWithdrawInETH.dividedBy(poolReserve.formattedPriceInMarketReferenceCurrency)
     ).toString();
   }
   maxUserAmountToWithdraw = BigNumber.max(maxUserAmountToWithdraw, 0).toString();
@@ -70,7 +79,7 @@ function WithdrawAmount({
     const query = queryString.stringify({
       amount: max ? '-1' : amount,
     });
-    history.push(`${history.location.pathname}/confirmation?${query}`);
+    navigate(`${location.pathname}/confirmation?${query}`);
   };
 
   const handleTransactionData = (userId: string) => async () => {

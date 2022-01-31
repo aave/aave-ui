@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { tEthereumAddress, normalize } from '@aave/protocol-js';
 import { formatEther } from 'ethers/lib/utils';
 import { ethers } from 'ethers';
 import { providers } from 'ethers';
+import { ChainId, tEthereumAddress } from '@aave/contract-helpers';
+import { normalize } from '@aave/math-utils';
 
 import {
   GovernanceProposalsSubscription,
@@ -15,7 +16,7 @@ import { getCorrectState, getProposalExpiry } from '../helper';
 import { useStateLoading, LOADING_STATE } from '../../hooks/use-state-loading';
 
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
-import { ChainId } from '@aave/contract-helpers';
+import { APOLLO_QUERY_TARGET } from '../../apollo-config/client-config';
 
 const NULL_ADDRESS: tEthereumAddress = ethers.constants.AddressZero;
 
@@ -151,6 +152,7 @@ const useGetProposals = ({
     error,
   } = useGovernanceProposalsSubscription({
     skip,
+    context: { target: APOLLO_QUERY_TARGET.GOVERNANCE },
   });
   if (error) console.error('Error [useGetProposals]:', error);
   // we update when the people vote

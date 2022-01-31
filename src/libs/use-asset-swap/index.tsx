@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import { normalize, valueToBigNumber, API_ETH_MOCK_ADDRESS } from '@aave/protocol-js';
 import { useDebouncedCallback } from 'use-debounce';
-
-import { useStaticPoolDataContext } from '../pool-data-provider';
 import { IBaseUniswapAdapterFactory } from './IBaseUniswapAdapterFactory';
 import { useProtocolDataContext } from '../protocol-data-provider';
+import { normalize, normalizeBN } from '@aave/math-utils';
 
 const USD_DECIMALS = 8;
 
@@ -24,7 +22,6 @@ interface AssetSwapParams {
 export function useAssetSwap(params?: AssetSwapParams) {
   const poolingInterval = params?.poolingInterval || 10 * 1000;
   const { jsonRpcProvider, networkConfig, chainId } = useProtocolDataContext();
-  const { WrappedBaseNetworkAssetAddress } = useStaticPoolDataContext();
 
   const [loading, setLoading] = useState(false);
 
@@ -63,17 +60,8 @@ export function useAssetSwap(params?: AssetSwapParams) {
       }
 
       setLoading(true);
-
-      // we have some mess with ETH/WETH addresses, and this is the smallest modification to make it work
-      // but maybe at some point better to change the general flow
-      const fixedFromAsset =
-        _fromAsset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()
-          ? WrappedBaseNetworkAssetAddress
-          : _fromAsset;
-      const fixedToAsset =
-        _toAsset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()
-          ? WrappedBaseNetworkAssetAddress
-          : _toAsset;
+      const fixedFromAsset = _fromAsset;
+      const fixedToAsset = _toAsset;
 
       try {
         const swapAdapter = IBaseUniswapAdapterFactory.connect(
@@ -88,7 +76,7 @@ export function useAssetSwap(params?: AssetSwapParams) {
             3: calcToUSDAmount,
             4: path,
           } = await swapAdapter.getAmountsOut(
-            valueToBigNumber(normalize(_fromAmount, _fromAssetDecimals * -1)).toFixed(0),
+            normalizeBN(_fromAmount, _fromAssetDecimals * -1).toFixed(0),
             fixedFromAsset,
             fixedToAsset
           );
@@ -104,7 +92,7 @@ export function useAssetSwap(params?: AssetSwapParams) {
             3: calcToUSDAmount,
             4: path,
           } = await swapAdapter.getAmountsIn(
-            valueToBigNumber(normalize(_toAmount, _toAssetDecimals * -1)).toFixed(0),
+            normalizeBN(_toAmount, _toAssetDecimals * -1).toFixed(0),
             fixedFromAsset,
             fixedToAsset
           );

@@ -1,11 +1,10 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/math-utils';
 
 import { useReserveRatesHistory } from '../../../../libs/pool-data-provider/hooks/use-reserve-rates-history';
 import { useLanguageContext } from '../../../../libs/language-provider';
 import CurrencyScreenWrapper from '../../../../components/wrappers/CurrencyScreenWrapper';
-import { RATES_HISTORY_ENDPOINT } from '../../../../helpers/config/misc-config';
 
 import messages from './messages';
 
@@ -20,6 +19,7 @@ interface DepositCurrencyWrapperProps
     'userReserve' | 'poolReserve' | 'user' | 'currencySymbol' | 'walletBalance'
   > {
   children: ReactNode;
+  goBack?: () => void;
 }
 
 export default function DepositCurrencyWrapper({
@@ -29,16 +29,20 @@ export default function DepositCurrencyWrapper({
   user,
   walletBalance,
   children,
+  goBack,
 }: DepositCurrencyWrapperProps) {
   const intl = useIntl();
   const { currentLangSlug } = useLanguageContext();
-  const { data: interestRatesHistory } = useReserveRatesHistory(poolReserve.id);
+  const { data: interestRatesHistory, error } = useReserveRatesHistory(poolReserve.id);
   const { networkConfig } = useProtocolDataContext();
   const [series, setSeries] = useState<InterestRateSeries[]>([]);
   const asset = getAssetInfo(currencySymbol);
 
   let maxAmountToDeposit = valueToBigNumber(walletBalance);
-  if (maxAmountToDeposit.gt(0) && poolReserve.symbol.toUpperCase() === networkConfig.baseAsset) {
+  if (
+    maxAmountToDeposit.gt(0) &&
+    poolReserve.symbol.toUpperCase() === networkConfig.baseAssetSymbol
+  ) {
     // keep it for tx gas cost
     maxAmountToDeposit = maxAmountToDeposit.minus('0.004');
   }
@@ -73,9 +77,10 @@ export default function DepositCurrencyWrapper({
       user={user}
       walletBalance={maxAmountToDeposit.toString()}
       type="deposit"
-      showGraphCondition={liquidityRateHistoryData.length > 1 && !!RATES_HISTORY_ENDPOINT}
+      showGraphCondition={liquidityRateHistoryData.length > 1 && !error}
       dots={[{ name: intl.formatMessage(messages.graphDotName) }]}
       series={series}
+      goBack={goBack}
     >
       {children}
     </CurrencyScreenWrapper>

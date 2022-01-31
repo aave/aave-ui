@@ -19,27 +19,19 @@ const staticStyles = css.global`
 
     &__column {
       &:first-child {
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
         justify-content: flex-start;
         min-width: 270px;
-        @media only screen and (max-width: 850px) {
+        @media only screen and (max-width: 930px) {
+          flex-direction: column-reverse;
+          align-items: flex-start;
           min-width: 80px;
-        }
-        @include respond-to(sm) {
-          max-width: 60px;
-          min-width: 60px;
-        }
-        @include respond-to(xs) {
-          max-width: 60px;
-          min-width: 35px;
-        }
-        @media only screen and (max-width: 400px) {
-          max-width: 40px;
-        }
-      }
-      &:nth-child(3) {
-        @include respond-to(sm) {
-          display: none;
+
+          .IsolatedBadge {
+            margin-left: 45px;
+            margin-bottom: 0;
+          }
         }
       }
     }
@@ -48,23 +40,11 @@ const staticStyles = css.global`
       &:first-of-type {
         margin-bottom: 4px;
       }
-      .Value__value {
-        @include respond-to(sm) {
-          font-size: $small;
-        }
-      }
-    }
-    .MarketTableItem__percent {
-      .ValuePercent__value {
-        @include respond-to(sm) {
-          font-size: $small;
-        }
-      }
     }
 
     &__isFreezed-inner {
       position: relative;
-      flex: 3;
+      flex: 2;
       text-align: center;
     }
 

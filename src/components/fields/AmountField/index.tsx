@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
@@ -18,13 +18,14 @@ type AmountFieldProps = {
   onChange: (value: string) => void;
   onMaxButtonClick?: () => void;
   error?: string;
-  title?: string;
+  title?: string | ReactNode;
   maxAmount?: number | string;
   className?: string;
   disabled?: boolean;
   loading?: boolean;
   maxDecimals?: number;
   topDecimals?: number;
+  withSelect?: boolean;
 };
 
 export default function AmountField({
@@ -40,6 +41,7 @@ export default function AmountField({
   maxDecimals = 18,
   onMaxButtonClick,
   topDecimals,
+  withSelect,
 }: AmountFieldProps) {
   const intl = useIntl();
   const { currentTheme, lg, md, sm, isCurrentThemeDark } = useThemeContext();
@@ -84,7 +86,13 @@ export default function AmountField({
       )}
 
       <div className="AmountField__wrapper">
-        <TokenIcon tokenSymbol={symbol} width={lg && !md ? 24 : 30} height={lg && !md ? 24 : 30} />
+        {!withSelect && (
+          <TokenIcon
+            tokenSymbol={symbol}
+            width={lg && !md ? 24 : 30}
+            height={lg && !md ? 24 : 30}
+          />
+        )}
 
         <BasicField
           value={formattedValue}

@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import BigNumber from 'bignumber.js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { Stake } from '@aave/contract-helpers';
 
 import { useStakeDataContext } from '../../../../libs/pool-data-provider/hooks/use-stake-data-context';
 import Link from '../../../../components/basic/Link';
@@ -18,7 +19,6 @@ import aaveIcon from '../../../../images/aave.svg';
 import bptIcon from '../../../../images/bpt.svg';
 
 import { faqLink } from '../../index';
-import { Stake } from '@aave/protocol-js';
 
 export default function StakeDisclaimer() {
   const intl = useIntl();

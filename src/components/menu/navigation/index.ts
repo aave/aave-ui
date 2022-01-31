@@ -7,7 +7,6 @@ import {
   governanceConfig,
 } from '../../../ui-config';
 import { MarketDataType } from '../../../helpers/config/types';
-import { isFeatureEnabled } from '../../../helpers/config/markets-and-network-config';
 
 import messages from './messages';
 
@@ -18,29 +17,18 @@ export interface Navigation {
   absolute?: boolean;
   onClick?: () => void;
   isVisible?: (data: MarketDataType) => boolean | undefined;
+  dataCy?: string;
 }
 
 const navigation: Navigation[] = [
   {
-    link: '/markets',
-    title: messages.markets,
-  },
-  {
     link: '/dashboard',
     title: messages.dashboard,
+    dataCy: 'menuDashboard',
   },
   {
-    link: '/deposit',
-    title: messages.deposit,
-  },
-  {
-    link: '/borrow',
-    title: messages.borrow,
-  },
-  {
-    link: '/asset-swap',
-    title: messages.swap,
-    isVisible: isFeatureEnabled.liquiditySwap,
+    link: '/markets',
+    title: messages.markets,
   },
   {
     link: '/staking',

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   UiPoolDataProvider,
@@ -8,6 +8,10 @@ import {
 } from '@aave/contract-helpers';
 import { usePolling } from '../../hooks/use-polling';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
+import { useUserWalletDataContext } from '../../web3-data-provider';
+import { useProtocolDataContext } from '../../protocol-data-provider';
+import { useConnectionStatusContext } from '../../connection-status-provider';
+import { useCachedProtocolData } from '../../caching-server-data-provider/hooks/use-cached-protocol-data';
 
 // interval in which the rpc data is refreshed
 const POLLING_INTERVAL = 30 * 1000;
@@ -18,12 +22,13 @@ export interface PoolDataResponse {
   data: {
     reserves?: ReservesDataHumanized;
     userReserves?: UserReserveDataHumanized[];
+    userEmodeCategoryId?: number;
   };
   refresh: () => Promise<any>;
 }
 
 // Fetch reserve and user incentive data from UiIncentiveDataProvider
-export function usePoolData(
+export function useRPCPoolData(
   lendingPoolAddressProvider: string,
   chainId: ChainId,
   poolDataProviderAddress: string,
@@ -31,14 +36,14 @@ export function usePoolData(
   userAddress?: string
 ): PoolDataResponse {
   const currentAccount: string | undefined = userAddress ? userAddress.toLowerCase() : undefined;
-  const [loadingReserves, setLoadingReserves] = useState<boolean>(false);
+  const [loadingReserves, setLoadingReserves] = useState<boolean>(true);
   const [errorReserves, setErrorReserves] = useState<boolean>(false);
   const [loadingUserReserves, setLoadingUserReserves] = useState<boolean>(false);
   const [errorUserReserves, setErrorUserReserves] = useState<boolean>(false);
   const [reserves, setReserves] = useState<ReservesDataHumanized | undefined>(undefined);
-  const [userReserves, setUserReserves] = useState<UserReserveDataHumanized[] | undefined>(
-    undefined
-  );
+  const [userReserves, setUserReserves] = useState<
+    { userReserves: UserReserveDataHumanized[]; userEmodeCategoryId: number } | undefined
+  >(undefined);
 
   // Fetch and format reserve incentive data from UiIncentiveDataProvider contract
   const fetchReserves = async () => {
@@ -50,9 +55,9 @@ export function usePoolData(
 
     try {
       setLoadingReserves(true);
-      const reservesResponse = await poolDataProviderContract.getReservesHumanized(
-        lendingPoolAddressProvider
-      );
+      const reservesResponse = await poolDataProviderContract.getReservesHumanized({
+        lendingPoolAddressProvider,
+      });
       setReserves(reservesResponse);
       setErrorReserves(false);
     } catch (e) {
@@ -73,11 +78,10 @@ export function usePoolData(
 
     try {
       setLoadingUserReserves(true);
-      const userReservesResponse: UserReserveDataHumanized[] =
-        await poolDataProviderContract.getUserReservesHumanized(
-          lendingPoolAddressProvider,
-          currentAccount
-        );
+      const userReservesResponse = await poolDataProviderContract.getUserReservesHumanized({
+        lendingPoolAddressProvider,
+        user: currentAccount,
+      });
 
       setUserReserves(userReservesResponse);
       setErrorUserReserves(false);
@@ -96,14 +100,71 @@ export function usePoolData(
     currentAccount,
   ]);
 
+  useEffect(() => {
+    setReserves(undefined);
+    setUserReserves(undefined);
+  }, [poolDataProviderAddress]);
+
+  useEffect(() => {
+    if (!currentAccount) setUserReserves(undefined);
+  }, [currentAccount]);
+
   const loading = loadingReserves || loadingUserReserves;
   const error = errorReserves || errorUserReserves;
   return {
     loading,
     error,
-    data: { reserves, userReserves },
+    data: {
+      reserves,
+      userReserves: userReserves?.userReserves,
+      userEmodeCategoryId: userReserves?.userEmodeCategoryId,
+    },
     refresh: () => {
       return Promise.all([fetchUserReserves(), fetchReserves()]);
     },
   };
 }
+
+export const usePoolData = () => {
+  const { currentAccount } = useUserWalletDataContext();
+  const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
+  const { isRPCActive } = useConnectionStatusContext();
+
+  const rpcMode =
+    isRPCActive || !networkConfig.cachingWSServerUrl || !networkConfig.cachingServerUrl;
+
+  const { loading: cachedDataLoading, data: cachedData } = useCachedProtocolData(
+    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+    chainId,
+    currentAccount,
+    rpcMode
+  );
+
+  const {
+    error: rpcDataError,
+    loading: rpcDataLoading,
+    data: rpcData,
+    refresh,
+  } = useRPCPoolData(
+    currentMarketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+    chainId,
+    currentMarketData.addresses.UI_POOL_DATA_PROVIDER,
+    !rpcMode,
+    currentAccount
+  );
+
+  if (rpcMode) {
+    return {
+      loading: rpcDataLoading,
+      data: rpcData,
+      error: rpcDataError,
+      refresh,
+    };
+  }
+
+  return {
+    loading: cachedDataLoading,
+    // TODO: fix caching data
+    data: cachedData,
+  };
+};

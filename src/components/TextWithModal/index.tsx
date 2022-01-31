@@ -8,9 +8,9 @@ import DefaultButton from '../basic/DefaultButton';
 import messages from './messages';
 import staticStyles from './style';
 
-import info from './images/info.svg';
-import infoGray from './images/infoGray.svg';
-import infoGrayDark from './images/infoGrayDark.svg';
+import info from '../../images/info.svg';
+import infoGray from '../../images/infoGray.svg';
+import infoGrayDark from '../../images/infoGrayDark.svg';
 
 export type AdditionalItemProps = {
   height: number;
@@ -125,27 +125,29 @@ export default function TextWithModal({
           })}
       </div>
 
-      <BasicModal
-        isVisible={visible}
-        onBackdropPress={() => setVisible(false)}
-        withCloseButton={withCloseButton}
-        className={classNames('TextWithModal__modal', modalClassName)}
-      >
-        <div className="TextWithModal__modal-inner">
-          {children}
+      <div onClick={(e) => e.stopPropagation()}>
+        <BasicModal
+          isVisible={visible}
+          onBackdropPress={() => setVisible(false)}
+          withCloseButton={withCloseButton}
+          className={classNames('TextWithModal__modal', modalClassName)}
+        >
+          <div className="TextWithModal__modal-inner">
+            {children}
 
-          {!withoutContentButton && (
-            <DefaultButton
-              title={intl.formatMessage(messages.buttonTitle)}
-              size="medium"
-              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                e.stopPropagation();
-                setVisible(false);
-              }}
-            />
-          )}
-        </div>
-      </BasicModal>
+            {!withoutContentButton && (
+              <DefaultButton
+                title={intl.formatMessage(messages.buttonTitle)}
+                size="medium"
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                  e.stopPropagation();
+                  setVisible(false);
+                }}
+              />
+            )}
+          </div>
+        </BasicModal>
+      </div>
 
       <style jsx={true} global={true}>
         {staticStyles}

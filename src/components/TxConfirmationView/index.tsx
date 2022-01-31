@@ -1,10 +1,17 @@
-import React, { ReactNode, ReactNodeArray, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  ReactNode,
+  ReactNodeArray,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { EthereumTransactionTypeExtended } from '@aave/protocol-js';
 import { useWeb3React } from '@web3-react/core';
 import { providers } from 'ethers';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { ChainId, EthereumTransactionTypeExtended } from '@aave/contract-helpers';
 
 import {
   getDefaultChainId,
@@ -28,10 +35,10 @@ import ActionsWrapper from './ActionsWrapper';
 import ActionExecutionBox from './ActionExecutionBox';
 import TxTopInfo from './TxTopInfo';
 import NetworkMismatch from './NetworkMismatch';
+import IsolationModeWarning from '../isolationMode/IsolationModeWarning';
 
 import messages from './messages';
 import staticStyles from './style';
-import { ChainId } from '@aave/contract-helpers';
 
 export interface TxConfirmationViewProps {
   caption?: string;
@@ -55,6 +62,7 @@ export interface TxConfirmationViewProps {
 
   warningMessage?: string;
   dangerousMessage?: string | null | {} | ReactNodeArray;
+  isolationWarning?: boolean;
   blockingError?: string;
 
   className?: string;
@@ -63,6 +71,13 @@ export interface TxConfirmationViewProps {
 
   allowedChainIds?: ChainId[];
   aTokenData?: ATokenInfo;
+
+  getPermitSignatureRequest?: () => Promise<string>;
+  getPermitEnabledTransactionData?: (
+    signature: string
+  ) => Promise<EthereumTransactionTypeExtended[]>;
+  permitEnabled?: boolean;
+  togglePermit?: Dispatch<SetStateAction<boolean | undefined>>;
 }
 
 export default function TxConfirmationView({
@@ -78,6 +93,8 @@ export default function TxConfirmationView({
   children,
 
   getTransactionsData,
+  getPermitSignatureRequest,
+  getPermitEnabledTransactionData,
   onMainTxExecuted,
   onMainTxConfirmed,
 
@@ -87,6 +104,7 @@ export default function TxConfirmationView({
 
   warningMessage,
   dangerousMessage,
+  isolationWarning,
   blockingError,
 
   className,
@@ -94,11 +112,13 @@ export default function TxConfirmationView({
   updateTransactionsData,
   allowedChainIds: _allowedChainIds,
   aTokenData,
+  permitEnabled,
+  togglePermit,
 }: TxConfirmationViewProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { library: provider, chainId } = useWeb3React<providers.Web3Provider>();
-  const { disconnectWallet, currentProviderName } = useUserWalletDataContext();
+  const { disconnectWallet, currentProviderName, currentAccount } = useUserWalletDataContext();
   const [loadingTxData, setLoadingTxData] = useState(true);
   const [backendNotAvailable, setBackendNotAvailable] = useState(false);
   const { chainId: currentMarketChainId, networkConfig } = useProtocolDataContext();
@@ -108,6 +128,9 @@ export default function TxConfirmationView({
   const [uncheckedActionTxData, setActionTxData] = useState({} as EthTransactionData);
   const [selectedStep, setSelectedStep] = useState(1);
   const [unlockedSteps, setUnlockedSteps] = useState(1);
+  const [unsignedPermitData, setUnsignedPermitData] = useState<string | undefined>(undefined);
+  const [permitStatus, setPermitStatus] = useState<TxStatusType | undefined>(undefined);
+  const [permitError, setPermitError] = useState<string | undefined>(undefined);
 
   /**
    * For some actions like e.g. stake/gov/migration we only allow certain networks (fork, kovan, mainnet).
@@ -154,6 +177,36 @@ export default function TxConfirmationView({
       })
     : undefined;
 
+  // Create permit signature payload and trigger wallet sign
+  // If successful, use signature to generate supplyWithPermit transaction
+  const handleSubmitPermitSignature = async () => {
+    if (provider && currentAccount && unsignedPermitData && getPermitEnabledTransactionData) {
+      try {
+        setPermitStatus(TxStatusType.submitted);
+        const signature = await provider.send('eth_signTypedData_v4', [
+          currentAccount,
+          unsignedPermitData,
+        ]);
+        const supplyWithPermitTx = await getPermitEnabledTransactionData(signature);
+        setActionTxData({
+          txType: supplyWithPermitTx[0].txType,
+          unsignedData: supplyWithPermitTx[0].tx,
+          gas: supplyWithPermitTx[0].gas,
+          name: mainTxName,
+        });
+        setPermitStatus(TxStatusType.confirmed);
+        setPermitError(undefined);
+        setUnlockedSteps(2);
+        setSelectedStep(2);
+      } catch (e) {
+        setPermitError('Error with permit signature: ' + e);
+        setPermitStatus(TxStatusType.error);
+      }
+    } else {
+      setPermitError('Error initializing permit signature');
+    }
+  };
+
   const handleGetTxData = async () => {
     try {
       const txs = await getTransactionsData();
@@ -185,10 +238,16 @@ export default function TxConfirmationView({
           name: mainTxName,
         });
       }
+      if (approvalTx && permitEnabled && getPermitSignatureRequest) {
+        const permitTxResponse = await getPermitSignatureRequest();
+        setUnsignedPermitData(permitTxResponse);
+      }
       setLoadingTxData(false);
       return true;
     } catch (e) {
       console.log('Error on txs loading', e);
+      // TODO: show correct error if any???
+
       setBackendNotAvailable(true);
       setLoadingTxData(false);
       return false;
@@ -210,6 +269,12 @@ export default function TxConfirmationView({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [approveTxData?.error, actionTxData?.error]);
+
+  useEffect(() => {
+    if (uncheckedActionTxData.error && selectedStep === 2 && permitEnabled && togglePermit) {
+      setPermitError('Error with permit tx: ' + uncheckedActionTxData.error);
+    }
+  }, [uncheckedActionTxData]);
 
   useEffect(() => {
     if (!networkMismatch) {
@@ -265,11 +330,26 @@ export default function TxConfirmationView({
             setSelectedStep={setSelectedStep}
             numberOfSteps={numberOfSteps}
             unlockedSteps={unlockedSteps}
+            permitStatus={permitStatus}
             error={backendNotAvailable || !!blockingError}
           >
             {(!blockingError || mainTxConfirmed) && (
               <>
-                {approveTxData &&
+                {permitEnabled && selectedStep === 1 && unsignedPermitData ? (
+                  <ActionExecutionBox
+                    title={`${selectedStep}/${numberOfSteps + 1} ${
+                      backendNotAvailable
+                        ? intl.formatMessage(messages.errorTitle)
+                        : intl.formatMessage(messages.approve)
+                    }`}
+                    description={approveDescription}
+                    onSubmitTransaction={async () => handleSubmitPermitSignature()}
+                    loading={permitStatus === TxStatusType.submitted}
+                    failed={permitError}
+                    buttonTitle={intl.formatMessage(messages.approve)}
+                  />
+                ) : (
+                  approveTxData &&
                   selectedStep === 1 &&
                   approveTxData.txStatus !== TxStatusType.confirmed && (
                     <ActionExecutionBox
@@ -295,7 +375,8 @@ export default function TxConfirmationView({
                       failed={approveTxData.error}
                       buttonTitle={intl.formatMessage(messages.approve)}
                     />
-                  )}
+                  )
+                )}
 
                 {actionTxData && selectedStep === numberOfSteps && (
                   <ActionExecutionBox
@@ -353,6 +434,18 @@ export default function TxConfirmationView({
                 error={backendNotAvailable || !!blockingError}
               />
             )}
+            {permitError && togglePermit && permitEnabled && selectedStep === 2 && (
+              <button
+                className="TxTopInfo__showError-button"
+                type="button"
+                onClick={() => {
+                  setSelectedStep(1);
+                  togglePermit(false);
+                }}
+              >
+                {intl.formatMessage(messages.tryApproval)}
+              </button>
+            )}
           </ActionsWrapper>
         )}
 
@@ -372,6 +465,7 @@ export default function TxConfirmationView({
       <InfoWrapper>
         {!!warningMessage && !mainTxConfirmed && <InfoPanel>{warningMessage}</InfoPanel>}
         {!!dangerousMessage && !mainTxConfirmed && <InfoPanel>{dangerousMessage}</InfoPanel>}
+        {!!isolationWarning && !mainTxConfirmed && <IsolationModeWarning />}
       </InfoWrapper>
 
       {(global.window as any)?.ethereum?.isMetaMask &&
@@ -388,6 +482,9 @@ export default function TxConfirmationView({
             color: ${currentTheme.textDarkBlue.hex};
             background: ${currentTheme.whiteItem.hex};
             border: 1px solid ${currentTheme.darkBlue.hex};
+          }
+          &__showError-button {
+            color: ${currentTheme.primary.hex};
           }
         }
       `}</style>

@@ -15,12 +15,12 @@ export default function FormattedTxErrorText() {
     <div className="FormattedTxErrorText">
       <span>
         {intl.formatMessage(messages.errorDescriptionFirst, {
-          asset: networkConfig.baseAsset,
+          asset: networkConfig.baseAssetSymbol,
         })}
       </span>
       <span>
         {intl.formatMessage(messages.errorDescriptionSecond, {
-          email: (
+          discord: (
             <Link
               to="https://aave.com/discord"
               title="Discord"

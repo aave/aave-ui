@@ -49,6 +49,10 @@ const staticStyles = css.global`
     &__content {
       padding: 20px;
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
       @include respond-to(xl) {
         padding: 10px;
       }
@@ -57,6 +61,7 @@ const staticStyles = css.global`
       }
       @include respond-to(md) {
         padding: 20px 30px;
+        display: block;
       }
       @include respond-to(sm) {
         padding: 20px 15px;
@@ -64,35 +69,9 @@ const staticStyles = css.global`
     }
 
     &__top-info {
-      display: none;
-      @include respond-to(lg) {
-        display: block;
-        position: absolute;
-        left: 5px;
-        top: 5px;
-      }
-      @include respond-to(md) {
-        display: none;
-      }
-      @include respond-to(sm) {
-        position: static;
-        margin-bottom: 30px;
-        display: block;
-      }
       .ReserveInformation__line {
         margin: 0;
         font-size: $extraSmall;
-        @include respond-to(sm) {
-          font-size: $regular;
-          padding: 10px;
-        }
-        .TokenIcon__dollar,
-        .Value .Value__value {
-          font-size: $extraSmall;
-          @include respond-to(sm) {
-            font-size: $regular;
-          }
-        }
       }
     }
 
@@ -117,17 +96,11 @@ const staticStyles = css.global`
       display: flex;
       justify-content: center;
       margin-bottom: 20px;
-      @include respond-to(xl) {
-        margin-bottom: 20px;
-      }
-      @include respond-to(lg) {
-        display: none;
-      }
       @include respond-to(md) {
         display: flex;
       }
       @include respond-to(sm) {
-        display: none;
+        flex-direction: column;
       }
     }
 
@@ -139,10 +112,29 @@ const staticStyles = css.global`
       border-radius: $borderRadius;
       margin: 0 15px;
       font-size: $regular;
-      min-width: 300px;
+      min-width: 260px;
       @include respond-to(xl) {
         min-width: 200px;
         font-size: $small;
+      }
+      @include respond-to(lg) {
+        min-width: 150px;
+        margin: 0 7px;
+        font-size: $extraSmall;
+        padding: 5px;
+      }
+      @include respond-to(md) {
+        min-width: 200px;
+        margin: 0 15px;
+        font-size: $small;
+        padding: 5px 10px;
+      }
+      @include respond-to(sm) {
+        font-size: $regular;
+        padding: 10px;
+        min-width: unset;
+        width: 100%;
+        margin: 0 0 10px 0;
       }
       .BlockWrapper {
         width: 100%;
@@ -150,16 +142,29 @@ const staticStyles = css.global`
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        margin: 0;
       }
       strong {
         margin-left: 5px;
         white-space: nowrap;
       }
       .TokenIcon__dollar,
-      .Value .Value__value {
+      .Value .Value__value,
+      .BlockWrapper__title-inner .TextWithModal__text,
+      .BlockWrapper__title-inner p,
+      .TextWithModal__text {
         font-size: $regular;
         @include respond-to(xl) {
           font-size: $small;
+        }
+        @include respond-to(lg) {
+          font-size: $extraSmall;
+        }
+        @include respond-to(md) {
+          font-size: $small;
+        }
+        @include respond-to(sm) {
+          font-size: $regular;
         }
       }
     }
@@ -167,15 +172,15 @@ const staticStyles = css.global`
     &__APY-info {
       display: flex;
       justify-content: center;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       @include respond-to(xl) {
-        margin-bottom: 25px;
-      }
-      @include respond-to(lg) {
         margin-bottom: 15px;
       }
+      @include respond-to(lg) {
+        margin-bottom: 5px;
+      }
       @include respond-to(md) {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
       }
       @include respond-to(sm) {
         margin-bottom: 35px;
@@ -187,21 +192,31 @@ const staticStyles = css.global`
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
-      justify-content: space-between;
-      max-width: 900px;
+      justify-content: space-around;
+      width: 100%;
       margin: 0 auto;
       @include respond-to(xl) {
-        max-width: 750px;
+        max-width: 850px;
       }
       @include respond-to(lg) {
-        max-width: 600px;
+        max-width: 700px;
       }
       @include respond-to(md) {
-        max-width: 750px;
-      }
-      @include respond-to(sm) {
         max-width: 100%;
       }
+
+      .BlockWrapper {
+        margin-top: 10px;
+        @include respond-to(sm) {
+          margin-top: 0;
+        }
+      }
+    }
+
+    &__bottomItems {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-around;
     }
 
     &__poolLink-inner {

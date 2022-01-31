@@ -1,45 +1,33 @@
 import { useEffect } from 'react';
+import { APOLLO_QUERY_TARGET } from '../../apollo-config/client-config';
 
 import {
-  BaseCurrencyData,
   C_ProtocolDataUpdateDocument,
   C_ProtocolDataUpdateSubscription,
   C_ProtocolDataUpdateSubscriptionVariables,
   C_UserDataUpdateDocument,
   C_UserDataUpdateSubscription,
   C_UserDataUpdateSubscriptionVariables,
-  ReserveData,
   useC_ProtocolDataQuery,
   useC_UserDataQuery,
-  UserReserveData,
 } from '../graphql';
-
-type PoolData = {
-  reserves: {
-    reservesData: ReserveData[];
-    baseCurrencyData: BaseCurrencyData | undefined;
-  };
-  userReserves: UserReserveData[];
-  userId?: string;
-};
-
-interface PoolReservesWithCache {
-  loading: boolean;
-  data?: PoolData;
-  error?: string;
-}
 
 export function useCachedProtocolData(
   lendingPoolAddressProvider: string,
+  chainId: number,
   currentAccount?: string,
   skip = false
-): PoolReservesWithCache {
+) {
   const userId = currentAccount?.toLowerCase() || undefined;
   const {
     loading: poolDataLoading,
     data: poolData,
     subscribeToMore: subscribeToProtocolData,
-  } = useC_ProtocolDataQuery({ variables: { lendingPoolAddressProvider }, skip });
+  } = useC_ProtocolDataQuery({
+    variables: { lendingPoolAddressProvider },
+    skip,
+    context: { target: APOLLO_QUERY_TARGET.CHAIN(chainId) },
+  });
   useEffect(() => {
     if (!skip) {
       return subscribeToProtocolData<
@@ -59,6 +47,7 @@ export function useCachedProtocolData(
             protocolData: protocolDataUpdate,
           };
         },
+        context: { target: APOLLO_QUERY_TARGET.CHAIN(chainId) },
       });
     }
   }, [subscribeToProtocolData, lendingPoolAddressProvider, skip]);
@@ -70,6 +59,7 @@ export function useCachedProtocolData(
   } = useC_UserDataQuery({
     variables: { lendingPoolAddressProvider, userAddress: userId || '' },
     skip: !userId || skip,
+    context: { target: APOLLO_QUERY_TARGET.CHAIN(chainId) },
   });
   useEffect(() => {
     if (userId && !skip)
@@ -89,13 +79,14 @@ export function useCachedProtocolData(
             userData,
           };
         },
+        context: { target: APOLLO_QUERY_TARGET.CHAIN(chainId) },
       });
   }, [subscribeToUserData, lendingPoolAddressProvider, userId, skip]);
 
   const loading = (userId && userDataLoading) || poolDataLoading;
 
   const reserves = poolData?.protocolData.reserves || [];
-  const userReserves: UserReserveData[] = userData?.userData || [];
+  const userReserves = userData?.userData || { userReserves: [], userEmodeCategoryId: 0 };
   const baseCurrencyInfo = poolData?.protocolData.baseCurrencyData;
 
   // const usdPriceEth = new BigNumber(10)
@@ -134,7 +125,8 @@ export function useCachedProtocolData(
         reservesData: reserves,
         baseCurrencyData: baseCurrencyInfo,
       },
-      userReserves,
+      userReserves: userReserves.userReserves,
+      userEmodeCategoryId: userReserves.userEmodeCategoryId,
     },
   };
 }

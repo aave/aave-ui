@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
-import queryString from 'query-string';
 import { useIntl } from 'react-intl';
-import {
-  calculateHealthFactorFromBalancesBigUnits,
-  InterestRate,
-  valueToBigNumber,
-} from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { getReferralCode } from '../../../../libs/referral-handler';
 import Row from '../../../../components/basic/Row';
 import NoDataPanel from '../../../../components/NoDataPanel';
@@ -27,20 +21,27 @@ import messages from './messages';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
+import {
+  calculateHealthFactorFromBalancesBigUnits,
+  USD_DECIMALS,
+  valueToBigNumber,
+} from '@aave/math-utils';
+import { InterestRate } from '@aave/contract-helpers';
+import { useSearchParams } from 'react-router-dom';
 
 function BorrowConfirmation({
-  currencySymbol,
   user,
   amount,
   poolReserve,
   userReserve,
-  location,
+  currencySymbol,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, userId } = useAppDataContext();
   const { lendingPool } = useTxBuilderContext();
   const { currentTheme } = useThemeContext();
   let blockingError = '';
+  const [search] = useSearchParams();
 
   const aTokenData = getAtokenInfo({
     address: poolReserve.underlyingAsset,
@@ -52,11 +53,10 @@ function BorrowConfirmation({
   // lock values to not update them after tx was executed
   const [isTxExecuted, setIsTxExecuted] = useState(false);
 
-  const query = queryString.parse(location.search);
-  const interestRateMode =
-    typeof query.rateMode === 'string'
-      ? InterestRate[query.rateMode as InterestRate]
-      : InterestRate.Variable;
+  const rateMode = search.get('rateMode');
+  const interestRateMode = rateMode
+    ? InterestRate[rateMode as InterestRate]
+    : InterestRate.Variable;
 
   if (!user) {
     return (
@@ -86,13 +86,13 @@ function BorrowConfirmation({
 
   let userAvailableAmountToBorrow = valueToBigNumber(
     user.availableBorrowsMarketReferenceCurrency
-  ).div(poolReserve.priceInMarketReferenceCurrency);
+  ).div(poolReserve.formattedPriceInMarketReferenceCurrency);
 
   if (
     userAvailableAmountToBorrow.gt(0) &&
     user?.totalBorrowsMarketReferenceCurrency !== '0' &&
     userAvailableAmountToBorrow.lt(
-      valueToBigNumber(poolReserve.availableLiquidity).multipliedBy('1.01')
+      valueToBigNumber(poolReserve.formattedAvailableLiquidity).multipliedBy('1.01')
     )
   ) {
     userAvailableAmountToBorrow = userAvailableAmountToBorrow.multipliedBy('0.995');
@@ -101,7 +101,7 @@ function BorrowConfirmation({
   if (interestRateMode === InterestRate.Stable && !poolReserve.stableBorrowRateEnabled) {
     blockingError = intl.formatMessage(messages.errorStableRateNotEnabled);
   }
-  if (amount.gt(poolReserve.availableLiquidity)) {
+  if (amount.gt(poolReserve.formattedAvailableLiquidity)) {
     blockingError = intl.formatMessage(messages.errorNotEnoughLiquidity, {
       currencySymbol,
     });
@@ -114,21 +114,24 @@ function BorrowConfirmation({
   }
 
   const amountToBorrowInUsd = amount
-    .multipliedBy(poolReserve.priceInMarketReferenceCurrency)
-    .multipliedBy(marketRefPriceInUsd);
+    .multipliedBy(poolReserve.formattedPriceInMarketReferenceCurrency)
+    .multipliedBy(marketReferencePriceInUsd)
+    .shiftedBy(-USD_DECIMALS);
 
-  const newHealthFactor = calculateHealthFactorFromBalancesBigUnits(
-    user.totalCollateralUSD,
-    valueToBigNumber(user.totalBorrowsUSD).plus(amountToBorrowInUsd),
-    user.currentLiquidationThreshold
-  );
+  const newHealthFactor = calculateHealthFactorFromBalancesBigUnits({
+    collateralBalanceMarketReferenceCurrency: user.totalCollateralUSD,
+    borrowBalanceMarketReferenceCurrency: valueToBigNumber(user.totalBorrowsUSD).plus(
+      amountToBorrowInUsd
+    ),
+    currentLiquidationThreshold: user.currentLiquidationThreshold,
+  });
 
   const handleGetTransactions = async () => {
     const referralCode = getReferralCode() || undefined;
     return await lendingPool.borrow({
       interestRateMode,
       referralCode,
-      user: user.id,
+      user: userId,
       amount: amount.toString(),
       reserve: poolReserve.underlyingAsset,
       debtTokenAddress:

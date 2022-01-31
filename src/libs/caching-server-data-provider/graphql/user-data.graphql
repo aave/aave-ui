@@ -10,7 +10,10 @@ fragment UserReserveDataFragment on UserReserveData {
 
 query C_UserData($userAddress: String!, $lendingPoolAddressProvider: String!) {
   userData(userAddress: $userAddress, lendingPoolAddressProvider: $lendingPoolAddressProvider) {
-    ...UserReserveDataFragment
+    userReserves {
+      ...UserReserveDataFragment
+    }
+    userEmodeCategoryId
   }
 }
 subscription C_UserDataUpdate($userAddress: String!, $lendingPoolAddressProvider: String!) {
@@ -18,6 +21,9 @@ subscription C_UserDataUpdate($userAddress: String!, $lendingPoolAddressProvider
     userAddress: $userAddress
     lendingPoolAddressProvider: $lendingPoolAddressProvider
   ) {
-    ...UserReserveDataFragment
+    userReserves {
+      ...UserReserveDataFragment
+    }
+    userEmodeCategoryId
   }
 }

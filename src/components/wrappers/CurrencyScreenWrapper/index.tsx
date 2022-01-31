@@ -15,7 +15,7 @@ import { ValidationWrapperComponentProps } from '../../RouteParamsValidationWrap
 import { GraphLegendDot } from '../../graphs/GraphLegend';
 import { InterestRateSeries } from '../../graphs/types';
 
-import messages from './messages';
+import defaultMessages from '../../../defaultMessages';
 
 interface CurrencyScreenWrapperProps
   extends Pick<
@@ -57,7 +57,9 @@ export default function CurrencyScreenWrapper({
 
   return (
     <ScreenWrapper
-      pageTitle={intl.formatMessage(type === 'deposit' ? messages.deposit : messages.borrow)}
+      pageTitle={intl.formatMessage(
+        type === 'deposit' ? defaultMessages.supply : defaultMessages.borrow
+      )}
       className="CurrencyScreenWrapper"
     >
       {!sm && (
@@ -88,6 +90,7 @@ export default function CurrencyScreenWrapper({
           dots={dots}
           series={series}
           isCollapse={isCollapse}
+          isUserInIsolationMode={user?.isInIsolationMode}
         />
       </TopPanelWrapper>
 
@@ -118,6 +121,7 @@ export default function CurrencyScreenWrapper({
           showGraphCondition={showGraphCondition}
           dots={dots}
           series={series}
+          isUserInIsolationMode={user?.isInIsolationMode}
         />
       </div>
 

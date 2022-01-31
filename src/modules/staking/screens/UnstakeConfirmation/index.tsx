@@ -1,27 +1,27 @@
 import React from 'react';
-import { Redirect, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import BigNumber from 'bignumber.js';
 import queryString from 'query-string';
 
 import { useStakeDataContext } from '../../../../libs/pool-data-provider/hooks/use-stake-data-context';
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import Row from '../../../../components/basic/Row';
 import Value from '../../../../components/basic/Value';
 
 import messages from './messages';
 import StakeTxConfirmationView from '../../components/StakeTxConfirmationView';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 export default function UnstakeConfirmation() {
   const intl = useIntl();
   const location = useLocation();
-  const { userId } = useStaticPoolDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { selectedStakeData, selectedStake, stakingService, cooldownStep } = useStakeDataContext();
 
   const query = queryString.parse(location.search);
   let amount = new BigNumber(typeof query.amount === 'string' ? query.amount : 0);
 
-  if (amount.eq(0) || !userId) {
+  if (amount.eq(0) || !currentAccount) {
     return null;
   }
 
@@ -31,7 +31,7 @@ export default function UnstakeConfirmation() {
       timeNowInSeconds ||
     cooldownStep < 2
   ) {
-    return <Redirect to="/staking" />;
+    return <Navigate replace to="/staking" />;
   }
 
   let blockingError = '';
@@ -39,7 +39,8 @@ export default function UnstakeConfirmation() {
     blockingError = intl.formatMessage(messages.blockingError);
   }
 
-  const handleGetTransactions = async () => stakingService.redeem(userId, amount.toString());
+  const handleGetTransactions = async () =>
+    stakingService.redeem(currentAccount, amount.toString());
 
   return (
     <StakeTxConfirmationView

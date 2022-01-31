@@ -1,15 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-  useNetworkCachedServerWsGraphCheck,
-  useQueryGraphCheck,
-} from './pool-data-provider/hooks/use-graph-check';
+import { APOLLO_QUERY_TARGET, useGraphValid } from './apollo-config/client-config';
 import { useProtocolDataContext } from './protocol-data-provider';
 
 export enum ConnectionMode {
   normal = 'normal',
   rpc = 'rpc',
 }
-export const WS_ATTEMPTS_LIMIT = 1;
 
 export interface ConnectionStatusProviderData {
   preferredConnectionMode: ConnectionMode;
@@ -21,8 +17,8 @@ export interface ConnectionStatusProviderData {
 const ConnectionStatusDataContext = React.createContext({} as ConnectionStatusProviderData);
 
 export function ConnectionStatusProvider({ children }: React.PropsWithChildren<{}>) {
-  const { networkConfig } = useProtocolDataContext();
-  const RPC_ONLY_MODE = networkConfig.rpcOnly;
+  const { networkConfig, chainId } = useProtocolDataContext();
+  const RPC_ONLY_MODE = !!networkConfig.rpcOnly;
   const [preferredConnectionMode, setPreferredConnectionMode] = useState<ConnectionMode>(
     RPC_ONLY_MODE
       ? ConnectionMode.rpc
@@ -40,14 +36,9 @@ export function ConnectionStatusProvider({ children }: React.PropsWithChildren<{
     console.log('RPC_ONLY_MODE_ENABLED', RPC_ONLY_MODE);
   }, [RPC_ONLY_MODE]);
 
-  const wsError = useNetworkCachedServerWsGraphCheck();
-  const queryError = useQueryGraphCheck();
+  const graphValid = useGraphValid(APOLLO_QUERY_TARGET.CHAIN(chainId));
 
-  const isRPCMandatory =
-    RPC_ONLY_MODE ||
-    wsError.wsErrorCount >= WS_ATTEMPTS_LIMIT ||
-    networkConfig.isFork ||
-    queryError.queryErrorCount >= 1;
+  const isRPCMandatory = RPC_ONLY_MODE || !graphValid;
   const isRPCActive = preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory;
   return (
     <ConnectionStatusDataContext.Provider

@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { valueToBigNumber } from '@aave/protocol-js';
+import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
 
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useLanguageContext } from '../../../../libs/language-provider';
-// import { useReservesRateHistoryHelper } from '../../../../helpers/use-reserve-rates-history';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import Row from '../../../basic/Row';
 import ValuePercent from '../../../basic/ValuePercent';
 import Value from '../../../basic/Value';
@@ -15,11 +14,14 @@ import GradientLine from '../../../basic/GradientLine';
 import MaxLTVHelpModal from '../../../HelpModal/MaxLTVHelpModal';
 import LiquidationThresholdHelpModal from '../../../HelpModal/LiquidationThresholdHelpModal';
 import LiquidationBonusHelpModal from '../../../HelpModal/LiquidationBonusHelpModal';
-// import GraphFilterButtons from '../../../graphs/GraphFilterButtons';
 import { ValidationWrapperComponentProps } from '../../../RouteParamsValidationWrapper';
 import { InterestRateSeries } from '../../../graphs/types';
 import { GraphLegendDot } from '../../../graphs/GraphLegend';
 import GraphInner from '../GraphInner';
+import IsolationModeBadge from '../../../isolationMode/IsolationModeBadge';
+import EModeIconWithTooltip from '../../../eMode/EModeIconWithTooltip';
+import CapsHelpModal from '../../../caps/CapsHelpModal';
+import { CapType } from '../../../caps/helper';
 import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
 
 import messages from './messages';
@@ -33,6 +35,7 @@ interface CurrencyOverviewProps
   dots?: GraphLegendDot[];
   series: InterestRateSeries[];
   isCollapse?: boolean;
+  isUserInIsolationMode?: boolean;
 }
 
 export default function CurrencyOverview({
@@ -44,34 +47,46 @@ export default function CurrencyOverview({
   dots,
   series,
   isCollapse,
+  isUserInIsolationMode,
 }: CurrencyOverviewProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
   const { currentLangSlug } = useLanguageContext();
+  const { marketReferencePriceInUsd, userEmodeCategoryId } = useAppDataContext();
   const asset = getAssetInfo(currencySymbol);
 
-  // const { mode, setMode } = useReservesRateHistoryHelper({
-  //   poolReserveId: poolReserve.id,
-  // }); TODO: uncomment when filters are added to history graphs
+  const userIsInEMode = userEmodeCategoryId !== 0;
 
   const overviewData = {
     utilizationRate: Number(poolReserve.utilizationRate),
-    availableLiquidity: poolReserve.availableLiquidity,
-    priceInUsd: valueToBigNumber(poolReserve.priceInMarketReferenceCurrency)
-      .multipliedBy(marketRefPriceInUsd)
+    availableLiquidity: poolReserve.formattedAvailableLiquidity,
+    priceInUsd: valueToBigNumber(poolReserve.formattedPriceInMarketReferenceCurrency)
+      .multipliedBy(marketReferencePriceInUsd)
+      .shiftedBy(-USD_DECIMALS)
       .toNumber(),
     depositApy: Number(poolReserve.supplyAPY),
-    avg30DaysLiquidityRate: Number(poolReserve.avg30DaysLiquidityRate),
     stableRate: Number(poolReserve.stableBorrowAPY),
     variableRate: Number(poolReserve.variableBorrowAPY),
-    avg30DaysVariableRate: Number(poolReserve.avg30DaysVariableBorrowRate),
     usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
-    baseLTVasCollateral: Number(poolReserve.baseLTVasCollateral),
-    liquidationThreshold: Number(poolReserve.reserveLiquidationThreshold),
-    liquidationBonus: Number(poolReserve.reserveLiquidationBonus),
+    baseLTVasCollateral:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.formattedEModeLtv)
+        : Number(poolReserve.formattedBaseLTVasCollateral),
+    liquidationThreshold:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.formattedEModeLiquidationThreshold)
+        : Number(poolReserve.formattedReserveLiquidationThreshold),
+    liquidationBonus:
+      userIsInEMode && poolReserve.eModeCategoryId === userEmodeCategoryId
+        ? Number(poolReserve.formattedEModeLiquidationBonus)
+        : Number(poolReserve.formattedReserveLiquidationBonus),
     borrowingEnabled: poolReserve.borrowingEnabled,
+    isIsolated: poolReserve.isIsolated,
+    supplyCap: poolReserve.supplyCap,
+    supplyCapUSD: poolReserve.supplyCapUSD,
+    borrowCap: poolReserve.borrowCap,
+    borrowCapUSD: poolReserve.borrowCapUSD,
   };
 
   const graphBorder = rgba(`${currentTheme.white.rgb}, 0.5`);
@@ -108,32 +123,18 @@ export default function CurrencyOverview({
           <Value symbol={currencySymbol} value={overviewData.availableLiquidity} color="white" />
         </Row>
 
-        {isDeposit ? (
+        {isDeposit && (
           <>
             <Row
               className="CurrencyOverview__row"
               title={intl.formatMessage(messages.depositAPY)}
-              subTitle={
-                !!overviewData.avg30DaysLiquidityRate && !isCollapse
-                  ? intl.formatMessage(messages.depositAPR)
-                  : ''
-              }
               color="white"
               weight="light"
               isColumn={isCollapse}
             >
               <div className="CurrencyOverview__rowWithDoubleValue">
                 {overviewData.borrowingEnabled ? (
-                  <>
-                    <ValuePercent value={overviewData.depositApy} color="white" />
-                    {!!overviewData.avg30DaysLiquidityRate && !isCollapse && (
-                      <ValuePercent
-                        value={overviewData.avg30DaysLiquidityRate}
-                        color="white"
-                        className="CurrencyOverview__thirtyDays"
-                      />
-                    )}
-                  </>
+                  <ValuePercent value={overviewData.depositApy} color="white" />
                 ) : (
                   <span className="CurrencyOverview__no-data">—</span>
                 )}
@@ -142,56 +143,57 @@ export default function CurrencyOverview({
 
             <Row
               className="CurrencyOverview__row"
-              title={intl.formatMessage(messages.canBeUsedAsCollateral)}
+              title={<CapsHelpModal capType={CapType.supplyCap} color="white" />}
               color="white"
               weight="light"
               isColumn={isCollapse}
             >
-              <p
-                className={classNames('CurrencyOverview__usageAsCollateral', {
-                  CurrencyOverview__usageAsCollateralDisabled:
-                    !overviewData.usageAsCollateralEnabled,
-                })}
-              >
-                {intl.formatMessage(
-                  overviewData.usageAsCollateralEnabled ? messages.yes : messages.no
-                )}
-              </p>
-            </Row>
-          </>
-        ) : (
-          <>
-            {!isCollapse && (
-              <Row
-                className="CurrencyOverview__row"
-                title={intl.formatMessage(messages.assetPrice)}
-                color="white"
-                weight="light"
-                isColumn={isCollapse}
-              >
+              {overviewData.supplyCap !== '0' ? (
                 <Value
-                  tokenIcon={true}
-                  symbol="USD"
-                  value={overviewData.priceInUsd}
-                  maximumValueDecimals={2}
+                  value={overviewData.supplyCap}
+                  subValue={!isCollapse ? overviewData.supplyCapUSD : undefined}
+                  subSymbol="USD"
+                  symbol={currencySymbol}
                   color="white"
                 />
-              </Row>
-            )}
+              ) : (
+                <span className="CurrencyOverview__no-data">—</span>
+              )}
+            </Row>
           </>
+        )}
+
+        {!isDeposit && (
+          <Row
+            className="CurrencyOverview__row"
+            title={<CapsHelpModal capType={CapType.borrowCap} color="white" />}
+            color="white"
+            weight="light"
+            isColumn={isCollapse}
+          >
+            {overviewData.borrowCap !== '0' ? (
+              <Value
+                value={overviewData.borrowCap}
+                subValue={!isCollapse ? overviewData.borrowCapUSD : undefined}
+                subSymbol="USD"
+                symbol={currencySymbol}
+                color="white"
+              />
+            ) : (
+              <span className="CurrencyOverview__no-data">—</span>
+            )}
+          </Row>
         )}
       </>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isCollapse,
-    overviewData.availableLiquidity,
-    overviewData.avg30DaysLiquidityRate,
     overviewData.borrowingEnabled,
     overviewData.depositApy,
     overviewData.priceInUsd,
     overviewData.usageAsCollateralEnabled,
-    overviewData.utilizationRate,
+
     currentLangSlug,
   ]);
 
@@ -200,23 +202,34 @@ export default function CurrencyOverview({
       <>
         {isDeposit ? (
           <>
-            {!isCollapse && (
-              <Row
-                className="CurrencyOverview__row"
-                title={intl.formatMessage(messages.assetPrice)}
-                color="white"
-                weight="light"
-                isColumn={isCollapse}
-              >
-                <Value
-                  tokenIcon={true}
-                  symbol="USD"
-                  value={overviewData.priceInUsd}
-                  maximumValueDecimals={2}
-                  color="white"
-                />
-              </Row>
-            )}
+            <Row
+              className="CurrencyOverview__row"
+              title={intl.formatMessage(messages.canBeUsedAsCollateral)}
+              color="white"
+              weight="light"
+              isColumn={isCollapse}
+            >
+              {!isUserInIsolationMode ? (
+                <>
+                  {!overviewData.isIsolated ? (
+                    <p
+                      className={classNames('CurrencyOverview__usageAsCollateral', {
+                        CurrencyOverview__usageAsCollateralDisabled:
+                          !overviewData.usageAsCollateralEnabled,
+                      })}
+                    >
+                      {intl.formatMessage(
+                        overviewData.usageAsCollateralEnabled ? messages.yes : messages.no
+                      )}
+                    </p>
+                  ) : (
+                    <IsolationModeBadge isIsolated={overviewData.isIsolated} color="white" />
+                  )}
+                </>
+              ) : (
+                <IsolationModeBadge isIsolated={overviewData.isIsolated} color="white" />
+              )}
+            </Row>
 
             <Row
               className="CurrencyOverview__row"
@@ -234,7 +247,35 @@ export default function CurrencyOverview({
               {overviewData.baseLTVasCollateral === 0 ? (
                 <span className="CurrencyOverview__no-data">—</span>
               ) : (
-                <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                <>
+                  {isUserInIsolationMode ? (
+                    <>
+                      {overviewData.isIsolated ? (
+                        <div className="CurrencyOverview__percentContent">
+                          {userIsInEMode && userEmodeCategoryId === poolReserve.eModeCategoryId && (
+                            <EModeIconWithTooltip
+                              tooltipId={poolReserve.id}
+                              eModeCategoryId={userEmodeCategoryId}
+                            />
+                          )}
+                          <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                        </div>
+                      ) : (
+                        <span className="CurrencyOverview__no-data">—</span>
+                      )}
+                    </>
+                  ) : (
+                    <div className="CurrencyOverview__percentContent">
+                      {userIsInEMode && userEmodeCategoryId === poolReserve.eModeCategoryId && (
+                        <EModeIconWithTooltip
+                          tooltipId={poolReserve.id}
+                          eModeCategoryId={userEmodeCategoryId}
+                        />
+                      )}
+                      <ValuePercent value={overviewData.baseLTVasCollateral} color="white" />
+                    </div>
+                  )}
+                </>
               )}
             </Row>
 
@@ -255,7 +296,19 @@ export default function CurrencyOverview({
                 {overviewData.liquidationThreshold <= 0 ? (
                   <span className="CurrencyOverview__no-data">—</span>
                 ) : (
-                  <ValuePercent value={overviewData.liquidationThreshold} color="white" />
+                  <>
+                    {isUserInIsolationMode ? (
+                      <>
+                        {overviewData.isIsolated ? (
+                          <ValuePercent value={overviewData.liquidationThreshold} color="white" />
+                        ) : (
+                          <span className="CurrencyOverview__no-data">—</span>
+                        )}
+                      </>
+                    ) : (
+                      <ValuePercent value={overviewData.liquidationThreshold} color="white" />
+                    )}
+                  </>
                 )}
               </Row>
             )}
@@ -277,7 +330,19 @@ export default function CurrencyOverview({
                 {overviewData.liquidationBonus <= 0 ? (
                   <span className="CurrencyOverview__no-data">—</span>
                 ) : (
-                  <ValuePercent value={overviewData.liquidationBonus} color="white" />
+                  <>
+                    {isUserInIsolationMode ? (
+                      <>
+                        {overviewData.isIsolated ? (
+                          <ValuePercent value={overviewData.liquidationBonus} color="white" />
+                        ) : (
+                          <span className="CurrencyOverview__no-data">—</span>
+                        )}
+                      </>
+                    ) : (
+                      <ValuePercent value={overviewData.liquidationBonus} color="white" />
+                    )}
+                  </>
                 )}
               </Row>
             )}
@@ -306,48 +371,23 @@ export default function CurrencyOverview({
             >
               <div className="CurrencyOverview__rowWithDoubleValue">
                 <ValuePercent value={overviewData.variableRate} color="white" />
-                {!!overviewData.avg30DaysVariableRate && !isCollapse && (
-                  <ValuePercent
-                    value={overviewData.avg30DaysVariableRate}
-                    color="white"
-                    className="CurrencyOverview__thirtyDays"
-                  />
-                )}
               </div>
             </Row>
           </>
-        )}
-
-        {isCollapse && (
-          <Row
-            className="CurrencyOverview__row"
-            title={intl.formatMessage(messages.assetPrice)}
-            color="white"
-            weight="light"
-            isColumn={isCollapse}
-          >
-            <Value
-              tokenIcon={true}
-              symbol="USD"
-              value={overviewData.priceInUsd}
-              maximumValueDecimals={2}
-              color="white"
-            />
-          </Row>
         )}
       </>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isCollapse,
-    overviewData.priceInUsd,
+    isUserInIsolationMode,
     overviewData.baseLTVasCollateral,
     overviewData.liquidationThreshold,
     overviewData.liquidationBonus,
     overviewData.stableBorrowRateEnabled,
     overviewData.stableRate,
-    overviewData.avg30DaysVariableRate,
     overviewData.variableRate,
+    overviewData.isIsolated,
     currentLangSlug,
   ]);
 
@@ -361,7 +401,7 @@ export default function CurrencyOverview({
       <div className="CurrencyOverview__caption">
         {title && <p className="CurrencyOverview__caption-title">{title}</p>}
         <Link
-          to={`/reserve-overview/${poolReserve.underlyingAsset}${poolReserve.id}`}
+          to={`/reserve-overview/${poolReserve.underlyingAsset}`}
           className="CurrencyOverview__captionLink"
           color="white"
         >
@@ -391,10 +431,6 @@ export default function CurrencyOverview({
             </div>
           )}
         </div>
-
-        {/*<div className="CurrencyOverview__mobileFilterButtons">*/}
-        {/*  <GraphFilterButtons setMode={setMode} mode={mode} />*/}
-        {/*</div> TODO: uncomment when filters are added to history graphs */}
 
         {!isCollapse && (
           <div

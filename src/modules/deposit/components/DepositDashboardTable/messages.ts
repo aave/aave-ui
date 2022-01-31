@@ -1,21 +1,12 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  yourDeposits: 'Your deposits',
-  secondTableColumnTitle: 'Current balance',
-  collateral: 'Collateral',
+  yourSupplies: 'Your supplies',
+  balance: 'Balance',
+  collateral: 'Used as collateral',
 
-  currentBalanceUSDRowTitle: 'Current balance in USD',
-  thirtyDaysAverageTitle: '30 Days Average',
-
-  valueRowTitle: 'Earned',
   apyRowTitle: 'APY',
   useAsCollateralRowTitle: 'Use as collateral',
 
-  withdrawYourDeposit: 'Withdraw your deposit',
-  swapYourDeposit: 'Swap your deposit',
-  depositMore: 'Deposit more',
-
-  offLabel: 'No',
-  onLabel: 'Yes',
+  nothingSupplied: 'Nothing supplied yet',
 });

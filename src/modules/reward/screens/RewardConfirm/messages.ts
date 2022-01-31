@@ -1,12 +1,11 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  pageTitle: 'Reward',
-
   title: 'Your transaction overview',
   description:
     'These are your transaction details. Make sure to check if this is correct before submitting.',
   claim: 'Claim',
+  totalWorth: 'Total worth',
   boxDescription: 'Please submit to claim',
 
   notEnoughBalance: 'Your reward balance is 0',

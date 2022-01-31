@@ -1,8 +1,8 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/math-utils';
 
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import Preloader from '../../../../components/basic/Preloader';
 import FaucetAssetTable from '../../components/FaucetAssetTable';
@@ -10,28 +10,32 @@ import FaucetAssetTable from '../../components/FaucetAssetTable';
 import messages from './messages';
 
 import { FaucetTableItem } from '../../components/FaucetAssetTable/types';
-import { useWalletBalanceProviderContext } from '../../../../libs/wallet-balance-provider/WalletBalanceProvider';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
 export default function FaucetMain() {
   const intl = useIntl();
-  const { userId, rawReserves, networkConfig } = useStaticPoolDataContext();
+  const { networkConfig } = useProtocolDataContext();
+  const { reserves, userId, walletBalances } = useAppDataContext();
 
-  const { walletData } = useWalletBalanceProviderContext();
-  if (!walletData) {
+  if (!walletBalances) {
     return <Preloader />;
   }
 
-  const listData = rawReserves
+  const listData = reserves
     .filter(
-      (reserve) => reserve.symbol.toUpperCase() !== networkConfig.baseAsset && !reserve.isFrozen
+      (reserve) =>
+        reserve.symbol.toUpperCase() !== networkConfig.baseAssetSymbol &&
+        !reserve.isFrozen &&
+        reserve.symbol.toUpperCase() !== 'WETH' &&
+        reserve.symbol.toUpperCase() !== 'WFTM' &&
+        reserve.symbol.toUpperCase() !== 'WONE' &&
+        reserve.symbol.toUpperCase() !== 'WAVAX' &&
+        reserve.symbol.toUpperCase() !== 'WMATIC'
     )
     .map<FaucetTableItem>((reserve) => {
-      const walletBalance =
-        walletData[reserve.underlyingAsset] === '0'
-          ? valueToBigNumber('0')
-          : valueToBigNumber(walletData[reserve.underlyingAsset] || '0').dividedBy(
-              valueToBigNumber('10').pow(reserve.decimals)
-            );
+      const walletBalance = valueToBigNumber(
+        walletBalances[reserve.underlyingAsset]?.amount || '0'
+      );
       return {
         ...reserve,
         walletBalance,

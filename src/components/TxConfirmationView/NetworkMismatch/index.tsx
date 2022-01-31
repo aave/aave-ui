@@ -1,72 +1,26 @@
-import React from 'react';
-import { useIntl } from 'react-intl';
-import classNames from 'classnames';
-import { useThemeContext } from '@aave/aave-ui-kit';
-
-import DefaultButton from '../../basic/DefaultButton';
-import AccessMaticMarketHelpModal from '../../HelpModal/AccessMaticMarketHelpModal';
 import {
   AvailableWeb3Connectors,
   useUserWalletDataContext,
 } from '../../../libs/web3-data-provider';
-import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
 
-import messages from './messages';
-import staticStyles from './style';
+import AccessMaticMarketHelpModal from '../../HelpModal/AccessMaticMarketHelpModal';
 import { ChainId } from '@aave/contract-helpers';
-import { useWeb3React } from '@web3-react/core';
+import DefaultButton from '../../basic/DefaultButton';
+import React from 'react';
+import classNames from 'classnames';
+import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
+import messages from './messages';
 import { providers } from 'ethers';
+import staticStyles from './style';
+import { useIntl } from 'react-intl';
+import { useThemeContext } from '@aave/aave-ui-kit';
+import { useWeb3React } from '@web3-react/core';
 
 interface NetworkMismatchProps {
   neededChainId: ChainId;
   currentChainId: ChainId;
   currentProviderName: AvailableWeb3Connectors;
 }
-
-const ADD_CONFIG: {
-  [key: number]: {
-    name: string;
-    explorerUrls: string[];
-    nativeCurrency: { name: string; symbol: string; decimals: number };
-  };
-} = {
-  [ChainId.polygon]: {
-    name: 'Polygon',
-    explorerUrls: ['https://explorer.matic.network'],
-    nativeCurrency: {
-      name: 'Matic',
-      symbol: 'MATIC',
-      decimals: 18,
-    },
-  },
-  [ChainId.mumbai]: {
-    name: 'Mumbai',
-    explorerUrls: ['https://explorer-mumbai.maticvigil.com'],
-    nativeCurrency: {
-      name: 'Matic',
-      symbol: 'MATIC',
-      decimals: 18,
-    },
-  },
-  [ChainId.avalanche]: {
-    name: 'Avalanche',
-    explorerUrls: ['https://cchain.explorer.avax.network'],
-    nativeCurrency: {
-      name: 'Avalanche',
-      symbol: 'AVAX',
-      decimals: 18,
-    },
-  },
-  [ChainId.fuji]: {
-    name: 'Avalanche Fuji',
-    explorerUrls: ['https://cchain.explorer.avax-test.network'],
-    nativeCurrency: {
-      name: 'Avalanche',
-      symbol: 'AVAX',
-      decimals: 18,
-    },
-  },
-};
 
 export default function NetworkMismatch({
   neededChainId,
@@ -78,19 +32,15 @@ export default function NetworkMismatch({
   const { library } = useWeb3React<providers.Web3Provider>();
   const { handleNetworkChange } = useUserWalletDataContext();
 
-  const config = ADD_CONFIG[neededChainId];
   const isAddable =
     (global.window as any)?.ethereum?.isMetaMask &&
-    ['browser', 'wallet-link'].includes(currentProviderName) &&
-    config;
-  const { publicJsonRPCWSUrl, publicJsonRPCUrl } = getNetworkConfig(neededChainId);
+    ['browser', 'wallet-link'].includes(currentProviderName);
 
   // const isExternalNetworkUpdateNeeded =
   //   !isMetaMaskForMatic && ['browser', 'wallet-connect'].includes(currentProviderName);
-  const isManualNetworkUpdateNeeded = ['torus', 'portis'].includes(currentProviderName);
+  const isManualNetworkUpdateNeeded = ['torus'].includes(currentProviderName);
   const isNeededNetworkNotSupported =
-    neededChainId === ChainId.polygon &&
-    ['authereum', 'fortmatic', 'mew-wallet', 'ledger'].includes(currentProviderName);
+    neededChainId === ChainId.polygon && ['mew-wallet', 'ledger'].includes(currentProviderName);
 
   const neededNetworkConfig = getNetworkConfig(neededChainId);
   const currentNetworkConfig = getNetworkConfig(currentChainId);
@@ -125,36 +75,41 @@ export default function NetworkMismatch({
                 })}
           </p>
 
-          {isAddable && config && (
+          {isAddable && library && (
             <DefaultButton
               title={intl.formatMessage(messages.changeNetwork)}
               onClick={async () => {
-                if (library) {
-                  try {
-                    await library.provider.request!({
-                      method: 'wallet_switchEthereumChain',
-                      params: [{ chainId: `0x${neededChainId.toString(16)}` }],
-                    });
-                  } catch (switchError) {
-                    console.log(switchError);
-                    if (switchError.code === 4902) {
-                      try {
-                        await library.provider.request!({
-                          method: 'wallet_addEthereumChain',
-                          params: [
-                            {
-                              chainId: `0x${neededChainId.toString(16)}`,
-                              chainName: config.name,
-                              nativeCurrency: config.nativeCurrency,
-                              rpcUrls: [...publicJsonRPCUrl, publicJsonRPCWSUrl],
-                              blockExplorerUrls: config.explorerUrls,
+                try {
+                  await library.provider.request!({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: `0x${neededChainId.toString(16)}` }],
+                  });
+                } catch (switchError) {
+                  if (neededNetworkConfig && switchError.code === 4902) {
+                    try {
+                      await library.provider.request!({
+                        method: 'wallet_addEthereumChain',
+                        params: [
+                          {
+                            chainId: `0x${neededChainId.toString(16)}`,
+                            chainName: neededNetworkConfig.name,
+                            nativeCurrency: {
+                              symbol: neededNetworkConfig.baseAssetSymbol.toUpperCase(),
+                              decimals: neededNetworkConfig.baseAssetDecimals,
+                              name:
+                                neededNetworkConfig.baseAssetSymbol.charAt(0).toUpperCase() +
+                                neededNetworkConfig.baseAssetSymbol.slice(1).toLowerCase(),
                             },
-                          ],
-                        });
-                      } catch (addError) {
-                        console.log(addError);
-                        // TODO: handle error somehow
-                      }
+                            rpcUrls: [
+                              ...neededNetworkConfig.publicJsonRPCUrl,
+                              neededNetworkConfig.publicJsonRPCWSUrl,
+                            ],
+                            blockExplorerUrls: [neededNetworkConfig.explorerLink],
+                          },
+                        ],
+                      });
+                    } catch (addError) {
+                      // TODO: handle error somehow
                     }
                   }
                 }

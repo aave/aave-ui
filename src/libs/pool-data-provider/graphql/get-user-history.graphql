@@ -71,7 +71,3 @@ query UserHistory($id: String!, $pool: String, $first: Int, $skip: Int) {
     }
   }
 }
-
-query ConnectionStatus {
-  isDisconnected @client
-}

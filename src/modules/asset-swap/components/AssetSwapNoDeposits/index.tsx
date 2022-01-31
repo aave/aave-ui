@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
 
@@ -17,7 +17,7 @@ interface AssetSwapNoDepositsProps {
 
 export default function AssetSwapNoDeposits({ numberOfDepositedAssets }: AssetSwapNoDepositsProps) {
   const intl = useIntl();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { currentTheme } = useThemeContext();
 
   const background = rgba(`${currentTheme.textDarkBlue.rgb}, 0.03`);
@@ -28,7 +28,7 @@ export default function AssetSwapNoDeposits({ numberOfDepositedAssets }: AssetSw
         title={intl.formatMessage(defaultMessages.swap)}
         description={intl.formatMessage(messages.description, {
           assetsDeposited: <strong>1 {intl.formatMessage(messages.assetsDeposited)}</strong>,
-          deposited: <strong>{intl.formatMessage(messages.deposited)}</strong>,
+          deposited: <strong>{intl.formatMessage(messages.supplied)}</strong>,
         })}
       />
 
@@ -58,7 +58,7 @@ export default function AssetSwapNoDeposits({ numberOfDepositedAssets }: AssetSw
       <DefaultButton
         title={intl.formatMessage(messages.depositNow)}
         mobileBig={true}
-        onClick={() => history.push('/deposit')}
+        onClick={() => navigate('/dashboard')}
       />
 
       <style jsx={true} global={true}>

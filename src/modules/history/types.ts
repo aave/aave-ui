@@ -3,6 +3,7 @@ import { BorrowRateMode } from '../../libs/pool-data-provider/graphql';
 export interface HistoryItemTypes {
   type?:
     | 'Deposit'
+    | 'Supply'
     | 'Borrow'
     | 'RedeemUnderlying'
     | 'Repay'

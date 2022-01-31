@@ -1,8 +1,9 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { InterestRate } from '@aave/contract-helpers';
+import { ComputedUserReserve, valueToBigNumber } from '@aave/math-utils';
 
 import { BorrowRateMode } from '../../../../../libs/pool-data-provider/graphql';
 import { loanActionLinkComposer } from '../../../../../helpers/loan-action-link-composer';
@@ -16,7 +17,6 @@ import { TokenIcon } from '../../../../../helpers/config/assets-config';
 import defaultMessages from '../../../../../defaultMessages';
 import messages from './messages';
 import staticStyles from './style';
-import { ComputedUserReserve } from '@aave/math-utils';
 import { ComputedReserveData } from '../../../../../libs/pool-data-provider';
 
 interface BorrowTableItemProps {
@@ -24,7 +24,7 @@ interface BorrowTableItemProps {
   poolReserve: ComputedReserveData;
   userReserve?: ComputedUserReserve;
   type: 'stable' | 'variable';
-  availableBorrows: number;
+  isBorrowEnable: boolean;
 }
 
 export default function BorrowTableItem({
@@ -32,10 +32,10 @@ export default function BorrowTableItem({
   poolReserve,
   userReserve,
   type,
-  availableBorrows,
+  isBorrowEnable,
 }: BorrowTableItemProps) {
   const intl = useIntl();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { currentTheme, xl, isCurrentThemeDark } = useThemeContext();
 
   const borrows =
@@ -50,14 +50,12 @@ export default function BorrowTableItem({
   const repayLink = loanActionLinkComposer(
     'repay',
     poolReserve.id,
-    type === 'stable' ? InterestRate.Stable : InterestRate.Variable,
-    poolReserve.underlyingAsset
+    type === 'stable' ? InterestRate.Stable : InterestRate.Variable
   );
   const borrowLink = loanActionLinkComposer(
     'borrow',
     poolReserve.id,
-    type === 'stable' ? InterestRate.Stable : InterestRate.Variable,
-    poolReserve.underlyingAsset
+    type === 'stable' ? InterestRate.Stable : InterestRate.Variable
   );
 
   const borrowRateMode = type === 'stable' ? InterestRate.Stable : InterestRate.Variable;
@@ -86,8 +84,7 @@ export default function BorrowTableItem({
         <CustomSwitch
           onSwitch={() =>
             toggleBorrowRateMode(
-              history,
-              poolReserve.id,
+              navigate,
               type === 'stable' ? InterestRate.Stable : InterestRate.Variable,
               poolReserve.underlyingAsset
             )
@@ -105,16 +102,12 @@ export default function BorrowTableItem({
       </div>
 
       <div className="BorrowTableItem__column">
-        <Link
-          to={borrowLink}
-          className="ButtonLink"
-          disabled={!availableBorrows || !poolReserve.borrowingEnabled || poolReserve.isFrozen}
-        >
+        <Link to={borrowLink} className="ButtonLink" disabled={!isBorrowEnable}>
           <DefaultButton
             className="BorrowTableItem__button"
             title={intl.formatMessage(defaultMessages.borrow)}
             color="dark"
-            disabled={!availableBorrows || !poolReserve.borrowingEnabled || poolReserve.isFrozen}
+            disabled={!isBorrowEnable}
           />
         </Link>
 

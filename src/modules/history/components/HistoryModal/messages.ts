@@ -2,7 +2,7 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   borrowedDescription: 'You borrowed this asset',
-  depositDescription: 'You deposited this asset',
+  depositDescription: 'You supplied this asset',
   APYTypeChangeDescription: 'You have changed your APY Type for your asset',
   repaidDescription: 'You have made a repayment',
   withdrawalDescription: 'You withdrew an asset to an external address',

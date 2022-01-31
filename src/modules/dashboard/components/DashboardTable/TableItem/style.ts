@@ -9,17 +9,16 @@ const staticStyles = css.global`
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 6px 10px;
+    padding: 11px 10px 10px;
     position: relative;
-    box-shadow: $boxShadow;
-    border-radius: $borderRadius;
-    margin-bottom: 6px;
-    min-height: 70px;
-    @include respond-to(xl) {
-      min-height: 60px;
-    }
-    @include respond-to(lg) {
-      min-height: 55px;
+    min-height: 72px;
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
     }
 
     &__withInfo {
@@ -29,14 +28,7 @@ const staticStyles = css.global`
 
     .TableItem__inner {
       align-items: flex-start;
-    }
-
-    &__assetColor {
-      display: inline-block;
-      position: absolute;
-      left: 0;
-      width: 2px;
-      height: 25px;
+      justify-content: flex-start;
     }
 
     .TableItem__token {
@@ -51,12 +43,6 @@ const staticStyles = css.global`
         .TokenIcon__image {
           margin-right: 0;
         }
-      }
-    }
-
-    .TableCol {
-      &:nth-of-type(3) {
-        max-width: 130px;
       }
     }
 

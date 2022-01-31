@@ -1,11 +1,9 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  marketSize: 'Market size',
+  totalDeposited: 'Total supplied',
   totalBorrowed: 'Total borrowed',
 
-  deposit: 'Deposit',
-  borrow: 'Borrow',
   variable: 'Variable',
   stable: 'Stable',
 });

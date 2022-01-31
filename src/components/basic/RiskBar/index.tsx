@@ -1,17 +1,17 @@
 import React from 'react';
 import { Range } from 'react-range';
 import { useIntl } from 'react-intl';
-import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/protocol-js';
-
 import { useThemeContext } from '@aave/aave-ui-kit';
-import {
-  useStaticPoolDataContext,
-  useDynamicPoolDataContext,
-} from '../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../libs/pool-data-provider';
 import ValuePercent from '../ValuePercent';
 
 import messages from './messages';
 import staticStyles from './style';
+import {
+  calculateHealthFactorFromBalancesBigUnits,
+  USD_DECIMALS,
+  valueToBigNumber,
+} from '@aave/math-utils';
 
 interface RiskBarProps {
   value: number;
@@ -23,8 +23,7 @@ interface RiskBarProps {
 export default function RiskBar({ value, onChange, maxAmount, currencySymbol }: RiskBarProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
-  const { reserves, user } = useDynamicPoolDataContext();
+  const { marketReferencePriceInUsd, reserves, user } = useAppDataContext();
 
   if (!user) {
     return null;
@@ -32,17 +31,20 @@ export default function RiskBar({ value, onChange, maxAmount, currencySymbol }: 
 
   const reserveETHPrice = reserves.find(
     (reserve) => reserve.symbol === currencySymbol
-  )?.priceInMarketReferenceCurrency;
+  )?.formattedPriceInMarketReferenceCurrency;
 
   const amountToBorrowInUsd = valueToBigNumber(value)
     .multipliedBy(reserveETHPrice || '0')
-    .multipliedBy(marketRefPriceInUsd);
+    .multipliedBy(marketReferencePriceInUsd)
+    .shiftedBy(-USD_DECIMALS);
 
-  const newHealthFactor = calculateHealthFactorFromBalancesBigUnits(
-    user.totalCollateralUSD,
-    valueToBigNumber(user.totalBorrowsUSD).plus(amountToBorrowInUsd),
-    user.currentLiquidationThreshold
-  );
+  const newHealthFactor = calculateHealthFactorFromBalancesBigUnits({
+    collateralBalanceMarketReferenceCurrency: user.totalCollateralMarketReferenceCurrency,
+    borrowBalanceMarketReferenceCurrency: valueToBigNumber(user.totalBorrowsUSD).plus(
+      amountToBorrowInUsd
+    ),
+    currentLiquidationThreshold: user.currentLiquidationThreshold,
+  });
 
   const handleChange = (value: number[]) => {
     onChange(value[0].toString());

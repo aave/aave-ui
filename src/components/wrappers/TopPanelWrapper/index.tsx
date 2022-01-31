@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { useIntl } from 'react-intl';
+import { MessageDescriptor, useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
@@ -12,6 +12,8 @@ interface TopPanelWrapperProps {
   children: ReactNode;
   className?: string;
   withoutCollapseButton?: boolean;
+  expandMessage?: MessageDescriptor;
+  minimizeMessage?: MessageDescriptor;
 }
 
 export default function TopPanelWrapper({
@@ -20,6 +22,8 @@ export default function TopPanelWrapper({
   children,
   className,
   withoutCollapseButton,
+  expandMessage,
+  minimizeMessage,
 }: TopPanelWrapperProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
@@ -35,7 +39,11 @@ export default function TopPanelWrapper({
           onClick={() => setIsCollapse && setIsCollapse(!isCollapse)}
         >
           <span />
-          {intl.formatMessage(isCollapse ? messages.expand : messages.minimize)}
+          {intl.formatMessage(
+            isCollapse
+              ? expandMessage || messages.showDetails
+              : minimizeMessage || messages.hideDetails
+          )}
         </button>
       )}
 

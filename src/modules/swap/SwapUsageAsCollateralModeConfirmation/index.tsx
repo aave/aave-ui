@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import queryString from 'query-string';
 import { useIntl } from 'react-intl';
-import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../libs/tx-provider';
 import SwapConfirmationWrapper from '../../../components/wrappers/SwapConfirmationWrapper';
 import PoolTxConfirmationView from '../../../components/PoolTxConfirmationView';
@@ -18,20 +16,29 @@ import routeParamValidationHOC, {
 import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
+import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/math-utils';
+import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
+import { useLocation } from 'react-router';
+import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 
 function SwapUsageAsCollateralModeConfirmation({
-  currencySymbol,
+  currencySymbol: _currencySymbol,
   poolReserve,
   user,
   userReserve,
-  location,
 }: ValidationWrapperComponentProps) {
   const { lendingPool } = useTxBuilderContext();
-  const { WrappedBaseNetworkAssetAddress, networkConfig } = useStaticPoolDataContext();
+  const { networkConfig } = useProtocolDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const [isTxExecuted, setIsTxExecuted] = useState(false);
   const { lg, md } = useThemeContext();
   const intl = useIntl();
+  const location = useLocation();
   const query = queryString.parse(location.search);
+  const currencySymbol =
+    _currencySymbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+      ? networkConfig.baseAssetSymbol
+      : _currencySymbol;
 
   const asset = getAssetInfo(currencySymbol);
 
@@ -51,11 +58,8 @@ function SwapUsageAsCollateralModeConfirmation({
 
   const handleGetTransactions = async () =>
     await lendingPool.setUsageAsCollateral({
-      user: user.id,
-      reserve:
-        poolReserve.symbol === networkConfig.baseAsset
-          ? WrappedBaseNetworkAssetAddress
-          : poolReserve.underlyingAsset,
+      user: currentAccount,
+      reserve: poolReserve.underlyingAsset,
       usageAsCollateral: query.asCollateral === 'true',
     });
   const usageAsCollateralModeAfterSwitch = !userReserve.usageAsCollateralEnabledOnUser;
@@ -67,11 +71,11 @@ function SwapUsageAsCollateralModeConfirmation({
     usageAsCollateralModeAfterSwitch ? 'plus' : 'minus'
   ](userReserve.underlyingBalanceMarketReferenceCurrency);
 
-  const healthFactorAfterSwitch = calculateHealthFactorFromBalancesBigUnits(
-    totalCollateralAfterSwitchETH,
-    user.totalBorrowsMarketReferenceCurrency,
-    user.currentLiquidationThreshold
-  );
+  const healthFactorAfterSwitch = calculateHealthFactorFromBalancesBigUnits({
+    collateralBalanceMarketReferenceCurrency: totalCollateralAfterSwitchETH,
+    borrowBalanceMarketReferenceCurrency: user.totalBorrowsMarketReferenceCurrency,
+    currentLiquidationThreshold: user.currentLiquidationThreshold,
+  });
 
   let blockingError = '';
   if (valueToBigNumber(userReserve.underlyingBalance).eq(0)) {
@@ -95,12 +99,18 @@ function SwapUsageAsCollateralModeConfirmation({
     query.asCollateral === 'true' ? messages.pageTitleFirst : messages.pageTitleSecond;
   const caption =
     query.asCollateral === 'true'
-      ? intl.formatMessage(messages.firstCaption, {
-          currencySymbol: asset.formattedName,
-        })
-      : intl.formatMessage(messages.secondCaption, {
-          currencySymbol: asset.formattedName,
-        });
+      ? intl.formatMessage(
+          poolReserve.isIsolated ? messages.firstCaptionIsolated : messages.firstCaption,
+          {
+            currencySymbol: asset.formattedName,
+          }
+        )
+      : intl.formatMessage(
+          poolReserve.isIsolated ? messages.secondCaptionIsolated : messages.secondCaption,
+          {
+            currencySymbol: asset.formattedName,
+          }
+        );
 
   const handleMainTxExecuted = () => setIsTxExecuted(true);
 
@@ -126,6 +136,7 @@ function SwapUsageAsCollateralModeConfirmation({
         onMainTxExecuted={handleMainTxExecuted}
         blockingError={blockingError}
         buttonTitle={intl.formatMessage(messages.buttonTitle)}
+        isolationWarning={poolReserve.isIsolated && query.asCollateral === 'true'}
       >
         <Row
           title={intl.formatMessage(messages.rowTitle)}

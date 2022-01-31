@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import dayjs from 'dayjs';
 import classNames from 'classnames';
-import { ProposalState } from '@aave/protocol-js';
+import { ProposalState } from '@aave/contract-helpers';
 import { useThemeContext, Timer } from '@aave/aave-ui-kit';
 
 import { ProposalItem } from '../../../../../libs/governance-provider/types';
@@ -63,7 +63,7 @@ export default function ProposalsItem({ proposal }: ProposalsItemProps) {
   return (
     <Link
       className="ProposalsItem ButtonLink"
-      to={`/governance/${proposal.id}-${proposal.ipfsHash}`}
+      to={`/governance/${proposal.id}/${proposal.ipfsHash}`}
       color="dark"
     >
       <div className="ProposalsItem__left-inner">

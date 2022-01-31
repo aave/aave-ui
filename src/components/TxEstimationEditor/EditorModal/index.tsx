@@ -3,7 +3,7 @@ import { MessageDescriptor, useIntl } from 'react-intl';
 import BigNumber from 'bignumber.js';
 import classNames from 'classnames';
 import { useThemeContext, BasicModal, rgba } from '@aave/aave-ui-kit';
-import { valueToBigNumber, normalize } from '@aave/protocol-js';
+import { normalize, USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 
 import Row from '../../basic/Row';
 import Value from '../../basic/Value';
@@ -35,7 +35,7 @@ interface EditorModalProps {
   visible: boolean;
   setVisible: (value: boolean) => void;
   gasTxs: GasEstimations;
-  marketRefPriceInUsd: string;
+  marketReferencePriceInUsd: string;
   customGasPrice: string | null;
   setCustomGasPrice: React.Dispatch<React.SetStateAction<string | null>>;
   setSelectedOption: React.Dispatch<React.SetStateAction<GasKeys>>;
@@ -57,7 +57,7 @@ export default function EditorModal({
   setVisible,
   gasTxs,
   customGasPrice,
-  marketRefPriceInUsd,
+  marketReferencePriceInUsd,
   setCustomGasPrice,
   selectedOption,
   setSelectedOption,
@@ -177,7 +177,8 @@ export default function EditorModal({
                   <span className="TxEstimationModal__contentValues--separator">/</span>
                   <Value
                     value={valueToBigNumber(estimation)
-                      .multipliedBy(marketRefPriceInUsd)
+                      .multipliedBy(marketReferencePriceInUsd)
+                      .shiftedBy(-USD_DECIMALS)
                       .toNumber()}
                     symbol="USD"
                   />
@@ -197,7 +198,8 @@ export default function EditorModal({
               <Value
                 className="TxEstimationModal__total"
                 value={valueToBigNumber(totalEstimation)
-                  .multipliedBy(marketRefPriceInUsd)
+                  .multipliedBy(marketReferencePriceInUsd)
+                  .shiftedBy(-USD_DECIMALS)
                   .toNumber()}
                 symbol="USD"
               />

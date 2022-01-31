@@ -1,5 +1,5 @@
 import React from 'react';
-import { valueToBigNumber } from '@aave/protocol-js';
+import { valueToBigNumber } from '@aave/math-utils';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import ReactTooltip from 'react-tooltip';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
+import { isAtoken } from '../../../helpers/get-atoken-info';
+import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 import { CompactNumber } from '../CompactNumber';
 import SubValue from './SubValue';
 import ValueWithSmallDecimals from './ValueWithSmallDecimals';
@@ -31,6 +33,15 @@ interface ValueProps {
   color?: 'dark' | 'white' | 'primary';
   isSmallValueCenterEllipsis?: boolean;
   onWhiteBackground?: boolean;
+  nextToValue?: ReactNode;
+  tooltipValue?: string | number;
+  tooltipSubValue?: string | number;
+  tooltipSymbol?: string;
+  tooltipSubSymbol?: string;
+  maximumTooltipDecimals?: number;
+  minimumTooltipDecimals?: number;
+  maximumTooltipSubDecimals?: number;
+  minimumTooltipSubDecimals?: number;
 }
 
 export default function Value({
@@ -53,9 +64,19 @@ export default function Value({
   color = 'dark',
   isSmallValueCenterEllipsis,
   onWhiteBackground,
+  nextToValue,
+  tooltipValue,
+  tooltipSubValue,
+  tooltipSymbol,
+  tooltipSubSymbol,
+  maximumTooltipDecimals,
+  minimumTooltipDecimals,
+  maximumTooltipSubDecimals,
+  minimumTooltipSubDecimals,
 }: ValueProps) {
-  const { currentTheme, xl } = useThemeContext();
   const intl = useIntl();
+  const { currentTheme, xl } = useThemeContext();
+  const { currentMarketData } = useProtocolDataContext();
 
   const asset = symbol && getAssetInfo(symbol);
   const [newValue, setNewValue]: any = useState(value);
@@ -70,6 +91,13 @@ export default function Value({
   const minValue = 10 ** -(maximumValueDecimals || 5);
   const isSmallerThanMin = Number(newValue) !== 0 && Number(newValue) < minValue;
 
+  const formattedMaximumDecimals =
+    typeof maximumValueDecimals === 'undefined'
+      ? 5
+      : maximumValueDecimals === 0
+      ? 0
+      : maximumValueDecimals;
+
   return (
     <div
       className={classNames('Value', `Value__${color}`, className, {
@@ -82,9 +110,10 @@ export default function Value({
         {tokenIcon && symbol && (
           <TokenIcon
             className="Value__token-icon"
-            tokenSymbol={symbol}
+            tokenSymbol={isAtoken(currentMarketData.aTokenPrefix, symbol).symbol.toUpperCase()}
             width={xl ? 16 : 18}
             height={xl ? 16 : 18}
+            isAtokenIcon={isAtoken(currentMarketData.aTokenPrefix, symbol).isAtoken}
           />
         )}
 
@@ -95,7 +124,7 @@ export default function Value({
                 <>
                   {isSmallerThanMin && '< '}
                   {intl.formatNumber(isSmallerThanMin ? minValue : Number(newValue), {
-                    maximumFractionDigits: maximumValueDecimals || 5,
+                    maximumFractionDigits: formattedMaximumDecimals,
                     minimumFractionDigits: minimumValueDecimals ? minimumValueDecimals : undefined,
                   })}
                 </>
@@ -104,25 +133,36 @@ export default function Value({
                   {isSmallerThanMin && '< '}
                   <CompactNumber
                     value={isSmallerThanMin ? minValue : Number(newValue)}
-                    maximumFractionDigits={maximumValueDecimals || 5}
+                    maximumFractionDigits={formattedMaximumDecimals}
                     minimumFractionDigits={minimumValueDecimals ? minimumValueDecimals : undefined}
                   />
                 </>
               )}
             </>
           ) : (
-            <ValueWithSmallDecimals
-              value={Number(newValue)}
-              maximumValueDecimals={maximumValueDecimals || 10}
-              minimumValueDecimals={minimumValueDecimals || 3}
-              centerEllipsis={isSmallValueCenterEllipsis}
-            />
+            <>
+              {isSmallerThanMin && '< '}
+              <ValueWithSmallDecimals
+                value={Number(newValue)}
+                maximumValueDecimals={maximumValueDecimals || 10}
+                minimumValueDecimals={
+                  minimumValueDecimals === 0
+                    ? 0
+                    : minimumValueDecimals
+                    ? minimumValueDecimals
+                    : undefined
+                }
+                centerEllipsis={isSmallValueCenterEllipsis}
+              />
+            </>
           )}
 
           {symbol && !withoutSymbol && !!asset && (
             <span className="Value__symbol">{asset.formattedName || asset.symbol}</span>
           )}
         </p>
+
+        {!!nextToValue && nextToValue}
       </div>
 
       {!!newSubValue && (
@@ -139,12 +179,29 @@ export default function Value({
 
       {!!tooltipId && (
         <ReactTooltip className="Value__tooltip" id={tooltipId} effect="solid">
-          <span>
-            {intl.formatNumber(Number(newValue), { maximumFractionDigits: 18 })}{' '}
-            {symbol && !withoutSymbol && !!asset && asset.formattedName && (
-              <>{asset.formattedName}</>
+          <div className="Value__tooltip--content">
+            <span>
+              {tooltipSymbol && tooltipSymbol === 'USD' && <>$ </>}
+              {intl.formatNumber(Number(tooltipValue || newValue), {
+                minimumFractionDigits: minimumTooltipDecimals,
+                maximumFractionDigits: maximumTooltipDecimals || 7,
+              })}{' '}
+              {symbol && !withoutSymbol && !!asset && asset.formattedName && (
+                <>{asset.formattedName}</>
+              )}
+              {tooltipSymbol && tooltipSymbol !== 'USD' && <>{tooltipSymbol}</>}
+            </span>
+            {tooltipSubValue && (
+              <span>
+                {tooltipSubSymbol && tooltipSubSymbol === 'USD' && <>$ </>}
+                {intl.formatNumber(Number(tooltipSubValue), {
+                  minimumFractionDigits: minimumTooltipSubDecimals,
+                  maximumFractionDigits: maximumTooltipSubDecimals || 7,
+                })}{' '}
+                {tooltipSubSymbol && tooltipSubSymbol !== 'USD' && <>{tooltipSubSymbol}</>}
+              </span>
             )}
-          </span>
+          </div>
         </ReactTooltip>
       )}
 

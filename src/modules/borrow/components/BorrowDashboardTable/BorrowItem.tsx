@@ -17,12 +17,11 @@ import messages from './messages';
 import { BorrowTableItem } from './types';
 
 export default function BorrowItem({
+  userId,
   reserve: { symbol },
-  uiColor,
   currentBorrows,
   currentBorrowsUSD,
   borrowRate,
-  avg30DaysVariableRate,
   borrowRateMode,
   onSwitchToggle,
   isActive,
@@ -31,9 +30,8 @@ export default function BorrowItem({
   stableBorrowRateEnabled,
   repayLink,
   borrowLink,
-  index,
-  vincentivesAPR,
-  sincentivesAPR,
+  vIncentives,
+  sIncentives,
   ...rest
 }: BorrowTableItem) {
   const intl = useIntl();
@@ -43,29 +41,28 @@ export default function BorrowItem({
   const swiperHeight = xl && !lg ? 16 : md ? 16 : 20;
 
   return (
-    <TableItem tokenSymbol={symbol} color={uiColor} {...rest}>
+    <TableItem tokenSymbol={symbol} {...rest}>
       <TableValueCol
-        value={Number(currentBorrows)}
-        subValue={Number(currentBorrowsUSD)}
-        tooltipId={`borrow-${symbol}__${index}`}
-      />
-      <TableAprCol
-        value={Number(borrowRate)}
-        thirtyDaysAverage={borrowRateMode === BorrowRateMode.Variable ? avg30DaysVariableRate : ''}
-        liquidityMiningValue={
-          borrowRateMode === BorrowRateMode.Variable ? vincentivesAPR : sincentivesAPR
-        }
+        userId={userId}
         symbol={symbol}
-        type={borrowRateMode === BorrowRateMode.Variable ? 'borrow-variable' : 'borrow-stable'}
+        value={Number(currentBorrows)}
+        withSubValue={true}
+        subValue={Number(currentBorrowsUSD)}
       />
 
-      <TableCol maxWidth={125}>
+      <TableAprCol
+        value={Number(borrowRate)}
+        incentives={borrowRateMode === BorrowRateMode.Variable ? vIncentives : sIncentives}
+        symbol={symbol}
+      />
+
+      <TableCol>
         <CustomSwitch
           value={borrowRateMode === BorrowRateMode.Variable}
           offLabel={intl.formatMessage(messages.offLabel)}
           onLabel={intl.formatMessage(messages.onLabel)}
-          onColor={isCurrentThemeDark ? currentTheme.lightBlue.hex : currentTheme.darkBlue.hex}
-          offColor={isCurrentThemeDark ? currentTheme.lightBlue.hex : currentTheme.darkBlue.hex}
+          onColor={isCurrentThemeDark ? currentTheme.headerBg.hex : currentTheme.darkBlue.hex}
+          offColor={isCurrentThemeDark ? currentTheme.headerBg.hex : currentTheme.darkBlue.hex}
           onSwitch={onSwitchToggle}
           disabled={!stableBorrowRateEnabled || isFrozen || !isActive}
           swiperHeight={swiperHeight}
@@ -75,14 +72,14 @@ export default function BorrowItem({
 
       <TableButtonsWrapper>
         <TableButtonCol
-          disabled={!isActive || !borrowingEnabled || isFrozen}
-          title={intl.formatMessage(defaultMessages.borrow)}
-          linkTo={borrowLink}
-        />
-        <TableButtonCol
           disabled={!isActive}
           title={intl.formatMessage(defaultMessages.repay)}
           linkTo={repayLink}
+        />
+        <TableButtonCol
+          disabled={!isActive || !borrowingEnabled || isFrozen}
+          title={intl.formatMessage(defaultMessages.borrow)}
+          linkTo={borrowLink}
           withoutBorder={true}
         />
       </TableButtonsWrapper>

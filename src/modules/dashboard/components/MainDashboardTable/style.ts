@@ -7,91 +7,71 @@ const staticStyles = css.global`
 
   .MainDashboardTable {
     display: flex;
-    align-items: flex-start;
     justify-content: space-between;
     margin-bottom: 10px;
-    flex: 1;
-    @include respond-to(lg) {
-      flex-direction: column;
-      justify-content: flex-start;
-      display: block;
-    }
 
     &__left-inner,
     &__right-inner {
       width: calc(50% - 10px);
-      display: flex;
-      align-self: stretch;
-      flex-direction: column;
       @include respond-to(lg) {
         width: 100%;
-        flex: none;
-        min-height: auto;
-        display: block;
-      }
-      @include respond-to(sm) {
-        flex: 1;
-      }
-    }
-
-    &__left-inner {
-      @include respond-to(lg) {
-        margin-bottom: 20px;
-      }
-      @include respond-to(md) {
-        margin-bottom: 30px;
       }
     }
 
     &__right-inner {
-      @include respond-to(sm) {
+      @include respond-to(lg) {
         display: none;
       }
     }
 
     &__onlyOne {
-      @include respond-to(sm) {
+      @include respond-to(lg) {
         .MainDashboardTable__left-inner {
           display: none;
         }
         .MainDashboardTable__right-inner {
-          display: flex;
+          display: block;
         }
       }
     }
 
-    &__noBorrows {
-      .MainDashboardTable__left-inner {
-        width: 100%;
-        margin-right: 30px;
-        @include respond-to(xl) {
-          margin-right: 20px;
-        }
-        @include respond-to(lg) {
-          margin-right: 0;
-        }
-      }
-      .MainDashboardTable__right-inner {
-        max-width: 320px;
-        @include respond-to(xl) {
-          max-width: 240px;
-        }
-        @include respond-to(lg) {
-          max-width: 100%;
-        }
-      }
+    &__noData--wrapper {
+      display: block;
+      margin: 0 auto;
       .ContentWrapper {
-        margin: 32px 0 0;
-        @include respond-to(xl) {
-          margin: 26px 0 0;
-        }
-        @include respond-to(lg) {
-          margin: 0;
-        }
+        padding-top: 40px;
+        padding-bottom: 40px;
         @include respond-to(sm) {
-          padding: 0 10px;
+          padding-top: 20px;
+          padding-bottom: 20px;
         }
       }
+      .Caption {
+        margin-bottom: 0;
+      }
+    }
+
+    &__noData--title {
+      display: block;
+      padding: 0 10px;
+      font-size: $regular;
+      @include respond-to(xl) {
+        font-size: $small;
+      }
+      @include respond-to(lg) {
+        font-size: $medium;
+      }
+      @include respond-to(md) {
+        font-size: $small;
+      }
+      margin-bottom: 10px;
+      @include respond-to(sm) {
+        display: none;
+      }
+    }
+
+    .Switcher__swiperDisabled {
+      opacity: 0.2 !important;
     }
   }
 

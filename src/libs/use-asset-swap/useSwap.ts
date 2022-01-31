@@ -2,18 +2,9 @@ import { ParaSwap, APIError, Transaction } from 'paraswap';
 import { ContractMethod, SwapSide } from 'paraswap/build/constants';
 import { OptimalRate } from 'paraswap-core';
 import { useCallback, useEffect, useState } from 'react';
-import {
-  normalize,
-  valueToBigNumber,
-  API_ETH_MOCK_ADDRESS,
-  ChainId,
-  BigNumberZD,
-} from '@aave/protocol-js';
-import {
-  ComputedReserveData,
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../pool-data-provider';
+import { ComputedReserveData, useAppDataContext } from '../pool-data-provider';
+import { ChainId } from '@aave/contract-helpers';
+import { BigNumberZeroDecimal, normalize, valueToBigNumber } from '@aave/math-utils';
 
 const mainnetParaswap = new ParaSwap(ChainId.mainnet);
 const polygonParaswap = new ParaSwap(ChainId.polygon);
@@ -35,14 +26,14 @@ type UseSwapProps = {
   chainId: ChainId;
 };
 
-const getReserve = (address: string, reserves: ComputedReserveData[], WETHAddress: string) => {
+const getReserve = (address: string, reserves: ComputedReserveData[]) => {
   const reserve = reserves.find(
     (reserve) => reserve.underlyingAsset.toLowerCase() === address.toLowerCase()
   ) as ComputedReserveData;
   return {
-    address: address.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase() ? WETHAddress : address,
+    address: address,
     decimals: Number.parseInt(reserve?.decimals as any),
-    priceInEth: reserve?.priceInMarketReferenceCurrency,
+    priceInEth: reserve?.formattedPriceInMarketReferenceCurrency,
     liquidityRate: reserve?.supplyAPY,
   };
 };
@@ -57,11 +48,9 @@ export const useSwap = ({ swapIn, swapOut, variant, userId, max, chainId }: UseS
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [priceRoute, setPriceRoute] = useState<OptimalRate | null>(null);
-  const { WrappedBaseNetworkAssetAddress } = useStaticPoolDataContext();
-  const { reserves } = useDynamicPoolDataContext();
-
-  const reserveIn = getReserve(swapIn.address, reserves, WrappedBaseNetworkAssetAddress);
-  const reserveOut = getReserve(swapOut.address, reserves, WrappedBaseNetworkAssetAddress);
+  const { reserves } = useAppDataContext();
+  const reserveIn = getReserve(swapIn.address, reserves);
+  const reserveOut = getReserve(swapOut.address, reserves);
 
   const fetchRoute = useCallback(async () => {
     if (!swapIn.address || !swapOut.address || !userId) return;
@@ -167,7 +156,7 @@ export const getSwapCallData = async ({
   chainId,
 }: GetSwapCallDataProps) => {
   const paraSwap = getParaswap(chainId);
-  const destAmountWithSlippage = new BigNumberZD(route.destAmount)
+  const destAmountWithSlippage = new BigNumberZeroDecimal(route.destAmount)
     .multipliedBy(99)
     .dividedBy(100)
     .toFixed(0);

@@ -15,6 +15,11 @@ const staticStyles = css.global`
       padding: 10px 15px;
     }
 
+    &__symbol {
+      display: flex;
+      align-items: center;
+    }
+
     &__content {
       padding: 10px 15px 20px;
     }
@@ -22,7 +27,7 @@ const staticStyles = css.global`
     .TokenIcon__name {
       max-width: 250px;
       b {
-        font-size: $medium;
+        font-size: 15px;
       }
     }
 

@@ -9,8 +9,8 @@
     "borrow": "borrow"
   },
   "collateralType": {
-    "isCollateral": "Yes",
-    "isNotCollateral": "No"
+    "isCollateral": "true",
+    "isNotCollateral": "false"
   },
   "borrowAPYType": {
     "variable": "Variable",

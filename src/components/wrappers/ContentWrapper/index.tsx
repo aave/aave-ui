@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 
@@ -7,6 +7,8 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import messages from './messages';
 import staticStyles from './style';
+
+// TODO: figure out why we did the history length check
 
 interface ContentWrapperProps {
   className?: string;
@@ -25,7 +27,7 @@ export default function ContentWrapper({
 }: ContentWrapperProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <div
@@ -35,8 +37,8 @@ export default function ContentWrapper({
         className
       )}
     >
-      {withBackButton && history.length > 2 && (
-        <button className="ContentWrapper__back-button" onClick={goBack || history.goBack}>
+      {withBackButton && ( // TODO: figure out how to handle this
+        <button className="ContentWrapper__back-button" onClick={goBack || (() => navigate(-1))}>
           <span />
           <p>{intl.formatMessage(messages.back)}</p>
         </button>

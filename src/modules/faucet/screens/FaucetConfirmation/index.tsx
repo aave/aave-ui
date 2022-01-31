@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
@@ -21,6 +22,7 @@ function FaucetConfirmation({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { faucetService } = useTxBuilderContext();
+  const { currentAccount } = useUserWalletDataContext();
 
   const asset = getAssetInfo(currencySymbol);
 
@@ -36,7 +38,7 @@ function FaucetConfirmation({
 
   const handleGetTransactions = async () =>
     await faucetService.mint({
-      userAddress: user.id,
+      userAddress: currentAccount,
       tokenSymbol: poolReserve.symbol,
       reserve: poolReserve.underlyingAsset,
     });
@@ -58,7 +60,7 @@ function FaucetConfirmation({
           boxDescription={intl.formatMessage(messages.boxDescription)}
           getTransactionsData={handleGetTransactions}
           mainTxType="FAUCET_MINT"
-          goToAfterSuccess="/deposit"
+          goToAfterSuccess="/dashboard"
           successButtonTitle={intl.formatMessage(messages.successButtonTitle)}
         >
           <Row title={intl.formatMessage(messages.rowTitle)}>

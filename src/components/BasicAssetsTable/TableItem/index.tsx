@@ -1,10 +1,11 @@
 import React, { ReactNode } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
 import TableItemWrapper from '../../BasicTable/TableItemWrapper';
 import TableColumn from '../../BasicTable/TableColumn';
 import FreezedWarning from '../../FreezedWarning';
+import IsolatedBadge from '../../isolationMode/IsolatedBadge';
 import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import staticStyles from './style';
@@ -16,6 +17,8 @@ interface TableItemProps {
   isBorrow?: boolean;
   children?: ReactNode;
   darkOnDarkMode?: boolean;
+  isIsolated: boolean;
+  className?: string;
 }
 
 export default function TableItem({
@@ -25,17 +28,23 @@ export default function TableItem({
   isBorrow,
   children,
   darkOnDarkMode,
+  isIsolated,
+  className,
 }: TableItemProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const asset = getAssetInfo(symbol);
 
   return (
     <TableItemWrapper
-      className={classNames('TableItem', {
-        TableItem__withHeight: darkOnDarkMode,
-        TableItem__borrow: isBorrow,
-      })}
-      onClick={() => history.push(url)}
+      className={classNames(
+        'TableItem',
+        {
+          TableItem__withHeight: darkOnDarkMode,
+          TableItem__borrow: isBorrow,
+        },
+        className
+      )}
+      onClick={() => navigate(url)}
       disabled={isFreezed}
       withGoToTop={true}
       darkOnDarkMode={darkOnDarkMode}
@@ -48,7 +57,9 @@ export default function TableItem({
           tokenFullName={asset.shortSymbol || asset.name}
           className="TableItem__tokenIcon"
         />
+        {isIsolated && <IsolatedBadge />}
       </TableColumn>
+
       <div className="TableItem__content">
         {children}
 

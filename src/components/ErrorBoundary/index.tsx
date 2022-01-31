@@ -20,11 +20,12 @@ class ErrorBoundary extends React.Component<WithIntlProps> {
 
   componentDidCatch(error: Error | null, errorInfo: any) {
     this.setState({ error });
-    Sentry.withScope((scope) => {
-      scope.setExtras(errorInfo);
-      const eventId = Sentry.captureException(error);
-      this.setState({ eventId });
-    });
+    process.env.REACT_APP_SENTRY_DSN &&
+      Sentry.withScope((scope) => {
+        scope.setExtras(errorInfo);
+        const eventId = Sentry.captureException(error);
+        this.setState({ eventId });
+      });
   }
 
   render() {
@@ -38,13 +39,15 @@ class ErrorBoundary extends React.Component<WithIntlProps> {
           description={intl.formatMessage(messages.description)}
         >
           <div className="ErrorBoundary">
-            <div className="ErrorBoundary__button-inner">
-              <DefaultButton
-                title={intl.formatMessage(messages.buttonTitle)}
-                onClick={() => Sentry.showReportDialog({ eventId })}
-                size="big"
-              />
-            </div>
+            {process.env.REACT_APP_SENTRY_DSN && (
+              <div className="ErrorBoundary__button-inner">
+                <DefaultButton
+                  title={intl.formatMessage(messages.buttonTitle)}
+                  onClick={() => Sentry.showReportDialog({ eventId })}
+                  size="big"
+                />
+              </div>
+            )}
 
             <div className="ErrorBoundary__reload-inner">
               <ReloadButton />

@@ -4,6 +4,7 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import goToTop from '../../../helpers/goToTop';
 import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
+import IsolatedBadge from '../../isolationMode/IsolatedBadge';
 
 import staticStyles from './style';
 
@@ -13,6 +14,7 @@ interface MobileCardWrapperProps {
   withGoToTop?: boolean;
   symbol: string;
   className?: string;
+  isIsolated?: boolean;
   subSymbolComponent?: ReactNode;
   children: ReactNode;
 }
@@ -23,6 +25,7 @@ export default function MobileCardWrapper({
   disabled,
   withGoToTop,
   className,
+  isIsolated,
   subSymbolComponent,
   children,
 }: MobileCardWrapperProps) {
@@ -39,7 +42,11 @@ export default function MobileCardWrapper({
       }}
     >
       <div className="MobileCardWrapper__symbol--inner">
-        <TokenIcon tokenSymbol={symbol} height={24} width={24} tokenFullName={asset.name} />
+        <div className="MobileCardWrapper__symbol">
+          <TokenIcon tokenSymbol={symbol} height={29} width={29} tokenFullName={asset.name} />
+          {isIsolated && <IsolatedBadge />}
+        </div>
+
         {subSymbolComponent}
       </div>
 

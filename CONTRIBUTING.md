@@ -12,22 +12,6 @@ npm run start
 npm run build
 ```
 
-## How to run (via Docker)
-
-```bash
-  docker-compose up
-```
-
-Local URL: [http://localhost:19006](http://localhost:19006)
-
-## How to build (via Docker)
-
-This project based on the [create-react-app](https://github.com/facebook/create-react-app), to build using docker-compose:
-
-```bash
-  docker-compose run frontend npm run build
-```
-
 ## Env parameters
 
 Environment variables are configured via `.env` files.
@@ -37,29 +21,13 @@ You may overwrite them for the production build, by creating an additional `.env
 
 ### General network
 
-REACT_APP_RATES_HISTORY_ENDPOINT - enable rates history endpoint support, optional
-
 REACT_APP_ENABLE_TESTNET - enables markets that are on a network flagged as testnet
 
 ### Fiat onboard
 
-This interface includes libraries to connect with fiat on-ramp services. They are disabled by default and it is the sole responsibility of the users running the interface to provide credentials in order the run them.
-
-REACT_APP_ONRAMP_API_KEY - [Ramp network](https://ramp.network/) API key, disabled by default (optional)
-
-REACT_APP_TRANSAK_API_KEY - [Transak](https://transak.com/) API key, disabled by default (optional)
+This interface includes libraries to connect with fiat on-ramp services.
 
 REACT_APP_ENABLE_NASH - enabled by default
-
-### Wallets
-
-REACT_APP_AUTHEREUM_API_KEY - [Authereum wallet](https://authereum.com/) API key, disabled by default (optional)
-
-REACT_APP_PORTIS_DAPP_ID - [Portis wallet](https://www.portis.io/) API key, disabled by default (optional)
-
-REACT_APP_FORTMATIC_KEY_MAINNET - [Fortmatic wallet](https://fortmatic.com/) production API key(for mainnet), disabled by default (optional)
-
-REACT_APP_FORTMATIC_KEY_TESTNET - [Fortmatic wallet](https://fortmatic.com/) development API key(for testnets), disabled by default (optional)
 
 ### Bug tracking and misc
 

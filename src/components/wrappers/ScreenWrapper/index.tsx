@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 import { useLanguageContext } from '../../../libs/language-provider';
 import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
+import goToTop from '../../../helpers/goToTop';
 import BridgeBanner from '../../BridgeBanner';
 import DesktopPageTitle from '../../DesktopPageTitle';
 import { useHeaderTitle, useWithDesktopTitle } from '../ScreensWrapper';
@@ -12,7 +13,7 @@ import { useHeaderTitle, useWithDesktopTitle } from '../ScreensWrapper';
 import staticStyles from './style';
 
 // Pages where the banners should be displayed
-export const DISPLAY_BRIDGE_BANNER_PAGES = ['/deposit', '/repay'];
+export const DISPLAY_BRIDGE_BANNER_PAGES = ['/repay'];
 
 interface ScreenWrapperProps {
   pageTitle?: string;
@@ -58,6 +59,10 @@ export default function ScreenWrapper({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLangSlug, location.pathname]);
+
+  useEffect(() => {
+    goToTop();
+  }, []);
 
   return (
     <section

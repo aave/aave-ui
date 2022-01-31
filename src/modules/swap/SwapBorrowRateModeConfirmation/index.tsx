@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import queryString from 'query-string';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber, InterestRate } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { InterestRate } from '@aave/contract-helpers';
+import { valueToBigNumber } from '@aave/math-utils';
 
-import { useStaticPoolDataContext } from '../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../libs/tx-provider';
 import SwapConfirmationWrapper from '../../../components/wrappers/SwapConfirmationWrapper';
 import Row from '../../../components/basic/Row';
@@ -18,21 +18,29 @@ import routeParamValidationHOC, {
 import { getAssetInfo, TokenIcon } from '../../../helpers/config/assets-config';
 
 import messages from './messages';
+import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
+import { useLocation } from 'react-router';
+import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
 
 function SwapBorrowRateModeConfirmation({
-  currencySymbol,
+  currencySymbol: _currencySymbol,
   userReserve,
   poolReserve,
   user,
-  location,
 }: ValidationWrapperComponentProps) {
   const { lendingPool } = useTxBuilderContext();
-  const { WrappedBaseNetworkAssetAddress, networkConfig } = useStaticPoolDataContext();
+  const { networkConfig } = useProtocolDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const [isTxExecuted, setIsTxExecuted] = useState(false);
   const { lg, md } = useThemeContext();
   const intl = useIntl();
+  const location = useLocation();
   const query = queryString.parse(location.search);
   const currentRateMode = query.borrowRateMode as InterestRate;
+  const currencySymbol =
+    _currencySymbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+      ? networkConfig.baseAssetSymbol
+      : _currencySymbol;
 
   const asset = getAssetInfo(currencySymbol);
 
@@ -69,11 +77,8 @@ function SwapBorrowRateModeConfirmation({
 
   const handleGetTransactions = async () =>
     await lendingPool.swapBorrowRateMode({
-      user: user.id,
-      reserve:
-        poolReserve.symbol === networkConfig.baseAsset
-          ? WrappedBaseNetworkAssetAddress
-          : poolReserve.underlyingAsset,
+      user: currentAccount,
+      reserve: poolReserve.underlyingAsset,
       interestRateMode: currentRateMode,
     });
 

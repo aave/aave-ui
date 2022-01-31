@@ -7,7 +7,7 @@ import staticStyles from './style';
 import animationCircle from '../../../images/animationCircle.svg';
 
 interface CaptionProps {
-  title: string;
+  title: string | ReactNode;
   description?: string | ReactNode;
   color?: 'primary' | 'secondary' | 'dark';
   className?: string;

@@ -2,7 +2,6 @@ import React, { ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
-import { useStaticPoolDataContext } from '../../../../../libs/pool-data-provider';
 import NoDataPanel from '../../../../../components/NoDataPanel';
 import GovernanceTxConfirmationView from '../../GovernanceTxConfirmationView';
 import { useProposalDataContext } from '../../../screens/Proposal';
@@ -11,6 +10,7 @@ import messages from './messages';
 
 import { ProposalVoteParams } from '../../../../../libs/governance-provider/types';
 import { useGovernanceDataContext } from '../../../../../libs/governance-provider';
+import { useUserWalletDataContext } from '../../../../../libs/web3-data-provider';
 
 interface TxConfirmationWrapperProps {
   caption: string;
@@ -30,13 +30,14 @@ export default function VoteConfirmationWrapper({
   children,
 }: TxConfirmationWrapperProps) {
   const intl = useIntl();
-  const { userId } = useStaticPoolDataContext();
-  const { vote } = useParams<ProposalVoteParams>();
+  const { currentAccount } = useUserWalletDataContext();
+  // TODO: account for non set params
+  const { vote } = useParams() as unknown as ProposalVoteParams;
   const { governanceService } = useGovernanceDataContext();
   const { forceUpdateVoteData, proposalId, proposalHash } = useProposalDataContext();
   const processedVote = vote.toLowerCase() === 'yes';
 
-  if (!userId) {
+  if (!currentAccount) {
     return (
       <NoDataPanel
         title={intl.formatMessage(messages.connectWallet)}
@@ -49,7 +50,7 @@ export default function VoteConfirmationWrapper({
   const handleGetTransactions = async () => {
     return await governanceService.submitVote({
       proposalId: Number(proposalId),
-      user: userId,
+      user: currentAccount,
       support: processedVote,
     });
   };
@@ -66,7 +67,7 @@ export default function VoteConfirmationWrapper({
       getTransactionsData={handleGetTransactions}
       mainTxType="GOVERNANCE_ACTION"
       onMainTxConfirmed={handleMainTxConfirmed}
-      goToAfterSuccess={`/governance/${proposalId}-${proposalHash}`}
+      goToAfterSuccess={`/governance/${proposalId}/${proposalHash}`}
       successButtonTitle={intl.formatMessage(messages.successButtonTitle)}
       updateTransactionsData={processedVote}
     >

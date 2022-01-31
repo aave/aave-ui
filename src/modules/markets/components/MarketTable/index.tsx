@@ -31,16 +31,16 @@ export default function MarketTable({
       sortKey: 'currencySymbol',
     },
     {
-      title: messages.marketSize,
+      title: messages.totalDeposited,
       sortKey: 'totalLiquidityInUSD',
-    },
-    {
-      title: messages.totalBorrowed,
-      sortKey: 'totalBorrowsInUSD',
     },
     {
       title: messages.depositAPY,
       sortKey: 'depositAPY',
+    },
+    {
+      title: messages.totalBorrowed,
+      sortKey: 'totalBorrowsInUSD',
     },
   ];
 

@@ -3,7 +3,7 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   markets: 'Markets',
   dashboard: 'My dashboard',
-  deposit: 'Deposit',
+  supply: 'Supply',
   borrow: 'Borrow',
   swap: 'Swap',
   stake: 'Stake',

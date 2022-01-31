@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { BigNumberValue } from '@aave/protocol-js';
-
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { BigNumberValue } from '@aave/math-utils';
+
+import { CompactNumber } from '../CompactNumber';
 
 import staticStyles from './style';
 
@@ -18,6 +19,7 @@ interface ValuePercentProps {
   className?: string;
   valueColor?: string;
   onWhiteBackground?: boolean;
+  isCompact?: boolean;
 }
 
 export default function ValuePercent({
@@ -31,6 +33,7 @@ export default function ValuePercent({
   className,
   valueColor,
   onWhiteBackground,
+  isCompact,
 }: ValuePercentProps) {
   const { currentTheme } = useThemeContext();
   const intl = useIntl();
@@ -42,13 +45,25 @@ export default function ValuePercent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateValue]);
 
+  const formattedNumber = percentSymbol ? Number(newValue) * 100 : Number(newValue);
+  const formattedMaximumDecimals = maximumDecimals || 2;
+  const formattedMinimumDecimals = minimumDecimals ? minimumDecimals : undefined;
+
   return (
     <div className={classNames('ValuePercent', `ValuePercent__${color}`, className)}>
       <p className="ValuePercent__value" style={{ color: valueColor }}>
-        {intl.formatNumber(percentSymbol ? Number(newValue) * 100 : Number(newValue), {
-          maximumFractionDigits: maximumDecimals || 2,
-          minimumFractionDigits: minimumDecimals ? minimumDecimals : undefined,
-        })}
+        {isCompact ? (
+          <CompactNumber
+            value={formattedNumber}
+            maximumFractionDigits={formattedMaximumDecimals}
+            minimumFractionDigits={formattedMinimumDecimals}
+          />
+        ) : (
+          intl.formatNumber(formattedNumber, {
+            maximumFractionDigits: formattedMaximumDecimals,
+            minimumFractionDigits: formattedMinimumDecimals,
+          })
+        )}
 
         {percentSymbol && <span style={{ color: percentColor }}>%</span>}
       </p>

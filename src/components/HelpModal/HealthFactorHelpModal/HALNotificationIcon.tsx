@@ -1,39 +1,35 @@
-import React from 'react';
-import { useIntl } from 'react-intl';
-import classNames from 'classnames';
-import { CustomTooltip } from '@aave/aave-ui-kit';
-
-import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
-import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
-import { CustomMarket } from '../../../ui-config/markets';
 import { AdditionalItemProps } from '../../TextWithModal';
-
+import { CustomMarket } from '../../../ui-config/markets';
+import { CustomTooltip } from '@aave/aave-ui-kit';
+import React from 'react';
+import bell from './images/bell.svg';
+import bellGray from './images/bellGray.svg';
+import bellGrayDark from './images/bellGrayDark.svg';
+import classNames from 'classnames';
 import messages from './messages';
 import staticStyles from './style';
-
-import bellGrayDark from './images/bellGrayDark.svg';
-import bellGray from './images/bellGray.svg';
-import bell from './images/bell.svg';
+import { useIntl } from 'react-intl';
+import { useProtocolDataContext } from '../../../libs/protocol-data-provider';
+import { useUserWalletDataContext } from '../../../libs/web3-data-provider';
 
 const marketToHALAaveVersionUrlParam = (market: CustomMarket): string | undefined => {
-  const exhaustCases = (_: never) => undefined;
   switch (market) {
-    case CustomMarket.proto_matic:
-      return 'aavepolygon';
-    case CustomMarket.proto_avalanche:
-      return 'aaveavalanche';
-    case CustomMarket.proto_mainnet:
-      return 'aavev2';
+    // case CustomMarket.proto_matic:
+    //   return 'aavepolygon';
+    // case CustomMarket.proto_avalanche:
+    //   return 'aaveavalanche';
+    // case CustomMarket.proto_mainnet:
+    //   return 'aavev2';
 
-    case CustomMarket.proto_kovan:
-    case CustomMarket.proto_mumbai:
-    case CustomMarket.proto_fuji:
-    case CustomMarket.amm_kovan:
-    case CustomMarket.amm_mainnet:
-      return undefined;
+    // case CustomMarket.proto_kovan:
+    // case CustomMarket.proto_mumbai:
+    // case CustomMarket.proto_fuji:
+    // case CustomMarket.amm_kovan:
+    // case CustomMarket.amm_mainnet:
+    //   return undefined;
 
     default:
-      return exhaustCases(market);
+      return undefined;
   }
 };
 

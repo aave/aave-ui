@@ -10,6 +10,7 @@ import Dashboard from './dashboard';
 import Governance from './governance';
 import Staking from './staking';
 import AssetSwap from './asset-swap';
+import Reward from './reward';
 
 export {
   Markets,
@@ -24,4 +25,5 @@ export {
   Governance,
   Staking,
   AssetSwap,
+  Reward,
 };

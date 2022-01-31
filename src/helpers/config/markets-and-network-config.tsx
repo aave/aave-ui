@@ -1,4 +1,4 @@
-import { ChainId } from '@aave/contract-helpers';
+import { ChainId, ChainIdToNetwork } from '@aave/contract-helpers';
 
 import { networkConfigs as _networkConfigs } from '../../ui-config/networks';
 import { CustomMarket, marketsData as _marketsData } from '../../ui-config/markets/index';
@@ -102,7 +102,12 @@ const linkBuilder =
 export function getNetworkConfig(chainId: ChainId): NetworkConfig {
   const config = networkConfigs[chainId];
   if (!config) {
-    throw new Error(`Network with chainId "${chainId}" was not configured`);
+    // this case can only ever occure when a wallet is connected with a unknown chainId which will not allow interaction
+    const name = ChainIdToNetwork[chainId];
+    return {
+      name: name || `unknown chainId: ${chainId}`,
+      explorerLinkBuilder: () => {},
+    } as unknown as NetworkConfig;
   }
   return { ...config, explorerLinkBuilder: linkBuilder({ baseUrl: config.explorerLink }) };
 }

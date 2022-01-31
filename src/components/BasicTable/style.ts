@@ -34,7 +34,6 @@ const staticStyles = css.global`
       overflow-x: hidden;
       overflow-y: auto;
       flex: auto;
-      height: 1px;
       min-height: 250px;
       padding-top: 100px;
       margin-top: -100px;

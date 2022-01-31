@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useIntl } from 'react-intl';
-import { EthereumTransactionTypeExtended, valueToBigNumber, normalize } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { normalize, USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
+import { EthereumTransactionTypeExtended } from '@aave/contract-helpers';
 
-import { useStaticPoolDataContext } from '../../libs/pool-data-provider';
+import { useAppDataContext } from '../../libs/pool-data-provider';
 import Value from '../basic/Value';
 
 import messages from './messages';
@@ -22,7 +23,7 @@ export default function TxEstimation({ getTransactionsData, amount }: TxEstimati
   const intl = useIntl();
   const { currentTheme, isCurrentThemeDark } = useThemeContext();
 
-  const { marketRefPriceInUsd, userId } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, userId } = useAppDataContext();
   const [estimatedTx, setEstimatedTx] = useState<string>('0');
 
   const gasData = useRef('0');
@@ -97,7 +98,10 @@ export default function TxEstimation({ getTransactionsData, amount }: TxEstimati
       <div className="TxEstimation__values">
         <Value value={Number(estimatedTx)} symbol={'ETH'} /> /
         <Value
-          value={valueToBigNumber(estimatedTx).multipliedBy(marketRefPriceInUsd).toNumber()}
+          value={valueToBigNumber(estimatedTx)
+            .multipliedBy(marketReferencePriceInUsd)
+            .shiftedBy(-USD_DECIMALS)
+            .toNumber()}
           symbol={'USD'}
         />
       </div>

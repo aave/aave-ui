@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 
@@ -10,7 +10,7 @@ import messages from './messages';
 
 export default function UnstakeAmount() {
   const intl = useIntl();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { selectedStakeData, selectedStake, cooldownStep, stakingService } = useStakeDataContext();
 
   const timeNowInSeconds = Math.floor(Date.now() / 1000);
@@ -19,12 +19,12 @@ export default function UnstakeAmount() {
       timeNowInSeconds ||
     cooldownStep < 2
   ) {
-    return <Redirect to="/staking" />;
+    return <Navigate to="/staking" replace />;
   }
 
   const handleSubmit = (amount: string) => {
     const query = queryString.stringify({ amount });
-    history.push(`/staking/${selectedStake}/unstake/confirmation?${query}`);
+    navigate(`/staking/${selectedStake}/unstake/confirmation?${query}`);
   };
 
   const stkBalance = selectedStakeData.stakeTokenUserBalance;

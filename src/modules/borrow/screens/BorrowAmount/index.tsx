@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
-import { valueToBigNumber, BigNumber, InterestRate } from '@aave/protocol-js';
 
 import NoDataPanel from '../../../../components/NoDataPanel';
 import BasicForm from '../../../../components/forms/BasicForm';
@@ -9,14 +8,21 @@ import BorrowInterestRateForm from '../../components/BorrowInterestRateForm';
 import BorrowCurrencyWrapper from '../../components/BorrowCurrencyWrapper';
 import InfoWrapper from '../../../../components/wrappers/InfoWrapper';
 import AMPLWarning from '../../../../components/AMPLWarning';
-
-import { useTxBuilderContext } from '../../../../libs/tx-provider';
-import messages from './messages';
-
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
 import { getAssetInfo } from '../../../../helpers/config/assets-config';
+import CapsAmountWarning from '../../../../components/caps/CapsAmountWarning';
+import { CapType } from '../../../../components/caps/helper';
+import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
+import { useTxBuilderContext } from '../../../../libs/tx-provider';
+
+import messages from './messages';
+import { valueToBigNumber } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
+import { InterestRate } from '@aave/contract-helpers';
+import { useLocation, useNavigate } from 'react-router';
+import { getMaxAmountAvailalbeToBorrow } from '../../utils';
 
 enum BorrowStep {
   AmountForm,
@@ -26,37 +32,27 @@ enum BorrowStep {
 interface BorrowAmountProps
   extends Pick<
     ValidationWrapperComponentProps,
-    'userReserve' | 'poolReserve' | 'user' | 'currencySymbol' | 'history'
+    'userReserve' | 'poolReserve' | 'user' | 'currencySymbol'
   > {}
 
-function BorrowAmount({
-  userReserve,
-  poolReserve,
-  user,
-  currencySymbol,
-  history,
-}: BorrowAmountProps) {
+function BorrowAmount({ userReserve, poolReserve, user, currencySymbol }: BorrowAmountProps) {
   const [amountToBorrow, setAmountToBorrow] = useState('0');
   const [borrowStep, setBorrowStep] = useState<BorrowStep>(BorrowStep.AmountForm);
   const intl = useIntl();
   const { lendingPool } = useTxBuilderContext();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const asset = getAssetInfo(currencySymbol);
 
   const maxUserAmountToBorrow = valueToBigNumber(
     user?.availableBorrowsMarketReferenceCurrency || 0
-  ).div(poolReserve.priceInMarketReferenceCurrency);
-  let maxAmountToBorrow = BigNumber.max(
-    BigNumber.min(poolReserve.availableLiquidity, maxUserAmountToBorrow),
-    0
-  );
-  if (
-    maxAmountToBorrow.gt(0) &&
-    user?.totalBorrowsMarketReferenceCurrency !== '0' &&
-    maxUserAmountToBorrow.lt(valueToBigNumber(poolReserve.availableLiquidity).multipliedBy('1.01'))
-  ) {
-    maxAmountToBorrow = maxAmountToBorrow.multipliedBy('0.99');
-  }
+  ).div(poolReserve.formattedPriceInMarketReferenceCurrency);
+
+  const maxAmountToBorrow = user
+    ? getMaxAmountAvailalbeToBorrow(poolReserve, user)
+    : new BigNumber(0);
+
   const formattedMaxAmountToBorrow = maxAmountToBorrow.toString(10);
 
   const handleSetAmountSubmit = (amount: string) => {
@@ -66,7 +62,7 @@ function BorrowAmount({
 
   const handleInterestModeSubmit = (rateMode: string) => {
     const query = queryString.stringify({ rateMode, amount: amountToBorrow });
-    history.push(`${history.location.pathname}/confirmation?${query}`);
+    navigate(`${location.pathname}/confirmation?${query}`);
   };
 
   const goBack = () => setBorrowStep(BorrowStep.AmountForm);
@@ -82,6 +78,16 @@ function BorrowAmount({
       debtTokenAddress: poolReserve.variableDebtTokenAddress,
     });
   };
+
+  const percentageOfCap = valueToBigNumber(poolReserve.totalDebt)
+    .dividedBy(poolReserve.borrowCap)
+    .toNumber();
+
+  const isBorrowNotAvailableDueDebtCeiling =
+    user &&
+    user.isInIsolationMode &&
+    user.isolatedReserve &&
+    user.isolatedReserve.debtCeiling === user.isolatedReserve.isolationModeTotalDebt;
 
   return (
     <BorrowCurrencyWrapper
@@ -100,8 +106,11 @@ function BorrowAmount({
               maxAmount={formattedMaxAmountToBorrow}
               currencySymbol={currencySymbol}
               onSubmit={handleSetAmountSubmit}
-              amountFieldTitle={intl.formatMessage(messages.amountTitle)}
+              amountFieldTitle={
+                <AvailableCapsHelpModal capType={CapType.borrowCap} iconSize={12} />
+              }
               withRiskBar={true}
+              maxRiskBarAmount={maxUserAmountToBorrow.toString()}
               maxDecimals={poolReserve.decimals}
               getTransactionData={handleTransactionData}
             />
@@ -117,34 +126,61 @@ function BorrowAmount({
           )}
         </>
       ) : (
-        <NoDataPanel
-          title={
-            !user
-              ? intl.formatMessage(messages.connectWallet)
-              : poolReserve.availableLiquidity === '0'
-              ? intl.formatMessage(messages.noLiquidityAvailableTitle)
-              : !user || user.totalLiquidityMarketReferenceCurrency === '0'
-              ? intl.formatMessage(messages.noDataTitle)
-              : intl.formatMessage(messages.healthFactorTooLowTitle)
-          }
-          description={
-            !user
-              ? intl.formatMessage(messages.connectWalletDescription)
-              : poolReserve.availableLiquidity === '0'
-              ? intl.formatMessage(messages.noLiquidityAvailableDescription, {
-                  symbol: asset.formattedName,
-                })
-              : !user || user.totalLiquidityMarketReferenceCurrency === '0'
-              ? intl.formatMessage(messages.noDataDescription)
-              : intl.formatMessage(messages.healthFactorTooLowDescription)
-          }
-          buttonTitle={!user ? undefined : intl.formatMessage(messages.noDataButtonTitle)}
-          linkTo={!user ? undefined : `/deposit/${poolReserve.underlyingAsset}-${poolReserve.id}`}
-          withConnectButton={!user}
-        />
+        <>
+          {poolReserve.borrowCap !== '0' && !!user && formattedMaxAmountToBorrow === '0' ? (
+            <NoDataPanel
+              title={intl.formatMessage(messages.borrowCapReached)}
+              description={intl.formatMessage(messages.borrowCapReachedDescription)}
+            />
+          ) : (
+            <>
+              {isBorrowNotAvailableDueDebtCeiling ? (
+                <NoDataPanel
+                  title={intl.formatMessage(messages.borrowingAgainst)}
+                  description={intl.formatMessage(messages.borrowingAgainstDescription)}
+                />
+              ) : (
+                <NoDataPanel
+                  title={
+                    !user
+                      ? intl.formatMessage(messages.connectWallet)
+                      : poolReserve.formattedAvailableLiquidity === '0'
+                      ? intl.formatMessage(messages.noLiquidityAvailableTitle)
+                      : !user || user.totalLiquidityMarketReferenceCurrency === '0'
+                      ? intl.formatMessage(messages.noDataTitle)
+                      : intl.formatMessage(messages.healthFactorTooLowTitle)
+                  }
+                  description={
+                    !user
+                      ? intl.formatMessage(messages.connectWalletDescription)
+                      : poolReserve.formattedAvailableLiquidity === '0'
+                      ? intl.formatMessage(messages.noLiquidityAvailableDescription, {
+                          symbol: asset.formattedName,
+                        })
+                      : !user || user.totalLiquidityMarketReferenceCurrency === '0'
+                      ? intl.formatMessage(messages.noDataDescription)
+                      : intl.formatMessage(messages.healthFactorTooLowDescription)
+                  }
+                  buttonTitle={!user ? undefined : intl.formatMessage(messages.noDataButtonTitle)}
+                  linkTo={!user ? undefined : `/supply/${poolReserve.underlyingAsset}`}
+                  withConnectButton={!user}
+                />
+              )}
+            </>
+          )}
+        </>
       )}
 
-      <InfoWrapper>{currencySymbol === 'AMPL' && <AMPLWarning withInfoPanel={true} />}</InfoWrapper>
+      {borrowStep === BorrowStep.AmountForm && (
+        <InfoWrapper>
+          <>
+            {poolReserve.borrowCap !== '0' && percentageOfCap >= 0.99 && percentageOfCap < 1 && (
+              <CapsAmountWarning capType={CapType.borrowCap} />
+            )}
+            {currencySymbol === 'AMPL' && <AMPLWarning withInfoPanel={true} />}
+          </>
+        </InfoWrapper>
+      )}
     </BorrowCurrencyWrapper>
   );
 }

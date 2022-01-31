@@ -19,16 +19,31 @@ const staticStyles = css.global`
       }
     }
 
-    .TableItem__token-inner {
-      align-items: flex-start;
-      max-width: 240px;
+    .TableColumn.TableItem__token-inner {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      max-width: 260px;
+      min-width: 260px;
       @include respond-to(lg) {
-        max-width: 200px;
+        min-width: 230px;
+        max-width: 230px;
+      }
+      @include respond-to(md) {
+        min-width: unset;
+        flex-direction: column-reverse;
+        align-items: flex-start;
+
+        .IsolatedBadge {
+          margin-left: 45px;
+          margin-bottom: 0;
+        }
       }
       @include respond-to(sm) {
         max-width: 80px;
       }
     }
+
     .TableItem__tokenIcon {
       &__image,
       .MultipleIcons {
@@ -68,21 +83,6 @@ const staticStyles = css.global`
       }
     }
 
-    .ThirtyDayAverage {
-      @include respond-to(xs) {
-        flex-direction: column;
-        .ThirtyDayAverage__text {
-          margin: 0;
-        }
-      }
-      .ValuePercent__value,
-      .ThirtyDayAverage__text {
-        @include respond-to(sm) {
-          font-size: $extraSmall !important;
-        }
-      }
-    }
-
     .TableColumn {
       justify-content: center;
       .Value {
@@ -115,6 +115,15 @@ const staticStyles = css.global`
       @include respond-to(md) {
         width: 70px;
         font-size: $small;
+      }
+    }
+
+    &.FaucetItem {
+      @include respond-to(sm) {
+        .TableColumn.TableItem__token-inner {
+          max-width: 200px;
+          min-width: 200px;
+        }
       }
     }
   }

@@ -48,10 +48,11 @@ export default function WithdrawScreenWrapper({
             color="white"
             symbol={currencySymbol}
             subSymbol="USD"
-            maximumValueDecimals={isAssetStable(currencySymbol) ? 4 : 18}
-            minimumValueDecimals={isAssetStable(currencySymbol) ? 4 : 17}
+            maximumValueDecimals={isAssetStable(currencySymbol) ? 4 : 7}
+            minimumValueDecimals={isAssetStable(currencySymbol) ? 4 : 5}
             maximumSubValueDecimals={2}
             minimumSubValueDecimals={2}
+            tooltipId={currencySymbol}
           />
         </Row>
         <HealthFactor

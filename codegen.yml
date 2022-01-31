@@ -2,7 +2,6 @@ overwrite: true
 hooks:
   afterAllFileWrite:
     - prettier --single-quote --write
-schema: 'https://api.thegraph.com/subgraphs/name/aave/protocol-v2-kovan'
 watch: true
 config:
   withHOC: false
@@ -13,15 +12,20 @@ config:
   apolloReactHooksImportFrom: '@apollo/client'
   apolloReactCommonImportFrom: '@apollo/client'
 generates:
-  src/libs/pool-data-provider/graphql/fragmentTypes.json:
-    plugins:
-      - fragment-matcher
   src/libs/pool-data-provider/graphql/index.tsx:
     schema:
       - https://api.thegraph.com/subgraphs/name/aave/aave-v2-matic
-      - ./client-schema.graphql
     documents:
       - ./src/libs/pool-data-provider/graphql/*.graphql
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+  src/libs/pool-data-provider/graphql-v3/index.tsx:
+    schema:
+      - https://api.thegraph.com/subgraphs/name/aave/protocol-v3-arbitrum-rinkeby
+    documents:
+      - ./src/libs/pool-data-provider/graphql-v3/*.graphql
     plugins:
       - 'typescript'
       - 'typescript-operations'
@@ -37,7 +41,7 @@ generates:
       - 'typescript-react-apollo'
   src/libs/caching-server-data-provider/graphql/index.tsx:
     schema:
-      - https://cache-api-mainnet.aave.com/graphql
+      - https://cache-api-1.aave.com/graphql
     documents:
       - ./src/libs/caching-server-data-provider/graphql/*.graphql
     plugins:

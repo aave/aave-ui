@@ -1,10 +1,11 @@
-import { ComputedUserReserve } from '@aave/math-utils';
 import {
-  calculateHealthFactorFromBalancesBigUnits,
-  valueToBigNumber,
   BigNumberValue,
-} from '@aave/protocol-js';
-import { ComputedReserveData, UserSummary } from '../../libs/pool-data-provider';
+  calculateHealthFactorFromBalancesBigUnits,
+  ComputedUserReserve,
+  FormatUserSummaryAndIncentivesResponse,
+  valueToBigNumber,
+} from '@aave/math-utils';
+import { ComputedReserveData } from '../../libs/pool-data-provider';
 
 export function calculateHFAfterSwap(
   fromAmount: BigNumberValue | undefined,
@@ -13,7 +14,7 @@ export function calculateHFAfterSwap(
   toAmount: BigNumberValue | undefined,
   toAssetData: ComputedReserveData | undefined,
   toAssetUserData: ComputedUserReserve | undefined,
-  user: UserSummary,
+  user: FormatUserSummaryAndIncentivesResponse,
   maxSlippage: BigNumberValue
 ) {
   const hfEffectOfFromAmount =
@@ -21,11 +22,13 @@ export function calculateHFAfterSwap(
     fromAssetData &&
     fromAssetData.usageAsCollateralEnabled &&
     fromAssetUserData?.usageAsCollateralEnabledOnUser
-      ? calculateHealthFactorFromBalancesBigUnits(
-          valueToBigNumber(fromAmount).multipliedBy(fromAssetData.priceInMarketReferenceCurrency),
-          user.totalBorrowsMarketReferenceCurrency,
-          fromAssetData.reserveLiquidationThreshold
-        ).toString()
+      ? calculateHealthFactorFromBalancesBigUnits({
+          collateralBalanceMarketReferenceCurrency: valueToBigNumber(fromAmount).multipliedBy(
+            fromAssetData.formattedPriceInMarketReferenceCurrency
+          ),
+          borrowBalanceMarketReferenceCurrency: user.totalBorrowsMarketReferenceCurrency,
+          currentLiquidationThreshold: fromAssetData.formattedReserveLiquidationThreshold,
+        }).toString()
       : '0';
   const hfEffectOfToAmount =
     toAmount &&
@@ -34,13 +37,13 @@ export function calculateHFAfterSwap(
     (toAssetUserData && toAssetUserData.underlyingBalance !== '0'
       ? toAssetUserData.usageAsCollateralEnabledOnUser
       : true)
-      ? calculateHealthFactorFromBalancesBigUnits(
-          valueToBigNumber(toAmount)
-            .multipliedBy(toAssetData.priceInMarketReferenceCurrency)
+      ? calculateHealthFactorFromBalancesBigUnits({
+          collateralBalanceMarketReferenceCurrency: valueToBigNumber(toAmount)
+            .multipliedBy(toAssetData.formattedPriceInMarketReferenceCurrency)
             .multipliedBy(1 - +maxSlippage / 100),
-          user.totalBorrowsMarketReferenceCurrency,
-          toAssetData.reserveLiquidationThreshold
-        ).toString()
+          borrowBalanceMarketReferenceCurrency: user.totalBorrowsMarketReferenceCurrency,
+          currentLiquidationThreshold: toAssetData.formattedReserveLiquidationThreshold,
+        }).toString()
       : '0';
 
   return {

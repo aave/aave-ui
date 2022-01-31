@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-
+import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
 import staticStyles from './style';
@@ -15,7 +15,11 @@ export default function BlockWrapper({ title, titleComponent, children }: BlockW
 
   return (
     <div className="BlockWrapper">
-      <div className="BlockWrapper__title-inner">
+      <div
+        className={classNames('BlockWrapper__title-inner', {
+          BlockWrapper__titleInnerWithComponent: !!titleComponent,
+        })}
+      >
         {title && <p>{title}</p>}
         {titleComponent && titleComponent}
       </div>

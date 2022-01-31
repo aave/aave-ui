@@ -1,3 +1,5 @@
+import { ReserveIncentiveResponse } from '../../../../libs/pool-data-provider/hooks/use-incentives-data';
+
 export type BorrowTableItem = {
   id: string;
   symbol: string;
@@ -8,11 +10,17 @@ export type BorrowTableItem = {
   variableBorrowRate: number | string;
   availableBorrows: number | string;
   availableBorrowsInUSD: number | string;
-  avg30DaysVariableRate?: number;
   stableBorrowRateEnabled?: boolean;
   userId?: string;
   isFreezed?: boolean;
-  vincentivesAPR: string;
-  sincentivesAPR: string;
-  aincentivesAPR: string;
+  vIncentives: ReserveIncentiveResponse[];
+  sIncentives: ReserveIncentiveResponse[];
+  aIncentives: ReserveIncentiveResponse[];
+  borrowCap: string;
+  borrowableInIsolation: boolean;
+  totalBorrows: string;
+  totalLiquidityUSD: string;
+  borrowingEnabled: boolean;
+  isActive: boolean;
+  eModeCategoryId: number;
 };

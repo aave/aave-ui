@@ -133,11 +133,22 @@ const staticStyles = css.global`
       display: none;
       @include respond-to(sm) {
         display: flex;
+        flex-direction: column;
         flex-wrap: wrap;
         padding: 20px;
+        align-items: center;
       }
       &:after {
         bottom: 0;
+      }
+
+      .MarketSwitcher {
+        z-index: 3;
+      }
+
+      .MarketSwitcher__button-content,
+      .MarketSwitcher__content {
+        width: 300px;
       }
     }
 
@@ -211,6 +222,12 @@ const staticStyles = css.global`
       justify-content: center;
       a {
         margin: 0 10px;
+        &:last-of-type {
+          img {
+            width: 44px !important;
+            height: 44px !important;
+          }
+        }
       }
     }
   }

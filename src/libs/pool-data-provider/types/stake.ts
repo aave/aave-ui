@@ -1,4 +1,4 @@
-import { Stake } from '@aave/protocol-js';
+import { Stake } from '@aave/contract-helpers';
 
 export interface StakeGeneralDataT<SimpleNumber, BN> {
   stakeTokenTotalSupply: BN;

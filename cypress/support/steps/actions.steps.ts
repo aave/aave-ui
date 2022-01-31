@@ -69,11 +69,13 @@ type GetDashBoardBorrowRow = {
 
 export const getDashBoardBorrowRow = ({ assetName, apyType }: GetDashBoardBorrowRow) => {
   if (apyType == null) {
-    return cy.get(`[data-cy="dashboardBorrowListItem_${assetName}"]`).first();
+    return cy.get(`[data-cy="dashboardBorrowListItem_${assetName.toUpperCase()}"]`).first();
   } else {
     return cy
-      .get(`[data-cy="dashboardBorrowListItem_${assetName}"] .Switcher__label:contains('${apyType}')`)
-      .parents(`[data-cy="dashboardBorrowListItem_${assetName}"]`);
+      .get(
+        `[data-cy="dashboardBorrowListItem_${assetName.toUpperCase()}"] .Switcher__label:contains('${apyType}')`
+      )
+      .parents(`[data-cy="dashboardBorrowListItem_${assetName.toUpperCase()}"]`);
   }
 };
 
@@ -84,12 +86,12 @@ type GetDashBoardDepositRow = {
 
 export const getDashBoardDepositRow = ({ assetName, collateralType }: GetDashBoardDepositRow) => {
   if (!collateralType) {
-    return cy.get(`[data-cy="dashboardDespositListItem${assetName}"]`).first();
+    return cy.get(`[data-cy="dashboardDespositListItem${assetName.toUpperCase()}"]`).first();
   } else {
     return cy
       .get(
-        `[data-cy="dashboardDespositListItem${assetName}"] .Switcher__label:contains('${collateralType}')`
+        `[data-cy="dashboardDespositListItem${assetName.toUpperCase()}"] .Switcher__swiper input[aria-checked="${collateralType}"]`
       )
-      .parents(`[data-cy="dashboardDespositListItem${assetName}"]`);
+      .parents(`[data-cy="dashboardDespositListItem${assetName.toUpperCase()}"]`);
   }
 };

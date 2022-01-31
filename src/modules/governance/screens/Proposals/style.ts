@@ -120,13 +120,14 @@ const staticStyles = css.global`
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-wrap: wrap;
         margin: -30px 0 30px -10px;
         width: calc(100% + 20px);
-        padding: 15px 10px;
+        padding: 10px 10px;
       }
       .Link {
         font-size: $regular;
-        margin-right: 40px;
+        margin: 5px 20px;
         img {
           width: 12px;
           height: 12px;

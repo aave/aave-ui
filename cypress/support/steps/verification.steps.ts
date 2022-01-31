@@ -32,12 +32,15 @@ export const dashboardAssetValuesVerification = (
   return describe(`Verification dashboard values`, () => {
     skipSetup(skip);
     it(`Open dashboard page`, () => {
-      cy.get('.Menu strong').contains('dashboard').click();
+      cy.get(`[data-cy=menuDashboard]`).click();
     });
     estimatedCases.forEach((estimatedCase) => {
       describe(`Verification ${estimatedCase.asset} ${estimatedCase.type}, have right values`, () => {
         switch (estimatedCase.type) {
           case constants.dashboardTypes.borrow:
+            it(`Switch to borrow view`, () => {
+              cy.get('button').contains('Borrowings').click();
+            });
             it(`Check that asset name is ${estimatedCase.asset},
             with apy type ${estimatedCase.apyType}
              ${estimatedCase.amount ? ' and amount ' + estimatedCase.amount : ''}`, () => {
@@ -54,6 +57,9 @@ export const dashboardAssetValuesVerification = (
             });
             break;
           case constants.dashboardTypes.deposit:
+            it(`Switch to supplies view`, () => {
+              cy.get('button').contains('Supplies').click();
+            });
             it(`Check that asset name is ${estimatedCase.asset},
             with collateral type ${estimatedCase.collateralType}
             ${estimatedCase.amount ? ' and amount ' + estimatedCase.amount : ''}`, () => {
@@ -62,7 +68,10 @@ export const dashboardAssetValuesVerification = (
                 collateralType: estimatedCase.collateralType,
               }).within(($row) => {
                 expect($row.find('.TokenIcon__name')).to.contain(estimatedCase.asset);
-                expect($row.find('.Switcher__label')).to.contain(estimatedCase.collateralType);
+                expect($row.find('.Switcher__swiper input')).to.have.attr(
+                  'aria-checked',
+                  estimatedCase.collateralType
+                );
                 if (estimatedCase.amount) {
                   amountVerification(estimatedCase.amount);
                 }
@@ -81,13 +90,11 @@ export const borrowsUnavailable = (skip: SkipType) => {
   return describe('Check that borrows unavailable', () => {
     skipSetup(skip);
     it('Open borrow page', () => {
-      cy.get('.Menu strong').contains('Borrow').click();
-      cy.get('.TableItem').first().click();
+      cy.get(`[data-cy=menuDashboard]`).click();
+      cy.get('button').contains('Borrowings').click();
     });
-    it('Check blocked message', () => {
-      cy.get('.Caption__description').contains(
-        'Deposit more collateral or repay part of your borrowings to increase your health factor and be able to borrow.'
-      );
+    it('Check that Borrow button disabled', () => {
+      cy.get('.DashboardItemsWrapper .TableItem').find('button').should('be.disabled');
     });
   });
 };
@@ -114,7 +121,7 @@ export const switchCollateralBlocked = (
   return describe('Check that collateral switcher disabled', () => {
     skipSetup(skip);
     it(`Open dashboard page`, () => {
-      cy.get('.Menu strong').contains('dashboard').click();
+      cy.get(`[data-cy=menuDashboard]`).click();
     });
     it(`Check that collateral switcher for ${_shortName} disabled`, () => {
       getDashBoardDepositRow({
@@ -138,7 +145,7 @@ export const switchApyBlocked = (
   return describe('Check that apy switcher disabled', () => {
     skipSetup(skip);
     it(`Open dashboard page`, () => {
-      cy.get('.Menu strong').contains('dashboard').click();
+      cy.get(`[data-cy=menuDashboard]`).click();
     });
     it(`Check that APY switcher for ${_shortName} disabled`, () => {
       getDashBoardBorrowRow({

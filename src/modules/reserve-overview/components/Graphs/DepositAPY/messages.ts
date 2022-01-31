@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  title: 'Deposit APR',
+  title: 'Supply APR',
   graphDotName: 'APR',
 });

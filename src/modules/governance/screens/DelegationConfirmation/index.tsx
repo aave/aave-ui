@@ -6,7 +6,6 @@ import { ethers } from 'ethers';
 import { canBeEnsAddress } from '@aave/aave-ui-kit';
 
 import { useGovernanceDataContext } from '../../../../libs/governance-provider';
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import GovernanceWrapper from '../../components/GovernanceWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
 import Row from '../../../../components/basic/Row';
@@ -14,6 +13,7 @@ import Value from '../../../../components/basic/Value';
 
 import messages from './messages';
 import GovernanceTxConfirmationView from '../../components/GovernanceTxConfirmationView';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 interface QueryParams {
   asset?: string;
@@ -27,7 +27,7 @@ export default function DelegationConfirmation() {
   const intl = useIntl();
   const location = useLocation();
 
-  const { userId } = useStaticPoolDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { powerDelegation } = useGovernanceDataContext();
 
   const query = queryString.parse(location.search) as QueryParams;
@@ -40,7 +40,7 @@ export default function DelegationConfirmation() {
 
   // TODO: need error handler (text for error)
   if (
-    !userId ||
+    !currentAccount ||
     !toAddress ||
     !delegationType ||
     !asset ||
@@ -53,7 +53,7 @@ export default function DelegationConfirmation() {
 
   const handleGetTransactions = async () => {
     return await powerDelegation.delegateByType({
-      user: userId,
+      user: currentAccount,
       delegatee: toAddress,
       delegationType,
       governanceToken: assetAddress,

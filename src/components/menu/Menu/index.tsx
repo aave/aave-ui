@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { rgba, useThemeContext } from '@aave/aave-ui-kit';
@@ -25,9 +25,11 @@ interface MenuProps {
   title: string;
 }
 
+// TODO: figure out why we did the history length check
+
 export default function Menu({ title }: MenuProps) {
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
   const { currentAccount } = useUserWalletDataContext();
@@ -42,17 +44,15 @@ export default function Menu({ title }: MenuProps) {
   return (
     <header className="Menu">
       <div className="Menu__logo-inner">
-        <Link className="Menu__logo-link" to="/markets" onClick={() => goToTop()}>
+        <Link className="Menu__logo-link" to="/dashboard" onClick={() => goToTop()}>
           <img src={LOGO} alt="Aave" />
         </Link>
       </div>
 
       <div className="Menu__title-inner">
-        {history.length > 2 && (
-          <button className="Menu__back-button" onClick={history.goBack}>
-            <img src={backIcon} alt="" />
-          </button>
-        )}
+        <button className="Menu__back-button" onClick={() => navigate(-1)}>
+          <img src={backIcon} alt="" />
+        </button>
 
         <p>{title}</p>
       </div>
@@ -67,6 +67,7 @@ export default function Menu({ title }: MenuProps) {
                     (!currentAccount && link.hiddenWithoutWallet) ||
                     (link.isVisible && !link.isVisible(currentMarketData)),
                 })}
+                data-cy={link.dataCy}
                 key={index}
               >
                 <MenuLink

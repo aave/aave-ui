@@ -1,10 +1,9 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
 import css from 'styled-jsx/css';
 import { useThemeContext } from '@aave/aave-ui-kit';
 
-import { useStaticPoolDataContext } from './libs/pool-data-provider';
 import { useMenuContext } from './libs/menu';
 import { CURRENCY_ROUTE_PARAMS } from './helpers/router-types';
 import ScreensWrapper from './components/wrappers/ScreensWrapper';
@@ -22,13 +21,15 @@ import {
   Governance,
   Staking,
   AssetSwap,
+  Reward,
 } from './modules';
 import SwapBorrowRateModeConfirmation from './modules/swap/SwapBorrowRateModeConfirmation';
 import SwapUsageAsCollateralModeConfirmation from './modules/swap/SwapUsageAsCollateralModeConfirmation';
-import { RewardConfirm } from './modules/reward/screens/RewardConfirm';
+import { EModeConfirm } from './modules/emode/screens/EModeConfirm';
 import { governanceConfig, stakeConfig } from './ui-config';
 import { useProtocolDataContext } from './libs/protocol-data-provider';
 import { isFeatureEnabled } from './helpers/config/markets-and-network-config';
+import { useUserWalletDataContext } from './libs/web3-data-provider';
 
 const staticStyles = css.global`
   .App {
@@ -48,59 +49,52 @@ const staticStyles = css.global`
 `;
 
 function ModulesWithMenu() {
-  const { isUserHasDeposits, userId } = useStaticPoolDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { currentMarketData } = useProtocolDataContext();
 
   return (
     <ScreensWrapper>
-      <Switch>
-        <Route path="/markets" component={Markets} />
-        <Route path="/dashboard" component={Dashboard} />
-
-        <Route path="/deposit" component={Deposit} />
-        <Route path={`/withdraw/${CURRENCY_ROUTE_PARAMS}`} component={Withdraw} />
-
-        <Route path="/borrow" component={Borrow} />
-        <Route path={`/repay/${CURRENCY_ROUTE_PARAMS}`} component={Repay} />
-
+      <Routes>
+        <Route path="/markets" element={<Markets />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/supply/*" element={<Deposit />} />
+        <Route path={`/withdraw/${CURRENCY_ROUTE_PARAMS}/*`} element={<Withdraw />} />
+        <Route path="/borrow/*" element={<Borrow />} />
+        <Route path={`/repay/${CURRENCY_ROUTE_PARAMS}/*`} element={<Repay />} />
         <Route
-          exact={true}
           path={`/interest-swap/${CURRENCY_ROUTE_PARAMS}/confirmation`}
-          component={SwapBorrowRateModeConfirmation}
+          element={<SwapBorrowRateModeConfirmation />}
         />
+        <Route
+          path={`/usage-as-collateral/${CURRENCY_ROUTE_PARAMS}/confirmation/*`}
+          element={<SwapUsageAsCollateralModeConfirmation />}
+        />
+        <Route
+          path={`/reserve-overview/${CURRENCY_ROUTE_PARAMS}/*`}
+          element={<ReserveOverview />}
+        />
+        {!!governanceConfig && (
+          <Route path="/governance/*" key="Governance" element={<Governance />} />
+        )}
+        {!!stakeConfig && <Route path="/staking/*" key="Staking" element={<Staking />} />}
+        <Route path="/asset-swap/*" key="AssetSwap" element={<AssetSwap />} />
+        <Route path="/rewards/*" key="Rewards" element={<Reward />} />
+        <Route path="/emode/confirm/:newmode" key="E-Mode Confirm" element={<EModeConfirm />} />
+        {currentAccount && <Route path="/history" key="History" element={<History />} />}
+        {isFeatureEnabled.faucet(currentMarketData) && (
+          <Route path="/faucet/*" key="Faucet" element={<Faucet />} />
+        )}
 
         <Route
-          exact={true}
-          path={`/usage-as-collateral/${CURRENCY_ROUTE_PARAMS}/confirmation`}
-          component={SwapUsageAsCollateralModeConfirmation}
+          path="*"
+          element={
+            <Navigate
+              to={localStorage.getItem('selectedAccount') ? '/dashboard' : '/markets'}
+              replace
+            />
+          }
         />
-
-        <Route
-          exact={true}
-          path={`/reserve-overview/${CURRENCY_ROUTE_PARAMS}`}
-          component={ReserveOverview}
-        />
-
-        {!!governanceConfig && [
-          <Route path="/governance" component={Governance} key="Governance" />,
-        ]}
-        {!!stakeConfig && [<Route path="/staking" component={Staking} key="Staking" />]}
-
-        <Route path="/asset-swap" component={AssetSwap} key="AssetSwap" />
-        <Route
-          path="/rewards/confirm/:incentivesControllerAddress"
-          component={RewardConfirm}
-          key="Reward confirm"
-        />
-
-        {userId && [<Route exact={true} path="/history" component={History} key="History" />]}
-
-        {isFeatureEnabled.faucet(currentMarketData) && [
-          <Route path="/faucet" component={Faucet} key="Faucet" />,
-        ]}
-
-        <Redirect to={isUserHasDeposits ? '/dashboard' : '/markets'} />
-      </Switch>
+      </Routes>
     </ScreensWrapper>
   );
 }
@@ -116,9 +110,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <div {...handlers} className="App__content">
-        <Switch>
-          <Route component={ModulesWithMenu} />
-        </Switch>
+        <ModulesWithMenu />
       </div>
 
       <style jsx={true} global={true}>

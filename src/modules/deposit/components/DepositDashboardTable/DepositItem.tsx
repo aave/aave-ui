@@ -1,10 +1,9 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { useThemeContext } from '@aave/aave-ui-kit';
 
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
-import CustomSwitch from '../../../../components/basic/CustomSwitch';
+import TableUsedAsCollateral from '../../../dashboard/components/DashboardTable/TableUsedAsCollateral';
 import TableItem from '../../../dashboard/components/DashboardTable/TableItem';
 import TableValueCol from '../../../dashboard/components/DashboardTable/TableValueCol';
 import TableAprCol from '../../../dashboard/components/DashboardTable/TableAprCol';
@@ -13,84 +12,73 @@ import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/Ta
 import TableButtonCol from '../../../dashboard/components/DashboardTable/TableButtonCol';
 
 import defaultMessages from '../../../../defaultMessages';
-import messages from './messages';
 
 import { DepositTableItem } from './types';
 
 export default function DepositItem({
-  reserve: { symbol, liquidityRate, id, underlyingAsset },
-  uiColor,
+  userId,
+  reserve: { symbol, liquidityRate, underlyingAsset },
   usageAsCollateralEnabledOnUser,
-  usageAsCollateralEnabledOnThePool,
   underlyingBalance,
   underlyingBalanceUSD,
   onToggleSwitch,
   isActive,
   isFrozen,
-  avg30DaysLiquidityRate,
-  index,
-  aincentivesAPR,
+  aIncentives,
+  canBeEnabledAsCollateral,
+  isIsolated,
+  swapLink,
+  depositLink,
+  withdrawLink,
   ...rest
 }: DepositTableItem) {
   const intl = useIntl();
-  const { currentTheme, xl, lg, md } = useThemeContext();
   const { currentMarketData } = useProtocolDataContext();
-
-  const swiperWidth = xl && !lg ? 30 : md ? 30 : 40;
-  const swiperHeight = xl && !lg ? 16 : md ? 16 : 20;
 
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
 
   return (
-    <TableItem tokenSymbol={symbol} color={uiColor} {...rest}>
+    <TableItem tokenSymbol={symbol} {...rest}>
       <TableValueCol
-        value={Number(underlyingBalance)}
-        subValue={Number(underlyingBalanceUSD)}
-        tooltipId={`deposit-${symbol}__${index}`}
-      />
-      <TableAprCol
-        value={Number(liquidityRate)}
-        thirtyDaysAverage={avg30DaysLiquidityRate}
-        liquidityMiningValue={aincentivesAPR}
+        userId={userId}
         symbol={symbol}
-        type="deposit"
+        value={Number(underlyingBalance)}
+        withSubValue={true}
+        subValue={Number(underlyingBalanceUSD)}
       />
 
-      <TableCol maxWidth={125}>
-        <CustomSwitch
-          value={usageAsCollateralEnabledOnUser && usageAsCollateralEnabledOnThePool}
-          offLabel={intl.formatMessage(messages.offLabel)}
-          onLabel={intl.formatMessage(messages.onLabel)}
-          onColor={currentTheme.green.hex}
-          offColor={currentTheme.red.hex}
-          onSwitch={onToggleSwitch}
-          disabled={!usageAsCollateralEnabledOnThePool}
-          swiperHeight={swiperHeight}
-          swiperWidth={swiperWidth}
+      <TableAprCol value={Number(liquidityRate)} incentives={aIncentives} symbol={symbol} />
+
+      <TableCol>
+        <TableUsedAsCollateral
+          isIsolated={isIsolated}
+          canBeEnabledAsCollateral={canBeEnabledAsCollateral}
+          usageAsCollateralEnabledOnUser={usageAsCollateralEnabledOnUser}
+          onToggleSwitch={onToggleSwitch}
         />
       </TableCol>
 
       <TableButtonsWrapper>
-        {!isSwapButton && (
-          <TableButtonCol
-            disabled={!isActive || isFrozen}
-            title={intl.formatMessage(defaultMessages.deposit)}
-            linkTo={`/deposit/${underlyingAsset}-${id}`}
-          />
-        )}
-
         <TableButtonCol
           disabled={!isActive}
           title={intl.formatMessage(defaultMessages.withdraw)}
-          linkTo={`/withdraw/${underlyingAsset}-${id}`}
-          withoutBorder={!isSwapButton}
+          linkTo={withdrawLink}
         />
+
+        {!isSwapButton && (
+          <TableButtonCol
+            disabled={!isActive || isFrozen}
+            title={intl.formatMessage(defaultMessages.supply)}
+            linkTo={depositLink}
+            withoutBorder={!isSwapButton}
+          />
+        )}
 
         {isSwapButton && (
           <TableButtonCol
             disabled={!isActive || isFrozen}
             title={intl.formatMessage(defaultMessages.swap)}
-            linkTo={`/asset-swap?asset=${underlyingAsset}`}
+            linkTo={swapLink}
             withoutBorder={true}
           />
         )}

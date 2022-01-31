@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import {
-  calculateHealthFactorFromBalancesBigUnits,
-  valueToBigNumber,
-  BigNumber,
-} from '@aave/protocol-js';
 
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
@@ -20,16 +15,23 @@ import { isAssetStable } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
+import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/math-utils';
+import BigNumber from 'bignumber.js';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 
 function WithdrawConfirmation({
-  currencySymbol,
   userReserve,
   poolReserve,
   amount,
   user,
+  currencySymbol,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { lendingPool } = useTxBuilderContext();
+  const { currentAccount } = useUserWalletDataContext();
+  const { userEmodeCategoryId } = useAppDataContext();
+
   const aTokenData = getAtokenInfo({
     address: poolReserve.underlyingAsset,
     symbol: currencySymbol,
@@ -54,10 +56,13 @@ function WithdrawConfirmation({
   }
 
   const underlyingBalance = valueToBigNumber(userReserve.underlyingBalance);
-  const availableLiquidity = valueToBigNumber(poolReserve.availableLiquidity);
-  let maxAmountToWithdraw = BigNumber.min(underlyingBalance, availableLiquidity);
+  const unborrowedLiquidity = valueToBigNumber(poolReserve.unborrowedLiquidity);
+  let maxAmountToWithdraw = BigNumber.min(underlyingBalance, unborrowedLiquidity);
   let maxCollateralToWithdrawInETH = valueToBigNumber('0');
-
+  const reserveLiquidationThreshold =
+    userEmodeCategoryId === poolReserve.eModeCategoryId
+      ? poolReserve.formattedEModeLiquidationThreshold
+      : poolReserve.formattedReserveLiquidationThreshold;
   if (
     userReserve.usageAsCollateralEnabledOnUser &&
     poolReserve.usageAsCollateralEnabled &&
@@ -70,12 +75,12 @@ function WithdrawConfirmation({
       maxCollateralToWithdrawInETH = excessHF
         .multipliedBy(user.totalBorrowsMarketReferenceCurrency)
         // because of the rounding issue on the contracts side this value still can be incorrect
-        .div(Number(poolReserve.reserveLiquidationThreshold) + 0.01)
+        .div(Number(reserveLiquidationThreshold) + 0.01)
         .multipliedBy('0.99');
     }
     maxAmountToWithdraw = BigNumber.min(
       maxAmountToWithdraw,
-      maxCollateralToWithdrawInETH.dividedBy(poolReserve.priceInMarketReferenceCurrency)
+      maxCollateralToWithdrawInETH.dividedBy(poolReserve.formattedPriceInMarketReferenceCurrency)
     );
   }
 
@@ -100,7 +105,7 @@ function WithdrawConfirmation({
 
   if (userReserve.usageAsCollateralEnabledOnUser && poolReserve.usageAsCollateralEnabled) {
     const amountToWithdrawInEth = displayAmountToWithdraw.multipliedBy(
-      poolReserve.priceInMarketReferenceCurrency
+      poolReserve.formattedPriceInMarketReferenceCurrency
     );
     totalCollateralInETHAfterWithdraw =
       totalCollateralInETHAfterWithdraw.minus(amountToWithdrawInEth);
@@ -109,19 +114,15 @@ function WithdrawConfirmation({
       user.totalCollateralMarketReferenceCurrency
     )
       .multipliedBy(user.currentLiquidationThreshold)
-      .minus(
-        valueToBigNumber(amountToWithdrawInEth).multipliedBy(
-          poolReserve.reserveLiquidationThreshold
-        )
-      )
+      .minus(valueToBigNumber(amountToWithdrawInEth).multipliedBy(reserveLiquidationThreshold))
       .div(totalCollateralInETHAfterWithdraw)
       .toFixed(4, BigNumber.ROUND_DOWN);
 
-    healthFactorAfterWithdraw = calculateHealthFactorFromBalancesBigUnits(
-      totalCollateralInETHAfterWithdraw,
-      user.totalBorrowsMarketReferenceCurrency,
-      liquidationThresholdAfterWithdraw
-    );
+    healthFactorAfterWithdraw = calculateHealthFactorFromBalancesBigUnits({
+      collateralBalanceMarketReferenceCurrency: totalCollateralInETHAfterWithdraw,
+      borrowBalanceMarketReferenceCurrency: user.totalBorrowsMarketReferenceCurrency,
+      currentLiquidationThreshold: liquidationThresholdAfterWithdraw,
+    });
 
     if (healthFactorAfterWithdraw.lt('1') && user.totalBorrowsMarketReferenceCurrency !== '0') {
       blockingError = intl.formatMessage(messages.errorCanNotWithdrawThisAmount);
@@ -136,14 +137,14 @@ function WithdrawConfirmation({
   }
   if (
     !blockingError &&
-    (availableLiquidity.eq('0') || displayAmountToWithdraw.gt(poolReserve.availableLiquidity))
+    (unborrowedLiquidity.eq('0') || displayAmountToWithdraw.gt(poolReserve.unborrowedLiquidity))
   ) {
     blockingError = intl.formatMessage(messages.errorPoolDoNotHaveEnoughFundsToWithdrawThisAmount);
   }
 
   const handleGetTransactions = async () => {
     return await lendingPool.withdraw({
-      user: user.id,
+      user: currentAccount,
       reserve: poolReserve.underlyingAsset,
       amount: amountToWithdraw.toString(),
       aTokenAddress: poolReserve.aTokenAddress,

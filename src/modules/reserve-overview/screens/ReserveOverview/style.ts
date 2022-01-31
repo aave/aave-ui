@@ -113,9 +113,6 @@ const staticStyles = css.global`
     .ReserveOverview__noDataPanel {
       flex: 1;
       padding: 20px;
-      @include respond-to(xl) {
-        padding: 5px;
-      }
       @include respond-to(md) {
         padding: 30px;
       }

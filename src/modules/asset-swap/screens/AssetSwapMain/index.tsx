@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useHistory, useLocation } from 'react-router-dom';
-import { valueToBigNumber } from '@aave/protocol-js';
+import { useNavigate, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
+import { valueToBigNumber } from '@aave/math-utils';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
-import { useDynamicPoolDataContext } from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import NoDataPanel from '../../../../components/NoDataPanel';
 import MarketNotSupported from '../../../../components/MarketNotSupported';
@@ -26,10 +26,10 @@ const applySlippage = (amount: string, slippagePercent: number | string) => {
 
 export default function AssetSwapMain() {
   const intl = useIntl();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const { currentTheme, md } = useThemeContext();
-  const { user, reserves } = useDynamicPoolDataContext();
+  const { user, reserves, userId } = useAppDataContext();
   const { currentMarketData, chainId, networkConfig } = useProtocolDataContext();
   const [fromAmount, setAmountFrom] = useState<string>('');
   const [fromAsset, setAssetFrom] = useState('');
@@ -54,7 +54,7 @@ export default function AssetSwapMain() {
     outputAmountUSD: toAmountInUSD,
     inputAmountUSD: fromAmountInUSD,
   } = useSwap({
-    userId: user?.id,
+    userId: userId,
     swapIn: {
       address: fromAsset,
       amount: fromAmount,
@@ -96,7 +96,10 @@ export default function AssetSwapMain() {
     );
     const apy = reserve ? reserve.supplyAPY : '0';
     return {
-      label: res.reserve.symbol,
+      label:
+        res.reserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+          ? networkConfig.baseAssetSymbol
+          : res.reserve.symbol,
       value: res.reserve.underlyingAsset,
       decimals: res.reserve.decimals,
       apy,
@@ -108,7 +111,10 @@ export default function AssetSwapMain() {
       res.isActive && !res.isFrozen && res.underlyingAsset.toLowerCase() !== fromAsset.toLowerCase()
   );
   const availableDestinationsSymbols = availableDestinations.map((res) => ({
-    label: res.symbol,
+    label:
+      res.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+        ? networkConfig.baseAssetSymbol
+        : res.symbol,
     value: res.underlyingAsset,
     decimals: res.decimals,
     apy: res.supplyAPY,
@@ -194,7 +200,7 @@ export default function AssetSwapMain() {
         totalFees,
       });
 
-      history.push(`${history.location.pathname}/confirmation?${query}`);
+      navigate(`${location.pathname}/confirmation?${query}`);
     }
   };
 
@@ -212,7 +218,7 @@ export default function AssetSwapMain() {
           description={intl.formatMessage(messages.description, {
             deposited: (
               <strong style={{ color: `${currentTheme.primary.hex}` }}>
-                {intl.formatMessage(messages.deposited)}
+                {intl.formatMessage(messages.supplied)}
               </strong>
             ),
             faq: (

@@ -1,6 +1,5 @@
 import React, { PropsWithChildren, useEffect } from 'react';
-import queryString from 'query-string';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 export function storeReferralCode(referralCode: number, fromUrl: boolean = true): void {
   localStorage.setItem('referralCode', referralCode.toString());
@@ -24,15 +23,14 @@ export function removeReferralCode(): void {
 }
 
 export function ReferralHandler({ children }: PropsWithChildren<{}>) {
-  const { search } = useLocation();
+  const [search] = useSearchParams();
   useEffect(() => {
-    const query = queryString.parse(search);
-    const referralCode = Number(query.referral);
-    const mockWalletAddress = query.mockWalletAddress ? String(query.mockWalletAddress) : undefined;
+    const referralCode = Number(search.get('referral'));
+    const mockWalletAddress = search.get('mockWalletAddress');
     if (mockWalletAddress) {
       localStorage.setItem('mockWalletAddress', mockWalletAddress);
     }
-    if (Number.isInteger(Number(query.referral)) && referralCode >= -1 && referralCode <= 65535) {
+    if (Number.isInteger(referralCode) && referralCode >= -1 && referralCode <= 65535) {
       storeReferralCode(referralCode);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -2,10 +2,10 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { valueToBigNumber, Stake } from '@aave/protocol-js';
 import { gradient, rgba, Timer, useThemeContext } from '@aave/aave-ui-kit';
+import { Stake } from '@aave/contract-helpers';
+import { valueToBigNumber } from '@aave/math-utils';
 
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import { useStakeDataContext } from '../../../../libs/pool-data-provider/hooks/use-stake-data-context';
 import ScreenWrapper from '../../../../components/wrappers/ScreenWrapper';
 import ContentWrapper from '../../../../components/wrappers/ContentWrapper';
@@ -24,6 +24,7 @@ import CooldownInfoModal from '../CooldownInfoModal';
 
 import messages from './messages';
 import staticStyles from './style';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 interface StakingWrapperProps {
   children: ReactNode;
@@ -33,7 +34,7 @@ export default function StakingWrapper({ children }: StakingWrapperProps) {
   const intl = useIntl();
   const location = useLocation();
   const { currentTheme } = useThemeContext();
-  const { userId } = useStaticPoolDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const { data, cooldownStep, setCooldownStep, usdPriceEth } = useStakeDataContext();
 
   const [isShowYourIncentives, setShowYourIncentives] = useState(false);
@@ -140,7 +141,7 @@ export default function StakingWrapper({ children }: StakingWrapperProps) {
             StakingWrapper__contentLeftActive: !isShowYourIncentives,
           })}
         >
-          {!userId ? (
+          {!currentAccount ? (
             <NoDataPanel
               title={intl.formatMessage(messages.noWalletConnect)}
               description={intl.formatMessage(messages.noWalletConnectDescription)}

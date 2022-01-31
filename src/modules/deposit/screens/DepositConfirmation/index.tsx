@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { calculateHealthFactorFromBalancesBigUnits, valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
+import { ChainId, Pool } from '@aave/contract-helpers';
+import {
+  calculateHealthFactorFromBalancesBigUnits,
+  USD_DECIMALS,
+  valueToBigNumber,
+} from '@aave/math-utils';
 
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
-import { getReferralCode } from '../../../../libs/referral-handler';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
@@ -16,23 +21,31 @@ import Value from '../../../../components/basic/Value';
 import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationView';
 import HealthFactor from '../../../../components/HealthFactor';
 import DepositCurrencyWrapper from '../../components/DepositCurrencyWrapper';
+import IsolationModeBadge from '../../../../components/isolationMode/IsolationModeBadge';
 import { getAssetInfo } from '../../../../helpers/config/assets-config';
 
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 function DepositConfirmation({
-  currencySymbol,
   poolReserve,
   amount,
   user,
   userReserve,
   walletBalance,
+  currencySymbol,
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { currentTheme } = useThemeContext();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd, userId } = useAppDataContext();
+  const { currentMarketData, chainId } = useProtocolDataContext();
   const { lendingPool } = useTxBuilderContext();
+
+  const [depositWithPermitEnabled, setDepositWithPermitEnable] = useState(
+    currentMarketData.v3 && chainId !== ChainId.harmony && chainId !== ChainId.harmony_testnet
+  );
+  const [isTxExecuted, setIsTxExecuted] = useState(false);
+
   const aTokenData = getAtokenInfo({
     address: poolReserve.aTokenAddress,
     symbol: currencySymbol,
@@ -60,40 +73,87 @@ function DepositConfirmation({
     });
   }
 
-  const amountIntEth = amount.multipliedBy(poolReserve.priceInMarketReferenceCurrency);
-  const amountInUsd = amountIntEth.multipliedBy(marketRefPriceInUsd);
+  const amountIntEth = amount.multipliedBy(poolReserve.formattedPriceInMarketReferenceCurrency);
+  const amountInUsd = amountIntEth.multipliedBy(marketReferencePriceInUsd).shiftedBy(-USD_DECIMALS);
   const totalCollateralMarketReferenceCurrencyAfter = valueToBigNumber(
     user.totalCollateralMarketReferenceCurrency
   ).plus(amountIntEth);
 
   const liquidationThresholdAfter = valueToBigNumber(user.totalCollateralMarketReferenceCurrency)
     .multipliedBy(user.currentLiquidationThreshold)
-    .plus(amountIntEth.multipliedBy(poolReserve.reserveLiquidationThreshold))
+    .plus(amountIntEth.multipliedBy(poolReserve.formattedReserveLiquidationThreshold))
     .dividedBy(totalCollateralMarketReferenceCurrencyAfter);
 
-  const healthFactorAfterDeposit = calculateHealthFactorFromBalancesBigUnits(
-    totalCollateralMarketReferenceCurrencyAfter,
-    valueToBigNumber(user.totalBorrowsMarketReferenceCurrency),
-    liquidationThresholdAfter
-  );
+  let healthFactorAfterDeposit = valueToBigNumber(user.healthFactor);
 
+  if (
+    (!user.isInIsolationMode && !poolReserve.isIsolated) ||
+    (user.isInIsolationMode &&
+      user.isolatedReserve?.underlyingAsset === poolReserve.underlyingAsset)
+  ) {
+    healthFactorAfterDeposit = calculateHealthFactorFromBalancesBigUnits({
+      collateralBalanceMarketReferenceCurrency: totalCollateralMarketReferenceCurrencyAfter,
+      borrowBalanceMarketReferenceCurrency: valueToBigNumber(
+        user.totalBorrowsMarketReferenceCurrency
+      ),
+      currentLiquidationThreshold: liquidationThresholdAfter,
+    });
+  }
+
+  // Get approve and supply transactions without using permit flow
   const handleGetTransactions = async () => {
-    return lendingPool.deposit({
-      user: user.id,
+    if (currentMarketData.v3) {
+      const newPool: Pool = lendingPool as Pool;
+      return await newPool.supply({
+        user: userId,
+        reserve: poolReserve.underlyingAsset,
+        amount: amount.toString(),
+      });
+    } else {
+      return await lendingPool.deposit({
+        user: userId,
+        reserve: poolReserve.underlyingAsset,
+        amount: amount.toString(),
+      });
+    }
+  };
+
+  // Generate signature request payload
+  const handleGetPermitSignatureRequest = async () => {
+    const newPool: Pool = lendingPool as Pool;
+    return await newPool.signERC20Approval({
+      user: userId,
       reserve: poolReserve.underlyingAsset,
       amount: amount.toString(),
-      referralCode: getReferralCode(),
+    });
+  };
+
+  // Generate supply transaction with signed permit
+  const handleGetPermitSupply = async (signature: string) => {
+    const newPool: Pool = lendingPool as Pool;
+    return await newPool.supplyWithPermit({
+      user: userId,
+      reserve: poolReserve.underlyingAsset,
+      amount: amount.toString(),
+      signature,
     });
   };
 
   const notShowHealthFactor =
     user.totalBorrowsMarketReferenceCurrency !== '0' && poolReserve.usageAsCollateralEnabled;
 
+  // if the reserve is isolated the deposit will only be collateral enabled when there's no other deposit with collateral enabled
+  const isIsolated = poolReserve.isIsolated;
+  const hasDifferentCollateral = user.userReservesData.find(
+    (reserve) => reserve.usageAsCollateralEnabledOnUser && reserve.reserve.id !== poolReserve.id
+  );
+
   const usageAsCollateralEnabledOnDeposit =
     poolReserve.usageAsCollateralEnabled &&
     (!userReserve?.underlyingBalance ||
       userReserve.underlyingBalance === '0' ||
-      userReserve.usageAsCollateralEnabledOnUser);
+      userReserve.usageAsCollateralEnabledOnUser) &&
+    (!isIsolated || (isIsolated && !hasDifferentCollateral));
 
   return (
     <DepositCurrencyWrapper
@@ -104,16 +164,26 @@ function DepositConfirmation({
       userReserve={userReserve}
     >
       <PoolTxConfirmationView
-        mainTxName={intl.formatMessage(defaultMessages.deposit)}
+        mainTxName={intl.formatMessage(defaultMessages.supply)}
         caption={intl.formatMessage(messages.caption)}
-        boxTitle={intl.formatMessage(defaultMessages.deposit)}
+        boxTitle={intl.formatMessage(defaultMessages.supply)}
         boxDescription={intl.formatMessage(messages.boxDescription)}
-        approveDescription={intl.formatMessage(messages.approveDescription)}
+        approveDescription={
+          depositWithPermitEnabled
+            ? intl.formatMessage(messages.permitDescription)
+            : intl.formatMessage(messages.approveDescription)
+        }
         getTransactionsData={handleGetTransactions}
+        getPermitSignatureRequest={handleGetPermitSignatureRequest}
+        getPermitEnabledTransactionData={handleGetPermitSupply}
+        permitEnabled={depositWithPermitEnabled}
+        togglePermit={setDepositWithPermitEnable}
         blockingError={blockingError}
         aTokenData={aTokenData}
+        isolationWarning={isIsolated && usageAsCollateralEnabledOnDeposit}
+        onMainTxConfirmed={() => setIsTxExecuted(true)}
       >
-        <Row title={intl.formatMessage(messages.valueRowTitle)} withMargin={notShowHealthFactor}>
+        <Row title={intl.formatMessage(messages.valueRowTitle)} withMargin={true}>
           <Value
             symbol={currencySymbol}
             value={amount.toString()}
@@ -121,22 +191,27 @@ function DepositConfirmation({
             subValue={amountInUsd.toString()}
             subSymbol="USD"
             tooltipId={currencySymbol}
+            updateCondition={isTxExecuted}
           />
         </Row>
 
         <Row title={intl.formatMessage(messages.collateral)} withMargin={notShowHealthFactor}>
-          <strong
-            style={{
-              color: usageAsCollateralEnabledOnDeposit
-                ? currentTheme.green.hex
-                : currentTheme.red.hex,
-            }}
-            className="Collateral__text"
-          >
-            {usageAsCollateralEnabledOnDeposit
-              ? intl.formatMessage(messages.yes)
-              : intl.formatMessage(messages.no)}
-          </strong>
+          {user.isInIsolationMode && !poolReserve.isIsolated ? (
+            <IsolationModeBadge isIsolated={poolReserve.isIsolated} />
+          ) : (
+            <strong
+              style={{
+                color: usageAsCollateralEnabledOnDeposit
+                  ? currentTheme.green.hex
+                  : currentTheme.red.hex,
+              }}
+              className="Collateral__text"
+            >
+              {usageAsCollateralEnabledOnDeposit
+                ? intl.formatMessage(messages.yes)
+                : intl.formatMessage(messages.no)}
+            </strong>
+          )}
         </Row>
 
         {notShowHealthFactor && (
@@ -144,6 +219,7 @@ function DepositConfirmation({
             title={intl.formatMessage(messages.newHealthFactor)}
             withoutModal={true}
             value={healthFactorAfterDeposit.toString()}
+            updateCondition={isTxExecuted}
           />
         )}
       </PoolTxConfirmationView>

@@ -1,29 +1,19 @@
 import React, { ReactNode, useContext, useState } from 'react';
-import { normalize, Stake, valueToBigNumber } from '@aave/protocol-js';
-
+import { Stake, StakingService } from '@aave/contract-helpers';
+import { normalize, valueToBigNumber } from '@aave/math-utils';
 import { useLocation } from 'react-router-dom';
 
 import Preloader from '../../../components/basic/Preloader';
 import ErrorPage from '../../../components/ErrorPage';
 import { useCachedStakeData } from '../../caching-server-data-provider/hooks/use-cached-stake-data';
 import { useProtocolDataContext } from '../../protocol-data-provider';
-import { useStaticPoolDataContext } from '../providers/static-pool-data-provider';
 import { ComputedStakeData, ComputedStakesData, StakeData } from '../types/stake';
-import {
-  useMainnetCachedServerWsGraphCheck,
-  useNetworkCachedServerWsGraphCheck,
-  useQueryGraphCheck,
-} from './use-graph-check';
 import { useStakeDataWithRpc } from './use-stake-data-with-rpc';
-import {
-  ConnectionMode,
-  useConnectionStatusContext,
-  WS_ATTEMPTS_LIMIT,
-} from '../../connection-status-provider';
-import { useApolloConfigContext } from '../../apollo-config';
+import { ConnectionMode, useConnectionStatusContext } from '../../connection-status-provider';
 import { StakeConfig } from '../../../ui-config';
 import { getProvider } from '../../../helpers/config/markets-and-network-config';
-import { ChainId, StakingService } from '@aave/contract-helpers';
+import { useUserWalletDataContext } from '../../web3-data-provider';
+import { APOLLO_QUERY_TARGET, useGraphValid } from '../../apollo-config/client-config';
 
 export function computeStakeData(data: StakeData): ComputedStakeData {
   return {
@@ -87,16 +77,19 @@ export function StakeDataProvider({
   stakeConfig: StakeConfig;
   children: ReactNode;
 }) {
-  const { userId } = useStaticPoolDataContext();
+  const { currentAccount } = useUserWalletDataContext();
   const location = useLocation();
   const [cooldownStep, setCooldownStep] = useState(0);
   const { preferredConnectionMode } = useConnectionStatusContext();
   const { chainId, networkConfig } = useProtocolDataContext();
-  const { chainId: apolloClientChainId } = useApolloConfigContext();
   const isStakeFork =
     networkConfig.isFork && networkConfig.underlyingChainId === stakeConfig.chainId;
   const RPC_ONLY_MODE =
-    networkConfig.rpcOnly || preferredConnectionMode === ConnectionMode.rpc || isStakeFork;
+    networkConfig.rpcOnly ||
+    preferredConnectionMode === ConnectionMode.rpc ||
+    isStakeFork ||
+    !stakeConfig.queryStakeDataUrl ||
+    !stakeConfig.wsStakeDataUrl;
 
   const rpcProvider = isStakeFork ? getProvider(chainId) : getProvider(stakeConfig.chainId);
 
@@ -112,19 +105,12 @@ export function StakeDataProvider({
     loading: cachedDataLoading,
     data: cachedData,
     usdPriceEth: usdPriceEthCached,
-  } = useCachedStakeData(userId, chainId !== apolloClientChainId || RPC_ONLY_MODE);
+  } = useCachedStakeData(currentAccount, RPC_ONLY_MODE);
 
-  const wsNetworkError = useNetworkCachedServerWsGraphCheck();
-  const wsMainnetError = useMainnetCachedServerWsGraphCheck();
-  const queryError = useQueryGraphCheck();
+  const graphValid = useGraphValid(APOLLO_QUERY_TARGET.STAKE);
 
   const isRPCMandatory =
-    RPC_ONLY_MODE ||
-    (wsNetworkError.wsErrorCount >= WS_ATTEMPTS_LIMIT && chainId === ChainId.mainnet) ||
-    (wsMainnetError.wsErrorCount >= WS_ATTEMPTS_LIMIT && chainId !== ChainId.mainnet) ||
-    networkConfig.isFork ||
-    (!cachedData && !cachedDataLoading) ||
-    queryError.queryErrorCount >= 1;
+    RPC_ONLY_MODE || !graphValid || networkConfig.isFork || (!cachedData && !cachedDataLoading);
   const isRPCActive = preferredConnectionMode === ConnectionMode.rpc || isRPCMandatory;
 
   const {
@@ -135,9 +121,10 @@ export function StakeDataProvider({
   } = useStakeDataWithRpc(
     stakeConfig.stakeDataProvider,
     isStakeFork ? chainId : stakeConfig.chainId,
-    userId,
+    currentAccount,
     !isRPCActive
   );
+  console.log(cachedData);
 
   if ((isRPCActive && rpcDataLoading) || (!isRPCActive && cachedDataLoading)) {
     return <Preloader withText={true} />;

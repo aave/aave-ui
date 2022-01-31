@@ -1,5 +1,5 @@
 import React, { ReactNodeArray, ReactNode } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 
@@ -36,7 +36,7 @@ export default function NoDataPanel({
   withAnimationCircle,
   children,
 }: NoDataPanelProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const intl = useIntl();
 
   return (
@@ -60,7 +60,7 @@ export default function NoDataPanel({
           <DefaultButton
             title={intl.formatMessage(messages.goBack)}
             mobileBig={true}
-            onClick={history.goBack}
+            onClick={() => navigate(-1)}
           />
         </div>
       )}

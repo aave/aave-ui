@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { normalize } from '@aave/protocol-js';
+import { normalize } from '@aave/math-utils';
 
-import { WalletBalanceProviderFactory } from '../contracts/WalletBalanceProviderContract';
 import { useProtocolDataContext } from '../../protocol-data-provider';
-import { getNetworkConfig, getProvider } from '../../../helpers/config/markets-and-network-config';
-import { ChainId } from '@aave/contract-helpers';
+import { getProvider } from '../../../helpers/config/markets-and-network-config';
+import { ChainId, WalletBalanceProvider } from '@aave/contract-helpers';
+import { MarketDataType } from '../../../helpers/config/types';
 
 interface AddressBalance {
   [key: string]: string;
@@ -22,6 +22,7 @@ const reduceDefaultBalance = (assets: string[]) =>
 
 const retrieveBalances = async (
   chainId: ChainId,
+  marketData: MarketDataType,
   addresses: string[],
   reserveAssets: string[],
   assetDecimals: number = 18
@@ -29,12 +30,11 @@ const retrieveBalances = async (
   if (!addresses.length || !reserveAssets.length) {
     throw new Error('[retrieveBalance] Missing params');
   }
-  const networkConfig = getNetworkConfig(chainId);
   const provider = getProvider(chainId);
-  const walletBalanceContract = WalletBalanceProviderFactory.connect(
-    networkConfig.addresses.walletBalanceProvider,
-    provider
-  );
+  const walletBalanceContract = new WalletBalanceProvider({
+    walletBalanceProviderAddress: marketData.addresses.WALLET_BALANCE_PROVIDER,
+    provider,
+  });
   try {
     const balances = await walletBalanceContract.batchBalanceOf(addresses, reserveAssets);
     return addresses.map<WalletBalance>((address, addressIndex) => {
@@ -62,7 +62,7 @@ export function useGetWalletsBalance(
   const [walletsData, setWalletsData] = useState<WalletBalance[]>(
     walletAddresses.map((address) => ({ address, balances: reduceDefaultBalance(assetAddresses) }))
   );
-  const { chainId } = useProtocolDataContext();
+  const { chainId, currentMarketData } = useProtocolDataContext();
 
   const getBalances = async (
     addresses: string[],
@@ -71,7 +71,13 @@ export function useGetWalletsBalance(
   ) => {
     setLoading(true);
     try {
-      const balances = await retrieveBalances(chainId, addresses, reserveAssets, assetDecimals);
+      const balances = await retrieveBalances(
+        chainId,
+        currentMarketData,
+        addresses,
+        reserveAssets,
+        assetDecimals
+      );
       setWalletsData(balances);
     } catch (e) {
       console.error(e);

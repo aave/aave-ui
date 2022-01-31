@@ -1,27 +1,27 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
 import { useStakeDataContext } from '../../../../libs/pool-data-provider/hooks/use-stake-data-context';
-import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
 import StakeTxConfirmationView from '../../components/StakeTxConfirmationView';
 
 import messages from './messages';
+import { useUserWalletDataContext } from '../../../../libs/web3-data-provider';
 
 export default function ActivateCooldownConfirmation() {
   const intl = useIntl();
   const { selectedStake, selectedStakeData, stakingService } = useStakeDataContext();
-  const { userId } = useStaticPoolDataContext();
+  const { currentAccount } = useUserWalletDataContext();
 
-  if (!userId) {
+  if (!currentAccount) {
     return null;
   }
   const timeNowInSeconds = Math.floor(Date.now() / 1000);
   if (selectedStakeData.userCooldown > timeNowInSeconds) {
-    return <Redirect to="/staking" />;
+    return <Navigate to="/staking" replace />;
   }
 
-  const handleGetTransactions = async () => stakingService.cooldown(userId);
+  const handleGetTransactions = async () => stakingService.cooldown(currentAccount);
 
   let blockingError = '';
   if (selectedStakeData.stakeTokenUserBalance === '0') {

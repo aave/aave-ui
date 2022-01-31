@@ -1,13 +1,10 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
-import queryString from 'query-string';
+import { ChainId } from '@aave/contract-helpers';
+import { valueToBigNumber } from '@aave/math-utils';
 
-import {
-  useDynamicPoolDataContext,
-  useStaticPoolDataContext,
-} from '../../../../libs/pool-data-provider';
+import { useAppDataContext } from '../../../../libs/pool-data-provider';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import Row from '../../../../components/basic/Row';
 import PoolTxConfirmationView from '../../../../components/PoolTxConfirmationView';
@@ -17,48 +14,33 @@ import ValuePercent from '../../../../components/basic/ValuePercent';
 import Preloader from '../../../../components/basic/Preloader';
 import { getSwapCallData, useSwap } from '../../../../libs/use-asset-swap/useSwap';
 import { calculateHFAfterSwap } from '../../helpers';
-
 import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 import { getAtokenInfo } from '../../../../helpers/get-atoken-info';
-import { ChainId } from '@aave/contract-helpers';
+import { useProtocolDataContext } from '../../../../libs/protocol-data-provider';
 
-interface QueryParams {
-  fromAsset?: string;
-  toAsset?: string;
-  fromAmount?: string;
-  toAmount?: string;
-  fromAmountInUSD?: string;
-  toAmountInUSD?: string;
-  maxSlippage?: string;
-  isReverse?: string;
-  swapAll?: string;
-  useEthPath?: string;
-  totalFees?: string;
-}
 // TODO:
 // TODO: -1 - max
 // TODO: error on slippage
 export default function AssetSwapConfirmation() {
   const intl = useIntl();
-  const location = useLocation();
-  const { WrappedBaseNetworkAssetAddress, networkConfig, chainId } = useStaticPoolDataContext();
-  const { user, reserves } = useDynamicPoolDataContext();
+  const { networkConfig, chainId } = useProtocolDataContext();
+  const { user, reserves, userId } = useAppDataContext();
   const { lendingPool } = useTxBuilderContext();
-  const query = queryString.parse(location.search) as QueryParams;
+  const [search] = useSearchParams();
 
-  const fromAsset = query.fromAsset;
-  const toAsset = query.toAsset;
+  const fromAsset = search.get('fromAsset');
+  const toAsset = search.get('toAsset');
 
-  const fromAmountQuery = valueToBigNumber(query.fromAmount || 0);
-  const toAmountQuery = valueToBigNumber(query.toAmount || 0);
+  const fromAmountQuery = valueToBigNumber(search.get('fromAmount') || 0);
+  const toAmountQuery = valueToBigNumber(search.get('toAmount') || 0);
 
-  const fromAmountUsdQuery = valueToBigNumber(query.fromAmountInUSD || 0);
-  const toAmountUsdQuery = valueToBigNumber(query.toAmountInUSD || 0);
+  const fromAmountUsdQuery = valueToBigNumber(search.get('fromAmountInUSD') || 0);
+  const toAmountUsdQuery = valueToBigNumber(search.get('toAmountInUSD') || 0);
 
-  const maxSlippage = valueToBigNumber(query.maxSlippage || 0);
-  const totalFees = valueToBigNumber(query.totalFees || 0);
-  const swapAll = query.swapAll === 'true';
+  const maxSlippage = valueToBigNumber(search.get('maxSlippage') || 0);
+  const totalFees = valueToBigNumber(search.get('totalFees') || 0);
+  const swapAll = search.get('swapAll') === 'true';
 
   // paraswap has no api specifically for the fork you're running on, so we need to select the correct chainId
   const underlyingChainId = (
@@ -73,7 +55,7 @@ export default function AssetSwapConfirmation() {
     reserveIn,
     reserveOut,
   } = useSwap({
-    userId: user?.id,
+    userId: userId,
     swapIn: {
       address: fromAsset as string,
       amount: fromAmountQuery.toString(),
@@ -142,22 +124,18 @@ export default function AssetSwapConfirmation() {
       srcDecimals: reserveIn.decimals,
       destToken: reserveOut.address,
       destDecimals: reserveOut.decimals,
-      user: user?.id,
+      user: userId,
       route: priceRoute,
       chainId: underlyingChainId,
     });
     return lendingPool.swapCollateral({
-      fromAsset:
-        fromPoolReserve.symbol === networkConfig.baseAsset
-          ? WrappedBaseNetworkAssetAddress
-          : fromAsset,
-      toAsset:
-        toPoolReserve.symbol === networkConfig.baseAsset ? WrappedBaseNetworkAssetAddress : toAsset,
+      fromAsset,
+      toAsset,
       swapAll,
       fromAToken: fromPoolReserve.aTokenAddress,
       fromAmount: inputAmount.toString(),
       minToAmount: toAmountQuery.toString(),
-      user: user.id,
+      user: userId,
       flash:
         user.healthFactor !== '-1' &&
         valueToBigNumber(user.healthFactor).minus(hfEffectOfFromAmount).lt(1.01),
@@ -191,6 +169,15 @@ export default function AssetSwapConfirmation() {
     withFormattedSymbol: false,
   });
 
+  const fromSymbol =
+    fromPoolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+      ? networkConfig.baseAssetSymbol
+      : fromPoolReserve.symbol;
+  const toSymbol =
+    toPoolReserve.symbol.toLowerCase() === networkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+      ? networkConfig.baseAssetSymbol
+      : toPoolReserve.symbol;
+
   return (
     <PoolTxConfirmationView
       caption={intl.formatMessage(messages.title)}
@@ -209,20 +196,20 @@ export default function AssetSwapConfirmation() {
         <Value
           value={fromAmountQuery.toNumber()}
           subValue={fromAmountUsdQuery.toString()}
-          symbol={fromPoolReserve.symbol}
+          symbol={fromSymbol}
           subSymbol="USD"
           tokenIcon={true}
-          tooltipId={fromPoolReserve.symbol}
+          tooltipId={fromSymbol}
         />
       </Row>
       <Row title={intl.formatMessage(messages.toTitle)} withMargin={true}>
         <Value
           value={toAmountQuery.toNumber()}
           subValue={toAmountUsdQuery.toString()}
-          symbol={toPoolReserve.symbol}
+          symbol={toSymbol}
           subSymbol="USD"
           tokenIcon={true}
-          tooltipId={toPoolReserve.symbol}
+          tooltipId={toSymbol}
         />
       </Row>
 

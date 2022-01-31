@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { valueToBigNumber, GasType, normalize } from '@aave/protocol-js';
+import { normalize, valueToBigNumber } from '@aave/math-utils';
+import { GasType } from '@aave/contract-helpers';
 
-import { useStaticPoolDataContext } from '../../libs/pool-data-provider';
+import { useAppDataContext } from '../../libs/pool-data-provider';
 import EditorModal, { GasEstimations, Gas, GasKeys } from './EditorModal';
 import Summary from './Summary';
 
 import { EthTransactionData } from '../../helpers/send-ethereum-tx';
+
 interface TxEstimationProps {
   txs: EthTransactionData[];
   setCustomGasPrice: React.Dispatch<React.SetStateAction<string | null>>;
@@ -26,7 +28,7 @@ export default function TxEstimation({
   step,
   editDisabled,
 }: TxEstimationProps) {
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { marketReferencePriceInUsd } = useAppDataContext();
 
   const [visible, setVisible] = useState(false);
 
@@ -83,7 +85,7 @@ export default function TxEstimation({
         totalGas={gasTxs.totalGas || '0'}
         customGasPrice={customGasPrice}
         defaultGasPrice={gasTxs.defaultGasPrice || '0'}
-        marketRefPriceInUsd={marketRefPriceInUsd}
+        marketReferencePriceInUsd={marketReferencePriceInUsd}
         editDisabled={editDisabled}
       />
 
@@ -93,7 +95,7 @@ export default function TxEstimation({
           setVisible={setVisible}
           gasTxs={gasTxs}
           customGasPrice={customGasPrice}
-          marketRefPriceInUsd={marketRefPriceInUsd}
+          marketReferencePriceInUsd={marketReferencePriceInUsd}
           setCustomGasPrice={setCustomGasPrice}
           selectedOption={selected}
           setSelectedOption={setSelected}

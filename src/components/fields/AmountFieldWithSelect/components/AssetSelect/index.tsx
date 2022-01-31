@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
-import { rgba, useThemeContext, AnimationArrow, DropdownWrapper } from '@aave/aave-ui-kit';
+import { rgba, useThemeContext, DropdownWrapper } from '@aave/aave-ui-kit';
 
+import { useProtocolDataContext } from '../../../../../libs/protocol-data-provider';
 import CustomScroll from '../../../../basic/CustomScroll';
 import BasicField from '../../../BasicField';
 import ValuePercent from '../../../../basic/ValuePercent';
 import { getAssetInfo, TokenIcon } from '../../../../../helpers/config/assets-config';
+import { isAtoken } from '../../../../../helpers/get-atoken-info';
 
 import messages from './messages';
 import staticStyles from './style';
+
+import arrow from './images/arrow.svg';
+import arrowBlack from './images/arrowBlack.svg';
 
 type Option = {
   label: string;
@@ -37,6 +42,7 @@ export default function AssetSelect({
 }: AssetSelectProps) {
   const intl = useIntl();
   const { currentTheme, sm, isCurrentThemeDark } = useThemeContext();
+  const { currentMarketData } = useProtocolDataContext();
 
   const [visible, setVisible] = useState(false);
   const [activeAsset, setActiveAsset] = useState<Option | undefined>(undefined);
@@ -49,7 +55,7 @@ export default function AssetSelect({
   );
 
   useEffect(() => {
-    if (options.length === 1) {
+    if (options.length <= 2) {
       setAsset(options[0].value, options[0].decimals);
       setActiveAsset(options[0]);
     }
@@ -81,11 +87,15 @@ export default function AssetSelect({
           key={index}
         >
           <TokenIcon
-            tokenSymbol={option.label.toUpperCase()}
+            tokenSymbol={isAtoken(
+              currentMarketData.aTokenPrefix,
+              option.label
+            ).symbol.toUpperCase()}
             height={30}
             width={30}
             tokenFullName={getAssetInfo(option.label).formattedSymbol || option.label.toUpperCase()}
             onWhiteBackground={true}
+            isAtokenIcon={isAtoken(currentMarketData.aTokenPrefix, option.label).isAtoken}
           />
         </button>
       ))}
@@ -118,12 +128,16 @@ export default function AssetSelect({
           >
             {!!activeAsset?.label ? (
               <TokenIcon
-                tokenSymbol={activeAsset.label}
+                tokenSymbol={isAtoken(
+                  currentMarketData.aTokenPrefix,
+                  activeAsset.label
+                ).symbol.toUpperCase()}
                 height={25}
                 width={25}
                 tokenFullName={
                   getAssetInfo(activeAsset.label).formattedSymbol || activeAsset.label.toUpperCase()
                 }
+                isAtokenIcon={isAtoken(currentMarketData.aTokenPrefix, activeAsset.label).isAtoken}
               />
             ) : (
               <p className="AssetSelect__button-placeholder">
@@ -132,14 +146,10 @@ export default function AssetSelect({
             )}
 
             {options.length > 1 && (
-              <AnimationArrow
-                active={visible}
-                width={14}
-                height={8}
-                arrowTopPosition={4}
-                arrowWidth={8}
-                arrowHeight={1}
-                color={sm ? currentTheme.whiteElement.hex : currentTheme.white.hex}
+              <img
+                className={classNames('AssetSelect__arrow', { AssetSelect__arrowActive: visible })}
+                src={sm && isCurrentThemeDark ? arrowBlack : arrow}
+                alt=""
               />
             )}
           </button>
@@ -151,13 +161,15 @@ export default function AssetSelect({
               AssetSelect__contentWithoutScroll: filteredSearch.length <= 3,
             })}
           >
-            <BasicField
-              value={searchValue}
-              onChange={setSearchValue}
-              placeholder={intl.formatMessage(messages.search)}
-              type="text"
-              className="AssetSelect__search"
-            />
+            {options.length > 2 && (
+              <BasicField
+                value={searchValue}
+                onChange={setSearchValue}
+                placeholder={intl.formatMessage(messages.search)}
+                type="text"
+                className="AssetSelect__search"
+              />
+            )}
 
             {filteredSearch.length ? (
               <>

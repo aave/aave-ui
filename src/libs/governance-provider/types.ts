@@ -1,4 +1,4 @@
-import { tEthereumAddress, ProposalState } from '@aave/protocol-js';
+import { ProposalState, tEthereumAddress } from '@aave/contract-helpers';
 import { BigNumber } from 'ethers';
 
 export type CheckMap = {

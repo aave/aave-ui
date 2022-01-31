@@ -1,6 +1,6 @@
 import React, { FormEvent, ReactNode, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
+import { ComputedUserReserve, valueToBigNumber } from '@aave/math-utils';
 
 import { useThemeContext } from '@aave/aave-ui-kit';
 import Caption from '../../../../components/basic/Caption';
@@ -14,7 +14,6 @@ import staticStyles from './style';
 
 import { BorrowRateMode } from '../../../../libs/pool-data-provider/graphql';
 import { ComputedReserveData } from '../../../../libs/pool-data-provider';
-import { ComputedUserReserve } from '@aave/math-utils';
 
 interface BorrowInterestRateFormProps {
   amountToBorrow: string;
@@ -53,8 +52,9 @@ export default function BorrowInterestRateForm({
     stableBorrowRateNotAllowedMessage = intl.formatMessage(messages.warningYouCanNotChooseStable);
   }
   if (isStableBorrowRateAllowed) {
+    // ValidationLogic.validateBorrow only allows borrowing up to 25% of available in stable rate at once
     const availableLiquidityToBorrowStable = valueToBigNumber(
-      poolReserve.availableLiquidity
+      poolReserve.formattedAvailableLiquidity
     ).multipliedBy('0.25');
     if (availableLiquidityToBorrowStable.lt(amountToBorrow)) {
       isStableBorrowRateAllowed = false;

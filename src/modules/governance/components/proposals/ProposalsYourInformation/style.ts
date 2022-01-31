@@ -172,10 +172,19 @@ const staticStyles = css.global`
         padding: 20px 10px;
         font-size: $medium;
       }
+      @include respond-to(xs) {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
 
       p {
         flex: 1;
         margin-right: 20px;
+        @include respond-to(xs) {
+          margin-right: 0;
+          margin-bottom: 20px;
+        }
       }
     }
   }

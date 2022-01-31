@@ -1,14 +1,20 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
 import MobileCardWrapper from '../../../../components/wrappers/MobileCardWrapper';
 import Row from '../../../../components/basic/Row';
 import NoData from '../../../../components/basic/NoData';
 import Value from '../../../../components/basic/Value';
-import LiquidityMiningCard from '../../../../components/liquidityMining/LiquidityMiningCard';
+import IncentivesCard from '../../../../components/incentives/IncentivesCard';
+import CapsHint from '../../../../components/caps/CapsHint';
+import { CapType } from '../../../../components/caps/helper';
+import TableButtonsWrapper from '../../../dashboard/components/DashboardTable/TableButtonsWrapper';
+import Link from '../../../../components/basic/Link';
+import DefaultButton from '../../../../components/basic/DefaultButton';
 import { isAssetStable } from '../../../../helpers/config/assets-config';
+import AvailableCapsHelpModal from '../../../../components/caps/AvailableCapsHelpModal';
 
+import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { BorrowTableItem } from './types';
@@ -21,66 +27,78 @@ export default function BorrowMobileCard({
   availableBorrowsInUSD,
   stableBorrowRate,
   variableBorrowRate,
-  avg30DaysVariableRate,
   stableBorrowRateEnabled,
   userId,
   isFreezed,
-  vincentivesAPR,
-  sincentivesAPR,
+  vIncentives,
+  sIncentives,
+  borrowCap,
+  totalBorrows,
 }: BorrowTableItem) {
   const intl = useIntl();
-  const history = useHistory();
-
-  const url = `/borrow/${underlyingAsset}-${id}`;
 
   return (
-    <MobileCardWrapper
-      onClick={() => history.push(url)}
-      symbol={symbol}
-      withGoToTop={true}
-      disabled={isFreezed}
-    >
-      <Row title={intl.formatMessage(messages.availableToBorrow)} withMargin={true}>
-        {!userId || Number(availableBorrows) <= 0 ? (
+    <MobileCardWrapper symbol={symbol} disabled={isFreezed} isIsolated={false}>
+      <Row title={<AvailableCapsHelpModal capType={CapType.borrowCap} />} withMargin={true}>
+        {!userId ? (
           <NoData color="dark" />
         ) : (
           <Value
             value={Number(availableBorrows)}
+            symbol={symbol}
             subValue={availableBorrowsInUSD}
             subSymbol="USD"
+            maximumValueDecimals={isAssetStable(symbol) ? 2 : 7}
             maximumSubValueDecimals={2}
-            minimumValueDecimals={isAssetStable(symbol) ? 2 : 5}
-            maximumValueDecimals={isAssetStable(symbol) ? 2 : 5}
+            nextToValue={
+              <CapsHint
+                capType={CapType.borrowCap}
+                capAmount={borrowCap}
+                totalAmount={totalBorrows}
+                tooltipId={`borrowCap__${id}`}
+                withoutText={true}
+              />
+            }
           />
         )}
       </Row>
 
       {!isFreezed && (
-        <Row title={intl.formatMessage(messages.variableAPY)} withMargin={true}>
-          <LiquidityMiningCard
-            symbol={symbol}
-            value={variableBorrowRate}
-            thirtyDaysValue={avg30DaysVariableRate}
-            liquidityMiningValue={vincentivesAPR}
-            type="borrow-variable"
-          />
+        <Row title={intl.formatMessage(messages.APYVariable)} withMargin={true}>
+          <IncentivesCard symbol={symbol} value={variableBorrowRate} incentives={vIncentives} />
         </Row>
       )}
 
       {!isFreezed && (
-        <Row title={intl.formatMessage(messages.stableAPY)} withMargin={true}>
+        <Row title={intl.formatMessage(messages.APYStable)} withMargin={true}>
           {stableBorrowRateEnabled ? (
-            <LiquidityMiningCard
-              symbol={symbol}
-              value={stableBorrowRate}
-              liquidityMiningValue={sincentivesAPR}
-              type="borrow-stable"
-            />
+            <IncentivesCard symbol={symbol} value={stableBorrowRate} incentives={sIncentives} />
           ) : (
             <NoData color="dark" />
           )}
         </Row>
       )}
+
+      <TableButtonsWrapper>
+        <Link
+          to={`/borrow/${underlyingAsset}`}
+          className="ButtonLink"
+          disabled={isFreezed || Number(availableBorrows) <= 0}
+        >
+          <DefaultButton
+            title={intl.formatMessage(defaultMessages.borrow)}
+            color="dark"
+            disabled={isFreezed || Number(availableBorrows) <= 0}
+          />
+        </Link>
+        <Link to={`/reserve-overview/${underlyingAsset}`} className="ButtonLink">
+          <DefaultButton
+            title={intl.formatMessage(defaultMessages.details)}
+            color="dark"
+            transparent={true}
+          />
+        </Link>
+      </TableButtonsWrapper>
     </MobileCardWrapper>
   );
 }

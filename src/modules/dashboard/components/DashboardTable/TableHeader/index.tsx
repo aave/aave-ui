@@ -1,62 +1,40 @@
-import React from 'react';
-import classNames from 'classnames';
-
+import React, { ReactNode } from 'react';
+import { useIntl } from 'react-intl';
 import { useThemeContext } from '@aave/aave-ui-kit';
-import CollateralHelpModal from '../../../../../components/HelpModal/CollateralHelpModal';
-import BorrowInterestHelpModal from '../../../../../components/HelpModal/BorrowInterestHelpModal';
 
+import messages from './messages';
 import staticStyles from './style';
 
 type TableHeaderProps = {
-  head: string[];
-  colWidth: (string | number)[];
-  isDeposit?: boolean;
-  className?: string;
+  head: (string | ReactNode)[];
 };
 
-export default function TableHeader({ head, colWidth, isDeposit, className }: TableHeaderProps) {
-  const { currentTheme, sm } = useThemeContext();
+export default function TableHeader({ head }: TableHeaderProps) {
+  const intl = useIntl();
+  const { currentTheme } = useThemeContext();
 
   return (
-    <div className={classNames('TableHeader', className)}>
-      <div className="TableHeader__inner">
-        {head.map((title, i) => (
-          <div className="TableHeader__item" style={{ maxWidth: colWidth[i] }} key={title + i}>
-            {!sm && i === head.length - 1 ? (
-              <>
-                {!isDeposit ? (
-                  <BorrowInterestHelpModal
-                    className="TableHeader__help-text"
-                    text={title}
-                    iconSize={12}
-                  />
-                ) : (
-                  <CollateralHelpModal
-                    className="TableHeader__help-text"
-                    text={title}
-                    iconSize={12}
-                  />
-                )}
-              </>
-            ) : (
-              <p className="TableHeader__title">{title}</p>
-            )}
-          </div>
-        ))}
-        {!sm && (
-          <>
-            <div className="TableHeader__item" />
-            <div className="TableHeader__item" />
-          </>
-        )}
+    <div className="TableHeader">
+      <div className="TableHeader__item">
+        <div className="TableHeader__title">{intl.formatMessage(messages.assets)}</div>
       </div>
+      {head.map((title, i) => (
+        <div className="TableHeader__item" key={i}>
+          <div className="TableHeader__title">{title}</div>
+        </div>
+      ))}
+      <div className="TableHeader__item" />
+      <div className="TableHeader__item" />
 
       <style jsx={true} global={true}>
         {staticStyles}
       </style>
       <style jsx={true} global={true}>{`
         .TableHeader {
-          color: ${currentTheme.textDarkBlue.hex};
+          &__title,
+          .TextWithModal__text {
+            color: ${currentTheme.lightBlue.hex} !important;
+          }
         }
       `}</style>
     </div>

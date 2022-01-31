@@ -1,22 +1,21 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { valueToBigNumber } from '@aave/protocol-js';
-
 import { textCenterEllipsis, useThemeContext } from '@aave/aave-ui-kit';
 
 import staticStyles from './style';
+import { valueToBigNumber } from '@aave/math-utils';
 
 interface ValueWithSmallDecimalsProps {
   value: number;
   maximumValueDecimals: number;
-  minimumValueDecimals: number;
+  minimumValueDecimals?: number;
   centerEllipsis?: boolean;
 }
 
 export default function ValueWithSmallDecimals({
   value,
   maximumValueDecimals,
-  minimumValueDecimals,
+  minimumValueDecimals = 3,
   centerEllipsis,
 }: ValueWithSmallDecimalsProps) {
   const intl = useIntl();
@@ -41,7 +40,11 @@ export default function ValueWithSmallDecimals({
       })}
 
       <span className="ValueWithSmallDecimals">
-        {centerEllipsis ? textCenterEllipsis(smallDecimals, 1, 4) : smallDecimals}
+        {centerEllipsis
+          ? textCenterEllipsis(smallDecimals, 1, 4)
+          : minimumValueDecimals === 0
+          ? `.${smallDecimals}`
+          : smallDecimals}
       </span>
 
       <style jsx={true}>{staticStyles}</style>
