@@ -26,7 +26,6 @@ const staticStyles = css.global`
     }
 
     .SearchField__image {
-      margin-right: 15px;
       width: 14px;
       height: 14px;
       @include respond-to(xl) {

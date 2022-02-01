@@ -9,7 +9,6 @@ import messages from './messages';
 import staticStyles from './style';
 
 import search from './images/search.svg';
-import searchWhite from './images/searchWhite.svg';
 
 export interface SearchFieldProps {
   value: string;
@@ -38,6 +37,7 @@ export default function SearchField({
 
   return (
     <div
+      style={{backgroundColor: 'white'}}
       className={classNames('SearchField', className, {
         SearchFieldFocused: onFocus,
       })}
@@ -53,7 +53,7 @@ export default function SearchField({
       />
       <img
         className="SearchField__image"
-        src={isCurrentThemeDark ? searchWhite : search}
+        src={search}
         alt="search"
         width={15}
         height={15}
