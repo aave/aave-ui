@@ -1,14 +1,43 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
-import classNames from 'classnames';
-import { gradient, rgba, useThemeContext } from '@aave/aave-ui-kit';
-
-import GradientText from '../../basic/GradientText';
-
-import messages from './messages';
-import staticStyles from './style';
+import styled from 'styled-components';
 import { ChainId } from '@aave/contract-helpers';
-import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
+import {
+  aurora_white,
+  aurora_black,
+  radiant_white,
+  radiant_black,
+} from '../../../ui-config/markets/images';
+
+const MarketButton = styled.button<{ active?: boolean }>`
+  padding: 15px 10px 10px;
+  border-radius: 5px;
+  background-color: ${(props) => (props.active ? '#7159ff' : 'transparent')};
+  :hover {
+    background-color: #e2e2e2;
+  }
+`;
+
+const MarketSpan = styled.p<{ active?: boolean }>`
+  opacity: 0.6;
+  font-family: Montserrat;
+  font-size: 10px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: ${(props) => (props.active ? '#ffffff' : '#000000')};
+`;
+
+const TestnetIndicator = styled.p<{ active?: boolean }>`
+  width: 15px;
+  height: 15px;
+  margin: 3px 0 7px 11px;
+  padding: 4px;
+  background-color: ${(props) => (!props.active ? '#7159ff' : 'white')};
+  color: ${(props) => (props.active ? '#7159ff' : 'white')};
+  border-radius: 50%;
+`;
 
 interface MarketSelectButtonProps {
   onClick: () => void;
@@ -21,6 +50,8 @@ interface MarketSelectButtonProps {
   hoverColored?: boolean;
   chainId: ChainId;
   isDark?: boolean;
+  testnet?: boolean;
+  localnet?: boolean;
 }
 
 export default function MarketSelectButton({
@@ -34,42 +65,61 @@ export default function MarketSelectButton({
   hoverColored,
   chainId,
   isDark,
+  testnet,
+  localnet,
 }: MarketSelectButtonProps) {
-  const intl = useIntl();
-  const { currentTheme } = useThemeContext();
-  const config = getNetworkConfig(chainId);
+  // const intl = useIntl();
+  // const { currentTheme } = useThemeContext();
+  //const config = getNetworkConfig(chainId);
+  //console.log(testnet, localnet);
 
-  const hoverColor = rgba(`${currentTheme.primary.rgb}, 0.7`);
-  const testnetMark = config.isFork
+  //const hoverColor = rgba(`${currentTheme.primary.rgb}, 0.7`);
+  /* const testnetMark = config.isFork
     ? 'F'
     : config.isTestnet
     ? config.name.charAt(0).toUpperCase()
-    : undefined;
-  const gradientBorder = gradient(
+    : undefined; */
+  let testnetMark = '';
+  if (testnet) {
+    testnetMark = 'T';
+  }
+  if (localnet) {
+    testnetMark = 'L';
+  }
+  /* const gradientBorder = gradient(
     252,
     `${currentTheme.primary.rgb}, 1`,
     70,
     `${currentTheme.secondary.rgb}, 1`,
     100
-  );
+  ); */
+
+  const isMainnet = !testnet && !localnet;
 
   return (
-    <button
+    <MarketButton
+      active={disabled}
       onClick={onClick}
-      className={classNames('MarketSelectButton', className, {
-        MarketSelectButton__active: active,
-        MarketSelectButton__hoverColored: hoverColored,
-        MarketSelectButton__dark: isDark,
-      })}
       type="button"
       disabled={disabled}
+      className="flex-row between"
     >
-      {(disabled || active) && <span className="MarketSelectButton__border" />}
+      <img src={disabled ? aurora_white : aurora_black} alt="au" />
+      <div className="flex-column" style={{ margin: '0 10px' }}>
+        <img width={61} height={8} src={disabled ? radiant_white : radiant_black} alt="" />
+        <MarketSpan active={disabled}>market</MarketSpan>
+      </div>
+      {!isMainnet && (
+        <TestnetIndicator active={disabled} className="flex-row centered">
+          {testnetMark}
+        </TestnetIndicator>
+      )}
+      {/* {(disabled || active) && <span className="MarketSelectButton__border" />}
 
       <div className="MarketSelectButton__inner">
         <div className="MarketSelectButton__innerLeft">
           <div className="MarketSelectButton__logo-inner">
-            <img src={logo} alt="" />
+            <img width={61} height={8} src={disabled ? radiant_white : radiant_black} alt="" />
             {!!logoText && !subLogo && <span>{logoText}</span>}
           </div>
 
@@ -84,7 +134,7 @@ export default function MarketSelectButton({
         {subLogo && <img className="MarketSelectButton__subLogo" src={subLogo} alt="" />}
       </div>
 
-      {testnetMark && <span className="MarketSelectButton__kovan">{testnetMark}</span>}
+      {!isMainnet && <span className="MarketSelectButton__kovan">{testnetMark}</span>}
 
       <style jsx={true} global={true}>
         {staticStyles}
@@ -99,7 +149,7 @@ export default function MarketSelectButton({
           &.MarketSelectButton__active,
           &:disabled {
             .MarketSelectButton__inner {
-              border: 2px solid ${currentTheme.darkBlue.hex} !important;
+              background: #7159ff;
             }
           }
 
@@ -143,7 +193,7 @@ export default function MarketSelectButton({
             }
           }
         }
-      `}</style>
-    </button>
+      `}</style> */}
+    </MarketButton>
   );
 }

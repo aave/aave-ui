@@ -49,7 +49,7 @@ export default function MenuLink({ to, title, isActive, hidden }: MenuLinkProps)
           color: ${currentTheme.white.hex} !important;
           .MenuLink__title {
             i {
-              background: ${activeGradient} !important;
+              background: #7159ff !important;
             }
           }
         }

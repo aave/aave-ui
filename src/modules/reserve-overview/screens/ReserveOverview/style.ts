@@ -45,6 +45,14 @@ const staticStyles = css.global`
     }
 
     &__information-title {
+      font-family: Montserrat;
+      font-size: 18px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #131313;
       margin-bottom: 10px;
       font-size: $large;
       font-weight: 400;
@@ -65,7 +73,7 @@ const staticStyles = css.global`
     }
 
     &__user-information {
-      width: 525px;
+      width: 40%;
       display: flex;
       flex-direction: column;
       @include respond-to(xl) {

@@ -6,7 +6,7 @@ const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
 
   .MarketSelectButton {
-    border-radius: $borderRadius;
+    border-radius: 5px;
     position: relative;
     &:hover {
       .MarketSelectButton__border {

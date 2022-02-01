@@ -94,17 +94,8 @@ export default function ScreenWrapper({
       <style jsx={true}>{`
         @import 'src/_mixins/screen-size';
         .ScreenWrapper {
-          @include respond-to(sm) {
-            background: ${withMobileGrayBg
-              ? currentTheme.mainBg.hex
-              : isCurrentThemeDark
-              ? currentTheme.mainBg.hex
-              : currentTheme.white.hex};
-          }
-
           &__mobileSubTitle {
             color: ${currentTheme.textDarkBlue.hex};
-            background: ${currentTheme.whiteElement.hex};
           }
         }
       `}</style>

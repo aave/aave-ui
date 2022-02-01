@@ -16,6 +16,31 @@ import defaultMessages from '../../../../defaultMessages';
 import messages from './messages';
 
 import { DepositTableItem } from './types';
+import styled from 'styled-components';
+
+const ItemValueText = styled.p`
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.21;
+  letter-spacing: normal;
+  text-align: right;
+  color: #131313;
+`;
+const ItemValueSubText = styled.p`
+  opacity: 0.5;
+  font-family: Roboto;
+  font-size: 10px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: right;
+  color: #000;
+`;
 
 export default function DepositItem({
   reserve: { symbol, liquidityRate, id, underlyingAsset },
@@ -40,39 +65,63 @@ export default function DepositItem({
   const swiperHeight = xl && !lg ? 16 : md ? 16 : 20;
 
   const isSwapButton = isFeatureEnabled.liquiditySwap(currentMarketData);
-
+  const balance = Number(underlyingBalance);
+  const balanceValue = balance < 0.001 ? '< $ 0.001' : balance.toFixed(5);
+  //120/100/85/75
   return (
     <TableItem tokenSymbol={symbol} color={uiColor} {...rest}>
-      <TableValueCol
+      <div style={{ width: 120 }} className="flex-column">
+        <ItemValueText>{balanceValue}</ItemValueText>
+        <ItemValueSubText>$ {Number(underlyingBalanceUSD).toFixed(5)}</ItemValueSubText>
+      </div>
+      {/* <TableValueCol
         value={Number(underlyingBalance)}
         subValue={Number(underlyingBalanceUSD)}
         tooltipId={`deposit-${symbol}__${index}`}
-      />
-      <TableAprCol
+      /> */}
+      <div style={{ width: 100 }}>
+        <ItemValueText>{Number(liquidityRate).toFixed(2)}%</ItemValueText>
+      </div>
+      {/* <TableAprCol
         value={Number(liquidityRate)}
         thirtyDaysAverage={avg30DaysLiquidityRate}
         liquidityMiningValue={aincentivesAPR}
         symbol={symbol}
         type="deposit"
-      />
+      /> */}
 
-      <TableCol maxWidth={125}>
+      <div style={{ width: 85 }}>
         <CustomSwitch
           value={usageAsCollateralEnabledOnUser && usageAsCollateralEnabledOnThePool}
-          offLabel={intl.formatMessage(messages.offLabel)}
-          onLabel={intl.formatMessage(messages.onLabel)}
-          onColor={currentTheme.green.hex}
-          offColor={currentTheme.red.hex}
+          // offLabel={intl.formatMessage(messages.offLabel)}
+          // onLabel={intl.formatMessage(messages.onLabel)}
+          onColor={'#7159ff'}
+          offColor={'#7e7878'}
           onSwitch={onToggleSwitch}
           disabled={!usageAsCollateralEnabledOnThePool}
           swiperHeight={swiperHeight}
           swiperWidth={swiperWidth}
         />
-      </TableCol>
+      </div>
+
+      {/* <TableCol maxWidth={125}>
+        <CustomSwitch
+          value={usageAsCollateralEnabledOnUser && usageAsCollateralEnabledOnThePool}
+          // offLabel={intl.formatMessage(messages.offLabel)}
+          // onLabel={intl.formatMessage(messages.onLabel)}
+          onColor={'#7159ff'}
+          offColor={'#7e7878'}
+          onSwitch={onToggleSwitch}
+          disabled={!usageAsCollateralEnabledOnThePool}
+          swiperHeight={swiperHeight}
+          swiperWidth={swiperWidth}
+        />
+      </TableCol> */}
 
       <TableButtonsWrapper>
         {!isSwapButton && (
           <TableButtonCol
+            dashboard
             disabled={!isActive || isFrozen}
             title={intl.formatMessage(defaultMessages.deposit)}
             linkTo={`/deposit/${underlyingAsset}-${id}`}

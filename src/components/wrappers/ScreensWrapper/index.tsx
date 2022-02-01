@@ -69,12 +69,6 @@ export default function ScreensWrapper({ children }: ScreensWrapperProps) {
 
       <Footer inside={true} />
 
-      <img
-        className="ScreensWrapper__background"
-        src={isCurrentThemeDark ? backgroundDark : background}
-        alt=""
-      />
-
       <style jsx={true} global={true}>
         {staticStyles}
       </style>
@@ -82,12 +76,12 @@ export default function ScreensWrapper({ children }: ScreensWrapperProps) {
         @import 'src/_mixins/screen-size';
 
         .ScreensWrapper {
-          background: ${currentTheme.mainBg.hex};
+          background: #f5f6fa;
 
           &__top-contentWrapper {
-            background: ${currentTheme.headerBg.hex};
+            background: rgb(72, 72, 74) !important;
             &:after {
-              background: ${currentTheme.headerBg.hex};
+              background: transparent !important;
             }
           }
         }

@@ -1,17 +1,9 @@
 import css from 'styled-jsx/css';
 
-const PUBLIC_URL = process.env.PUBLIC_URL;
-
 /*language=SCSS*/
 const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
   @import 'src/_mixins/vars';
-  @import 'src/_mixins/font-face';
-
-  @include font-face('roboto-font', '${PUBLIC_URL}/fonts/RobotoRegular/RobotoRegular');
-  @include font-face('roboto-font', '${PUBLIC_URL}/fonts/RobotoLight/RobotoLight', 300);
-  @include font-face('roboto-font', '${PUBLIC_URL}/fonts/RobotoMedium/RobotoMedium', 500);
-  @include font-face('roboto-font', '${PUBLIC_URL}/fonts/RobotoBold/RobotoBold', 600);
 
   * {
     padding: 0;
@@ -23,6 +15,15 @@ const staticStyles = css.global`
     }
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: Montserrat;
+  }
+
   html {
     -webkit-text-size-adjust: none;
     position: relative;
@@ -31,9 +32,10 @@ const staticStyles = css.global`
   }
 
   body {
-    font-family: 'roboto-font', sans-serif;
+    font-family: Roboto, sans-serif;
     font-size: $regular;
     min-width: 365px;
+    background-color: white;
   }
 
   input,
@@ -83,6 +85,49 @@ const staticStyles = css.global`
   input[type='search']::-webkit-search-results-button,
   input[type='search']::-webkit-search-results-decoration {
     display: none;
+  }
+
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .centered {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .between {
+    justify-content: space-between;
+  }
+
+  .end {
+    justify-content: flex-end;
+  }
+
+  .centered-align {
+    align-items: center;
+  }
+
+  .wrap {
+    flex-wrap: wrap;
+  }
+
+  .w100 {
+    width: 100%;
+  }
+
+  .end-align {
+    align-items: flex-end;
+  }
+
+  .clickable {
+    cursor: pointer;
   }
 
   a:focus,

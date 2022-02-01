@@ -88,4 +88,6 @@ export type MarketDataType = {
     FAUCET?: string;
     PERMISSION_MANAGER?: string;
   };
+  testnet?: boolean;
+  localnet?: boolean;
 };

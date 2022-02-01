@@ -23,6 +23,7 @@ import messages from './messages';
 import staticStyles from './style';
 import { ComputedReserveData, UserSummary } from '../../../../libs/pool-data-provider';
 import { ComputedUserReserve } from '@aave/math-utils';
+import styled from 'styled-components';
 
 interface UserInformationProps {
   user?: UserSummary;
@@ -31,6 +32,46 @@ interface UserInformationProps {
   symbol: string;
   walletBalance: BigNumber;
 }
+
+const BoxTitle = styled.span`
+  font-family: Montserrat;
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #131313;
+`;
+
+const BoxButton = styled.div`
+  padding: 7px 17px;
+  border-radius: 4px;
+  background-color: #7159ff;
+  margin-left: 20px;
+  p {
+    font-family: Montserrat;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+  }
+`;
+const BoxheaderLink = styled.p`
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #7f7f7f;
+`;
 
 export default function UserInformation({
   user,
@@ -87,22 +128,19 @@ export default function UserInformation({
         })}
       >
         <div className="UserInformation__content-inner">
-          <div className="UserInformation__info-wrapper">
+          {/* kjkjjjjjjjjjjjjjjjjjjjjjjjjjbegin */}
+          <div
+            style={{
+              padding: '30px 25px',
+              borderRadius: 5,
+              backgroundColor: 'white',
+              boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.06)',
+            }}
+            className="UserInformation__info-wrapper"
+          >
             <h3>
-              <span>{intl.formatMessage(messages.deposits)}</span>{' '}
+              <BoxTitle>{intl.formatMessage(messages.deposits)}</BoxTitle>{' '}
               <div className="UserInformation__caption-buttons">
-                <Link
-                  to={`/deposit/${poolReserve.underlyingAsset}-${poolReserve.id}`}
-                  className="ButtonLink"
-                  disabled={poolReserve.isFrozen}
-                >
-                  <DefaultButton
-                    className="UserInformation__button"
-                    title={intl.formatMessage(defaultMessages.deposit)}
-                    color={elementsColor}
-                    disabled={poolReserve.isFrozen}
-                  />
-                </Link>
                 <Link
                   className={classNames({
                     UserInformation__buttonNoBorderDisabled: !underlyingBalance,
@@ -110,9 +148,22 @@ export default function UserInformation({
                   to={`/withdraw/${poolReserve.underlyingAsset}-${poolReserve.id}`}
                   disabled={!underlyingBalance}
                 >
-                  <span className="UserInformation__button UserInformation__button-noBorder">
-                    {intl.formatMessage(defaultMessages.withdraw)}
-                  </span>
+                  <BoxheaderLink>{intl.formatMessage(defaultMessages.withdraw)}</BoxheaderLink>
+                </Link>
+                <Link
+                  to={`/deposit/${poolReserve.underlyingAsset}-${poolReserve.id}`}
+                  className="ButtonLink"
+                  disabled={poolReserve.isFrozen}
+                >
+                  <BoxButton>
+                    <p>{intl.formatMessage(defaultMessages.deposit)}</p>
+                  </BoxButton>
+                  {/* <DefaultButton
+                    className="UserInformation__button"
+                    title={intl.formatMessage(defaultMessages.deposit)}
+                    color={elementsColor}
+                    disabled={poolReserve.isFrozen}
+                  /> */}
                 </Link>
               </div>
             </h3>
@@ -180,10 +231,18 @@ export default function UserInformation({
               )}
             </div>
           </div>
-
-          <div className="UserInformation__info-wrapper">
+          {/* kjkjjjjjjjjjjjjjjjjjjjjjjjjj */}
+          <div
+            style={{
+              padding: '30px 25px',
+              borderRadius: 5,
+              backgroundColor: 'white',
+              boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.06)',
+            }}
+            className="UserInformation__info-wrapper"
+          >
             <h3>
-              <span>{intl.formatMessage(messages.borrows)}</span>{' '}
+              <BoxTitle>{intl.formatMessage(messages.borrows)}</BoxTitle>{' '}
               {!totalBorrows && (
                 <div className="UserInformation__caption-buttons">
                   <Link
@@ -193,14 +252,17 @@ export default function UserInformation({
                       !availableBorrows || !poolReserve.borrowingEnabled || poolReserve.isFrozen
                     }
                   >
-                    <DefaultButton
+                    <BoxButton>
+                      <p>{intl.formatMessage(defaultMessages.borrow)}</p>
+                    </BoxButton>
+                    {/* <DefaultButton
                       className="UserInformation__button"
                       title={intl.formatMessage(defaultMessages.borrow)}
                       color={elementsColor}
                       disabled={
                         !availableBorrows || !poolReserve.borrowingEnabled || poolReserve.isFrozen
                       }
-                    />
+                    /> */}
                   </Link>
                 </div>
               )}
@@ -230,6 +292,7 @@ export default function UserInformation({
                 titleColor={elementsColor}
                 titleLightWeight={sm}
                 withHALLink={true}
+                withoutModal
               />
               <Row
                 title={intl.formatMessage(messages.loanToValue)}

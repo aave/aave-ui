@@ -51,9 +51,9 @@ const staticStyles = css.global`
     &__background {
       position: absolute;
       left: 0;
-      bottom: 0;
-      width: 100%;
-      object-fit: cover;
+      top: 0;
+      /*width: 100%;
+      object-fit: cover;*/
 
       @include respond-to(sm) {
         display: none;
