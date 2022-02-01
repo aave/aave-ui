@@ -26,6 +26,8 @@ import { useWalletBalanceProviderContext } from '../../../../libs/wallet-balance
 import { isAssetStable } from '../../../../helpers/config/assets-config';
 import { useIncentivesDataContext } from '../../../../libs/pool-data-provider/hooks/use-incentives-data-context';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
+import { Content } from '../../../../components/content-wrapper';
+import { PageTitle } from '../../../../components/PageTitle';
 
 export default function DepositsMain() {
   const intl = useIntl();
@@ -125,69 +127,73 @@ export default function DepositsMain() {
 
   return (
     <PermissionWarning requiredPermission={PERMISSION.DEPOSITOR}>
-      <ScreenWrapper
-        pageTitle={intl.formatMessage(defaultMessages.deposit)}
-        isTitleOnDesktop={true}
-        withMobileGrayBg={true}
-      >
-        {sm && (
-          <AssetsFilterPanel
-            optionTitleLeft={intl.formatMessage(messages.optionTitleLeft)}
-            optionTitleRight={intl.formatMessage(messages.optionTitleRight)}
-            switchValue={showOnlyStableCoins}
-            switchOnToggle={setShowOnlyStableCoins}
-            searchValue={searchValue}
-            searchOnChange={setSearchValue}
-          />
-        )}
+      <ScreenWrapper pageTitle={''} isTitleOnDesktop={true} withMobileGrayBg={true}>
+        <Content className="w100">
+          <PageTitle style={{ width: '100%', margin: 0 }}>
+            {intl.formatMessage(defaultMessages.deposit)}
+          </PageTitle>
+          {/* {sm && (
+            <AssetsFilterPanel
+              optionTitleLeft={intl.formatMessage(messages.optionTitleLeft)}
+              optionTitleRight={intl.formatMessage(messages.optionTitleRight)}
+              switchValue={showOnlyStableCoins}
+              switchOnToggle={setShowOnlyStableCoins}
+              searchValue={searchValue}
+              searchOnChange={setSearchValue}
+            />
+          )} */}
 
-        <DepositBorrowMainWrapper
-          contentTitle={intl.formatMessage(messages.availableToDeposit)}
-          itemsTitle={intl.formatMessage(messages.myDeposits)}
-          items={listData(false).map((item, index) => (
-            <React.Fragment key={index}>
-              {item.underlyingBalance.toString() > '0' && (
-                <Card
-                  link={`/deposit/${item.underlyingAsset}-${item.id}`}
-                  symbol={item.symbol}
-                  id={item.id}
-                  value={item.underlyingBalance.toString()}
-                  underlyingAsset={item.underlyingAsset}
-                />
-              )}
-            </React.Fragment>
-          ))}
-          isShowRightPanel={isShowRightPanel}
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-          showOnlyStableCoins={showOnlyStableCoins}
-          setShowOnlyStableCoins={setShowOnlyStableCoins}
-          withSwitchMarket={true}
-          totalValue={listData(false).reduce((a, b) => a + (+b['underlyingBalanceInUSD'] || 0), 0)}
-        >
-          {!!listData(true).length ? (
-            <>
-              {!sm ? (
-                <DepositAssetsTable
-                  listData={listData(true)}
-                  userId={user?.id}
-                  sortName={sortName}
-                  setSortName={setSortName}
-                  sortDesc={sortDesc}
-                  setSortDesc={setSortDesc}
-                />
-              ) : (
-                <>
-                  {listData(true).map((item, index) => (
-                    <DepositMobileCard userId={user?.id} {...item} key={index} />
-                  ))}
-                </>
-              )}
-            </>
-          ) : (
-            <NoDataPanel title={intl.formatMessage(messages.noDataTitle)} />
-          )}
-        </DepositBorrowMainWrapper>
+          <DepositBorrowMainWrapper
+            contentTitle={intl.formatMessage(messages.availableToDeposit)}
+            itemsTitle={intl.formatMessage(messages.myDeposits)}
+            items={listData(false).map((item, index) => (
+              <React.Fragment key={index}>
+                {item.underlyingBalance.toString() > '0' && (
+                  <Card
+                    link={`/deposit/${item.underlyingAsset}-${item.id}`}
+                    symbol={item.symbol}
+                    id={item.id}
+                    value={item.underlyingBalance.toString()}
+                    underlyingAsset={item.underlyingAsset}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+            isShowRightPanel={isShowRightPanel}
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+            showOnlyStableCoins={showOnlyStableCoins}
+            setShowOnlyStableCoins={setShowOnlyStableCoins}
+            withSwitchMarket={true}
+            totalValue={listData(false).reduce(
+              (a, b) => a + (+b['underlyingBalanceInUSD'] || 0),
+              0
+            )}
+          >
+            {!!listData(true).length ? (
+              <>
+                {!sm ? (
+                  <DepositAssetsTable
+                    listData={listData(true)}
+                    userId={user?.id}
+                    sortName={sortName}
+                    setSortName={setSortName}
+                    sortDesc={sortDesc}
+                    setSortDesc={setSortDesc}
+                  />
+                ) : (
+                  <>
+                    {listData(true).map((item, index) => (
+                      <DepositMobileCard userId={user?.id} {...item} key={index} />
+                    ))}
+                  </>
+                )}
+              </>
+            ) : (
+              <NoDataPanel title={intl.formatMessage(messages.noDataTitle)} />
+            )}
+          </DepositBorrowMainWrapper>
+        </Content>
       </ScreenWrapper>
     </PermissionWarning>
   );

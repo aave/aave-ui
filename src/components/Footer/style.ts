@@ -4,6 +4,9 @@ import css from 'styled-jsx/css';
 const staticStyles = css.global`
   @import 'src/_mixins/vars';
   @import 'src/_mixins/screen-size';
+  .footer_wrapper {
+    margin-top: 40px;
+  }
   .line_vert {
     width: 1px;
     height: 30px;

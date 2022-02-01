@@ -14,9 +14,10 @@ export default function CustomScroll({ children, className, onUpdate }: CustomSc
 
   return (
     <>
-      <ScrollBar className={classNames('CustomScroll', className)} onUpdate={onUpdate}>
+      {/* <ScrollBar className={classNames('CustomScroll', className)} onUpdate={onUpdate}>
         {children}
-      </ScrollBar>
+      </ScrollBar> */}
+      <div>{children}</div>
 
       <style jsx={true} global={true}>{`
         .CustomScroll > div {
