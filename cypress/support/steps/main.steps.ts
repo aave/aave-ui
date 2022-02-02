@@ -42,7 +42,7 @@ export const deposit = (
   return describe(`Deposit process for ${_shortName}`, () => {
     skipSetup({ skip, updateSkipStatus });
     it(`Open ${_shortName} borrow view`, () => {
-      cy.get('.Menu strong').contains('Deposit').click();
+      cy.get('.Menu strong').contains('Deposit').click().wait(1000);
       cy.get('.TokenIcon__name').contains(_fullName).click();
     });
     it(`Set ${amount} deposit amount for ${_shortName}`, () => {

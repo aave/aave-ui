@@ -79,6 +79,7 @@
   "components.HelpModal.DelegationHelpModal.descriptionSecond": "Para delegar noutro endereço ou para recuperar o seu poder, basta delegar novamente no endereço que deseja. (ex. Recupere o seu poder delegando no seu próprio endereço Ethereum)",
   "components.HelpModal.HealthFactorHelpModal.caption": "Fator de Saúde",
   "components.HelpModal.HealthFactorHelpModal.description": "O fator saúde representa a segurança do seu empréstimo derivado da proporção da garantia em relação ao montante emprestado. Mantenha-o acima de 1 para evitar a liquidação.",
+  "components.HelpModal.HealthFactorHelpModal.notificationIconTooltipText": "",
   "components.HelpModal.LiquidationBonusHelpModal.caption": "Penalização de liquidação",
   "components.HelpModal.LiquidationBonusHelpModal.description": "Quando ocorre uma liquidação, os liquidatários reembolsam parte ou a totalidade do montante emprestado em dívida em nome do mutuário. Em troca, podem comprar a garantia com desconto e manter a diferença como bónus!",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "Limiar de liquidação",

@@ -90,7 +90,7 @@ const testData = {
   },
 };
 
-describe('BAT INTEGRATION SPEC', () => {
+describe('BAT INTEGRATION SPEC',{ retries: 3 }, () => {
   const skipTestState = skipState(false);
   configEnvWithTenderlyMainnetFork({});
   deposit(testData.depositETH, skipTestState, true);

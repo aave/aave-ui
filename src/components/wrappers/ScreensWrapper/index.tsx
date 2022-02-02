@@ -2,7 +2,6 @@ import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { useThemeContext } from '@aave/aave-ui-kit';
-import Snowfall from 'react-snowfall';
 
 import Footer from '../../Footer';
 import Menu from '../../menu/Menu';
@@ -40,7 +39,7 @@ export function useWithDesktopTitle() {
 
 export default function ScreensWrapper({ children }: ScreensWrapperProps) {
   const intl = useIntl();
-  const { currentTheme, isCurrentThemeDark, sm } = useThemeContext();
+  const { currentTheme, isCurrentThemeDark } = useThemeContext();
 
   const [title, setTitle] = useState(intl.formatMessage(messages.pageTitle));
   const [isTopPanelSmall, setTopPanelSmall] = useState(
@@ -53,16 +52,6 @@ export default function ScreensWrapper({ children }: ScreensWrapperProps) {
         ScreensWrapper__topPanelSmall: isTopPanelSmall,
       })}
     >
-      {!sm && (
-        <Snowfall
-          color="#fff"
-          radius={[0.5, 4]}
-          snowflakeCount={50}
-          speed={[0.5, 1]}
-          wind={[-1, 1]}
-        />
-      )}
-
       <BottomDisclaimer />
 
       <TopDisclaimer />

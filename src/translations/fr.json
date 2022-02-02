@@ -79,6 +79,7 @@
   "components.HelpModal.DelegationHelpModal.descriptionSecond": "Pour déléguer à une tierce adresse ou récupérer vos pouvoirs, veuillez déléguer à l'adresse de votre souhait (par exemple à votre propre adresse pour récupérer vos pouvoirs)",
   "components.HelpModal.HealthFactorHelpModal.caption": "Health Factor",
   "components.HelpModal.HealthFactorHelpModal.description": "Le Health Factor représente la sécurité de votre prêt, et est obtenu à partir de la proportion de votre collatéral et du montant que vous avez emprunté. Gardez-le au-dessus de 1 pour éviter la liquidation",
+  "components.HelpModal.HealthFactorHelpModal.notificationIconTooltipText": "",
   "components.HelpModal.LiquidationBonusHelpModal.caption": "Pénalité de liquidation",
   "components.HelpModal.LiquidationBonusHelpModal.description": "Lorsqu'une liquidation se produit, les liquidateurs remboursent une partie ou la totalité du montant emprunté restant au nom de l'emprunteur. En retour, ils peuvent acheter le collatéral en dessous du prix du marché et conserver la différence en bonus!",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "Seuil de liquidation",

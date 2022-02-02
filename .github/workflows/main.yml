@@ -46,9 +46,17 @@ jobs:
             const script = require('./scripts/compare-size')
             script({github, context})
 
-  cypress_test_main:
+  cypress_test:
     runs-on: ubuntu-latest
     needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        market:
+          - main
+          - amm
+          - polygon
+          - avalanche
     steps:
       - uses: actions/checkout@v2
 
@@ -73,177 +81,19 @@ jobs:
           install: false
           record: false
           start: npm run start:prod
-          # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:3000'
-          command: npm run test:main
+          command: npm run test:${{matrix.market}}
         env:
           CYPRESS_URL: 'http://localhost:3000'
           CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
           CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
           CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
 
-      # - name: upload videos
-      #   uses: actions/upload-artifact@v2
-      #   if: failure()
-      #   with:
-      #     name: cypress-fail-videos
-      #     path: cypress/videos
-
       - name: upload screenshots
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: cypress-fail-screenshots
-          path: cypress/screenshots
-
-  cypress_test_amm:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-
-      - name: install
-        run: npm ci --prefer-offline --no-audit
-
-      - name: download build
-        uses: actions/download-artifact@v2
-        with:
-          name: build_${{github.sha}}
-          path: build
-
-      - name: test
-        uses: cypress-io/github-action@v2
-        with:
-          headless: true
-          install: false
-          record: false
-          start: npm run start:prod
-          # quote the url to be safe against YML parsing surprises
-          wait-on: 'http://localhost:3000'
-          command: npm run test:amm
-        env:
-          CYPRESS_URL: 'http://localhost:3000'
-          CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
-          CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
-          CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
-
-      # - name: upload videos
-      #   uses: actions/upload-artifact@v2
-      #   if: failure()
-      #   with:
-      #     name: cypress-fail-videos
-      #     path: cypress/videos
-
-      - name: upload screenshots
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: cypress-fail-screenshots
-          path: cypress/screenshots
-
-  cypress_test_polygon:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-
-      - name: install
-        run: npm ci --prefer-offline --no-audit
-
-      - name: download build
-        uses: actions/download-artifact@v2
-        with:
-          name: build_${{github.sha}}
-          path: build
-
-      - name: test
-        uses: cypress-io/github-action@v2
-        with:
-          headless: true
-          install: false
-          record: false
-          start: npm run start:prod
-          # quote the url to be safe against YML parsing surprises
-          wait-on: 'http://localhost:3000'
-          command: npm run test:polygon
-        env:
-          CYPRESS_URL: 'http://localhost:3000'
-          CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
-          CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
-          CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
-
-      # - name: upload videos
-      #   uses: actions/upload-artifact@v2
-      #   if: failure()
-      #   with:
-      #     name: cypress-fail-videos
-      #     path: cypress/videos
-
-      - name: upload screenshots
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: cypress-fail-screenshots
-          path: cypress/screenshots
-
-  cypress_test_avalanche:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-
-      - name: install
-        run: npm ci --prefer-offline --no-audit
-
-      - name: download build
-        uses: actions/download-artifact@v2
-        with:
-          name: build_${{github.sha}}
-          path: build
-
-      - name: test
-        uses: cypress-io/github-action@v2
-        with:
-          headless: true
-          install: false
-          record: false
-          start: npm run start:prod
-          # quote the url to be safe against YML parsing surprises
-          wait-on: 'http://localhost:3000'
-          command: npm run test:avalanche
-        env:
-          CYPRESS_URL: 'http://localhost:3000'
-          CYPRESS_TENDERLY_ACCOUNT: ${{ secrets.TENDERLY_ACCOUNT }}
-          CYPRESS_TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
-          CYPRESS_TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
-
-      # - name: upload videos
-      #   uses: actions/upload-artifact@v2
-      #   if: failure()
-      #   with:
-      #     name: cypress-fail-videos
-      #     path: cypress/videos
-
-      - name: upload screenshots
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: cypress-fail-screenshots
+          name: cypress-fail-screenshots-${{matrix.market}}
           path: cypress/screenshots
 
   upload:

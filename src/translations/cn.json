@@ -79,6 +79,7 @@
   "components.HelpModal.DelegationHelpModal.descriptionSecond": "想要委派给另一个地址或者要回你的能量，只需要简单的再向你想要的地址委派即可（举例：通过委派给你自己的以太坊地址来恢复能量）。",
   "components.HelpModal.HealthFactorHelpModal.caption": "健康系数",
   "components.HelpModal.HealthFactorHelpModal.description": "健康系数表示你的贷款的安全性，这些贷款来自抵押品与借款金额的比例。保持高于1以避免清算。",
+  "components.HelpModal.HealthFactorHelpModal.notificationIconTooltipText": "",
   "components.HelpModal.LiquidationBonusHelpModal.caption": "清算违约金",
   "components.HelpModal.LiquidationBonusHelpModal.description": "清算发生时，清算人代表借款人偿还部分或全部未偿还的借款金额。作为回报，他们可以以折扣价购买抵押品，并保留差额作为奖金！",
   "components.HelpModal.LiquidationThresholdHelpModal.caption": "清算阈值",
