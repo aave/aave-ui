@@ -64,7 +64,7 @@ const staticStyles = css.global`
       font-weight: 600;
       font-size: $medium;
       white-space: nowrap;
-      color: #7159ff;
+      color: #7159ff !important;
       &:hover {
         opacity: 0.7;
       }
