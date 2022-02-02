@@ -45,7 +45,7 @@ export default function DefaultButton({
     <>
       <Button
         className={classNames(
-          `DefaultButton`,
+          `DefaultButton button234`, 
           `DefaultButton__${color}`,
           {
             DefaultButton__mobileBig: mobileBig,
@@ -66,6 +66,20 @@ export default function DefaultButton({
 
       <style jsx={true} global={true}>{`
         @import 'src/_mixins/screen-size';
+
+        .button234 {
+          border: none !important;
+          border-radius: 4px !important;
+          background-color: #7159ff !important;
+          font-family: Montserrat;
+          font-size: 14px;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          text-align: center;
+          color: #fff;
+        }
 
         .DefaultButton {
           color: ${currentTheme.white.hex};

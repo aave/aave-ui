@@ -39,10 +39,10 @@ export default function BasicField({
   };
 
   return (
-    <div className={classNames('BasicField', className)}>
+    <div  className={classNames('BasicField', className)}>
       <input
         style={{
-          border: 'none',
+          border: 'none', padding: 0
         }}
         value={value}
         onChange={handleOnChange}

@@ -58,7 +58,7 @@ export default function AmountField({
   const background = rgba(`${currentTheme.textDarkBlue.rgb}, 0.05`);
 
   return (
-    <div
+    <div 
       className={classNames(
         'AmountField',
         {
@@ -83,7 +83,14 @@ export default function AmountField({
         </Row>
       )}
 
-      <div className="AmountField__wrapper">
+      <div style={{
+      padding: '14px 20px',
+      borderRadius: 4,
+      border: 'solid 1px #d8d9e0',
+      backgroundColor: '#fff',
+      marginTop: 8
+
+    }} className="AmountField__wrapper">
         <TokenIcon tokenSymbol={symbol} width={lg && !md ? 24 : 30} height={lg && !md ? 24 : 30} />
 
         <BasicField

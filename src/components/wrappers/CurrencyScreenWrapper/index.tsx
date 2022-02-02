@@ -91,7 +91,7 @@ export default function CurrencyScreenWrapper({
         /> */}
       </TopPanelWrapper>
 
-      <div className="CurrencyScreenWrapper__mobileInner">
+      {/* <div className="CurrencyScreenWrapper__mobileInner">
         <TopInfoPanel
           poolReserve={poolReserve}
           currencySymbol={currencySymbol}
@@ -100,7 +100,7 @@ export default function CurrencyScreenWrapper({
           user={user}
           type={type}
         />
-      </div>
+      </div> */}
 
       <ContentWrapper
         className="CurrencyScreenWrapper__content"

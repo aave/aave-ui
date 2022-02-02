@@ -248,7 +248,7 @@ function DepositAmount({
         </NoDataPanel>
       )}
 
-      {user &&
+      {/* {user &&
         sm &&
         payments.some(
           (payment) =>
@@ -259,7 +259,7 @@ function DepositAmount({
             currencySymbol={currencySymbol}
             withoutOrTitle={maxAmountToDeposit.eq('0')}
           />
-        )}
+        )} */}
 
       <InfoWrapper>
         {currencySymbol === 'AMPL' && <AMPLWarning withInfoPanel={true} />}
@@ -287,13 +287,13 @@ function DepositAmount({
           </InfoPanel>
         )}
 
-        {user &&
+        {/* {user &&
           !sm &&
           payments.some(
             (payment) =>
               payment.availableAssets?.includes(currencySymbol.toUpperCase()) &&
               !isPaymentNashNotOnMainMarket(payment.name)
-          ) && <PaymentsPanel currencySymbol={currencySymbol} />}
+          ) && <PaymentsPanel currencySymbol={currencySymbol} />} */}
       </InfoWrapper>
     </DepositCurrencyWrapper>
     </Content>
