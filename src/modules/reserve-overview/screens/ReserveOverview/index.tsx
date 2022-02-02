@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { SecurityWidget } from '@reputation.link/vyps-kit';
@@ -65,21 +65,6 @@ function ReserveOverview({
     underlyingAsset: poolReserve.underlyingAsset,
   });
 
-  const pveProps = useMemo(() => {
-    return {
-      // Aave ReserveOverview updates break memoization (for some reason)
-      // So we've memoized the props here
-      inset: [5, 5],
-      style: { zIndex: 50 },
-      left: true,
-      variant: 'sm',
-      as: 'div',
-      startOpen: true,
-      protocol: 'aave',
-      meta: { token: currencySymbol },
-    };
-  }, [currencySymbol]);
-
   const isReserveHistoryGraphsVisible = !!RATES_HISTORY_ENDPOINT;
 
   return (
@@ -96,7 +81,14 @@ function ReserveOverview({
     >
       {chainId === 1 && (
         <SecurityWidget // Oracle Reputation's PVE Implementation doesn't support Polygon or Avalanche yet
-          {...pveProps}
+          inset={[5, 5]}
+          style={{ zIndex: 50 }} // In front of footer but below modals
+          left
+          variant="sm"
+          as="div"
+          startOpen
+          protocol="aave"
+          meta={{ token: currencySymbol }}
         />
       )}
       <div className="ReserveOverview__content">
