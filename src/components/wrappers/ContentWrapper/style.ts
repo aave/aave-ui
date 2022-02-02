@@ -34,19 +34,15 @@ const staticStyles = css.global`
       left: 20px;
       top: 20px;
       min-width: 90px;
-      height: 32px;
+      
       border-radius: $borderRadius;
-      padding: 5px 10px;
+      padding: 11px 13px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: $small;
       transition: $transition;
-      @include respond-to(xl) {
-        min-width: 70px;
-        height: 26px;
-        padding: 2px 5px;
-      }
+      
       @include respond-to(sm) {
         display: none;
       }

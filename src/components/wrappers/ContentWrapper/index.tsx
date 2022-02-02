@@ -7,6 +7,8 @@ import { useThemeContext } from '@aave/aave-ui-kit';
 
 import messages from './messages';
 import staticStyles from './style';
+import styled from 'styled-components';
+import arrow from '../../../images/arrowLeft.svg'
 
 interface ContentWrapperProps {
   className?: string;
@@ -15,6 +17,18 @@ interface ContentWrapperProps {
   goBack?: () => void;
   children: ReactNode;
 }
+
+const BtnText = styled.p`
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #131313;
+  margin-left: 4px;
+`
 
 export default function ContentWrapper({
   className,
@@ -36,9 +50,13 @@ export default function ContentWrapper({
       )}
     >
       {withBackButton && history.length > 2 && (
-        <button className="ContentWrapper__back-button" onClick={goBack || history.goBack}>
-          <span />
-          <p>{intl.formatMessage(messages.back)}</p>
+        <button style={{
+          
+          borderRadius: 4,
+          border: 'solid 1px #7159ff',
+        }} className="ContentWrapper__back-button" onClick={goBack || history.goBack}>
+          <img src={arrow} alt="back" />
+          <BtnText>{intl.formatMessage(messages.back)}</BtnText>
         </button>
       )}
 
@@ -53,17 +71,17 @@ export default function ContentWrapper({
           &__back-button {
             color: ${currentTheme.textDarkBlue.hex};
             border: 1px solid ${currentTheme.textDarkBlue.hex};
-            &:hover {
-              background: ${currentTheme.textDarkBlue.hex};
-              color: ${currentTheme.whiteElement.hex};
-              span {
-                border-color: ${currentTheme.whiteElement.hex};
-                &:after {
-                  border: solid ${currentTheme.whiteElement.hex};
-                  border-width: 0 1px 1px 0;
-                }
-              }
-            }
+            // &:hover {
+            //   background: ${currentTheme.textDarkBlue.hex};
+            //   color: ${currentTheme.whiteElement.hex};
+            //   span {
+            //     border-color: ${currentTheme.whiteElement.hex};
+            //     &:after {
+            //       border: solid ${currentTheme.whiteElement.hex};
+            //       border-width: 0 1px 1px 0;
+            //     }
+            //   }
+            // }
             span {
               border: 1px solid ${currentTheme.textDarkBlue.hex};
               &:after {
