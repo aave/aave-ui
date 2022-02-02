@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { valueToBigNumber } from '@aave/protocol-js';
 import { useThemeContext } from '@aave/aave-ui-kit';
-
+import { Content } from '../../../../components/content-wrapper';
 import { useTxBuilderContext } from '../../../../libs/tx-provider';
 import { usePayments } from '../../../../helpers/payments';
 import { getLPTokenPoolLink } from '../../../../helpers/lp-tokens';
@@ -20,18 +20,53 @@ import DepositCurrencyWrapper from '../../components/DepositCurrencyWrapper';
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
 } from '../../../../components/RouteParamsValidationWrapper';
-
+import { PageTitle } from '../../../../components/PageTitle';
 import messages from './messages';
 
 import linkIcon from '../../../../images/whiteLinkIcon.svg';
 import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
-import { getAssetInfo } from '../../../../helpers/config/assets-config';
+import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-config';
+import { BlockTitle } from '../../../../components/BlockTitle';
+import { BlockWrapper } from '../../../../components/wrappers/BlockWrapper';
+import styled from 'styled-components';
+import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+
 
 interface DepositAmountProps
   extends Pick<
     ValidationWrapperComponentProps,
     'currencySymbol' | 'poolReserve' | 'history' | 'walletBalance' | 'user' | 'userReserve'
   > {}
+
+const BlockRow = ({title, value, marginBottom}:{title: string, value: string, marginBottom?: number}) => {
+  const Title = styled.p`
+    font-family: Montserrat;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+  `
+  const Value = styled.p`
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: right;
+    color: #000;
+  `
+  return (
+    <div style={{marginBottom: marginBottom, paddingRight: 30}} className="flex-row between w100">
+      <Title>{title}</Title>
+      <Value>{value}</Value>
+    </div>
+  )
+}
 
 function DepositAmount({
   currencySymbol,
@@ -73,15 +108,68 @@ function DepositAmount({
   };
 
   const lpPoolLink = getLPTokenPoolLink(poolReserve);
+  const { marketRefPriceInUsd } = useStaticPoolDataContext();
+
+  const overviewData = {
+    utilizationRate: Number(poolReserve.utilizationRate),
+    availableLiquidity: poolReserve.availableLiquidity,
+    priceInUsd: valueToBigNumber(poolReserve.priceInMarketReferenceCurrency)
+      .multipliedBy(marketRefPriceInUsd)
+      .toNumber(),
+    depositApy: Number(poolReserve.supplyAPY),
+    avg30DaysLiquidityRate: Number(poolReserve.avg30DaysLiquidityRate),
+    stableRate: Number(poolReserve.stableBorrowAPY),
+    variableRate: Number(poolReserve.variableBorrowAPY),
+    avg30DaysVariableRate: Number(poolReserve.avg30DaysVariableBorrowRate),
+    usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
+    stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
+    baseLTVasCollateral: Number(poolReserve.baseLTVasCollateral),
+    liquidationThreshold: Number(poolReserve.reserveLiquidationThreshold),
+    liquidationBonus: Number(poolReserve.reserveLiquidationBonus),
+    borrowingEnabled: poolReserve.borrowingEnabled,
+  };
 
   return (
-    <DepositCurrencyWrapper
-      currencySymbol={currencySymbol}
-      poolReserve={poolReserve}
-      walletBalance={walletBalance}
-      userReserve={userReserve}
-      user={user}
-    >
+    <Content>
+      <div className="flex-row centered-align">
+        <TokenIcon style={{marginTop: 55}} tokenSymbol={currencySymbol} height={35} width={35} />
+        <PageTitle>{asset.name} Reverse Overview</PageTitle>
+      </div>
+      <BlockTitle style={{marginTop: 30}}>{intl.formatMessage(messages.deposit)} {asset.formattedName}</BlockTitle>
+      <BlockWrapper className='flex-row between' style={{marginTop:20}}>
+        <div style={{
+          width:'30%',
+          borderRight: 'solid 2px #e2e2e2'
+        }} className="flex-column">
+          <BlockRow marginBottom={20} title={'Utilization rate'} value={'4.19%'} />
+          <BlockRow marginBottom={20} title={'Available liquidity'} value={'4.19%'} />
+          <BlockRow marginBottom={20} title={'Deposit APY'} value={'4.19%'} />
+          <BlockRow title={'Can be used as collateral'} value={'4.19%'} />
+        </div>
+        <div style={{
+          width:'30%',
+          borderRight: 'solid 2px #e2e2e2'
+        }} className="flex-column">
+          <BlockRow marginBottom={20} title={'Asset price'} value={'4.19%'} />
+          <BlockRow marginBottom={20} title={'Maximum LTV'} value={'4.19%'} />
+          <BlockRow marginBottom={20} title={'Liquidation threshold'} value={'4.19%'} />
+          <BlockRow title={'Liquidation penalty'} value={'4.19%'} />
+        </div>
+        <div style={{
+          width:'30%'
+        }} className="flex-column">
+          <BlockRow marginBottom={20} title={'Your balance in Aave'} value={'4.19%'} />
+          <BlockRow marginBottom={20} title={'Your wallet balance'} value={'4.19%'} />
+          <BlockRow title={'Health factor'} value={'4.19%'} />
+        </div>
+      </BlockWrapper>
+      <DepositCurrencyWrapper
+        currencySymbol={currencySymbol}
+        poolReserve={poolReserve}
+        walletBalance={walletBalance}
+        userReserve={userReserve}
+        user={user}
+      >
       {!maxAmountToDeposit.eq('0') && (
         <BasicForm
           title={intl.formatMessage(messages.title)}
@@ -207,6 +295,7 @@ function DepositAmount({
           ) && <PaymentsPanel currencySymbol={currencySymbol} />}
       </InfoWrapper>
     </DepositCurrencyWrapper>
+    </Content>
   );
 }
 

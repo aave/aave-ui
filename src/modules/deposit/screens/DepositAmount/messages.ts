@@ -27,4 +27,5 @@ export default defineMessages({
   aaveWarning:
     'Depositing your AAVE tokens is not the same as staking them. If you wish to stake your AAVE tokens, please go to the {link}',
   stakingView: 'staking view',
+  deposit: "Deposit"
 });

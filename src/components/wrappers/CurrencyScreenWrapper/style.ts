@@ -6,6 +6,7 @@ const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
 
   .CurrencyScreenWrapper {
+    padding: 0 !important;
     margin-top: 40px !important;
 
     @include respond-to(sm) {

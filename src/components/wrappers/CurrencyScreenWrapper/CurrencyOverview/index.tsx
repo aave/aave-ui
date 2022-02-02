@@ -24,6 +24,7 @@ import { getAssetInfo, TokenIcon } from '../../../../helpers/config/assets-confi
 
 import messages from './messages';
 import staticStyles from './style';
+import { BlockTitle } from '../../../BlockTitle';
 
 interface CurrencyOverviewProps
   extends Pick<ValidationWrapperComponentProps, 'poolReserve' | 'currencySymbol'> {
@@ -359,21 +360,23 @@ export default function CurrencyOverview({
       })}
     >
       <div className="CurrencyOverview__caption">
-        {title && <p className="CurrencyOverview__caption-title">{title}</p>}
-        <Link
+        
+        {/* <Link
           to={`/reserve-overview/${poolReserve.underlyingAsset}${poolReserve.id}`}
           className="CurrencyOverview__captionLink"
           color="white"
         >
           <TokenIcon tokenSymbol={currencySymbol} height={sm ? 30 : 20} width={sm ? 30 : 20} />
           <p>{intl.formatMessage(messages.caption, { symbol: asset && asset.name })}</p>
-        </Link>
+        </Link> */}
         {title && <p className="CurrencyOverview__caption-title" />}
       </div>
 
-      <GradientLine height={sm ? 1 : 2} />
+      {/* <GradientLine height={sm ? 1 : 2} /> */}
 
-      <div className="CurrencyOverview__content">
+      <div style={{
+        backgroundColor: 'red', width:'100%'
+      }} className="CurrencyOverview__content">
         <div className="CurrencyOverview__content-left">
           {isCollapse || sm ? (
             <LeftInformation />
