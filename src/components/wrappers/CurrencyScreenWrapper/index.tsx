@@ -60,7 +60,7 @@ export default function CurrencyScreenWrapper({
       pageTitle={intl.formatMessage(type === 'deposit' ? messages.deposit : messages.borrow)}
       className="CurrencyScreenWrapper"
     >
-      {!sm && (
+      {/* {!sm && (
         <div className="CurrencyScreenWrapper__top-info">
           <TopInfoPanel
             poolReserve={poolReserve}
@@ -71,7 +71,7 @@ export default function CurrencyScreenWrapper({
             type={type}
           />
         </div>
-      )}
+      )} */}
 
       <TopPanelWrapper
         isCollapse={isCollapse}
@@ -79,7 +79,7 @@ export default function CurrencyScreenWrapper({
           toggleLocalStorageClick(isCollapse, setIsCollapse, isCollapseLocalStorageName)
         }
       >
-        <CurrencyOverview
+        {/* <CurrencyOverview
           title={title}
           poolReserve={poolReserve}
           currencySymbol={currencySymbol}
@@ -88,7 +88,7 @@ export default function CurrencyScreenWrapper({
           dots={dots}
           series={series}
           isCollapse={isCollapse}
-        />
+        /> */}
       </TopPanelWrapper>
 
       <div className="CurrencyScreenWrapper__mobileInner">

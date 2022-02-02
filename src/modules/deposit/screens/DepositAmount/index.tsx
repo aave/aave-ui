@@ -30,6 +30,7 @@ import { BlockTitle } from '../../../../components/BlockTitle';
 import { BlockWrapper } from '../../../../components/wrappers/BlockWrapper';
 import styled from 'styled-components';
 import { useStaticPoolDataContext } from '../../../../libs/pool-data-provider';
+import { ConvertToLocaleString } from '../../../../helpers/convertvalues';
 
 
 interface DepositAmountProps
@@ -38,7 +39,7 @@ interface DepositAmountProps
     'currencySymbol' | 'poolReserve' | 'history' | 'walletBalance' | 'user' | 'userReserve'
   > {}
 
-const BlockRow = ({title, value, marginBottom}:{title: string, value: string, marginBottom?: number}) => {
+const BlockRow = ({title, value, marginBottom}:{title: string, value: string | number, marginBottom?: number}) => {
   const Title = styled.p`
     font-family: Montserrat;
     font-size: 12px;
@@ -111,56 +112,56 @@ function DepositAmount({
   const { marketRefPriceInUsd } = useStaticPoolDataContext();
 
   const overviewData = {
-    utilizationRate: Number(poolReserve.utilizationRate),
-    availableLiquidity: poolReserve.availableLiquidity,
+    utilizationRate: (Number(poolReserve.utilizationRate)*100).toFixed(2),
+    availableLiquidity: +(Number(poolReserve.availableLiquidity)).toFixed(5),
     priceInUsd: valueToBigNumber(poolReserve.priceInMarketReferenceCurrency)
       .multipliedBy(marketRefPriceInUsd)
       .toNumber(),
-    depositApy: Number(poolReserve.supplyAPY),
+    depositApy: (Number(poolReserve.supplyAPY)*100).toFixed(2),
     avg30DaysLiquidityRate: Number(poolReserve.avg30DaysLiquidityRate),
     stableRate: Number(poolReserve.stableBorrowAPY),
     variableRate: Number(poolReserve.variableBorrowAPY),
     avg30DaysVariableRate: Number(poolReserve.avg30DaysVariableBorrowRate),
     usageAsCollateralEnabled: poolReserve.usageAsCollateralEnabled,
     stableBorrowRateEnabled: poolReserve.stableBorrowRateEnabled,
-    baseLTVasCollateral: Number(poolReserve.baseLTVasCollateral),
-    liquidationThreshold: Number(poolReserve.reserveLiquidationThreshold),
-    liquidationBonus: Number(poolReserve.reserveLiquidationBonus),
+    baseLTVasCollateral: (Number(poolReserve.baseLTVasCollateral)*100).toFixed(2),
+    liquidationThreshold: (Number(poolReserve.reserveLiquidationThreshold)*100).toFixed(2),
+    liquidationBonus: (Number(poolReserve.reserveLiquidationBonus)*100).toFixed(2),
     borrowingEnabled: poolReserve.borrowingEnabled,
   };
 
   return (
-    <Content>
+    <Content className='w100'>
       <div className="flex-row centered-align">
         <TokenIcon style={{marginTop: 55}} tokenSymbol={currencySymbol} height={35} width={35} />
         <PageTitle>{asset.name} Reverse Overview</PageTitle>
       </div>
       <BlockTitle style={{marginTop: 30}}>{intl.formatMessage(messages.deposit)} {asset.formattedName}</BlockTitle>
-      <BlockWrapper className='flex-row between' style={{marginTop:20}}>
+      <BlockWrapper className='flex-row between w100' style={{marginTop:20}}>
         <div style={{
           width:'30%',
           borderRight: 'solid 2px #e2e2e2'
         }} className="flex-column">
-          <BlockRow marginBottom={20} title={'Utilization rate'} value={'4.19%'} />
-          <BlockRow marginBottom={20} title={'Available liquidity'} value={'4.19%'} />
-          <BlockRow marginBottom={20} title={'Deposit APY'} value={'4.19%'} />
-          <BlockRow title={'Can be used as collateral'} value={'4.19%'} />
+          <BlockRow marginBottom={20} title={'Utilization rate'} value={`${overviewData.utilizationRate ? overviewData.utilizationRate : '0'}%`} />
+          <BlockRow marginBottom={20} title={'Available liquidity'} value={`${overviewData.availableLiquidity} ${asset.formattedName}`} />
+          <BlockRow marginBottom={20} title={'Deposit APY'} value={`${overviewData.depositApy}%`} />
+          <BlockRow title={'Can be used as collateral'} value={overviewData.usageAsCollateralEnabled ? 'Yes' : 'No'} />
         </div>
         <div style={{
           width:'30%',
           borderRight: 'solid 2px #e2e2e2'
         }} className="flex-column">
-          <BlockRow marginBottom={20} title={'Asset price'} value={'4.19%'} />
-          <BlockRow marginBottom={20} title={'Maximum LTV'} value={'4.19%'} />
-          <BlockRow marginBottom={20} title={'Liquidation threshold'} value={'4.19%'} />
-          <BlockRow title={'Liquidation penalty'} value={'4.19%'} />
+          <BlockRow marginBottom={20} title={'Asset price'} value={`$ ${ConvertToLocaleString(overviewData.priceInUsd.toString(), 2)} USD`} />
+          <BlockRow marginBottom={20} title={'Maximum LTV'} value={`${overviewData.baseLTVasCollateral} %`} />
+          <BlockRow marginBottom={20} title={'Liquidation threshold'} value={`${overviewData.liquidationThreshold} %`} />
+          <BlockRow title={'Liquidation penalty'} value={`${+overviewData.liquidationBonus < 0 ? '0' : overviewData.liquidationBonus} %`} />
         </div>
         <div style={{
           width:'30%'
         }} className="flex-column">
-          <BlockRow marginBottom={20} title={'Your balance in Aave'} value={'4.19%'} />
-          <BlockRow marginBottom={20} title={'Your wallet balance'} value={'4.19%'} />
-          <BlockRow title={'Health factor'} value={'4.19%'} />
+          <BlockRow marginBottom={20} title={'Your balance in Aave'} value={`${userReserve ? Number(userReserve?.underlyingBalance).toFixed(8) : 0} ${asset.formattedName}` } />
+          <BlockRow marginBottom={20} title={'Your wallet balance'} value={walletBalance.toString()} />
+          {/* <BlockRow title={'Health factor'} value={'4.19%'} /> */}
         </div>
       </BlockWrapper>
       <DepositCurrencyWrapper
