@@ -387,7 +387,9 @@ export default function TxConfirmationView({
           &__content {
             color: ${currentTheme.textDarkBlue.hex};
             background: ${currentTheme.whiteItem.hex};
-            border: 1px solid ${currentTheme.darkBlue.hex};
+            border-radius: 5px;
+            border: solid 1px #e2e2e2;
+            padding: 30px 25px;
           }
         }
       `}</style>

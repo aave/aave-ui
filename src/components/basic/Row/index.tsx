@@ -16,17 +16,18 @@ export interface RowProps {
   color?: 'dark' | 'lightBlue' | 'white';
   weight?: 'normal' | 'light';
   onWhiteBackground?: boolean;
+  deposit?: boolean;
 }
 
-const RowTitle = styled.p`
-  font-family: Roboto;
-  font-size: 14px;
+const RowTitle = styled.p<{deposit?: boolean}>`
+  font-family: ${props => props.deposit ? 'Montserrat' : 'Roboto'};
+  font-size: ${props => props.deposit ? '12px' : '14px'};
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: #131313;
+  color: ${props => props.deposit ? '#000000' : '#131313'};
 `;
 
 export default function Row({
@@ -39,6 +40,7 @@ export default function Row({
   color = 'dark',
   weight = 'normal',
   onWhiteBackground,
+  deposit
 }: RowProps) {
   const { currentTheme } = useThemeContext();
 
@@ -51,7 +53,7 @@ export default function Row({
     >
       {title && (
         <div className="Row__title-inner">
-          <RowTitle>{title}</RowTitle>
+          <RowTitle deposit={deposit}>{title}</RowTitle>
           {subTitle && <span className="Row__subtitle">{subTitle}</span>}
         </div>
       )}

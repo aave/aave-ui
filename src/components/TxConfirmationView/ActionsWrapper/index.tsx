@@ -8,6 +8,7 @@ import TxBottomStatusLine from '../TxBottomStatusLine';
 
 import messages from './messages';
 import staticStyles from './style';
+import styled from 'styled-components';
 
 interface ActionsWrapperProps {
   approveTxData?: EthTransactionData;
@@ -19,6 +20,18 @@ interface ActionsWrapperProps {
   error?: boolean;
   children: ReactNode;
 }
+
+const HeaderButtonText = styled.span<{a?: boolean}>`
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: ${props => props.a ? 'white' : 'black'};
+`
 
 export default function ActionsWrapper({
   approveTxData,
@@ -93,8 +106,8 @@ export default function ActionsWrapper({
             onClick={() => unlockedSteps >= numberOfSteps && setSelectedStep(numberOfSteps)}
             disabled={actionConfirmed || !!actionError || selectedStep === numberOfSteps}
           >
-            <span>{numberOfSteps}</span>
-            <p>{actionTxData.name}</p>
+            <HeaderButtonText a>{numberOfSteps}</HeaderButtonText>
+            <HeaderButtonText a>{actionTxData.name}</HeaderButtonText>
           </button>
         )}
 
@@ -109,12 +122,12 @@ export default function ActionsWrapper({
             onClick={() => unlockedSteps > numberOfSteps && setSelectedStep(numberOfSteps + 1)}
             disabled={true}
           >
-            <span>{numberOfSteps + 1}</span>
-            <p>
+            <HeaderButtonText>{numberOfSteps + 1}</HeaderButtonText>
+            <HeaderButtonText>
               {!actionError
                 ? intl.formatMessage(actionSubmitted ? messages.pending : messages.finished)
                 : intl.formatMessage(messages.failed)}
-            </p>
+            </HeaderButtonText>
           </button>
         )}
       </div>
@@ -149,7 +162,8 @@ export default function ActionsWrapper({
       <style jsx={true} global={true}>{`
         .ActionsWrapper {
           background: ${currentTheme.whiteItem.hex};
-          border: 1px solid ${currentTheme.darkBlue.hex};
+          border-radius: 5px;
+          border: solid 1px #e2e2e2;
 
           &__submitted {
             border: 1px solid ${currentTheme.orange.hex};
@@ -162,20 +176,23 @@ export default function ActionsWrapper({
           }
 
           &__button {
+            padding-top: 6px;
+            padding-bottom: 6px;
             border-right: 1px solid
               ${isCurrentThemeDark ? currentTheme.headerBg.hex : currentTheme.white.hex};
             background: ${isCurrentThemeDark ? currentTheme.headerBg.hex : currentTheme.mainBg.hex};
             color: ${currentTheme.textDarkBlue.hex};
           }
           &__buttonAllowed {
-            background: ${allowedGradient};
+            background: '${allowedGradient}';
             color: ${currentTheme.white.hex};
             &:hover {
               background: ${activeGradient};
             }
           }
           &__buttonActive {
-            background: ${activeGradient};
+            background: #7159ff;
+            border-top-left-radius: 5px;
             color: ${currentTheme.white.hex};
           }
           &__buttonSubmitted {

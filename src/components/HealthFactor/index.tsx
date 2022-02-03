@@ -87,7 +87,7 @@ export default function HealthFactor({
           className="HealthFactor__percent"
           value={formattedHealthFactor}
           updateCondition={updateCondition}
-          valueColor={healthFactorColor}
+          valueColor='#008c79'
           percentSymbol={false}
           minimumDecimals={2}
           maximumDecimals={2}

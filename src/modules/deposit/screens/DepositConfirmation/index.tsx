@@ -113,7 +113,7 @@ function DepositConfirmation({
         blockingError={blockingError}
         aTokenData={aTokenData}
       >
-        <Row title={intl.formatMessage(messages.valueRowTitle)} withMargin={notShowHealthFactor}>
+        <Row deposit title={intl.formatMessage(messages.valueRowTitle)} withMargin={notShowHealthFactor}>
           <Value
             symbol={currencySymbol}
             value={amount.toString()}
@@ -124,12 +124,10 @@ function DepositConfirmation({
           />
         </Row>
 
-        <Row title={intl.formatMessage(messages.collateral)} withMargin={notShowHealthFactor}>
+        <Row deposit title={intl.formatMessage(messages.collateral)} withMargin={notShowHealthFactor}>
           <strong
             style={{
-              color: usageAsCollateralEnabledOnDeposit
-                ? currentTheme.green.hex
-                : currentTheme.red.hex,
+              color: '#008c79',
             }}
             className="Collateral__text"
           >

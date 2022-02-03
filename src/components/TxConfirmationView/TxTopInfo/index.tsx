@@ -157,7 +157,15 @@ export default function TxTopInfo({
           color: ${currentTheme.textDarkBlue.hex};
           &__left-inner {
             .TxTopInfo__title {
-              color: ${currentTheme.primary.hex};
+              font-family: Montserrat;
+              font-size: 16px;
+              font-weight: bold;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: normal;
+              letter-spacing: normal;
+              color: #7159ff;
+              margin-bottom: 5px;
             }
           }
 

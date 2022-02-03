@@ -68,6 +68,7 @@ export default function DefaultButton({
         @import 'src/_mixins/screen-size';
 
         .button234 {
+          padding: 10px 30px !important;
           border: none !important;
           border-radius: 4px !important;
           background-color: #7159ff !important;
