@@ -80,7 +80,8 @@ export default function NetworkMismatch({
 
   const config = ADD_CONFIG[neededChainId];
   const isMetaMask = (global.window as any)?.ethereum?.isMetaMask;
-  const isCoinbaseWallet = (global.window as any)?.ethereum?.isCoinbaseWallet;
+  // @ts-ignore
+  const isCoinbaseWallet = library?.provider?.isCoinbaseWallet === true;
   const isAddable =
     (isMetaMask || isCoinbaseWallet) &&
     ['browser', 'wallet-link'].includes(currentProviderName) &&
