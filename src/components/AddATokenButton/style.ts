@@ -6,13 +6,13 @@ const staticStyles = css`
   @import 'src/_mixins/screen-size';
 
   .AddATokenButton {
-    box-shadow: $boxShadow;
-    border-radius: $borderRadius;
+    border-radius: 4px;
+  border: solid 1px #7159ff;
     display: flex;
     align-items: center;
     justify-content: center;
     align-self: flex-end;
-
+    padding: 11px 15px 9px;
     margin-top: 15px;
     padding: 6px 10px;
     font-size: $small;
@@ -27,6 +27,17 @@ const staticStyles = css`
       padding: 6px 10px;
       font-size: $small;
       align-self: center;
+    }
+    &__title {
+      font-family: Montserrat;
+      font-size: 12px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #131313;
+
     }
 
     &:active {

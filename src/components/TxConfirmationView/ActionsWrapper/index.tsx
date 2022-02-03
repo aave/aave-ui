@@ -122,11 +122,12 @@ export default function ActionsWrapper({
             onClick={() => unlockedSteps > numberOfSteps && setSelectedStep(numberOfSteps + 1)}
             disabled={true}
           >
-            <HeaderButtonText>{numberOfSteps + 1}</HeaderButtonText>
-            <HeaderButtonText>
+            <HeaderButtonText a={actionConfirmed}>{numberOfSteps + 1}</HeaderButtonText>
+            <HeaderButtonText a={actionConfirmed}>
               {!actionError
                 ? intl.formatMessage(actionSubmitted ? messages.pending : messages.finished)
-                : intl.formatMessage(messages.failed)}
+                : intl.formatMessage(messages.failed)
+              }
             </HeaderButtonText>
           </button>
         )}
@@ -166,13 +167,13 @@ export default function ActionsWrapper({
           border: solid 1px #e2e2e2;
 
           &__submitted {
-            border: 1px solid ${currentTheme.orange.hex};
+            border: 1px solid #e2e2e2;
           }
           &__confirmed {
-            border: 1px solid ${currentTheme.green.hex};
+            border: 1px solid #e2e2e2;
           }
           &__error {
-            border: 1px solid ${currentTheme.red.hex};
+            border: 1px solid #e2e2e2;
           }
 
           &__button {
@@ -196,15 +197,15 @@ export default function ActionsWrapper({
             color: ${currentTheme.white.hex};
           }
           &__buttonSubmitted {
-            background: ${currentTheme.orange.hex};
+            background: #7159ff;
             color: ${currentTheme.white.hex};
           }
           &__buttonConfirmed {
-            background: ${currentTheme.green.hex};
+            background: #008c79;
             color: ${currentTheme.white.hex};
           }
           &__buttonError {
-            background: ${currentTheme.red.hex};
+            background: #7159ff;
             color: ${currentTheme.white.hex};
           }
         }

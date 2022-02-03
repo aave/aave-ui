@@ -37,11 +37,12 @@ export default function AddATokenButton({ aTokenData }: AddATokenButtonProps) {
 
   return (
     <button className="AddATokenButton" onClick={handleAddAsset} disabled={isDisabled}>
+      <div className="AddATokenButton__circle" />
       <span className="AddATokenButton__title">
         {intl.formatMessage(messages.title, { asset: symbol })}
       </span>
 
-      <div className="AddATokenButton__circle" />
+      
 
       <style jsx={true}>{staticStyles}</style>
       <style jsx={true}>{`
@@ -63,7 +64,8 @@ export default function AddATokenButton({ aTokenData }: AddATokenButtonProps) {
           }
 
           &__circle {
-            background: ${currentTheme.primary.hex};
+            background: #7159ff;
+            margin-right: 5px;
             &:after,
             &:before {
               background: ${currentTheme.white.hex};
