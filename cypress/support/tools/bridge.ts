@@ -38,6 +38,20 @@ export class CustomizedBridge extends Eip1193Bridge {
         return Promise.resolve(this.chainId);
       }
     }
+    if (method === 'eth_signTypedData_v4') {
+      if (!this.signer) {
+        throw new Error('eth_signTypedData_v4 requires an account');
+      }
+      const parsed = JSON.parse(params[1]);
+      delete parsed.types.EIP712Domain;
+      // not sure why _signTypedData exist
+      const tx = await (this.signer as any)._signTypedData(
+        parsed.domain,
+        parsed.types,
+        parsed.message
+      );
+      return tx;
+    }
     if (method === 'eth_sendTransaction') {
       if (!this.signer) {
         throw new Error('eth_sendTransaction requires an account');

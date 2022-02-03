@@ -28,7 +28,7 @@ const testData = {
 
 describe('E-MODE SPEC, AVALANCHE MARKET', () => {
   const skipTestState = skipState(false);
-  configEnvWithTenderlyArbitrumRinkebyFork({account: account});
+  configEnvWithTenderlyArbitrumRinkebyFork({});
   describe('Babla', ()=>{
     it('111', ()=>{
 
