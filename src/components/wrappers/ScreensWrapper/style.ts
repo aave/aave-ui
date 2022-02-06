@@ -1,4 +1,5 @@
 import css from 'styled-jsx/css';
+import Background from '../../../images/fold-background@2x.png';
 
 /*language=SCSS*/
 const staticStyles = css.global`
@@ -13,6 +14,9 @@ const staticStyles = css.global`
     overflow: hidden;
 
     &__content {
+      background: url(${Background});
+      background-repeat: no-repeat;
+      background-size: contain;
       display: flex;
       flex-direction: column;
       flex: 1;
