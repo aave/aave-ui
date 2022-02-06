@@ -48,9 +48,14 @@ const staticStyles = css.global`
     }
 
     &__header {
+      backdrop-filter: blur(10px);
+      color: white;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
+      border: solid 1px rgba(255, 255, 255, 0.68);
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
       padding: 0 45px 5px;
       @include respond-to(xl) {
         padding-left: 35px;

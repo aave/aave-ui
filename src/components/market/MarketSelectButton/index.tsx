@@ -104,9 +104,9 @@ export default function MarketSelectButton({
       disabled={disabled}
       className="flex-row between"
     >
-      <img src={disabled ? aurora_white : aurora_black} alt="au" />
+      <img src={aurora_white} alt="au" />
       <div className="flex-column" style={{ margin: '0 10px' }}>
-        <img width={61} height={8} src={disabled ? radiant_white : radiant_black} alt="" />
+        <img width={61} height={8} src={radiant_white} alt="" />
         <MarketSpan active={disabled}>market</MarketSpan>
       </div>
       {!isMainnet && (
