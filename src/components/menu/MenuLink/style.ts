@@ -90,7 +90,7 @@ const staticStyles = css.global`
           opacity: 1;
         }
         i {
-          width: 80% !important;
+          width: 100% !important;
         }
       }
     }
