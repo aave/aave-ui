@@ -15,10 +15,10 @@ const staticStyles = css.global`
     position: relative;
     z-index: 2;
     @include respond-to(xl) {
-      padding: 0 40px;
+      padding: 0 150px;
     }
     @include respond-to(lg) {
-      padding: 0 20px;
+      padding: 0 100px;
     }
     @include respond-to(md) {
       padding: 0 20px;

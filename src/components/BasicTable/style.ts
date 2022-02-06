@@ -10,8 +10,8 @@ const staticStyles = css.global`
     flex-direction: column;
     flex: 1;
 
-    width: calc(100% + 30px);
-    margin: 0 0 0 -15px;
+    width: 100%;
+    margin: 0;
 
     @include respond-to(sm) {
       flex: none;
@@ -51,17 +51,18 @@ const staticStyles = css.global`
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      margin-bottom: 5px;
-      padding: 0 45px;
+      padding: 0 45px 5px;
       @include respond-to(xl) {
-        padding: 0 35px;
+        padding-left: 35px;
+        padding-right: 35px;
       }
       @include respond-to(lg) {
-        padding: 0 25px;
+        padding-left: 25px;
+        padding-right: 25px;
       }
       @include respond-to(sm) {
-        padding: 0 15px;
-        margin-bottom: 0;
+        padding-left: 15px;
+        padding-right: 15px;
       }
     }
   }
