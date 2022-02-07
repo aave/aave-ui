@@ -6,7 +6,7 @@ const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
 
   .MenuLink {
-    opacity: 0.5;
+    /*opacity: 0.5;*/
     font-family: Montserrat;
     font-weight: 400;
     text-transform: uppercase;
@@ -27,6 +27,7 @@ const staticStyles = css.global`
       display: flex;
       align-items: center;
       justify-content: center;
+
       @include respond-to(xl) {
         font-size: $medium;
         padding: 17px 0;
@@ -41,7 +42,7 @@ const staticStyles = css.global`
         display: inline-block;
         letter-spacing: 0.25px;
         b {
-          opacity: 1;
+          opacity: 0.5;
           font-weight: 300;
           transition: $transition;
         }
@@ -67,6 +68,7 @@ const staticStyles = css.global`
         border-radius: $borderRadius;
         &:after {
           content: '';
+          opacity: 0.5;
           position: absolute;
           top: 0;
           bottom: 0;
