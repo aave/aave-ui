@@ -10,6 +10,8 @@ const staticStyles = css.global`
     display: flex;
     align-items: center;
     position: relative;
+    border-radius: 4px;
+    border: solid 1px #fff;
     outline: none;
     @include respond-to(xl) {
       width: 200px;
@@ -26,6 +28,7 @@ const staticStyles = css.global`
     }
 
     .SearchField__image {
+      opacity: 0.5;
       width: 14px;
       height: 14px;
       @include respond-to(xl) {

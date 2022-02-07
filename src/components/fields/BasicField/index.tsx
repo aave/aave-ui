@@ -42,7 +42,9 @@ export default function BasicField({
     <div  className={classNames('BasicField', className)}>
       <input
         style={{
-          border: 'none', padding: 0
+          border: 'none',
+          padding: '12 15',
+          background: 'rgba(0,0,0,0)',
         }}
         value={value}
         onChange={handleOnChange}
@@ -72,7 +74,7 @@ export default function BasicField({
               font-style: normal;
               line-height: normal;
               letter-spacing: normal;
-              color: #757d90;
+              color: #fff;
             }
           }
         }

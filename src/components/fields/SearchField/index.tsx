@@ -8,7 +8,7 @@ import BasicField from '../BasicField';
 import messages from './messages';
 import staticStyles from './style';
 
-import search from './images/search.svg';
+import search from './images/searchWhite.svg';
 
 export interface SearchFieldProps {
   value: string;
@@ -37,7 +37,6 @@ export default function SearchField({
 
   return (
     <div
-      style={{backgroundColor: 'white'}}
       className={classNames('SearchField', className, {
         SearchFieldFocused: onFocus,
       })}
@@ -47,17 +46,11 @@ export default function SearchField({
       <BasicField
         value={value}
         onChange={onChange}
-        placeholder={placeholder ? placeholder : intl.formatMessage(messages.placeholder)}
+        placeholder={placeholder || intl.formatMessage(messages.placeholder)}
         type="search"
         {...props}
       />
-      <img
-        className="SearchField__image"
-        src={search}
-        alt="search"
-        width={15}
-        height={15}
-      />
+      <img className="SearchField__image" src={search} alt="search" width={15} height={15} />
 
       <style jsx={true} global={true}>
         {staticStyles}
