@@ -52,7 +52,7 @@ export default function ContentWrapperWithTopLine({
 
   return (
     <>
-      <BlockTitle style={{ marginTop: 30, marginBottom: 20 }}>{title}</BlockTitle>
+      <BlockTitle style={{ marginTop: 30, marginBottom: 20, color: 'white', }}>{title}</BlockTitle>
       <BlockWrapper
         style={{ width }}
         // className={classNames(

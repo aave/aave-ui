@@ -8,7 +8,7 @@ export const PageTitle = styled.h1`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: #131313;
+  color: white;
   text-transform: uppercase;
   margin-top: 60px;
 `;

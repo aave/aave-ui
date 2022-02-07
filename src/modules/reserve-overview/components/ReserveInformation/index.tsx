@@ -52,7 +52,7 @@ const TotalValueText = styled.p`
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: #000;
+  color: white;
   margin-top: 20px;
 `;
 
@@ -159,7 +159,7 @@ const IndicatedTitle = ({ text, indicatorColor }: { text: string; indicatorColor
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000;
+    color: white;
   `;
   return (
     <div className="flex-row centered-align">
@@ -578,7 +578,7 @@ export default function ReserveInformation({
           font-style: normal;
           line-height: normal;
           letter-spacing: normal;
-          color: #131313;
+          color: white;
           margin-bottom: 10px;
         }
         .ReserveInformation {

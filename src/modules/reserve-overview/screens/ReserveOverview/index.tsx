@@ -189,7 +189,7 @@ function ReserveOverview({
             font-style: normal;
             line-height: normal;
             letter-spacing: normal;
-            color: #131313;
+            color: white;
           }
         }
         .ReserveOverview__information-title-custom {
@@ -200,7 +200,7 @@ function ReserveOverview({
           font-style: normal;
           line-height: normal;
           letter-spacing: normal;
-          color: #131313;
+          color: white;
           margin-bottom: 10px;
         }
         .back {
