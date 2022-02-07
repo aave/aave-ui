@@ -292,7 +292,7 @@ export default function ReserveInformation({
             /> */}
             <div className="flex-column columnBox">
               <IndicatedTitle
-                indicatorColor="#7159ff"
+                indicatorColor="#aceed9"
                 text={intl.formatMessage(messages.availableLiquidity)}
               />
               <TotalValueText>{totalBorrowStr}</TotalValueText>

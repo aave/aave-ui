@@ -41,6 +41,7 @@ export default function ReserveStatusGraph({
             <PieChart
               width={parent.width}
               height={parent.height}
+              disableBackground={true}
               slices={[
                 {
                   value: +availableLiquidity,
