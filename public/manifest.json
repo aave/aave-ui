@@ -1,12 +1,17 @@
 {
-  "short_name": "Aave v2",
-  "name": "Aave v2",
+  "short_name": "Radiant",
+  "name": "Radiant",
   "description": "Non-custodial liquidity protocol to earn interest on deposits and borrow",
   "iconPath": "aave.svg",
   "icons": [
     {
       "src": "favicon32.png",
       "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon64.png",
+      "sizes": "64x64",
       "type": "image/png"
     }
   ],
