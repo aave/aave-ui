@@ -35,13 +35,9 @@ function RepayMain({ poolReserve }: ValidationWrapperComponentProps) {
   }
 
   const buttons = [
-    ...(!/XSUSHI/.test(poolReserve.symbol) &&
-    !/GUSD/.test(poolReserve.symbol) &&
-    !/BUSD/.test(poolReserve.symbol) &&
-    !/SUSD/.test(poolReserve.symbol) &&
-    !/BAL/.test(poolReserve.symbol) &&
-    !/KNC/.test(poolReserve.symbol) &&
-    !/ZRX/.test(poolReserve.symbol)
+    ...(!['XSUSHI', 'GUSD', 'BUSD', 'SUSD', 'BAL', 'KNC', 'ZRX'].includes(
+      poolReserve.symbol.toUpperCase()
+    )
       ? [
           {
             title: messages.withYourCurrentCollateral,
