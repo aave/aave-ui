@@ -31,7 +31,7 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
     publicJsonRPCUrl: [
       'https://cloudflare-eth.com',
       'https://rpc.flashbots.net',
-      'https://eth-mainnet.alchemyapi.io/v2/demo',
+      // 'https://eth-mainnet.alchemyapi.io/v2/demo',
     ],
     publicJsonRPCWSUrl: 'wss://eth-mainnet.alchemyapi.io/v2/demo',
     addresses: {
