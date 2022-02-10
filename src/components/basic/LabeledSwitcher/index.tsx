@@ -39,7 +39,7 @@ export default function LabeledSwitcher({
     100
   );
 
-  const baseWidth = xl && !md ? 160 : 240;
+  const baseWidth = xl && !md ? 160 : 200;
   const baseHeight = xl && !md ? (lg ? 26 : 32) : 36;
   const baseFontSize = xl && !md ? (lg ? 10 : 11) : 14;
 
@@ -61,17 +61,14 @@ export default function LabeledSwitcher({
         .LabeledSwitch {
           &__pointer {
             span {
-              background: ${currentTheme.white.hex};
+              background: #7159ff;
             }
+            padding: 2px 0px;
           }
 
           &__inner {
-            background: ${isCurrentThemeDark && darkOnDarkMode
-              ? currentTheme.whiteItem.hex
-              : currentTheme.darkBlue.hex};
-            border-color: ${isCurrentThemeDark && darkOnDarkMode
-              ? currentTheme.whiteItem.hex
-              : currentTheme.darkBlue.hex};
+            border: solid 1px #7159ff;
+            border-radius: 4px;
           }
 
           button {
@@ -82,7 +79,6 @@ export default function LabeledSwitcher({
 
           button.LabeledSwitch__buttonActive {
             span {
-              background-image: ${gradientText};
             }
           }
         }

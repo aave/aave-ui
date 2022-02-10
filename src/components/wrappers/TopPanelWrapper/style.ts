@@ -7,7 +7,15 @@ const staticStyles = css`
 
   .TopPanelWrapper {
     width: 100%;
-    border-radius: $borderRadius;
+    border-radius: 5px;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: solid 1px rgba(255, 255, 255, 0.68);
+    background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.3) -6%,
+      rgba(255, 255, 255, 0.3) 59%
+    );
     box-shadow: $boxShadow;
     position: relative;
     @include respond-to(sm) {

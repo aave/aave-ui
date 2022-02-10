@@ -87,6 +87,11 @@ export default function MoreButton() {
         .MoreButton {
           &__button {
             color: ${currentTheme.white.hex};
+            opacity: 0.5;
+            &:hover {
+              font-weight: 300;
+              opacity: 1;
+            }
           }
 
           &__links {

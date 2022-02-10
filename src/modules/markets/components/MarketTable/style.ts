@@ -6,9 +6,9 @@ const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
 
   .MarketTable {
-    margin-top: 45px !important;
+    margin-top: 16px !important;
     @include respond-to(xl) {
-      margin-top: 35px !important;
+      margin-top: 10px !important;
     }
     @include respond-to(sm) {
       display: none !important;

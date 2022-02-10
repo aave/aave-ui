@@ -10,8 +10,11 @@ const staticStyles = css.global`
     text-transform: uppercase;
     &:hover {
       .MenuLink__title {
+        p {
+          opacity: 1;
+        }
         i {
-          width: 80%;
+          // width: 100%;
         }
       }
     }
@@ -37,6 +40,7 @@ const staticStyles = css.global`
         position: relative;
         display: inline-block;
         letter-spacing: 0.25px;
+        opacity: 0.5;
         b {
           opacity: 1;
           font-weight: 300;
@@ -51,7 +55,7 @@ const staticStyles = css.global`
         transition: $transition;
         font-weight: 600;
         white-space: nowrap;
-        letter-spacing: 0.25px;
+        letter-spacing: 1px;
       }
       i {
         position: absolute;
@@ -61,7 +65,6 @@ const staticStyles = css.global`
         bottom: -1px;
         height: 3px;
         transition: all 0.4s ease;
-        border-radius: $borderRadius;
         &:after {
           content: '';
           position: absolute;
@@ -71,7 +74,6 @@ const staticStyles = css.global`
           right: 0;
           background: inherit;
           transition: $transition;
-          filter: blur(3px);
         }
       }
     }
@@ -79,6 +81,8 @@ const staticStyles = css.global`
     &__active {
       .MenuLink__title {
         p {
+          opacity: 1;
+
           b {
             opacity: 0;
           }
@@ -87,7 +91,7 @@ const staticStyles = css.global`
           opacity: 1;
         }
         i {
-          width: 80% !important;
+          width: 100% !important;
         }
       }
     }

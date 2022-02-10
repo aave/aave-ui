@@ -42,6 +42,7 @@ const staticStyles = css`
       p {
         display: inline;
         position: relative;
+        color: #fff;
         &:after {
           content: '';
           position: absolute;

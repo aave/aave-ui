@@ -39,28 +39,28 @@ const staticStyles = css.global`
       align-items: center;
       position: relative;
       span {
-        position: relative;
-        right: 5px;
-        margin-right: 5px;
-        font-size: $medium;
-        @include respond-to(xl) {
-          font-size: $small;
-        }
+        opacity: 0.6;
+        font-size: 10px;
+        color: #fff;
+        padding-top: 5px;
+      }
+
+      .MarketSelectButton__logo_span {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
       }
 
       img {
-        width: 100px;
-        max-height: 20px;
+        width: unset;
+        max-height: unset;
         display: flex;
+        margin-right: 10px;
         align-items: center;
         justify-content: center;
         @include respond-to(xl) {
-          width: 80px;
-          max-height: 15px;
         }
         @include respond-to(sm) {
-          width: 100px;
-          max-height: 20px;
         }
       }
     }
@@ -78,8 +78,8 @@ const staticStyles = css.global`
     &__inner {
       position: relative;
       z-index: 2;
-      width: 150px;
-      height: 45px;
+      width: 130px;
+      height: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -87,16 +87,16 @@ const staticStyles = css.global`
       border-width: 1px;
       border-style: solid;
       border-color: transparent;
-      box-shadow: $boxShadow;
+
       transition: $transition;
       box-sizing: unset;
       @include respond-to(xl) {
-        width: 125px;
-        height: 40px;
+        width: 130px;
+        height: 50px;
       }
       @include respond-to(sm) {
-        width: 150px;
-        height: 45px;
+        width: 130px;
+        height: 50px;
       }
     }
 
@@ -143,7 +143,7 @@ const staticStyles = css.global`
       position: absolute;
       width: 14px;
       height: 14px;
-      top: 5px;
+      top: 20px;
       right: 5px;
       font-size: 9px;
       display: flex;
@@ -154,14 +154,14 @@ const staticStyles = css.global`
       @include respond-to(xl) {
         width: 12px;
         height: 12px;
-        top: 3px;
+        top: 20px;
         right: 3px;
         font-size: 8px;
       }
       @include respond-to(sm) {
         width: 14px;
         height: 14px;
-        top: 5px;
+        top: 20px;
         right: 5px;
         font-size: 9px;
       }

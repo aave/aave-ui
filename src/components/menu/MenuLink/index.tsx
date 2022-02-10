@@ -17,14 +17,6 @@ interface MenuLinkProps {
 export default function MenuLink({ to, title, isActive, hidden }: MenuLinkProps) {
   const { currentTheme } = useThemeContext();
 
-  const activeGradient = gradient(
-    230,
-    `${currentTheme.primary.rgb}, 1`,
-    0,
-    `${currentTheme.secondary.rgb}, 1`,
-    100
-  );
-
   return (
     <Link
       to={to}
@@ -49,7 +41,7 @@ export default function MenuLink({ to, title, isActive, hidden }: MenuLinkProps)
           color: ${currentTheme.white.hex} !important;
           .MenuLink__title {
             i {
-              background: ${activeGradient} !important;
+              background: #7159ff !important;
             }
           }
         }

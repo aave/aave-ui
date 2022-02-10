@@ -79,22 +79,20 @@ export default function TableHeaderButton({
       <style jsx={true}>{`
         .TableHeaderButton {
           color: ${currentTheme.textDarkBlue.hex};
+          display: flex;
+          align-items: flex-end;
+
           span {
-            color: ${currentTheme.lightBlue.hex};
+            color: #fff;
+            font-size: 10px;
           }
 
           &__withSort {
             &:hover {
               p {
-                &:after {
-                  border-top-color: ${currentTheme.textDarkBlue.hex};
-                }
               }
             }
             p {
-              &:after {
-                border-top-color: ${currentTheme.lightBlue.hex};
-              }
             }
           }
 

@@ -13,7 +13,27 @@ interface FooterProps {
 export default function Footer({ inside }: FooterProps) {
   return (
     <footer className={classNames('Footer', { Footer__inside: inside })}>
-      <DarkModeSwitcher />
+      <div className="left">
+        <div className="footer_text">
+          <h2>$ 245.19</h2>
+          <p>
+            added in platform fees <span>12 mins ago</span>
+          </p>
+        </div>
+        <div className="footer_text">
+          <h2>$ 245.19</h2>
+          <p>
+            added in platform fees <span>12 mins ago</span>
+          </p>
+        </div>
+        <div className="footer_text">
+          <h2>$ 245.19</h2>
+          <p>
+            added in platform fees <span>12 mins ago</span>
+          </p>
+        </div>
+      </div>
+      {/* <DarkModeSwitcher /> */}
       <LangSwitcher />
 
       <style jsx={true} global={true}>

@@ -12,7 +12,7 @@ import staticStyles from './style';
 
 import background from '../../../images/background.svg';
 import backgroundDark from '../../../images/backgroundDark.svg';
-
+import aurora from '../../../images/aurora.png';
 export interface ScreensWrapperProps {
   children: ReactNode;
 }
@@ -65,6 +65,10 @@ export default function ScreensWrapper({ children }: ScreensWrapperProps) {
             {children}
           </TopPanelSmallContext.Provider>
         </TitleContext.Provider>
+        <div className="poweredBy">
+          <p>powered by</p>
+          <img src={aurora} />
+        </div>
       </main>
 
       <Footer inside={true} />
@@ -87,7 +91,6 @@ export default function ScreensWrapper({ children }: ScreensWrapperProps) {
           &__top-contentWrapper {
             background: ${currentTheme.headerBg.hex};
             &:after {
-              background: ${currentTheme.headerBg.hex};
             }
           }
         }

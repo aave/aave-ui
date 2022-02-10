@@ -13,7 +13,7 @@ import MenuLink from '../MenuLink';
 import MoreButton from '../MoreButton';
 import AddressInfo from '../AddressInfo';
 import MobileContent from '../MobileContent';
-import { LOGO } from '../../../ui-config';
+import LOGO from '../../../images/logo.svg';
 
 import staticStyles from './style';
 
@@ -97,7 +97,7 @@ export default function Menu({ title }: MenuProps) {
       </style>
       <style jsx={true} global={true}>{`
         .Menu {
-          background: ${currentTheme.headerBg.hex};
+          background: #131313;
           &:after {
             background: ${topLineColor};
           }

@@ -9,6 +9,8 @@ import messages from './messages';
 import staticStyles from './style';
 import { ChainId } from '@aave/contract-helpers';
 import { getNetworkConfig } from '../../../helpers/config/markets-and-network-config';
+import triangle from '../../../images/triangle.png';
+import logo_name from '../../../images/radiant.png';
 
 interface MarketSelectButtonProps {
   onClick: () => void;
@@ -69,19 +71,15 @@ export default function MarketSelectButton({
       <div className="MarketSelectButton__inner">
         <div className="MarketSelectButton__innerLeft">
           <div className="MarketSelectButton__logo-inner">
-            <img src={logo} alt="" />
-            {!!logoText && !subLogo && <span>{logoText}</span>}
+            <div className="MarketSelectButton__logo_img">
+              <img src={triangle} alt="" />
+            </div>
+            <div className="MarketSelectButton__logo_span">
+              <img src={logo_name} alt="" />
+              <span>Market</span>
+            </div>
           </div>
-
-          <GradientText
-            className="MarketSelectButton__marketText"
-            colorStart={isDark ? currentTheme.white.rgb : currentTheme.secondary.rgb}
-            colorEnd={isDark ? currentTheme.white.rgb : currentTheme.primary.rgb}
-            title={intl.formatMessage(messages.market)}
-          />
         </div>
-
-        {subLogo && <img className="MarketSelectButton__subLogo" src={subLogo} alt="" />}
       </div>
 
       {testnetMark && <span className="MarketSelectButton__kovan">{testnetMark}</span>}
@@ -93,13 +91,14 @@ export default function MarketSelectButton({
         .MarketSelectButton {
           &:hover {
             .MarketSelectButton__inner {
-              box-shadow: 0 1px 8px 0 ${currentTheme.white.hex};
+              background-color: #7f7f7f;
             }
           }
           &.MarketSelectButton__active,
           &:disabled {
             .MarketSelectButton__inner {
-              border: 2px solid ${currentTheme.darkBlue.hex} !important;
+              border-radius: 5px;
+              background-color: #7159ff;
             }
           }
 
@@ -108,7 +107,6 @@ export default function MarketSelectButton({
           }
 
           &__inner {
-            background: ${currentTheme.white.hex};
           }
 
           &.MarketSelectButton__hoverColored {
@@ -121,7 +119,6 @@ export default function MarketSelectButton({
           }
 
           &__border {
-            background: ${currentTheme.white.hex};
           }
 
           &__dark {

@@ -14,7 +14,7 @@ import {
   getNetworkConfig,
   CustomMarket,
 } from '../../../helpers/config/markets-and-network-config';
-
+import green_logo from '../../../images/green_t.png';
 interface MarketSwitcherProps {
   toTop?: boolean;
   className?: string;
@@ -83,17 +83,12 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
                     MarketSwitcher__buttonLogoInnerWithSubLogo: !!currentMarketData.subLogo,
                   })}
                 >
-                  <img
-                    src={
-                      !!currentMarketData.activeLogo
-                        ? currentMarketData.activeLogo
-                        : currentMarketData.logo
-                    }
-                    alt=""
-                  />
+                  <img src={green_logo} alt="" />
                 </div>
-
-                <p>{intl.formatMessage(messages.market)}</p>
+                <div className="">
+                  <span>Aurora</span>
+                  <p>{intl.formatMessage(messages.market)}</p>
+                </div>
               </div>
 
               {!!currentMarketData.subLogo && (
@@ -102,6 +97,33 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
                   src={currentMarketData.subLogo}
                   alt=""
                 />
+              )}
+              {!visible ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="5" viewBox="0 0 11 5">
+                  <path
+                    d="m1.033.381 4.526 4.526L10.085.381"
+                    stroke="#FFF"
+                    fill="none"
+                    fill-rule="evenodd"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  transform=" rotate(180 0 0)"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="11"
+                  height="5"
+                  viewBox="0 0 11 5"
+                >
+                  <path
+                    d="m1.033.381 4.526 4.526L10.085.381"
+                    stroke="#FFF"
+                    fill="none"
+                    fill-rule="evenodd"
+                    stroke-linecap="round"
+                  />
+                </svg>
               )}
             </div>
 
@@ -113,7 +135,6 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
       }
     >
       <div className="MarketSwitcher__content">
-        <p className="MarketSwitcher__title">{intl.formatMessage(messages.changeMarket)}</p>
         {availableMarkets.map((market) => {
           const marketData = marketsData[market];
           const config = getNetworkConfig(marketData.chainId);
@@ -133,22 +154,19 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
               key={market}
             >
               <div className="MarketSwitcher__market-content">
-                <div className="MarketSwitcher__market-inner">
-                  <div className="MarketSwitcher__logo-inner">
-                    <img src={marketData.logo} alt={market} />
+                <div className="MarketSwitcher__button-text">
+                  <div
+                    className={classNames('MarketSwitcher__buttonLogo-inner', {
+                      MarketSwitcher__buttonLogoInnerWithSubLogo: !!currentMarketData.subLogo,
+                    })}
+                  >
+                    <img src={green_logo} alt="" />
                   </div>
-
-                  <GradientText
-                    className="MarketSwitcher__marketText"
-                    colorStart={currentTheme.secondary.rgb}
-                    colorEnd={currentTheme.primary.rgb}
-                    title={intl.formatMessage(messages.market)}
-                  />
+                  <div className="logo_name">
+                    <span>Aurora</span>
+                    <p>{intl.formatMessage(messages.market)}</p>
+                  </div>
                 </div>
-
-                {!!marketData.subLogo && (
-                  <img className="MarketSwitcher__subLogo" src={marketData.subLogo} alt="" />
-                )}
               </div>
 
               {testnetMark && <span className="MarketSwitcher__kovan">{testnetMark}</span>}
@@ -168,14 +186,14 @@ export default function MarketSwitcher({ toTop, className, textButton }: MarketS
 
           &__button-content {
             color: ${currentTheme.white.hex};
-            background: ${currentTheme.darkBlue.hex};
+
             &:hover {
-              border-color: ${currentTheme.white.hex};
+              background-color: #2b2b2b;
             }
           }
           &__buttonActive {
             .MarketSwitcher__button-content {
-              border-color: ${currentTheme.white.hex};
+              background-color: #2b2b2b;
             }
           }
           &__firstClickButton {

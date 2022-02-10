@@ -19,7 +19,7 @@ const staticStyles = css.global`
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      padding: 10px 30px;
+      padding: 15px 30px;
       @include respond-to(xl) {
         padding: 12px 20px;
       }
@@ -77,9 +77,9 @@ const staticStyles = css.global`
     }
 
     &__price-switcher {
-      margin-top: 30px;
+      margin-top: 40px;
       @include respond-to(xl) {
-        margin-top: 20px;
+        margin-top: 30px;
       }
       @include respond-to(sm) {
         display: none;

@@ -6,6 +6,17 @@ const staticStyles = css.global`
   @import 'src/_mixins/screen-size';
 
   .ScreensWrapper {
+    .poweredBy {
+      text-align: center;
+      padding: 50px 0 15px;
+      p {
+        opacity: 0.5;
+        font-family: Roboto;
+        font-size: 10px;
+        color: #000;
+        padding-top: 5px;
+      }
+    }
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -24,6 +35,7 @@ const staticStyles = css.global`
 
     &__top-contentWrapper {
       position: relative;
+
       @include respond-to(sm) {
         display: none;
       }
@@ -32,11 +44,13 @@ const staticStyles = css.global`
         position: absolute;
         top: 0;
         left: 0;
-        height: 110px;
+        height: 360px;
         width: 100%;
         transition-property: height;
         transition-duration: 0.1s;
         transition-timing-function: ease-in-out;
+        background: url(https://cdn.zeplin.io/5afea5f00c00fb5338104350/assets/D0B61A06-76CB-4465-A659-D5357526D754.png);
+        background-size: cover;
       }
     }
 

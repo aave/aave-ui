@@ -42,27 +42,31 @@ const staticStyles = css.global`
       justify-content: space-between;
       position: relative;
       z-index: 2;
-      width: 120px;
-      height: 32px;
+      width: 150px;
+      height: 40px;
       border: 1px solid transparent;
       border-radius: 1px;
       @include respond-to(sm) {
         width: 180px;
         height: 54px;
       }
+      span {
+        font-size: 12px;
+        font-weight: bold;
+        padding-left: 8px;
+        font-family: Montserrat;
+      }
       p {
-        font-size: 9px;
-        letter-spacing: 3px;
-        position: relative;
-        left: 2px;
+        font-size: 10px;
+        opacity: 0.5;
+        padding-left: 3px;
         font-weight: 300;
         margin-top: 1px;
-        @include respond-to(sm) {
-          font-size: $small;
-          letter-spacing: 8px;
-          left: 4px;
-        }
+        font-family: Montserrat;
       }
+    }
+    svg {
+      margin-right: 7px;
     }
     &__firstClickButton {
       &:before {
@@ -82,6 +86,7 @@ const staticStyles = css.global`
 
     &__button-text {
       padding-top: 2px;
+      padding-left: 15px;
       overflow: hidden;
     }
 
@@ -95,16 +100,6 @@ const staticStyles = css.global`
     &__buttonLogo-inner {
       display: flex;
       align-items: center;
-
-      img {
-        width: 67px;
-        max-height: 14px;
-        margin: 0 auto;
-        @include respond-to(sm) {
-          width: 125px;
-          max-height: 25px;
-        }
-      }
 
       span {
         font-size: $extraSmall;
@@ -125,13 +120,13 @@ const staticStyles = css.global`
     }
 
     &__button-text {
-      display: block;
-      text-align: center;
+      display: flex;
+      align-item: center;
       flex: 1;
     }
 
     &__content {
-      width: 120px;
+      width: 150px;
       @include respond-to(sm) {
         width: 180px;
       }
@@ -265,13 +260,13 @@ const staticStyles = css.global`
       background: #8f65ff;
       color: #ffffff;
       position: absolute;
-      top: 2px;
-      right: 2px;
+      top: 13px;
+      right: 25px;
       z-index: 10;
-      width: 10px;
-      height: 10px;
+      width: 15px;
+      height: 15px;
       border-radius: 50%;
-      font-size: 8px;
+      font-size: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -293,6 +288,23 @@ const staticStyles = css.global`
       }
       100% {
         background-position: 0 50%;
+      }
+    }
+    .logo_name {
+      span {
+        font-family: Montserrat;
+        font-size: 12px;
+        font-weight: bold;
+        padding-left: 8px;
+
+        color: #131313;
+      }
+      p {
+        opacity: 0.5;
+        font-family: Montserrat;
+        font-size: 10px;
+        color: #131313;
+        padding-left: 3px;
       }
     }
   }

@@ -13,6 +13,8 @@ const staticStyles = css.global`
   @include font-face('roboto-font', '${PUBLIC_URL}/fonts/RobotoMedium/RobotoMedium', 500);
   @include font-face('roboto-font', '${PUBLIC_URL}/fonts/RobotoBold/RobotoBold', 600);
 
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+
   * {
     padding: 0;
     margin: 0;
@@ -31,7 +33,7 @@ const staticStyles = css.global`
   }
 
   body {
-    font-family: 'roboto-font', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: $regular;
     min-width: 365px;
   }
