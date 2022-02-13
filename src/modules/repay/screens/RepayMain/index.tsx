@@ -15,8 +15,11 @@ import staticStyles from './style';
 import { isFeatureEnabled } from '../../../../helpers/config/markets-and-network-config';
 import PermissionWarning from '../../../../ui-config/branding/PermissionWarning';
 import { PERMISSION } from '@aave/contract-helpers';
+import routeParamValidationHOC, {
+  ValidationWrapperComponentProps,
+} from '../../../../components/RouteParamsValidationWrapper';
 
-export default function RepayMain() {
+function RepayMain({ poolReserve }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const history = useHistory();
   const location = useLocation();
@@ -32,13 +35,9 @@ export default function RepayMain() {
   }
 
   const buttons = [
-    ...(!/XSUSHI/.test(history.location.pathname) &&
-    !/GUSD/.test(history.location.pathname) &&
-    !/BUSD/.test(history.location.pathname) &&
-    !/SUSD/.test(history.location.pathname) &&
-    !/BAL/.test(history.location.pathname) &&
-    !/KNC/.test(history.location.pathname) &&
-    !/ZRX/.test(history.location.pathname)
+    ...(!['XSUSHI', 'GUSD', 'BUSD', 'SUSD', 'BAL', 'KNC', 'ZRX'].includes(
+      poolReserve.symbol.toUpperCase()
+    )
       ? [
           {
             title: messages.withYourCurrentCollateral,
@@ -98,3 +97,5 @@ export default function RepayMain() {
     </PermissionWarning>
   );
 }
+
+export default routeParamValidationHOC({})(RepayMain);
