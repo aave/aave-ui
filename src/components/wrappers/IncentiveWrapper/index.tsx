@@ -52,6 +52,7 @@ export default function IncentiveWrapper() {
 
   if (!user || Object.keys(userIncentivesFiltered).length === 0) return null;
 
+  //TODO: Remove when the reserve is topped up again
   const isPolygonMarket =
     currentMarketData.chainId === ChainId.polygon || currentMarketData.chainId === ChainId.mumbai;
 
