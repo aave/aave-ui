@@ -57,56 +57,29 @@ export default function IncentiveWrapper() {
 
   return (
     <div className="IncentiveWrapper">
-      {isPolygonMarket ? (
-        <>
-          <p className="IncentiveWrapper__title">{intl.formatMessage(messages.polygonEmpty)}</p>
-          <p className="IncentiveWrapper__title">{intl.formatMessage(messages.availableReward)}</p>
-          <div className="IncentiveWrapper__incentives">
-            {Object.entries(userIncentivesFiltered).map((incentive) => {
-              const rewardTokenSymbol = getRewardTokenSymbol(
-                reserves,
-                incentive[1].rewardTokenAddress
-              );
-              const claimableRewards = normalize(
-                incentive[1].claimableRewards,
-                incentive[1].rewardTokenDecimals
-              );
-              return (
-                <IncentiveClaimItem
-                  key={incentive[0]}
-                  symbol={rewardTokenSymbol}
-                  claimableRewards={claimableRewards}
-                  incentiveControllerAddress={incentive[0]}
-                />
-              );
-            })}
-          </div>
-        </>
-      ) : (
-        <>
-          <p className="IncentiveWrapper__title">{intl.formatMessage(messages.availableReward)}</p>
-          <div className="IncentiveWrapper__incentives">
-            {Object.entries(userIncentivesFiltered).map((incentive) => {
-              const rewardTokenSymbol = getRewardTokenSymbol(
-                reserves,
-                incentive[1].rewardTokenAddress
-              );
-              const claimableRewards = normalize(
-                incentive[1].claimableRewards,
-                incentive[1].rewardTokenDecimals
-              );
-              return (
-                <IncentiveClaimItem
-                  key={incentive[0]}
-                  symbol={rewardTokenSymbol}
-                  claimableRewards={claimableRewards}
-                  incentiveControllerAddress={incentive[0]}
-                />
-              );
-            })}
-          </div>
-        </>
+      {isPolygonMarket && (
+        <p className="IncentiveWrapper__title" style={{ fontStyle: 'italic' }}>
+          {intl.formatMessage(messages.polygonEmpty)}
+        </p>
       )}
+      <p className="IncentiveWrapper__title">{intl.formatMessage(messages.availableReward)}</p>
+      <div className="IncentiveWrapper__incentives">
+        {Object.entries(userIncentivesFiltered).map((incentive) => {
+          const rewardTokenSymbol = getRewardTokenSymbol(reserves, incentive[1].rewardTokenAddress);
+          const claimableRewards = normalize(
+            incentive[1].claimableRewards,
+            incentive[1].rewardTokenDecimals
+          );
+          return (
+            <IncentiveClaimItem
+              key={incentive[0]}
+              symbol={rewardTokenSymbol}
+              claimableRewards={claimableRewards}
+              incentiveControllerAddress={incentive[0]}
+            />
+          );
+        })}
+      </div>
 
       <style jsx={true}>{staticStyles}</style>
       <style jsx={true}>{`
