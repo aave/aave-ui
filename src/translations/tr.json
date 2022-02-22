@@ -280,6 +280,7 @@
   "components.wrappers.DepositBorrowMainWrapper.optionTitleRight": "",
   "components.wrappers.DepositBorrowMainWrapper.total": "",
   "components.wrappers.IncentiveWrapper.availableReward": "",
+  "components.wrappers.IncentiveWrapper.polygonEmpty": "",
   "components.wrappers.ScreensWrapper.pageTitle": "Piyasalar",
   "components.wrappers.TopPanelWrapper.expand": "Genişlet",
   "components.wrappers.TopPanelWrapper.minimize": "En aza indirmek",

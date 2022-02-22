@@ -280,6 +280,7 @@
   "components.wrappers.DepositBorrowMainWrapper.optionTitleRight": "",
   "components.wrappers.DepositBorrowMainWrapper.total": "",
   "components.wrappers.IncentiveWrapper.availableReward": "",
+  "components.wrappers.IncentiveWrapper.polygonEmpty": "",
   "components.wrappers.ScreensWrapper.pageTitle": "Các thị trường",
   "components.wrappers.TopPanelWrapper.expand": "Mở rộng",
   "components.wrappers.TopPanelWrapper.minimize": "Mức tối thiểu",

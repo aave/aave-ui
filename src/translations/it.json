@@ -280,6 +280,7 @@
   "components.wrappers.DepositBorrowMainWrapper.optionTitleRight": "",
   "components.wrappers.DepositBorrowMainWrapper.total": "",
   "components.wrappers.IncentiveWrapper.availableReward": "",
+  "components.wrappers.IncentiveWrapper.polygonEmpty": "",
   "components.wrappers.ScreensWrapper.pageTitle": "Mercati",
   "components.wrappers.TopPanelWrapper.expand": "Espandere",
   "components.wrappers.TopPanelWrapper.minimize": "Minimizzare",

@@ -280,6 +280,7 @@
   "components.wrappers.DepositBorrowMainWrapper.optionTitleRight": "",
   "components.wrappers.DepositBorrowMainWrapper.total": "",
   "components.wrappers.IncentiveWrapper.availableReward": "",
+  "components.wrappers.IncentiveWrapper.polygonEmpty": "",
   "components.wrappers.ScreensWrapper.pageTitle": "마켓",
   "components.wrappers.TopPanelWrapper.expand": "확장",
   "components.wrappers.TopPanelWrapper.minimize": "최소화",
