@@ -280,6 +280,7 @@
   "components.wrappers.DepositBorrowMainWrapper.optionTitleRight": "",
   "components.wrappers.DepositBorrowMainWrapper.total": "",
   "components.wrappers.IncentiveWrapper.availableReward": "",
+  "components.wrappers.IncentiveWrapper.polygonEmpty": "",
   "components.wrappers.ScreensWrapper.pageTitle": "市场",
   "components.wrappers.TopPanelWrapper.expand": "扩大",
   "components.wrappers.TopPanelWrapper.minimize": "最小化",
