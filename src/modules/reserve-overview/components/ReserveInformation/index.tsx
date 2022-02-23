@@ -142,7 +142,7 @@ export default function ReserveInformation({
             </div>
             <div className="ReserveInformation__line">
               <PercentBlock
-                value={poolReserve.borrowingEnabled ? Number(poolReserve.utilizationRate) : 0}
+                value={poolReserve.borrowingEnabled ? Number(poolReserve.borrowUsageRatio) : 0}
                 title={intl.formatMessage(messages.utilisationRate)}
               />
             </div>
