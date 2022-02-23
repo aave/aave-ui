@@ -58,7 +58,7 @@ export default function CurrencyOverview({
   const userIsInEMode = userEmodeCategoryId !== 0;
 
   const overviewData = {
-    utilizationRate: Number(poolReserve.utilizationRate),
+    utilizationRate: Number(poolReserve.borrowUsageRatio),
     availableLiquidity: poolReserve.formattedAvailableLiquidity,
     priceInUsd: valueToBigNumber(poolReserve.formattedPriceInMarketReferenceCurrency)
       .multipliedBy(marketReferencePriceInUsd)
