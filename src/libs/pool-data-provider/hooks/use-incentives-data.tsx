@@ -73,6 +73,7 @@ export function useRPCIncentivesData(
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
       provider,
       uiIncentiveDataProviderAddress: incentiveDataProviderAddress!,
+      chainId,
     });
 
     try {
@@ -96,6 +97,7 @@ export function useRPCIncentivesData(
     const incentiveDataProviderContract = new UiIncentiveDataProvider({
       uiIncentiveDataProviderAddress: incentiveDataProviderAddress!,
       provider,
+      chainId,
     });
 
     try {

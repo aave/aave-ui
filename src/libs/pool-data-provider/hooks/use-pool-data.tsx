@@ -51,6 +51,7 @@ export function useRPCPoolData(
     const poolDataProviderContract = new UiPoolDataProvider({
       uiPoolDataProviderAddress: poolDataProviderAddress,
       provider,
+      chainId,
     });
 
     try {
@@ -74,6 +75,7 @@ export function useRPCPoolData(
     const poolDataProviderContract = new UiPoolDataProvider({
       uiPoolDataProviderAddress: poolDataProviderAddress,
       provider,
+      chainId,
     });
 
     try {
