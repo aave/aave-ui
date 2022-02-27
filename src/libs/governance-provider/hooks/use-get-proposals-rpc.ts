@@ -51,7 +51,10 @@ const generateProposal = async (
       state: prop.state || '',
       ipfsHash: prop.ipfsHash,
       description: {
-        attributes: { ...processed.attributes },
+        attributes: {
+          ...meta,
+          ...processed.attributes,
+        },
         body: processed.body,
         error: undefined,
       },
