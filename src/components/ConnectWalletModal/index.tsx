@@ -132,6 +132,11 @@ export default function ConnectWalletModal({
       notSupported:
         isImToken || preferredChainId === ChainId.polygon || preferredChainId === ChainId.avalanche,
     },
+    {
+      title: 'Huobi',
+      providerName: 'browser',
+      icon: icons.huobiIcon,
+    },
   ];
 
   return (

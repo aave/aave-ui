@@ -8,6 +8,7 @@ import MEWIcon from './MEWIcon.svg';
 import torusIcon from './torusIcon.svg';
 import walletConnectIcon from './walletConnectIcon.svg';
 import portisIcon from './portisIcon.svg';
+import huobiIcon from './huobiIcon.svg';
 
 export {
   authereumIcon,
@@ -20,4 +21,5 @@ export {
   torusIcon,
   walletConnectIcon,
   portisIcon,
+  huobiIcon
 };
