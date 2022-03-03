@@ -20,7 +20,7 @@ export default function FormattedTxErrorText() {
       </span>
       <span>
         {intl.formatMessage(messages.errorDescriptionSecond, {
-          email: (
+          discord: (
             <Link
               to="https://aave.com/discord"
               title="Discord"
