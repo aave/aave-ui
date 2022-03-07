@@ -280,6 +280,7 @@
   "components.wrappers.DepositBorrowMainWrapper.optionTitleRight": "Stable Coins",
   "components.wrappers.DepositBorrowMainWrapper.total": "Total",
   "components.wrappers.IncentiveWrapper.availableReward": "Available reward",
+  "components.wrappers.IncentiveWrapper.polygonEmpty": "The Polygon Team acknowledges that earned incentives can be claimed once they have refilled the contract",
   "components.wrappers.ScreensWrapper.pageTitle": "Markets",
   "components.wrappers.TopPanelWrapper.expand": "Expand",
   "components.wrappers.TopPanelWrapper.minimize": "Minimize",
