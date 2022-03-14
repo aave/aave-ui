@@ -21,7 +21,7 @@
     "@nash-io/ramp-widget-sdk": "^0.2.2",
     "@ramp-network/ramp-instant-sdk": "^2.4.8",
     "@sentry/browser": "^6.13.3",
-    "@transak/transak-sdk": "^1.0.29",
+    "@transak/transak-sdk": "^1.0.31",
     "@visx/axis": "^2.1.2",
     "@visx/curve": "^2.1.0",
     "@visx/event": "^2.1.2",
