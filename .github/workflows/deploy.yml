@@ -57,5 +57,5 @@ jobs:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
           HASH: ${{ steps.pinata.outputs.hash }}
-          CF_DEPLOYMENT_DOMAIN: staging.aave.com
+          CF_DEPLOYMENT_DOMAIN: staging-classic.aave.com
         run: node scripts/update-cloudflare.js
