@@ -49,11 +49,16 @@ const updateOrCreateRecord = async (name, type, _payload) => {
 const updateCloudFlareRecord = async (hash, domain) => {
   console.log(`domain to update - https://${domain}`);
 
-  if (domain != 'app.aave.com') {
-    console.log('updating CNAME record');
-    await updateOrCreateRecord(domain, 'CNAME', {
-      content: `cloudflare-ipfs.com`,
-    });
+  // if (domain != 'classic.aave.com') {
+  //   console.log('updating CNAME record');
+  //   await updateOrCreateRecord(domain, 'CNAME', {
+  //     content: `cloudflare-ipfs.com`,
+  //   });
+  // }
+
+  if (domain === 'app.aave.com') {
+    console.log('This repo is deprecated and should not be deployed to app.aave.com');
+    process.exit(1);
   }
 
   console.log('updating dns link record');
