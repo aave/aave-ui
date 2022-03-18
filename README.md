@@ -1,5 +1,5 @@
-# Notice: This Repo is no longer maintained
-This is the repo for the aave classic v2 interface and is no longer maintained.
+# Notice: This repository is deprecated and no longer maintained
+This is the repository for the aave classic v2 interface and is no longer maintained.
 
 
 Please use the latest repository here https://github.com/aave/interface
