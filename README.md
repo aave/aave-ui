@@ -1,4 +1,4 @@
-# Notice: This repository is deprecated and no longer maintained
+:warning: # Notice: This repository is deprecated and no longer maintained :warning:
 This is the repository for the aave classic v2 interface and is no longer maintained.
 
 
