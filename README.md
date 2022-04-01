@@ -11,6 +11,11 @@
  -/:             :/-  -/:             :/.     ://:         `/////////////-
 ```
 
+# Deprecated
+This repository is deprecated, and deployment has been moved to [classic.aave.com](https://classic.aave.com) and will not be maintained any longer.
+
+The new Aave app client repository can be found [here](https://github.com/aave/interface) and the app can be accessed [here](https://app.aave.com).
+
 # Aave protocol interface :ghost:
 
 An open source interface for the decentralized liquidity protocol Aave
