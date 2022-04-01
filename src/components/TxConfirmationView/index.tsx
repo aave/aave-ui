@@ -374,7 +374,8 @@ export default function TxConfirmationView({
         {!!dangerousMessage && !mainTxConfirmed && <InfoPanel>{dangerousMessage}</InfoPanel>}
       </InfoWrapper>
 
-      {(global.window as any)?.ethereum?.isMetaMask &&
+      {((global.window as any)?.ethereum?.isMetaMask ||
+        (global.window as any)?.ethereum?.isTally) &&
         mainTxConfirmed &&
         currentProviderName === 'browser' &&
         aTokenData?.address && <AddATokenButton aTokenData={aTokenData} />}
