@@ -67,7 +67,7 @@ export default function ConnectWalletModal({
       title: intl.formatMessage(messages.titleBrowserWallet, {
         walletName: isImToken ? 'imToken' : 'Browser',
       }),
-      description: '(MetaMask, Trustwallet, Enjin)',
+      description: '(MetaMask, Trustwallet, Enjin, Tally)',
       providerName: 'browser',
       icon: isImToken ? icons.imToken : icons.browserWallets,
       disabled: !browserWalletProvider,
