@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
+import { SecurityWidget } from '@reputation.link/vyps-kit';
 
 import routeParamValidationHOC, {
   ValidationWrapperComponentProps,
@@ -56,7 +57,7 @@ function ReserveOverview({
 }: ValidationWrapperComponentProps) {
   const intl = useIntl();
   const { currentTheme, sm } = useThemeContext();
-  const { marketRefPriceInUsd } = useStaticPoolDataContext();
+  const { marketRefPriceInUsd, chainId } = useStaticPoolDataContext();
   const asset = getAssetInfo(currencySymbol);
 
   const poolLink = getLPTokenPoolLink({
@@ -78,6 +79,18 @@ function ReserveOverview({
       className="ReserveOverview"
       withMobileGrayBg={true}
     >
+      {chainId === 1 && (
+        <SecurityWidget // Oracle Reputation's PVE Implementation doesn't support Polygon or Avalanche yet
+          inset={[5, 5]}
+          style={{ zIndex: 50 }} // In front of footer but below modals
+          left
+          variant="sm"
+          as="div"
+          startOpen
+          protocol="aave"
+          meta={{ token: currencySymbol }}
+        />
+      )}
       <div className="ReserveOverview__content">
         <div className="ReserveOverview__mobileUserInformation-wrapper">
           {user ? (
