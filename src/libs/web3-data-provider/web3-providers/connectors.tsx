@@ -10,7 +10,7 @@ import { TorusConnector } from '@web3-react/torus-connector';
 import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
 // import { PortisConnector } from '@web3-react/portis-connector';
 import { PortisConnector } from './connectors/portis-connector';
-
+import { LedgerIFrameConnector } from './connectors/ledger-iframe-connector';
 import { MewConnectConnector } from '@myetherwallet/mewconnect-connector';
 
 import {
@@ -27,6 +27,7 @@ import { ChainId } from '@aave/contract-helpers';
 export type AvailableWeb3Connectors =
   | 'browser'
   | 'ledger'
+  | 'ledger-iframe'
   | 'fortmatic'
   | 'wallet-connect'
   | 'wallet-link'
@@ -75,6 +76,8 @@ export function getWeb3Connector(
         accountsOffset: connectorConfig.accountsOffset,
         accountsLength: connectorConfig.accountsLength,
       });
+    case 'ledger-iframe':
+      return new LedgerIFrameConnector({ supportedChainIds: getSupportedChainIds() });
     case 'wallet-link':
       return new WalletLinkConnector({
         appName: APP_NAME,
