@@ -55,8 +55,8 @@ export const networkConfigs: Record<string, BaseNetworkConfig> = {
   },
   [ChainId.polygon]: {
     name: 'Polygon POS',
-    publicJsonRPCUrl: ['https://polygon-rpc.com'],
-    publicJsonRPCWSUrl: 'wss://polygon-rpc.com',
+    publicJsonRPCUrl: [], // 'https://polygon-rpc.com'
+    // publicJsonRPCWSUrl: 'wss://polygon-rpc.com',
     addresses: {
       walletBalanceProvider: '0x34aa032bC416Cf2CdC45c0C8f065b1F19463D43e',
       uiPoolDataProvider: '0x538C84EA84F655f2e04eBfAD4948abA9495A2Fc3',
