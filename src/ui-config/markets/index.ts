@@ -73,7 +73,7 @@ export const marketsData: { [key in keyof typeof CustomMarket]: MarketDataType }
     addresses: {
       LENDING_POOL_ADDRESS_PROVIDER: '0xacc030ef66f9dfeae9cbb0cd1b25654b82cfa8d5'.toLowerCase(),
       LENDING_POOL: '0x7937d4799803fbbe595ed57278bc4ca21f3bffcb',
-      WETH_GATEWAY: '0xEFFC18fC3b7eb8E676dac549E0c693ad50D1Ce31',
+      WETH_GATEWAY: '0x1C4a4e31231F71Fc34867D034a9E68f6fC798249',
     },
   },
   [CustomMarket.proto_mumbai]: {
