@@ -87,7 +87,7 @@
     "@types/jest": "^27.0.2",
     "@types/ledgerhq__hw-transport": "^4.21.4",
     "@types/ledgerhq__hw-transport-webusb": "^4.70.1",
-    "@types/node": "^16.11.1",
+    "@types/node": "^18.14.6",
     "@types/react": "^17.0.30",
     "@types/react-dom": "^17.0.9",
     "@types/react-gtm-module": "^2.0.1",
