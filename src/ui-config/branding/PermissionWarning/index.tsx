@@ -76,21 +76,7 @@ const PermissionWarning: React.FC<
           />
         ) : requiredPermission === PERMISSION.DEPOSITOR ? (
           <Caption
-            title="Onboarding required"
-            description={
-              <>
-                To participate in the RWA Market you will need to complete KYC and sign a
-                Subscription Agreement with the Issuer, RWA Market LLC.
-                <br />
-                <div style={{ display: 'inline-block', marginTop: '30px' }}>
-                  <DefaultButton
-                    onClick={() => window.open(ONBOARDING_URL, '_blank')}
-                    title="Start onboarding"
-                    size="big"
-                  />
-                </div>
-              </>
-            }
+            title="Currently, it is not possible to onboard to the RWA market."
           />
         ) : requiredPermission === PERMISSION.LIQUIDATOR ? (
           <Caption
