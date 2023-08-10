@@ -16,6 +16,7 @@
     "@ledgerhq/hw-transport": "^6.3.0",
     "@ledgerhq/hw-transport-u2f": "^5.36.0-deprecated",
     "@ledgerhq/hw-transport-webusb": "^6.3.0",
+    "@ledgerhq/iframe-provider": "^0.4.2",
     "@myetherwallet/mewconnect-connector": "^0.1.8",
     "@myetherwallet/mewconnect-web-client": "^2.1.22",
     "@nash-io/ramp-widget-sdk": "^0.2.2",
